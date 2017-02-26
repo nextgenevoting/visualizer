@@ -14,11 +14,11 @@ class SecurityContext(object):
     p = q = k = g = h = 0
 
     def __init__(self, p, q, k, g, h):
-        super(SecurityParams, self).__setattr__("p", p)
-        super(SecurityParams, self).__setattr__("q", q)
-        super(SecurityParams, self).__setattr__("k", k)
-        super(SecurityParams, self).__setattr__("g", g)
-        super(SecurityParams, self).__setattr__("h", h)
+        super(SecurityContext, self).__setattr__("p", p)
+        super(SecurityContext, self).__setattr__("q", q)
+        super(SecurityContext, self).__setattr__("k", k)
+        super(SecurityContext, self).__setattr__("g", g)
+        super(SecurityContext, self).__setattr__("h", h)
 
     def __setattr__(self, name, val):
         raise ValueError("Trying to change a constant value", self)
