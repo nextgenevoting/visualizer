@@ -2,6 +2,8 @@ import gmpy2
 from gmpy2 import mpz
 from SecurityContext import SECURITYCONTEXT_DEFAULT
 from IsMember import IsMember
+from gmpy2 import byte, log2, floor
+import utils
 
 def RecHash(v, ctx = SECURITYCONTEXT_DEFAULT):
     """
@@ -19,13 +21,9 @@ def RecHash(v, ctx = SECURITYCONTEXT_DEFAULT):
         if(type(v0) is bytearray):
             return ctx.hash(v0)
         if(type(v0) is int):
-           # How to convert GMP mpz to byteArray??
-           #return ctx.hash(toByte(v0))    
+           return ctx.hash(utils.ToByteArray(v0))
            return
     else:
         for vi in v:
-
-
-
-
+            return
    

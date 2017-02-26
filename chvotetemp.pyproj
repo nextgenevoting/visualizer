@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{362fadc3-02cc-4d56-a654-c3175312c82f}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>tests\test_IsMember.py</StartupFile>
+    <StartupFile>tests\test-Utils.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -23,11 +23,23 @@
   <ItemGroup>
     <Compile Include="GetPrimes.py" />
     <Compile Include="IsMember.py" />
+    <Compile Include="RecHash.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="SecurityContext.py" />
+    <Compile Include="tests\test-Utils.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="tests\test_GetPrimes.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="tests\test_IsMember.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="tests\test_RecHash.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="utils.py">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
