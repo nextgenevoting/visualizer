@@ -14,8 +14,6 @@ def IsMember(x, ctx = SECURITYCONTEXT_DEFAULT):
 
     @type   x:  mpz
     @param  x:  The number to test x \in N
-    @type   p:  number
-    @param  p:  The order of the group G_p (defaults to the specified security level parameters)
 
     @rtype:     list
     @return:    a list with length n containing the first n prime numbers in G_p

@@ -12,8 +12,6 @@ def GetPrimes(n, ctx = SECURITYCONTEXT_DEFAULT):
 
     @type   n:  number
     @param  n:  The number of primes to be calculated
-    @type   p:  number
-    @param  p:  The order of the group G_p (defaults to the specified security level parameters)
 
     @rtype:     list
     @return:    a list with length n containing the first n prime numbers in G_p

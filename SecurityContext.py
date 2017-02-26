@@ -12,6 +12,9 @@ class SecurityContext(object):
     """
 
     p = q = k = g = h = 0
+    def hash(input):
+        # tbd
+        return hash(input)
 
     def __init__(self, p, q, k, g, h):
         super(SecurityContext, self).__setattr__("p", p)
