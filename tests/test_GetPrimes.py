@@ -3,7 +3,7 @@ import sys
 import os
 sys.path.append(os.path.dirname(os.path.realpath(__file__)) + "/../")
 from GetPrimes import GetPrimes
-from securityParameters import SECURITY_LEVEL_DEFAULT, SECURITY_LEVEL_0
+from SecurityContext import SECURITYCONTEXT_L0
 
 
 # Unit Tests
@@ -20,7 +20,7 @@ class GetPrimesTest(unittest.TestCase):
     def testPrimesForLambdaZero(self):
         # test if the 50 first primes of group G_563 (this corresponds to security level Lambda = 0) are correct
         # according to table 8.2 in the specification document
-        primes = GetPrimes(50, SECURITY_LEVEL_0)
+        primes = GetPrimes(50, SECURITYCONTEXT_L0)
         self.assertTrue(primes[0] == 3)
         self.assertTrue(primes[1] == 7)
         self.assertTrue(primes[2] == 11)

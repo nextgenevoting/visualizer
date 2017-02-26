@@ -1,5 +1,4 @@
-import securityParameters
-from securityParameters import SECURITY_LEVEL_DEFAULT
+from SecurityContext import SECURITYCONTEXT_DEFAULT
 import gmpy2
 from gmpy2 import mpz
 from gmpy2 import jacobi
@@ -7,7 +6,7 @@ from gmpy2 import jacobi
 import unittest
 
 
-def IsMember(x, SECURITYPARAMS = SECURITY_LEVEL_DEFAULT):
+def IsMember(x, ctx = SECURITYCONTEXT_DEFAULT):
     """
     Algorithm 7.2: Checks if x P N is an element of Gq. 
     The core of the algorithm is the computation of the Jacobi symbol 
@@ -21,8 +20,8 @@ def IsMember(x, SECURITYPARAMS = SECURITY_LEVEL_DEFAULT):
     @rtype:     list
     @return:    a list with length n containing the first n prime numbers in G_p
     """
-    if (1 <= x and x < SECURITYPARAMS.p):
-        j = jacobi(x, SECURITYPARAMS.p)
+    if (1 <= x and x < ctx.p):
+        j = jacobi(x, ctx.p)
 
         if(j == 1):
             return True

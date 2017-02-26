@@ -1,11 +1,9 @@
-import securityParameters
-from securityParameters import SECURITY_LEVEL_DEFAULT, SECURITY_LEVEL_0
+import gmpy2
 from gmpy2 import mpz
+from SecurityContext import SECURITYCONTEXT_DEFAULT
 from IsMember import IsMember
 
-
-
-def GetPrimes(n, SECURITYPARAMS = SECURITY_LEVEL_DEFAULT):
+def GetPrimes(n, ctx = SECURITY_LEVEL_DEFAULT):
     """
     Algorithm 7.1: Computes the first n prime numbers from Gq. The computation possibly
     fails if n is large and p is small, but this case is very unlikely in practice. In a more
@@ -29,7 +27,7 @@ def GetPrimes(n, SECURITYPARAMS = SECURITY_LEVEL_DEFAULT):
             else:
                 x += 2
 
-            if x >= SECURITYPARAMS.p:
+            if x >= ctx.p:
                 return []                           # n is incompatible with p
             if gmpy2.is_prime(x) and IsMember(x):   # see Alg. 7.2
                 break
