@@ -16,7 +16,7 @@ def GetPrimes(n, ctx = SECURITYCONTEXT_DEFAULT):
     @rtype:     list
     @return:    a list with length n containing the first n prime numbers in G_p
     """
-    x = mpz(1)
+    x = 1
     primes = []
     for i in range(n):
         while True:
