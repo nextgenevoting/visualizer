@@ -22,8 +22,13 @@ def RecHash(v, ctx = SECURITYCONTEXT_DEFAULT):
             return ctx.hash(v0)
         if(type(v0) is int):
            return ctx.hash(utils.ToByteArray(v0))
-           return
-    else:
+        #tbd: A_UCS...
+        if(type(v0) is list):
+            return RecHash(v0, ctx)
+
+        return []
+    else:        
         for vi in v:
-            return
+            str += RecHash(vi, ctx)
+        return ctx.hash(str)
    
