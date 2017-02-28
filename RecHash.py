@@ -30,10 +30,12 @@ def RecHash(v, ctx = SECURITYCONTEXT_DEFAULT):
             return ctx.hash(v0)
         if(type(v0) is int):
            return ctx.hash(Utils.ToByteArray(v0))
+        if(type(v0) is str):
+            return ctx.hash(v0.encode('utf-8'))
         if(type(v0) is list): 
             return RecHash(v0, ctx) 
 
-        return []
+        return bytearray()
     else:                               # if v is a list with [1, ..., k] elements
         res = bytearray()
         for vi in v:
