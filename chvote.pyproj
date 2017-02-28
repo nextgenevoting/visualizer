@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{362fadc3-02cc-4d56-a654-c3175312c82f}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>GetGenerators.py</StartupFile>
+    <StartupFile>Random.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -21,11 +21,17 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GenPolynomial.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GetGenerators.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GetPrimes.py" />
     <Compile Include="IsMember.py" />
+    <Compile Include="Random.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="RecHash.py">
       <SubType>Code</SubType>
     </Compile>
