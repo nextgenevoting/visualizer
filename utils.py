@@ -23,7 +23,7 @@ def bit_abs(i):
 
 def ToByteArray(x):
     """
-    Converts the given integer to a bytearray in big-endian byte order
+    Algorithm 4.3: ToByteArray(x): Converts the given integer to a bytearray in big-endian byte order
 
     @type   x   integer | mpz
     @param  x:  The number to be converted to a bytearray
@@ -41,7 +41,7 @@ def ToByteArray(x):
 
 def ToByteArrayN(x, n):
     """
-    Converts the given integer to a bytearray of size n in big-endian byte order
+    Algorithm 4.4: ToByteArrayN(x,n): Converts the given integer to a bytearray of size n in big-endian byte order
 
     @type   x   integer | mpz
     @param  x:  The number to be converted into an array of bytes
@@ -58,6 +58,18 @@ def ToByteArrayN(x, n):
         x = x // 256                  # // = integer division => floor
         B.insert(0,b)
     return B
+
+def ToInteger(B):
+    """
+    Algorithm 4.5: Computes a non-negative integer from a given byte array B. Leading zeros of B are ignored.
+
+    @type   B:  bytearray
+    @param  B:  The bytearray to be converted to an integer
+
+    @rtype:     integer
+    @return:    Integer
+    """
+    return int.from_bytes(B, byteorder='big')
 
 
 # Unit Tests
@@ -115,6 +127,10 @@ class UtilsTest(unittest.TestCase):
         print(ToByteArray(16777216))        
         self.assertTrue(ToByteArray(16777216) == bytearray(b'\x01\x00\x00\x00'))
 
+
+    def testToInteger(self):
+        self.assertTrue(123 == ToInteger(ToByteArray(123)))
+        self.assertTrue(mpz(123) == ToInteger(ToByteArray(mpz(123))))
 
 def main():
     unittest.main()   

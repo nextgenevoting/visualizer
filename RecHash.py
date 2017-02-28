@@ -17,13 +17,21 @@ def RecHash(v, ctx = SECURITYCONTEXT_DEFAULT):
     @return:    Hash of the input
     """    
 
-    if(type(v) is not list):             # single objects (int, string, bytearray, 
+    # check if v is a list 
+    isSingleElementOfList = False
+    if(type(v) is list): 
+        if(len(v) == 1): isSingleElementOfList = True
 
-        if(type(v) is bytearray):
+    if(type(v) is not list or isSingleElementOfList):   # single objects (int, string, bytearray, 
+        v0 = v
+        if(isSingleElementOfList): v0 = v[0]
+
+        if(type(v0) is bytearray):
             return ctx.hash(v0)
-        if(type(v) is int):
-           return ctx.hash(Utils.ToByteArray(v))
-        # if(type(v) is list): seems unnecessary
+        if(type(v0) is int):
+           return ctx.hash(Utils.ToByteArray(v0))
+        if(type(v0) is list): 
+            return RecHash(v0, ctx) 
 
         return []
     else:                               # if v is a list with [1, ..., k] elements
@@ -37,10 +45,11 @@ def RecHash(v, ctx = SECURITYCONTEXT_DEFAULT):
 # Unit Tests
 class RecHashTest(unittest.TestCase):
 
-    def testOne(self):
-        v = [1, 2, 3]
-        print(RecHash(v))
-        
+    def testOne(self):        
+        self.assertTrue(RecHash(123) == RecHash([123]))     # test if we avoid h(h(B1)) for a single input    
+        self.assertTrue(RecHash(123) == RecHash([[123]]))          
+
+
 
 def main():
     unittest.main()   
