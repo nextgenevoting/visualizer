@@ -12,26 +12,28 @@ class SecurityContext(object):
     To compensate for the lack of a CONST keyword in python, the __setattr__ interceptor forbids changing any property of this class
     """
 
-    p = q = k = g = h = 0
+    p = q = k = g = h = L = 0
 
     def hash(self, input):
         # TODO does the hash function depend on the security level or do we always use sha256?
         h = hashlib.new('sha256')
         h.update(input)
-        return h.digest()
+        hashByteLength = int(self.L / 8)
+        return (h.digest())[0:hashByteLength]             # truncate the hash output to the hash length of the security level
 
-    def __init__(self, p, q, k, g, h):
+    def __init__(self, p, q, k, g, h, L):
         super(SecurityContext, self).__setattr__("p", p)
         super(SecurityContext, self).__setattr__("q", q)
         super(SecurityContext, self).__setattr__("k", k)
         super(SecurityContext, self).__setattr__("g", g)
         super(SecurityContext, self).__setattr__("h", h)
+        super(SecurityContext, self).__setattr__("L", L)        # Hash Length in bits
 
     def __setattr__(self, name, val):
         raise ValueError("Trying to change a constant value", self)
 
 
-SECURITYCONTEXT_L0 = SecurityContext(563, 281, 2, 4, 9)                         # always use test parameters from the specification
-SECURITYCONTEXT_L1 = SecurityContext(423432, 234234, 23432, 343, 43243)
+SECURITYCONTEXT_L0 = SecurityContext(563, 281, 2, 4, 9, 8)                         # always use test parameters from the specification
+SECURITYCONTEXT_L1 = SecurityContext(423432, 234234, 23432, 343, 43243, 160)
 #....
 SECURITYCONTEXT_DEFAULT = SECURITYCONTEXT_L0                                    # Set this to  SECURITYCONTEXT_L3 for production!
