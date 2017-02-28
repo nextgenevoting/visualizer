@@ -1,9 +1,11 @@
 import unittest
 import gmpy2
 from gmpy2 import mpz
-import time
+import os
+from SecurityContext import SECURITYCONTEXT_DEFAULT
 
-# todo: better random seed (os.urandom?)
+seed = int.from_bytes(os.urandom(SECURITYCONTEXT_DEFAULT.p.bit_length()), byteorder='big')
+rstate = gmpy2.random_state(seed)
 
 def randomMpz(n):
     """
@@ -15,9 +17,8 @@ def randomMpz(n):
     @rtype:     integer
     @return:    Random Integer < n
     """    
-    #seed = int(os.urandom(4).encode()
-    return gmpy2.mpz_random(gmpy2.random_state(int(time.time())),n)
 
+    return gmpy2.mpz_random(rstate, n)
 
 def randomBoundedMpz(lb, ub):
     """
@@ -32,9 +33,8 @@ def randomBoundedMpz(lb, ub):
     @rtype:     integer
     @return:    Random Integer < n
     """    
-    return gmpy2.mpz_random(gmpy2.random_state(int(time.time())),ub-lb) + lb
 
-
+    return gmpy2.mpz_random(rstate, ub - lb) + lb
 
 def randomRelativePrimeMpz(n):
     """
@@ -46,14 +46,15 @@ def randomRelativePrimeMpz(n):
     @rtype:     integer
     @return:    Random Integer < n
     """   
+
     r = 0
+
     while True:
         r = randomMpz(n)
-        if gmpy2.gcd(r,n) == 1:
-            break;
+        if gmpy2.gcd(r, n) == 1:
+            break
 
-    return r;
-
+    return r
 
 def randomEltMpz(g,q):
     """
@@ -70,18 +71,12 @@ def randomEltMpz(g,q):
     """   
     r = randomMpz(q)
 
-    return g**r;
-
+    return g ** r
 
 # Unit Tests
 class randomMpzTest(unittest.TestCase):
     def testOne(self):
-        # tbd
-        pass
-
-        
-def main():
-    unittest.main()
+        self.assertTrue(False) # TODO
 
 if __name__ == '__main__':
-    main()
+    unittest.main()

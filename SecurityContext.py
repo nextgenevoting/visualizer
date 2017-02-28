@@ -15,7 +15,7 @@ class SecurityContext(object):
     p = q = k = g = h = 0
 
     def hash(self, input):
-        # does the hash function depend on the security level or do we always use sha256?
+        # TODO does the hash function depend on the security level or do we always use sha256?
         h = hashlib.new('sha256')
         h.update(input)
         return h.digest()
@@ -26,11 +26,6 @@ class SecurityContext(object):
         super(SecurityContext, self).__setattr__("k", k)
         super(SecurityContext, self).__setattr__("g", g)
         super(SecurityContext, self).__setattr__("h", h)
-        #self.p = p
-        #self.q = q
-        #self.k = k
-        #self.g = g
-        #self.h = h
 
     def __setattr__(self, name, val):
         raise ValueError("Trying to change a constant value", self)
