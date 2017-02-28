@@ -1,11 +1,10 @@
+import unittest
 import gmpy2
 from gmpy2 import mpz
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0
 from IsMember import IsMember
-import unittest
 
-
-def GetPrimes(n, ctx = SECURITYCONTEXT_DEFAULT):
+def GetPrimes(n, ctx=SECURITYCONTEXT_DEFAULT):
     """
     Algorithm 7.1: Computes the first n prime numbers from Gq. The computation possibly
     fails if n is large and p is small, but this case is very unlikely in practice. In a more
@@ -20,26 +19,22 @@ def GetPrimes(n, ctx = SECURITYCONTEXT_DEFAULT):
     """
     x = 1
     primes = []
-    for i in range(0,n):    # i = 0, ... , n-1
+
+    for i in range(0, n):    # i = 0, ... , n-1
         while True:
-            if x <= 2:
-                x += 1
-            else:
-                x += 2
+            x += 1 if x <= 2 else 2
 
             if x >= ctx.p:
                 return []                           # n is incompatible with p
             if gmpy2.is_prime(x) and IsMember(x):   # see Alg. 7.2
                 break
-        primes.append(x)
-    
-    return primes                                   # p \elementof G_p \cap P)^n
-   
 
+        primes.append(x)
+
+    return primes                                   # p \elementof G_p \cap P)^n
 
 # Unit Tests
 class GetPrimesTest(unittest.TestCase):
-
     def testOne(self):
         # Test if the lenght of the returned list matches the parameter n
         self.assertTrue(len(GetPrimes(10)) == 10)
@@ -67,10 +62,5 @@ class GetPrimesTest(unittest.TestCase):
         #.....
         self.assertTrue(primes[49] == 541)
 
-
-def main():
-    unittest.main()
-    #print(GetPrimes(50))
-
 if __name__ == '__main__':
-    main()
+    unittest.main()
