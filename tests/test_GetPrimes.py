@@ -38,8 +38,8 @@ class GetPrimesTest(unittest.TestCase):
 
 
 def main():
-    #unittest.main()
-    print(GetPrimes(50))
+    unittest.main()
+    #print(GetPrimes(50))
 
 if __name__ == '__main__':
     main()

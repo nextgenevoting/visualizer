@@ -1,6 +1,7 @@
 import gmpy2
 from gmpy2 import mpz
 from math import ceil, floor, log2
+from array import array
 
 def bit_abs(i):
     """
@@ -34,7 +35,7 @@ def ToByteArray(x):
     q,r = divmod(bit_abs(x),8)
     q += bool(r)
 
-    return ToByteArrayN(x, n_min)
+    return ToByteArrayN(x, q)
 
 def ToByteArrayN(x, n):
     """
@@ -46,10 +47,10 @@ def ToByteArrayN(x, n):
     @type   n   
     @param  n:  
 
-    @rtype:     []
-    @return:    Array of bytes
+    @rtype:     array
+    @return:    An array of unsigned integers
     """
-    B = []
+    B = bytearray()
     for i in range(0,int(n)):        
         b = x % 256
         x = x // 256                  # // = integer division => floor
