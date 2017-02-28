@@ -1,3 +1,4 @@
+import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT
 import gmpy2
 from gmpy2 import mpz
@@ -24,3 +25,17 @@ def IsMember(x, ctx = SECURITYCONTEXT_DEFAULT):
         if(j == 1):
             return True
     return False
+
+
+# Unit Tests
+class GetPrimesTest(unittest.TestCase):
+
+    def testOne(self):
+        self.assertTrue(IsMember(mpz(1)))
+
+
+def main():
+    unittest.main()
+
+if __name__ == '__main__':
+    main()

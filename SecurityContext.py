@@ -1,5 +1,6 @@
 import gmpy2
 from gmpy2 import mpz
+import hashlib
 
 class SecurityContext(object):
     """
@@ -12,9 +13,11 @@ class SecurityContext(object):
     """
 
     p = q = k = g = h = 0
-    def hash(input):
-        # tbd
-        return hash(input)
+    def hash(self, input):
+        # does the hash function depend on the security level or do we always use sha256?
+        h = hashlib.new('sha256')
+        h.update(input)
+        return h.digest()
 
     def __init__(self, p, q, k, g, h):
         super(SecurityContext, self).__setattr__("p", p)
@@ -27,7 +30,7 @@ class SecurityContext(object):
         raise ValueError("Trying to change a constant value", self)
 
 
-SECURITYCONTEXT_L0 = SecurityContext(563, 281, 2, 4, 9)
+SECURITYCONTEXT_L0 = SecurityContext(563, 281, 2, 4, 9)                         # always use test parameters from the specification
 SECURITYCONTEXT_L1 = SecurityContext(423432, 234234, 23432, 343, 43243)
 #....
-SECURITYCONTEXT_DEFAULT = SECURITYCONTEXT_L0
+SECURITYCONTEXT_DEFAULT = SECURITYCONTEXT_L0                                    # Set this to  SECURITYCONTEXT_L3 for production!
