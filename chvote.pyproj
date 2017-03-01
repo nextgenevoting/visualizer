@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{362fadc3-02cc-4d56-a654-c3175312c82f}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>GetYValue.py</StartupFile>
+    <StartupFile>main.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -21,6 +21,9 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="GenPoints.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GenPolynomial.py">
       <SubType>Code</SubType>
     </Compile>
@@ -32,12 +35,16 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="IsMember.py" />
+    <Compile Include="main.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Random.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RecHash.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="ElectionContext.py" />
     <Compile Include="SecurityContext.py" />
     <Compile Include="Utils.py">
       <SubType>Code</SubType>
