@@ -5,7 +5,7 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{362fadc3-02cc-4d56-a654-c3175312c82f}</ProjectGuid>
     <ProjectHome />
-    <StartupFile>Random.py</StartupFile>
+    <StartupFile>GetYValue.py</StartupFile>
     <SearchPath />
     <WorkingDirectory>.</WorkingDirectory>
     <OutputPath>.</OutputPath>
@@ -28,6 +28,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GetPrimes.py" />
+    <Compile Include="GetYValue.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="IsMember.py" />
     <Compile Include="Random.py">
       <SubType>Code</SubType>

@@ -2,7 +2,7 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 import os
-from SecurityContext import SECURITYCONTEXT_DEFAULT
+from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L3
 
 seed = int.from_bytes(os.urandom(SECURITYCONTEXT_DEFAULT.p.bit_length()), byteorder='big')
 rstate = gmpy2.random_state(seed)
@@ -73,10 +73,12 @@ def randomEltMpz(g,q):
 
     return g ** r
 
+
 # Unit Tests
 class randomMpzTest(unittest.TestCase):
     def testOne(self):
-        self.assertTrue(False) # TODO
+        self.assertTrue(randomMpz(SECURITYCONTEXT_DEFAULT.p) in range(0,SECURITYCONTEXT_DEFAULT.p)) # TODO        
 
 if __name__ == '__main__':
     unittest.main()
+    
