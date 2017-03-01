@@ -34,10 +34,10 @@ def GenPolynomial(d, ctx = SECURITYCONTEXT_DEFAULT):
 
 def printPolynomial(a):
     """ 
-    Helper function to print a polynomial with coordinates a 
+    Helper function to print a polynomial with coefficients a 
 
     @type   a:  list
-    @param  a:  List of coordinates for polynomial P
+    @param  a:  List of coefficients for polynomial P
 
     @rtype:     void
     @return:
