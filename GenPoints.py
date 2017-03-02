@@ -37,7 +37,7 @@ def GenPoints(n,k, ctx = SECURITYCONTEXT_DEFAULT, election = electionEvent):
     for j in electionEvent.elections:
         a_j = GenPolynomial(k-1, ctx)        # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decide the degree of the polynomial
         X = []
-        for l in range(0, j.n_j()):                 # loop over all candidates of election j
+        for l in range(0, j.n):                 # loop over all candidates of election j
             # get a unique x from Z_p'
             x = 0
             while True:
@@ -57,13 +57,7 @@ def GenPoints(n,k, ctx = SECURITYCONTEXT_DEFAULT, election = electionEvent):
 class GenPointsTest(unittest.TestCase):
 
     def testOne(self):       
-        #self.assertTrue(False)
-        for v_i in range(0,len(electionEvent.voters)):
-            eligibilityCount = 0
-            for e_i in range(0, electionEvent.t()):
-                eligibilityCount += electionEvent.E[v_i, e_i]
-
-            GenPoints(10, eligibilityCount, ctx)
+        self.assertTrue(False)
 
 if __name__ == '__main__':
     unittest.main()

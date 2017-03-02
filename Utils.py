@@ -76,6 +76,21 @@ def ToInteger(B):
     return int.from_bytes(B, byteorder='big')
 
 
+def Truncate(B, l):
+    """
+    Helper function to truncate a bytearray to the given length
+
+    @type   B:  bytearray
+    @param  B:  The bytearray to be converted to an integer
+
+    @type   l:  int
+    @param  l:  The length
+
+    @rtype:     bytearray
+    @return:    Bytearray truncated to length l
+    """
+    return B[0:l]
+
 # Unit Tests
 class UtilsTest(unittest.TestCase):
     def testBitAbs(self):

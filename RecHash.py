@@ -22,7 +22,8 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
     if type(v) is list and len(v) == 1:
             isSingleElementOfList = True
 
-    if type(v) is not list or isSingleElementOfList:   # single objects (int, string, bytearray,
+    # We also have to handle 'tuple' datatypes!
+    if type(v) is not list and type(v) is not tuple or isSingleElementOfList:   # single objects (int, string, bytearray,
         v0 = v
 
         if isSingleElementOfList:
@@ -30,7 +31,7 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
 
         if type(v0) is bytearray:
             return ctx.hash(v0)
-        if type(v0) is int:
+        if type(v0) is int or v0.__class__.__name__ == 'mpz':
            return ctx.hash(Utils.ToByteArray(v0))
         if type(v0) is str:
             return ctx.hash(v0.encode('utf-8'))
@@ -41,7 +42,7 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
     else:                               # if v is a list with [1, ..., k] elements
         res = bytearray()
         for vi in v:
-            res += RecHash(vi, ctx)     # concatenate hashes
+            res +=  RecHash(vi, ctx)    # concatenate hashes
         return ctx.hash(res)            # hash the concatenation of the hashes
 
 # Unit Tests

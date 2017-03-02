@@ -20,21 +20,24 @@ class ElectionEvent(object):
     def addElection(self, election):
         self.elections.append(election)
 
+    @property
     def t(self):
         """
         Returns the number of simultaneous elections, t >= 1, j \in {1, ..., t} identifies the election in an election event
         """
         return len(self.elections)
-
+        
+    @property
     def n(self):
         """
         Returns the total number of candidates among all elections
         """
         count = 0
         for el in self.elections:
-            count += el.n_j()
+            count += el.n
         return count
 
+    @property
     def N(self):
         """
         Returns the total number of eligible voters
@@ -45,7 +48,7 @@ class ElectionEvent(object):
         """
         Build the eligibility matrix E = (e_ij) N x t
         """
-        self.E = [[0 for j in range(self.t())] for i in range(self.N())]
+        self.E = [[0 for j in range(self.t)] for i in range(self.N)]
 
 
         for i in range(0, len(self.voters)):
@@ -68,10 +71,9 @@ class Election(object):
     def addCandidate(self, candidate):
         self.candidates.append(candidate)
 
-    def getCandidates(self):
-        return self.candidates
     
-    def n_j(self):   # numberOfCandidates
+    @property
+    def n(self):   # numberOfCandidates
         """
         n_j >= 2 denotes the number of candidates in the j-th election of an election event
         """
@@ -84,8 +86,6 @@ class Voter(object):
     def __init__(self, description):
         self.description = description
 
-    def getDescription(self):
-        return self.description
         
 
 class Candidate(object):
@@ -94,8 +94,6 @@ class Candidate(object):
     def __init__(self, name):
         self.name = name
 
-    def getName(self):
-        return self.name
 
 
 

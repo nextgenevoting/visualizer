@@ -27,6 +27,9 @@
     <Compile Include="GenPolynomial.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GenSecretVoterData.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GetGenerators.py">
       <SubType>Code</SubType>
     </Compile>
