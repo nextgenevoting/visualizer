@@ -44,7 +44,7 @@
     <Compile Include="RecHash.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="ElectionContext.py" />
+    <Compile Include="ElectionEvent.py" />
     <Compile Include="SecurityContext.py" />
     <Compile Include="Utils.py">
       <SubType>Code</SubType>

@@ -5,9 +5,11 @@ from IsMember import IsMember
 from Random import randomMpz
 import unittest
 from Utils import ToInteger
+from ElectionEvent import electionEvent
+from GenPolynomial import GenPolynomial
+from GetYValue import GetYValue
 
-
-def GenPoints(d, ctx = SECURITYCONTEXT_DEFAULT):
+def GenPoints(n,k, ctx = SECURITYCONTEXT_DEFAULT, election = electionEvent):
     """
     Algorithm 7.7: Generates a list of n random points picket from t random polynomials
     A_j(X) of degree k_j - 1 (by picking n_j different random points from each polynomial).
@@ -30,37 +32,38 @@ def GenPoints(d, ctx = SECURITYCONTEXT_DEFAULT):
     @return:    (p,y)       p \in (Z_p^2)^n, y \in Z_q^t
     """    
     i = 1
-#    for j in range(1
-            
+    retPoints = []
+    retY = []
+    for j in electionEvent.elections:
+        a_j = GenPolynomial(k-1, ctx)        # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decide the degree of the polynomial
+        X = []
+        for l in range(0, j.n_j()):                 # loop over all candidates of election j
+            # get a unique x from Z_p'
+            x = 0
+            while True:
+                x = randomMpz(ctx.p_3)
+                if x not in X:
+                    X.append(x)
+                    break;
+            y = GetYValue(x,a_j,ctx)      # get the corresponding y value of x on the polynomial a_j
+            p = (x,y)
+            retPoints.append(p)           # part of the private voter data
+            i += 1            
+        retY.append(GetYValue(0,a_j, ctx))     # Point (0,Y(0))
 
-def printPolynomial(a):
-    """ 
-    Helper function to print a polynomial with coefficients a 
-
-    @type   a:  list
-    @param  a:  List of coefficients for polynomial P
-
-    @rtype:     void
-    @return:
-    """
-    print("P(x)=", end='')
-    for i in range(len(a)):
-        print("%dx^%d" % (a[i], i), end='')
-        if i != len(a)-1: print(" + ", end='')
-    print('')
+    return (retPoints, retY)
 
 # Unit Tests
-class GenPolynomialTest(unittest.TestCase):
+class GenPointsTest(unittest.TestCase):
 
-    def testOne(self):
-        # check if a polynomial of degree x has x+1 coefficients
-        self.assertTrue(len(GenPolynomial(5)) == 6)
+    def testOne(self):       
+        #self.assertTrue(False)
+        for v_i in range(0,len(electionEvent.voters)):
+            eligibilityCount = 0
+            for e_i in range(0, electionEvent.t()):
+                eligibilityCount += electionEvent.E[v_i, e_i]
 
-        # test for security level 3
-        a = GenPolynomial(5, SECURITYCONTEXT_L3)
-
-        printPolynomial(a)
-        self.assertTrue(len(a) == 6)
+            GenPoints(10, eligibilityCount, ctx)
 
 if __name__ == '__main__':
     unittest.main()

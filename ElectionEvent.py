@@ -4,7 +4,7 @@ import hashlib
 import unittest
 from array import array
 
-class ElectionContext(object):
+class ElectionEvent(object):
     """
     This class holds all parameters relevant to an election event.
     """
@@ -52,7 +52,7 @@ class ElectionContext(object):
             for j in range(0, len(self.elections)):
                 self.E[i][j] = True         # 1 bit indicating whether or not the voter i is eligible in election j
 
-        pass
+ 
 
     def E(self):
         return self.E
@@ -101,11 +101,11 @@ class Candidate(object):
 
 election1 = Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")])
 election2 = Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])
-electionContext = ElectionContext([election1, election2], [Voter("V1"), Voter("V2"), Voter("V3"), Voter("V4"), Voter("V5")])
-electionContext.buildMatrix()
+electionEvent = ElectionEvent([election1, election2], [Voter("V1"), Voter("V2"), Voter("V3"), Voter("V4"), Voter("V5")])
+electionEvent.buildMatrix()
 
 # Unit Tests
-class ElectionContextTest(unittest.TestCase):
+class ElectionEventTest(unittest.TestCase):
     def testOne(self):
         assertTrue(False)
       
