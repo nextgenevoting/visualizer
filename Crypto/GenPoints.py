@@ -3,7 +3,7 @@ from gmpy2 import mpz
 import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
 from ElectionEvent import electionEvent
-from Utils import ToInteger
+from Utils import ToInteger, AssertInt
 from Crypto.GenPolynomial import GenPolynomial
 from Crypto.GetYValue import GetYValue
 from Crypto.IsMember import IsMember
@@ -31,6 +31,9 @@ def GenPoints(n,k, ctx = SECURITYCONTEXT_DEFAULT, election = electionEvent):
     @rtype:     Tuple
     @return:    (p,y)       p \in (Z_p^2)^n, y \in Z_q^t
     """    
+    AssertInt(n)
+    AssertInt(k)
+
     i = 1
     retPoints = []
     retY = []

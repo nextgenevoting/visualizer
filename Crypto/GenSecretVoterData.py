@@ -2,7 +2,7 @@ import gmpy2
 from gmpy2 import mpz
 import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
-from Utils import Truncate
+from Utils import Truncate, AssertList
 from ElectionEvent import electionEvent
 from Crypto.Random import randomMpz
 from Crypto.GetYValue import GetYValue
@@ -17,7 +17,9 @@ def GenSecretVoterData(p, ctx = SECURITYCONTEXT_DEFAULT, elEvent = electionEvent
 
     @rtype:     Tuple
     @return:    Secret data
-    """    
+    """   
+    AssertList(p)
+
     #todo: x und y zufällig aus q^'_x/s und q^'_y/s auswählen, aber was ist s???
     x = 1
     y = 2

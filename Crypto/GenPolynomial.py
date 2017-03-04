@@ -2,10 +2,10 @@ import gmpy2
 from gmpy2 import mpz
 import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
-from Utils import ToInteger
+from Utils import ToInteger, AssertNummeric
 from Crypto.IsMember import IsMember
 from Crypto.Random import randomMpz
-
+from Utils import AssertInt
 
 def GenPolynomial(d, ctx = SECURITYCONTEXT_DEFAULT):
     """
@@ -13,12 +13,14 @@ def GenPolynomial(d, ctx = SECURITYCONTEXT_DEFAULT):
     The algorithm also accepts d = -1 as input, which we interpret as the polynomial A(X) = 0. 
     In this case, the algorithm returns the coefficient list a = (0).
 
-    @type   d:  number
+    @type   d:  int
     @param  d:  Degree d >= -1
 
     @rtype:     list
     @return:    a list of coefficients a_0 ... a_d of polynomial A(X)
-    """    
+    """
+    AssertInt(d)
+
     a = []
     a_d = 0
     if (d == -1):

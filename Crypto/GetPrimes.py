@@ -3,6 +3,7 @@ import gmpy2
 from gmpy2 import mpz
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
 from Crypto.IsMember import IsMember
+from Utils import AssertInt
 
 def GetPrimes(n, ctx=SECURITYCONTEXT_DEFAULT):
     """
@@ -11,12 +12,14 @@ def GetPrimes(n, ctx=SECURITYCONTEXT_DEFAULT):
     efficient implementation of this algorithm, the resulting list of primes is precomputed for
     the largest expected value n.
 
-    @type   n:  number
-    @param  n:  The number of primes to be calculated
+    @type   n:  int
+    @param  n:  Number of primes to be calculated
 
     @rtype:     list
     @return:    a list with length n containing the first n prime numbers in G_p
     """
+    AssertInt(n)
+
     x = 1
     primes = []
 

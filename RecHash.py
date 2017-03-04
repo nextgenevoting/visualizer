@@ -2,19 +2,18 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0
-import Utils
+from Utils import isNummericType, ToByteArray
 
-def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
+def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):        
     """
     Algorithm 4.9: Computes the hash value h(v_1,...v_k) of multiple inputs v_1..v_k in a recursive manner.
 
     @type   v:  list
     @param  v:  Input values v_i \in  V_i, V_i unspecified, k >= 0
 
-    @rtype:     string
-    @return:    Hash of the input
-    """
-
+    @rtype:     bytes
+    @return:    An immutable array of bytes representing the recursive hash of the input values with a length corresponding to the used hash function
+    """   
     # check if v is a list
     isSingleElementOfList = False
 
@@ -22,20 +21,20 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
             isSingleElementList = True
 
     # We also have to handle 'tuple' datatypes!
-    if type(v) is not list and type(v) is not tuple or isSingleElementOfList:   # single objects (int, string, bytearray,
+    if type(v) is not list and type(v) is not tuple or isSingleElementOfList:   # single objects (int, string, bytearray,        
         v0 = v
         if isSingleElementOfList: v0 = v[0]
 
-        if type(v0) is bytearray:
+        if type(v0) is bytearray or v0.__class__.__name__ == 'bytes':
             return ctx.hash(v0)
-        if type(v0) is int or v0.__class__.__name__ == 'mpz':
-           return ctx.hash(Utils.ToByteArray(v0))
+        if isNummericType(v0):
+           return ctx.hash(ToByteArray(v0))
         if type(v0) is str:
             return ctx.hash(v0.encode('utf-8'))
         if type(v0) is list:
             return RecHash(v0, ctx)
 
-        return bytearray()
+        return bytes()
     else:                               # if v is a list or a tuple
         res = bytearray()
         for vi in v:

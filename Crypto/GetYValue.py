@@ -5,7 +5,7 @@ import unittest
 from Crypto.IsMember import IsMember
 from Crypto.Random import randomMpz
 from Crypto.GenPolynomial import GenPolynomial, printPolynomial
-from Utils import ToInteger
+from Utils import ToInteger, AssertNummeric, AssertList
 
 
 def GetYValue(x, a, ctx = SECURITYCONTEXT_DEFAULT):
@@ -13,15 +13,18 @@ def GetYValue(x, a, ctx = SECURITYCONTEXT_DEFAULT):
     Algorithm 7.9: Computes the value y = A(x) \in Z_p' obtained from evaluating the polynomial A(X) = Sigma(i=0...d) a_i X^i mod p' at position x. 
     The algorithm is an implementation of Horners method.
 
-    @type   x:  int
-    @param  x:  value x \in Z_p'
+    @type   x:  mpz | inz
+    @param  x:  value x \in Z_p', normally mpz is used except for x = 0
     
     @type   a:  list
     @param  a:  list of coefficients
 
     @rtype:     int
     @return:    a list of coefficients a_0 ... a_d of polynomial A(X)
-    """    
+    """
+    AssertNummeric(x)
+    AssertList(a)
+
     if x == 0:
         y = a[0]
     else:

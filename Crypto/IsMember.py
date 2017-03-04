@@ -3,6 +3,7 @@ from gmpy2 import mpz
 from gmpy2 import jacobi
 import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT
+from Utils import AssertNummeric
 
 def IsMember(x, ctx=SECURITYCONTEXT_DEFAULT):
     """
@@ -16,6 +17,7 @@ def IsMember(x, ctx=SECURITYCONTEXT_DEFAULT):
     @rtype:     list
     @return:    a list with length n containing the first n prime numbers in G_p
     """
+    AssertNummeric(x)
 
     if 1 <= x and x < ctx.p:
         j = jacobi(x, ctx.p)

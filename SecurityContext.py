@@ -11,27 +11,28 @@ class SecurityContext(object):
 
     To compensate for the lack of a CONST keyword in python, the __setattr__ interceptor forbids changing any property of this class
     """
-
+    hashObj = 0
     p = q = k = g = h = p_2 = q_2 = k_2 = g_2 = p_3 = L = 0
 
     def hash(self, input):
-        # TODO does the hash function depend on the security level or do we always use sha256?
-        h = hashlib.new('sha256')
-        h.update(input)
+        # TODO does the hash function depend on the security level or do we always use sha256?        
+        self.hashObj.update(input)
         hashByteLength = int(self.L / 8)
-        return (h.digest())[0:hashByteLength]             # truncate the hash output to the hash length of the security level
+        return (self.hashObj.digest())[0:hashByteLength]             # truncate the hash output to the hash length of the security level
 
     def __init__(self, p, q, k, g, h, p_2, q_2, k_2, g_2, p_3, L):        
-        super(SecurityContext, self).__setattr__("p", p)        # Prime group order p
-        super(SecurityContext, self).__setattr__("q", q)        # Safeprime group order q
-        super(SecurityContext, self).__setattr__("k", k)        # k
-        super(SecurityContext, self).__setattr__("g", g)        # Generator g
-        super(SecurityContext, self).__setattr__("h", h)        # Generator h
-        super(SecurityContext, self).__setattr__("p_2", p_2)    # p^
-        super(SecurityContext, self).__setattr__("q_2", q_2)    # q^
-        super(SecurityContext, self).__setattr__("k_2", k_2)    # k^
-        super(SecurityContext, self).__setattr__("g_2", g_2)    # g^
-        super(SecurityContext, self).__setattr__("p_3", p_3)    # p'
+        super(SecurityContext, self).__setattr__("hashObj", hashlib.new('sha256')) 
+
+        super(SecurityContext, self).__setattr__("p", mpz(p))        # Prime group order p
+        super(SecurityContext, self).__setattr__("q", mpz(q))        # Safeprime group order q
+        super(SecurityContext, self).__setattr__("k", mpz(k))        # k
+        super(SecurityContext, self).__setattr__("g", mpz(g))        # Generator g
+        super(SecurityContext, self).__setattr__("h", mpz(h))        # Generator h
+        super(SecurityContext, self).__setattr__("p_2", mpz(p_2))    # p^
+        super(SecurityContext, self).__setattr__("q_2", mpz(q_2))    # q^
+        super(SecurityContext, self).__setattr__("k_2", mpz(k_2))    # k^
+        super(SecurityContext, self).__setattr__("g_2", mpz(g_2))    # g^
+        super(SecurityContext, self).__setattr__("p_3", mpz(p_3))    # p'
         super(SecurityContext, self).__setattr__("L", L)        # Hash Length in bits
 
     def __setattr__(self, name, val):

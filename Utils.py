@@ -4,6 +4,30 @@ from gmpy2 import mpz
 from math import ceil, floor, log2
 from array import array
 
+# Assertions
+
+def AssertNummeric(i):
+    assert type(i) == int or i.__class__.__name__ == 'mpz', 'Expected nummeric value!'
+
+def AssertInt(i):
+    assert type(i) == int, 'Expected int!'
+
+def AssertMpz(i):
+    assert i.__class__.__name__ == 'mpz', 'Expected mpz!'
+
+def AssertBytes(B):
+    assert B.__class__.__name__ == 'bytes' ,'Expected bytearray!'
+
+def AssertList(V):
+    assert type(V) == list, 'Expected list!'
+
+# Type checks
+
+def isNummericType(i):
+    return (type(i) == int or i.__class__.__name__ == 'mpz')
+
+# CHVote helper methods
+
 def BitAbs(i):
     """
     This algorithm implements the ||i|| operator used in the specification document, defined on page 11
@@ -17,6 +41,7 @@ def BitAbs(i):
 
     # return math.floor(math.log2(abs(i)))+1
     # Alternative without floating-point operations:
+    AssertNummeric(i)
 
     return i.bit_length()
 
@@ -28,12 +53,13 @@ def ToByteArray(x):
     @type   x   integer | mpz
     @param  x:  The number to be converted to a bytearray
 
-    @rtype:     bytearay
-    @return:    Bytearray in big-endian byte order
+    @rtype:     bytes
+    @return:    Immutable bytearray in big-endian byte order
     """
 
     # n_min = ceil(BitAbs(x)/8)
     # Alternative without floating-point operations:
+    AssertNummeric(x)
 
     q, r = divmod(BitAbs(x),8)
     q += bool(r)
@@ -50,9 +76,11 @@ def ToByteArrayN(x, n):
     @type   n   integer
     @param  n:  length of the output bytearray
 
-    @rtype:     bytearray
-    @return:    Bytearray of size n in big-endian byte order
+    @rtype:     bytes
+    @return:    Immutable bytearray of size n in big-endian byte order
     """
+    AssertNummeric(x)
+    AssertNummeric(n)
 
     B = bytearray()
 
@@ -61,18 +89,20 @@ def ToByteArrayN(x, n):
         x = x // 256                  # // = integer division => floor
         B.insert(0, b)
 
-    return B
+    return bytes(B)
 
 def ToInteger(B):
     """
     Algorithm 4.5: Computes a non-negative integer from a given byte array B. Leading zeros of B are ignored.
 
-    @type   B:  bytearray
+    @type   B:  bytes
     @param  B:  The bytearray to be converted to an integer
 
     @rtype:     integer
     @return:    Integer
     """
+    AssertBytes(B)
+
     return int.from_bytes(B, byteorder='big')
 
 
@@ -80,8 +110,8 @@ def Truncate(B, l):
     """
     Helper function to truncate a bytearray to the given length
 
-    @type   B:  bytearray
-    @param  B:  The bytearray to be converted to an integer
+    @type   B:  bytes
+    @param  B:  The bytes to be converted to an integer
 
     @type   l:  int
     @param  l:  The length
@@ -89,6 +119,10 @@ def Truncate(B, l):
     @rtype:     bytearray
     @return:    Bytearray truncated to length l
     """
+
+    AssertBytes(B)
+    AssertNummeric(l)
+
     return B[0:l]
 
 # Unit Tests

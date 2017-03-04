@@ -2,7 +2,7 @@ import gmpy2
 from gmpy2 import mpz
 import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0
-from Utils import ToInteger
+from Utils import ToInteger, AssertInt
 from Crypto.IsMember import IsMember
 from Crypto.RecHash import RecHash
 
@@ -11,12 +11,13 @@ def GetGenerators(n, ctx=SECURITYCONTEXT_DEFAULT):
     Algorithm 7.3: Computes n independent generators of Gq. The algorithm is an adaption of the NIST standard FIPS PUB 186-4 [1, Appendix A.2.3].
     The string "chVote" guarantees that the resulting values are specific for chVote.
 
-    @type   n:  number
+    @type   n:  int
     @param  n:  The number of primes to be calculated
 
     @rtype:     list
     @return:    a list with independent generators of G_p
     """
+    AssertInt(n)
 
     generators = []
 
