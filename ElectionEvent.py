@@ -3,6 +3,9 @@ from gmpy2 import mpz
 import hashlib
 import unittest
 from array import array
+from Candidate import Candidate
+from Voter import Voter
+from Election import Election
 
 class ElectionEvent(object):
     """
@@ -61,46 +64,12 @@ class ElectionEvent(object):
         return self.E
 
 
-    
-class Election(object):
-    candidates = []
-
-    def __init__(self, candidates = []):
-        self.candidates = candidates
-
-    def addCandidate(self, candidate):
-        self.candidates.append(candidate)
-
-    
-    @property
-    def n(self):   # numberOfCandidates
-        """
-        n_j >= 2 denotes the number of candidates in the j-th election of an election event
-        """
-        return len(self.candidates)
-
-
-class Voter(object):
-    description = ""
-    
-    def __init__(self, description):
-        self.description = description
-
-        
-
-class Candidate(object):
-    name = ""
-
-    def __init__(self, name):
-        self.name = name
-
-
-
 
 election1 = Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")])
 election2 = Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])
 electionEvent = ElectionEvent([election1, election2], [Voter("V1"), Voter("V2"), Voter("V3"), Voter("V4"), Voter("V5")])
 electionEvent.buildMatrix()
+
 
 # Unit Tests
 class ElectionEventTest(unittest.TestCase):
@@ -109,3 +78,4 @@ class ElectionEventTest(unittest.TestCase):
       
 if __name__ == '__main__':
     unittest.main()
+

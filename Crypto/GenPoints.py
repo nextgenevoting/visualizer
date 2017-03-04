@@ -1,13 +1,13 @@
 import gmpy2
 from gmpy2 import mpz
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
-from IsMember import IsMember
-from Random import randomMpz
 import unittest
-from Utils import ToInteger
+from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
 from ElectionEvent import electionEvent
-from GenPolynomial import GenPolynomial
-from GetYValue import GetYValue
+from Utils import ToInteger
+from Crypto.GenPolynomial import GenPolynomial
+from Crypto.GetYValue import GetYValue
+from Crypto.IsMember import IsMember
+from Crypto.Random import randomMpz
 
 def GenPoints(n,k, ctx = SECURITYCONTEXT_DEFAULT, election = electionEvent):
     """

@@ -1,7 +1,7 @@
 import gmpy2
 from gmpy2 import mpz
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
 import unittest
+from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
 from Utils import Truncate
 from RecHash import RecHash
 

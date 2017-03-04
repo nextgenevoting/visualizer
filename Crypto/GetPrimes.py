@@ -2,7 +2,7 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
-from IsMember import IsMember
+from Crypto.IsMember import IsMember
 
 def GetPrimes(n, ctx=SECURITYCONTEXT_DEFAULT):
     """

@@ -21,27 +21,36 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="GenPoints.py">
+    <Compile Include="Crypto\GenPoints.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GenPolynomial.py">
+    <Compile Include="Crypto\GenPolynomial.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GenSecretVoterData.py">
+    <Compile Include="Crypto\GetPublicVoterData.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GetGenerators.py">
+    <Compile Include="Crypto\GenSecretVoterData.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GetPrimes.py" />
-    <Compile Include="GetYValue.py">
+    <Compile Include="Crypto\GetGenerators.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="IsMember.py" />
+    <Compile Include="Crypto\GetPrimes.py" />
+    <Compile Include="Crypto\GetYValue.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Crypto\IsMember.py" />
+    <Compile Include="Candidate.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Election.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="main.py">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="Random.py">
+    <Compile Include="Crypto\Random.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="RecHash.py">
@@ -52,9 +61,15 @@
     <Compile Include="Utils.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Voter.py">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <InterpreterReference Include="{9a7a9026-48c1-4688-9d5d-e5699d47d074}\3.4" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Crypto\" />
   </ItemGroup>
   <Import Project="$(PtvsTargetsFile)" Condition="Exists($(PtvsTargetsFile))" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.Common.targets" Condition="!Exists($(PtvsTargetsFile))" />

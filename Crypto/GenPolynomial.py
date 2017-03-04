@@ -1,10 +1,10 @@
 import gmpy2
 from gmpy2 import mpz
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
-from IsMember import IsMember
-from Random import randomMpz
 import unittest
+from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
 from Utils import ToInteger
+from Crypto.IsMember import IsMember
+from Crypto.Random import randomMpz
 
 
 def GenPolynomial(d, ctx = SECURITYCONTEXT_DEFAULT):

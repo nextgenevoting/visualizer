@@ -3,9 +3,9 @@ from gmpy2 import mpz
 from gmpy2 import jacobi
 from ElectionEvent import electionEvent, Candidate, Election
 import ElectionEvent
-from GenPoints import GenPoints
+from Crypto.GenPoints import GenPoints
 from SecurityContext import SECURITYCONTEXT_L3
-from GenSecretVoterData import GenSecretVoterData
+from Crypto.GenSecretVoterData import GenSecretVoterData
 
 def main():
     print("Number of simultaneous elections: %d with a total number of candidates: %d" % (electionEvent.t, electionEvent.n))

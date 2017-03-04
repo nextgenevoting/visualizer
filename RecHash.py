@@ -2,7 +2,6 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0
-from IsMember import IsMember
 import Utils
 
 def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
@@ -20,14 +19,12 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
     isSingleElementOfList = False
 
     if type(v) is list and len(v) == 1:
-            isSingleElementOfList = True
+            isSingleElementList = True
 
     # We also have to handle 'tuple' datatypes!
     if type(v) is not list and type(v) is not tuple or isSingleElementOfList:   # single objects (int, string, bytearray,
         v0 = v
-
-        if isSingleElementOfList:
-            v0 = v[0]
+        if isSingleElementOfList: v0 = v[0]
 
         if type(v0) is bytearray:
             return ctx.hash(v0)
@@ -39,7 +36,7 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
             return RecHash(v0, ctx)
 
         return bytearray()
-    else:                               # if v is a list with [1, ..., k] elements
+    else:                               # if v is a list or a tuple
         res = bytearray()
         for vi in v:
             res +=  RecHash(vi, ctx)    # concatenate hashes
@@ -50,6 +47,8 @@ class RecHashTest(unittest.TestCase):
     def testOne(self):
         self.assertTrue(RecHash(123) == RecHash([123]))     # test if we avoid h(h(B1)) for a single input
         self.assertTrue(RecHash(123) == RecHash([[123]]))
+        self.assertTrue(len(RecHash(mpz(1234))) > 0)
+        self.assertTrue(len(RecHash([mpz(1234),mpz(2304)])) > 0)     
 
 if __name__ == '__main__':
     unittest.main()

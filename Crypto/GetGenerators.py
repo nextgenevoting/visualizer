@@ -1,10 +1,10 @@
-import unittest
 import gmpy2
 from gmpy2 import mpz
+import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0
-from IsMember import IsMember
 from Utils import ToInteger
-from RecHash import RecHash
+from Crypto.IsMember import IsMember
+from Crypto.RecHash import RecHash
 
 def GetGenerators(n, ctx=SECURITYCONTEXT_DEFAULT):
     """

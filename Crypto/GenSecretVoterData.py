@@ -1,12 +1,12 @@
 import gmpy2
 from gmpy2 import mpz
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
-from Random import randomMpz
 import unittest
+from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
 from Utils import Truncate
-from GetYValue import GetYValue
-from RecHash import RecHash
 from ElectionEvent import electionEvent
+from Crypto.Random import randomMpz
+from Crypto.GetYValue import GetYValue
+from RecHash import RecHash
 
 def GenSecretVoterData(p, ctx = SECURITYCONTEXT_DEFAULT, elEvent = electionEvent):
     """
@@ -18,7 +18,7 @@ def GenSecretVoterData(p, ctx = SECURITYCONTEXT_DEFAULT, elEvent = electionEvent
     @rtype:     Tuple
     @return:    Secret data
     """    
-    #todo: x und y zuf‰llig aus q^'_x/s und q^'_y/s ausw‰hlen, aber was ist s???
+    #todo: x und y zuf√§llig aus q^'_x/s und q^'_y/s ausw√§hlen, aber was ist s???
     x = 1
     y = 2
 

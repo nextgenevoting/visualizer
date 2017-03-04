@@ -1,7 +1,7 @@
-import unittest
 import gmpy2
 from gmpy2 import mpz
 from gmpy2 import jacobi
+import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT
 
 def IsMember(x, ctx=SECURITYCONTEXT_DEFAULT):
