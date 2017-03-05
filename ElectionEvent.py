@@ -63,14 +63,6 @@ class ElectionEvent(object):
     def E(self):
         return self.E
 
-
-
-election1 = Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")])
-election2 = Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])
-electionEvent = ElectionEvent([election1, election2], [Voter("V1"), Voter("V2"), Voter("V3"), Voter("V4"), Voter("V5")])
-electionEvent.buildMatrix()
-
-
 # Unit Tests
 class ElectionEventTest(unittest.TestCase):
     def testOne(self):

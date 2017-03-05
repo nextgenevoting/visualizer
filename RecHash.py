@@ -15,23 +15,23 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
     @return:    An immutable array of bytes representing the recursive hash of the input values with a length corresponding to the used hash function
     """   
     # check if v is a list
+    typev = type(v)    
+
     isSingleElementOfList = False
+    if typev is list and len(v) == 1:
+            isSingleElementOfList = True
+    
+    if typev is not list and typev is not tuple or isSingleElementOfList:   # single objects (int, string, bytearray, ...)
+        v0 = v[0] if isSingleElementOfList else v
 
-    if type(v) is list and len(v) == 1:
-            isSingleElementList = True
-
-    # We also have to handle 'tuple' datatypes!
-    if type(v) is not list and type(v) is not tuple or isSingleElementOfList:   # single objects (int, string, bytearray,        
-        v0 = v
-        if isSingleElementOfList: v0 = v[0]
-
-        if type(v0) is bytearray or v0.__class__.__name__ == 'bytes':
+        typev0 = type(v0)
+        if typev0 is bytearray or v0.__class__.__name__ == 'bytes':
             return ctx.hash(v0)
-        if isNummericType(v0):
+        if typev0 is int or v0.__class__.__name__ == 'mpz':
            return ctx.hash(ToByteArray(v0))
-        if type(v0) is str:
+        if typev0 is str:
             return ctx.hash(v0.encode('utf-8'))
-        if type(v0) is list:
+        if typev0 is list:
             return RecHash(v0, ctx)
 
         return bytes()

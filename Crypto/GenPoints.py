@@ -2,14 +2,13 @@ import gmpy2
 from gmpy2 import mpz
 import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
-from ElectionEvent import electionEvent
 from Utils import ToInteger, AssertInt
 from Crypto.GenPolynomial import GenPolynomial
 from Crypto.GetYValue import GetYValue
 from Crypto.IsMember import IsMember
 from Crypto.Random import randomMpz
 
-def GenPoints(n,k, ctx = SECURITYCONTEXT_DEFAULT, election = electionEvent):
+def GenPoints(n,k, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
     """
     Algorithm 7.7: Generates a list of n random points picket from t random polynomials
     A_j(X) of degree k_j - 1 (by picking n_j different random points from each polynomial).
@@ -31,8 +30,7 @@ def GenPoints(n,k, ctx = SECURITYCONTEXT_DEFAULT, election = electionEvent):
     @rtype:     Tuple
     @return:    (p,y)       p \in (Z_p^2)^n, y \in Z_q^t
     """    
-    AssertInt(n)
-    AssertInt(k)
+
 
     i = 1
     retPoints = []
@@ -44,6 +42,7 @@ def GenPoints(n,k, ctx = SECURITYCONTEXT_DEFAULT, election = electionEvent):
             # get a unique x from Z_p'
             x = 0
             while True:
+                #x = randomMpz(ctx.p_3)
                 x = randomMpz(ctx.p_3)
                 if x not in X:
                     X.append(x)

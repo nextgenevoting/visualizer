@@ -21,6 +21,9 @@
     <PtvsTargetsFile>$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)\Python Tools\Microsoft.PythonTools.targets</PtvsTargetsFile>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Crypto\GenElectorateData.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Crypto\GenPoints.py">
       <SubType>Code</SubType>
     </Compile>

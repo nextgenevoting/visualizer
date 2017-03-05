@@ -19,7 +19,6 @@ def GenPolynomial(d, ctx = SECURITYCONTEXT_DEFAULT):
     @rtype:     list
     @return:    a list of coefficients a_0 ... a_d of polynomial A(X)
     """
-    AssertInt(d)
 
     a = []
     a_d = 0

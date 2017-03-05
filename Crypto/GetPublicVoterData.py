@@ -2,7 +2,7 @@ import gmpy2
 from gmpy2 import mpz
 import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
-from Utils import Truncate, AssertMpz
+from Utils import Truncate, AssertMpz, ToInteger
 from RecHash import RecHash
 
 def GetPublicVoterData(x, y , ctx = SECURITYCONTEXT_DEFAULT):
@@ -18,19 +18,18 @@ def GetPublicVoterData(x, y , ctx = SECURITYCONTEXT_DEFAULT):
     @rtype:     Tuple
     @return:    Public data
     """ 
-    AssertMpz(x)
-    AssertMpz(y)
+
        
     h = ToInteger(RecHash(y, ctx)) % ctx.q_2
     x_2 = ctx.g_2 ** x % ctx.q_2
-    y_2 = ctx.g_2 ** (y+h) % ctx.p_2
+#    y_2 = ctx.g_2 ** (y+h) % ctx.p_2
 
-    return (x_2, y_2)
+    return (x_2, y)
 
 # Unit Tests
 class GetPublicVoterDataTest(unittest.TestCase):
 
-    def testOne(self):       
+    def testOne(self):
         self.assertTrue(False)
 
 if __name__ == '__main__':

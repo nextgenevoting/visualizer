@@ -41,7 +41,6 @@ def BitAbs(i):
 
     # return math.floor(math.log2(abs(i)))+1
     # Alternative without floating-point operations:
-    AssertNummeric(i)
 
     return i.bit_length()
 
@@ -56,15 +55,15 @@ def ToByteArray(x):
     @rtype:     bytes
     @return:    Immutable bytearray in big-endian byte order
     """
-
-    # n_min = ceil(BitAbs(x)/8)
+    # this seems faster than the original code:
+    x = int(x)
+    return x.to_bytes((x.bit_length() + 7) // 8, byteorder='big')
+   
     # Alternative without floating-point operations:
-    AssertNummeric(x)
+    #q, r = divmod(BitAbs(x),8)
+    #q += bool(r)
 
-    q, r = divmod(BitAbs(x),8)
-    q += bool(r)
-
-    return ToByteArrayN(x, q)
+    #return ToByteArrayN(x, q)
 
 def ToByteArrayN(x, n):
     """
@@ -79,10 +78,8 @@ def ToByteArrayN(x, n):
     @rtype:     bytes
     @return:    Immutable bytearray of size n in big-endian byte order
     """
-    AssertNummeric(x)
-    AssertNummeric(n)
 
-    B = bytearray()
+    B = bytearray(n)
 
     for i in range(0, int(n)):
         b = x % 256
@@ -119,9 +116,6 @@ def Truncate(B, l):
     @rtype:     bytearray
     @return:    Bytearray truncated to length l
     """
-
-    AssertBytes(B)
-    AssertNummeric(l)
 
     return B[0:l]
 
