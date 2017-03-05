@@ -23,14 +23,13 @@ def GetYValue(x, a, ctx = SECURITYCONTEXT_DEFAULT):
     @return:    a list of coefficients a_0 ... a_d of polynomial A(X)
     """
     AssertNummeric(x)
-    AssertList(a)
-
+    AssertList(a)    
     if x == 0:
         y = a[0]
     else:
         y = 0
         for i in reversed(range(len(a))):
-            y = (a[i] + x * y) % ctx.p_3
+            y = (a[i] + x * y) % ctx.p_3            
     return y
 
 # Unit Tests

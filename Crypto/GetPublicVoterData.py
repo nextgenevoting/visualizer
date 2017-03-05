@@ -18,11 +18,11 @@ def GetPublicVoterData(x, y , ctx = SECURITYCONTEXT_DEFAULT):
     @rtype:     Tuple
     @return:    Public data
     """ 
-
-       
+    
     h = ToInteger(RecHash(y, ctx)) % ctx.q_2
-    x_2 = ctx.g_2 ** x % ctx.q_2
-#    y_2 = ctx.g_2 ** (y+h) % ctx.p_2
+    #x_2 = ctx.g_2 ** x % ctx.q_2
+    x_2 = gmpy2.powmod(ctx.g_2, x, ctx.q_2)
+#todo    y_2 = ctx.g_2 ** (y+h) % ctx.p_2
 
     return (x_2, y)
 
