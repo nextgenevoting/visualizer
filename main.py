@@ -43,7 +43,7 @@ def main():
             print("\t%s" % c.name)
 
 
-    d,d_2, P, K = GenElectorateData(electionEvent.N, 10, electionEvent.E, electionEvent, SECURITYCONTEXT_L3)
+    d,d_2, P, K = GenElectorateData(electionEvent.n, 10, electionEvent.E, electionEvent, SECURITYCONTEXT_L3)
     print("done")
 
 

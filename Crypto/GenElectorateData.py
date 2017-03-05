@@ -26,20 +26,22 @@ def GenElectorateData(n,k,E, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
     d = []
     d_2 = []  
     K = []
+    P = []
     for i in range (0, electionEvent.N):
         eligibilityCount = 0
-        k = []
+        Ktemp = []
         for j in range(0, electionEvent.t):
             eligibilityCount += E[i][j]
-            k.append(E[i][j])
+            Ktemp.append(E[i][j])
         p, y = GenPoints(n, eligibilityCount, electionEvent, ctx)
         x,y,F, R = GenSecretVoterData(p, electionEvent, ctx)
         d.append((x,y,F,R))
         
         d_2.append(GetPublicVoterData(x,y,ctx))
-        K.append(k)
+        K.append(Ktemp)
+        P.append(p)
 
-    return (d, d_2, p, K)   
+    return (d, d_2, P, K)   
 
 
 

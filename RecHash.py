@@ -13,32 +13,39 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
 
     @rtype:     bytes
     @return:    An immutable array of bytes representing the recursive hash of the input values with a length corresponding to the used hash function
-    """   
+    """     
     # check if v is a list
-    typev = type(v)    
-
     isSingleElementOfList = False
-    if typev is list and len(v) == 1:
+    if isinstance(v,list) and len(v) == 1:
             isSingleElementOfList = True
     
-    if typev is not list and typev is not tuple or isSingleElementOfList:   # single objects (int, string, bytearray, ...)
+    if not isinstance(v, list) and not isinstance(v, tuple) or isSingleElementOfList:   # single objects (int, string, bytearray, ...)
         v0 = v[0] if isSingleElementOfList else v
-
-        typev0 = type(v0)
-        if typev0 is bytearray or v0.__class__.__name__ == 'bytes':
+        
+        if isinstance(v0, bytearray) or v0.__class__.__name__ == 'bytes':
             return ctx.hash(v0)
-        if typev0 is int or v0.__class__.__name__ == 'mpz':
+        if isinstance(v0, int) or v0.__class__.__name__ == 'mpz':
            return ctx.hash(ToByteArray(v0))
-        if typev0 is str:
+        if isinstance(v0, str):
             return ctx.hash(v0.encode('utf-8'))
-        if typev0 is list:
+        if isinstance(v0, list):
             return RecHash(v0, ctx)
 
         return bytes()
     else:                               # if v is a list or a tuple
         res = bytearray()
         for vi in v:
-            res +=  RecHash(vi, ctx)    # concatenate hashes
+            #res +=  RecHash(vi, ctx)    # concatenate hashes
+            # performance optimization: Iteration instead of recursion       
+            if isinstance(vi, bytearray) or vi.__class__.__name__ == 'bytes':
+                res += ctx.hash(vi)
+            if isinstance(vi, int) or vi.__class__.__name__ == 'mpz':
+               res += ctx.hash(ToByteArray(vi))
+            if isinstance(vi, str):
+                res += ctx.hash(vi.encode('utf-8'))
+            if isinstance(vi, list):
+                res += RecHash(vi, ctx)
+
         return ctx.hash(res)            # hash the concatenation of the hashes
 
 # Unit Tests

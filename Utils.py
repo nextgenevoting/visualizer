@@ -7,10 +7,10 @@ from array import array
 # Assertions
 
 def AssertNummeric(i):
-    assert type(i) == int or i.__class__.__name__ == 'mpz', 'Expected nummeric value!'
+    assert isinstance(i,int) or i.__class__.__name__ == 'mpz', 'Expected nummeric value!'
 
 def AssertInt(i):
-    assert type(i) == int, 'Expected int!'
+    assert isinstance(i,int), 'Expected int!'
 
 def AssertMpz(i):
     assert i.__class__.__name__ == 'mpz', 'Expected mpz!'
@@ -19,12 +19,12 @@ def AssertBytes(B):
     assert B.__class__.__name__ == 'bytes' ,'Expected bytearray!'
 
 def AssertList(V):
-    assert type(V) == list, 'Expected list!'
+    assert isinstance(V,list), 'Expected list!'
 
 # Type checks
 
 def isNummericType(i):
-    return (type(i) == int or i.__class__.__name__ == 'mpz')
+    return (isinstance(i,int) or i.__class__.__name__ == 'mpz')
 
 # CHVote helper methods
 
