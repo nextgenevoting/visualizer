@@ -19,9 +19,7 @@ class ElectionEvent(object):
     def __init__(self, elections = [], voters = []):        
         self.elections = elections
         self.voters = voters
-
-    def addElection(self, election):
-        self.elections.append(election)
+        self.buildEligibilityMatrix()
 
     @property
     def t(self):
@@ -47,19 +45,17 @@ class ElectionEvent(object):
         """
         return len(self.voters)
 
-    def buildMatrix(self):
+    def buildEligibilityMatrix(self):
         """
         Build the eligibility matrix E = (e_ij) N x t
         """
         self.E = [[0 for j in range(self.t)] for i in range(self.N)]
-
 
         for i in range(0, len(self.voters)):
             for j in range(0, len(self.elections)):
                 self.E[i][j] = True         # 1 bit indicating whether or not the voter i is eligible in election j
 
  
-
     def E(self):
         return self.E
 

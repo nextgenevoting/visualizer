@@ -63,9 +63,9 @@ def PartitionGenElectorateData(index, numOfProc, output, n, k,E, electionEvent, 
     @return:    (d,d^, P, K)
     """      
     d = []
-    d_2 = []  
+    d_2 = []
     K = []
-    P = []    
+    P = []
     
     partSize = electionEvent.N // numOfProc
     partStart = index * partSize    

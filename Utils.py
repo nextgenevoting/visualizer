@@ -5,6 +5,7 @@ from math import ceil, floor, log2
 from array import array
 
 # Assertions
+# Important: type() is very slow! use isinstance() instead!
 
 def AssertNummeric(i):
     assert isinstance(i,int) or i.__class__.__name__ == 'mpz', 'Expected nummeric value!'

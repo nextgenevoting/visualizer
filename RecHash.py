@@ -35,8 +35,8 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
     else:                               # if v is a list or a tuple
         res = bytearray()
         for vi in v:
-            #res +=  RecHash(vi, ctx)    # concatenate hashes
-            # performance optimization: Iteration instead of recursion       
+            # performance optimization: Iteration instead of recursion 
+            # res +=  RecHash(vi, ctx)    # concatenate hashes           
             if isinstance(vi, bytearray) or vi.__class__.__name__ == 'bytes':
                 res += ctx.hash(vi)
             if isinstance(vi, int) or vi.__class__.__name__ == 'mpz':
