@@ -1,3 +1,5 @@
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 import unittest
@@ -54,13 +56,13 @@ class GenPolynomialTest(unittest.TestCase):
 
     def testOne(self):
         # check if a polynomial of degree x has x+1 coefficients
-        self.assertTrue(len(GenPolynomial(5)) == 6)
-
-        # test for security level 3
-        a = GenPolynomial(5, SECURITYCONTEXT_L3)
-
-        printPolynomial(a)
-        self.assertTrue(len(a) == 6)
-
+        for i in range(10):
+            polynomial = GenPolynomial(i)
+            print("Printing random polynomial of degree %d" %i)
+            printPolynomial(polynomial)
+            self.assertTrue(len(polynomial) == i+1)
+            for coeff in polynomial:                
+                # check if each coeff. is an mpz
+                self.assertTrue(coeff.__class__.__name__ == 'mpz')
 if __name__ == '__main__':
     unittest.main()

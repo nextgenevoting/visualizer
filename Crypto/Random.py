@@ -17,8 +17,9 @@ def randomMpz(n):
 
     @rtype:     mpz
     @return:    Random number < n
-    """
+    """    
     return gmpy2.mpz_random(rstate, n)
+
 
 def randomBoundedMpz(lb, ub):
     """

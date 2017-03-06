@@ -59,6 +59,9 @@ class ElectionEvent(object):
     def E(self):
         return self.E
 
+
+dummyElectionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")]), Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])], [Voter("V1"), Voter("V2"), Voter("V3")])
+
 # Unit Tests
 class ElectionEventTest(unittest.TestCase):
     def testOne(self):
