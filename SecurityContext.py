@@ -76,4 +76,4 @@ SECURITYCONTEXT_L3 = SecurityContext(0x80000000000000000000000000000000000000000
                                      0x800000000000000000000000000000000000000000000000000000000000005F,
                                      256
                      )
-SECURITYCONTEXT_DEFAULT = SECURITYCONTEXT_L0                                    # Set this to  SECURITYCONTEXT_L3 for production!
+SECURITYCONTEXT_DEFAULT = SECURITYCONTEXT_L3                                    # Set this to  SECURITYCONTEXT_L3 for production!

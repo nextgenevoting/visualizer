@@ -42,7 +42,6 @@ def GenPoints(n,k, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
             # get a unique x from Z_p'
             x = 0
             while True:
-                #x = randomMpz(ctx.p_3)
                 x = randomMpz(ctx.p_3)
                 if x not in X:
                     X.append(x)

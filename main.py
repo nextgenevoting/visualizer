@@ -11,39 +11,45 @@ from Crypto.GenSecretVoterData import GenSecretVoterData
 from Utils import AssertNummeric, isNummericType, ToByteArray
 from RecHash import RecHash
 from Crypto.GetPublicVoterData import GetPublicVoterData
-from Crypto.GenElectorateData import GenElectorateData
+from Crypto.GenElectorateData import GenElectorateData, PartitionGenElectorateData
+import multiprocessing as mp
 
-def main():
-    
-    # 5 voter election Event 1 with 2 sim. elections, 6 candidates
-    election1 = Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")])
-    election2 = Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])
-    
-    electionEvent5 = ElectionEvent([election1, election2], [Voter("V1"), Voter("V2"), Voter("V3"), Voter("V4"), Voter("V5")])
-    electionEvent5.buildMatrix()
-
-    # 10k voter election event with 2 sim. elections, 6 candidates
+def main():    
+    # Set up a test election event
     voters = []
-    for i in range (0, 10000):
+    for i in range (50000):
         voters.append(Voter("V"+str(i)))
     
-    electionEvent10k = ElectionEvent([election1, election2], voters)
-    electionEvent10k.buildMatrix()
+    electionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")]), Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])], voters)
+    electionEvent.buildMatrix()
 
-    # which one to test?
-    electionEvent = electionEvent10k
-
-    # Generate electorate data for electionEvent
     print("Number of simultaneous elections: %d with a total number of candidates: %d" % (electionEvent.t, electionEvent.n))    
     print("Number of voters: %d" % electionEvent.N)
-
     for el in electionEvent.elections:
         print("Election %s, candidates:" % el)
         for c in el.candidates:
             print("\t%s" % c.name)
 
+    print("Generate electorate data...")
+    # Set up parallel GenElectorateData call
+    output = mp.Queue()
+    numOfProc = 1
+    processes = [mp.Process(target=PartitionGenElectorateData, args=(x, numOfProc, output, electionEvent.n, 10, electionEvent.E,electionEvent,)) for x in range(numOfProc)]
+    # Run processes
+    for p in processes:
+        p.start()
+    # Get results
+    results = [output.get() for p in processes]
+    # todo: reassemble the results
 
-    d,d_2, P, K = GenElectorateData(electionEvent.n, 10, electionEvent.E, electionEvent, SECURITYCONTEXT_L3)
+    # Wait for the processs to complete
+    for p in processes:
+        p.join()
+   
+
+    # test without multiprocessing
+    #d,d_2, P, K = GenElectorateData(electionEvent.n, 10, electionEvent.E, electionEvent, SECURITYCONTEXT_L3)
+
     print("done")
 
 
