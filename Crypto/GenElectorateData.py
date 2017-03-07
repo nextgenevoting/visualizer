@@ -21,11 +21,11 @@ def GenElectorateData(parallelize, index, outQueue, n, k,E, electionEvent, ctx =
     @type   k:  int
     @type   k:  Number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
 
-    @type   E:  matrix
+    @type   E:  [int][int]
     @type   E:  Eligibility matrix
 
     @rtype:     Tuple
-    @return:    (d,d^, P, K)
+    @return:    (d, d^, P, K)
     """      
     d = []
     d_2 = []
@@ -60,7 +60,7 @@ def GenElectorateData(parallelize, index, outQueue, n, k,E, electionEvent, ctx =
         d.append((x,y,F,R))                     # private voter data        
         d_2.append(GetPublicVoterData(x,y,ctx)) # public voter data
         K.append(Ktemp)                         # precalculated: eligibility for voter
-        P.append(p)
+        P.append(p)                             # points on the polynomials
 
     if parallelize: outQueue.put((d, d_2, P, K))
     else: return (d, d_2, P, K)

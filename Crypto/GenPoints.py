@@ -65,10 +65,10 @@ class GenPointsTest(unittest.TestCase):
         # generate dummy points
         a = GenPoints(10, 5, dummyElectionEvent, SECURITYCONTEXT_L3)
         
-        # check if the number of points returned equals the total number of candidates
+        # check if the number of points returned matches the total number of candidates
         self.assertTrue(len(a[0]) == dummyElectionEvent.n)
         
-        # check if the number of y values for x=0 equals the number of simult. elections (= the number of polynoms)
+        # check if the number of y values for x=0 matches the number of simult. elections (= the number of polynoms)
         self.assertTrue(len(a[1]) == dummyElectionEvent.t)
         
         for point in a[0]:
