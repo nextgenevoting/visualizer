@@ -37,12 +37,12 @@ def GenPoints(n,k, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
     AssertInt(k)
 
     i = 1
-    retPoints = []
-    retY = []
+    points = []
+    yValues = []
     for j in electionEvent.elections:
-        a_j = GenPolynomial(k-1, ctx)        # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
+        a_j = GenPolynomial(k-1, ctx)     # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
         X = []
-        for l in range(0, j.n):                 # loop over all candidates of election j
+        for l in range(0, j.n):           # loop over all candidates of election j
             x = 0
             # get a unique x from Z_p'
             while True:
@@ -51,12 +51,12 @@ def GenPoints(n,k, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
                     X.append(x)
                     break;
             y = GetYValue(x,a_j,ctx)      # get the corresponding y value of x on the polynomial a_j
-            p = (x,y)
-            retPoints.append(p)           # part of the private voter data
+            p = (x,y)                     # Point tuple
+            points.append(p)              # part of the private voter data
             i += 1            
-        retY.append(GetYValue(0,a_j, ctx))     # Point (0,Y(0))
+        yValues.append(GetYValue(0,a_j, ctx))     # Point (0,Y(0))
 
-    return (retPoints, retY)
+    return (points, yValues)
 
 # Unit Tests
 class GenPointsTest(unittest.TestCase):

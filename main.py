@@ -7,7 +7,7 @@ from Election import Election
 from SecurityContext import SECURITYCONTEXT_L3
 from Utils import AssertNummeric, isNummericType, ToByteArray
 from RecHash import RecHash
-from Crypto.GenElectorateData import GenElectorateData, PartitionGenElectorateData
+from Crypto.GenElectorateData import GenElectorateData, GenElectorateData
 import multiprocessing as mp
 import time
 
@@ -27,13 +27,12 @@ def main():
         for c in el.candidates:
             print("\t%s" % c.name)
 
-    print("Generate electorate data...")
+    print("Generate electorate data with %d processes" %mp.cpu_count())
     start_time = time.time()
 
     # Set up parallel GenElectorateData call
     output = mp.Queue()
-    numOfProc = 4
-    processes = [mp.Process(target=PartitionGenElectorateData, args=(x, numOfProc, output, electionEvent.n, 10, electionEvent.E,electionEvent,)) for x in range(numOfProc)]
+    processes = [mp.Process(target=GenElectorateData, args=(True, x, output, electionEvent.n, 10, electionEvent.E,electionEvent,)) for x in range(mp.cpu_count())]
     # Run processes
     for p in processes:
         p.start()
@@ -51,10 +50,10 @@ def main():
    
     print("Elapsed time: %f s" % (time.time() - start_time))
 
-    print("Generate electorate data...")
-
     # test without multiprocessing
-    d,d_2, P, K = GenElectorateData(electionEvent.n, 10, electionEvent.E, electionEvent, SECURITYCONTEXT_L3)
+    print("Generate electorate data (single process)")
+    start_time = time.time()    
+    d,d_2, P, K = GenElectorateData(False, None, None, electionEvent.n, 10, electionEvent.E, electionEvent, SECURITYCONTEXT_L3)
     print("Elapsed time: %f s" % (time.time() - start_time))
 
 if __name__ == '__main__':

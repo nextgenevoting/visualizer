@@ -21,7 +21,6 @@ class SecurityContext(object):
         return (hashObj.digest())[0:hashByteLength]             # truncate the hash output to the hash length of the security level
 
     def __init__(self, p, q, k, g, h, p_2, q_2, k_2, g_2, p_3, L):        
-        print("Security Context constructor")
         #super(SecurityContext, self).__setattr__("hashObj", hashlib.new('sha256')) 
 
         super(SecurityContext, self).__setattr__("p", mpz(p))        # Prime group order p
