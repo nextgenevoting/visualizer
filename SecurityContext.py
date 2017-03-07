@@ -15,13 +15,14 @@ class SecurityContext(object):
     p = q = k = g = h = p_2 = q_2 = k_2 = g_2 = p_3 = L = 0
 
     def hash(self, input):
-        # TODO does the hash function depend on the security level or do we always use sha256?                
-        self.hashObj.update(input)
-        hashByteLength = int(self.L / 8)        
-        return (self.hashObj.digest())[0:hashByteLength]             # truncate the hash output to the hash length of the security level
+        hashObj = hashlib.new('sha256')
+        hashObj.update(input)
+        hashByteLength = int(self.L // 8)        
+        return (hashObj.digest())[0:hashByteLength]             # truncate the hash output to the hash length of the security level
 
     def __init__(self, p, q, k, g, h, p_2, q_2, k_2, g_2, p_3, L):        
-        super(SecurityContext, self).__setattr__("hashObj", hashlib.new('sha256')) 
+        print("Security Context constructor")
+        #super(SecurityContext, self).__setattr__("hashObj", hashlib.new('sha256')) 
 
         super(SecurityContext, self).__setattr__("p", mpz(p))        # Prime group order p
         super(SecurityContext, self).__setattr__("q", mpz(q))        # Safeprime group order q

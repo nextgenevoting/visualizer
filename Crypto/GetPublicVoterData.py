@@ -1,3 +1,5 @@
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 import unittest
@@ -18,7 +20,9 @@ def GetPublicVoterData(x, y , ctx = SECURITYCONTEXT_DEFAULT):
     @rtype:     Tuple
     @return:    Public data
     """ 
-    
+    AssertMpz(x)
+    AssertMpz(y)
+
     h = ToInteger(RecHash(y, ctx)) % ctx.q_2
     #x_2 = ctx.g_2 ** x % ctx.q_2
     x_2 = gmpy2.powmod(ctx.g_2, x, ctx.q_2)

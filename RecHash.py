@@ -51,7 +51,8 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
 # Unit Tests
 class RecHashTest(unittest.TestCase):
     def testOne(self):
-        self.assertTrue(RecHash(123) == RecHash([123]))     # test if we avoid h(h(B1)) for a single input
+        self.assertTrue(RecHash(123) == RecHash(123))     # test for deterministic output
+        self.assertTrue(RecHash(123) == RecHash([123]))   # test if we avoid h(h(B1)) for a single input
         self.assertTrue(RecHash(123) == RecHash([[123]]))
         self.assertTrue(len(RecHash(mpz(1234))) > 0)
         self.assertTrue(len(RecHash([mpz(1234),mpz(2304)])) > 0)     

@@ -1,3 +1,5 @@
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
@@ -5,7 +7,7 @@ import unittest
 from Crypto.IsMember import IsMember
 from Crypto.Random import randomMpz
 from Crypto.GenPolynomial import GenPolynomial, printPolynomial
-from Utils import ToInteger, AssertNummeric, AssertList
+from Utils import ToInteger, AssertNummeric, AssertList, AssertMpz
 
 
 def GetYValue(x, a, ctx = SECURITYCONTEXT_DEFAULT):
@@ -13,23 +15,27 @@ def GetYValue(x, a, ctx = SECURITYCONTEXT_DEFAULT):
     Algorithm 7.9: Computes the value y = A(x) \in Z_p' obtained from evaluating the polynomial A(X) = Sigma(i=0...d) a_i X^i mod p' at position x. 
     The algorithm is an implementation of Horners method.
 
-    @type   x:  mpz | inz
+    @type   x:  mpz
     @param  x:  value x \in Z_p', normally mpz is used except for x = 0
     
     @type   a:  list
     @param  a:  list of coefficients
 
-    @rtype:     int
-    @return:    a list of coefficients a_0 ... a_d of polynomial A(X)
+    @rtype:     mpz
+    @return:    the y value for x on the polynomial
     """
     AssertNummeric(x)
-    AssertList(a)    
+    AssertList(a)
+    assert(x.__class__.__name__ == 'mpz' and x > 0 or isinstance(x, int) and x == 0)    # check that x is only of type int if it's value is 0 (otherwise it must be mpz!)
+
     if x == 0:
         y = a[0]
     else:
         y = 0
         for i in reversed(range(len(a))):
-            y = (a[i] + x * y) % ctx.p_3            
+            y = (a[i] + x * y) % ctx.p_3
+
+    AssertMpz(y)
     return y
 
 # Unit Tests

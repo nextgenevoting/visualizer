@@ -4,7 +4,6 @@ import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
 from Utils import Truncate, AssertList
 from Crypto.Random import randomMpz
-from Crypto.GetYValue import GetYValue
 from RecHash import RecHash
 
 def GenSecretVoterData(p, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
@@ -17,7 +16,7 @@ def GenSecretVoterData(p, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
     @rtype:     Tuple
     @return:    Secret data
     """   
-    #AssertList(p)
+    AssertList(p)
 
     #todo: x und y zufällig aus q^'_x/s und q^'_y/s auswählen, aber was ist s???
     x = mpz(1)

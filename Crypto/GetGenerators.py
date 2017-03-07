@@ -1,10 +1,12 @@
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0
 from Utils import ToInteger, AssertInt
 from Crypto.IsMember import IsMember
-from Crypto.RecHash import RecHash
+from RecHash import RecHash
 
 def GetGenerators(n, ctx=SECURITYCONTEXT_DEFAULT):
     """

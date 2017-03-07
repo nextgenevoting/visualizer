@@ -40,11 +40,11 @@ def GenPoints(n,k, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
     retPoints = []
     retY = []
     for j in electionEvent.elections:
-        a_j = GenPolynomial(k-1, ctx)        # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decide the degree of the polynomial
+        a_j = GenPolynomial(k-1, ctx)        # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
         X = []
         for l in range(0, j.n):                 # loop over all candidates of election j
-            # get a unique x from Z_p'
             x = 0
+            # get a unique x from Z_p'
             while True:
                 x = randomMpz(ctx.p_3)
                 if x not in X:
