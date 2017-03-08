@@ -4,14 +4,14 @@ import gmpy2
 from gmpy2 import mpz
 import unittest
 from Utils import ToInteger, AssertInt, AssertList
-from SecurityParams import secparams_def, secparams_l3
+from SecurityParams import secparams_default, secparams_l3
 from Crypto.GenPolynomial import GenPolynomial
 from Crypto.GetYValue import GetYValue
 from Crypto.IsMember import IsMember
 from Crypto.Random import randomMpz
 from ElectionEvent import dummyElectionEvent
 
-def GenPoints(n,k, electionEvent, secparams = secparams_def):
+def GenPoints(n,k, electionEvent, secparams = secparams_default):
     """
     Algorithm 7.7: Generates a list of n random points picket from t random polynomials
     A_j(X) of degree k_j - 1 (by picking n_j different random points from each polynomial).

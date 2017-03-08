@@ -2,7 +2,7 @@ import os, sys
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
-from SecurityParams import secparams_def, secparams_l0, secparams_l3
+from SecurityParams import secparams_default, secparams_l0, secparams_l3
 import unittest
 from Crypto.IsMember import IsMember
 from Crypto.Random import randomMpz
@@ -10,7 +10,7 @@ from Crypto.GenPolynomial import GenPolynomial, printPolynomial
 from Utils import ToInteger, AssertNummeric, AssertList, AssertMpz
 
 
-def GetYValue(x, a, secparams = secparams_def):
+def GetYValue(x, a, secparams = secparams_default):
     """
     Algorithm 7.9: Computes the value y = A(x) \in Z_p' obtained from evaluating the polynomial A(X) = Sigma(i=0...d) a_i X^i mod p' at position x. 
     The algorithm is an implementation of Horners method.

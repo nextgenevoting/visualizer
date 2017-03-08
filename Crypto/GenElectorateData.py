@@ -1,7 +1,7 @@
 import gmpy2
 from gmpy2 import mpz
 import unittest
-from SecurityParams import secparams_l0, secparams_l1, secparams_l2, secparams_l3, secparams_def
+from SecurityParams import secparams_l0, secparams_l1, secparams_l2, secparams_l3, secparams_default
 from Utils import ToInteger, AssertInt, AssertList
 from Crypto.GenPoints import GenPoints
 from Crypto.GenSecretVoterData import GenSecretVoterData
@@ -11,7 +11,7 @@ import multiprocessing as mp
 
 
 
-def GenElectorateData(parallelize, index, outQueue, n, k, E, electionEvent, secparams = secparams_def):
+def GenElectorateData(parallelize, index, outQueue, n, k, E, electionEvent, secparams = secparams_default):
     """
     Algorithm 7.6: Generates the data for the whole electorate    
 

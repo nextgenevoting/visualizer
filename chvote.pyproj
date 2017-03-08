@@ -30,6 +30,9 @@
     <Compile Include="Crypto\GenPolynomial.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Crypto\GetPublicCredentials.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Crypto\GetPublicVoterData.py">
       <SubType>Code</SubType>
     </Compile>

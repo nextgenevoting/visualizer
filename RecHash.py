@@ -1,10 +1,10 @@
 import unittest
 import gmpy2
 from gmpy2 import mpz
-from SecurityParams import secparams_def, secparams_l0
+from SecurityParams import secparams_default, secparams_l0
 from Utils import isNummericType, ToByteArray
 
-def RecHash(v, secparams=secparams_def):        
+def RecHash(v, secparams=secparams_default):        
     """
     Algorithm 4.9: Computes the hash value h(v_1,...v_k) of multiple inputs v_1..v_k in a recursive manner.
 

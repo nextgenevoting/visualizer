@@ -135,4 +135,4 @@ secparams_l3 = SecurityParams(
     256
 )
 
-secparams_def = secparams_l3
+secparams_default = secparams_l3

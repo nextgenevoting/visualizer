@@ -1,13 +1,13 @@
 import gmpy2
 from gmpy2 import mpz
 import unittest
-from SecurityParams import secparams_def, secparams_l0, secparams_l3
+from SecurityParams import secparams_default, secparams_l0, secparams_l3
 from Utils import Truncate, AssertList
 from Crypto.Random import randomMpz
 from RecHash import RecHash
 from math import floor
 
-def GenSecretVoterData(p, electionEvent, secparams = secparams_def):
+def GenSecretVoterData(p, electionEvent, secparams = secparams_default):
     """
     Algorithm 7.10: Generates the secret data for a single voter, which is sent to the voter prior to an election event via the printing authority.
    
