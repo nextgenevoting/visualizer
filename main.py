@@ -15,12 +15,12 @@ import time
 def main():    
     # Set up a test election event
     voters = []
-    for i in range (30000):
+    for i in range (100000):
         voters.append(Voter("Voter"+str(i)))
     
     electionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")]), Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])], voters)
 
-    print("Number of simultaneous elections: %d, total candidates: %d" % (electionEvent.t, electionEvent.n))
+    print("Number of simultaneous elections: %d" %electionEvent.t)
     print("Number of voters: %d" % electionEvent.N)
     for el in electionEvent.elections:
         print("Election %s, candidates:" % el)
@@ -32,7 +32,7 @@ def main():
 
     # Set up parallel GenElectorateData call
     output = mp.Queue()
-    processes = [mp.Process(target=GenElectorateData, args=(True, x, output, electionEvent.n, 10, electionEvent.E,electionEvent,)) for x in range(mp.cpu_count())]
+    processes = [mp.Process(target=GenElectorateData, args=(True, x, output, electionEvent.n, [1,1], electionEvent.E,electionEvent,)) for x in range(mp.cpu_count())]
     # Run processes
     for p in processes:
         p.start()
@@ -53,7 +53,7 @@ def main():
     # test without multiprocessing
     print("Generate electorate data (single process)")
     start_time = time.time()    
-    d,d_2, P, K = GenElectorateData(False, None, None, electionEvent.n, 10, electionEvent.E, electionEvent, SECURITYCONTEXT_L3)
+    d,d_2, P, K = GenElectorateData(False, None, None, electionEvent.n, [1,1], electionEvent.E, electionEvent, SECURITYCONTEXT_L3)
     print("Elapsed time: %f s" % (time.time() - start_time))
 
 if __name__ == '__main__':

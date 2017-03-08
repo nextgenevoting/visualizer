@@ -2,7 +2,7 @@ import gmpy2
 from gmpy2 import mpz
 import unittest
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
-from Utils import ToInteger, AssertInt
+from Utils import ToInteger, AssertInt, AssertList
 from Crypto.GenPoints import GenPoints
 from Crypto.GenSecretVoterData import GenSecretVoterData
 from Crypto.GetPublicVoterData import GetPublicVoterData
@@ -11,25 +11,28 @@ import multiprocessing as mp
 
 
 
-def GenElectorateData(parallelize, index, outQueue, n, k,E, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
+def GenElectorateData(parallelize, index, outQueue, n, k, E, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
     """
     Algorithm 7.6: Generates the data for the whole electorate    
 
-    @type   n:  int
-    @param  n:  Number of candidates n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
+    @type   n:  list
+    @param  n:  List with number of candidates n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
 
-    @type   k:  int
-    @type   k:  Number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
+    @type   k:  list
+    @type   k:  Number of selections k = (k_1, ..., k_t), 0 <= kj <= nj, kj = 0 means ineligible
 
     @type   E:  [int][int]
-    @type   E:  Eligibility matrix
+    @type   E:  Eligibility matrix [N][t]
 
     @rtype:     Tuple
     @return:    (d, d^, P, K)
-    """      
+    """
+    AssertList(n)
+    AssertList(k)
+
     d = []
     d_2 = []
-    K = []
+    K = []      #  precomputed selection matrix Nxt
     P = []
     
     rangeStart = 0
@@ -44,22 +47,21 @@ def GenElectorateData(parallelize, index, outQueue, n, k,E, electionEvent, ctx =
             partSize = partSize + electionEvent.N % cpuCount
         rangeEnd = rangeStart + partSize    
     
-    for i in range (rangeStart, rangeEnd):
-        eligibilityCount = 0
-        Ktemp = []
+    for i in range (rangeStart, rangeEnd):  # loop over N (all voters)       
+        Ki = []
         for j in range(0, electionEvent.t):
-            eligibilityCount += E[i][j]
-            Ktemp.append(E[i][j])
+            kij = E[i][j] * k[j]             # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
+            Ki.append(kij)
         
         # generate n random points
-        p, y = GenPoints(n, eligibilityCount, electionEvent, ctx)        
+        p, y = GenPoints(n, Ki, electionEvent, ctx)        
         # generate x, y values, finalization code and return codes
         x,y,F,R = GenSecretVoterData(p, electionEvent, ctx)
         
         # prepare return values
         d.append((x,y,F,R))                     # private voter data        
         d_2.append(GetPublicVoterData(x,y,ctx)) # public voter data
-        K.append(Ktemp)                         # precalculated: eligibility for voter
+        K.append(Ki)                            # precomputed selection matrix Nxt
         P.append(p)                             # points on the polynomials
 
     if parallelize: outQueue.put((d, d_2, P, K))

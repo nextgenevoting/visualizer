@@ -3,7 +3,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 import unittest
-from Utils import ToInteger, AssertInt
+from Utils import ToInteger, AssertInt, AssertList
 from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L3
 from Crypto.GenPolynomial import GenPolynomial
 from Crypto.GetYValue import GetYValue
@@ -24,25 +24,24 @@ def GenPoints(n,k, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
     - k_j , 0 < k_j < n_j indicates the number of candidates a voter can select in each selection j and must be 0 < k_j < n_j
     - The total numberof selections over all elections  is therefore k = Sigma(j=1..t) k_j
 
-    @type   n:  int
-    @param  n:  NOT USED!!! Number of candidates n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
+    @type   n:  list
+    @param  n:  List containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
 
-    @type   k:  int
-    @type   k:  Number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
+    @type   k:  list
+    @type   k:  List containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
 
     @rtype:     Tuple
     @return:    (p,y)       p \in (Z_p^2)^n, y \in Z_q^t
     """    
-    AssertInt(n)
-    AssertInt(k)
+    AssertList(n)
+    AssertList(k)
 
-    i = 1
     points = []
     yValues = []
-    for j in electionEvent.elections:
-        a_j = GenPolynomial(k-1, ctx)     # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
+    for j in range(0, len(electionEvent.elections)):
+        a_j = GenPolynomial(k[j]-1, ctx)     # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
         X = []
-        for l in range(0, j.n):           # loop over all candidates of election j
+        for l in range(0, n[j]):           # loop over all candidates of election j
             x = 0
             # get a unique x from Z_p'
             while True:
@@ -53,7 +52,6 @@ def GenPoints(n,k, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
             y = GetYValue(x,a_j,ctx)      # get the corresponding y value of x on the polynomial a_j
             p = (x,y)                     # Point tuple
             points.append(p)              # part of the private voter data
-            i += 1            
         yValues.append(GetYValue(0,a_j, ctx))     # Point (0,Y(0))
 
     return (points, yValues)

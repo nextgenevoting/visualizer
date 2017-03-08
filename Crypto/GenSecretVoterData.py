@@ -24,7 +24,7 @@ def GenSecretVoterData(p, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
 
     F = Truncate(RecHash(p, ctx),ctx.Lf)        # Finalization code
     r = []                                      # Return codes
-    for i in range(0, electionEvent.n):
+    for i in range(0, len(p)):
         r.append(Truncate(RecHash(p[i], ctx), ctx.Lr))  
         
     return (x,y,F,r)

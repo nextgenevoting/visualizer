@@ -34,15 +34,15 @@ class ElectionEvent(object):
     @property
     def n(self):
         """
-        Returns the total number of candidates among all elections
+        Returns the number of candidates n  (n1,...,nt) n_j >= 2
 
         @rtype:     int
-        @return:    the total number of candidates among all elections of this election event
+        @return:    number of candidates n  pn1; : : : ; ntq, nj ¥ 2
         """
-        count = 0
+        n = []
         for election in self.elections:
-            count += election.n
-        return count
+            n.append(election.n)
+        return n
 
     @property
     def N(self):
