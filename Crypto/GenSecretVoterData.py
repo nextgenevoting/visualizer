@@ -1,12 +1,13 @@
 import gmpy2
 from gmpy2 import mpz
 import unittest
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
+from SecurityParams import secparams_def, secparams_l0, secparams_l3
 from Utils import Truncate, AssertList
 from Crypto.Random import randomMpz
 from RecHash import RecHash
+from math import floor
 
-def GenSecretVoterData(p, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
+def GenSecretVoterData(p, electionEvent, secparams = secparams_def):
     """
     Algorithm 7.10: Generates the secret data for a single voter, which is sent to the voter prior to an election event via the printing authority.
    
@@ -18,14 +19,15 @@ def GenSecretVoterData(p, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
     """   
     AssertList(p)
 
-    #todo: x und y zufällig aus q^'_x/s und q^'_y/s auswählen, aber was ist s???
-    x = mpz(1)
-    y = mpz(2)
+    q_hat_apos_x = floor(secparams.q_hat_X // secparams.s)
+    q_hat_apos_y = floor(secparams.q_hat_Y // secparams.s)
+    x = randomMpz(q_hat_apos_x)
+    y = randomMpz(q_hat_apos_y)
 
-    F = Truncate(RecHash(p, ctx),ctx.Lf)        # Finalization code
+    F = Truncate(RecHash(p, secparams),secparams.L_F)        # Finalization code
     r = []                                      # Return codes
     for i in range(0, len(p)):
-        r.append(Truncate(RecHash(p[i], ctx), ctx.Lr))  
+        r.append(Truncate(RecHash(p[i], secparams), secparams.L_R))  
         
     return (x,y,F,r)
 

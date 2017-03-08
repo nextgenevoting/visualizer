@@ -60,7 +60,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="ElectionEvent.py" />
-    <Compile Include="SecurityContext.py" />
+    <Compile Include="SecurityParams.py" />
     <Compile Include="Utils.py">
       <SubType>Code</SubType>
     </Compile>

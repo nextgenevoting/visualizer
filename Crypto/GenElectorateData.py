@@ -1,7 +1,7 @@
 import gmpy2
 from gmpy2 import mpz
 import unittest
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
+from SecurityParams import secparams_l0, secparams_l1, secparams_l2, secparams_l3, secparams_def
 from Utils import ToInteger, AssertInt, AssertList
 from Crypto.GenPoints import GenPoints
 from Crypto.GenSecretVoterData import GenSecretVoterData
@@ -11,7 +11,7 @@ import multiprocessing as mp
 
 
 
-def GenElectorateData(parallelize, index, outQueue, n, k, E, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
+def GenElectorateData(parallelize, index, outQueue, n, k, E, electionEvent, secparams = secparams_def):
     """
     Algorithm 7.6: Generates the data for the whole electorate    
 
@@ -31,7 +31,7 @@ def GenElectorateData(parallelize, index, outQueue, n, k, E, electionEvent, ctx 
     AssertList(k)
 
     d = []
-    d_2 = []
+    d_hat = []
     K = []      #  precomputed selection matrix Nxt
     P = []
     
@@ -48,24 +48,24 @@ def GenElectorateData(parallelize, index, outQueue, n, k, E, electionEvent, ctx 
         rangeEnd = rangeStart + partSize    
     
     for i in range (rangeStart, rangeEnd):  # loop over N (all voters)       
-        Ki = []
+        K_i = []
         for j in range(0, electionEvent.t):
-            kij = E[i][j] * k[j]             # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
-            Ki.append(kij)
+            k_ij = E[i][j] * k[j]             # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
+            K_i.append(k_ij)
         
         # generate n random points
-        p, y = GenPoints(n, Ki, electionEvent, ctx)        
+        p, y = GenPoints(n, K_i, electionEvent, secparams)        
         # generate x, y values, finalization code and return codes
-        x,y,F,R = GenSecretVoterData(p, electionEvent, ctx)
+        x,y,F,R = GenSecretVoterData(p, electionEvent, secparams)
         
         # prepare return values
         d.append((x,y,F,R))                     # private voter data        
-        d_2.append(GetPublicVoterData(x,y,ctx)) # public voter data
-        K.append(Ki)                            # precomputed selection matrix Nxt
+        d_hat.append(GetPublicVoterData(x,y,secparams)) # public voter data
+        K.append(K_i)                            # precomputed selection matrix Nxt
         P.append(p)                             # points on the polynomials
 
-    if parallelize: outQueue.put((d, d_2, P, K))
-    else: return (d, d_2, P, K)
+    if parallelize: outQueue.put((d, d_hat, P, K))
+    else: return (d, d_hat, P, K)
 
 
 # Unit Tests

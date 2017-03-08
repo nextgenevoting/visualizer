@@ -4,67 +4,76 @@ import hashlib
 from Utils import BitAbs
 from math import ceil, log2
 
-class SecurityContext(object):
+class SecurityParams(object):
     """
     This class holds all public security parameters used by many algorithms
     For every security level, a separate object should exist holding the corresponding values.
 
     For the purpose of easier unit testing, the parameters for securityLevel0 can be injected as an optional parameter
     """
-    hashFunc = None
+    hashFunc = None                                                 # the hashfunc to be used
     
     # Public crypto parameters
-    p = q = k = g = h = p_2 = q_2 = k_2 = g_2 = p_3 = L = Lm = 0         
+    p = q = k = g = h = p_hat = q_hat = k_hat = g_hat = p_hat = L = L_M = delta = tau = 0
         
+    s = 3                                                           # Number of authorities
     Nmax = 255                                                      # Max. Number of candidates
-    deterrenceFactor = 0.9999                                       # chance of an undetected attack = 1-deterrenceFactor
-    
+    epsilon = 0.9999                                                # deterrence factor --> The chance of an undetected attack is 1-deterrenceFactor    
+
+
     # Return code
-    Ar = ['A', 'B', 'C', 'D', 'E', 'F', 'G']                        # Return code alphabet
-    Lr = 2                                                          # Length of Returncodes in bytes    
-    lr = ceil((8*Lr+BitAbs(Nmax))/(log2(len(Ar))))                  # Length of return codes RCij (characters)
+    A_R = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']   # Return code alphabet
+    L_R = 2                                                          # Length of Returncodes in bytes    
+    l_R = ceil((8*L_R+BitAbs(Nmax))/(log2(len(A_R))))                  # Length of return codes in characters
     
     # Finalization code
-    Af = ['A', 'B', 'C', 'D', 'E', 'F', 'G']                        # Final. code alphabet
-    Lf = 2                                                          # Length of Finalizationcode in bytes
-    lf = ceil((8*Lf)/(log2(len(Af))))                               # Length of finalization codes FCi (characters)
+    A_F  = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']  # Final. code alphabet
+    L_F = 2                                                          # Length of finalizationcode in bytes
+    l_F = ceil((8*L_R)/(log2(len(A_F))))                               # Length of finalization codes in characters
 
     # Voting code
-    qx = 2 #??????????                                              # Upper bound of secret voting credential x
-    Ax = ['A', 'B', 'C', 'D', 'E', 'F', 'G']                        # Voting code alphabet
-    lx = ceil(BitAbs(qx)/(log2(len(Ax))))                           # Length of voting codes (characters)
+    q_hat_X = q_hat                                # Upper bound of secret voting credential x
+    A_X = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']   # Voting code alphabet
+    l_X = ceil(BitAbs(q_hat_X)/(log2(len(A_X))))                           # Length of voting codes (characters)
 
     # Confirmation code
-    qy = 2 #?????????                                               # Upper bound of secret confirmation credential y    
-    Ay = ['A', 'B', 'C', 'D', 'E', 'F', 'G']                        # Confirmation code alphabet
-    ly = ceil(BitAbs(qy)/(log2(len(Ay))))                           # Length of confirmation codes (characters)
+    q_hat_Y = q_hat                                      # Upper bound of secret confirmation credential y    
+    A_Y = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']   # Confirmation code alphabet
+    l_Y = ceil(BitAbs(q_hat_Y)/(log2(len(A_Y))))                           # Length of confirmation codes in characters
            
     def hash(self, input):
-        hashFunc = hashlib.new('sha256')
+        hashFunc = hashlib.new('sha256')    # must be initialized every time before using hashFunc.update()
         hashFunc.update(input)
         hashByteLength = int(self.L // 8)
         return (hashFunc.digest())[0:hashByteLength]                # truncate the hash output to the hash length of the security level
 
-    def __init__(self, p, q, k, g, h, p_2, q_2, k_2, g_2, p_3, L):        
-        #super(SecurityContext, self).__setattr__("hashObj", hashlib.new('sha256')) 
+    def __init__(self, delta, tau, p, q, k, g, h, p_hat, q_hat, k_hat, g_hat, p_prime, L):
+        #super(SecurityParams, self).__setattr__("hashObj", hashlib.new('sha256')) 
 
+        self.delta = delta                  # Security strength delta in bits
+        self.tau = tau                      # Security strength tau in bits
         self.p = mpz(p)                     # Prime group order p
         self.q = mpz(q)                     # Safeprime group order q
         self.k = mpz(k)                     # k
         self.g = mpz(g)                     # Generator g
         self.h = mpz(h)                     # Generator h
-        self.p_2 = mpz(p_2)                 # p^
-        self.q_2 = mpz(q_2)                 # q^
-        self.k_2 = mpz(k_2)                 # k^
-        self.g_2 = mpz(g_2)                 # g^
-        self.p_3 = mpz(p_3)                 # p'
+        self.p_hat = mpz(p_hat)             # p^
+        self.q_hat = mpz(q_hat)             # q^
+        self.k_hat = mpz(k_hat)             # k^
+        self.g_hat = mpz(g_hat)             # g^
+        self.p_prime = mpz(p_prime)           # p'
         self.L = L                          # Hash Length in bits
-        self.Lm = 2*ceil(BitAbs(p_3)//8)    # Length of OT messages (bytes)
 
+        # calculated values:
+        self.q_hat_X = q_hat
+        self.q_hat_Y = q_hat
+        self.L_M = 2*ceil(BitAbs(p_prime)//8) # Length of OT messages (bytes)
 
 # global objects
 
-SECURITYCONTEXT_L0 = SecurityContext(
+secparams_l0 = SecurityParams(
+    4,
+    4,
     563, 
     281, 
     2, 
@@ -78,7 +87,9 @@ SECURITYCONTEXT_L0 = SecurityContext(
     8
 )
 
-SECURITYCONTEXT_L1 = SecurityContext(
+secparams_l1 = SecurityParams(
+    80,
+    80,
     0x80000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000001981BF,
     0x40000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000CC0DF, 
     2, 
@@ -92,7 +103,9 @@ SECURITYCONTEXT_L1 = SecurityContext(
     160
 )
 
-SECURITYCONTEXT_L2 = SecurityContext(
+secparams_l2 = SecurityParams(
+    112,
+    112,
     0x800000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000AD3AF,
     0x400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000569D7, 
     2, 
@@ -106,7 +119,9 @@ SECURITYCONTEXT_L2 = SecurityContext(
     224
 )
 
-SECURITYCONTEXT_L3 = SecurityContext(
+secparams_l3 = SecurityParams(
+    128,
+    128,
     0x8000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000006119DF,
     0x400000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000308CEF, 
     2, 
@@ -120,4 +135,4 @@ SECURITYCONTEXT_L3 = SecurityContext(
     256
 )
 
-SECURITYCONTEXT_DEFAULT = SECURITYCONTEXT_L3
+secparams_def = secparams_l3

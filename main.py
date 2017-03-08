@@ -4,7 +4,7 @@ from ElectionEvent import ElectionEvent
 from Voter import Voter
 from Candidate import Candidate
 from Election import Election
-from SecurityContext import SECURITYCONTEXT_L3
+from SecurityParams import secparams_l3
 from Utils import AssertNummeric, isNummericType, ToByteArray
 from RecHash import RecHash
 from Crypto.GenElectorateData import GenElectorateData, GenElectorateData
@@ -15,7 +15,27 @@ import time
 def main():    
     # Set up a test election event
     voters = []
-    for i in range (100000):
+    for i in range (100):
+        voters.append(Voter("Voter"+str(i)))
+    
+    electionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")]), Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])], voters)
+
+    print("Number of simultaneous elections: %d" %electionEvent.t)
+    print("Number of voters: %d" % electionEvent.N)
+    for el in electionEvent.elections:
+        print("Election %s, candidates:" % el)
+        for c in el.candidates:
+            print("\t%s" % c.name)
+
+   
+    # Simulate generation of electorate data
+    print("Generate electorate data")
+    d,d_hat, P, K = GenElectorateData(False, None, None, electionEvent.n, [1,1], electionEvent.E, electionEvent, secparams_l3)
+    print("done")
+
+def parallelElectorateGenerationBenchmark():
+    voters = []
+    for i in range (100):
         voters.append(Voter("Voter"+str(i)))
     
     electionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")]), Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])], voters)
@@ -50,11 +70,6 @@ def main():
    
     print("Elapsed time: %f s" % (time.time() - start_time))
 
-    # test without multiprocessing
-    print("Generate electorate data (single process)")
-    start_time = time.time()    
-    d,d_2, P, K = GenElectorateData(False, None, None, electionEvent.n, [1,1], electionEvent.E, electionEvent, SECURITYCONTEXT_L3)
-    print("Elapsed time: %f s" % (time.time() - start_time))
 
 if __name__ == '__main__':
     main()

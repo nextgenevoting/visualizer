@@ -2,10 +2,10 @@ import gmpy2
 from gmpy2 import mpz
 from gmpy2 import jacobi
 import unittest
-from SecurityContext import SECURITYCONTEXT_DEFAULT
+from SecurityParams import secparams_def
 from Utils import AssertNummeric
 
-def IsMember(x, ctx=SECURITYCONTEXT_DEFAULT):
+def IsMember(x, secparams=secparams_def):
     """
     Algorithm 7.2: Checks if x P N is an element of Gq.
     The core of the algorithm is the computation of the Jacobi symbol
@@ -19,8 +19,8 @@ def IsMember(x, ctx=SECURITYCONTEXT_DEFAULT):
     """
     AssertNummeric(x)
 
-    if 1 <= x and x < ctx.p:
-        j = jacobi(x, ctx.p)
+    if 1 <= x and x < secparams.p:
+        j = jacobi(x, secparams.p)
 
         if j == 1:
             return True

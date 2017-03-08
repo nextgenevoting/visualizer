@@ -3,11 +3,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import unittest
 import gmpy2
 from gmpy2 import mpz
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
+from SecurityParams import secparams_def, secparams_l0, secparams_l3
 from Crypto.IsMember import IsMember
 from Utils import AssertInt
 
-def GetPrimes(n, ctx=SECURITYCONTEXT_DEFAULT):
+def GetPrimes(n, secparams=secparams_def):
     """
     Algorithm 7.1: Computes the first n prime numbers from Gq. The computation possibly
     fails if n is large and p is small, but this case is very unlikely in practice. In a more
@@ -29,9 +29,9 @@ def GetPrimes(n, ctx=SECURITYCONTEXT_DEFAULT):
         while True:
             x += 1 if x <= 2 else 2
 
-            if x >= ctx.p:
+            if x >= secparams.p:
                 return []                                # n is incompatible with p
-            if gmpy2.is_prime(x) and IsMember(x, ctx):   # see Alg. 7.2
+            if gmpy2.is_prime(x) and IsMember(x, secparams):   # see Alg. 7.2
                 break
 
         primes.append(x)
@@ -51,7 +51,7 @@ class GetPrimesTest(unittest.TestCase):
     def testPrimesForSecurityLevel0(self):
         # test if the 50 first primes of group G_563 (this corresponds to security level Lambda = 0) are correct
         # according to table 8.2 in the specification document
-        primes = GetPrimes(50, SECURITYCONTEXT_L0)
+        primes = GetPrimes(50, secparams_l0)
         self.assertTrue(primes[0] == 3)
         self.assertTrue(primes[1] == 7)
         self.assertTrue(primes[2] == 11)
@@ -70,7 +70,7 @@ class GetPrimesTest(unittest.TestCase):
     def testPrimesForSecurityLevel3(self):
         # test if the 50 first primes of group G_p for security level 3 are correct
         # according to table 8.12 in the specification document
-        primes = GetPrimes(50, SECURITYCONTEXT_L3)
+        primes = GetPrimes(50, secparams_l3)
         print(primes)
         self.assertTrue(primes[0] == 2)
         self.assertTrue(primes[1] == 3)

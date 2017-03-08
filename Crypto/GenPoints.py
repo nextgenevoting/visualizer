@@ -4,14 +4,14 @@ import gmpy2
 from gmpy2 import mpz
 import unittest
 from Utils import ToInteger, AssertInt, AssertList
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L3
+from SecurityParams import secparams_def, secparams_l3
 from Crypto.GenPolynomial import GenPolynomial
 from Crypto.GetYValue import GetYValue
 from Crypto.IsMember import IsMember
 from Crypto.Random import randomMpz
 from ElectionEvent import dummyElectionEvent
 
-def GenPoints(n,k, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
+def GenPoints(n,k, electionEvent, secparams = secparams_def):
     """
     Algorithm 7.7: Generates a list of n random points picket from t random polynomials
     A_j(X) of degree k_j - 1 (by picking n_j different random points from each polynomial).
@@ -39,20 +39,20 @@ def GenPoints(n,k, electionEvent, ctx = SECURITYCONTEXT_DEFAULT):
     points = []
     yValues = []
     for j in range(0, len(electionEvent.elections)):
-        a_j = GenPolynomial(k[j]-1, ctx)     # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
+        a_j = GenPolynomial(k[j]-1, secparams)     # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
         X = []
         for l in range(0, n[j]):           # loop over all candidates of election j
             x = 0
             # get a unique x from Z_p'
             while True:
-                x = randomMpz(ctx.p_3)
+                x = randomMpz(secparams.p_prime)
                 if x not in X:
                     X.append(x)
                     break;
-            y = GetYValue(x,a_j,ctx)      # get the corresponding y value of x on the polynomial a_j
+            y = GetYValue(x,a_j,secparams)      # get the corresponding y value of x on the polynomial a_j
             p = (x,y)                     # Point tuple
             points.append(p)              # part of the private voter data
-        yValues.append(GetYValue(0,a_j, ctx))     # Point (0,Y(0))
+        yValues.append(GetYValue(0,a_j, secparams))     # Point (0,Y(0))
 
     return (points, yValues)
 
@@ -61,7 +61,7 @@ class GenPointsTest(unittest.TestCase):
 
     def testOne(self):
         # generate dummy points
-        a = GenPoints(10, 5, dummyElectionEvent, SECURITYCONTEXT_L3)
+        a = GenPoints(10, 5, dummyElectionEvent, secparams_l3)
         
         # check if the number of points returned matches the total number of candidates
         self.assertTrue(len(a[0]) == dummyElectionEvent.n)

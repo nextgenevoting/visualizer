@@ -3,12 +3,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 import unittest
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0
+from SecurityParams import secparams_def, secparams_l0
 from Utils import ToInteger, AssertInt
 from Crypto.IsMember import IsMember
 from RecHash import RecHash
 
-def GetGenerators(n, ctx=SECURITYCONTEXT_DEFAULT):
+def GetGenerators(n, secparams=secparams_def):
     """
     Algorithm 7.3: Computes n independent generators of Gq. The algorithm is an adaption of the NIST standard FIPS PUB 186-4 [1, Appendix A.2.3].
     The string "chVote" guarantees that the resulting values are specific for chVote.
@@ -28,10 +28,10 @@ def GetGenerators(n, ctx=SECURITYCONTEXT_DEFAULT):
 
         while True:
             x += 1
-            h = mpz(ToInteger(RecHash(["chVote", i, x])) % ctx.p)
-            h = (h ** 2) % ctx.p
+            h = mpz(ToInteger(RecHash(["chVote", i, x])) % secparams.p)
+            h = (h ** 2) % secparams.p
 
-            if h not in (0, 1, ctx.h, ctx.g) and h not in generators:
+            if h not in (0, 1, secparams.h, secparams.g) and h not in generators:
                 break
 
         generators.append(h)

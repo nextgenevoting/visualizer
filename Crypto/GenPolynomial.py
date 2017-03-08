@@ -3,13 +3,13 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 import unittest
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
+from SecurityParams import secparams_def, secparams_l0, secparams_l3
 from Utils import ToInteger, AssertNummeric
 from Crypto.IsMember import IsMember
 from Crypto.Random import randomMpz
 from Utils import AssertInt
 
-def GenPolynomial(d, ctx = SECURITYCONTEXT_DEFAULT):
+def GenPolynomial(d, secparams = secparams_def):
     """
     Algorithm 7.8: Generates the coefficients a_0,...,a_d of a random polynomial A(X) = Sigma(i=0...d) a_i X^i mod p' of degree d >= 0. 
     The algorithm also accepts d = -1 as input, which we interpret as the polynomial A(X) = 0. 
@@ -28,9 +28,9 @@ def GenPolynomial(d, ctx = SECURITYCONTEXT_DEFAULT):
         return [0]
     else:
         for i in range (0, d):
-            a.append(randomMpz(ctx.p_3))
+            a.append(randomMpz(secparams.p_prime))
         # generate the last coefficient != 0
-        while a_d == 0: a_d = randomMpz(ctx.p_3)
+        while a_d == 0: a_d = randomMpz(secparams.p_prime)
         a.append(a_d)
     return a
         

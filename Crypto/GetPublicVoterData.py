@@ -3,11 +3,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 import unittest
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0, SECURITYCONTEXT_L3
+from SecurityParams import secparams_default, secparams_l0, secparams_l3
 from Utils import Truncate, AssertMpz, ToInteger
 from RecHash import RecHash
 
-def GetPublicVoterData(x, y , ctx = SECURITYCONTEXT_DEFAULT):
+def GetPublicVoterData(x, y, secparams = secparams_default):
     """
     Algorithm 7.11: Generates the public data for a single voter, which is sent to the bulletin board.
    
@@ -23,12 +23,12 @@ def GetPublicVoterData(x, y , ctx = SECURITYCONTEXT_DEFAULT):
     AssertMpz(x)
     AssertMpz(y)
 
-    h = ToInteger(RecHash(y, ctx)) % ctx.q_2
-    #x_2 = ctx.g_2 ** x % ctx.q_2
-    x_2 = gmpy2.powmod(ctx.g_2, x, ctx.q_2)
-#todo    y_2 = ctx.g_2 ** (y+h) % ctx.p_2
+    h = ToInteger(RecHash(y, secparams)) % secparams.q_hat
+    x_hat = gmpy2.powmod(secparams.g_hat, x, secparams.p_hat)
+    y_hat = gmpy2.powmod(secparams.g_hat, y+h, secparams.p_hat)    
 
-    return (x_2, y)
+
+    return (x_hat, y_hat) # as d_hat
 
 # Unit Tests
 class GetPublicVoterDataTest(unittest.TestCase):

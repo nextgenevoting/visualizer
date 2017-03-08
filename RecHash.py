@@ -1,10 +1,10 @@
 import unittest
 import gmpy2
 from gmpy2 import mpz
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L0
+from SecurityParams import secparams_def, secparams_l0
 from Utils import isNummericType, ToByteArray
 
-def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):        
+def RecHash(v, secparams=secparams_def):        
     """
     Algorithm 4.9: Computes the hash value h(v_1,...v_k) of multiple inputs v_1..v_k in a recursive manner.
 
@@ -23,30 +23,30 @@ def RecHash(v, ctx=SECURITYCONTEXT_DEFAULT):
         v0 = v[0] if isSingleElementOfList else v
         
         if isinstance(v0, bytearray) or v0.__class__.__name__ == 'bytes':
-            return ctx.hash(v0)
+            return secparams.hash(v0)
         if isinstance(v0, int) or v0.__class__.__name__ == 'mpz':
-           return ctx.hash(ToByteArray(v0))
+           return secparams.hash(ToByteArray(v0))
         if isinstance(v0, str):
-            return ctx.hash(v0.encode('utf-8'))
+            return secparams.hash(v0.encode('utf-8'))
         if isinstance(v0, list):
-            return RecHash(v0, ctx)
+            return RecHash(v0, secparams)
 
         return bytes()
     else:                               # if v is a list or a tuple
         res = bytearray()
         for vi in v:
             # performance optimization: Iteration instead of recursion 
-            # res +=  RecHash(vi, ctx)    # concatenate hashes           
+            # res +=  RecHash(vi, secparams)    # concatenate hashes           
             if isinstance(vi, bytearray) or vi.__class__.__name__ == 'bytes':
-                res += ctx.hash(vi)
+                res += secparams.hash(vi)
             if isinstance(vi, int) or vi.__class__.__name__ == 'mpz':
-               res += ctx.hash(ToByteArray(vi))
+               res += secparams.hash(ToByteArray(vi))
             if isinstance(vi, str):
-                res += ctx.hash(vi.encode('utf-8'))
+                res += secparams.hash(vi.encode('utf-8'))
             if isinstance(vi, list):
-                res += RecHash(vi, ctx)
+                res += RecHash(vi, secparams)
 
-        return ctx.hash(res)            # hash the concatenation of the hashes
+        return secparams.hash(res)            # hash the concatenation of the hashes
 
 # Unit Tests
 class RecHashTest(unittest.TestCase):

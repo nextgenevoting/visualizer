@@ -2,10 +2,10 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 import os
-from SecurityContext import SECURITYCONTEXT_DEFAULT, SECURITYCONTEXT_L3
+from SecurityParams import secparams_def, secparams_l3
 from Utils import AssertNummeric
 
-seed = int.from_bytes(os.urandom(SECURITYCONTEXT_DEFAULT.p.bit_length()), byteorder='big')
+seed = int.from_bytes(os.urandom(secparams_def.p.bit_length()), byteorder='big')
 rstate = gmpy2.random_state(seed)
 
 def randomMpz(n):
@@ -85,7 +85,7 @@ def randomEltMpz(g,q):
 # Unit Tests
 class randomMpzTest(unittest.TestCase):
     def testOne(self):
-        self.assertTrue(randomMpz(SECURITYCONTEXT_DEFAULT.p) in range(0,SECURITYCONTEXT_DEFAULT.p)) # TODO        
+        self.assertTrue(randomMpz(secparams_def.p) in range(0,secparams_def.p)) # TODO        
 
 if __name__ == '__main__':
     unittest.main()
