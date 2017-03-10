@@ -103,9 +103,6 @@ def ToInteger(B):
 
     return int.from_bytes(B, byteorder='big')
 
-def InverseRank(x,A,N,k,i):
-    return A[(x//N**(k-i-1)) % N]
-
 def ToString(x, k, A):
     """
     Algorithm 4.6: Computes a string representation of length k in big-endian order of a given non negative integer x in N
@@ -130,7 +127,7 @@ def ToString(x, k, A):
     N = len(A)  # N = |A|
 
     for i in reversed(range(0,k)):
-        s_k = InverseRank(x % N,A,N,k,i)
+        s_k = A[x % N]
         x = x // N
         S.insert(0,s_k)
 
@@ -205,9 +202,9 @@ class UtilsTest(unittest.TestCase):
         self.assertTrue(mpz(123) == ToInteger(ToByteArray(mpz(123))))
 
     def testToString(self):
-        A = ['A', 'B', 'C', 'D', 'E']   # Alphabet
-        k = 3
-        x = mpz(52342)
+        A = ['0', '1']   # Alphabet
+        k = 8
+        x = mpz(5)
         S = ToString(x,k,A)
         print(S)
 
