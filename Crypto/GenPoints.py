@@ -9,9 +9,8 @@ from Crypto.GenPolynomial import GenPolynomial
 from Crypto.GetYValue import GetYValue
 from Crypto.IsMember import IsMember
 from Crypto.Random import randomMpz
-from ElectionEvent import dummyElectionEvent
 
-def GenPoints(n,k, electionEvent, secparams = secparams_default):
+def GenPoints(n,k, t, secparams = secparams_default):
     """
     Algorithm 7.7: Generates a list of n random points picket from t random polynomials
     A_j(X) of degree k_j - 1 (by picking n_j different random points from each polynomial).
@@ -38,7 +37,7 @@ def GenPoints(n,k, electionEvent, secparams = secparams_default):
 
     points = []
     yValues = []
-    for j in range(0, len(electionEvent.elections)):
+    for j in range(0, t):
         a_j = GenPolynomial(k[j]-1, secparams)     # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
         X = []
         for l in range(0, n[j]):           # loop over all candidates of election j
@@ -61,7 +60,7 @@ class GenPointsTest(unittest.TestCase):
 
     def testOne(self):
         # generate dummy points
-        a = GenPoints(10, 5, dummyElectionEvent, secparams_l3)
+        a = GenPoints(10, 5, dummyElectionEvent.t, secparams_l3)
         
         # check if the number of points returned matches the total number of candidates
         self.assertTrue(len(a[0]) == dummyElectionEvent.n)

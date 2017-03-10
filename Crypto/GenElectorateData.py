@@ -11,7 +11,7 @@ import multiprocessing as mp
 
 
 
-def GenElectorateData(parallelize, index, outQueue, n, k, E, electionEvent, secparams = secparams_default):
+def GenElectorateData(parallelize, index, outQueue, n, k, E, N,t, secparams = secparams_default):
     """
     Algorithm 7.6: Generates the data for the whole electorate    
 
@@ -36,7 +36,7 @@ def GenElectorateData(parallelize, index, outQueue, n, k, E, electionEvent, secp
     P = []
     
     rangeStart = 0
-    rangeEnd = electionEvent.N
+    rangeEnd = N
     if parallelize:
         # partitioning for multiprocessing (example: 4 processes, 40003 voter. p1 generates for 0-9999, p2 for 10000-19999, p3 for 20000-29999, p4: 30000-40003)
         cpuCount =  mp.cpu_count()
@@ -49,14 +49,14 @@ def GenElectorateData(parallelize, index, outQueue, n, k, E, electionEvent, secp
     
     for i in range (rangeStart, rangeEnd):  # loop over N (all voters)       
         K_i = []
-        for j in range(0, electionEvent.t):
+        for j in range(0, t):
             k_ij = E[i][j] * k[j]             # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
             K_i.append(k_ij)
         
         # generate n random points
-        p, y = GenPoints(n, K_i, electionEvent, secparams)        
+        p, y = GenPoints(n, K_i, t, secparams)        
         # generate x, y values, finalization code and return codes
-        x,y,F,R = GenSecretVoterData(p, electionEvent, secparams)
+        x,y,F,R = GenSecretVoterData(p, secparams)
         
         # prepare return values
         d.append((x,y,F,R))                     # private voter data        

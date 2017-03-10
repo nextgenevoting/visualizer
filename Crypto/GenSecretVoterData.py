@@ -7,7 +7,7 @@ from Crypto.Random import randomMpz
 from RecHash import RecHash
 from math import floor
 
-def GenSecretVoterData(p, electionEvent, secparams = secparams_default):
+def GenSecretVoterData(p, secparams = secparams_default):
     """
     Algorithm 7.10: Generates the secret data for a single voter, which is sent to the voter prior to an election event via the printing authority.
    

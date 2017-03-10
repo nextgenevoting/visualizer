@@ -103,6 +103,40 @@ def ToInteger(B):
 
     return int.from_bytes(B, byteorder='big')
 
+def InverseRank(x,A,N,k,i):
+    return A[(x//N**(k-i-1)) % N]
+
+def ToString(x, k, A):
+    """
+    Algorithm 4.6: Computes a string representation of length k in big-endian order of a given non negative integer x in N
+
+    @type   x:  mpz
+    @param  x:  Integer x in N
+
+    @type   k:  int
+    @param  k:  String length k >= log_N x
+
+    @type   A:  list
+    @param  A:  Alphabet A = {c_1, ..., c_N}
+
+    @rtype:     string
+    @return:    The string representation of x
+    """
+    AssertMpz(x)
+    AssertInt(k)
+    AssertList(A)
+
+    S = []
+    N = len(A)  # N = |A|
+
+    for i in reversed(range(0,k)):
+        s_k = InverseRank(x % N,A,N,k,i)
+        x = x // N
+        S.insert(0,s_k)
+
+    return S
+
+
 
 def Truncate(B, l):
     """
@@ -165,12 +199,18 @@ class UtilsTest(unittest.TestCase):
 
         self.assertTrue(ToByteArray(16777216) == bytearray(b'\x01\x00\x00\x00'))
 
-    def testToByteArrayN(self):
-        self.assertTrue(False) # TODO
 
     def testToInteger(self):
         self.assertTrue(123 == ToInteger(ToByteArray(123)))
         self.assertTrue(mpz(123) == ToInteger(ToByteArray(mpz(123))))
+
+    def testToString(self):
+        A = ['A', 'B', 'C', 'D', 'E']   # Alphabet
+        k = 3
+        x = mpz(52342)
+        S = ToString(x,k,A)
+        print(S)
+
 
 if __name__ == '__main__':
     unittest.main()
