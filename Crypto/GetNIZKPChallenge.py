@@ -1,10 +1,13 @@
 import unittest
 import os, sys
 from gmpy2 import mpz
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from SecurityParams import secparams_default, secparams_l0, secparams_l3
-from Utils import AssertMpz, ToInteger
-from RecHash import RecHash
+
+from Utils.Utils        import AssertMpz
+from Utils.ToInteger    import ToInteger
+from SecurityParams     import secparams_default, secparams_l0, secparams_l3
+from RecHash            import RecHash
 
 def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
     """
@@ -32,7 +35,7 @@ def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
 
 class GetNIZKPChallengeTest(unittest.TestCase):
     def test(self):
-        self.AssertTrue(False) # TODO
+        self.assertTrue(False) # TODO
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,11 +1,13 @@
+import unittest
 import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 from gmpy2 import jacobi
-import unittest
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from Utils.Utils    import AssertNummeric
 from SecurityParams import secparams_default
-from Utils import AssertNummeric
 
 def IsMember(x, secparams=secparams_default):
     """

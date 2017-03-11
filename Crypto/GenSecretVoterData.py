@@ -1,14 +1,16 @@
+import unittest
 import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
-import unittest
-from SecurityParams import secparams_default, secparams_l0, secparams_l3
-from Utils import Truncate, AssertList
-from Crypto.Random import randomMpz
-from RecHash import RecHash
 from math import floor
-from Crypto.GenPoints import GenPoints
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from Utils.Utils        import Truncate, AssertList
+from SecurityParams     import secparams_default, secparams_l0, secparams_l3
+from Crypto.Random      import randomMpz
+from RecHash            import RecHash
+from Crypto.GenPoints   import GenPoints
 
 def GenSecretVoterData(p, secparams = secparams_default):
     """

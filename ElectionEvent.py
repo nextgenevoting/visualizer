@@ -1,11 +1,12 @@
+import unittest
 import gmpy2
 from gmpy2 import mpz
 import hashlib
-import unittest
 from array import array
-from Candidate import Candidate
-from Voter import Voter
-from Election import Election
+
+from Candidate  import Candidate
+from Voter      import Voter
+from Election   import Election
 
 class ElectionEvent(object):
     """
@@ -91,10 +92,9 @@ class ElectionEvent(object):
 
 dummyElectionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")]), Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])], [Voter("V1"), Voter("V2"), Voter("V3")])
 
-# Unit Tests
 class ElectionEventTest(unittest.TestCase):
     def testOne(self):
-        assertTrue(False)
+        self.assertTrue(False)
 
 if __name__ == '__main__':
     unittest.main()

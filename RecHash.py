@@ -1,8 +1,10 @@
 import unittest
 import gmpy2
 from gmpy2 import mpz
-from SecurityParams import secparams_default, secparams_l0
-from Utils import isNummericType, ToByteArray
+
+from Utils.Utils        import isNummericType
+from Utils.ToByteArray  import ToByteArray
+from SecurityParams     import secparams_default, secparams_l0
 
 def RecHash(v, secparams=secparams_default):
     """

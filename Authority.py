@@ -1,7 +1,8 @@
-from Crypto.GenElectorateData import GenElectorateData
-from SecurityParams import secparams_default
 import multiprocessing as mp
-from Crypto.GetPublicCredentials import GetPublicCredentials
+
+from Crypto.GenElectorateData       import GenElectorateData
+from SecurityParams                 import secparams_default
+from Crypto.GetPublicCredentials    import GetPublicCredentials
 
 class Authority(object):
     """

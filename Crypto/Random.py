@@ -1,11 +1,12 @@
-import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import unittest
+import os, sys
 import gmpy2
 from gmpy2 import mpz
-import os
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from Utils.Utils    import AssertNummeric
 from SecurityParams import secparams_default, secparams_l3
-from Utils import AssertNummeric
 
 seed = int.from_bytes(os.urandom(secparams_default.p.bit_length()), byteorder='big')
 rstate = gmpy2.random_state(seed)

@@ -1,21 +1,22 @@
 import gmpy2
-from gmpy2 import mpz
-from ElectionEvent import ElectionEvent
-from Voter import Voter
-from Candidate import Candidate
-from Election import Election
-from SecurityParams import secparams_l3
-from Utils import AssertNummeric, isNummericType, ToByteArray
-from RecHash import RecHash
-from Crypto.GenElectorateData import GenElectorateData, GenElectorateData
 import time
-from Authority import Authority
+from gmpy2 import mpz
 
+from Utils.Utils                import AssertNummeric, isNummericType
+from Utils.ToByteArray          import ToByteArray
+from ElectionEvent              import ElectionEvent
+from Voter                      import Voter
+from Candidate                  import Candidate
+from Election                   import Election
+from SecurityParams             import secparams_l3
+from RecHash                    import RecHash
+from Crypto.GenElectorateData   import GenElectorateData, GenElectorateData
+from Authority                  import Authority
 
 def main():
     # Set up a test election event
     voters = []
-    for i in range(100000):
+    for i in range(100):
         voters.append(Voter("Voter %d" % i))
 
     electionEvent = ElectionEvent(

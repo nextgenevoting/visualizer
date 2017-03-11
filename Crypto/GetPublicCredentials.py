@@ -1,11 +1,14 @@
+import unittest
 import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
-import unittest
-from SecurityParams import secparams_default, secparams_l0, secparams_l3
-from Utils import Truncate, AssertMpz, ToInteger
-from RecHash import RecHash
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from Utils.Utils        import Truncate, AssertMpz
+from Utils.ToInteger    import ToInteger
+from SecurityParams     import secparams_default, secparams_l0, secparams_l3
+from RecHash            import RecHash
 
 def GetPublicCredentials(D_hat, N, secparams = secparams_default):
     """

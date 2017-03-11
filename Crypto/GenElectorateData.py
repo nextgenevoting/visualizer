@@ -1,19 +1,22 @@
+import unittest
 import os, sys
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
-import unittest
-from SecurityParams import secparams_l0, secparams_l1, secparams_l2, secparams_l3, secparams_default
-from Utils import ToInteger, AssertInt, AssertList
-from Crypto.GenPoints import GenPoints
-from Crypto.GenSecretVoterData import GenSecretVoterData
-from Crypto.GetPublicVoterData import GetPublicVoterData
 from math import floor
 import multiprocessing as mp
-from Voter import Voter
-from ElectionEvent import ElectionEvent
-from Election import Election
-from Candidate import Candidate
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from Utils.Utils                import AssertInt, AssertList
+from Utils.ToInteger            import ToInteger
+from SecurityParams             import secparams_l0, secparams_l1, secparams_l2, secparams_l3, secparams_default
+from Crypto.GenPoints           import GenPoints
+from Crypto.GenSecretVoterData  import GenSecretVoterData
+from Crypto.GetPublicVoterData  import GetPublicVoterData
+from Voter                      import Voter
+from ElectionEvent              import ElectionEvent
+from Election                   import Election
+from Candidate                  import Candidate
 
 def GenElectorateData(parallelize, index, outQueue, n, k, E, N,t, secparams = secparams_default):
     """

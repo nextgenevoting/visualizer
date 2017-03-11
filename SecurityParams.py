@@ -1,8 +1,9 @@
+import hashlib
 import gmpy2
 from gmpy2 import mpz
-import hashlib
-from Utils import BitAbs
 from math import ceil, log2
+
+from Utils.Utils import BitAbs
 
 class SecurityParams(object):
     """

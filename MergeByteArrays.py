@@ -1,4 +1,5 @@
 import unittest
+
 from MergeBytes import MergeBytes
 
 def MergeByteArrays(B1, B2):
