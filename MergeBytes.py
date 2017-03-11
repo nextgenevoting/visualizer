@@ -7,14 +7,12 @@ def MergeBytes(b1, b2):
     both b1 and b2, whereas B[1] contains the four most significant from both b1
     and b2 (in alternating order).
 
-    @type  b1:  byte
-    @param b1:  byte 1
+    Args:
+        b1 (int):   byte 1
+        b2 (int):   byte 2
 
-    @type  b2:  byte
-    @param b2:  byte 1
-
-    @rtype:     bytearrarrayy
-    @return:    bytearray
+    Returns:
+        bytearray:  bytearray of the merged bytes
     """
 
     # For the better unterstanding of the algorithm, arithmetic operations

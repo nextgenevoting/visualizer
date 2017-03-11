@@ -8,14 +8,12 @@ def MergeByteArrays(B1, B2):
     If one byte array is longer than the other, the additional bytes are attached to
     the result.
 
-    @type  B1: bytearray
-    @param B1: bytearray 1
+    Args:
+        B1 (bytearray): byte array 1
+        B2 (bytearray): byte array 2
 
-    @type  B2: bytearray
-    @param B2: bytearray 2
-
-    @rtype:    bytearray
-    @return:   B1 and B2 merged
+    Returns:
+        bytearray:      B1 and B2 merged
     """
 
     m = min(len(B1), len(B2))
