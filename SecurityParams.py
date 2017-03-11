@@ -11,7 +11,6 @@ class SecurityParams(object):
 
     For the purpose of easier unit testing, the parameters for securityLevel0 can be injected as an optional parameter
     """
-    hashFunc = None                                                 # the hashfunc to be used
 
     # Public crypto parameters
     p = q = k = g = h = p_hat = q_hat = k_hat = g_hat = p_hat = L = L_M = delta = tau = 0
@@ -20,54 +19,53 @@ class SecurityParams(object):
     Nmax = 255                                                      # Max. Number of candidates
     epsilon = 0.9999                                                # deterrence factor --> The chance of an undetected attack is 1-deterrenceFactor
 
-
     # Return code
-    A_R = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']   # Return code alphabet
-    L_R = 2                                                          # Length of Returncodes in bytes
-    l_R = ceil((8*L_R+BitAbs(Nmax))/(log2(len(A_R))))                  # Length of return codes in characters
+    A_R = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Return code alphabet
+    L_R = 2                                                         # Length of Returncodes in bytes
+    l_R = ceil((8 * L_R + BitAbs(Nmax)) / log2(len(A_R)))           # Length of return codes in characters
 
     # Finalization code
-    A_F  = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']  # Final. code alphabet
-    L_F = 2                                                          # Length of finalizationcode in bytes
-    l_F = ceil((8*L_R)/(log2(len(A_F))))                               # Length of finalization codes in characters
+    A_F = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Final. code alphabet
+    L_F = 2                                                         # Length of finalizationcode in bytes
+    l_F = ceil(8 * L_R / log2(len(A_F)))                            # Length of finalization codes in characters
 
     # Voting code
-    q_hat_X = q_hat                                # Upper bound of secret voting credential x
-    A_X = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']   # Voting code alphabet
-    l_X = ceil(BitAbs(q_hat_X)/(log2(len(A_X))))                           # Length of voting codes (characters)
+    q_hat_X = q_hat                                                 # Upper bound of secret voting credential x
+    A_X = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Voting code alphabet
+    l_X = ceil(BitAbs(q_hat_X) / log2(len(A_X)))                    # Length of voting codes (characters)
 
     # Confirmation code
-    q_hat_Y = q_hat                                      # Upper bound of secret confirmation credential y
-    A_Y = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z']   # Confirmation code alphabet
-    l_Y = ceil(BitAbs(q_hat_Y)/(log2(len(A_Y))))                           # Length of confirmation codes in characters
+    q_hat_Y = q_hat                                                 # Upper bound of secret confirmation credential y
+    A_Y = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Confirmation code alphabet
+    l_Y = ceil(BitAbs(q_hat_Y) / log2(len(A_Y)))                    # Length of confirmation codes in characters
 
     def hash(self, input):
-        hashFunc = hashlib.new('sha256')    # must be initialized every time before using hashFunc.update()
+        hashFunc = hashlib.new('sha256')                            # must be initialized every time before using hashFunc.update()
         hashFunc.update(input)
         hashByteLength = int(self.L // 8)
-        return (hashFunc.digest())[0:hashByteLength]                # truncate the hash output to the hash length of the security level
+        return hashFunc.digest()[0:hashByteLength]                  # truncate the hash output to the hash length of the security level
 
     def __init__(self, delta, tau, p, q, k, g, h, p_hat, q_hat, k_hat, g_hat, p_prime, L):
         #super(SecurityParams, self).__setattr__("hashObj", hashlib.new('sha256'))
 
-        self.delta = delta                  # Security strength delta in bits
-        self.tau = tau                      # Security strength tau in bits
-        self.p = mpz(p)                     # Prime group order p
-        self.q = mpz(q)                     # Safeprime group order q
-        self.k = mpz(k)                     # k
-        self.g = mpz(g)                     # Generator g
-        self.h = mpz(h)                     # Generator h
-        self.p_hat = mpz(p_hat)             # p^
-        self.q_hat = mpz(q_hat)             # q^
-        self.k_hat = mpz(k_hat)             # k^
-        self.g_hat = mpz(g_hat)             # g^
-        self.p_prime = mpz(p_prime)           # p'
-        self.L = L                          # Hash Length in bits
+        self.delta = delta                                          # Security strength delta in bits
+        self.tau = tau                                              # Security strength tau in bits
+        self.p = mpz(p)                                             # Prime group order p
+        self.q = mpz(q)                                             # Safeprime group order q
+        self.k = mpz(k)                                             # k
+        self.g = mpz(g)                                             # Generator g
+        self.h = mpz(h)                                             # Generator h
+        self.p_hat = mpz(p_hat)                                     # p^
+        self.q_hat = mpz(q_hat)                                     # q^
+        self.k_hat = mpz(k_hat)                                     # k^
+        self.g_hat = mpz(g_hat)                                     # g^
+        self.p_prime = mpz(p_prime)                                 # p'
+        self.L = L                                                  # Hash Length in bits
 
         # calculated values:
         self.q_hat_X = q_hat
         self.q_hat_Y = q_hat
-        self.L_M = 2*ceil(BitAbs(p_prime)//8) # Length of OT messages (bytes)
+        self.L_M = 2 * ceil(BitAbs(p_prime) // 8)                   # Length of OT messages (bytes)
 
 # global objects
 

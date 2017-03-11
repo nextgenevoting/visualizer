@@ -8,7 +8,7 @@ from Utils import Truncate, AssertList
 from Crypto.Random import randomMpz
 from RecHash import RecHash
 from math import floor
-from GenPoints import GenPoints
+from Crypto.GenPoints import GenPoints
 
 def GenSecretVoterData(p, secparams = secparams_default):
     """

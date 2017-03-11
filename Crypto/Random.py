@@ -20,8 +20,8 @@ def randomMpz(n):
     Returns:
        mpz:     Random number < n
     """
-    return gmpy2.mpz_random(rstate, n)
 
+    return gmpy2.mpz_random(rstate, n)
 
 def randomBoundedMpz(lb, ub):
     """
@@ -35,7 +35,6 @@ def randomBoundedMpz(lb, ub):
        mpz:     Random numberr: lb < r < ub
     """
 
-
     return gmpy2.mpz_random(rstate, ub - lb) + lb
 
 def randomRelativePrimeMpz(n):
@@ -44,12 +43,10 @@ def randomRelativePrimeMpz(n):
 
     Args:
        n (int | mpz):       Group order
+
     Returns:
        mpz:     Random number < n
     """
-
-
-    r = 0
 
     while True:
         r = randomMpz(n)
@@ -58,7 +55,7 @@ def randomRelativePrimeMpz(n):
 
     return r
 
-def randomEltMpz(g,q):
+def randomEltMpz(g, q):
     """
     An algorithm for picking elements uniformly at random from G
 
@@ -70,11 +67,9 @@ def randomEltMpz(g,q):
        mpz:     Random group element
     """
 
-
     r = randomMpz(q)
 
     return g ** r
-
 
 # Unit Tests
 class randomMpzTest(unittest.TestCase):
@@ -83,9 +78,8 @@ class randomMpzTest(unittest.TestCase):
         self.assertTrue(randomMpz(secparams_default.p).bit_length() >= secparams_default.p.bit_length() - 10)
 
         for i in range(0,100):
-            r = randomBoundedMpz(2**1024,  2**1028).bit_length()
+            r = randomBoundedMpz(2 ** 1024,  2 ** 1028).bit_length()
             self.assertTrue(r >= 1024 and r <= 1028)
-
 
 if __name__ == '__main__':
     unittest.main()

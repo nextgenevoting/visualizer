@@ -15,13 +15,25 @@ from Authority import Authority
 def main():
     # Set up a test election event
     voters = []
-    for i in range (100):
-        voters.append(Voter("Voter"+str(i)))
+    for i in range(100000):
+        voters.append(Voter("Voter %d" % i))
 
-    electionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")]), Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])], voters)
+    electionEvent = ElectionEvent(
+        [ Election(
+            [ Candidate("Donald Trump")
+            , Candidate("Hillary Clinton")
+            , Candidate("Vladimir Putin")
+            ])
+        , Election(
+            [ Candidate("Yes")
+            , Candidate("No")
+            , Candidate("Empty")
+            ])
+        ], voters)
 
     print("Number of simultaneous elections: %d" %electionEvent.t)
     print("Number of voters: %d" % electionEvent.N)
+
     for el in electionEvent.elections:
         print("Election %s, candidates:" % el)
         for c in el.candidates:
@@ -30,8 +42,8 @@ def main():
 
     # set up s authority instances
     authorities = []
-    for j in range(0,secparams_l3.s):
-        authorities.append(Authority("S" + str(j)))
+    for j in range(0, secparams_l3.s):
+        authorities.append(Authority("S%d" % j))
 
 
     # Simulate generation of electorate data
