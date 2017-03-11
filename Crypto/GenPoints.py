@@ -16,21 +16,12 @@ def GenPoints(n,k, t, secparams = secparams_default):
     A_j(X) of degree k_j - 1 (by picking n_j different random points from each polynomial).
     Additional, the values y_j = A_j(0) are computed for all random polynomials and returned together with the random points.
 
-    remarks: 
-    - t stands for the number of simultaneous elections
-    - j \in {1, ..., t} is an identifier for the elections in an election event
-    - n_j >= 2 denotes the number of candidates in the j-th election of an election event
-    - k_j , 0 < k_j < n_j indicates the number of candidates a voter can select in each selection j and must be 0 < k_j < n_j
-    - The total numberof selections over all elections  is therefore k = Sigma(j=1..t) k_j
+    Args: 
+       n (list): A list containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
+       k (list):  A list containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
 
-    @type   n:  list
-    @param  n:  List containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
-
-    @type   k:  list
-    @type   k:  List containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
-
-    @rtype:     Tuple
-    @return:    (p,y)       p \in (Z_p^2)^n, y \in Z_q^t
+    Returns:
+       tuple:        (p,y), p \in (Z_p^2)^n, y \in Z_q^t    
     """    
     AssertList(n)
     AssertList(k)

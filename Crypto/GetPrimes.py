@@ -14,11 +14,11 @@ def GetPrimes(n, secparams=secparams_default):
     efficient implementation of this algorithm, the resulting list of primes is precomputed for
     the largest expected value n.
 
-    @type   n:  int
-    @param  n:  Number of primes to be calculated
+    Args:
+       n (int):     Number of primes to be calculated
 
-    @rtype:     list
-    @return:    a list with length n containing the first n prime numbers in G_p
+    Returns:
+       list:        A list with length n containing the first n prime numbers in G_p
     """
     AssertInt(n)
 

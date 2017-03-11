@@ -11,11 +11,11 @@ def GenSecretVoterData(p, secparams = secparams_default):
     """
     Algorithm 7.10: Generates the secret data for a single voter, which is sent to the voter prior to an election event via the printing authority.
    
-    @type   p:  list
-    @param  p:  A list of points
+    Args:
+       p (list):    A list of points
 
-    @rtype:     Tuple
-    @return:    Secret data
+    Returns:
+       tuple:   Secret voter data (x,y,F,r)
     """   
     AssertList(p)
 
@@ -35,7 +35,11 @@ def GenSecretVoterData(p, secparams = secparams_default):
 class GenSecretVoterDataTest(unittest.TestCase):
 
     def testOne(self):       
-        self.assertTrue(False)
+         # Test the secret values
+        # The elements of d must be tuples with 4 values
+        for di in d:
+            self.assertTrue(len(di) == 4 and di[0].__class__.__name__ == 'mpz' and di[1].__class__.__name__ == 'mpz' and isinstance(di[2], bytes) and isinstance(di[3], list))
+            self.assertTrue(len(di[3]) == electionEvent.n)
 
 if __name__ == '__main__':
     unittest.main()

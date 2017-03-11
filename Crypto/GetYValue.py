@@ -15,14 +15,12 @@ def GetYValue(x, a, secparams = secparams_default):
     Algorithm 7.9: Computes the value y = A(x) \in Z_p' obtained from evaluating the polynomial A(X) = Sigma(i=0...d) a_i X^i mod p' at position x. 
     The algorithm is an implementation of Horners method.
 
-    @type   x:  mpz
-    @param  x:  value x \in Z_p', normally mpz is used except for x = 0
-    
-    @type   a:  list
-    @param  a:  list of coefficients
+    Args:
+       x (mpz):     value x \in Z_p', normally mpz is used except for x = 0
+       a (list):    list of coefficients
 
-    @rtype:     mpz
-    @return:    the y value for x on the polynomial
+    Returns:
+       mpz:         the y value for x on the polynomial
     """
     AssertNummeric(x)
     AssertList(a)

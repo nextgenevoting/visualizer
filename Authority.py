@@ -27,17 +27,13 @@ class Authority(object):
         (Protocol 6.1) Every authority j in {1,...,s} calls GenElectorateData with n, k, E in order to (independently) generate
         the public election parameters for all voters.        
                 
-        @type   n:  list
-        @param  n:  List with number of candidates n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
+        Args:
+            n (list): List with number of candidates n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
+            E ([int][int]): Eligibility matrix [N][t] containing a bool value (1 = eligible, 0 = not eligible)
 
-        @type   k:  list
-        @type   k:  Number of selections k = (k_1, ..., k_t), 0 <= kj <= nj, kj = 0 means ineligible
+        Returns:
+            list:       d_hat_j, a list of public data of all voters, calculated by authority j
 
-        @type   E:  [int][int]
-        @type   E:  Eligibility matrix [N][t]
-        
-        @rtype:     list
-        @return:    d_hat_j, a list of public data of all voters, calculated by authority j
         """
         self.d_j, self.d_hat_j, self.P_j, self.K = GenElectorateData(False, None, None, n, k, E, N, t, secparams)        
         return self.d_hat_j
@@ -46,9 +42,10 @@ class Authority(object):
         """
         (Protocol 6.1) Every authority j in {1,...,s} calls GetPublicCredentials upon knowing the public data of the whole electorate D_hat.
         This algorithm outputs the two lists x_hat and y_hat of all public credentials, which are used to identify the voters during the vote casting and vote confirmation phases
-                
-        @type   D_hat:  list
-        @param  D_hat:  The public data of the whole electorate
+        
+        Args:
+           D_hat (list):        The public data of the whole electorate
+           N (int):         The number of voters
         """
         self.x_hat, self.y_hat = GetPublicCredentials(D_hat, N, secparams)
 

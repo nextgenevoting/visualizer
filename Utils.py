@@ -33,11 +33,11 @@ def BitAbs(i):
     """
     This algorithm implements the ||i|| operator used in the specification document, defined on page 11
 
-    @type   i:  number
-    @param  i:  The number to get the absolute value of
+    Args:
+       i (int | mpz):      The number to get the absolute value of
 
-    @rtype:     int
-    @return:    absolute bit length of i
+    Returns:
+       int:     absolute bit length of i
     """
 
     # return math.floor(math.log2(abs(i)))+1
@@ -50,11 +50,11 @@ def ToByteArray(x):
     """
     Algorithm 4.3: ToByteArray(x): Converts the given integer to a bytearray in big-endian byte order
 
-    @type   x   integer | mpz
-    @param  x:  The number to be converted to a bytearray
+    Args:
+       x (int | mpz):       The number to be converted to a bytearray
 
-    @rtype:     bytes
-    @return:    Immutable bytearray in big-endian byte order
+    Returns:
+       bytes:       Immutable bytearray in big-endian byte order
     """
     # this seems faster than the original code:
     x = int(x)
@@ -69,15 +69,13 @@ def ToByteArray(x):
 def ToByteArrayN(x, n):
     """
     Algorithm 4.4: ToByteArrayN(x, n): Converts the given integer to a bytearray of size n in big-endian byte order
+    
+    Args:
+       x (int | mpz):       The number to be converted into an array of bytes
+       n (int):             length of the output bytearray
 
-    @type   x   integer | mpz
-    @param  x:  The number to be converted into an array of bytes
-
-    @type   n   integer
-    @param  n:  length of the output bytearray
-
-    @rtype:     bytes
-    @return:    Immutable bytearray of size n in big-endian byte order
+    Returns:
+       bytes:       Immutable bytearray of size n in big-endian byte order
     """
 
     B = bytearray(n)
@@ -93,11 +91,11 @@ def ToInteger(B):
     """
     Algorithm 4.5: Computes a non-negative integer from a given byte array B. Leading zeros of B are ignored.
 
-    @type   B:  bytes
-    @param  B:  The bytearray to be converted to an integer
+    Args:
+       B (bytes):   The bytearray to be converted to an integer
 
-    @rtype:     integer
-    @return:    Integer
+    Returns:
+       int:         Integer
     """
     AssertBytes(B)
 
@@ -107,17 +105,13 @@ def ToString(x, k, A):
     """
     Algorithm 4.6: Computes a string representation of length k in big-endian order of a given non negative integer x in N
 
-    @type   x:  mpz
-    @param  x:  Integer x in N
+    Args:
+       x (mpz):     Integer x in N
+       k (int)      String length k >= log_N (x)
+       A (list)     Alphabet A = {c_1, ..., c_N}
 
-    @type   k:  int
-    @param  k:  String length k >= log_N x
-
-    @type   A:  list
-    @param  A:  Alphabet A = {c_1, ..., c_N}
-
-    @rtype:     string
-    @return:    The string representation of x
+    Returns:
+       string:      The string representation of x
     """
     AssertMpz(x)
     AssertInt(k)
@@ -139,14 +133,12 @@ def Truncate(B, l):
     """
     Helper function to truncate a bytearray to the given length
 
-    @type   B:  bytes
-    @param  B:  The bytes to be converted to an integer
+    Args:
+       B (bytes):   The bytes to be converted to an integer
+       l (int):     Length
 
-    @type   l:  int
-    @param  l:  The length
-
-    @rtype:     bytearray
-    @return:    Bytearray truncated to length l
+    Returns:
+       bytearray:   Bytearray truncated to length    
     """
 
     return B[0:l]

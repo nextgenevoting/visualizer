@@ -11,11 +11,11 @@ def IsMember(x, secparams=secparams_default):
     The core of the algorithm is the computation of the Jacobi symbol
     for which we refer to existing algorithms
 
-    @type   x:  mpz
-    @param  x:  The number to test x \in N
+    Args:
+       x (mpz):     The number to test x \in N
 
-    @rtype:     list
-    @return:    a list with length n containing the first n prime numbers in G_p
+    Returns:
+       list:        A list with length n containing the first n prime numbers in G_p
     """
     AssertNummeric(x)
 

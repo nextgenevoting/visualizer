@@ -8,11 +8,11 @@ def RecHash(v, secparams=secparams_default):
     """
     Algorithm 4.9: Computes the hash value h(v_1,...v_k) of multiple inputs v_1..v_k in a recursive manner.
 
-    @type   v:  list
-    @param  v:  Input values v_i \in  V_i, V_i unspecified, k >= 0
-
-    @rtype:     bytes
-    @return:    An immutable array of bytes representing the recursive hash of the input values with a length corresponding to the used hash function
+    Args:
+       v (list):        Input values v_i \in  V_i, V_i unspecified, k >= 0
+       
+    Returns:
+    bytes:         An immutable array of bytes representing the recursive hash of the input values with a length corresponding to the used hash function
     """     
     # check if v is a list
     isSingleElementOfList = False

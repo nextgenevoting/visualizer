@@ -12,11 +12,11 @@ def randomMpz(n):
     """
     An algorithm for picking elements uniformly at random from Z_n
 
-    @type   n:  int | mpz
-    @param  n:  The order of Z
-
-    @rtype:     mpz
-    @return:    Random number < n
+    Args:
+       n (int | mpz):       The order of Z
+    
+    Returns:
+       mpz:     Random number < n
     """    
     return gmpy2.mpz_random(rstate, n)
 
@@ -25,14 +25,12 @@ def randomBoundedMpz(lb, ub):
     """
     An algorithm for picking elements uniformly at random from Z_ub \ Z_lb
 
-    @type   lb:  int | mpz
-    @param  lb:  Lower bound
-
-    @type   ub:  int | mpz
-    @param  ub:  Upper bound
-
-    @rtype:     mpz
-    @return:    Random Integer < n
+    Args:
+       lb (int | mpz):       lower bound
+       ub (int | mpz):       upper bound
+    
+    Returns:
+       mpz:     Random numberr: lb < r < ub
     """    
     assertNummeric(lb)
     assertNummeric(ub)
@@ -44,11 +42,10 @@ def randomRelativePrimeMpz(n):
     """
     An algorithm for picking elements uniformly at random from Z_n^*
 
-    @type   n:  int | mpz
-    @param  n:  Group order
-
-    @rtype:     mpz
-    @return:    Random number < n
+    Args:
+       n (int | mpz):       Group order
+    Returns:
+       mpz:     Random number < n
     """   
     assertNummeric(n)
 
@@ -65,14 +62,12 @@ def randomEltMpz(g,q):
     """
     An algorithm for picking elements uniformly at random from G
 
-    @type   g:  int | mpz
-    @param  g:  generator
-
-    @type   q:  int | mpz
-    @param  q:  group order |G|
-
-    @rtype:     mpz
-    @return:    Random Integer < n
+    Args:
+       g (int | mpz):       generator
+       q (int | mpz):       group order |G|
+    
+    Returns:
+       mpz:     Random group element
     """  
     assertNummeric(g)
     assertNummeric(q)

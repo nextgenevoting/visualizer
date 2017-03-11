@@ -11,14 +11,12 @@ def GetPublicVoterData(x, y, secparams = secparams_default):
     """
     Algorithm 7.11: Generates the public data for a single voter, which is sent to the bulletin board.
    
-    @type   x:  mpz
-    @param  x:  
+    Args:
+       x (mpz):     Voting credential
+       y (mpz):     Confirmation credential
 
-    @type   y:  mpz
-    @param  y:  
-
-    @rtype:     Tuple
-    @return:    Public data
+    Returns:
+       tuple:       Public data of a voter
     """ 
     AssertMpz(x)
     AssertMpz(y)
@@ -26,7 +24,6 @@ def GetPublicVoterData(x, y, secparams = secparams_default):
     h = ToInteger(RecHash(y, secparams)) % secparams.q_hat
     x_hat = gmpy2.powmod(secparams.g_hat, x, secparams.p_hat)
     y_hat = gmpy2.powmod(secparams.g_hat, y+h, secparams.p_hat)    
-
 
     return (x_hat, y_hat) # as d_hat
 

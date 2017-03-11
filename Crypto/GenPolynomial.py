@@ -15,11 +15,11 @@ def GenPolynomial(d, secparams = secparams_default):
     The algorithm also accepts d = -1 as input, which we interpret as the polynomial A(X) = 0. 
     In this case, the algorithm returns the coefficient list a = (0).
 
-    @type   d:  int
-    @param  d:  Degree d >= -1
+    Args:
+       d (int):     Degree d >= -1
 
-    @rtype:     list
-    @return:    a list of coefficients a_0 ... a_d of polynomial A(X)
+    Returns:
+       list:        A list of coefficients a_0 ... a_d of polynomial A(X)
     """
 
     a = []

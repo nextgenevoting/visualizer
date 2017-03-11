@@ -1,3 +1,5 @@
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 import unittest
@@ -8,24 +10,22 @@ from Crypto.GenSecretVoterData import GenSecretVoterData
 from Crypto.GetPublicVoterData import GetPublicVoterData
 from math import floor
 import multiprocessing as mp
-
-
+from Voter import Voter
+from ElectionEvent import ElectionEvent
+from Election import Election
+from Candidate import Candidate
 
 def GenElectorateData(parallelize, index, outQueue, n, k, E, N,t, secparams = secparams_default):
     """
     Algorithm 7.6: Generates the data for the whole electorate    
 
-    @type   n:  list
-    @param  n:  List with number of candidates n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
+    Args:
+       n (list):     A list containing the number of candidates: (n_1, ... , n_t)
+       k (list):     A list containing the number of possible selections per election: (k_1, ... , k_t)
+       E ([int][int]):       Eligibility matrix [N][t], 1 means eligible
 
-    @type   k:  list
-    @type   k:  Number of selections k = (k_1, ..., k_t), 0 <= kj <= nj, kj = 0 means ineligible
-
-    @type   E:  [int][int]
-    @type   E:  Eligibility matrix [N][t]
-
-    @rtype:     Tuple
-    @return:    (d, d^, P, K)
+    Returns:
+       tuple:       (d, d^, P, K)   
     """
     AssertList(n)
     AssertList(k)
@@ -61,7 +61,7 @@ def GenElectorateData(parallelize, index, outQueue, n, k, E, N,t, secparams = se
         # prepare return values
         d.append((x,y,F,R))                     # private voter data        
         d_hat.append(GetPublicVoterData(x,y,secparams)) # public voter data
-        K.append(K_i)                            # precomputed selection matrix Nxt
+        K.append(K_i)                           # precomputed selection matrix Nxt
         P.append(p)                             # points on the polynomials
 
     if parallelize: outQueue.put((d, d_hat, P, K))
@@ -71,8 +71,27 @@ def GenElectorateData(parallelize, index, outQueue, n, k, E, N,t, secparams = se
 # Unit Tests
 class GenElectorateDataTest(unittest.TestCase):
 
-    def testOne(self):       
-        self.assertTrue(False)
+    def testGenElectorateData(self):       
+        voters = []
+        votersCount = 10
+        for i in range (votersCount):
+            voters.append(Voter("Voter"+str(i)))
+    
+        electionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")]), Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])], voters)
+
+        d, d_hat, P, K = GenElectorateData(False, None, None, electionEvent.n, [1,1], electionEvent.E, electionEvent.N, electionEvent.t)
+        
+        # Test if len(d) matches the number of voters
+        self.assertTrue(len(d) == votersCount)
+        
+        # Check the secret voter data
+        # The elements of d must be tuples with 4 values
+        for di in d:
+            self.assertTrue(len(di) == 4 and di[0].__class__.__name__ == 'mpz' and di[1].__class__.__name__ == 'mpz' and isinstance(di[2], bytes) and isinstance(di[3], list))
+            self.assertTrue(len(di[3]) == electionEvent.n_total)
+
+
+        a = 1
 
 if __name__ == '__main__':
     unittest.main()

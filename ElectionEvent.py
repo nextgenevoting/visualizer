@@ -25,9 +25,9 @@ class ElectionEvent(object):
     def t(self):
         """
         Returns the number of simultaneous elections, t >= 1, j \in {1, ..., t} identifies the election in an election event
-
-        @rtype:     int
-        @return:    the number of simultaneous elections
+        
+        Returns:
+           int     the number of simultaneous elections
         """
         return len(self.elections)
         
@@ -36,8 +36,8 @@ class ElectionEvent(object):
         """
         Returns the number of candidates n  (n1,...,nt) n_j >= 2
 
-        @rtype:     int
-        @return:    number of candidates n  pn1; : : : ; ntq, nj ¥ 2
+        Returns:
+           list:  A list of length t with the number of candidates per election
         """
         n = []
         for election in self.elections:
@@ -45,21 +45,32 @@ class ElectionEvent(object):
         return n
 
     @property
+    def n_total(self):
+        """
+        Returns the total number of candidates among all elections
+
+        Returns:
+           int:  The total number of candidates
+        """
+        count = 0;
+        for n_i in self.n:
+            count += n_i
+        return count
+
+    @property
     def N(self):
         """
         Returns the total number of eligible voters
 
-        @rtype:     int
-        @return:    the total number of eligible voters
+        Returns:
+           int:     the total number of eligible voters
         """
         return len(self.voters)
 
     def buildEligibilityMatrix(self):
         """
         Build the eligibility matrix E = (e_ij) N x t
-
-        @rtype:     void
-        @return:    
+        
         """
         self.E = [[0 for j in range(self.t)] for i in range(self.N)]
 
@@ -72,8 +83,8 @@ class ElectionEvent(object):
         """
         Returns the eligibility matrix E = (e_ij) N x t
 
-        @rtype:     [int][bool]
-        @return:    the eligibility matrix E = (e_ij) N x t
+        returns:
+            [int][int] Eligibility matrix E = (e_ij) N x t
         """
         return self.E
 
