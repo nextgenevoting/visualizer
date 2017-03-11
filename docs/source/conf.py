@@ -19,8 +19,8 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('C:\\Users\\hk\\Dropbox\\dev\\chvote'))
-sys.path.insert(0, os.path.abspath('C:\\Users\\hk\\Dropbox\\dev\\chvote\\Crypto'))
+sys.path.insert(0, os.path.abspath(os.path.join('..', '..')))
+sys.path.insert(0, os.path.abspath(os.path.join('..', '..', 'crypto')))
 
 
 # -- General configuration ------------------------------------------------
