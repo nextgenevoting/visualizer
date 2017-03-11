@@ -19,3 +19,22 @@ python3 FILE.py -v
 python3 -m unittest discover -p '*.py' -v
 ```
 
+## Sphinx Python Docs ##
+
+### Installation ###
+```bash
+pip install sphinx
+pip install sphinxcontrib-napoleon
+```
+
+### Add content ###
+In "docs/source" modify crypto.rst and chvote.rts.
+
+### Build ###
+From directory docs, run:
+```bash
+make html
+```
+
+
+
