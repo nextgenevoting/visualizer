@@ -1,3 +1,5 @@
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import unittest
 import gmpy2
 from gmpy2 import mpz
@@ -32,8 +34,6 @@ def randomBoundedMpz(lb, ub):
     Returns:
        mpz:     Random numberr: lb < r < ub
     """    
-    assertNummeric(lb)
-    assertNummeric(ub)
 
 
     return gmpy2.mpz_random(rstate, ub - lb) + lb
@@ -47,7 +47,7 @@ def randomRelativePrimeMpz(n):
     Returns:
        mpz:     Random number < n
     """   
-    assertNummeric(n)
+
 
     r = 0
 
@@ -69,8 +69,7 @@ def randomEltMpz(g,q):
     Returns:
        mpz:     Random group element
     """  
-    assertNummeric(g)
-    assertNummeric(q)
+
  
     r = randomMpz(q)
 
@@ -79,8 +78,14 @@ def randomEltMpz(g,q):
 
 # Unit Tests
 class randomMpzTest(unittest.TestCase):
-    def testOne(self):
-        self.assertTrue(randomMpz(secparams_default.p) in range(0,secparams_default.p)) # TODO        
+    def testBounds(self):
+        # check that the bit_length of the randomly generated number is close to the upper bound
+        self.assertTrue(randomMpz(secparams_default.p).bit_length() >= secparams_default.p.bit_length() - 10)
+
+        for i in range(0,100):
+            r = randomBoundedMpz(2**1024,  2**1028).bit_length()
+            self.assertTrue(r >= 1024 and r <= 1028)
+
 
 if __name__ == '__main__':
     unittest.main()

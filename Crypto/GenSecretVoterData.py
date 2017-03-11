@@ -1,3 +1,5 @@
+import os, sys
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 import gmpy2
 from gmpy2 import mpz
 import unittest
@@ -6,13 +8,14 @@ from Utils import Truncate, AssertList
 from Crypto.Random import randomMpz
 from RecHash import RecHash
 from math import floor
+from GenPoints import GenPoints
 
 def GenSecretVoterData(p, secparams = secparams_default):
     """
     Algorithm 7.10: Generates the secret data for a single voter, which is sent to the voter prior to an election event via the printing authority.
    
     Args:
-       p (list):    A list of points
+       p (list):    A list of n points = (p_1, ... , p_n) in Z_p'
 
     Returns:
        tuple:   Secret voter data (x,y,F,r)
@@ -25,7 +28,7 @@ def GenSecretVoterData(p, secparams = secparams_default):
     y = randomMpz(q_hat_apos_y)
 
     F = Truncate(RecHash(p, secparams),secparams.L_F)        # Finalization code
-    r = []                                      # Return codes
+    r = []                                                   # Return codes
     for i in range(0, len(p)):
         r.append(Truncate(RecHash(p[i], secparams), secparams.L_R))  
         
@@ -35,11 +38,17 @@ def GenSecretVoterData(p, secparams = secparams_default):
 class GenSecretVoterDataTest(unittest.TestCase):
 
     def testOne(self):       
-         # Test the secret values
-        # The elements of d must be tuples with 4 values
-        for di in d:
-            self.assertTrue(len(di) == 4 and di[0].__class__.__name__ == 'mpz' and di[1].__class__.__name__ == 'mpz' and isinstance(di[2], bytes) and isinstance(di[3], list))
-            self.assertTrue(len(di[3]) == electionEvent.n)
+         
+        # generate some points for 10 voters [5 per election]
+        points, yvalues = GenPoints([5,5], [3,2], 2)
+        x,y,F,r = GenSecretVoterData(points, secparams_l3)
+
+        # check that x and y are of type MPZ
+        self.assertTrue(x.__class__.__name__ == 'mpz' and y.__class__.__name__ == 'mpz')
+        # check that F is a byte array (bytes)
+        self.assertTrue(isinstance(F, bytes))                       
+        # check that r is a list of n return codes
+        self.assertTrue(isinstance(r, list) and len(r) == 10)
 
 if __name__ == '__main__':
     unittest.main()

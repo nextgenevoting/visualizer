@@ -17,11 +17,11 @@ def GenPoints(n,k, t, secparams = secparams_default):
     Additional, the values y_j = A_j(0) are computed for all random polynomials and returned together with the random points.
 
     Args: 
-       n (list): A list containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
+       n (list):  A list containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
        k (list):  A list containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
 
     Returns:
-       tuple:        (p,y), p \in (Z_p^2)^n, y \in Z_q^t    
+       tuple:        (p,y), points p in (Z_p^2)^n, and the y values of x=0 in Z_q^t    
     """    
     AssertList(n)
     AssertList(k)

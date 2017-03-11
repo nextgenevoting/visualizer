@@ -49,8 +49,6 @@ class GetGeneratorsTest(unittest.TestCase):
         x = GetGenerators(50)
         self.assertFalse(len(x) > len(set(x)))
 
-        # In the group G_281 (safeprime), the maximum number of unique generators we can get are 278:
-        # print(len(GetGenerators(278)))
 
 if __name__ == '__main__':
     unittest.main()
