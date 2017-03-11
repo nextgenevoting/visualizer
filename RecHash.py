@@ -14,7 +14,7 @@ def RecHash(v, secparams=secparams_default):
        v (list):        Input values v_i \in  V_i, V_i unspecified, k >= 0
 
     Returns:
-    bytes:         An immutable array of bytes representing the recursive hash of the input values with a length corresponding to the used hash function
+       bytes:           An immutable array of bytes representing the recursive hash of the input values with a length corresponding to the used hash function
     """
     # check if v is a list
     isSingleElementOfList = False

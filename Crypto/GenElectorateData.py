@@ -23,12 +23,12 @@ def GenElectorateData(parallelize, index, outQueue, n, k, E, N,t, secparams = se
     Algorithm 7.6: Generates the data for the whole electorate
 
     Args:
-       n (list):     A list containing the number of candidates: (n_1, ... , n_t)
-       k (list):     A list containing the number of possible selections per election: (k_1, ... , k_t)
-       E ([int][int]):       Eligibility matrix [N][t], 1 means eligible
+        n (list):     A list containing the number of candidates: (n_1, ... , n_t)
+        k (list):     A list containing the number of possible selections per election: (k_1, ... , k_t)
+        E ([int][int]):       Eligibility matrix [N][t], 1 means eligible
 
     Returns:
-       tuple:       (d, d^, P, K)
+        tuple:       (d, d^, P, K)
     """
     AssertList(n)
     AssertList(k)
@@ -63,7 +63,7 @@ def GenElectorateData(parallelize, index, outQueue, n, k, E, N,t, secparams = se
 
         # prepare return values
         d.append((x,y,F,R))                     # private voter data
-        d_hat.append(GetPublicVoterData(x,y,secparams)) # public voter data
+        d_hat.append(GetPublicVoterData(x,y, p, secparams)) # public voter data
         K.append(K_i)                           # precomputed selection matrix Nxt
         P.append(p)                             # points on the polynomials
 

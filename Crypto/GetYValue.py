@@ -14,7 +14,7 @@ from Crypto.GenPolynomial   import GenPolynomial, printPolynomial
 
 def GetYValue(x, a, secparams = secparams_default):
     """
-    Algorithm 7.9: Computes the value y = A(x) \in Z_p' obtained from evaluating the polynomial A(X) = Sigma(i=0...d) a_i X^i mod p' at position x.
+    Algorithm 7.9: Computes the value y = A(x) in Z_p' obtained from evaluating the polynomial A(X) = Sigma(i=0...d) a_i X^i mod p' at position x.
     The algorithm is an implementation of Horners method.
 
     Args:
@@ -45,7 +45,7 @@ class GetYValueTest(unittest.TestCase):
         # Test 1: Compare with manually calculated value
         a = [1,3,6,9,15]    # P(x) = 1 + 3x + 6x^2 + 9x^3 + 15x^4
         #solved with wolfram alpha: P(17) = y = (1+3*17 +6*17^2+9*17^3+15*17^4 )% 131 = 84
-        self.assertTrue(GetYValue(17, a, secparams_l0) == 84)
+        self.assertTrue(GetYValue(mpz(17), a, secparams_l0) == 84)
 
 if __name__ == '__main__':
     unittest.main()

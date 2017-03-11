@@ -25,5 +25,7 @@ class ToIntegerTest(unittest.TestCase):
         self.assertTrue(123 == ToInteger(ToByteArray(123)))
         self.assertTrue(mpz(123) == ToInteger(ToByteArray(mpz(123))))
 
+        self.assertEqual(ToInteger(b'\xff'), 255)
+
 if __name__ == '__main__':
     unittest.main()
