@@ -8,17 +8,17 @@ from RecHash import RecHash
 
 def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
     """
-    Algorithm 7.4: Computes a NIZKP challenge c ϵ Z_q for a given public value
+    Algorithm 7.4: Computes a NIZKP challenge c ∈ Z_q for a given public value
     y and a public commitment t. The domains Y and T of the input values are
     unspecified.
 
     Args:
-        y (int);    Public value
-        t (int):    Commitment
-        q (int):    Upper bound of challenge (q >= 2)
+        y (mpz);    Public value
+        t (mpz):    Commitment
+        q (mpz):    Upper bound of challenge (q >= 2)
 
     Returns:
-        c (int):    the NIZKP challenge
+        c (mpz):    The NIZKP challenge
     """
 
     AssertMpz(y)
