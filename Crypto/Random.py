@@ -16,10 +16,10 @@ def randomMpz(n):
 
     Args:
        n (int | mpz):       The order of Z
-    
+
     Returns:
        mpz:     Random number < n
-    """    
+    """
     return gmpy2.mpz_random(rstate, n)
 
 
@@ -30,10 +30,10 @@ def randomBoundedMpz(lb, ub):
     Args:
        lb (int | mpz):       lower bound
        ub (int | mpz):       upper bound
-    
+
     Returns:
        mpz:     Random numberr: lb < r < ub
-    """    
+    """
 
 
     return gmpy2.mpz_random(rstate, ub - lb) + lb
@@ -46,7 +46,7 @@ def randomRelativePrimeMpz(n):
        n (int | mpz):       Group order
     Returns:
        mpz:     Random number < n
-    """   
+    """
 
 
     r = 0
@@ -65,12 +65,12 @@ def randomEltMpz(g,q):
     Args:
        g (int | mpz):       generator
        q (int | mpz):       group order |G|
-    
+
     Returns:
        mpz:     Random group element
-    """  
+    """
 
- 
+
     r = randomMpz(q)
 
     return g ** r
@@ -89,4 +89,3 @@ class randomMpzTest(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
-    

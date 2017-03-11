@@ -13,13 +13,13 @@ from GenPoints import GenPoints
 def GenSecretVoterData(p, secparams = secparams_default):
     """
     Algorithm 7.10: Generates the secret data for a single voter, which is sent to the voter prior to an election event via the printing authority.
-   
+
     Args:
        p (list):    A list of n points = (p_1, ... , p_n) in Z_p'
 
     Returns:
        tuple:   Secret voter data (x,y,F,r)
-    """   
+    """
     AssertList(p)
 
     q_hat_apos_x = floor(secparams.q_hat_X // secparams.s)
@@ -30,15 +30,15 @@ def GenSecretVoterData(p, secparams = secparams_default):
     F = Truncate(RecHash(p, secparams),secparams.L_F)        # Finalization code
     r = []                                                   # Return codes
     for i in range(0, len(p)):
-        r.append(Truncate(RecHash(p[i], secparams), secparams.L_R))  
-        
+        r.append(Truncate(RecHash(p[i], secparams), secparams.L_R))
+
     return (x,y,F,r)
 
 # Unit Tests
 class GenSecretVoterDataTest(unittest.TestCase):
 
-    def testOne(self):       
-         
+    def testOne(self):
+
         # generate some points for 10 voters [5 per election]
         points, yvalues = GenPoints([5,5], [3,2], 2)
         x,y,F,r = GenSecretVoterData(points, secparams_l3)
@@ -46,7 +46,7 @@ class GenSecretVoterDataTest(unittest.TestCase):
         # check that x and y are of type MPZ
         self.assertTrue(x.__class__.__name__ == 'mpz' and y.__class__.__name__ == 'mpz')
         # check that F is a byte array (bytes)
-        self.assertTrue(isinstance(F, bytes))                       
+        self.assertTrue(isinstance(F, bytes))
         # check that r is a list of n return codes
         self.assertTrue(isinstance(r, list) and len(r) == 10)
 

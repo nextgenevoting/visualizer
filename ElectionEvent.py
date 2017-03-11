@@ -16,7 +16,7 @@ class ElectionEvent(object):
     voter = []
     E = []               # eligibility matrix E = (e_ij) N x t
 
-    def __init__(self, elections = [], voters = []):        
+    def __init__(self, elections = [], voters = []):
         self.elections = elections
         self.voters = voters
         self.buildEligibilityMatrix()
@@ -25,12 +25,12 @@ class ElectionEvent(object):
     def t(self):
         """
         Returns the number of simultaneous elections, t >= 1, j \in {1, ..., t} identifies the election in an election event
-        
+
         Returns:
            int     the number of simultaneous elections
         """
         return len(self.elections)
-        
+
     @property
     def n(self):
         """
@@ -70,7 +70,7 @@ class ElectionEvent(object):
     def buildEligibilityMatrix(self):
         """
         Build the eligibility matrix E = (e_ij) N x t
-        
+
         """
         self.E = [[0 for j in range(self.t)] for i in range(self.N)]
 
@@ -78,7 +78,7 @@ class ElectionEvent(object):
             for j in range(0, len(self.elections)):
                 self.E[i][j] = True         # 1 bit indicating whether or not the voter i is eligible in election j
 
- 
+
     def E(self):
         """
         Returns the eligibility matrix E = (e_ij) N x t
@@ -95,7 +95,7 @@ dummyElectionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candida
 class ElectionEventTest(unittest.TestCase):
     def testOne(self):
         assertTrue(False)
-      
+
 if __name__ == '__main__':
     unittest.main()
 

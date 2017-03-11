@@ -10,12 +10,12 @@ class Election(object):
     def addCandidate(self, candidate):
         self.candidates.append(candidate)
 
-    
+
     @property
     def n(self):   # numberOfCandidates
         """
         n_j >= 2 denotes the number of candidates in the j-th election of an election event
-       
+
         Returns:
            int:     The number of candidates (n_j) of the election (j)
         """

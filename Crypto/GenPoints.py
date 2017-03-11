@@ -16,13 +16,13 @@ def GenPoints(n,k, t, secparams = secparams_default):
     A_j(X) of degree k_j - 1 (by picking n_j different random points from each polynomial).
     Additional, the values y_j = A_j(0) are computed for all random polynomials and returned together with the random points.
 
-    Args: 
+    Args:
        n (list):  A list containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
        k (list):  A list containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
 
     Returns:
-       tuple:        (p,y), points p in (Z_p^2)^n, and the y values of x=0 in Z_q^t    
-    """    
+       tuple:        (p,y), points p in (Z_p^2)^n, and the y values of x=0 in Z_q^t
+    """
     AssertList(n)
     AssertList(k)
 
@@ -52,13 +52,13 @@ class GenPointsTest(unittest.TestCase):
     def testOne(self):
         # generate dummy points
         a = GenPoints(10, 5, dummyElectionEvent.t, secparams_l3)
-        
+
         # check if the number of points returned matches the total number of candidates
         self.assertTrue(len(a[0]) == dummyElectionEvent.n)
-        
+
         # check if the number of y values for x=0 matches the number of simult. elections (= the number of polynoms)
         self.assertTrue(len(a[1]) == dummyElectionEvent.t)
-        
+
         for point in a[0]:
             # check if each point consists of 2 mpz values
             self.assertTrue(len(point) == 2)

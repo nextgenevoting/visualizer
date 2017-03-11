@@ -12,12 +12,12 @@ import time
 from Authority import Authority
 
 
-def main():    
+def main():
     # Set up a test election event
     voters = []
     for i in range (100):
         voters.append(Voter("Voter"+str(i)))
-    
+
     electionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")]), Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])], voters)
 
     print("Number of simultaneous elections: %d" %electionEvent.t)
@@ -27,19 +27,19 @@ def main():
         for c in el.candidates:
             print("\t%s" % c.name)
 
-    
+
     # set up s authority instances
     authorities = []
     for j in range(0,secparams_l3.s):
         authorities.append(Authority("S" + str(j)))
 
-   
+
     # Simulate generation of electorate data
     D_hat = []
     print("Generate electorate data")
     for authority in authorities:
         d_hat_j = authority.PerformGenElectorateData(electionEvent.n, [1,1], electionEvent.E, electionEvent.N, electionEvent.t, secparams_l3)
-        D_hat.append(d_hat_j)    
+        D_hat.append(d_hat_j)
     print("done")
 
     for authority in authorities:

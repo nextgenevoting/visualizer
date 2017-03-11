@@ -59,7 +59,7 @@ def ToByteArray(x):
     # this seems faster than the original code:
     x = int(x)
     return x.to_bytes((x.bit_length() + 7) // 8, byteorder='big')
-   
+
     # Alternative without floating-point operations:
     #q, r = divmod(BitAbs(x),8)
     #q += bool(r)
@@ -69,7 +69,7 @@ def ToByteArray(x):
 def ToByteArrayN(x, n):
     """
     Algorithm 4.4: ToByteArrayN(x, n): Converts the given integer to a bytearray of size n in big-endian byte order
-    
+
     Args:
        x (int | mpz):       The number to be converted into an array of bytes
        n (int):             length of the output bytearray
@@ -138,7 +138,7 @@ def Truncate(B, l):
        l (int):     Length
 
     Returns:
-       bytearray:   Bytearray truncated to length    
+       bytearray:   Bytearray truncated to length
     """
 
     return B[0:l]
