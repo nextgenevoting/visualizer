@@ -24,15 +24,18 @@ def GenPolynomial(d, secparams = secparams_default):
        list:        A list of coefficients a_0 ... a_d of polynomial A(X)
     """
 
+    AssertInt(d)
+    assert(d >= -1)
+
     a = []
     a_d = 0
     if (d == -1):
         return [0]
     else:
         for i in range (0, d):
-            a.append(randomMpz(secparams.p_prime))
+            a.append(randomMpz(secparams.p_prime, secparams))
         # generate the last coefficient != 0
-        while a_d == 0: a_d = randomMpz(secparams.p_prime)
+        while a_d == 0: a_d = randomMpz(secparams.p_prime, secparams)
         a.append(a_d)
     return a
 

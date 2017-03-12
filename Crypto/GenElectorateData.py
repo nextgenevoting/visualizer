@@ -94,7 +94,5 @@ class GenElectorateDataTest(unittest.TestCase):
             self.assertTrue(len(di[3]) == electionEvent.n_total)
 
 
-        a = 1
-
 if __name__ == '__main__':
     unittest.main()

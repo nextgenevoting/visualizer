@@ -26,8 +26,8 @@ def GenSecretVoterData(p, secparams = secparams_default):
 
     q_hat_apos_x = floor(secparams.q_hat_X // secparams.s)
     q_hat_apos_y = floor(secparams.q_hat_Y // secparams.s)
-    x = randomMpz(q_hat_apos_x)
-    y = randomMpz(q_hat_apos_y)
+    x = randomMpz(q_hat_apos_x, secparams)
+    y = randomMpz(q_hat_apos_y, secparams)
 
     F = Truncate(RecHash(p, secparams),secparams.L_F)        # Finalization code
     r = []                                                   # Return codes

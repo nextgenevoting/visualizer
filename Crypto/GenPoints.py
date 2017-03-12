@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils            import AssertInt, AssertList
 from Utils.ToInteger        import ToInteger
-from SecurityParams         import secparams_default, secparams_l3
+from SecurityParams         import secparams_default, secparams_l3, secparams_l0
 from Crypto.GenPolynomial   import GenPolynomial
 from Crypto.GetYValue       import GetYValue
 from Crypto.IsMember        import IsMember
@@ -30,38 +30,38 @@ def GenPoints(n,k, t, secparams = secparams_default):
     AssertList(n)
     AssertList(k)
 
-    points = []
-    yValues = []
+    p = []
+    y = []
     for j in range(0, t):
-        a_j = GenPolynomial(k[j]-1, secparams)     # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
+        a_j = GenPolynomial(k[j]-1, secparams)          # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
         X = []
-        for l in range(0, n[j]):           # loop over all candidates of election j
+        for l in range(0, n[j]):                        # loop over all candidates of election j
             x = 0
             # get a unique x from Z_p'
             while True:
-                x = randomMpz(secparams.p_prime)
+                x = randomMpz(secparams.p_prime, secparams)
                 if x not in X:
                     X.append(x)
                     break;
-            y = GetYValue(x,a_j,secparams)      # get the corresponding y value of x on the polynomial a_j
-            p = (x,y)                     # Point tuple
-            points.append(p)              # part of the private voter data
-        yValues.append(GetYValue(0,a_j, secparams))     # Point (0,Y(0))
+            y_j = GetYValue(x,a_j,secparams)            # get the corresponding y value of x on the polynomial a_j
+            p_i = (x,y_j)                               # Point tuple
+            p.append(p_i)                               # part of the private voter data
+        y.append(GetYValue(0,a_j, secparams))       # Point (0,Y(0))
 
-    return (points, yValues)
+    return (p, y)
 
 # Unit Tests
 class GenPointsTest(unittest.TestCase):
 
     def testOne(self):
         # generate dummy points
-        points, yValues = GenPoints(dummyElectionEvent.n, [1,2], dummyElectionEvent.t, secparams_l3)
+        points, y = GenPoints(dummyElectionEvent.n, [1,2], dummyElectionEvent.t, secparams_l3)
 
         # check if the number of points returned matches the total number of candidates
         self.assertTrue(len(points) == dummyElectionEvent.n_total)
 
         # check if the number of y values for x=0 matches the number of simult. elections (= the number of polynoms)
-        self.assertTrue(len(yValues) == dummyElectionEvent.t)
+        self.assertTrue(len(y) == dummyElectionEvent.t)
 
         for point in points:
             # check if each point consists of 2 mpz values
@@ -71,6 +71,16 @@ class GenPointsTest(unittest.TestCase):
             # check if x and y of each point are mpz values
             self.assertTrue(point[0].__class__.__name__ == 'mpz')
             self.assertTrue(point[1].__class__.__name__ == 'mpz')
+
+    def testDeterministicGenPoints(self):
+        # Important! If deterministic random generation is enabled, and n > 1
+        # genPoints will loop forever because it cannot find 2 x values from Z_p'!
+        secparams = secparams_l0
+        # make sure determnistic random gen is enabled!
+        assert(secparams.deterministicRandomGen == True)
+        points, y = GenPoints([1], [1], 1, secparams)
+        i = 1
+
 
 if __name__ == '__main__':
     unittest.main()
