@@ -10,6 +10,7 @@ __pycache__
 *.user
 *.userosscache
 *.sln.docstates
+.idea/workspace.xml
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs

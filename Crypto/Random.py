@@ -19,7 +19,7 @@ def randomMpz(n, secparams = secparams_default):
        n (int | mpz):       The order of Z
 
     Returns:
-       mpz:     Random number < n (returns 2 if deterministic mode is activated)
+       mpz:     Random number < n (returns 2 if deterministic mode is set)
     """
     if not secparams.deterministicRandomGen:
         return gmpy2.mpz_random(rstate, n)
@@ -35,7 +35,7 @@ def randomBoundedMpz(lb, ub, secparams = secparams_default):
        ub (int | mpz):       upper bound
 
     Returns:
-       mpz:     Random number: lb < r < ub (returns lb if deterministic mode is activated)
+       mpz:     Random number: lb < r < ub (returns lb if deterministic mode is set)
     """
     assert(ub > lb)
 
@@ -53,7 +53,7 @@ def randomRelativePrimeMpz(n, secparams = secparams_default):
        n (int | mpz):       Group order
 
     Returns:
-       mpz:     Random number < n (returns 1 if deterministic mode is activated)
+       mpz:     Random number < n (returns 1 if deterministic mode is set)
     """
 
     # check for deterministic mode and return before doing the while True loop, otherwise (depending on the deterministic randomMpz result, we might end up being stuck in an endless loop
@@ -77,7 +77,7 @@ def randomEltMpz(g, q, secparams = secparams_default):
        q (int | mpz):       group order |G|
 
     Returns:
-       mpz:     Random group element (returns g^1 if deterministic mode is activated)
+       mpz:     Random group element (returns g^1 if deterministic mode is set)
     """
 
     r = randomMpz(q, secparams)
