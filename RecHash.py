@@ -16,48 +16,50 @@ def RecHash(v, secparams=secparams_default):
     Returns:
        bytes:           An immutable array of bytes representing the recursive hash of the input values with a length corresponding to the used hash function
     """
-    # check if v is a list
-    isSingleElementOfList = False
-    if isinstance(v,list) and len(v) == 1:
-            isSingleElementOfList = True
 
-    if not isinstance(v, list) and not isinstance(v, tuple) or isSingleElementOfList:   # single objects (int, string, bytearray, ...)
-        v0 = v[0] if isSingleElementOfList else v
+    # Check if v is a list with a single element. If this is the case,
+    # use the single element as the actual value and check again.
 
-        if isinstance(v0, bytearray) or v0.__class__.__name__ == 'bytes':
-            return secparams.hash(v0)
-        if isinstance(v0, int) or v0.__class__.__name__ == 'mpz':
-           return secparams.hash(ToByteArray(v0))
-        if isinstance(v0, str):
-            return secparams.hash(v0.encode('utf-8'))
-        if isinstance(v0, list):
-            return RecHash(v0, secparams)
+    while (isinstance(v, list) or isinstance(v, tuple)) and len(v) == 1:
+        v = v[0]
 
-        return bytes()
-    else:                               # if v is a list or a tuple
+    if isinstance(v, list) or isinstance(v, tuple):
         res = bytearray()
+
         for vi in v:
-            # performance optimization: Iteration instead of recursion
-            # res +=  RecHash(vi, secparams)    # concatenate hashes
+            # Performance optimization: iteration instead of recursion.
+            # res += RecHash(vi, secparams) # concatenate hashes
             if isinstance(vi, bytearray) or vi.__class__.__name__ == 'bytes':
                 res += secparams.hash(vi)
-            if isinstance(vi, int) or vi.__class__.__name__ == 'mpz':
-               res += secparams.hash(ToByteArray(vi))
-            if isinstance(vi, str):
+            elif isinstance(vi, int) or vi.__class__.__name__ == 'mpz':
+                res += secparams.hash(ToByteArray(vi))
+            elif isinstance(vi, str):
                 res += secparams.hash(vi.encode('utf-8'))
-            if isinstance(vi, list):
+            elif isinstance(vi, list) or isinstance(vi, tuple):
                 res += RecHash(vi, secparams)
+            else:
+                raise ValueError('Unable to handle input of type %s' % type(vi))
 
-        return secparams.hash(res)            # hash the concatenation of the hashes
+        # hash the concatenation of the hashes
+        return secparams.hash(res)
+    elif isinstance(v, bytearray) or v.__class__.__name__ == 'bytes':
+        return secparams.hash(v)
+    elif isinstance(v, int) or v.__class__.__name__ == 'mpz':
+        return secparams.hash(ToByteArray(v))
+    elif isinstance(v, str):
+        return secparams.hash(v.encode('utf-8'))
+    else:
+        raise ValueError('Unable to handle input of type %s' % type(v))
 
-# Unit Tests
 class RecHashTest(unittest.TestCase):
     def testOne(self):
-        self.assertTrue(RecHash(123) == RecHash(123))     # test for deterministic output
-        self.assertTrue(RecHash(123) == RecHash([123]))   # test if we avoid h(h(B1)) for a single input
-        self.assertTrue(RecHash(123) == RecHash([[123]]))
+        self.assertEqual(RecHash(123), RecHash(123))        # test for deterministic output
+        self.assertEqual(RecHash(123), RecHash([123]))      # test if we avoid h(h(B1)) for a single input
+        self.assertEqual(RecHash(123), RecHash([[123]]))
+        self.assertEqual(RecHash(123), RecHash([[[123]]]))
+        self.assertEqual(RecHash([[1,2,3,4]]), b'\xb9\xb64j\xe9\x03\xa4.\xbb\x05\xaa\xa8\x87\xb6\xcb33\xf8a\xde1\xf6wk\xb5\x040F<7/\x1d')
         self.assertTrue(len(RecHash(mpz(1234))) > 0)
-        self.assertTrue(len(RecHash([mpz(1234),mpz(2304)])) > 0)
+        self.assertTrue(len(RecHash([mpz(1234), mpz(2304)])) > 0)
 
 if __name__ == '__main__':
     unittest.main()
