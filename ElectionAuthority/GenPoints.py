@@ -5,14 +5,14 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertInt, AssertList
-from Utils.ToInteger        import ToInteger
-from SecurityParams         import secparams_default, secparams_l3, secparams_l0
-from Crypto.GenPolynomial   import GenPolynomial
-from Crypto.GetYValue       import GetYValue
-from Crypto.IsMember        import IsMember
-from Crypto.Random          import randomMpz
-from ElectionEvent          import dummyElectionEvent
+from Utils.Utils                        import AssertInt, AssertList
+from Utils.ToInteger                    import ToInteger
+from Utils.Random                       import randomMpz
+from SecurityParams                     import secparams_default, secparams_l3, secparams_l0
+from Crypto.IsMember                    import IsMember
+from ElectionAuthority.GenPolynomial    import GenPolynomial
+from ElectionAuthority.GetYValue        import GetYValue
+from ElectionEvent                      import dummyElectionEvent
 
 def GenPoints(n,k, t, secparams = secparams_default):
     """

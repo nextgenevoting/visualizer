@@ -7,16 +7,16 @@ import multiprocessing as mp
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                import AssertInt, AssertList
-from Utils.ToInteger            import ToInteger
-from SecurityParams             import secparams_l0, secparams_l1, secparams_l2, secparams_l3, secparams_default
-from Crypto.GenPoints           import GenPoints
-from Crypto.GenSecretVoterData  import GenSecretVoterData
-from Crypto.GetPublicVoterData  import GetPublicVoterData
-from Voter                      import Voter
-from ElectionEvent              import ElectionEvent
-from Election                   import Election
-from Candidate                  import Candidate
+from Utils.Utils                            import AssertInt, AssertList
+from Utils.ToInteger                        import ToInteger
+from SecurityParams                         import secparams_l0, secparams_l1, secparams_l2, secparams_l3, secparams_default
+from ElectionAuthority.GenPoints            import GenPoints
+from ElectionAuthority.GenSecretVoterData   import GenSecretVoterData
+from ElectionAuthority.GetPublicVoterData   import GetPublicVoterData
+from Voter                                  import Voter
+from ElectionEvent                          import ElectionEvent
+from Election                               import Election
+from Candidate                              import Candidate
 
 def GenElectorateData(parallelize, index, outQueue, n, k, E, N,t, secparams = secparams_default):
     """

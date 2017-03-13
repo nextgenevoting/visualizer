@@ -7,9 +7,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils        import AssertInt
 from Utils.ToInteger    import ToInteger
+from Utils.RecHash      import RecHash
 from SecurityParams     import secparams_default, secparams_l0
 from Crypto.IsMember    import IsMember
-from Crypto.RecHash     import RecHash
 
 def GetGenerators(n, secparams=secparams_default):
     """

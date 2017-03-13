@@ -6,11 +6,11 @@ from math import floor
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils        import Truncate, AssertList
-from SecurityParams     import secparams_default, secparams_l0, secparams_l3
-from Crypto.Random      import randomMpz
-from Crypto.RecHash     import RecHash
-from Crypto.GenPoints   import GenPoints
+from Utils.Utils                    import Truncate, AssertList
+from Utils.Random                   import randomMpz
+from Utils.RecHash                  import RecHash
+from SecurityParams                 import secparams_default, secparams_l0, secparams_l3
+from ElectionAuthority.GenPoints    import GenPoints
 
 def GenSecretVoterData(p, secparams = secparams_default):
     """
