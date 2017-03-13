@@ -5,7 +5,7 @@ test:
 	python3 -m unittest discover -p '*.py' -v
 
 clean:
-	rm -f *.pyc */*.pyc
-	rm -rf __pycache__
+	find . -type f -name '*.pyc' -print -delete
+	find . -type d -name __pycache__ -print -exec rm -rf {} \;
 
-.PHONY: help test
+.PHONY: help test clean
