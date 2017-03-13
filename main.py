@@ -8,7 +8,7 @@ from Voter                      import Voter
 from Candidate                  import Candidate
 from Election                   import Election
 from SecurityParams             import secparams_l3
-from RecHash                    import RecHash
+from Crypto.RecHash             import RecHash
 from Crypto.GenElectorateData   import GenElectorateData, GenElectorateData
 from Authority                  import Authority
 

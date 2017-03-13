@@ -9,7 +9,7 @@ from Utils.Utils        import AssertInt
 from Utils.ToInteger    import ToInteger
 from SecurityParams     import secparams_default, secparams_l0
 from Crypto.IsMember    import IsMember
-from RecHash            import RecHash
+from Crypto.RecHash     import RecHash
 
 def GetGenerators(n, secparams=secparams_default):
     """

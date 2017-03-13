@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils        import Truncate, AssertList
 from SecurityParams     import secparams_default, secparams_l0, secparams_l3
 from Crypto.Random      import randomMpz
-from RecHash            import RecHash
+from Crypto.RecHash     import RecHash
 from Crypto.GenPoints   import GenPoints
 
 def GenSecretVoterData(p, secparams = secparams_default):

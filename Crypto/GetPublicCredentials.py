@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils        import Truncate, AssertMpz
 from Utils.ToInteger    import ToInteger
 from SecurityParams     import secparams_default, secparams_l0, secparams_l3
-from RecHash            import RecHash
+from Crypto.RecHash     import RecHash
 
 def GetPublicCredentials(D_hat, N, secparams = secparams_default):
     """
