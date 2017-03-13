@@ -28,7 +28,7 @@ def GetPrimes(n, secparams=secparams_default):
     x = 1
     primes = []
 
-    for i in range(0, n):                                # i = 0, ... , n-1
+    for i in range(n):                                # i = 0, ... , n-1
         while True:
             x += 1 if x <= 2 else 2
 
