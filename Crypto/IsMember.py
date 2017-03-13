@@ -38,7 +38,7 @@ class GetPrimesTest(unittest.TestCase):
         dummySecParams = SecurityParams(4,4,
                 11,
                 5,
-                2,4,9,787,131,6,64,131,8)
+                2,4,9,787,131,6,64,131,8,True)
         self.assertTrue(IsMember(1,dummySecParams))
         self.assertFalse(IsMember(2, dummySecParams))
         self.assertTrue(IsMember(3, dummySecParams))
