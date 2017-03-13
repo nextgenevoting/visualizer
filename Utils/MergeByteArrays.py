@@ -1,6 +1,6 @@
 import unittest
 
-from MergeBytes import MergeBytes
+from Utils.MergeBytes import MergeBytes
 
 def MergeByteArrays(B1, B2):
     """
