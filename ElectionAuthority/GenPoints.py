@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils                        import AssertInt, AssertList
 from Utils.ToInteger                    import ToInteger
 from Utils.Random                       import randomMpz
-from SecurityParams                     import secparams_default, secparams_l3, secparams_l0
+from Crypto.SecurityParams              import secparams_default, secparams_l3, secparams_l0
 from Crypto.IsMember                    import IsMember
 from ElectionAuthority.GenPolynomial    import GenPolynomial
 from ElectionAuthority.GetYValue        import GetYValue

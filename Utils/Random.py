@@ -5,7 +5,7 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from SecurityParams import secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams import secparams_default, secparams_l0, secparams_l3
 
 seed = int.from_bytes(os.urandom(secparams_default.p.bit_length()), byteorder='big')
 rstate = gmpy2.random_state(seed)

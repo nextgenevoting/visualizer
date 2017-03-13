@@ -9,7 +9,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                            import AssertInt, AssertList
 from Utils.ToInteger                        import ToInteger
-from SecurityParams                         import secparams_l0, secparams_l1, secparams_l2, secparams_l3, secparams_default
+from Crypto.SecurityParams                  import secparams_l0, secparams_l1, secparams_l2, secparams_l3, secparams_default
 from ElectionAuthority.GenPoints            import GenPoints
 from ElectionAuthority.GenSecretVoterData   import GenSecretVoterData
 from ElectionAuthority.GetPublicVoterData   import GetPublicVoterData

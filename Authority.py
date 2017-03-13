@@ -1,6 +1,6 @@
 import multiprocessing as mp
 
-from SecurityParams                         import secparams_default
+from Crypto.SecurityParams                  import secparams_default
 from ElectionAuthority.GenElectorateData    import GenElectorateData
 from ElectionAuthority.GetPublicCredentials import GetPublicCredentials
 

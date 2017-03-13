@@ -4,10 +4,10 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils        import AssertMpz
-from Utils.ToInteger    import ToInteger
-from Utils.RecHash      import RecHash
-from SecurityParams     import secparams_default, secparams_l0, secparams_l3
+from Utils.Utils            import AssertMpz
+from Utils.ToInteger        import ToInteger
+from Utils.RecHash          import RecHash
+from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
 
 def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
     """

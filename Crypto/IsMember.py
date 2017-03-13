@@ -3,12 +3,12 @@ import os, sys
 import gmpy2
 from gmpy2 import mpz
 from gmpy2 import jacobi
-from SecurityParams import SecurityParams
+from Crypto.SecurityParams import SecurityParams
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils    import AssertNumeric
-from SecurityParams import secparams_default
+from Utils.Utils            import AssertNumeric
+from Crypto.SecurityParams  import secparams_default
 
 def IsMember(x, secparams=secparams_default):
     """

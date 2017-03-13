@@ -5,9 +5,9 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from SecurityParams     import secparams_default
-from Utils.Utils        import AssertMpz
-from Crypto.Random      import randomMpz
+from Utils.Utils            import AssertMpz
+from Crypto.SecurityParams  import secparams_default
+from Crypto.Random          import randomMpz
 
 def GenQuery(q, pk, secparams=secparams_default):
     """
