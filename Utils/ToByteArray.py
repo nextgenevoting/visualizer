@@ -2,6 +2,8 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 
+from Utils.Utils import AssertNumeric, AssertInt
+
 def ToByteArray(x):
     """
     Algorithm 4.3: ToByteArray(x): Converts the given integer to a bytearray in big-endian byte order
@@ -12,12 +14,13 @@ def ToByteArray(x):
     Returns:
        bytes:       Immutable bytearray in big-endian byte order
     """
+
     # this seems faster than the original code:
     x = int(x)
     return x.to_bytes((x.bit_length() + 7) // 8, byteorder='big')
 
     # Alternative without floating-point operations:
-    #q, r = divmod(BitAbs(x),8)
+    #q, r = divmod(BitAbs(x), 8)
     #q += bool(r)
 
     #return ToByteArrayN(x, q)
@@ -34,9 +37,12 @@ def ToByteArrayN(x, n):
        bytes:       Immutable bytearray of size n in big-endian byte order
     """
 
+    AssertNumeric(x)
+    AssertInt(n)
+
     B = bytearray(n)
 
-    for i in range(0, int(n)):
+    for i in range(n):
         b = x % 256
         x = x // 256                  # // = integer division => floor
         B.insert(0, b)
@@ -79,7 +85,9 @@ class UtilsTest(unittest.TestCase):
         self.assertTrue(ToByteArray(16777216) == bytearray(b'\x01\x00\x00\x00'))
 
     def testToByteArrayN(self):
-        self.assertTrue(False) # TODO
+        print(ToByteArrayN(0, 0), bytearray(b''))
+        print(ToByteArrayN(0, 1), bytearray(b'\x00'))
+        print(ToByteArrayN(0, 2), bytearray(b'\x00\x00'))
 
 if __name__ == '__main__':
     unittest.main()

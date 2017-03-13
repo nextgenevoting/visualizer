@@ -5,7 +5,7 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertNummeric, AssertList, AssertMpz
+from Utils.Utils            import AssertNumeric, AssertList, AssertMpz
 from Utils.ToInteger        import ToInteger
 from SecurityParams         import secparams_default, secparams_l0, secparams_l3
 from Crypto.IsMember        import IsMember
@@ -24,7 +24,7 @@ def GetYValue(x, a, secparams = secparams_default):
     Returns:
        mpz:         the y value for x on the polynomial
     """
-    AssertNummeric(x)
+    AssertNumeric(x)
     AssertList(a)
     assert(x.__class__.__name__ == 'mpz' and x > 0 or isinstance(x, int) and x == 0)    # check that x is only of type int if it's value is 0 (otherwise it must be mpz!)
 

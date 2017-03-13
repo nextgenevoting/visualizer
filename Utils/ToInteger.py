@@ -22,9 +22,8 @@ def ToInteger(B):
 
 class ToIntegerTest(unittest.TestCase):
     def testToInteger(self):
-        self.assertTrue(123 == ToInteger(ToByteArray(123)))
-        self.assertTrue(mpz(123) == ToInteger(ToByteArray(mpz(123))))
-
+        self.assertEqual(123, ToInteger(ToByteArray(123)))
+        self.assertEqual(mpz(123), ToInteger(ToByteArray(mpz(123))))
         self.assertEqual(ToInteger(b'\xff'), 255)
 
 if __name__ == '__main__':

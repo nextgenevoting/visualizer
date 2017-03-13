@@ -2,7 +2,6 @@ import gmpy2
 import time
 from gmpy2 import mpz
 
-from Utils.Utils                import AssertNummeric, isNummericType
 from Utils.ToByteArray          import ToByteArray
 from ElectionEvent              import ElectionEvent
 from Voter                      import Voter

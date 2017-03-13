@@ -5,7 +5,6 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils    import AssertNummeric
 from SecurityParams import secparams_default, secparams_l0, secparams_l3
 
 seed = int.from_bytes(os.urandom(secparams_default.p.bit_length()), byteorder='big')

@@ -36,8 +36,7 @@ class ToStringTest(unittest.TestCase):
         A = ['0', '1'] # Alphabet
         k = 8
         x = mpz(5)
-        S = ToString(x, k, A)
-        print(S)
+        self.assertEqual(ToString(x, k, A), ['0', '0', '0', '0', '0', '1', '0', '1'])
 
 if __name__ == '__main__':
     unittest.main()

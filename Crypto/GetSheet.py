@@ -18,6 +18,7 @@ def GetSheet(i, V, c, n, k, X, Y, FC, rc):
         string:     code sheet
     """
 
+    # TODO
     S = \
     """
     Voter {i}: {V}

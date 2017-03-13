@@ -7,11 +7,11 @@ from array import array
 # Assertions
 # Important: type() is very slow! use isinstance() instead!
 
-def AssertNummeric(i):
-    assert isinstance(i,int) or i.__class__.__name__ == 'mpz', 'Expected nummeric value!'
+def AssertNumeric(i):
+    assert isinstance(i, int) or i.__class__.__name__ == 'mpz', 'Expected nummeric value!'
 
 def AssertInt(i):
-    assert isinstance(i,int), 'Expected int!'
+    assert isinstance(i, int), 'Expected int!'
 
 def AssertMpz(i):
     assert i.__class__.__name__ == 'mpz', 'Expected mpz!'
@@ -20,10 +20,10 @@ def AssertBytes(B):
     assert B.__class__.__name__ == 'bytes' ,'Expected bytearray!'
 
 def AssertList(V):
-    assert isinstance(V,list), 'Expected list!'
+    assert isinstance(V, list), 'Expected list!'
 
-def isNummericType(i):
-    return isinstance(i,int) or i.__class__.__name__ == 'mpz'
+def isNumericType(i):
+    return isinstance(i, int) or i.__class__.__name__ == 'mpz'
 
 # CHVote helper methods
 
@@ -57,7 +57,6 @@ def Truncate(B, l):
 
     return B[0:l]
 
-# Unit Tests
 class UtilsTest(unittest.TestCase):
     def testBitAbs(self):
         # some value tests
@@ -69,7 +68,10 @@ class UtilsTest(unittest.TestCase):
         self.assertTrue(BitAbs(0) == 0)
 
     def testTruncate(self):
-        self.assertTrue(False) # TODO
+        B = bytearray(b'0123456789')
+
+        for i in range(10):
+            self.assertEqual(Truncate(B, i), B[0:i])
 
 if __name__ == '__main__':
     unittest.main()

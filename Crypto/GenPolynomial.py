@@ -5,7 +5,7 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils        import AssertNummeric, AssertInt
+from Utils.Utils        import AssertNumeric, AssertInt
 from Utils.ToInteger    import ToInteger
 from SecurityParams     import secparams_default, secparams_l0, secparams_l3
 from Crypto.IsMember    import IsMember

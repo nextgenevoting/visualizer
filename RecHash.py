@@ -2,7 +2,7 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 
-from Utils.Utils        import isNummericType
+from Utils.Utils        import isNumericType
 from Utils.ToByteArray  import ToByteArray
 from SecurityParams     import secparams_default, secparams_l0
 
