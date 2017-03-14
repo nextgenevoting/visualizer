@@ -3,13 +3,11 @@ class Election(object):
     The Election class represents a single election of an election event
     """
     candidates = []
+    k = None
 
-    def __init__(self, candidates = []):
+    def __init__(self, candidates, k):
         self.candidates = candidates
-
-    def addCandidate(self, candidate):
-        self.candidates.append(candidate)
-
+        self.k = k
 
     @property
     def n(self):   # numberOfCandidates

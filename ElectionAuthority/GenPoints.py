@@ -12,7 +12,6 @@ from Crypto.SecurityParams              import secparams_default, secparams_l3, 
 from Crypto.IsMember                    import IsMember
 from ElectionAuthority.GenPolynomial    import GenPolynomial
 from ElectionAuthority.GetYValue        import GetYValue
-from ElectionEvent                      import dummyElectionEvent
 
 def GenPoints(n,k, t, secparams = secparams_default):
     """
@@ -55,13 +54,14 @@ class GenPointsTest(unittest.TestCase):
 
     def testOne(self):
         # generate dummy points
-        points, y = GenPoints(dummyElectionEvent.n, [1,2], dummyElectionEvent.t, secparams_l3)
+        voters = [str("Voter%d" % i) for i in range(3)]
+        points, y = GenPoints([3, 3], [1, 1], 2, secparams_l3)
 
         # check if the number of points returned matches the total number of candidates
-        self.assertTrue(len(points) == dummyElectionEvent.n_total)
+        self.assertTrue(len(points) == 6)
 
         # check if the number of y values for x=0 matches the number of simult. elections (= the number of polynoms)
-        self.assertTrue(len(y) == dummyElectionEvent.t)
+        self.assertTrue(len(y) == 2)
 
         for point in points:
             # check if each point consists of 2 mpz values

@@ -6,56 +6,62 @@ from Utils.ToByteArray                      import ToByteArray
 from Utils.RecHash                          import RecHash
 from Crypto.SecurityParams                  import secparams_l3
 from ElectionAuthority.GenElectorateData    import GenElectorateData
-from ElectionEvent                          import ElectionEvent
-from Voter                                  import Voter
 from Candidate                              import Candidate
 from Election                               import Election
 from Authority                              import Authority
+from BulletinBoard                          import BulletinBoard
+from VoteClient                             import VoteClient
 
 def main():
-    # Set up a test election event
-    voters = []
-    for i in range(100):
-        voters.append(Voter("Voter %d" % i))
+    bulletinBoard = BulletinBoard()
 
-    electionEvent = ElectionEvent(
-        [ Election(
+    # Set up a test election event
+    voters = [str("Voter%d" %i) for i in range(10)]
+
+    elections = [
+        Election(
             [ Candidate("Donald Trump")
             , Candidate("Hillary Clinton")
             , Candidate("Vladimir Putin")
-            ])
+            ],1)
         , Election(
             [ Candidate("Yes")
             , Candidate("No")
             , Candidate("Empty")
-            ])
-        ], voters)
+            ],1)
+        ]
+    bulletinBoard.setupElectionEvent(voters, elections, [[True for el in elections] for v in voters])
 
-    print("Number of simultaneous elections: %d" %electionEvent.t)
-    print("Number of voters: %d" % electionEvent.N)
-
-    for el in electionEvent.elections:
-        print("Election %s, candidates:" % el)
-        for c in el.candidates:
-            print("\t%s" % c.name)
+    print("Number of simultaneous elections: %d" %bulletinBoard.t)
+    print("Number of voters: %d" % bulletinBoard.N)
+    print("Number of candidates: %d" % bulletinBoard.n_total)
 
 
-    # set up s authority instances
+    # set up s authorites
     authorities = []
     for j in range(0, secparams_l3.s):
         authorities.append(Authority("S%d" % j))
 
 
-    # Simulate generation of electorate data
+    # Run Protocol 6.1: Election Preparation
     D_hat = []
     print("Generate electorate data")
     for authority in authorities:
-        d_hat_j = authority.PerformGenElectorateData(electionEvent.n, [1,1], electionEvent.E, electionEvent.N, electionEvent.t, secparams_l3)
+        d_hat_j = authority.PerformGenElectorateData(bulletinBoard.n, [1,1], bulletinBoard.E, bulletinBoard.N, bulletinBoard.t, secparams_l3)
         D_hat.append(d_hat_j)
     print("done")
 
     for authority in authorities:
-        authority.PerformGetPublicCredentials(D_hat, electionEvent.N)
+        authority.PerformGetPublicCredentials(D_hat, bulletinBoard.N)
+
+    # TODO: Run Protocol 6.2
+
+    # TODO: Run Protocol 6.3
+
+    # TODO: Run Protocol 6.4: Candidate Selection
+    vc = VoteClient(1, bulletinBoard)
+    vc.candidateSelection()
+
 
 if __name__ == '__main__':
     main()

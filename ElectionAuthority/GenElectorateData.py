@@ -13,8 +13,6 @@ from Crypto.SecurityParams                  import secparams_l0, secparams_l1, s
 from ElectionAuthority.GenPoints            import GenPoints
 from ElectionAuthority.GenSecretVoterData   import GenSecretVoterData
 from ElectionAuthority.GetPublicVoterData   import GetPublicVoterData
-from Voter                                  import Voter
-from ElectionEvent                          import ElectionEvent
 from Election                               import Election
 from Candidate                              import Candidate
 
@@ -43,11 +41,11 @@ def GenElectorateData(parallelize, index, outQueue, n, k, E, N,t, secparams = se
     if parallelize:
         # partitioning for multiprocessing (example: 4 processes, 40003 voter. p1 generates for 0-9999, p2 for 10000-19999, p3 for 20000-29999, p4: 30000-40003)
         cpuCount =  mp.cpu_count()
-        partSize = electionEvent.N // cpuCount
+        partSize = N // cpuCount
         rangeStart = index * partSize
 
-        if (electionEvent.N % cpuCount) != 0 and index == cpuCount-1:
-            partSize = partSize + electionEvent.N % cpuCount
+        if (N % cpuCount) != 0 and index == cpuCount-1:
+            partSize = partSize + N % cpuCount
         rangeEnd = rangeStart + partSize
 
     for i in range (rangeStart, rangeEnd):  # loop over N (all voters)
@@ -75,23 +73,18 @@ def GenElectorateData(parallelize, index, outQueue, n, k, E, N,t, secparams = se
 class GenElectorateDataTest(unittest.TestCase):
 
     def testGenElectorateData(self):
-        voters = []
-        votersCount = 10
-        for i in range (votersCount):
-            voters.append(Voter("Voter"+str(i)))
+        voters = [str("Voter%d" % i) for i in range(3)]
 
-        electionEvent = ElectionEvent([Election([Candidate("Donald Trump"), Candidate("Hillary Clinton"), Candidate("Vladimir Putin")]), Election([Candidate("Yes"), Candidate("No"), Candidate("Empty")])], voters)
-
-        d, d_hat, P, K = GenElectorateData(False, None, None, electionEvent.n, [1,1], electionEvent.E, electionEvent.N, electionEvent.t)
+        d, d_hat, P, K = GenElectorateData(False, None, None, [3,3], [1,1], [[1,1],[1,1],[1,1]], 3, 2)
 
         # Test if len(d) matches the number of voters
-        self.assertTrue(len(d) == votersCount)
+        self.assertTrue(len(d) == len(voters))
 
         # Check the secret voter data
         # The elements of d must be tuples with 4 values
         for di in d:
             self.assertTrue(len(di) == 4 and di[0].__class__.__name__ == 'mpz' and di[1].__class__.__name__ == 'mpz' and isinstance(di[2], bytes) and isinstance(di[3], list))
-            self.assertTrue(len(di[3]) == electionEvent.n_total)
+            self.assertTrue(len(di[3]) == 6)    # total number of candidates
 
 
 if __name__ == '__main__':
