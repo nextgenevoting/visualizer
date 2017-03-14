@@ -4,7 +4,7 @@ from gmpy2 import mpz
 
 from Utils.ToByteArray                      import ToByteArray
 from Utils.RecHash                          import RecHash
-from Crypto.SecurityParams                  import secparams_l3
+from Crypto.SecurityParams                  import secparams_default
 from ElectionAuthority.GenElectorateData    import GenElectorateData
 from Candidate                              import Candidate
 from Election                               import Election
@@ -36,10 +36,9 @@ def main():
     print("Number of voters: %d" % bulletinBoard.N)
     print("Number of candidates: %d" % bulletinBoard.n_total)
 
-
     # set up s authorites
     authorities = []
-    for j in range(0, secparams_l3.s):
+    for j in range(0, secparams_default.s):
         authorities.append(Authority("S%d" % j))
 
 
@@ -47,16 +46,20 @@ def main():
     D_hat = []
     print("Generate electorate data")
     for authority in authorities:
-        d_hat_j = authority.PerformGenElectorateData(bulletinBoard.n, [1,1], bulletinBoard.E, secparams_l3)
-        D_hat.append(d_hat_j)
-    print("done")
-
+        D_hat.append(authority.PerformGenElectorateData(bulletinBoard.n, [1,1], bulletinBoard.E, secparams_default))
     for authority in authorities:
-        authority.PerformGetPublicCredentials(D_hat, bulletinBoard.N)
+        authority.PerformGetPublicCredentials(D_hat, bulletinBoard.N,secparams_default)
 
     # TODO: Run Protocol 6.2
 
     # TODO: Run Protocol 6.3
+    pk_shares = []
+    # Generate ElGamal key shares
+    for authority in authorities:
+        pk_shares.append(authority.PerformKeyGeneration(secparams_default))
+    # combine the resulting public key
+    for authority in authorities:
+        authority.PerformGetPublicKey(pk_shares, secparams_default)
 
     # TODO: Run Protocol 6.4: Candidate Selection
     vc = VoteClient(1, bulletinBoard)

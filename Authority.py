@@ -3,6 +3,8 @@ import multiprocessing as mp
 from Crypto.SecurityParams                  import secparams_default
 from ElectionAuthority.GenElectorateData    import GenElectorateData
 from ElectionAuthority.GetPublicCredentials import GetPublicCredentials
+from ElectionAuthority.GenKeyPair           import GenKeyPair
+from ElectionAuthority.GetPublicKey         import GetPublicKey
 
 class Authority(object):
     """
@@ -50,3 +52,29 @@ class Authority(object):
            N (int):         The number of voters
         """
         self.x_hat, self.y_hat = GetPublicCredentials(D_hat, N, secparams)
+
+
+    def PerformKeyGeneration(self, secparams = secparams_default):
+        """
+        (Protocol 6.3) Key Generation: In the last step of the election preparation, a public ElGamal encryption key pk ∈ G_q is
+        generated jointly by the election authorities.
+
+        Returns:
+            mpz:        pk
+        """
+        (sk_j, pk_j) = GenKeyPair(secparams)
+        return pk_j
+
+
+    def PerformGetPublicKey(self, pk, secparams = secparams_default):
+        """
+        (Protocol 6.3) GetPublicKey: Combining the s key shares of all authorities
+
+        Args:
+            pk (list):      Public Key Shares pk = (pk_1, ... , pk_s)
+
+        Returns:
+            mpz:            pk
+        """
+        pk = GetPublicKey(pk)
+        return pk
