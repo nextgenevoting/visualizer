@@ -1,7 +1,6 @@
 import unittest
 import os, sys
 import gmpy2
-from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -11,7 +10,7 @@ from Crypto.IsMember        import IsMember
 
 def GetPrimes(n, secparams=secparams_default):
     """
-    Algorithm 7.1: Computes the first n prime numbers from Gq. The computation possibly
+    Algorithm 7.1: Computes the first n prime numbers from G_q. The computation possibly
     fails if n is large and p is small, but this case is very unlikely in practice. In a more
     efficient implementation of this algorithm, the resulting list of primes is precomputed for
     the largest expected value n.

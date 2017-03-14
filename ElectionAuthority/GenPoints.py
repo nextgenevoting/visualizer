@@ -24,7 +24,7 @@ def GenPoints(n,k, t, secparams = secparams_default):
         k (list):  A list containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
 
     Returns:
-        tuple:        (p,y), points p in (Z_p^2)^n, and the y values of x=0 in Z_q^t
+        tuple:        (p,y), points p ∈ (Z_p^2)^n, and the y values of x=0 ∈ Z_q^t
     """
     AssertList(n)
     AssertList(k)
@@ -52,7 +52,7 @@ def GenPoints(n,k, t, secparams = secparams_default):
 # Unit Tests
 class GenPointsTest(unittest.TestCase):
 
-    def testOne(self):
+    def testGenPoints(self):
         # generate dummy points
         voters = [str("Voter%d" % i) for i in range(3)]
         points, y = GenPoints([3, 3], [1, 1], 2, secparams_l3)
@@ -72,7 +72,7 @@ class GenPointsTest(unittest.TestCase):
             self.assertTrue(point[0].__class__.__name__ == 'mpz')
             self.assertTrue(point[1].__class__.__name__ == 'mpz')
 
-    def testDeterministicGenPoints(self):
+    def testGenPointsL0(self):
         # Important! If deterministic random generation is enabled, and n > 1
         # genPoints will loop forever because it cannot find 2 x values from Z_p'!
         secparams = secparams_l0

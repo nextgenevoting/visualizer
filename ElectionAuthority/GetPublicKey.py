@@ -13,10 +13,10 @@ from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
 
 def GetPublicKey(pk, secparams=secparams_default):
     """
-    Algorithm 7.16: Computes a public ElGamal encryption key pk in G_q from given shares pk_j in G_q
+    Algorithm 7.16: Computes a public ElGamal encryption key pk ∈ G_q from given shares pk_j ∈ G_q
 
     Args:
-        pk (list):   List of public keys = (pk_1, ... , pk_s), pk_j in G_q
+        pk (list):   List of public keys = (pk_1, ... , pk_s), pk_j ∈ G_q
 
     Returns:
         mpz:    Public Key pk
@@ -31,7 +31,7 @@ def GetPublicKey(pk, secparams=secparams_default):
 
 
 class GetPublicKeyTest(unittest.TestCase):
-    def test(self):
+    def testGetPublicKey(self):
         pk = GetPublicKey([20,25,30], secparams_l0)
         self.assertEqual(pk, 362)  # 20 * 25 * 30 % secparams_l0 = 15000 % 563 = 362
 

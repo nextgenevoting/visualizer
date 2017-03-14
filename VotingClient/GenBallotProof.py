@@ -17,12 +17,12 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
     the public voting credential x_hat. Note that this is equivalent to a Schnorr Identification proof.
 
     Args:
-        x (mpz):    Voting credential in Z_q_hat
-        m (mpz):    Product of selected primes m in G_q
-        r (mpz):    Randomization r in Z_q
+        x (mpz):    Voting credential ∈ Z_q_hat
+        m (mpz):    Product of selected primes m ∈ G_q
+        r (mpz):    Randomization r ∈ Z_q
         a (mpz):    ElGamal Encryption
         b (mpz):    ElGamal Encryption
-        pk (mpz):   Encryption key pk in G_q
+        pk (mpz):   Encryption key pk ∈ G_q
 
     Returns:
         tuple:     ((t_1, t_2, t_3), (s_1, s_2, s_3))

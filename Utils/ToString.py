@@ -9,7 +9,7 @@ def ToString(x, k, A):
     Algorithm 4.6: Computes a string representation of length k in big-endian order of a given non negative integer x in N
 
     Args:
-       x (mpz):     Integer x in N
+       x (mpz):     Integer x ∈ N
        k (int)      String length k >= log_N (x)
        A (list)     Alphabet A = {c_1, ..., c_N}
 

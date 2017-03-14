@@ -34,3 +34,12 @@ def GetPublicCredentials(D_hat, N, secparams = secparams_default):
         x_hat.append(x_hat_i % secparams.p_hat)
         y_hat.append(y_hat_i % secparams.p_hat)
     return (x_hat, y_hat)
+
+# Unit Tests
+class GetPublicCredentialsTest(unittest.TestCase):
+
+    def testGetPublicCredentials(self):
+      self.assertTrue(False)
+
+if __name__ == '__main__':
+    unittest.main()

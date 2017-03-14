@@ -26,7 +26,7 @@ def GetSelectedPrimes(s, secparams=secparams_default):
     return q
 
 class GetSelectedPrimesTest(unittest.TestCase):
-    def testGetSelectedPrimes(self):
+    def testGetSelectedPrimesL0(self):
         self.assertEqual(GetSelectedPrimes([], secparams_l0), [])
         self.assertEqual(GetSelectedPrimes([1], secparams_l0), [2])
         self.assertEqual(GetSelectedPrimes([3], secparams_l0), [7])

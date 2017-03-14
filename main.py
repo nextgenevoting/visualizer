@@ -47,7 +47,7 @@ def main():
     D_hat = []
     print("Generate electorate data")
     for authority in authorities:
-        d_hat_j = authority.PerformGenElectorateData(bulletinBoard.n, [1,1], bulletinBoard.E, bulletinBoard.N, bulletinBoard.t, secparams_l3)
+        d_hat_j = authority.PerformGenElectorateData(bulletinBoard.n, [1,1], bulletinBoard.E, secparams_l3)
         D_hat.append(d_hat_j)
     print("done")
 

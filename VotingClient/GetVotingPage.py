@@ -16,13 +16,13 @@ def GetVotingPage(i, c, n, k):
     the scope of this document.
 
     Args:
-        i (int):    Voter index i in N
-        c (list):   Candidate descriptions c = (C_1, ..., C_n), c_i in A_UCS^*
+        i (int):    Voter index i ∈ N
+        c (list):   Candidate descriptions c = (C_1, ..., C_n), c_i ∈ A_UCS^*
         n (list):   Number of candidates n =(n_1, ..., n_t), n_j >= 2
         k (list):   Number of selections k = (k_1, ..., k_t), 0 <= k_j < n_j
 
     Returns:
-        string:     String P in A_UCS^* displayed to the voter
+        string:     String P ∈ A_UCS^* displayed to the voter
     """
     electionString = ""
     candidateIndex = 0

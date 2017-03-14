@@ -18,7 +18,7 @@ def GetPublicVoterData(x, y, yValues, secparams = secparams_default):
     Args:
        x (mpz):             Voting credential
        y (mpz):             Confirmation credential
-       yValues (list):      Values y in Z_p_prime ^t
+       yValues (list):      Values y ∈ Z_p_prime ^t
 
     Returns:
        tuple:               Public data of a voter
@@ -35,7 +35,7 @@ def GetPublicVoterData(x, y, yValues, secparams = secparams_default):
 # Unit Tests
 class GetPublicVoterDataTest(unittest.TestCase):
 
-    def testCompareWithManuallyCalculatedValues(self):
+    def testGetPublicVoterDataL0(self):
         # compare the algorithms result with some manually calculated data
         # we assume that h = 108 for y = 2 and q_hat = 131
         x_hat, y_hat = GetPublicVoterData(mpz(5), mpz(2), [1,2], secparams_l0);

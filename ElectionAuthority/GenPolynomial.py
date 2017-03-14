@@ -59,10 +59,10 @@ def printPolynomial(a):
 # Unit Tests
 class GenPolynomialTest(unittest.TestCase):
 
-    def testOne(self):
+    def testGenPolynomial(self):
         # check if a polynomial of degree x has x+1 coefficients
         for i in range(10):
-            polynomial = GenPolynomial(i)
+            polynomial = GenPolynomial(i,secparams_l3)
             print("Printing random polynomial of degree %d" %i)
             printPolynomial(polynomial)
             self.assertTrue(len(polynomial) == i+1)

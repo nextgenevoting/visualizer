@@ -39,7 +39,7 @@ def GenSecretVoterData(p, secparams = secparams_default):
 # Unit Tests
 class GenSecretVoterDataTest(unittest.TestCase):
 
-    def testOne(self):
+    def testGenSecretVoterData(self):
 
         # generate some points for 10 voters [5 per election]
         points, yvalues = GenPoints([5,5], [3,2], 2)
