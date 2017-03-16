@@ -1,6 +1,7 @@
 import unittest
 import os, sys
-import multiprocessing as mp
+import gmpy2
+from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -9,6 +10,7 @@ from Crypto.SecurityParams                  import secparams_l0, secparams_l1, s
 from ElectionAuthority.GenPoints            import GenPoints
 from ElectionAuthority.GenSecretVoterData   import GenSecretVoterData
 from ElectionAuthority.GetPublicVoterData   import GetPublicVoterData
+from TestParams                             import testparams
 
 def GenElectorateData(n, k, E, secparams = secparams_default):
     """
@@ -56,11 +58,11 @@ def GenElectorateData(n, k, E, secparams = secparams_default):
 class GenElectorateDataTest(unittest.TestCase):
 
     def testGenElectorateData(self):
-        # Test with 3 voters, 2 elections, 2*3 candidates
-        d, d_hat, P, K = GenElectorateData([3,3], [1,1], [[True, True],[True, True],[True, True]], secparams_l3)
+        # Test with 2 voters, 2 elections, 2*3 candidates
+        d, d_hat, P, K = GenElectorateData(testparams.n, testparams.k, testparams.E, secparams_l3)
 
         # Test if len(d) matches the number of voters (3)
-        self.assertTrue(len(d) == 3)
+        self.assertTrue(len(d) == 2)
 
         # Check the secret voter data
         # The elements of d must be tuples with 4 values
@@ -70,9 +72,11 @@ class GenElectorateDataTest(unittest.TestCase):
 
 
     def testGenElectorateDataL0(self):
-        # Test with 3 voters, 2 elections, 2*3 candidates
-        #d, d_hat, P, K = GenElectorateData([3,3], [1,1], [[True, True],[True, True],[True, True]], secparams_l0)
-        self.assertTrue(False)  # TODO
+        # Test with 2 voters, 2 elections, 2*3 candidates
+        d, d_hat, P, K = GenElectorateData(testparams.n, testparams.k, testparams.E, secparams_l0)
+
+        d_hat_manual =  [(mpz(161), mpz(253)), (mpz(161), mpz(253))]
+        self.assertEqual(d_hat, d_hat_manual)
 
 
 if __name__ == '__main__':

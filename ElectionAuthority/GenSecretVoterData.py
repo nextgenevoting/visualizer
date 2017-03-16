@@ -11,6 +11,7 @@ from Utils.Random                   import randomMpz
 from Utils.RecHash                  import RecHash
 from Crypto.SecurityParams          import secparams_default, secparams_l0, secparams_l3
 from ElectionAuthority.GenPoints    import GenPoints
+from TestParams                     import testparams
 
 def GenSecretVoterData(p, secparams = secparams_default):
     """
@@ -41,7 +42,7 @@ class GenSecretVoterDataTest(unittest.TestCase):
 
     def testGenSecretVoterData(self):
 
-        # generate some points for 10 voters [5 per election]
+        # generate some points for 10 candidates [5 per election]
         points, yvalues = GenPoints([5,5], [3,2], 2)
         x,y,F,r = GenSecretVoterData(points, secparams_l3)
 
@@ -51,6 +52,20 @@ class GenSecretVoterDataTest(unittest.TestCase):
         self.assertTrue(isinstance(F, bytes))
         # check that r is a list of n return codes
         self.assertTrue(isinstance(r, list) and len(r) == 10)
+
+    def testGenSecretVoterDataL0(self):
+        # generate some points for 6 candidates [3 per election], 1 selection per election, 2 simult. elections,
+        points, yvalues = GenPoints(testparams.n, testparams.k, testparams.t, secparams_l0)
+        # points contains 6x (mpz(2), mpz(2))
+        x, y, F, r = GenSecretVoterData(points, secparams_l0)
+        # q_hat_apos_x = 43
+        # q_hat_apos_y = 43
+        self.assertEqual(x, 2)  # deterministic randomMpz(43) == 2
+        self.assertEqual(y, 2)  # deterministic randomMpz(43) == 2
+
+        # RecHash([(mpz(2),mpz(2)),(mpz(2),mpz(2)),(mpz(2),mpz(2)),(mpz(2),mpz(2)),(mpz(2),mpz(2)),(mpz(2),mpz(2))], secparams)
+        # --> b'\xa9'
+        self.assertEqual(F, b'\xa9')
 
 if __name__ == '__main__':
     unittest.main()

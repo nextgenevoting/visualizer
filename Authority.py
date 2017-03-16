@@ -42,16 +42,16 @@ class Authority(object):
         self.d_j, self.d_hat_j, self.P_j, self.K = GenElectorateData(n, k, E, secparams)
         return self.d_hat_j
 
-    def PerformGetPublicCredentials(self, D_hat, N, secparams = secparams_default):
+    def PerformGetPublicCredentials(self, D_hat, secparams = secparams_default):
         """
         (Protocol 6.1) Every authority j ∈ {1,...,s} calls GetPublicCredentials upon knowing the public data of the whole electorate D_hat.
         This algorithm outputs the two lists x_hat and y_hat of all public credentials, which are used to identify the voters during the vote casting and vote confirmation phases
 
         Args:
            D_hat (list):        The public data of the whole electorate
-           N (int):         The number of voters
+           N (int):             The number of voters
         """
-        self.x_hat, self.y_hat = GetPublicCredentials(D_hat, N, secparams)
+        self.x_hat, self.y_hat = GetPublicCredentials(D_hat, secparams)
 
 
     def PerformKeyGeneration(self, secparams = secparams_default):
@@ -60,7 +60,7 @@ class Authority(object):
         generated jointly by the election authorities.
 
         Returns:
-            mpz:        pk
+            mpz:                pk
         """
         (sk_j, pk_j) = GenKeyPair(secparams)
         return pk_j
@@ -71,10 +71,10 @@ class Authority(object):
         (Protocol 6.3) GetPublicKey: Combining the s key shares of all authorities
 
         Args:
-            pk (list):      Public Key Shares pk = (pk_1, ... , pk_s)
+            pk (list):          Public Key Shares pk = (pk_1, ... , pk_s)
 
         Returns:
-            mpz:            pk
+            mpz:                pk
         """
         pk = GetPublicKey(pk)
         return pk

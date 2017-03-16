@@ -23,15 +23,14 @@ def GetPublicKey(pk, secparams=secparams_default):
     """
     resultPk = mpz(1)
     for j in range(secparams_default.s):  # loop over s (authorities)
-        resultPk *= pk[j]
-    resultPk = resultPk % secparams.p
+        resultPk = (resultPk * pk[j]) % secparams.p
 
     AssertMpz(resultPk)
     return resultPk
 
 
 class GetPublicKeyTest(unittest.TestCase):
-    def testGetPublicKey(self):
+    def testGetPublicKeyL0(self):
         pk = GetPublicKey([20,25,30], secparams_l0)
         self.assertEqual(pk, 362)  # 20 * 25 * 30 % secparams_l0 = 15000 % 563 = 362
 

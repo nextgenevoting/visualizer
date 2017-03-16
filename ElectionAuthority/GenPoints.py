@@ -6,12 +6,11 @@ from gmpy2 import mpz
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                        import AssertInt, AssertList
-from Utils.ToInteger                    import ToInteger
 from Utils.Random                       import randomMpz
 from Crypto.SecurityParams              import secparams_default, secparams_l3, secparams_l0
-from Crypto.IsMember                    import IsMember
 from ElectionAuthority.GenPolynomial    import GenPolynomial
 from ElectionAuthority.GetYValue        import GetYValue
+from TestParams                         import testparams
 
 def GenPoints(n,k, t, secparams = secparams_default):
     """
@@ -39,7 +38,7 @@ def GenPoints(n,k, t, secparams = secparams_default):
             # get a unique x from Z_p'
             while True:
                 x = randomMpz(secparams.p_prime, secparams)
-                if x not in X:
+                if x not in X or secparams.deterministicRandomGen:      # if randomMpz is deterministic, we would be stuck in an endless loop
                     X.append(x)
                     break;
             y_j = GetYValue(x,a_j,secparams)            # get the corresponding y value of x on the polynomial a_j
@@ -54,14 +53,13 @@ class GenPointsTest(unittest.TestCase):
 
     def testGenPoints(self):
         # generate dummy points
-        voters = [str("Voter%d" % i) for i in range(3)]
-        points, y = GenPoints([3, 3], [1, 1], 2, secparams_l3)
+        points, y = GenPoints(testparams.n, testparams.k, testparams.t, secparams_l3)
 
         # check if the number of points returned matches the total number of candidates
-        self.assertTrue(len(points) == 6)
+        self.assertTrue(len(points) == testparams.n_total)
 
         # check if the number of y values for x=0 matches the number of simult. elections (= the number of polynoms)
-        self.assertTrue(len(y) == 2)
+        self.assertTrue(len(y) == testparams.t)
 
         for point in points:
             # check if each point consists of 2 mpz values

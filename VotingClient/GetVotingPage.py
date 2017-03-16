@@ -8,6 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils            import AssertMpz
 from Crypto.SecurityParams  import secparams_default
 from Utils.Random           import randomMpz
+from TestParams             import testparams
 
 def GetVotingPage(i, c, n, k):
     """
@@ -50,7 +51,7 @@ Simultaneous elections:
 
 class GetVotingPageTest(unittest.TestCase):
     def testGetVotingPage(self):
-        print(GetVotingPage(1,["Clinton", "Trump", "Yes", "No"],[2,2],[1,1]))
+        print(GetVotingPage(1,testparams.c,testparams.n,testparams.k))
 
 if __name__ == '__main__':
     unittest.main()

@@ -24,8 +24,8 @@ def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
         c (mpz):    The NIZKP challenge
     """
 
-    AssertMpz(y)
-    AssertMpz(t)
+    #AssertMpz(y)       unspecified
+    #AssertMpz(t)       unspecified
     AssertMpz(q)
     assert(q >= 2)
 
