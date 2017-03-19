@@ -23,6 +23,7 @@ def GetPrimes(n, secparams=secparams_default):
     """
 
     AssertInt(n)
+    assert n >= 2, "n must be greater or equal 2"
 
     x = 1
     primes = []
@@ -45,10 +46,6 @@ class GetPrimesTest(unittest.TestCase):
     def testOne(self):
         # Test if the lenght of the returned list matches the parameter n
         self.assertTrue(len(GetPrimes(10)) == 10)
-
-    def testTwo(self):
-        # Test the case of n = 0
-        self.assertTrue(len(GetPrimes(0)) == 0)
 
     def testPrimesForSecurityLevel0(self):
         # Test whether the 50 first primes of group G_563 (this corresponds to

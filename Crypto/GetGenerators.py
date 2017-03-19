@@ -42,7 +42,7 @@ def GetGenerators(n, secparams=secparams_default):
 
 # Unit Tests
 class GetGeneratorsTest(unittest.TestCase):
-    def testOne(self):
+    def testGetGenerators(self):
         # Test if the lenght of the returned list matches the parameter n
         for i in range(0, 20):
             self.assertTrue(len(GetGenerators(i)) == i)

@@ -11,6 +11,7 @@ from Election                               import Election
 from Authority                              import Authority
 from BulletinBoard                          import BulletinBoard
 from VoteClient                             import VoteClient
+from VotingClient.CheckBallotProof          import CheckBallotProof
 
 def main():
     bulletinBoard = BulletinBoard()
@@ -60,11 +61,18 @@ def main():
     # combine the resulting public key
     for authority in authorities:
         pk = authority.PerformGetPublicKey(pk_shares, secparams_l0)
+    bulletinBoard.pk = pk
 
     # TODO: Run Protocol 6.4: Candidate Selection
-    vc = VoteClient(1, bulletinBoard)
-    vc.candidateSelection()
-
+    votingClients = []
+    for voterIndex in range(0, len(voters)):
+        votingClient = VoteClient(voterIndex, bulletinBoard)
+        votingClients.append(votingClient)
+        s = votingClient.candidateSelection(secparams_l0)
+        (ballot,r) = votingClient.castVote(s, secparams_l0)
+        proof = ballot.pi
+        valid = CheckBallotProof(proof, ballot.x_hat, ballot.a, ballot.b, bulletinBoard.pk, secparams_l0)
+        print("Ballot Proof validity: %r" % valid)
 
 if __name__ == '__main__':
     main()

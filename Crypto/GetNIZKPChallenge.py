@@ -8,6 +8,7 @@ from Utils.Utils            import AssertMpz
 from Utils.ToInteger        import ToInteger
 from Utils.RecHash          import RecHash
 from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
+from Crypto.IsMember        import IsMember
 
 def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
     """
@@ -27,7 +28,7 @@ def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
     #AssertMpz(y)       unspecified
     #AssertMpz(t)       unspecified
     AssertMpz(q)
-    assert(q >= 2)
+    assert q >= 2
 
     c = mpz(ToInteger(RecHash([y, t], secparams)) % q)
 

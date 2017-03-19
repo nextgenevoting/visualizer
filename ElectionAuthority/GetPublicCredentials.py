@@ -50,8 +50,8 @@ class GetPublicCredentialsTest(unittest.TestCase):
         (x_hat, y_hat) = GetPublicCredentials(D_hat,secparams_l0)
         self.assertEqual(x_hat[0], 607)         # x_hat = 161^3 mod 787 = 607
         self.assertEqual(x_hat[1], 607)         # x_hat = 161^3 mod 787 = 607
-        self.assertEqual(y_hat[0], 178)# y_hat = 253^3 mod 787 = 178
-        self.assertEqual(y_hat[1], 178)  # y_hat = 253^3 mod 787 = 178
+        self.assertEqual(y_hat[0], 178)         # y_hat = 253^3 mod 787 = 178
+        self.assertEqual(y_hat[1], 178)         # y_hat = 253^3 mod 787 = 178
 
 if __name__ == '__main__':
     unittest.main()

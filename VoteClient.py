@@ -1,5 +1,6 @@
 from VotingClient.GetVotingPage             import GetVotingPage
 from BulletinBoard                          import BulletinBoard
+from VotingClient.GenBallot                 import GenBallot
 
 class VoteClient(object):
     """
@@ -7,30 +8,40 @@ class VoteClient(object):
     """
 
     i = None
-    bulletinBoard = None            # Reference to the bulletinBoard object
+    bulletinBoard = None                # Reference to the bulletinBoard object
+    k_i = None
+    X_i = b'\xff\xee\xdd\xcc\xbb\xaa'   # Voting Code
 
     def __init__(self, i, bulletinBoard):
         self.i = i
         self.bulletinBoard = bulletinBoard
 
-    def candidateSelection(self):
+    def candidateSelection(self, secparams):
         """
         Protocol 6.4: Candidate selection
+
+        Returns:
+            list:       Selection
         """
 
         c,n,k,E = self.bulletinBoard.getCandidateSelectionParams()
 
         # Calculate eligibility vector
-        k_i = []
+        self.k_i = []
         for j in range(len(k)):
-            k_i.append(E[self.i][j] * k[j]) # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
+            self.k_i.append(E[self.i][j] * k[j]) # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
 
         # Get the voting page string
-        P_i = GetVotingPage(self.i, c,n,k_i)
+        P_i = GetVotingPage(self.i, c,n,self.k_i)
 
         print(P_i)
         s = input('Enter your selection : ')
 
-    def castVote(self):
-        pass    # TODO (page 50)
+        return [int(s) for s in s.split(',')]
+
+    def castVote(self, s, secparams):
+        pk = self.bulletinBoard.pk
+        return GenBallot(self.X_i, s, pk, secparams)
+
+
 

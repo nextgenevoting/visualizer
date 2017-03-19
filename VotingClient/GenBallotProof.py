@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                import AssertMpz
 from Utils.Random               import randomMpz
-from Crypto.SecurityParams      import secparams_default
+from Crypto.SecurityParams      import secparams_default, secparams_l0
 from Crypto.GetNIZKPChallenge   import GetNIZKPChallenge
 from collections                import namedtuple
 from TestParams                 import testparams
@@ -62,7 +62,7 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
 
 class GenBallotProofTest(unittest.TestCase):
     def testGenBallotProof(self):
-        ballotProof = GenBallotProof(mpz(281401388481450), mpz(22), mpz(4), testparams.x_hat, testparams.a, testparams.b, testparams.pk)
+        ballotProof = GenBallotProof(mpz(281401388481450), mpz(22), mpz(4), testparams.x_hat, testparams.a, testparams.b, testparams.pk, secparams_l0)
         self.assertTrue(False) # TODO
 
 if __name__ == '__main__':

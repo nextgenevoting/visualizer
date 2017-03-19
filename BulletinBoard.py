@@ -7,6 +7,9 @@ class BulletinBoard(object):
     c = []
     n = []
     k = []
+
+    pk = None
+
     def __init__(self):
         pass
 
@@ -39,7 +42,6 @@ class BulletinBoard(object):
             tuple:  (c,n,k,E)
         """
         return (self.c, self.n, self.k, self.E)
-
 
     @property
     def n_total(self):
