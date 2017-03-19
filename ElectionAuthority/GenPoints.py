@@ -11,6 +11,9 @@ from Crypto.SecurityParams              import secparams_default, secparams_l3, 
 from ElectionAuthority.GenPolynomial    import GenPolynomial
 from ElectionAuthority.GetYValue        import GetYValue
 from TestParams                         import testparams
+from collections                        import namedtuple
+
+Point = namedtuple("Point", "x, y")
 
 def GenPoints(n,k, t, secparams = secparams_default):
     """
@@ -42,9 +45,9 @@ def GenPoints(n,k, t, secparams = secparams_default):
                     X.append(x)
                     break;
             y_j = GetYValue(x,a_j,secparams)            # get the corresponding y value of x on the polynomial a_j
-            p_i = (x,y_j)                               # Point tuple
+            p_i = Point(x,y_j)                          # Point tuple
             p.append(p_i)                               # part of the private voter data
-        y.append(GetYValue(0,a_j, secparams))       # Point (0,Y(0))
+        y.append(GetYValue(0,a_j, secparams))           # Point (0,Y(0))
 
     return (p, y)
 

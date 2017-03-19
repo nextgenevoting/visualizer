@@ -12,6 +12,9 @@ from VotingClient.GetSelectedPrimes import GetSelectedPrimes
 from VotingClient.GenQuery          import GenQuery
 from VotingClient.GenBallotProof    import GenBallotProof
 from TestParams                     import testparams
+from collections                    import namedtuple
+
+Ballot = namedtuple("Ballot", "alpha, r")
 
 def GenBallot(X, s, pk, secparams=secparams_default):
     """
@@ -26,7 +29,7 @@ def GenBallot(X, s, pk, secparams=secparams_default):
         pk (mpz):       ElGamal key pk ∈ G_p \ {1}
 
     Returns:
-        tuple:          (alpha, r)
+        tuple:          Ballot = (alpha, r)
     """
     AssertMpz(pk)
     AssertList(s)
@@ -49,13 +52,14 @@ def GenBallot(X, s, pk, secparams=secparams_default):
     pi = GenBallotProof(x,m,r,x_hat,a,b,pk, secparams)
     alpha = (x_hat,a,b,pi)
 
-    return (alpha,r)
+    return Ballot(alpha,r)
 
 class GenBallotTest(unittest.TestCase):
     def testGenBallot(self):
         selection = [1,4]       # select candidates with indices 1,4
-        (alpha, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
-        print(alpha)
+        ballot = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
+        print(ballot.r)
+        print(ballot.alpha)
 
 if __name__ == '__main__':
     unittest.main()

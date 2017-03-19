@@ -12,7 +12,7 @@ class TestParams(object):
     This class holds some complex objects (BulletProofs etc.) for testing purposes
     """
 
-    def __init__(self):
+    def __init__(self, secparams):
         # Set up a test election event
         secparams = secparams_l0
 
@@ -38,4 +38,4 @@ class TestParams(object):
         self.a = mpz(546)
         self.b = mpz(256)
 
-testparams = TestParams()
+testparams_l0 = TestParams()

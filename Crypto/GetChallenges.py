@@ -40,7 +40,10 @@ def GetChallenges(n, y, q, secparams=secparams_default):
 
 class GetChallengesTest(unittest.TestCase):
     def test(self):
-        self.assertTrue(False) # TODO
+        # The results in c should be identical to c_i = ToInteger(RecHash(y,i)):
+        c = GetChallenges(50, mpz(1234), mpz(2 ** 1024))
+        for i in range(1, len(c)+1):
+            self.assertEqual(c[i-1], ToInteger(RecHash([mpz(1234), i]))%mpz(2**1024))
 
 if __name__ == '__main__':
     unittest.main()

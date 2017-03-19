@@ -5,10 +5,11 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                import AssertMpz
-from Crypto.SecurityParams      import secparams_default, secparams_l0
-from Crypto.GetNIZKPChallenge   import GetNIZKPChallenge
-from TestParams                 import testparams
+from Utils.Utils                    import AssertMpz
+from Crypto.SecurityParams          import secparams_default, secparams_l0
+from Crypto.GetNIZKPChallenge       import GetNIZKPChallenge
+from TestParams                     import testparams
+from VotingClient.GenBallotProof    import GenBallotProof
 
 def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     """
@@ -16,11 +17,11 @@ def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     public values of this proof are the public voting credential x_hat and the ElGamal encryption (a,b)
 
     Args:
-        pi (mpz):       Ballot proof pi = (t,s)
-        x_hat (mpz):    Voting credential x_hat
-        a (mpz):        ElGamal Encryption
-        b (mpz):        ElGamal Encryption
-        pk (mpz):       ElGamal key pk
+        pi (BallotProof):   Ballot proof pi = (t,s)
+        x_hat (mpz):        Voting credential x_hat
+        a (mpz):            ElGamal Encryption
+        b (mpz):            ElGamal Encryption
+        pk (mpz):           ElGamal key pk
 
     Returns:
         bool:           (t_1 == t'_1 and t_2 == t'_2 and t_3 == t'_3)
@@ -46,8 +47,7 @@ def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     return t_1 == t_prime_1 and t_2 == t_prime_2 and t_3 == t_prime_3
 
 class CheckBallotProofTest(unittest.TestCase):
-    def testCheckBallotProof(self):
-        valid = CheckBallotProof(testparams.ballotProof, testparams.x_hat, testparams.a, testparams.b, testparams.pk, secparams_l0)
-        self.assertTrue(valid)
+    def testCheckBallotProofL0(self):
+        self.assertTrue(CheckBallotProof(GenBallotProof(mpz(281401388481450), mpz(22), mpz(4), testparams.x_hat, testparams.a, testparams.b, testparams.pk, secparams_l0), testparams.x_hat, testparams.a, testparams.b, testparams.pk, secparams_l0))
 if __name__ == '__main__':
     unittest.main()

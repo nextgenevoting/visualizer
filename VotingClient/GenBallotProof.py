@@ -9,6 +9,10 @@ from Utils.Utils                import AssertMpz
 from Utils.Random               import randomMpz
 from Crypto.SecurityParams      import secparams_default
 from Crypto.GetNIZKPChallenge   import GetNIZKPChallenge
+from collections                import namedtuple
+from TestParams                 import testparams
+
+BallotProof = namedtuple("BallotProof", "t, s")
 
 def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
     """
@@ -27,6 +31,7 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
     Returns:
         tuple:     ((t_1, t_2, t_3), (s_1, s_2, s_3))
     """
+
 
     AssertMpz(x)
     AssertMpz(m)
@@ -53,10 +58,11 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
 
     s = (s_1, s_2, s_3)
 
-    return (t,s)
+    return BallotProof(t,s)
 
 class GenBallotProofTest(unittest.TestCase):
     def testGenBallotProof(self):
+        ballotProof = GenBallotProof(mpz(281401388481450), mpz(22), mpz(4), testparams.x_hat, testparams.a, testparams.b, testparams.pk)
         self.assertTrue(False) # TODO
 
 if __name__ == '__main__':
