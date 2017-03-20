@@ -5,9 +5,7 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertMpz
-from Crypto.SecurityParams  import secparams_default
-from Utils.Random           import randomMpz
+from Utils.Utils            import AssertList, AssertInt
 from TestParams             import testparams
 
 def GetVotingPage(i, c, n, k):
@@ -25,6 +23,11 @@ def GetVotingPage(i, c, n, k):
     Returns:
         string:     String P ∈ A_UCS^* displayed to the voter
     """
+    AssertInt(i)
+    AssertList(c)
+    AssertList(n)
+    AssertList(k)
+
     electionString = ""
     candidateIndex = 0
     for j in range(len(k)):
@@ -41,7 +44,6 @@ Voting page for voter {i}:
 Simultaneous elections:
 
 {elections}
-
 """.format(
         i=i,
         elections=electionString

@@ -22,6 +22,12 @@ def AssertBytes(B):
 def AssertList(V):
     assert isinstance(V, list), 'Expected list!'
 
+def AssertClass(c, type):
+    assert isinstance(c, type), 'Expected class %s' % type
+
+def AssertString(s):
+    assert isinstance(s, str), "Expected string"
+
 def isNumericType(i):
     return isinstance(i, int) or i.__class__.__name__ == 'mpz'
 

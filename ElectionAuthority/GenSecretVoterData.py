@@ -6,10 +6,10 @@ from math import floor
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                    import Truncate, AssertList
+from Utils.Utils                    import Truncate, AssertList, AssertClass
 from Utils.Random                   import randomMpz
 from Utils.RecHash                  import RecHash
-from Crypto.SecurityParams          import secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams          import SecurityParams, secparams_default, secparams_l0, secparams_l3
 from ElectionAuthority.GenPoints    import GenPoints
 from TestParams                     import testparams
 
@@ -24,6 +24,7 @@ def GenSecretVoterData(p, secparams = secparams_default):
        tuple:   Secret voter data (x,y,F,r)
     """
     AssertList(p)
+    AssertClass(secparams, SecurityParams)
 
     q_hat_apos_x = floor(secparams.q_hat_X // secparams.s)
     q_hat_apos_y = floor(secparams.q_hat_Y // secparams.s)

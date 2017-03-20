@@ -3,8 +3,9 @@ import os, sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams  import secparams_default, secparams_l0
+from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0
 from Crypto.GetPrimes       import GetPrimes
+from Utils.Utils            import AssertList, AssertClass
 
 def GetSelectedPrimes(s, secparams=secparams_default):
     """
@@ -18,6 +19,8 @@ def GetSelectedPrimes(s, secparams=secparams_default):
     Returns:
         list:       List of the selected prime numbers
     """
+    AssertList(s)
+    AssertClass(secparams, SecurityParams)
 
     s_k = max(s) if len(s) > 0 else 0
     p = GetPrimes(s_k)

@@ -5,16 +5,14 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                    import AssertMpz, AssertList
-from Crypto.SecurityParams          import secparams_default, secparams_l0
+from Utils.Utils                    import AssertMpz, AssertList, AssertClass, AssertString
+from Crypto.SecurityParams          import SecurityParams, secparams_default, secparams_l0
 from Utils.ToInteger                import ToInteger
 from VotingClient.GetSelectedPrimes import GetSelectedPrimes
 from VotingClient.GenQuery          import GenQuery
 from VotingClient.GenBallotProof    import GenBallotProof
 from TestParams                     import testparams
-from collections                    import namedtuple
-
-Ballot = namedtuple("Ballot", "x_hat, a, b, pi")
+from Types.Ballot                   import Ballot
 
 def GenBallot(X, s, pk, secparams=secparams_default):
     """
@@ -31,8 +29,10 @@ def GenBallot(X, s, pk, secparams=secparams_default):
     Returns:
         tuple:          alpha = (r, Ballot) = (r, (x_hat, a, b, pi))
     """
+    #AssertString(X)
     AssertMpz(pk)
     AssertList(s)
+    AssertClass(secparams, SecurityParams)
 
     x = mpz(ToInteger(X))
     x_hat = gmpy2.powmod(secparams.g_hat, x, secparams.p_hat)

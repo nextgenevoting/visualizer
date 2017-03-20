@@ -5,8 +5,8 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertMpz
-from Crypto.SecurityParams  import secparams_default, secparams_l0
+from Utils.Utils            import AssertMpz, AssertList, AssertClass
+from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0
 from Utils.Random           import randomMpz
 
 def GenQuery(q, pk, secparams=secparams_default):
@@ -23,7 +23,9 @@ def GenQuery(q, pk, secparams=secparams_default):
         (a, r):     The OT query
     """
 
+    AssertList(q)
     AssertMpz(pk)
+    AssertClass(secparams, SecurityParams)
 
     k = len(q)
     a = [None] * k

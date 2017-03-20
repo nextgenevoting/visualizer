@@ -5,11 +5,9 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertNumeric, AssertInt
-from Utils.ToInteger        import ToInteger
+from Utils.Utils            import AssertInt, AssertClass
 from Utils.Random           import randomMpz
-from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
-from Crypto.IsMember        import IsMember
+from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0, secparams_l3
 
 def GenPolynomial(d, secparams = secparams_default):
     """
@@ -25,6 +23,7 @@ def GenPolynomial(d, secparams = secparams_default):
     """
 
     AssertInt(d)
+    AssertClass(secparams, SecurityParams)
     assert(d >= -1)
 
     a = []

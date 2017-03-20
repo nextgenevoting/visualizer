@@ -5,11 +5,10 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import Truncate, AssertMpz
+from Utils.Utils            import AssertMpz, AssertList, AssertClass
 from Utils.ToInteger        import ToInteger
 from Utils.RecHash          import RecHash
-from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
-from Crypto.IsMember        import IsMember
+from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0, secparams_l3
 
 def GetPublicVoterData(x, y, yValues, secparams = secparams_default):
     """
@@ -25,6 +24,8 @@ def GetPublicVoterData(x, y, yValues, secparams = secparams_default):
     """
     AssertMpz(x)
     AssertMpz(y)
+    AssertList(yValues)
+    AssertClass(secparams, SecurityParams)
 
     h = ToInteger(RecHash(yValues, secparams)) % secparams.q_hat
     x_hat = gmpy2.powmod(secparams.g_hat, x, secparams.p_hat)

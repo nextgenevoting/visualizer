@@ -5,11 +5,8 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertMpz
-from Utils.ToInteger        import ToInteger
-from Utils.RecHash          import RecHash
-from Utils.Random           import randomMpz
-from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
+from Utils.Utils            import AssertMpz, AssertClass, AssertList
+from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0, secparams_l3
 
 def GetPublicKey(pk, secparams=secparams_default):
     """
@@ -21,6 +18,9 @@ def GetPublicKey(pk, secparams=secparams_default):
     Returns:
         mpz:    Public Key pk
     """
+    AssertList(pk)
+    AssertClass(secparams, SecurityParams)
+
     resultPk = mpz(1)
     for j in range(secparams_default.s):  # loop over s (authorities)
         resultPk = (resultPk * pk[j]) % secparams.p

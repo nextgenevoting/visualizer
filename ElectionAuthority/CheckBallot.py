@@ -5,9 +5,11 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams              import secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams              import SecurityParams, secparams_default, secparams_l0, secparams_l3
 from ElectionAuthority.HasBallot        import HasBallot
 from ElectionAuthority.CheckBallotProof import CheckBallotProof
+from Utils.Utils                        import AssertInt, AssertList, AssertMpz, AssertClass
+from Types.Ballot                       import Ballot, BallotProof
 
 def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
     """
@@ -26,6 +28,14 @@ def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
     Returns:
         bool
     """
+    AssertInt(i)
+    AssertClass(alpha, Ballot)
+    AssertMpz(pk)
+    AssertList(K)
+    AssertList(x_hat)
+    AssertList(B)
+    AssertClass(secparams, SecurityParams)
+
     #TODO: Da der Voting Code noch nicht berechnet werden kann (GetVotingSheet), muss hier fix ein Wert eingetragen werden. Sprich der Wert von x_hat der im Ballot gespeichert ist, ist momentan noch falsch und entspricht dem VotingCode der TestParams
     if not HasBallot(i, B, secparams) and x_hat[i] == mpz(607):
     #if not HasBallot(i,B, secparams) and x_hat[i] == alpha.x_hat:

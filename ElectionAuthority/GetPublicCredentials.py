@@ -5,10 +5,8 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import Truncate, AssertMpz
-from Utils.ToInteger        import ToInteger
-from Utils.RecHash          import RecHash
-from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
+from Utils.Utils            import AssertClass, AssertList
+from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0, secparams_l3
 
 def GetPublicCredentials(D_hat, secparams = secparams_default):
     """
@@ -21,8 +19,11 @@ def GetPublicCredentials(D_hat, secparams = secparams_default):
     Returns:
        tuple:    (x_hat, y_hat), Public data
     """
+    AssertList(D_hat)
+    AssertClass(secparams, SecurityParams)
     assert len(D_hat) == secparams.s, "The length of D_hat must match the number of authorities s"
-    N =len(D_hat[0])
+
+    N = len(D_hat[0])
 
     x_hat = []
     y_hat = []

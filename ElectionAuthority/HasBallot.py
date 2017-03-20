@@ -6,7 +6,8 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 
-from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Utils.Utils            import AssertInt, AssertList, AssertClass
 
 def HasBallot(i, B, secparams=secparams_default):
     """
@@ -19,6 +20,10 @@ def HasBallot(i, B, secparams=secparams_default):
     Returns:
         bool
     """
+    AssertInt(i)
+    AssertList(B)
+    AssertClass(secparams, SecurityParams)
+
     for j in range(len(B)):
         (i_j,alpha,r) = B[j]
         if(i == i_j): return True;

@@ -15,7 +15,7 @@ from collections                        import namedtuple
 
 Point = namedtuple("Point", "x, y")
 
-def GenPoints(n,k, t, secparams = secparams_default):
+def GenPoints(n,k, secparams = secparams_default):
     """
     Algorithm 7.7: Generates a list of n random points picket from t random polynomials
     A_j(X) of degree k_j - 1 (by picking n_j different random points from each polynomial).
@@ -33,7 +33,7 @@ def GenPoints(n,k, t, secparams = secparams_default):
 
     p = []
     y = []
-    for j in range(0, t):
+    for j in range(len(n)):
         a_j = GenPolynomial(k[j]-1, secparams)          # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
         X = []
         for l in range(0, n[j]):                        # loop over all candidates of election j
@@ -56,7 +56,7 @@ class GenPointsTest(unittest.TestCase):
 
     def testGenPoints(self):
         # generate dummy points
-        points, y = GenPoints(testparams.n, testparams.k, testparams.t, secparams_l3)
+        points, y = GenPoints(testparams.n, testparams.k, secparams_l3)
 
         # check if the number of points returned matches the total number of candidates
         self.assertTrue(len(points) == testparams.n_total)
@@ -79,7 +79,7 @@ class GenPointsTest(unittest.TestCase):
         secparams = secparams_l0
         # make sure determnistic random gen is enabled!
         assert(secparams.deterministicRandomGen == True)
-        points, y = GenPoints([1], [1], 1, secparams)
+        points, y = GenPoints([1], [1], secparams)
         i = 1
 
 

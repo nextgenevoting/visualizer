@@ -5,8 +5,8 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                            import AssertInt, AssertList
-from Crypto.SecurityParams                  import secparams_l0, secparams_l1, secparams_l2, secparams_l3, secparams_default
+from Utils.Utils                            import AssertClass, AssertList
+from Crypto.SecurityParams                  import SecurityParams, secparams_l0, secparams_l3, secparams_default
 from ElectionAuthority.GenPoints            import GenPoints
 from ElectionAuthority.GenSecretVoterData   import GenSecretVoterData
 from ElectionAuthority.GetPublicVoterData   import GetPublicVoterData
@@ -22,27 +22,28 @@ def GenElectorateData(n, k, E, secparams = secparams_default):
         E ([[]]):               Eligibility matrix [N][t], 1 means eligible
 
     Returns:
-        tuple:       (d, d^, P, K)
+        tuple:                  (d, d^, P, K)
     """
     AssertList(n)
     AssertList(k)
+    AssertClass(secparams, SecurityParams)
 
     N = len(E)
     t = len(k)
 
     d = []
     d_hat = []
-    K = []      #  precomputed selection matrix Nxt
+    K = []                                      #  precomputed selection matrix Nxt
     P = []
 
-    for i in range (N):  # loop over N (all voters)
+    for i in range (N):                         # loop over N (all voters)
         K_i = []
         for j in range(0, t):
-            k_ij = E[i][j] * k[j]             # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
+            k_ij = E[i][j] * k[j]               # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
             K_i.append(k_ij)
 
         # generate n random points
-        p, y = GenPoints(n, K_i, t, secparams)
+        p, y = GenPoints(n, K_i, secparams)
         # generate x, y values, finalization code and return codes
         x,y,F,R = GenSecretVoterData(p, secparams)
 

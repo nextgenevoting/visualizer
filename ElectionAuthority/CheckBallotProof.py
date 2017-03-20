@@ -5,11 +5,12 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                    import AssertMpz
-from Crypto.SecurityParams          import secparams_default, secparams_l0
+from Utils.Utils                    import AssertMpz, AssertClass
+from Crypto.SecurityParams          import SecurityParams, secparams_default, secparams_l0
 from Crypto.GetNIZKPChallenge       import GetNIZKPChallenge
 from TestParams                     import testparams
 from VotingClient.GenBallotProof    import GenBallotProof
+from Types.Ballot                   import BallotProof
 
 def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     """
@@ -26,11 +27,12 @@ def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     Returns:
         bool:           (t_1 == t'_1 and t_2 == t'_2 and t_3 == t'_3)
     """
-
+    AssertClass(pi, BallotProof)
     AssertMpz(x_hat)
     AssertMpz(a)
     AssertMpz(b)
     AssertMpz(pk)
+    AssertClass(secparams, SecurityParams)
 
     y = (x_hat, a, b)
     t = pi[0]
