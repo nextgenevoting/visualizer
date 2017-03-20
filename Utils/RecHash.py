@@ -2,9 +2,9 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 
-from Utils.Utils            import isNumericType
 from Utils.ToByteArray      import ToByteArray
 from Crypto.SecurityParams  import secparams_default, secparams_l0
+from Types                  import Point
 
 def RecHash(v, secparams=secparams_default):
     """
@@ -60,6 +60,7 @@ class RecHashTest(unittest.TestCase):
         self.assertEqual(RecHash([[1,2,3,4]]), b'\xb9\xb64j\xe9\x03\xa4.\xbb\x05\xaa\xa8\x87\xb6\xcb33\xf8a\xde1\xf6wk\xb5\x040F<7/\x1d')
         self.assertTrue(len(RecHash(mpz(1234))) > 0)
         self.assertTrue(len(RecHash([mpz(1234), mpz(2304)])) > 0)
+        self.assertEqual(RecHash(Point(1, 2)), RecHash([1, 2]))
 
 if __name__ == '__main__':
     unittest.main()
