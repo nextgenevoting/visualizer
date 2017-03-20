@@ -1,17 +1,10 @@
-import gmpy2
-import time
-from gmpy2 import mpz
-
-from Utils.ToByteArray                      import ToByteArray
-from Utils.RecHash                          import RecHash
-from Crypto.SecurityParams                  import secparams_default, secparams_l0
-from ElectionAuthority.GenElectorateData    import GenElectorateData
-from Candidate                              import Candidate
-from Election                               import Election
 from Authority                              import Authority
 from BulletinBoard                          import BulletinBoard
+from Candidate                              import Candidate
+from Crypto.SecurityParams                  import secparams_default, secparams_l0
+from Election                               import Election
 from VoteClient                             import VoteClient
-from VotingClient.CheckBallotProof          import CheckBallotProof
+
 
 def main():
     bulletinBoard = BulletinBoard()
@@ -65,14 +58,16 @@ def main():
 
     # TODO: Run Protocol 6.4: Candidate Selection
     votingClients = []
-    for voterIndex in range(0, len(voters)):
-        votingClient = VoteClient(voterIndex, bulletinBoard)
+    for i in range(0, len(voters)):
+        votingClient = VoteClient(i, bulletinBoard)
         votingClients.append(votingClient)
         s = votingClient.candidateSelection(secparams_l0)
         (ballot,r) = votingClient.castVote(s, secparams_l0)
         proof = ballot.pi
-        valid = CheckBallotProof(proof, ballot.x_hat, ballot.a, ballot.b, bulletinBoard.pk, secparams_l0)
-        print("Ballot Proof validity: %r" % valid)
+        for authority in authorities:
+            valid = authority.PerformCheckBallot(i,ballot, secparams_l0)
+            print("Ballot Proof validity checked by authority %s: %r" % (authority.name, valid))
+
 
 if __name__ == '__main__':
     main()

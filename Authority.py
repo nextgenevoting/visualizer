@@ -5,6 +5,7 @@ from ElectionAuthority.GenElectorateData    import GenElectorateData
 from ElectionAuthority.GetPublicCredentials import GetPublicCredentials
 from ElectionAuthority.GenKeyPair           import GenKeyPair
 from ElectionAuthority.GetPublicKey         import GetPublicKey
+from ElectionAuthority.CheckBallot          import CheckBallot
 
 class Authority(object):
     """
@@ -21,6 +22,9 @@ class Authority(object):
 
     x_hat = []
     y_hat = []
+
+    pk = None
+    B = []
 
     def __init__(self, name):
         self.name = name
@@ -76,5 +80,19 @@ class Authority(object):
         Returns:
             mpz:                pk
         """
-        pk = GetPublicKey(pk)
-        return pk
+        self.pk = GetPublicKey(pk)
+        return self.pk
+
+
+    def PerformCheckBallot(self, i, ballot, secparams):
+        """
+        (Protocol 6.5) PerformCheckBallot: Receives the ballot from the client and checks its validity
+
+        Args:
+            i (int):            Voter index
+            alpha (Ballot):     Ballot
+
+        Returns:
+            bool
+        """
+        return CheckBallot(i, ballot, self.pk, self.K, self.x_hat, self.B, secparams)

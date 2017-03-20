@@ -29,7 +29,7 @@ def GenBallot(X, s, pk, secparams=secparams_default):
         pk (mpz):       ElGamal key pk ∈ G_p \ {1}
 
     Returns:
-        tuple:          (r, Ballot)
+        tuple:          alpha = (r, Ballot) = (r, (x_hat, a, b, pi))
     """
     AssertMpz(pk)
     AssertList(s)
@@ -50,9 +50,9 @@ def GenBallot(X, s, pk, secparams=secparams_default):
         r = (r * r_query[i]) % secparams.q
     b = gmpy2.powmod(secparams.g,r, secparams.p)
     pi = GenBallotProof(x,m,r,x_hat,a,b,pk, secparams)
-    ballot = Ballot(x_hat,a,b,pi)
+    alpha = Ballot(x_hat,a_query,b,pi)
 
-    return (ballot,r)
+    return (alpha,r)
 
 class GenBallotTest(unittest.TestCase):
     def testGenBallot(self):
