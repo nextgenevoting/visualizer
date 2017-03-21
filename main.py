@@ -1,13 +1,14 @@
 from Authority                              import Authority
 from BulletinBoard                          import BulletinBoard
 from Candidate                              import Candidate
-from Crypto.SecurityParams                  import secparams_default, secparams_l0
+from Crypto.SecurityParams                  import secparams_default, secparams_l0, secparams_l3
 from Election                               import Election
 from VoteClient                             import VoteClient
 
 
 def main():
     bulletinBoard = BulletinBoard()
+    secparams = secparams_l3
 
     # Set up a test election event
     # 2 voters
@@ -41,9 +42,9 @@ def main():
     D_hat = []
     print("Generate electorate data")
     for authority in authorities:
-        D_hat.append(authority.PerformGenElectorateData(bulletinBoard.n, [1,1], bulletinBoard.E, secparams_l0))
+        D_hat.append(authority.PerformGenElectorateData(bulletinBoard.n, [1,1], bulletinBoard.E, secparams))
     for authority in authorities:
-        authority.PerformGetPublicCredentials(D_hat, secparams_l0)
+        authority.PerformGetPublicCredentials(D_hat, secparams)
 
     # TODO: Run Protocol 6.2: Printing of Code Sheets
 
@@ -51,10 +52,10 @@ def main():
     pk_shares = []
     # Generate ElGamal key shares
     for authority in authorities:
-        pk_shares.append(authority.PerformKeyGeneration(secparams_l0))
+        pk_shares.append(authority.PerformKeyGeneration(secparams))
     # combine the resulting public key
     for authority in authorities:
-        pk = authority.PerformGetPublicKey(pk_shares, secparams_l0)
+        pk = authority.PerformGetPublicKey(pk_shares, secparams)
     bulletinBoard.pk = pk
 
     # TODO: Run Protocol 6.4 & 6.5: Candidate Selection & Vote Casting
@@ -63,14 +64,14 @@ def main():
         votingClient = VoteClient(i, bulletinBoard)
         votingClients.append(votingClient)
         # Get selection (6.4)
-        s = votingClient.candidateSelection(secparams_l0)
+        s = votingClient.candidateSelection(secparams)
 
         # Create ballot (6.5)
-        (ballot,r) = votingClient.castVote(s, secparams_l0)
+        (ballot,r) = votingClient.castVote(s, secparams)
         proof = ballot.pi
         # Check ballot (6.5)
         for authority in authorities:
-            valid = authority.PerformCheckBallot(i,ballot, secparams_l0)
+            valid = authority.PerformCheckBallot(i,ballot, secparams)
             print("Ballot Proof validity checked by authority %s: %r" % (authority.name, valid))
 
 

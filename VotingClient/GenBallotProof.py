@@ -42,7 +42,7 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
 
 
     w_1 = randomMpz(secparams.q_hat, secparams)
-    w_2 = randomMpz(secparams.q, secparams)
+    w_2 = randomMpz(secparams.p, secparams)
     w_3 = randomMpz(secparams.q, secparams)
     t_1 = gmpy2.powmod(secparams.g_hat, w_1, secparams.p_hat)
     t_2 = (w_2 * gmpy2.powmod(pk, w_3, secparams.p)) % secparams.p
@@ -50,11 +50,11 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
 
     y = (x_hat, a, b)
     t = (t_1, t_2, t_3)
-    c = GetNIZKPChallenge(y, t, min(secparams.q, secparams.q_hat))
+    c = GetNIZKPChallenge(y, t, min(secparams.q, secparams.q_hat), secparams)
 
-    s_1 = w_1 + c * x % secparams.q_hat
+    s_1 = (w_1 + c * x) % secparams.q_hat
     s_2 = (w_2 * gmpy2.powmod(m, c, secparams.p)) % secparams.p
-    s_3 = w_3 + c * r % secparams.q
+    s_3 = (w_3 + c * r) % secparams.q
 
     s = (s_1, s_2, s_3)
 

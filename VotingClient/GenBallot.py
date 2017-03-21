@@ -44,10 +44,11 @@ def GenBallot(X, s, pk, secparams=secparams_default):
     if m >= secparams.p: return None
 
     (a_query,r_query) = GenQuery(q, pk, secparams)
-    a = r = mpz(1)
+    a = mpz(1)
+    r = mpz(0)
     for i in range(len(a_query)):
         a = (a * a_query[i]) % secparams.p
-        r = (r * r_query[i]) % secparams.q
+        r = (r + r_query[i]) % secparams.q
     b = gmpy2.powmod(secparams.g,r, secparams.p)
     pi = GenBallotProof(x,m,r,x_hat,a,b,pk, secparams)
     alpha = Ballot(x_hat,a_query,b,pi)

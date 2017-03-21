@@ -84,7 +84,7 @@ class Authority(object):
         return self.pk
 
 
-    def PerformCheckBallot(self, i, ballot, secparams):
+    def PerformCheckBallot(self, i, ballot, secparams = secparams_default):
         """
         (Protocol 6.5) PerformCheckBallot: Receives the ballot from the client and checks its validity
 

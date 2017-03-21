@@ -21,7 +21,10 @@ def randomMpz(n, secparams = secparams_default):
        mpz:     Random number < n (returns 2 if deterministic mode is set)
     """
     if not secparams.deterministicRandomGen:
-        return gmpy2.mpz_random(rstate, n)
+        r = gmpy2.mpz_random(rstate, n)
+        if r == 0:
+            r == 1
+        return r
     else:
         return mpz(2)
 

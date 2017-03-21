@@ -40,7 +40,7 @@ def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     s = pi[1]
     (s_1, s_2, s_3) = s
 
-    c = GetNIZKPChallenge(y, t, min(secparams.q, secparams.q_hat))
+    c = GetNIZKPChallenge(y, t, min(secparams.q, secparams.q_hat), secparams)
 
     t_prime_1 = (gmpy2.powmod(x_hat, -c, secparams.p_hat) * gmpy2.powmod(secparams.g_hat, s_1, secparams.p_hat)) % secparams.p_hat
     t_prime_2 = (gmpy2.powmod(a, -c, secparams.p) *  s_2 * gmpy2.powmod(pk, s_3, secparams.p)) % secparams.p
