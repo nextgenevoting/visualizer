@@ -12,7 +12,7 @@ from VotingClient.GetSelectedPrimes import GetSelectedPrimes
 from VotingClient.GenQuery          import GenQuery
 from VotingClient.GenBallotProof    import GenBallotProof
 from TestParams                     import testparams
-from Types.Ballot                   import Ballot
+from Types                          import Ballot
 
 def GenBallot(X, s, pk, secparams=secparams_default):
     """

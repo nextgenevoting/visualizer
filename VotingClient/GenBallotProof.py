@@ -10,7 +10,7 @@ from Utils.Random               import randomMpz
 from Crypto.SecurityParams      import SecurityParams, secparams_default, secparams_l0
 from Crypto.GetNIZKPChallenge   import GetNIZKPChallenge
 from TestParams                 import testparams
-from Types.Ballot               import BallotProof
+from Types                      import BallotProof
 
 def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
     """

@@ -9,7 +9,7 @@ from Crypto.SecurityParams              import SecurityParams, secparams_default
 from ElectionAuthority.HasBallot        import HasBallot
 from ElectionAuthority.CheckBallotProof import CheckBallotProof
 from Utils.Utils                        import AssertInt, AssertList, AssertMpz, AssertClass
-from Types.Ballot                       import Ballot, BallotProof
+from Types                              import Ballot, BallotProof
 
 def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
     """

@@ -10,7 +10,7 @@ from Crypto.SecurityParams          import SecurityParams, secparams_default, se
 from Crypto.GetNIZKPChallenge       import GetNIZKPChallenge
 from TestParams                     import testparams
 from VotingClient.GenBallotProof    import GenBallotProof
-from Types.Ballot                   import BallotProof
+from Types                          import BallotProof
 
 def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     """
