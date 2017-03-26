@@ -2,8 +2,8 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 
-from Utils        import AssertBytes
-from ToByteArray  import ToByteArray
+from Utils.Utils        import AssertBytes
+from Utils.ToByteArray  import ToByteArray
 
 def ToInteger(B):
     """
@@ -15,8 +15,6 @@ def ToInteger(B):
     Returns:
        int:         Integer
     """
-
-    AssertBytes(B)
 
     return int.from_bytes(B, byteorder='big')
 

@@ -2,7 +2,7 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 
-from Utils import AssertNumeric, AssertInt
+from Utils.Utils import AssertNumeric, AssertInt
 
 def ToByteArray(x):
     """

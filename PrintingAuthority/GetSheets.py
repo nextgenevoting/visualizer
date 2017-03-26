@@ -12,6 +12,7 @@ from Utils.ToString                     import ToString
 from Utils.MarkByteArray                import MarkByteArray
 from Utils.XorByteArray                 import XorByteArray
 from PrintingAuthority.GetSheet         import GetSheet
+from Utils.ToString                     import ByteArrayToString
 
 def GetSheets(v, c, n, k, E, D, secparams = secparams_default):
     """
@@ -31,18 +32,23 @@ def GetSheets(v, c, n, k, E, D, secparams = secparams_default):
     """
 
     s = []
-    for i in range (len(D)): # Check! len(D) must be = s (num of authorities)
+    for i in range (len(E)):
         k_i = [E[i][j] * k[j] for j in range(len(k))]
-        X = ToString(sum(D[0]), secparams.l_X, secparams.A_X)   # Voting Code
-        Y = ToString(sum(D[1]), secparams.l_Y, secparams.A_Y)   # Confirmation Code
-        F_i = D[i]
-        FC = ToString(XorByteArray([F_i[j] for j in range(F_i)]), secparams.A_F)
+        sum_x_ij = sum_y_ij = mpz(0)
+        for j in range(len(D)):
+            sum_x_ij += D[j][i][0]
+            sum_y_ij += D[j][i][1]
+        X = ToString(sum_x_ij, secparams.l_X, secparams.A_X)   # Voting Code
+        Y = ToString(sum_y_ij, secparams.l_Y, secparams.A_Y)   # Confirmation Code
+        F_ij = [D[j][i][2] for j in range(len(D))]
+        FC = ByteArrayToString(XorByteArray(F_ij), secparams.A_F)
 
         rc = []
-        R_i = D[3][i]
-        for k in range(len(c)):
-            R = MarkByteArray(XorByteArray([R_i[j][k] for j in range(len(R_i))]), k, max(n))
-            rc.append(ToString(R, secparams.A_R))
-            s.append(GetSheet(i, v[i], c, n, k_i, X, Y, FC, rc))
+        for k_index in range(sum(n)):
+            R_ijk = [D[j][i][3][k_index] for j in range(len(D))]
+            R = MarkByteArray(XorByteArray(R_ijk), k_index, max(n))
+            rc.append(ByteArrayToString(R, secparams.A_R))
+        s.append(GetSheet(i, v[i], c, n, k_i, X, Y, FC, rc))
+
 
     return s

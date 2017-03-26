@@ -19,22 +19,27 @@ def GetSheet(i, V, c, n, k, X, Y, FC, rc):
     """
 
     # TODO
+
     S = \
     """
     Voter {i}: {V}
 
+    Candidates: {c}
+    Selections: {k}
+    Voting code: {X}
+    Confirmation code: {Y}
     Finalization code: {FC}
+    Return codes: {rc}
     """.format(
-        { 'i':  i
-        , 'V':  V
-        , 'c':  c
-        , 'n':  n
-        , 'k':  k
-        , 'X':  X
-        , 'Y':  Y
-        , 'FC': FC
-        , 'rc': rc
-        }
+        i =  i
+        , V =  V
+        , c = '\n'.join(c)
+        , n = n
+        , k = k
+        , X = X
+        , Y = Y
+        , FC = FC
+        , rc = '\n'.join(rc)
     )
 
     return S

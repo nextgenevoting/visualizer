@@ -17,7 +17,7 @@ def AssertMpz(i):
     assert i.__class__.__name__ == 'mpz', 'Expected mpz!'
 
 def AssertBytes(B):
-    assert B.__class__.__name__ == 'bytes' ,'Expected bytearray!'
+    assert B.__class__.__name__ == 'bytes' ,'Expected bytes!'
 
 def AssertList(V):
     assert isinstance(V, list), 'Expected list!'

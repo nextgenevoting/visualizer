@@ -1,8 +1,8 @@
 import unittest
 
-from Utils                import BitAbs
-from SetBit               import SetBit
-from math                 import floor
+from Utils.Utils                import BitAbs
+from Utils.SetBit               import SetBit
+from math                       import floor
 
 def MarkByteArray(B, m, m_max):
     """

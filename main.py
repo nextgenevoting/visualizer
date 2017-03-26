@@ -4,7 +4,7 @@ from Candidate                              import Candidate
 from Crypto.SecurityParams                  import secparams_default, secparams_l0, secparams_l3
 from Election                               import Election
 from VoteClient                             import VoteClient
-
+from PrintAuthority                         import PrintingAuthority
 
 def main():
     bulletinBoard = BulletinBoard()
@@ -47,6 +47,13 @@ def main():
         authority.PerformGetPublicCredentials(D_hat, secparams)
 
     # TODO: Run Protocol 6.2: Printing of Code Sheets
+    printAuth = PrintingAuthority(bulletinBoard)
+    D = []
+    for authority in authorities:
+        D.append(authority.d_j)
+    sheets = printAuth.PerformGetSheets(D, secparams)
+    print("Printing voting sheets:\n")
+    for sheet in sheets: print(sheet)
 
     # TODO: Run Protocol 6.3: Key Generation
     pk_shares = []

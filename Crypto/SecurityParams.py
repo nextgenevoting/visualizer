@@ -33,12 +33,10 @@ class SecurityParams(object):
     # Voting code
     q_hat_X = q_hat                                                 # Upper bound of secret voting credential x
     A_X = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Voting code alphabet
-    l_X = ceil(BitAbs(q_hat_X) / log2(len(A_X)))                    # Length of voting codes (characters)
 
     # Confirmation code
     q_hat_Y = q_hat                                                 # Upper bound of secret confirmation credential y
     A_Y = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Confirmation code alphabet
-    l_Y = ceil(BitAbs(q_hat_Y) / log2(len(A_Y)))                    # Length of confirmation codes in characters
 
     def hash(self, input):
         hashFunc = hashlib.new('sha256')                            # must be initialized every time before using hashFunc.update()
@@ -68,6 +66,8 @@ class SecurityParams(object):
         self.q_hat_X = q_hat
         self.q_hat_Y = q_hat
         self.L_M = 2 * ceil(BitAbs(p_prime) // 8)                   # Length of OT messages (bytes)
+        self.l_X = ceil(BitAbs(self.q_hat_X) / log2(len(self.A_X))) # Length of voting codes (characters)
+        self.l_Y = ceil(BitAbs(self.q_hat_Y) / log2(len(self.A_Y))) # Length of confirmation codes in characters
 
 # global objects
 

@@ -5,9 +5,9 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from ToInteger              import ToInteger
-from math                   import ceil, log2
-from Utils                  import AssertMpz, AssertInt, AssertList
+from Utils.ToInteger            import ToInteger
+from math                       import ceil, log2
+from Utils.Utils                import AssertMpz, AssertInt, AssertList
 
 def ByteArrayToString(B, A):
     """
@@ -42,13 +42,13 @@ def ToString(x, k, A):
     AssertInt(k)
     AssertList(A)
 
-    S = []
+    S = ""
     N = len(A)
 
     for i in reversed(range(0, k)):
         s_k = A[x % N]
         x = x // N
-        S.insert(0, s_k)
+        S += s_k
 
     return S
 
