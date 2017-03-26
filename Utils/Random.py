@@ -21,10 +21,25 @@ def randomMpz(n, secparams = secparams_default):
        mpz:     Random number < n (returns 2 if deterministic mode is set)
     """
     if not secparams.deterministicRandomGen:
-        r = gmpy2.mpz_random(rstate, n)
+        r = gmpy2.mpz_random(rstate, n)     # mpz_random(random_state, n) returns a uniformly distributed random integer between 0 and n-1
         if r == 0:
             r == 1
         return r
+    else:
+        return mpz(2)
+
+def randomQuadResMpz(secparams = secparams_default):
+    """
+    An algorithm for picking elements uniformly at random from G_q \subset Z_p^*
+
+    Args:
+
+    Returns:
+       mpz:     Random element of G_q
+    """
+    if not secparams.deterministicRandomGen:
+        r = randomRelativePrimeMpz(secparams.p)
+        return gmpy2.powmod(r,2,secparams.p)
     else:
         return mpz(2)
 

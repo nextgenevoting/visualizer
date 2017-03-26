@@ -2,7 +2,7 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 
-from Utils.Utils import AssertNumeric, AssertInt
+from Utils import AssertNumeric, AssertInt
 
 def ToByteArray(x):
     """
@@ -16,7 +16,7 @@ def ToByteArray(x):
     """
 
     # this seems faster than the original code:
-    x = int(x)
+    x = int(x)  # convert mpz to int because mpz has no .to_bytes method
     return x.to_bytes((x.bit_length() + 7) // 8, byteorder='big')
 
     # Alternative without floating-point operations:
@@ -36,18 +36,20 @@ def ToByteArrayN(x, n):
     Returns:
        bytes:       Immutable bytearray of size n in big-endian byte order
     """
-
     AssertNumeric(x)
-    AssertInt(n)
+    n = int(n)
 
-    B = bytearray(n)
+    x = int(x)      # convert mpz to int because mpz has no .to_bytes method
+    return x.to_bytes(n, byteorder='big')
 
-    for i in range(n):
-        b = x % 256
-        x = x // 256                  # // = integer division => floor
-        B.insert(0, b)
+    #B = bytearray(n)
 
-    return bytes(B)
+    #for i in range(n):
+    #    b = x % 256
+    #    x = x // 256                  # // = integer division => floor
+    #    B.insert(0, b)
+
+    #return bytes(B)
 
 class UtilsTest(unittest.TestCase):
     def testToByteArray(self):

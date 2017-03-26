@@ -2,8 +2,8 @@ import unittest
 import gmpy2
 from gmpy2 import mpz
 
-from Utils.Utils        import AssertBytes
-from Utils.ToByteArray  import ToByteArray
+from Utils        import AssertBytes
+from ToByteArray  import ToByteArray
 
 def ToInteger(B):
     """

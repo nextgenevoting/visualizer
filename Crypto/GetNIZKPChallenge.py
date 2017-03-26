@@ -8,7 +8,7 @@ from Utils.Utils            import AssertMpz, AssertClass
 from Utils.ToInteger        import ToInteger
 from Utils.RecHash          import RecHash
 from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
-from Crypto.IsMember        import IsMember
+from Types                  import PublicCommitment, PublicValue
 
 def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
     """

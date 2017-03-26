@@ -8,7 +8,7 @@ from VoteClient                             import VoteClient
 
 def main():
     bulletinBoard = BulletinBoard()
-    secparams = secparams_l3
+    secparams = secparams_l0
 
     # Set up a test election event
     # 2 voters

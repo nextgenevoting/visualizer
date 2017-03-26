@@ -6,6 +6,7 @@ from math import ceil, log2
 from Election               import Election
 from Candidate              import Candidate
 from Crypto.SecurityParams  import secparams_l0
+from Types                  import *
 
 class TestParams(object):
     """
@@ -24,9 +25,12 @@ class TestParams(object):
         self.k = [1,1]      # 1 selection per election
 
         self.E = [[True for el in range(self.t)] for v in range(self.N)]
+        self.K = [[1,1],[1,1]]      # 1 selection per election
 
         self.pk = mpz(4096)
         self.X = b'\xff\xee\xdd\xcc\xbb\xaa'     # Voting Code
+
+        self.P = [[Point(mpz(2), mpz(2)) for cand in range(self.n_total)] for v in range(self.N)]
 
         """
         ballotProof test values: These values have been generate by GenBallot:

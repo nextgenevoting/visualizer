@@ -10,6 +10,9 @@ from ElectionAuthority.HasBallot        import HasBallot
 from ElectionAuthority.CheckBallotProof import CheckBallotProof
 from Utils.Utils                        import AssertInt, AssertList, AssertMpz, AssertClass
 from Types                              import Ballot, BallotProof
+from VotingClient.GenBallot             import GenBallot
+from TestParams                         import testparams
+from Types                              import *
 
 def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
     """
@@ -22,7 +25,7 @@ def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
         alpha (Ballot):     Ballot
         pk (mpz):           Public Key
         K ([][]):           Number of selections
-        x_hat (mpz):        Public voting credential
+        x_hat (list):        Public voting credential
         B (list):           Ballot List
 
     Returns:
@@ -39,9 +42,13 @@ def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
     #TODO: Da der Voting Code noch nicht berechnet werden kann (GetVotingSheet), muss hier fix ein Wert eingetragen werden. Sprich der Wert von x_hat der im Ballot gespeichert ist, ist momentan noch falsch und entspricht dem VotingCode der TestParams
     if not HasBallot(i, B, secparams):
     #if not HasBallot(i,B, secparams) and x_hat[i] == alpha.x_hat:
+
+        if len(alpha.a) != sum(K[i]):   # check if the number of selections matches the sum of K[i]
+            return False
+
         a = mpz(1)
-        for i in range(len(alpha.a)):
-            a = (a * alpha.a[i]) % secparams.p
+        for j in range(len(alpha.a)):
+            a = (a * alpha.a[j]) % secparams.p
         if CheckBallotProof(alpha.pi, alpha.x_hat, a, alpha.b, pk, secparams):
             return True
     return False
@@ -49,8 +56,37 @@ def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
 
 class CheckBallotTest(unittest.TestCase):
     def testCheckBallot(self):
-        self.assertTrue(False)
+        selection = [1, 4]  # select candidates with indices 1,4
+        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
+        self.assertTrue(CheckBallot(0,ballot,testparams.pk,testparams.K,[testparams.x_hat],[],secparams_l0))
 
+        # check if a ballot with more than the allowed number of selections fails
+        selection = [1,2,3]  # select candidates with indices 1,4
+        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
+        self.assertFalse(CheckBallot(0,ballot,testparams.pk,testparams.K,[testparams.x_hat],[],secparams_l0))
+
+       # check if a ballot with more than the allowed number of selections fails
+        selection = [1,3]  # select candidates with indices 1,4
+        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
+        a_modified = ballot.a
+        a_modified[0] += 1
+        ballot_modified = Ballot(ballot.x_hat, a_modified, ballot.b, ballot.pi)
+        self.assertFalse(CheckBallot(0,ballot_modified,testparams.pk,testparams.K,[testparams.x_hat],[],secparams_l0))
+
+       # check if a ballot with more than the allowed number of selections fails
+        selection = [1,3]  # select candidates with indices 1,4
+        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
+        ballot_modified = Ballot(ballot.x_hat, ballot.a, ballot.b + 1, ballot.pi)
+        self.assertFalse(CheckBallot(0,ballot_modified,testparams.pk,testparams.K,[testparams.x_hat],[],secparams_l0))
+
+       # check if a ballot with more than the allowed number of selections fails
+        selection = [1,3]  # select candidates with indices 1,4
+        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
+        modified_proof = BallotProof(ballot.pi.t, (ballot.pi.s[0]+1, ballot.pi.s[1], ballot.pi.s[2]))
+        ballot_modified = Ballot(ballot.x_hat, ballot.a, ballot.b, modified_proof)
+        self.assertFalse(CheckBallot(0,ballot_modified,testparams.pk,testparams.K,[testparams.x_hat],[],secparams_l0))
+
+        # TODO: Checks of voting code and ballotList!
 
 if __name__ == '__main__':
     unittest.main()

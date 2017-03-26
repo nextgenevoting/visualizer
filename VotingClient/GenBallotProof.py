@@ -6,11 +6,11 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                import AssertMpz, AssertClass
-from Utils.Random               import randomMpz
+from Utils.Random               import randomMpz, randomQuadResMpz
 from Crypto.SecurityParams      import SecurityParams, secparams_default, secparams_l0
 from Crypto.GetNIZKPChallenge   import GetNIZKPChallenge
 from TestParams                 import testparams
-from Types                      import BallotProof
+from Types                      import *
 
 def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
     """
@@ -42,14 +42,14 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
 
 
     w_1 = randomMpz(secparams.q_hat, secparams)
-    w_2 = randomMpz(secparams.p, secparams)
+    w_2 = randomQuadResMpz(secparams)
     w_3 = randomMpz(secparams.q, secparams)
     t_1 = gmpy2.powmod(secparams.g_hat, w_1, secparams.p_hat)
     t_2 = (w_2 * gmpy2.powmod(pk, w_3, secparams.p)) % secparams.p
     t_3 = gmpy2.powmod(secparams.g, w_3, secparams.p)
 
-    y = (x_hat, a, b)
-    t = (t_1, t_2, t_3)
+    y = PublicValue(x_hat, a, b)
+    t = PublicCommitment(t_1, t_2, t_3)
     c = GetNIZKPChallenge(y, t, min(secparams.q, secparams.q_hat), secparams)
 
     s_1 = (w_1 + c * x) % secparams.q_hat
