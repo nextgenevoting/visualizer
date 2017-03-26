@@ -6,7 +6,19 @@ from Election                               import Election
 from VoteClient                             import VoteClient
 from PrintAuthority                         import PrintingAuthority
 
+from Utils.ToString import  ToString
+from Utils.StringToInteger import StringToInteger
+from gmpy2 import mpz
+
 def main():
+    A = ['0', '1']  # Alphabet
+    k = 8
+    x = mpz(5)
+    s = ToString(x, k, A)
+    i = StringToInteger(s,A)
+
+
+
     bulletinBoard = BulletinBoard()
     secparams = secparams_l0
 
@@ -29,9 +41,7 @@ def main():
         ]
 
     # set up s authorites
-    authorities = []
-    for j in range(0, secparams_default.s):
-        authorities.append(Authority("S%d" % j))
+    authorities = [Authority("S%d" % j) for j in range (secparams.s)]
 
     # publish the data on the bulletin board
     bulletinBoard.setupElectionEvent(voters, elections, [[True for el in elections] for v in voters])
@@ -48,9 +58,7 @@ def main():
 
     # TODO: Run Protocol 6.2: Printing of Code Sheets
     printAuth = PrintingAuthority(bulletinBoard)
-    D = []
-    for authority in authorities:
-        D.append(authority.d_j)
+    D = [authority.d_j for authority in authorities]
     sheets = printAuth.PerformGetSheets(D, secparams)
     print("Printing voting sheets:\n")
     for sheet in sheets: print(sheet)

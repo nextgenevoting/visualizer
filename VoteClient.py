@@ -10,7 +10,6 @@ class VoteClient(object):
     i = None
     bulletinBoard = None                # Reference to the bulletinBoard object
     k_i = None
-    X_i = b'\xff\xee\xdd\xcc\xbb\xaa'   # Voting Code
 
     def __init__(self, i, bulletinBoard):
         self.i = i
@@ -41,7 +40,8 @@ class VoteClient(object):
 
     def castVote(self, s, secparams):
         pk = self.bulletinBoard.pk
-        return GenBallot(self.X_i, s, pk, secparams)
+        X = input('Enter your voting code: ')
+        return GenBallot(X, s, pk, secparams)
 
 
 

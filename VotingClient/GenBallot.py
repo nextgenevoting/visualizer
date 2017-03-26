@@ -13,6 +13,7 @@ from VotingClient.GenQuery          import GenQuery
 from VotingClient.GenBallotProof    import GenBallotProof
 from TestParams                     import testparams
 from Types                          import Ballot
+from Utils.StringToInteger          import StringToInteger
 
 def GenBallot(X, s, pk, secparams=secparams_default):
     """
@@ -34,7 +35,7 @@ def GenBallot(X, s, pk, secparams=secparams_default):
     AssertList(s)
     AssertClass(secparams, SecurityParams)
 
-    x = mpz(ToInteger(X))
+    x = mpz(StringToInteger(X, secparams.A_X))
     x_hat = gmpy2.powmod(secparams.g_hat, x, secparams.p_hat)
 
     q = GetSelectedPrimes(s, secparams)                    # q = (q_1, ... , q_k)

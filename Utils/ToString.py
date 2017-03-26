@@ -48,7 +48,7 @@ def ToString(x, k, A):
     for i in reversed(range(0, k)):
         s_k = A[x % N]
         x = x // N
-        S += s_k
+        S = s_k + S
 
     return S
 

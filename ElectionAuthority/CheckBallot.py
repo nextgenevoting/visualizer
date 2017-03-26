@@ -39,9 +39,7 @@ def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
     AssertList(B)
     AssertClass(secparams, SecurityParams)
 
-    #TODO: Da der Voting Code noch nicht berechnet werden kann (GetVotingSheet), muss hier fix ein Wert eingetragen werden. Sprich der Wert von x_hat der im Ballot gespeichert ist, ist momentan noch falsch und entspricht dem VotingCode der TestParams
-    if not HasBallot(i, B, secparams):
-    #if not HasBallot(i,B, secparams) and x_hat[i] == alpha.x_hat:
+    if not HasBallot(i,B, secparams) and x_hat[i] == alpha.x_hat:
 
         if len(alpha.a) != sum(K[i]):   # check if the number of selections matches the sum of K[i]
             return False
