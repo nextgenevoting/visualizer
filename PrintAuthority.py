@@ -12,7 +12,7 @@ class PrintingAuthority(object):
     def __init__(self, bulletinBoardRef):
         self.bulletinBoard = bulletinBoardRef
 
-    def PerformGetSheets(self, D, secparams = secparams_default):
+    def getSheets(self, D, secparams = secparams_default):
         """
         (Protocol 6.2) PerformGetSheets: Prints the voting sheets for all voters
 

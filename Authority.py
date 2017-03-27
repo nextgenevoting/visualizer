@@ -29,7 +29,7 @@ class Authority(object):
     def __init__(self, name):
         self.name = name
 
-    def PerformGenElectorateData(self, n, k, E, secparams = secparams_default):
+    def generateElectionData(self, n, k, E, secparams = secparams_default):
         """
         (Protocol 6.1) Every authority j ∈ {1,...,s} calls GenElectorateData with n, k, E in order to (independently) generate
         the public election parameters for all voters.
@@ -46,7 +46,7 @@ class Authority(object):
         self.d_j, self.d_hat_j, self.P_j, self.K = GenElectorateData(n, k, E, secparams)
         return self.d_hat_j
 
-    def PerformGetPublicCredentials(self, D_hat, secparams = secparams_default):
+    def calculatePublicCredentials(self, D_hat, secparams = secparams_default):
         """
         (Protocol 6.1) Every authority j ∈ {1,...,s} calls GetPublicCredentials upon knowing the public data of the whole electorate D_hat.
         This algorithm outputs the two lists x_hat and y_hat of all public credentials, which are used to identify the voters during the vote casting and vote confirmation phases
@@ -58,7 +58,7 @@ class Authority(object):
         self.x_hat, self.y_hat = GetPublicCredentials(D_hat, secparams)
 
 
-    def PerformKeyGeneration(self, secparams = secparams_default):
+    def genKeyPair(self, secparams = secparams_default):
         """
         (Protocol 6.3) Key Generation: In the last step of the election preparation, a public ElGamal encryption key pk ∈ G_q is
         generated jointly by the election authorities.
@@ -70,7 +70,7 @@ class Authority(object):
         return pk_j
 
 
-    def PerformGetPublicKey(self, pk, secparams = secparams_default):
+    def getPublicKey(self, pk, secparams = secparams_default):
         """
         (Protocol 6.3) GetPublicKey: Combining the s key shares of all authorities
 
@@ -84,7 +84,7 @@ class Authority(object):
         return self.pk
 
 
-    def PerformCheckBallot(self, i, ballot, secparams = secparams_default):
+    def runCheckBallot(self, i, ballot, secparams = secparams_default):
         """
         (Protocol 6.5) PerformCheckBallot: Receives the ballot from the client and checks its validity
 
