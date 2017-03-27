@@ -6,7 +6,7 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Crypto.SecurityParams              import SecurityParams, secparams_default, secparams_l0, secparams_l3
-from TestParams                         import testparams
+from UnitTestParams                     import unittestparams
 from Types                              import *
 from Utils.ToString                     import ToString
 from Utils.MarkByteArray                import MarkByteArray
@@ -32,6 +32,7 @@ def GetSheets(v, c, n, k, E, D, secparams = secparams_default):
     """
 
     s = []
+    rawSheetData = []
     for i in range (len(E)):
         k_i = [E[i][j] * k[j] for j in range(len(k))]
         sum_x_ij = sum_y_ij = mpz(0)
@@ -49,6 +50,8 @@ def GetSheets(v, c, n, k, E, D, secparams = secparams_default):
             R = MarkByteArray(XorByteArray(R_ijk), k_index, max(n))
             rc.append(ByteArrayToString(R, secparams.A_R))
         s.append(GetSheet(i, v[i], c, n, k_i, X, Y, FC, rc))
+        rawSheetData.append(VotingSheet(i, v[i], c, n, k_i, X, Y, FC, rc))
+        # the following data structure is additionally returned so we can retrieve a voters data for automatic user input (for example the voting code) without having to parse the votingSheet String
 
 
-    return s
+    return (s, rawSheetData)

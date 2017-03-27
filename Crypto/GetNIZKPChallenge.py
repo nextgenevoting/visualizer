@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils            import AssertMpz, AssertClass
 from Utils.ToInteger        import ToInteger
 from Utils.RecHash          import RecHash
-from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3, SecurityParams
 from Types                  import PublicCommitment, PublicValue
 
 def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
@@ -29,6 +29,8 @@ def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
     AssertClass(t, PublicCommitment)
     AssertMpz(q)
     assert q >= 2
+    AssertClass(secparams, SecurityParams)
+
 
     c = mpz(ToInteger(RecHash([y, t], secparams)) % q)
 

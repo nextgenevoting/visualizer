@@ -7,15 +7,19 @@ class VoteClient(object):
     The VoteClient class represents a voting client participating in the protocols (for example prot 6.5)
     """
 
+    voter = None
     i = None
     bulletinBoard = None                # Reference to the bulletinBoard object
     k_i = None
+    votingSheet = None
 
-    def __init__(self, i, bulletinBoard):
+    def __init__(self, i, voter, votingSheet, bulletinBoard):
         self.i = i
         self.bulletinBoard = bulletinBoard
+        self.voterData = voter
+        self.votingSheet = votingSheet
 
-    def candidateSelection(self, secparams):
+    def candidateSelection(self, autoInput, secparams):
         """
         Protocol 6.4: Candidate selection
 
@@ -34,13 +38,23 @@ class VoteClient(object):
         P_i = GetVotingPage(self.i, c,n,self.k_i)
 
         print(P_i)
-        s = input('Enter your selection : ')
+        if autoInput:
+            s = self.voterData["selection"]
+            print("Voter selected: %s" % s)
+        else:
+            s = input('Enter your selection : ')
 
         return [int(s) for s in s.split(',')]
 
-    def castVote(self, s, secparams):
+    def castVote(self, s, autoInput, secparams):
         pk = self.bulletinBoard.pk
-        X = input('Enter your voting code: ')
+
+        if autoInput:
+            X = self.votingSheet.X
+            print("Voter entered voting code: %s" % X)
+        else:
+            X = input('Enter your voting code: ')
+
         return GenBallot(X, s, pk, secparams)
 
 

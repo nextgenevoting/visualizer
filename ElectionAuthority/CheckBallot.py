@@ -11,7 +11,7 @@ from ElectionAuthority.CheckBallotProof import CheckBallotProof
 from Utils.Utils                        import AssertInt, AssertList, AssertMpz, AssertClass
 from Types                              import Ballot, BallotProof
 from VotingClient.GenBallot             import GenBallot
-from TestParams                         import testparams
+from UnitTestParams                     import unittestparams
 from Types                              import *
 
 def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
@@ -54,35 +54,37 @@ def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
 
 class CheckBallotTest(unittest.TestCase):
     def testCheckBallot(self):
+
+
         selection = [1, 4]  # select candidates with indices 1,4
-        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
-        self.assertTrue(CheckBallot(0,ballot,testparams.pk,testparams.K,[testparams.x_hat],[],secparams_l0))
+        (ballot, r) = GenBallot(unittestparams.X, selection, unittestparams.pk, secparams_l0)
+        self.assertTrue(CheckBallot(0,ballot,unittestparams.pk,unittestparams.K,[unittestparams.x_hat],[],secparams_l0))
 
         # check if a ballot with more than the allowed number of selections fails
         selection = [1,2,3]  # select candidates with indices 1,4
-        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
-        self.assertFalse(CheckBallot(0,ballot,testparams.pk,testparams.K,[testparams.x_hat],[],secparams_l0))
+        (ballot, r) = GenBallot(unittestparams.X, selection, unittestparams.pk, secparams_l0)
+        self.assertFalse(CheckBallot(0,ballot,unittestparams.pk,unittestparams.K,[unittestparams.x_hat],[],secparams_l0))
 
        # check if a ballot with more than the allowed number of selections fails
         selection = [1,3]  # select candidates with indices 1,4
-        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
+        (ballot, r) = GenBallot(unittestparams.X, selection, unittestparams.pk, secparams_l0)
         a_modified = ballot.a
         a_modified[0] += 1
         ballot_modified = Ballot(ballot.x_hat, a_modified, ballot.b, ballot.pi)
-        self.assertFalse(CheckBallot(0,ballot_modified,testparams.pk,testparams.K,[testparams.x_hat],[],secparams_l0))
+        self.assertFalse(CheckBallot(0,ballot_modified,unittestparams.pk,unittestparams.K,[unittestparams.x_hat],[],secparams_l0))
 
        # check if a ballot with more than the allowed number of selections fails
         selection = [1,3]  # select candidates with indices 1,4
-        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
+        (ballot, r) = GenBallot(unittestparams.X, selection, unittestparams.pk, secparams_l0)
         ballot_modified = Ballot(ballot.x_hat, ballot.a, ballot.b + 1, ballot.pi)
-        self.assertFalse(CheckBallot(0,ballot_modified,testparams.pk,testparams.K,[testparams.x_hat],[],secparams_l0))
+        self.assertFalse(CheckBallot(0,ballot_modified,unittestparams.pk,unittestparams.K,[unittestparams.x_hat],[],secparams_l0))
 
        # check if a ballot with more than the allowed number of selections fails
         selection = [1,3]  # select candidates with indices 1,4
-        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
+        (ballot, r) = GenBallot(unittestparams.X, selection, unittestparams.pk, secparams_l0)
         modified_proof = BallotProof(ballot.pi.t, (ballot.pi.s[0]+1, ballot.pi.s[1], ballot.pi.s[2]))
         ballot_modified = Ballot(ballot.x_hat, ballot.a, ballot.b, modified_proof)
-        self.assertFalse(CheckBallot(0,ballot_modified,testparams.pk,testparams.K,[testparams.x_hat],[],secparams_l0))
+        self.assertFalse(CheckBallot(0,ballot_modified,unittestparams.pk,unittestparams.K,[unittestparams.x_hat],[],secparams_l0))
 
         # TODO: Checks of voting code and ballotList!
 

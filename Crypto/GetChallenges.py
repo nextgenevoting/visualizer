@@ -4,10 +4,10 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertMpz, AssertInt
+from Utils.Utils            import AssertMpz, AssertInt, AssertClass
 from Utils.ToInteger        import ToInteger
 from Utils.RecHash          import RecHash
-from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3, SecurityParams
 
 def GetChallenges(n, y, q, secparams=secparams_default):
     """
@@ -21,13 +21,14 @@ def GetChallenges(n, y, q, secparams=secparams_default):
         q (mpz):    Upper bound of challenge (q >= 2)
 
     Retuns:
-        c (list):   List containing n computed challenges
+        c (list):   List containing n computed challenges (mpz)
     """
 
     AssertInt(n)
     AssertMpz(y)
     AssertMpz(q)
     assert(q >= 2)
+    AssertClass(secparams, SecurityParams)
 
     H = RecHash(y, secparams)
     c = []

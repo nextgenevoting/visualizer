@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils                    import AssertMpz, AssertClass
 from Crypto.SecurityParams          import SecurityParams, secparams_default, secparams_l0
 from Crypto.GetNIZKPChallenge       import GetNIZKPChallenge
-from TestParams                     import testparams
+from UnitTestParams                 import unittestparams
 from VotingClient.GenBallotProof    import GenBallotProof
 from Types                          import BallotProof, PublicValue
 
@@ -50,6 +50,12 @@ def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
 
 class CheckBallotProofTest(unittest.TestCase):
     def testCheckBallotProofL0(self):
-        self.assertTrue(CheckBallotProof(GenBallotProof(mpz(281401388481450), mpz(22), mpz(4), testparams.x_hat, testparams.a, testparams.b, testparams.pk, secparams_l0), testparams.x_hat, testparams.a, testparams.b, testparams.pk, secparams_l0))
+        ballotProof = ((mpz(161), mpz(195), mpz(16)), (mpz(79), mpz(137), mpz(157)))
+        x_hat = mpz(607)
+        a = mpz(546)
+        b = mpz(256)
+        pk = mpz(4096)
+
+        self.assertTrue(CheckBallotProof(GenBallotProof(mpz(281401388481450), mpz(22), mpz(4), mpz(252), a, b, pk, secparams_l0), mpz(252), a, b, pk, secparams_l0))
 if __name__ == '__main__':
     unittest.main()

@@ -11,7 +11,7 @@ from Utils.ToInteger                import ToInteger
 from VotingClient.GetSelectedPrimes import GetSelectedPrimes
 from VotingClient.GenQuery          import GenQuery
 from VotingClient.GenBallotProof    import GenBallotProof
-from TestParams                     import testparams
+from UnitTestParams                 import unittestparams
 from Types                          import Ballot
 from Utils.StringToInteger          import StringToInteger
 
@@ -59,7 +59,7 @@ def GenBallot(X, s, pk, secparams=secparams_default):
 class GenBallotTest(unittest.TestCase):
     def testGenBallot(self):
         selection = [1,4]       # select candidates with indices 1,4
-        (ballot, r) = GenBallot(testparams.X, selection, testparams.pk, secparams_l0)
+        (ballot, r) = GenBallot(unittestparams.X, selection, unittestparams.pk, secparams_l0)
         print(ballot)
         print(r)
 

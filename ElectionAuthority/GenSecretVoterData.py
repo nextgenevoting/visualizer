@@ -11,7 +11,7 @@ from Utils.Random                   import randomMpz
 from Utils.RecHash                  import RecHash
 from Crypto.SecurityParams          import SecurityParams, secparams_default, secparams_l0, secparams_l3
 from ElectionAuthority.GenPoints    import GenPoints
-from TestParams                     import testparams
+from UnitTestParams                 import unittestparams
 
 def GenSecretVoterData(p, secparams = secparams_default):
     """
@@ -44,7 +44,7 @@ class GenSecretVoterDataTest(unittest.TestCase):
     def testGenSecretVoterData(self):
 
         # generate some points for 10 candidates [5 per election]
-        points, yvalues = GenPoints([5,5], [3,2], 2)
+        points, yvalues = GenPoints([5,5], [3,2], secparams_l0)
         x,y,F,r = GenSecretVoterData(points, secparams_l3)
 
         # check that x and y are of type MPZ
@@ -56,7 +56,7 @@ class GenSecretVoterDataTest(unittest.TestCase):
 
     def testGenSecretVoterDataL0(self):
         # generate some points for 6 candidates [3 per election], 1 selection per election, 2 simult. elections,
-        points, yvalues = GenPoints(testparams.n, testparams.k, testparams.t, secparams_l0)
+        points, yvalues = GenPoints(unittestparams.n, unittestparams.k, secparams_l0)
         # points contains 6x (mpz(2), mpz(2))
         x, y, F, r = GenSecretVoterData(points, secparams_l0)
         # q_hat_apos_x = 43

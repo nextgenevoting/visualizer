@@ -5,10 +5,10 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertInt
+from Utils.Utils            import AssertInt, AssertClass
 from Utils.ToInteger        import ToInteger
 from Utils.RecHash          import RecHash
-from Crypto.SecurityParams  import secparams_default, secparams_l0
+from Crypto.SecurityParams  import secparams_default, secparams_l0, SecurityParams
 
 def GetGenerators(n, secparams=secparams_default):
     """
@@ -19,9 +19,10 @@ def GetGenerators(n, secparams=secparams_default):
        n (int):     The number of primes to be calculated
 
     Returns:
-       list:        a list with independent generators of G_p
+       list:        a list with independent generators of G_p (mpz)
     """
     AssertInt(n)
+    AssertClass(secparams, SecurityParams)
 
     generators = []
 

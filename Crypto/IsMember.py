@@ -7,8 +7,8 @@ from Crypto.SecurityParams import SecurityParams
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertNumeric
-from Crypto.SecurityParams  import secparams_default
+from Utils.Utils            import AssertNumeric, AssertClass
+from Crypto.SecurityParams  import secparams_default, SecurityParams
 
 def IsMember(x, secparams=secparams_default):
     """
@@ -22,6 +22,8 @@ def IsMember(x, secparams=secparams_default):
         list:        A list with length n containing the first n prime numbers in G_p
     """
     AssertNumeric(x)
+    AssertClass(secparams, SecurityParams)
+
 
     if 1 <= x and x < secparams.p:
         j = jacobi(x, secparams.p)

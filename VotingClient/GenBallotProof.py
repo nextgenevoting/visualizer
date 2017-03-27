@@ -9,7 +9,7 @@ from Utils.Utils                import AssertMpz, AssertClass
 from Utils.Random               import randomMpz, randomQuadResMpz
 from Crypto.SecurityParams      import SecurityParams, secparams_default, secparams_l0
 from Crypto.GetNIZKPChallenge   import GetNIZKPChallenge
-from TestParams                 import testparams
+from UnitTestParams             import unittestparams
 from Types                      import *
 
 def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
@@ -62,7 +62,7 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
 
 class GenBallotProofTest(unittest.TestCase):
     def testGenBallotProof(self):
-        ballotProof = GenBallotProof(mpz(281401388481450), mpz(22), mpz(4), testparams.x_hat, testparams.a, testparams.b, testparams.pk, secparams_l0)
+        ballotProof = GenBallotProof(mpz(281401388481450), mpz(22), mpz(4), unittestparams.x_hat, unittestparams.a, unittestparams.b, unittestparams.pk, secparams_l0)
         self.assertTrue(False) # TODO
 
 if __name__ == '__main__':

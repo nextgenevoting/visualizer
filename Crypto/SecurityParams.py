@@ -22,12 +22,12 @@ class SecurityParams(object):
 
     # Return code
     A_R = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Return code alphabet
-    L_R = 2                                                         # Length of Returncodes in bytes
+    L_R = 3                                                         # Length of Returncodes in bytes
     l_R = ceil((8 * L_R + BitAbs(Nmax)) / log2(len(A_R)))           # Length of return codes in characters
 
     # Finalization code
     A_F = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Final. code alphabet
-    L_F = 2                                                         # Length of finalizationcode in bytes
+    L_F = 3                                                         # Length of finalizationcode in bytes
     l_F = ceil(8 * L_R / log2(len(A_F)))                            # Length of finalization codes in characters
 
     # Voting code

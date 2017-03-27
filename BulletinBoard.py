@@ -1,6 +1,5 @@
 class BulletinBoard(object):
 
-    elections = []
     voter = []
     t = None
     E = []  # eligibility matrix E = (e_ij) N x t
@@ -13,7 +12,7 @@ class BulletinBoard(object):
     def __init__(self):
         pass
 
-    def setupElectionEvent(self, v, elections, E):
+    def setupElectionEvent(self, v, n, k, t, c, E):
         """
         Election Event setup, done by the Election Administration before the election
 
@@ -23,15 +22,10 @@ class BulletinBoard(object):
             E ([[]]):           Elegibility matrix
         """
         self.v = v
-        self.elections = elections
-        self.t = len(elections)
-
-        for el in elections:
-            self.n.append(len(el.candidates))
-            self.k.append(el.k)
-            for candidate in el.candidates:
-                self.c.append(candidate.name)
-
+        self.c = c
+        self.n = n
+        self.k = k
+        self.t = t
         self.E = E
 
     def getCandidateSelectionParams(self):
@@ -44,17 +38,14 @@ class BulletinBoard(object):
         return (self.c, self.n, self.k, self.E)
 
     @property
-    def n_total(self):
+    def n_sum(self):
         """
         Returns the total number of candidates among all elections
 
         Returns:
            int:  The total number of candidates
         """
-        count = 0;
-        for n_i in self.n:
-            count += n_i
-        return count
+        return sum(self.n)
 
     @property
     def N(self):

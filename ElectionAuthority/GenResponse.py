@@ -10,9 +10,10 @@ from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_
 from Utils.Random           import randomMpz
 from math                   import ceil
 from Crypto.GetPrimes       import GetPrimes
-from TestParams             import testparams
+from UnitTestParams         import unittestparams
 from Utils.ToByteArray      import ToByteArrayN
 from Utils.RecHash          import RecHash
+from Types                  import *
 
 def GenResponse(i, a, pk, n, K, P, secparams=secparams_default):
     """
@@ -67,18 +68,19 @@ def GenResponse(i, a, pk, n, K, P, secparams=secparams_default):
                 k_tmp += RecHash((k,i))
             K_tmp = k_tmp[0:secparams.L_M]
             C = bytearray()
+            assert len(M)==len(K_tmp), "M and K_tmp must be equal in size"
             for bi in range(len(M)):
                 C += (M[bi] ^ K_tmp[bi]).to_bytes(1, byteorder='big')
-            c.append(C)  # TODO M xor K
+            c.append(C)
             v += 1
         d.append(gmpy2.powmod(pk, r_j, secparams.p))
 
-    beta = (b,c,d)
+    beta = Response(b,c,d)
     return (beta, r)
 
 class GenResponseTest(unittest.TestCase):
     def testGenResponse(self):
-        GenResponse(0, [mpz(195), mpz(401)], testparams.pk, testparams.n, testparams.K, testparams.P, secparams_l0)
+        GenResponse(0, [mpz(195), mpz(401)], unittestparams.pk, unittestparams.n, unittestparams.K, unittestparams.P, secparams_l0)
         self.assertTrue(False)
 
 if __name__ == '__main__':

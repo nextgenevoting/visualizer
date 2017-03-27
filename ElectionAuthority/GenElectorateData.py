@@ -10,7 +10,7 @@ from Crypto.SecurityParams                  import SecurityParams, secparams_l0,
 from ElectionAuthority.GenPoints            import GenPoints
 from ElectionAuthority.GenSecretVoterData   import GenSecretVoterData
 from ElectionAuthority.GetPublicVoterData   import GetPublicVoterData
-from TestParams                             import testparams
+from UnitTestParams                         import unittestparams
 
 def GenElectorateData(n, k, E, secparams = secparams_default):
     """
@@ -60,7 +60,7 @@ class GenElectorateDataTest(unittest.TestCase):
 
     def testGenElectorateData(self):
         # Test with 2 voters, 2 elections, 2*3 candidates
-        d, d_hat, P, K = GenElectorateData(testparams.n, testparams.k, testparams.E, secparams_l3)
+        d, d_hat, P, K = GenElectorateData(unittestparams.n, unittestparams.k, unittestparams.E, secparams_l3)
 
         # Test if len(d) matches the number of voters (3)
         self.assertTrue(len(d) == 2)
@@ -74,7 +74,7 @@ class GenElectorateDataTest(unittest.TestCase):
 
     def testGenElectorateDataL0(self):
         # Test with 2 voters, 2 elections, 2*3 candidates
-        d, d_hat, P, K = GenElectorateData(testparams.n, testparams.k, testparams.E, secparams_l0)
+        d, d_hat, P, K = GenElectorateData(unittestparams.n, unittestparams.k, unittestparams.E, secparams_l0)
 
         d_hat_manual =  [(mpz(161), mpz(253)), (mpz(161), mpz(253))]
         self.assertEqual(d_hat, d_hat_manual)

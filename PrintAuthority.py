@@ -27,5 +27,5 @@ class PrintingAuthority(object):
         Returns:
             list:       code sheet
         """
-        s = GetSheets(self.bulletinBoard.v, self.bulletinBoard.c, self.bulletinBoard.n, self.bulletinBoard.k, self.bulletinBoard.E, D, secparams)
-        return s
+        (s, rawSheetData) = GetSheets(self.bulletinBoard.v, self.bulletinBoard.c, self.bulletinBoard.n, self.bulletinBoard.k, self.bulletinBoard.E, D, secparams)
+        return (s, rawSheetData)

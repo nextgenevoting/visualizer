@@ -6,7 +6,7 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils            import AssertList, AssertInt
-from TestParams             import testparams
+from UnitTestParams         import unittestparams
 
 def GetVotingPage(i, c, n, k):
     """
@@ -53,7 +53,7 @@ Simultaneous elections:
 
 class GetVotingPageTest(unittest.TestCase):
     def testGetVotingPage(self):
-        print(GetVotingPage(1,testparams.c,testparams.n,testparams.k))
+        print(GetVotingPage(1,unittestparams.c,unittestparams.n,unittestparams.k))
 
 if __name__ == '__main__':
     unittest.main()
