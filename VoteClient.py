@@ -1,6 +1,7 @@
 from VotingClient.GetVotingPage             import GetVotingPage
 from BulletinBoard                          import BulletinBoard
 from VotingClient.GenBallot                 import GenBallot
+from VotingClient.GetPointMatrix            import GetPointMatrix
 
 class VoteClient(object):
     """
@@ -11,7 +12,9 @@ class VoteClient(object):
     i = None
     bulletinBoard = None                # Reference to the bulletinBoard object
     k_i = None
+    s = None
     votingSheet = None
+    r = None
 
     def __init__(self, i, voter, votingSheet, bulletinBoard):
         self.i = i
@@ -44,7 +47,8 @@ class VoteClient(object):
         else:
             s = input('Enter your selection : ')
 
-        return [int(s) for s in s.split(',')]
+        self.s = [int(s) for s in s.split(',')]
+        return self.s
 
     def castVote(self, s, autoInput, secparams):
         pk = self.bulletinBoard.pk
@@ -55,7 +59,15 @@ class VoteClient(object):
         else:
             X = input('Enter your voting code: ')
 
-        return GenBallot(X, s, pk, secparams)
+        (alpha, r) = GenBallot(X, s, pk, secparams)
+        self.r = r
+        return (alpha, r)
+
+
+    def getPointsFromResponse(self, beta, secparams):
+        P_s = GetPointMatrix(beta, self.k_i, self.s, self.r, secparams)
+        print(P_s)
+        #rc_s = GetReturnCodes(self.s, P_s)
 
 
 

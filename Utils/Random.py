@@ -110,19 +110,19 @@ class randomMpzTest(unittest.TestCase):
         # check that the bit_length of the randomly generated number is close to the upper bound
         self.assertTrue(randomMpz(secparams_l3.p).bit_length() >= secparams_l3.p.bit_length() - 10)
 
-        for i in range(0,100):
+        for i in range(100):
             r = randomBoundedMpz(2 ** 1024,  2 ** 1028).bit_length()
             self.assertTrue(r >= 1024 and r <= 1028)
 
     def testReturnTypes(self):
-        for i in range(0, 200):
+        for i in range(200):
             self.assertEqual(randomMpz(2 ** i, secparams_l0).__class__.__name__, 'mpz')
             self.assertEqual(randomBoundedMpz(2 ** i, 2 ** (i + 1), secparams_l0).__class__.__name__, 'mpz')
             self.assertEqual(randomRelativePrimeMpz(2 ** i, secparams_l0).__class__.__name__, 'mpz')
             self.assertEqual(randomEltMpz(2, 11, secparams_l0).__class__.__name__, 'mpz')
 
     def testDeterminism(self):
-        for i in range(0, 200):
+        for i in range(200):
             # randomMpz should always return 2 with deterministic random gen
             self.assertEqual(randomMpz(2**i, secparams_l0), 2)
             # randomBoundedMpz should always return lb with deterministic random gen

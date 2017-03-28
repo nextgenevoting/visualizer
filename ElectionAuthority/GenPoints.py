@@ -35,8 +35,8 @@ def GenPoints(n,k, secparams = secparams_default):
     for j in range(len(n)):
         a_j = GenPolynomial(k[j]-1, secparams)          # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
         X = []
-        for l in range(0, n[j]):                        # loop over all candidates of election j
-            x = 0
+        for l in range(n[j]):                        # loop over all candidates of election j
+            x = mpz(0)
             # get a unique x from Z_p'
             while True:
                 x = randomMpz(secparams.p_prime, secparams)
@@ -46,7 +46,7 @@ def GenPoints(n,k, secparams = secparams_default):
             y_j = GetYValue(x,a_j,secparams)            # get the corresponding y value of x on the polynomial a_j
             p_i = Point(x,y_j)                          # Point tuple
             p.append(p_i)                               # part of the private voter data
-        y.append(GetYValue(0,a_j, secparams))           # Point (0,Y(0))
+        y.append(GetYValue(mpz(0),a_j, secparams))           # Point (0,Y(0))
 
     return (p, y)
 

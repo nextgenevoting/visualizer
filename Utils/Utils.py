@@ -63,6 +63,20 @@ def Truncate(B, l):
 
     return B[0:l]
 
+def Skip(B, l):
+    """
+    Helper function to skip a bytearray to the given length
+
+    Args:
+       B (bytes):   The bytes to be converted to an integer
+       l (int):     Length
+
+    Returns:
+       bytearray:   Bytearray skipped to length
+    """
+
+    return B[l:len(B)]
+
 class UtilsTest(unittest.TestCase):
     def testBitAbs(self):
         # some value tests
@@ -77,7 +91,7 @@ class UtilsTest(unittest.TestCase):
         B = bytearray(b'0123456789')
 
         for i in range(10):
-            self.assertEqual(Truncate(B, i), B[0:i])
+            self.assertEqual(Truncate(B, i) + Skip(B,i), B)
 
 if __name__ == '__main__':
     unittest.main()

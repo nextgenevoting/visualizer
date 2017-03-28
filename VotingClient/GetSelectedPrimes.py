@@ -22,19 +22,18 @@ def GetSelectedPrimes(s, secparams=secparams_default):
     AssertList(s)
     AssertClass(secparams, SecurityParams)
 
-    s_k = max(s) if len(s) > 0 else 0
-    p = GetPrimes(s_k)
-    q = [ p[s_i - 1] for s_i in s ]
+    s_k = max(s)+1
+    p = GetPrimes(s_k, secparams)
+    q = [ p[s_i] for s_i in s ]
 
     return q
 
 class GetSelectedPrimesTest(unittest.TestCase):
     def testGetSelectedPrimesL0(self):
-        self.assertEqual(GetSelectedPrimes([], secparams_l0), [])
-        self.assertEqual(GetSelectedPrimes([1], secparams_l0), [2])
-        self.assertEqual(GetSelectedPrimes([3], secparams_l0), [7])
-        self.assertEqual(GetSelectedPrimes([1, 2], secparams_l0), [2, 3])
-        self.assertEqual(GetSelectedPrimes([1, 2, 3], secparams_l0), [2, 3, 7])
+        self.assertEqual(GetSelectedPrimes([1, 2], secparams_l0), [7, 11])
+        self.assertEqual(GetSelectedPrimes([3, 1], secparams_l0), [11, 3])
+        self.assertEqual(GetSelectedPrimes([0, 1], secparams_l0), [2, 3])
+        self.assertEqual(GetSelectedPrimes([0, 1, 2], secparams_l0), [2, 3, 7])
 
 if __name__ == '__main__':
     unittest.main()

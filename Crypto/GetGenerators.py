@@ -26,7 +26,7 @@ def GetGenerators(n, secparams=secparams_default):
 
     generators = []
 
-    for i in range(0, n):
+    for i in range(n):
         x = 0
 
         while True:
@@ -45,7 +45,7 @@ def GetGenerators(n, secparams=secparams_default):
 class GetGeneratorsTest(unittest.TestCase):
     def testGetGenerators(self):
         # Test if the lenght of the returned list matches the parameter n
-        for i in range(0, 20):
+        for i in range(20):
             self.assertTrue(len(GetGenerators(i)) == i)
 
         # Checking if all elements in the list are unique

@@ -20,16 +20,14 @@ def GetYValue(x, a, secparams = secparams_default):
     Returns:
        mpz:         the y value for x on the polynomial
     """
-    AssertNumeric(x)
+    AssertMpz(x)
     AssertList(a)
     AssertClass(secparams, SecurityParams)
 
-    assert(x.__class__.__name__ == 'mpz' and x > 0 or isinstance(x, int) and x == 0)    # check that x is only of type int if it's value is 0 (otherwise it must be mpz!)
-
-    if x == 0:
-        y = a[0]
+    if x == mpz(0):
+        y = mpz(a[0])
     else:
-        y = 0
+        y = mpz(0)
         for i in reversed(range(len(a))):
             y = (a[i] + x * y) % secparams.p_prime
 

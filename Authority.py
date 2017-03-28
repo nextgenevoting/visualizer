@@ -6,6 +6,7 @@ from ElectionAuthority.GetPublicCredentials import GetPublicCredentials
 from ElectionAuthority.GenKeyPair           import GenKeyPair
 from ElectionAuthority.GetPublicKey         import GetPublicKey
 from ElectionAuthority.CheckBallot          import CheckBallot
+from ElectionAuthority.GenResponse          import GenResponse
 
 class Authority(object):
     """
@@ -15,6 +16,7 @@ class Authority(object):
     name = ""
 
     # The election authority knows:
+    n = None
     d_j = None
     d_hat_j = None
     P_j = None
@@ -43,6 +45,7 @@ class Authority(object):
             list:               d_hat_j, a list of public data of all voters, calculated by authority j
 
         """
+        self.n = n
         self.d_j, self.d_hat_j, self.P_j, self.K = GenElectorateData(n, k, E, secparams)
         return self.d_hat_j
 
@@ -96,3 +99,22 @@ class Authority(object):
             bool
         """
         return CheckBallot(i, ballot, self.pk, self.K, self.x_hat, self.B, secparams)
+
+
+
+    def genResponse(self, i, a, secparams = secparams_default):
+        """
+        (Protocol 6.5) genResponse: Generates a response for the OT query a
+
+        Args:
+            i (int):            Voter index
+            a (list):           Queries
+
+        Returns:
+            tuple:              (i, beta_j)
+        """
+        return GenResponse(i, a, self.pk, self.n, self.K, self.P_j, secparams)
+
+    def printPoints(self):
+        print("Points of Authority %s:" % self.name)
+        print(self.P_j)

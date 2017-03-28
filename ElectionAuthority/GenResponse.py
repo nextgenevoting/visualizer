@@ -5,7 +5,7 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertMpz, AssertList, AssertClass, AssertInt
+from Utils.Utils            import AssertMpz, AssertList, AssertClass, AssertInt, Truncate
 from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0
 from Utils.Random           import randomMpz
 from math                   import ceil
@@ -14,6 +14,7 @@ from UnitTestParams         import unittestparams
 from Utils.ToByteArray      import ToByteArrayN
 from Utils.RecHash          import RecHash
 from Types                  import *
+from Utils.XorByteArray     import XorByteArray
 
 def GenResponse(i, a, pk, n, K, P, secparams=secparams_default):
     """
@@ -49,14 +50,14 @@ def GenResponse(i, a, pk, n, K, P, secparams=secparams_default):
     c = []
     d = []
     r = []
-    for j in range(0, len(n)):
+    for j in range(len(n)):
         r_j = randomMpz(secparams.q, secparams)
         r.append(r_j)
-        for l in range(0, ):
+        for l in range(K[i][j]):
             b.append(gmpy2.powmod(a[u], r_j, secparams.p))
             u += 1
 
-        for l in range(0, n[j]):
+        for l in range(n[j]):
             x_i_v = P[i][v].x
             y_i_v = P[i][v].y
             M = bytearray()
@@ -64,14 +65,10 @@ def GenResponse(i, a, pk, n, K, P, secparams=secparams_default):
             M += ToByteArrayN(y_i_v, secparams.L_M / 2)
             k = gmpy2.powmod(p[v], r_j, secparams.p)
             k_tmp = bytearray()
-            for l_counter in range(0,secparams.L_M):
-                k_tmp += RecHash((k,i))
-            K_tmp = k_tmp[0:secparams.L_M]
-            C = bytearray()
-            assert len(M)==len(K_tmp), "M and K_tmp must be equal in size"
-            for bi in range(len(M)):
-                C += (M[bi] ^ K_tmp[bi]).to_bytes(1, byteorder='big')
-            c.append(C)
+            for l_counter in range(l_M):
+                k_tmp += RecHash([k,l_counter], secparams)
+            K_tmp = Truncate(k_tmp, secparams.L_M)
+            c.append(XorByteArray([M, K_tmp]))
             v += 1
         d.append(gmpy2.powmod(pk, r_j, secparams.p))
 

@@ -38,7 +38,7 @@ def GenElectorateData(n, k, E, secparams = secparams_default):
 
     for i in range (N):                         # loop over N (all voters)
         K_i = []
-        for j in range(0, t):
+        for j in range(t):
             k_ij = E[i][j] * k[j]               # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
             K_i.append(k_ij)
 

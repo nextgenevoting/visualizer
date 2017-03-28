@@ -33,7 +33,7 @@ def GetPointMatrix(beta, k, s, r, secparams=secparams_default):
 
     P_s = []
     for j in range(len(beta)):
-        P_s.append(GetPoints(beta,k,s,r,secparams))
+        P_s.append(GetPoints(beta[j],k,s,r,secparams))
 
     return P_s
 

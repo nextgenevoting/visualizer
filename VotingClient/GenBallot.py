@@ -54,7 +54,7 @@ def GenBallot(X, s, pk, secparams=secparams_default):
     pi = GenBallotProof(x,m,r,x_hat,a,b,pk, secparams)
     alpha = Ballot(x_hat,a_query,b,pi)
 
-    return (alpha,r)
+    return (alpha,r_query)
 
 class GenBallotTest(unittest.TestCase):
     def testGenBallot(self):

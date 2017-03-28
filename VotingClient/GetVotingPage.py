@@ -32,7 +32,7 @@ def GetVotingPage(i, c, n, k):
     candidateIndex = 0
     for j in range(len(k)):
         electionString += "# Election {}\n".format(j)
-        for l in range(0,n[j]):
+        for l in range(n[j]):
             electionString += "Candidate {}: {}\n".format(candidateIndex, c[candidateIndex])
             candidateIndex += 1
         electionString += "You can make {} selection(s) for this particular election\n\n".format(k[j])

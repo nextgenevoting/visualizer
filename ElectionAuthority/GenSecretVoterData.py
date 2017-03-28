@@ -33,7 +33,7 @@ def GenSecretVoterData(p, secparams = secparams_default):
 
     F = Truncate(RecHash(p, secparams),secparams.L_F)        # Finalization code
     r = []                                                   # Return codes
-    for i in range(0, len(p)):
+    for i in range(len(p)):
         r.append(Truncate(RecHash(p[i], secparams), secparams.L_R))
 
     return (x,y,F,r)

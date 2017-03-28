@@ -45,7 +45,7 @@ def ToString(x, k, A):
     S = ""
     N = len(A)
 
-    for i in reversed(range(0, k)):
+    for i in reversed(range(k)):
         s_k = A[x % N]
         x = x // N
         S = s_k + S
