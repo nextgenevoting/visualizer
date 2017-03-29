@@ -3,6 +3,7 @@ from BulletinBoard                          import BulletinBoard
 from Crypto.SecurityParams                  import secparams_default, secparams_l0, secparams_l1, secparams_l2, secparams_l3
 from VoteClient                             import VoteClient
 from PrintAuthority                         import PrintingAuthority
+from VotingClient.CheckReturnCodes          import CheckReturnCodes
 import json
 
 
@@ -87,4 +88,9 @@ class ProtocolRunner(object):
                 print("Ballot validity checked by authority %s: %r" % (authority.name, valid))
 
             beta = [authority.genResponse(votingClient.i,ballot.a, self.secparams)[0] for authority in self.authorities]
-            votingClient.getPointsFromResponse(beta, self.secparams)
+            P_s = votingClient.getPointsFromResponse(beta, self.secparams)
+            print(P_s)
+            returnCodes = votingClient.getReturnCodes(self.secparams)
+            print(returnCodes)
+
+            print("CheckReturnCodes: %r" %CheckReturnCodes(votingClient.votingSheet.rc, returnCodes, s))
