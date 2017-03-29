@@ -23,19 +23,13 @@ class ProtocolRunner(object):
 
         self.bulletinBoard = BulletinBoard()
 
-        if self.jsonData["securityLevel"] == 0:
-            self.secparams = secparams_l0
-        elif self.jsonData["securityLevel"] == 1:
-            self.secparams = secparams_l1
-        elif self.jsonData["securityLevel"] == 2:
-            self.secparams = secparams_l2
-        elif self.jsonData["securityLevel"] == 3:
-            self.secparams = secparams_l3
-        else:
-            self.secparams = secparams_default
+        if self.jsonData["securityLevel"] == 0:     self.secparams = secparams_l0
+        elif self.jsonData["securityLevel"] == 1:   self.secparams = secparams_l1
+        elif self.jsonData["securityLevel"] == 2:   self.secparams = secparams_l2
+        elif self.jsonData["securityLevel"] == 3:   self.secparams = secparams_l3
+        else:                                       self.secparams = secparams_default
 
-        if self.jsonData["deterministicRandomGeneration"] == True:
-            self.secparams.deterministicRandomGen = True
+        self.secparams.deterministicRandomGen = self.jsonData["deterministicRandomGeneration"]
 
         # set up s authorites
         self.authorities = [Authority("S%d" % j) for j in range(self.secparams.s)]
@@ -45,12 +39,12 @@ class ProtocolRunner(object):
 
         self.printingAuth = PrintingAuthority(self.bulletinBoard)
 
-    def run(self, autoInput = False):
+    def run(self, autoInput = False, verbose = False):
 
         # ********** ELECTION PREPARATION PHASE **********
         # publish the data on the bulletin board
         self.bulletinBoard.setupElectionEvent(self.voters, self.jsonData["n"], self.jsonData["k"], self.jsonData["t"], self.jsonData["c"], self.jsonData["E"])
-        print("Number of simultaneous elections: %d, of voters: %d, candidates: %d" %(self.bulletinBoard.t, self.bulletinBoard.N, self.bulletinBoard.n_sum))
+        if verbose: print("Number of simultaneous elections: %d, of voters: %d, candidates: %d" %(self.bulletinBoard.t, self.bulletinBoard.N, self.bulletinBoard.n_sum))
 
         # Run Protocol 6.1: Election Preparation
         D_hat = [auth.generateElectionData(self.bulletinBoard.n, self.bulletinBoard.k, self.bulletinBoard.E, self.secparams) for auth in self.authorities]
@@ -89,8 +83,8 @@ class ProtocolRunner(object):
 
             beta = [authority.genResponse(votingClient.i,ballot.a, self.secparams)[0] for authority in self.authorities]
             P_s = votingClient.getPointsFromResponse(beta, self.secparams)
-            print(P_s)
+            if verbose: print(P_s)
             returnCodes = votingClient.getReturnCodes(self.secparams)
-            print(returnCodes)
+            if verbose: print(returnCodes)
 
             print("CheckReturnCodes: %r" %CheckReturnCodes(votingClient.votingSheet.rc, returnCodes, s))

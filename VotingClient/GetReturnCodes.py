@@ -35,7 +35,7 @@ def GetReturnCodes(s, P_s, secparams=secparams_default):
         R_j = []
         for j in range(len(P_s)):
             R_j.append(Truncate(RecHash(P_s[j][i], secparams), secparams.L_R))
-        R = MarkByteArray(XorByteArray(R_j), s[i], 3)  # TODO: How to get n_max???
+        R = MarkByteArray(XorByteArray(R_j), s[i], secparams.n_max)
         rc_s.append(ByteArrayToString(R, secparams.A_R))
 
     return rc_s

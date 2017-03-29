@@ -17,18 +17,18 @@ class SecurityParams(object):
     p = q = k = g = h = p_hat = q_hat = k_hat = g_hat = p_hat = L = L_M = delta = tau = deterministicRandomGen = 0
 
     s = 3                                                           # Number of authorities
-    Nmax = 255                                                      # Max. Number of candidates
+    n_max = 255                                                      # Max. Number of candidates
     epsilon = 0.9999                                                # deterrence factor --> The chance of an undetected attack is 1-deterrenceFactor
 
     # Return code
     A_R = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Return code alphabet
     L_R = 3                                                         # Length of Returncodes in bytes
-    l_R = ceil((8 * L_R + BitAbs(Nmax)) / log2(len(A_R)))           # Length of return codes in characters
+    l_R = ceil((8 * L_R + BitAbs(n_max)) / log2(len(A_R)))           # Length of return codes in characters
 
     # Finalization code
     A_F = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Final. code alphabet
     L_F = 3                                                         # Length of finalizationcode in bytes
-    l_F = ceil(8 * L_R / log2(len(A_F)))                            # Length of finalization codes in characters
+    l_F = ceil(8 * L_F / log2(len(A_F)))                            # Length of finalization codes in characters
 
     # Voting code
     q_hat_X = q_hat                                                 # Upper bound of secret voting credential x

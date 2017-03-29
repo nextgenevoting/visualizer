@@ -47,7 +47,7 @@ def GetSheets(v, c, n, k, E, D, secparams = secparams_default):
         rc = []
         for k_index in range(sum(n)):
             R_ijk = [D[j][i][3][k_index] for j in range(len(D))]
-            R = MarkByteArray(XorByteArray(R_ijk), k_index, max(n))
+            R = MarkByteArray(XorByteArray(R_ijk), k_index, secparams.n_max)
             rc.append(ByteArrayToString(R, secparams.A_R))
         s.append(GetSheet(i, v[i], c, n, k_i, X, Y, FC, rc))
         rawSheetData.append(VotingSheet(i, v[i], c, n, k_i, X, Y, FC, rc))
