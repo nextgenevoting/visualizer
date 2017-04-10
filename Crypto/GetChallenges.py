@@ -4,10 +4,10 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertMpz, AssertInt, AssertClass
-from Utils.ToInteger        import ToInteger
-from Utils.RecHash          import RecHash
-from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3, SecurityParams
+from Utils.Utils           import AssertMpz, AssertInt, AssertClass
+from Utils.ToInteger       import ToInteger
+from Utils.RecHash         import RecHash
+from Crypto.SecurityParams import secparams_default, secparams_l0, secparams_l3, SecurityParams
 
 def GetChallenges(n, y, q, secparams=secparams_default):
     """

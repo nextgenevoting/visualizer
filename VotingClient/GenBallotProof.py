@@ -5,12 +5,12 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                import AssertMpz, AssertClass
-from Utils.Random               import randomMpz, randomQuadResMpz
-from Crypto.SecurityParams      import SecurityParams, secparams_default, secparams_l0
-from Crypto.GetNIZKPChallenge   import GetNIZKPChallenge
-from UnitTestParams             import unittestparams
-from Types                      import *
+from Utils.Utils              import AssertMpz, AssertClass
+from Utils.Random             import randomMpz, randomQuadResMpz
+from Crypto.SecurityParams    import SecurityParams, secparams_default, secparams_l0
+from Crypto.GetNIZKPChallenge import GetNIZKPChallenge
+from UnitTestParams           import unittestparams
+from Types                    import *
 
 def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
     """
@@ -30,7 +30,6 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
         tuple:     ((t_1, t_2, t_3), (s_1, s_2, s_3))
     """
 
-
     AssertMpz(x)
     AssertMpz(m)
     AssertMpz(r)
@@ -39,7 +38,6 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
     AssertMpz(b)
     AssertMpz(pk)
     AssertClass(secparams, SecurityParams)
-
 
     w_1 = randomMpz(secparams.q_hat, secparams)
     w_2 = randomQuadResMpz(secparams)

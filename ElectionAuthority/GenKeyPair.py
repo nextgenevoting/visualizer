@@ -5,10 +5,10 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertClass
-from Crypto.SecurityParams  import SecurityParams
-from Utils.Random           import randomMpz
-from Crypto.SecurityParams  import secparams_default, secparams_l0, secparams_l3
+from Utils.Utils           import AssertClass
+from Crypto.SecurityParams import SecurityParams
+from Utils.Random          import randomMpz
+from Crypto.SecurityParams import secparams_default, secparams_l0, secparams_l3
 
 def GenKeyPair(secparams=secparams_default):
     """
@@ -24,7 +24,8 @@ def GenKeyPair(secparams=secparams_default):
 
     sk = randomMpz(secparams.q, secparams)
     pk = gmpy2.powmod(secparams.g, sk, secparams.p)
-    return (sk,pk)
+
+    return (sk, pk)
 
 class GenKeyPairTest(unittest.TestCase):
     def testGenKeyPair(self):

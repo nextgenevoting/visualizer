@@ -32,6 +32,7 @@ def GetPointMatrix(beta, k, s, r, secparams=secparams_default):
     AssertClass(secparams, SecurityParams)
 
     P_s = []
+
     for j in range(len(beta)):
         P_s.append(GetPoints(beta[j],k,s,r,secparams))
 
@@ -40,7 +41,6 @@ def GetPointMatrix(beta, k, s, r, secparams=secparams_default):
 class GetPointMatrixTest(unittest.TestCase):
     def testGetPointMatrix(self):
         self.assertTrue(False)
-
 
 if __name__ == '__main__':
     unittest.main()

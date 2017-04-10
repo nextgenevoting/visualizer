@@ -7,8 +7,8 @@ from Crypto.SecurityParams import SecurityParams
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertNumeric, AssertClass
-from Crypto.SecurityParams  import secparams_default, SecurityParams
+from Utils.Utils           import AssertNumeric, AssertClass
+from Crypto.SecurityParams import secparams_default, SecurityParams
 
 def IsMember(x, secparams=secparams_default):
     """
@@ -21,9 +21,9 @@ def IsMember(x, secparams=secparams_default):
     Returns:
         list:        A list with length n containing the first n prime numbers in G_p
     """
+
     AssertNumeric(x)
     AssertClass(secparams, SecurityParams)
-
 
     if 1 <= x and x < secparams.p:
         j = jacobi(x, secparams.p)
@@ -33,7 +33,6 @@ def IsMember(x, secparams=secparams_default):
 
     return False
 
-# Unit Tests
 class GetPrimesTest(unittest.TestCase):
     def testOne(self):
         # Test if the numbers 1,3,4,5,9 are recognized as members of G_q for q = 5 and p = 11

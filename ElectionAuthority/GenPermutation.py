@@ -5,13 +5,13 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                        import AssertInt
-from Types                              import *
-from Utils.Random                       import randomBoundedInt
+from Utils.Utils  import AssertInt
+from Types        import *
+from Utils.Random import randomBoundedInt
 
 def GenPermutation(N):
     """
-    Algorithm 7.42: Generates a random permutation  P 	N following Knuth’s shuffle algorithm [15, pp. 139–140].
+    Algorithm 7.42: Generates a random permutation ψ ∈ Ψ following Knuth's shuffle algorithm.
 
     Args:
        N (int):     Permutation size
@@ -19,11 +19,12 @@ def GenPermutation(N):
     Returns:
         list
     """
+
     AssertInt(N)
 
     I = list(range(N))
-
     res = []
+
     for i in range(N):
         k = randomBoundedInt(i,N-1)
         j_i = I[k]
@@ -32,7 +33,6 @@ def GenPermutation(N):
         res.append(j_i)
 
     return res
-
 
 class GenPermutationTest(unittest.TestCase):
     def testGenPermutation(self):

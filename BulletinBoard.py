@@ -1,5 +1,4 @@
 class BulletinBoard(object):
-
     voter = []
     t = None
     E = []  # eligibility matrix E = (e_ij) N x t
@@ -21,6 +20,7 @@ class BulletinBoard(object):
             elections (list):   List of elections (replaces c,n,k)
             E ([[]]):           Elegibility matrix
         """
+
         self.v = v
         self.c = c
         self.n = n
@@ -35,6 +35,7 @@ class BulletinBoard(object):
         Returns:
             tuple:  (c,n,k,E)
         """
+
         return (self.c, self.n, self.k, self.E)
 
     @property
@@ -45,6 +46,7 @@ class BulletinBoard(object):
         Returns:
            int:  The total number of candidates
         """
+
         return sum(self.n)
 
     @property
@@ -55,4 +57,5 @@ class BulletinBoard(object):
         Returns:
            int:     the total number of eligible voters
         """
+
         return len(self.v)

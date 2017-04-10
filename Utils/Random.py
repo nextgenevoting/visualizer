@@ -1,7 +1,7 @@
 import unittest
 import os, sys
 import gmpy2
-from gmpy2      import mpz
+from gmpy2 import mpz
 from random import randint
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
@@ -11,7 +11,7 @@ from Crypto.SecurityParams import secparams_default, secparams_l0, secparams_l3
 seed = int.from_bytes(os.urandom(secparams_default.p.bit_length()), byteorder='big')
 rstate = gmpy2.random_state(seed)
 
-def randomMpz(n, secparams = secparams_default):
+def randomMpz(n, secparams=secparams_default):
     """
     An algorithm for picking elements uniformly at random from Z_n
 
@@ -21,6 +21,7 @@ def randomMpz(n, secparams = secparams_default):
     Returns:
        mpz:     Random number < n (returns 2 if deterministic mode is set)
     """
+
     if not secparams.deterministicRandomGen:
         r = gmpy2.mpz_random(rstate, n)     # mpz_random(random_state, n) returns a uniformly distributed random integer between 0 and n-1
         if r == 0:
@@ -29,8 +30,7 @@ def randomMpz(n, secparams = secparams_default):
     else:
         return mpz(2)
 
-
-def randomInt(n, secparams = secparams_default):
+def randomInt(n, secparams=secparams_default):
     """
     An algorithm for picking elements uniformly at random from Z_n
 
@@ -40,12 +40,13 @@ def randomInt(n, secparams = secparams_default):
     Returns:
        int:     Random number < n (returns 2 if deterministic mode is set)
     """
+
     if not secparams.deterministicRandomGen:
         randint(1, n)
     else:
         return 2
 
-def randomQuadResMpz(secparams = secparams_default):
+def randomQuadResMpz(secparams=secparams_default):
     """
     An algorithm for picking elements uniformly at random from G_q \subset Z_p^*
 
@@ -54,13 +55,14 @@ def randomQuadResMpz(secparams = secparams_default):
     Returns:
        mpz:     Random element of G_q
     """
+
     if not secparams.deterministicRandomGen:
         r = randomRelativePrimeMpz(secparams.p)
         return gmpy2.powmod(r,2,secparams.p)
     else:
         return mpz(2)
 
-def randomBoundedMpz(lb, ub, secparams = secparams_default):
+def randomBoundedMpz(lb, ub, secparams=secparams_default):
     """
     An algorithm for picking elements uniformly at random from Z_ub \ Z_lb
 
@@ -71,6 +73,7 @@ def randomBoundedMpz(lb, ub, secparams = secparams_default):
     Returns:
        mpz:     Random number: lb < r < ub (returns lb if deterministic mode is set)
     """
+
     assert(ub > lb)
 
     if not secparams.deterministicRandomGen:
@@ -78,8 +81,7 @@ def randomBoundedMpz(lb, ub, secparams = secparams_default):
     else:
         return mpz(lb)
 
-
-def randomBoundedInt(lb, ub, secparams = secparams_default):
+def randomBoundedInt(lb, ub, secparams=secparams_default):
     """
     An algorithm for picking elements uniformly at random from Z_ub \ Z_lb
 
@@ -90,6 +92,7 @@ def randomBoundedInt(lb, ub, secparams = secparams_default):
     Returns:
        int:         Random number: lb < r < ub (returns lb if deterministic mode is set)
     """
+
     assert(ub >= lb)
 
     if not secparams.deterministicRandomGen:
@@ -97,8 +100,7 @@ def randomBoundedInt(lb, ub, secparams = secparams_default):
     else:
         return lb
 
-
-def randomRelativePrimeMpz(n, secparams = secparams_default):
+def randomRelativePrimeMpz(n, secparams=secparams_default):
     """
     An algorithm for picking elements uniformly at random from Z_n^*
 
@@ -109,7 +111,10 @@ def randomRelativePrimeMpz(n, secparams = secparams_default):
        mpz:     Random number < n (returns 1 if deterministic mode is set)
     """
 
-    # check for deterministic mode and return before doing the while True loop, otherwise (depending on the deterministic randomMpz result, we might end up being stuck in an endless loop
+    # check for deterministic mode and return before doing the while True loop,
+    # otherwise (depending on the deterministic randomMpz result, we might end up
+    # being stuck in an endless loop
+
     if secparams.deterministicRandomGen:
         return mpz(1)
 
@@ -120,8 +125,7 @@ def randomRelativePrimeMpz(n, secparams = secparams_default):
 
     return r
 
-
-def randomEltMpz(g, q, secparams = secparams_default):
+def randomEltMpz(g, q, secparams=secparams_default):
     """
     An algorithm for picking elements uniformly at random from G
 
@@ -140,7 +144,6 @@ def randomEltMpz(g, q, secparams = secparams_default):
     else:
         return mpz(g ** 1)
 
-# Unit Tests
 class randomMpzTest(unittest.TestCase):
     def testBounds(self):
         # check that the bit_length of the randomly generated number is close to the upper bound
@@ -167,7 +170,6 @@ class randomMpzTest(unittest.TestCase):
             self.assertEqual(randomRelativePrimeMpz(2**i, secparams_l0), 1)
             # randomEltMpz should always return g^1 with deterministic random gen
             self.assertEqual(randomEltMpz(2,11, secparams_l0), 2**1)
-
 
 if __name__ == '__main__':
     unittest.main()

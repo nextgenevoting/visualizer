@@ -1,6 +1,6 @@
-from Crypto.SecurityParams                  import secparams_default
-from PrintingAuthority.GetSheets            import GetSheets
-from BulletinBoard                          import BulletinBoard
+from Crypto.SecurityParams       import secparams_default
+from PrintingAuthority.GetSheets import GetSheets
+from BulletinBoard               import BulletinBoard
 
 class PrintingAuthority(object):
     """
@@ -27,5 +27,7 @@ class PrintingAuthority(object):
         Returns:
             list:       code sheet
         """
+
         (s, rawSheetData) = GetSheets(self.bulletinBoard.v, self.bulletinBoard.c, self.bulletinBoard.n, self.bulletinBoard.k, self.bulletinBoard.E, D, secparams)
+
         return (s, rawSheetData)

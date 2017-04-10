@@ -3,9 +3,9 @@ import os, sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0
-from Utils.Utils            import AssertList, AssertClass
-from Types                  import Point
+from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0
+from Utils.Utils           import AssertList, AssertClass
+from Types                 import Point
 
 def GetValue(p, secparams=secparams_default):
     """

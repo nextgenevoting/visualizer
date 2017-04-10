@@ -5,12 +5,12 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                            import AssertClass, AssertList
-from Crypto.SecurityParams                  import SecurityParams, secparams_l0, secparams_l3, secparams_default
-from ElectionAuthority.GenPoints            import GenPoints
-from ElectionAuthority.GenSecretVoterData   import GenSecretVoterData
-from ElectionAuthority.GetPublicVoterData   import GetPublicVoterData
-from UnitTestParams                         import unittestparams
+from Utils.Utils                          import AssertClass, AssertList
+from Crypto.SecurityParams                import SecurityParams, secparams_l0, secparams_l3, secparams_default
+from ElectionAuthority.GenPoints          import GenPoints
+from ElectionAuthority.GenSecretVoterData import GenSecretVoterData
+from ElectionAuthority.GetPublicVoterData import GetPublicVoterData
+from UnitTestParams                       import unittestparams
 
 def GenElectorateData(n, k, E, secparams = secparams_default):
     """
@@ -24,6 +24,7 @@ def GenElectorateData(n, k, E, secparams = secparams_default):
     Returns:
         tuple:                  (d, d^, P, K)
     """
+
     AssertList(n)
     AssertList(k)
     AssertClass(secparams, SecurityParams)
@@ -44,6 +45,7 @@ def GenElectorateData(n, k, E, secparams = secparams_default):
 
         # generate n random points
         p, y = GenPoints(n, K_i, secparams)
+
         # generate x, y values, finalization code and return codes
         x,y,F,R = GenSecretVoterData(p, secparams)
 
@@ -55,9 +57,7 @@ def GenElectorateData(n, k, E, secparams = secparams_default):
 
     return (d, d_hat, P, K)
 
-# Unit Tests
 class GenElectorateDataTest(unittest.TestCase):
-
     def testGenElectorateData(self):
         # Test with 2 voters, 2 elections, 2*3 candidates
         d, d_hat, P, K = GenElectorateData(unittestparams.n, unittestparams.k, unittestparams.E, secparams_l3)
@@ -71,14 +71,12 @@ class GenElectorateDataTest(unittest.TestCase):
             self.assertTrue(len(d_i) == 4 and d_i[0].__class__.__name__ == 'mpz' and d_i[1].__class__.__name__ == 'mpz' and isinstance(d_i[2], bytes) and isinstance(d_i[3], list))
             self.assertTrue(len(d_i[3]) == 6)    # total number of candidates
 
-
     def testGenElectorateDataL0(self):
         # Test with 2 voters, 2 elections, 2*3 candidates
         d, d_hat, P, K = GenElectorateData(unittestparams.n, unittestparams.k, unittestparams.E, secparams_l0)
 
         d_hat_manual =  [(mpz(161), mpz(253)), (mpz(161), mpz(253))]
         self.assertEqual(d_hat, d_hat_manual)
-
 
 if __name__ == '__main__':
     unittest.main()

@@ -1,8 +1,8 @@
-from VotingClient.GetVotingPage             import GetVotingPage
-from BulletinBoard                          import BulletinBoard
-from VotingClient.GenBallot                 import GenBallot
-from VotingClient.GetPointMatrix            import GetPointMatrix
-from VotingClient.GetReturnCodes            import GetReturnCodes
+from VotingClient.GetVotingPage  import GetVotingPage
+from BulletinBoard               import BulletinBoard
+from VotingClient.GenBallot      import GenBallot
+from VotingClient.GetPointMatrix import GetPointMatrix
+from VotingClient.GetReturnCodes import GetReturnCodes
 
 class VoteClient(object):
     """
@@ -32,7 +32,7 @@ class VoteClient(object):
             list:       Selection
         """
 
-        c,n,k,E = self.bulletinBoard.getCandidateSelectionParams()
+        c, n, k, E = self.bulletinBoard.getCandidateSelectionParams()
 
         # Calculate eligibility vector
         self.k_i = []
@@ -50,6 +50,7 @@ class VoteClient(object):
             s = input('Enter your selection : ')
 
         self.s = [int(s) for s in s.split(',')]
+
         return self.s
 
     def castVote(self, s, autoInput, secparams):
@@ -63,8 +64,8 @@ class VoteClient(object):
 
         (alpha, r) = GenBallot(X, s, pk, secparams)
         self.r = r
-        return (alpha, r)
 
+        return (alpha, r)
 
     def getPointsFromResponse(self, beta, secparams):
         self.P_s = GetPointMatrix(beta, self.k_i, self.s, self.r, secparams)
@@ -73,6 +74,3 @@ class VoteClient(object):
     def getReturnCodes(self, secparams):
         rc_s = GetReturnCodes(self.s, self.P_s, secparams)
         return rc_s
-
-
-

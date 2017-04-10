@@ -30,6 +30,7 @@ def GenBallot(X, s, pk, secparams=secparams_default):
     Returns:
         tuple:          alpha = (r, Ballot) = (r, (x_hat, a, b, pi))
     """
+
     #AssertString(X)
     AssertMpz(pk)
     AssertList(s)
@@ -40,21 +41,26 @@ def GenBallot(X, s, pk, secparams=secparams_default):
 
     q = GetSelectedPrimes(s, secparams)                    # q = (q_1, ... , q_k)
     m = mpz(1)
+
     for i in range (len(q)):
         m = m * q[i]
-    if m >= secparams.p: return None
 
-    (a_query,r_query) = GenQuery(q, pk, secparams)
+    if m >= secparams.p:
+        return None
+
+    (a_query, r_query) = GenQuery(q, pk, secparams)
     a = mpz(1)
     r = mpz(0)
+
     for i in range(len(a_query)):
         a = (a * a_query[i]) % secparams.p
         r = (r + r_query[i]) % secparams.q
+
     b = gmpy2.powmod(secparams.g,r, secparams.p)
     pi = GenBallotProof(x,m,r,x_hat,a,b,pk, secparams)
     alpha = Ballot(x_hat,a_query,b,pi)
 
-    return (alpha,r_query)
+    return (alpha, r_query)
 
 class GenBallotTest(unittest.TestCase):
     def testGenBallot(self):

@@ -5,9 +5,9 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertMpz, AssertList, AssertClass
-from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0
-from Utils.Random           import randomMpz
+from Utils.Utils           import AssertMpz, AssertList, AssertClass
+from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0
+from Utils.Random          import randomMpz
 
 def GenQuery(q, pk, secparams=secparams_default):
     """
@@ -56,8 +56,6 @@ class GenQueryTest(unittest.TestCase):
         (a,r) = GenQuery(q,mpz(4096), secparams_l0)
         self.assertEqual(a[0], mpz(401))
         self.assertEqual(a[1], mpz(250))
-
-
 
 if __name__ == '__main__':
     unittest.main()

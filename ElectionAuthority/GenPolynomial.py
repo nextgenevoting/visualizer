@@ -5,9 +5,9 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertInt, AssertClass
-from Utils.Random           import randomMpz
-from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Utils.Utils           import AssertInt, AssertClass
+from Utils.Random          import randomMpz
+from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
 
 def GenPolynomial(d, secparams = secparams_default):
     """
@@ -28,16 +28,21 @@ def GenPolynomial(d, secparams = secparams_default):
 
     a = []
     a_d = 0
+
     if (d == -1):
         return [0]
+
     else:
         for i in range (0, d):
             a.append(randomMpz(secparams.p_prime, secparams))
-        # generate the last coefficient != 0
-        while a_d == 0: a_d = randomMpz(secparams.p_prime, secparams)
-        a.append(a_d)
-    return a
 
+        # generate the last coefficient != 0
+        while a_d == 0:
+            a_d = randomMpz(secparams.p_prime, secparams)
+
+        a.append(a_d)
+
+    return a
 
 def printPolynomial(a):
     """
@@ -49,24 +54,29 @@ def printPolynomial(a):
     @rtype:     void
     @return:
     """
+
     print("P(x)=", end='')
+
     for i in range(len(a)):
         print("%dx^%d" % (a[i], i), end='')
-        if i != len(a)-1: print(" + ", end='')
-    print('')
+        if i != len(a) - 1:
+            print(" + ", end='')
 
-# Unit Tests
+    print()
+
 class GenPolynomialTest(unittest.TestCase):
-
     def testGenPolynomial(self):
         # check if a polynomial of degree x has x+1 coefficients
         for i in range(10):
+            print("Printing random polynomial of degree %d" % i)
+
             polynomial = GenPolynomial(i,secparams_l3)
-            print("Printing random polynomial of degree %d" %i)
             printPolynomial(polynomial)
             self.assertTrue(len(polynomial) == i+1)
+
             for coeff in polynomial:
                 # check if each coeff. is an mpz
                 self.assertTrue(coeff.__class__.__name__ == 'mpz')
+
 if __name__ == '__main__':
     unittest.main()

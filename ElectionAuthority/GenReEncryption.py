@@ -5,11 +5,10 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                        import AssertMpz
-from Types                              import *
-from Utils.Random                       import randomMpz
-from Crypto.SecurityParams              import SecurityParams, secparams_default, secparams_l0, secparams_l3
-
+from Utils.Utils           import AssertMpz
+from Types                 import *
+from Utils.Random          import randomMpz
+from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
 
 def GenReEncryption(e, pk, secparams = secparams_default):
     """
@@ -23,16 +22,16 @@ def GenReEncryption(e, pk, secparams = secparams_default):
     Returns:
         tuple         Re-Encryption (e', r')
     """
+
     AssertMpz(pk)
 
-    (a,b) = e
+    (a, b) = e
     r_prime = randomMpz(secparams.q)
     a_prime = (a * gmpy2.powmod(pk, r_prime, secparams.p)) % secparams.p
     b_prime = (b * gmpy2.powmod(secparams.g, r_prime, secparams.p)) % secparams.p
     e_prime = (a_prime, b_prime)
 
     return e_prime
-
 
 class GenReEncryptionTest(unittest.TestCase):
     def testGenReEncryption(self):

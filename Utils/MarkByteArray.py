@@ -1,8 +1,8 @@
 import unittest
 
-from Utils.Utils                import BitAbs
-from Utils.SetBit               import SetBit
-from math                       import floor
+from Utils.Utils  import BitAbs
+from Utils.SetBit import SetBit
+from math         import floor
 
 def MarkByteArray(B, m, m_max):
     """
@@ -22,7 +22,7 @@ def MarkByteArray(B, m, m_max):
     l = BitAbs(m_max)
     s = (8 * len(B)) // l
 
-    assert l <= 8*len(B), "||m_max|| <= 8 * |B|"
+    assert l <= 8 * len(B), "||m_max|| <= 8 * |B|"
 
     for i in range(l):
         SetBit(B, floor(i*s), m % 2)
@@ -35,7 +35,6 @@ class MarkByteArrayTest(unittest.TestCase):
         B = bytearray(b'\x01\x01\x01\x01\x01')
         B2 = MarkByteArray(B, 55, 100)
         print(B2)
-
 
 if __name__ == '__main__':
     unittest.main()

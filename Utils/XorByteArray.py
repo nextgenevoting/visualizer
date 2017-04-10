@@ -2,7 +2,6 @@ import unittest
 
 def XorByteArray(BS):
     """
-
     Helper function to xor multiple bytearrays of the same length!
 
     Args:
@@ -11,9 +10,10 @@ def XorByteArray(BS):
     Returns:
         bytearray:          XOR'ed bytearray
     """
-    assert len(BS) >= 2, "BS must be contain at least 2 bytearrays"
-    byteArraySize = len(BS[0])
 
+    assert len(BS) >= 2, "BS must be contain at least 2 bytearrays"
+
+    byteArraySize = len(BS[0])
     res = bytearray(BS[0])
 
     for i in range(1, len(BS)):
@@ -30,7 +30,6 @@ class XorByteArrayTest(unittest.TestCase):
         B2 = bytearray(b'\x05')
         res = XorByteArray([B, B2])
         self.assertEqual(res, b'\x0f')
-
 
 if __name__ == '__main__':
     unittest.main()

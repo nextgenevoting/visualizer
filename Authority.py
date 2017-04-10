@@ -45,6 +45,7 @@ class Authority(object):
             list:               d_hat_j, a list of public data of all voters, calculated by authority j
 
         """
+
         self.n = n
         self.d_j, self.d_hat_j, self.P_j, self.K = GenElectorateData(n, k, E, secparams)
         return self.d_hat_j
@@ -58,8 +59,8 @@ class Authority(object):
            D_hat (list):        The public data of the whole electorate
            N (int):             The number of voters
         """
-        self.x_hat, self.y_hat = GetPublicCredentials(D_hat, secparams)
 
+        self.x_hat, self.y_hat = GetPublicCredentials(D_hat, secparams)
 
     def genKeyPair(self, secparams = secparams_default):
         """
@@ -69,9 +70,9 @@ class Authority(object):
         Returns:
             mpz:                pk
         """
+
         (sk_j, pk_j) = GenKeyPair(secparams)
         return pk_j
-
 
     def getPublicKey(self, pk, secparams = secparams_default):
         """
@@ -83,9 +84,9 @@ class Authority(object):
         Returns:
             mpz:                pk
         """
+
         self.pk = GetPublicKey(pk)
         return self.pk
-
 
     def runCheckBallot(self, i, ballot, secparams = secparams_default):
         """
@@ -98,9 +99,8 @@ class Authority(object):
         Returns:
             bool
         """
+
         return CheckBallot(i, ballot, self.pk, self.K, self.x_hat, self.B, secparams)
-
-
 
     def genResponse(self, i, a, secparams = secparams_default):
         """
@@ -113,6 +113,7 @@ class Authority(object):
         Returns:
             tuple:              (i, beta_j)
         """
+
         return GenResponse(i, a, self.pk, self.n, self.K, self.P_j, secparams)
 
     def printPoints(self):

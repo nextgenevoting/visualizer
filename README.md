@@ -34,6 +34,3 @@ From directory docs, run:
 ```bash
 make html
 ```
-
-
-

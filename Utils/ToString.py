@@ -2,12 +2,12 @@ import unittest
 import gmpy2
 import os, sys
 from gmpy2 import mpz
+from math import ceil, log2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.ToInteger            import ToInteger
-from math                       import ceil, log2
-from Utils.Utils                import AssertMpz, AssertInt, AssertList
+from Utils.ToInteger import ToInteger
+from Utils.Utils     import AssertMpz, AssertInt, AssertList
 
 def ByteArrayToString(B, A):
     """
@@ -20,8 +20,9 @@ def ByteArrayToString(B, A):
     Returns:
        string:      The string representation of x
     """
+
     x_B = mpz(ToInteger(B))
-    k = ceil((8*len(B)) / log2(len(A)))
+    k = ceil((8 * len(B)) / log2(len(A)))
 
     return ToString(x_B, k, A)
 

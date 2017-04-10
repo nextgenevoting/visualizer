@@ -5,10 +5,10 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams              import SecurityParams, secparams_default, secparams_l0, secparams_l3
-from Utils.Utils                        import AssertList, AssertClass
-from Types                              import *
-from ElectionAuthority.HasConfirmation  import HasConfirmation
+from Crypto.SecurityParams             import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Utils.Utils                       import AssertList, AssertClass
+from Types                             import *
+from ElectionAuthority.HasConfirmation import HasConfirmation
 
 def GetEncryptions(B, C, secparams=secparams_default):
     """
@@ -24,24 +24,28 @@ def GetEncryptions(B, C, secparams=secparams_default):
     Returns:
         list
     """
+
     AssertList(B)
     AssertList(C)
     AssertClass(secparams, SecurityParams)
 
     i = 0
     e = []
+
     for j in range(len(B)):
         (i_j, alpha_j, r_j) = B[j]
         a_j = 1
+
         if HasConfirmation(i_j, C):
             for l in range(len(alpha_j.a)):
                 a_j = (a_j * alpha_j.a[l]) % secparams.p
+
             e.append((a_j, alpha_j.b))
             i += 1
 
     e.sort(key=lambda tup: (tup[0], tup[1]), reverse=False)
-    return e
 
+    return e
 
 class GetEncryptionsTest(unittest.TestCase):
     def testGetEncryptions(self):
@@ -50,12 +54,12 @@ class GetEncryptionsTest(unittest.TestCase):
         B = [(607,ballot, 123), (111 ,ballot2, 123),]
         e = GetEncryptions(B, [(607,14234234), (111,4234234)], secparams_l0)
         self.assertEqual(len(B), len(e))
-        pass
 
     def testGetEncryptionsWhenEmpty(self):
         ballot = Ballot(x_hat=mpz(607), a=[mpz(401), mpz(423)], b=mpz(256),pi=BallotProof(t=(t_1=mpz(161), t_2=mpz(195), t_3=mpz(16)),s=(mpz(48), mpz(292), mpz(101))))
         B = [(607,ballot, 123)]
         e = GetEncryptions(B, [], secparams_l0)
         self.assertEqual(len(e), 0)
+
 if __name__ == '__main__':
     unittest.main()

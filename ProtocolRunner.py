@@ -6,9 +6,7 @@ from PrintAuthority                         import PrintingAuthority
 from VotingClient.CheckReturnCodes          import CheckReturnCodes
 import json
 
-
 class ProtocolRunner(object):
-
     jsonData = None
     bulletinBoard = None
     secparams = secparams_default
@@ -40,7 +38,6 @@ class ProtocolRunner(object):
         self.printingAuth = PrintingAuthority(self.bulletinBoard)
 
     def run(self, autoInput = False, verbose = False):
-
         # ********** ELECTION PREPARATION PHASE **********
         # publish the data on the bulletin board
         self.bulletinBoard.setupElectionEvent(self.voters, self.jsonData["n"], self.jsonData["k"], self.jsonData["t"], self.jsonData["c"], self.jsonData["E"])
@@ -63,7 +60,6 @@ class ProtocolRunner(object):
         elgamalKeyshares = [authority.genKeyPair(self.secparams) for authority in self.authorities]
         for authority in self.authorities:
             self.bulletinBoard.pk = authority.getPublicKey(elgamalKeyshares, self.secparams)         # combine the resulting public key
-
 
         # ********** ELECTION PHASE **********
         # Run Protocol 6.4 & 6.5: Candidate Selection & Vote Casting
@@ -88,4 +84,3 @@ class ProtocolRunner(object):
             if verbose: print(returnCodes)
 
             print("CheckReturnCodes: %r" %CheckReturnCodes(votingClient.votingSheet.rc, returnCodes, s))
-

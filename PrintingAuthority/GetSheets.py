@@ -5,14 +5,14 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams              import SecurityParams, secparams_default, secparams_l0, secparams_l3
-from UnitTestParams                     import unittestparams
-from Types                              import *
-from Utils.ToString                     import ToString
-from Utils.MarkByteArray                import MarkByteArray
-from Utils.XorByteArray                 import XorByteArray
-from PrintingAuthority.GetSheet         import GetSheet
-from Utils.ToString                     import ByteArrayToString
+from Crypto.SecurityParams      import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from UnitTestParams             import unittestparams
+from Types                      import *
+from Utils.ToString             import ToString
+from Utils.MarkByteArray        import MarkByteArray
+from Utils.XorByteArray         import XorByteArray
+from PrintingAuthority.GetSheet import GetSheet
+from Utils.ToString             import ByteArrayToString
 
 def GetSheets(v, c, n, k, E, D, secparams = secparams_default):
     """
@@ -33,25 +33,30 @@ def GetSheets(v, c, n, k, E, D, secparams = secparams_default):
 
     s = []
     rawSheetData = []
-    for i in range (len(E)):
+
+    for i in range(len(E)):
         k_i = [E[i][j] * k[j] for j in range(len(k))]
         sum_x_ij = sum_y_ij = mpz(0)
+
         for j in range(len(D)):
             sum_x_ij += D[j][i][0]
             sum_y_ij += D[j][i][1]
+
         X = ToString(sum_x_ij, secparams.l_X, secparams.A_X)   # Voting Code
         Y = ToString(sum_y_ij, secparams.l_Y, secparams.A_Y)   # Confirmation Code
         F_ij = [D[j][i][2] for j in range(len(D))]
         FC = ByteArrayToString(XorByteArray(F_ij), secparams.A_F)
-
         rc = []
+
         for k_index in range(sum(n)):
             R_ijk = [D[j][i][3][k_index] for j in range(len(D))]
             R = MarkByteArray(XorByteArray(R_ijk), k_index, secparams.n_max)
             rc.append(ByteArrayToString(R, secparams.A_R))
         s.append(GetSheet(i, v[i], c, n, k_i, X, Y, FC, rc))
         rawSheetData.append(VotingSheet(i, v[i], c, n, k_i, X, Y, FC, rc))
-        # the following data structure is additionally returned so we can retrieve a voters data for automatic user input (for example the voting code) without having to parse the votingSheet String
 
+        # the following data structure is additionally returned so we can retrieve a
+        # voters data for automatic user input (for example the voting code) without
+        # having to parse the votingSheet String
 
     return (s, rawSheetData)

@@ -5,10 +5,10 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertInt, AssertClass
-from Utils.ToInteger        import ToInteger
-from Utils.RecHash          import RecHash
-from Crypto.SecurityParams  import secparams_default, secparams_l0, SecurityParams
+from Utils.Utils           import AssertInt, AssertClass
+from Utils.ToInteger       import ToInteger
+from Utils.RecHash         import RecHash
+from Crypto.SecurityParams import secparams_default, secparams_l0, SecurityParams
 
 def GetGenerators(n, secparams=secparams_default):
     """
@@ -21,6 +21,7 @@ def GetGenerators(n, secparams=secparams_default):
     Returns:
        list:        a list with independent generators of G_p (mpz)
     """
+
     AssertInt(n)
     AssertClass(secparams, SecurityParams)
 
@@ -41,7 +42,6 @@ def GetGenerators(n, secparams=secparams_default):
 
     return generators
 
-# Unit Tests
 class GetGeneratorsTest(unittest.TestCase):
     def testGetGenerators(self):
         # Test if the lenght of the returned list matches the parameter n
@@ -51,7 +51,6 @@ class GetGeneratorsTest(unittest.TestCase):
         # Checking if all elements in the list are unique
         x = GetGenerators(50)
         self.assertFalse(len(x) > len(set(x)))
-
 
 if __name__ == '__main__':
     unittest.main()

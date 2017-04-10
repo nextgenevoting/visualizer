@@ -5,8 +5,8 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                        import AssertNumeric, AssertList, AssertMpz, AssertClass
-from Crypto.SecurityParams              import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Utils.Utils           import AssertNumeric, AssertList, AssertMpz, AssertClass
+from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
 
 def GetYValue(x, a, secparams = secparams_default):
     """
@@ -20,6 +20,7 @@ def GetYValue(x, a, secparams = secparams_default):
     Returns:
        mpz:         the y value for x on the polynomial
     """
+
     AssertMpz(x)
     AssertList(a)
     AssertClass(secparams, SecurityParams)
@@ -28,15 +29,15 @@ def GetYValue(x, a, secparams = secparams_default):
         y = mpz(a[0])
     else:
         y = mpz(0)
+
         for i in reversed(range(len(a))):
             y = (a[i] + x * y) % secparams.p_prime
 
     AssertMpz(y)
+
     return y
 
-# Unit Tests
 class GetYValueTest(unittest.TestCase):
-
     def testGetYValueL0(self):
         # Test 1: Compare with manually calculated value
         a = [1,3,6,9,15]    # P(x) = 1 + 3x + 6x^2 + 9x^3 + 15x^4

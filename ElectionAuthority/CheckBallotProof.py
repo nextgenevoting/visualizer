@@ -5,12 +5,12 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils                    import AssertMpz, AssertClass
-from Crypto.SecurityParams          import SecurityParams, secparams_default, secparams_l0
-from Crypto.GetNIZKPChallenge       import GetNIZKPChallenge
-from UnitTestParams                 import unittestparams
-from VotingClient.GenBallotProof    import GenBallotProof
-from Types                          import BallotProof
+from Utils.Utils                 import AssertMpz, AssertClass
+from Crypto.SecurityParams       import SecurityParams, secparams_default, secparams_l0
+from Crypto.GetNIZKPChallenge    import GetNIZKPChallenge
+from UnitTestParams              import unittestparams
+from VotingClient.GenBallotProof import GenBallotProof
+from Types                       import BallotProof
 
 def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     """
@@ -27,6 +27,7 @@ def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     Returns:
         bool:           (t_1 == t'_1 and t_2 == t'_2 and t_3 == t'_3)
     """
+
     AssertClass(pi, BallotProof)
     AssertMpz(x_hat)
     AssertMpz(a)
@@ -57,5 +58,6 @@ class CheckBallotProofTest(unittest.TestCase):
         pk = mpz(4096)
 
         self.assertTrue(CheckBallotProof(GenBallotProof(mpz(281401388481450), mpz(22), mpz(4), mpz(252), a, b, pk, secparams_l0), mpz(252), a, b, pk, secparams_l0))
+
 if __name__ == '__main__':
     unittest.main()

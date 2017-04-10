@@ -5,8 +5,8 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils            import AssertClass, AssertList
-from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Utils.Utils           import AssertClass, AssertList
+from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
 
 def GetPublicCredentials(D_hat, secparams = secparams_default):
     """
@@ -19,6 +19,7 @@ def GetPublicCredentials(D_hat, secparams = secparams_default):
     Returns:
        tuple:    (x_hat, y_hat), Public data
     """
+
     AssertList(D_hat)
     AssertClass(secparams, SecurityParams)
     assert len(D_hat) == secparams.s, "The length of D_hat must match the number of authorities s"
@@ -27,20 +28,21 @@ def GetPublicCredentials(D_hat, secparams = secparams_default):
 
     x_hat = []
     y_hat = []
+
     for i in range (N):  # loop over N (voters)
         x_hat_i = mpz(1)
         y_hat_i = mpz(1)
+
         for j in range(secparams_default.s):    # loop over s (authorities)
             x_hat_i = (x_hat_i * D_hat[j][i][0]) % secparams.p_hat           # multiply all x values
             y_hat_i = (y_hat_i * D_hat[j][i][1]) % secparams.p_hat           # multiply all y values
 
         x_hat.append(x_hat_i)
         y_hat.append(y_hat_i)
+
     return (x_hat, y_hat)
 
-# Unit Tests
 class GetPublicCredentialsTest(unittest.TestCase):
-
     def testGetPublicCredentialsL0(self):
         # 3 shares of 2 voter credentials, 1st value is the x-credential, 2nd value is the y-credential
         D_hat = [
