@@ -1,7 +1,8 @@
 import unittest
 import os, sys
 import gmpy2
-from gmpy2 import mpz
+from gmpy2      import mpz
+from random import randint
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -27,6 +28,22 @@ def randomMpz(n, secparams = secparams_default):
         return r
     else:
         return mpz(2)
+
+
+def randomInt(n, secparams = secparams_default):
+    """
+    An algorithm for picking elements uniformly at random from Z_n
+
+    Args:
+       n (int):       The order of Z
+
+    Returns:
+       int:     Random number < n (returns 2 if deterministic mode is set)
+    """
+    if not secparams.deterministicRandomGen:
+        randint(1, n)
+    else:
+        return 2
 
 def randomQuadResMpz(secparams = secparams_default):
     """
@@ -60,6 +77,25 @@ def randomBoundedMpz(lb, ub, secparams = secparams_default):
         return gmpy2.mpz_random(rstate, ub - lb) + lb
     else:
         return mpz(lb)
+
+
+def randomBoundedInt(lb, ub, secparams = secparams_default):
+    """
+    An algorithm for picking elements uniformly at random from Z_ub \ Z_lb
+
+    Args:
+       lb (int):       lower bound
+       ub (int):       upper bound
+
+    Returns:
+       int:         Random number: lb < r < ub (returns lb if deterministic mode is set)
+    """
+    assert(ub >= lb)
+
+    if not secparams.deterministicRandomGen:
+        return randint(lb, ub)
+    else:
+        return lb
 
 
 def randomRelativePrimeMpz(n, secparams = secparams_default):

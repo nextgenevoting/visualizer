@@ -12,7 +12,6 @@ from Crypto.SecurityParams              import secparams_default, secparams_l3, 
 from ElectionAuthority.GenPolynomial    import GenPolynomial
 from ElectionAuthority.GetYValue        import GetYValue
 from UnitTestParams                     import unittestparams
-from collections                        import namedtuple
 
 def GenPoints(n,k, secparams = secparams_default):
     """

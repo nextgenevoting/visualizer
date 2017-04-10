@@ -88,3 +88,4 @@ class ProtocolRunner(object):
             if verbose: print(returnCodes)
 
             print("CheckReturnCodes: %r" %CheckReturnCodes(votingClient.votingSheet.rc, returnCodes, s))
+
