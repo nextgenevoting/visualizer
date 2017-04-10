@@ -10,7 +10,7 @@ from Crypto.SecurityParams          import SecurityParams, secparams_default, se
 from Crypto.GetNIZKPChallenge       import GetNIZKPChallenge
 from UnitTestParams                 import unittestparams
 from VotingClient.GenBallotProof    import GenBallotProof
-from Types                          import BallotProof, PublicValue
+from Types                          import BallotProof
 
 def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     """
@@ -34,7 +34,7 @@ def CheckBallotProof(pi, x_hat, a, b, pk, secparams=secparams_default):
     AssertMpz(pk)
     AssertClass(secparams, SecurityParams)
 
-    y = PublicValue(x_hat, a, b)
+    y = (x_hat, a, b)
     t = pi[0]
     (t_1, t_2, t_3) = t
     s = pi[1]

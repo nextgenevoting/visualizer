@@ -45,15 +45,15 @@ def GetEncryptions(B, C, secparams=secparams_default):
 
 class GetEncryptionsTest(unittest.TestCase):
     def testGetEncryptions(self):
-        ballot = Ballot(x_hat=mpz(607), a=[mpz(401), mpz(423)], b=mpz(256), pi=BallotProof(t=PublicCommitment(t_1=mpz(161), t_2=mpz(195), t_3=mpz(16)), s=(mpz(48), mpz(292), mpz(101))))
-        ballot2 = Ballot(x_hat=mpz(607), a=[mpz(401), mpz(423)], b=mpz(256), pi=BallotProof(t=PublicCommitment(t_1=mpz(161), t_2=mpz(195), t_3=mpz(16)), s=(mpz(48), mpz(292), mpz(101))))
+        ballot = Ballot(x_hat=mpz(607), a=[mpz(401), mpz(423)], b=mpz(256), pi=BallotProof(t=(t_1=mpz(161), t_2=mpz(195), t_3=mpz(16)), s=(mpz(48), mpz(292), mpz(101))))
+        ballot2 = Ballot(x_hat=mpz(607), a=[mpz(401), mpz(423)], b=mpz(256), pi=BallotProof(t=(t_1=mpz(161), t_2=mpz(195), t_3=mpz(16)), s=(mpz(48), mpz(292), mpz(101))))
         B = [(607,ballot, 123), (111 ,ballot2, 123),]
         e = GetEncryptions(B, [(607,14234234), (111,4234234)], secparams_l0)
         self.assertEqual(len(B), len(e))
         pass
 
     def testGetEncryptionsWhenEmpty(self):
-        ballot = Ballot(x_hat=mpz(607), a=[mpz(401), mpz(423)], b=mpz(256),pi=BallotProof(t=PublicCommitment(t_1=mpz(161), t_2=mpz(195), t_3=mpz(16)),s=(mpz(48), mpz(292), mpz(101))))
+        ballot = Ballot(x_hat=mpz(607), a=[mpz(401), mpz(423)], b=mpz(256),pi=BallotProof(t=(t_1=mpz(161), t_2=mpz(195), t_3=mpz(16)),s=(mpz(48), mpz(292), mpz(101))))
         B = [(607,ballot, 123)]
         e = GetEncryptions(B, [], secparams_l0)
         self.assertEqual(len(e), 0)

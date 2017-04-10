@@ -48,8 +48,8 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
     t_2 = (w_2 * gmpy2.powmod(pk, w_3, secparams.p)) % secparams.p
     t_3 = gmpy2.powmod(secparams.g, w_3, secparams.p)
 
-    y = PublicValue(x_hat, a, b)
-    t = PublicCommitment(t_1, t_2, t_3)
+    y = (x_hat, a, b)
+    t = (t_1, t_2, t_3)
     c = GetNIZKPChallenge(y, t, min(secparams.q, secparams.q_hat), secparams)
 
     s_1 = (w_1 + c * x) % secparams.q_hat
