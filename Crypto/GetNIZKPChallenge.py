@@ -9,26 +9,26 @@ from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
 from Crypto.SecurityParams import secparams_default, secparams_l0, secparams_l3, SecurityParams
 
-def GetNIZKPChallenge(y, t, q, secparams=secparams_default):
+def GetNIZKPChallenge(y, t, kappa, secparams=secparams_default):
     """
     Algorithm 7.4: Computes a NIZKP challenge c ∈ Z_q for a given public value
     y and a public commitment t. The domains Y and T of the input values are
     unspecified.
 
     Args:
-        y (mpz);    Public value
-        t (mpz):    Commitment
-        q (mpz):    Upper bound of challenge (q >= 2)
+        y (mpz):        Public value
+        t (mpz):        Commitment
+        kappa (mpz):    Soundness strength 1 <= kappa <= 8L
 
     Returns:
         c (mpz):    The NIZKP challenge
     """
 
-    AssertMpz(q)
-    assert q >= 2
+    AssertMpz(kappa)
+    assert kappa >= 2
     AssertClass(secparams, SecurityParams)
 
-    c = mpz(ToInteger(RecHash([y, t], secparams)) % q)
+    c = mpz(ToInteger(RecHash([y, t], secparams)) % 2^kappa)
 
     return c
 

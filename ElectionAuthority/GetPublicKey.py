@@ -8,24 +8,24 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertMpz, AssertClass, AssertList
 from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
 
-def GetPublicKey(pk, secparams=secparams_default):
+def GetPublicKey(pk_bold, secparams=secparams_default):
     """
     Algorithm 7.16: Computes a public ElGamal encryption key pk ∈ G_q from given shares pk_j ∈ G_q
 
     Args:
-        pk (list):   List of public keys = (pk_1, ... , pk_s), pk_j ∈ G_q
+        pk_bold (list):   List of public keys = (pk_1, ... , pk_s), pk_j ∈ G_q
 
     Returns:
         mpz:    Public Key pk
     """
 
-    AssertList(pk)
+    AssertList(pk_bold)
     AssertClass(secparams, SecurityParams)
 
     resultPk = mpz(1)
 
     for j in range(secparams_default.s): # loop over s (authorities)
-        resultPk = (resultPk * pk[j]) % secparams.p
+        resultPk = (resultPk * pk_bold[j]) % secparams.p
 
     AssertMpz(resultPk)
 

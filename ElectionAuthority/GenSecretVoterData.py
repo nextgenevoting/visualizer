@@ -12,19 +12,20 @@ from Utils.RecHash               import RecHash
 from Crypto.SecurityParams       import SecurityParams, secparams_default, secparams_l0, secparams_l3
 from ElectionAuthority.GenPoints import GenPoints
 from UnitTestParams              import unittestparams
+from Types                       import *
 
-def GenSecretVoterData(p, secparams = secparams_default):
+def GenSecretVoterData(p_bold, secparams = secparams_default):
     """
     Algorithm 7.10: Generates the secret data for a single voter, which is sent to the voter prior to an election event via the printing authority.
 
     Args:
-       p (list):    A list of n points = (p_1, ... , p_n) in Z_p'
+       p_bold (list):    A list of n points = (p_1, ... , p_n) in Z_p'
 
     Returns:
        tuple:   Secret voter data (x,y,F,r)
     """
 
-    AssertList(p)
+    AssertList(p_bold)
     AssertClass(secparams, SecurityParams)
 
     q_hat_apos_x = floor(secparams.q_hat_X // secparams.s)
@@ -32,13 +33,13 @@ def GenSecretVoterData(p, secparams = secparams_default):
     x = randomMpz(q_hat_apos_x, secparams)
     y = randomMpz(q_hat_apos_y, secparams)
 
-    F = Truncate(RecHash(p, secparams),secparams.L_F) # Finalization code
-    r = []                                            # Return codes
+    F = Truncate(RecHash(p_bold, secparams),secparams.L_F) # Finalization code
+    r_bold = []                                            # Return codes
 
-    for i in range(len(p)):
-        r.append(Truncate(RecHash(p[i], secparams), secparams.L_R))
+    for i in range(len(p_bold)):
+        r_bold.append(Truncate(RecHash(p_bold[i], secparams), secparams.L_R))
 
-    return (x,y,F,r)
+    return SecretVoterData(x,y,F,r_bold)
 
 class GenSecretVoterDataTest(unittest.TestCase):
     def testGenSecretVoterData(self):

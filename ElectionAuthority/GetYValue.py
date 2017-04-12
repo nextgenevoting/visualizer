@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertNumeric, AssertList, AssertMpz, AssertClass
 from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
 
-def GetYValue(x, a, secparams = secparams_default):
+def GetYValue(x, a_bold, secparams = secparams_default):
     """
     Algorithm 7.9: Computes the value y = A(x) ∈ Z_p' obtained from evaluating the polynomial A(X) = Sigma(i=0...d) a_i X^i mod p' at position x.
     The algorithm is an implementation of Horners method.
@@ -22,16 +22,16 @@ def GetYValue(x, a, secparams = secparams_default):
     """
 
     AssertMpz(x)
-    AssertList(a)
+    AssertList(a_bold)
     AssertClass(secparams, SecurityParams)
 
     if x == mpz(0):
-        y = mpz(a[0])
+        y = mpz(a_bold[0])
     else:
         y = mpz(0)
 
-        for i in reversed(range(len(a))):
-            y = (a[i] + x * y) % secparams.p_prime
+        for i in reversed(range(len(a_bold))):
+            y = (a_bold[i] + x * y) % secparams.p_prime
 
     AssertMpz(y)
 

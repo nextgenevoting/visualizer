@@ -16,52 +16,52 @@ from Utils.RecHash         import RecHash
 from Types                 import *
 from Utils.XorByteArray    import XorByteArray
 
-def GenResponse(i, a, pk, n, K, P, secparams=secparams_default):
+def GenResponse(i, a_bold, pk, n_bold, K_bold, P_bold, secparams=secparams_default):
     """
     Algorithm 7.25: Generates the response beta for the given OT query a. The messages to
     transfer are byte array representations of the n points p_i = (p_i,1, ... p_i,n). Along with beta,
     the algorithm also returns the randomizations r used to generate the response.
 
     Args:
-        i (int):    Voter Index
-        a (list):   Queries
-        pk (mpz):   Encryption Key
-        n (list):   Number of candidates
-        K (list):   Number of selections
-        P (list):   Points N x n
+        i (int):         Voter Index
+        a_bold (list):   Queries
+        pk (mpz):        Encryption Key
+        n_bold (list):   Number of candidates
+        K_bold (list):   Number of selections
+        P_bold (list):   Points N x n
 
     Returns:
         tuple:     (beta, r)
     """
 
     AssertInt(i)
-    AssertList(a)
+    AssertList(a_bold)
     AssertMpz(pk)
-    AssertList(n)
-    AssertList(K)
-    AssertList(P)
+    AssertList(n_bold)
+    AssertList(K_bold)
+    AssertList(P_bold)
     AssertClass(secparams, SecurityParams)
 
     l_M = ceil(secparams.L_M / secparams.L)
-    p = GetPrimes(sum(n), secparams)
+    p = GetPrimes(sum(n_bold), secparams)
     u = v = 0
 
-    b = []
-    c = []
-    d = []
-    r = []
+    b_bold = []
+    c_bold = []
+    d_bold = []
+    r_bold = []
 
-    for j in range(len(n)):
+    for j in range(len(n_bold)):
         r_j = randomMpz(secparams.q, secparams)
-        r.append(r_j)
+        r_bold.append(r_j)
 
-        for l in range(K[i][j]):
-            b.append(gmpy2.powmod(a[u], r_j, secparams.p))
+        for l in range(K_bold[i][j]):
+            b_bold.append(gmpy2.powmod(a_bold[u], r_j, secparams.p))
             u += 1
 
-        for l in range(n[j]):
-            x_i_v = P[i][v].x
-            y_i_v = P[i][v].y
+        for l in range(n_bold[j]):
+            x_i_v = P_bold[i][v].x
+            y_i_v = P_bold[i][v].y
             M = bytearray()
             M += ToByteArrayN(x_i_v, secparams.L_M / 2)
             M += ToByteArrayN(y_i_v, secparams.L_M / 2)
@@ -71,15 +71,15 @@ def GenResponse(i, a, pk, n, K, P, secparams=secparams_default):
             for l_counter in range(l_M):
                 k_tmp += RecHash([k,l_counter], secparams)
 
-            K_tmp = Truncate(k_tmp, secparams.L_M)
-            c.append(XorByteArray([M, K_tmp]))
+            K = Truncate(k_tmp, secparams.L_M)
+            c_bold.append(XorByteArray([M, K]))
             v += 1
 
-        d.append(gmpy2.powmod(pk, r_j, secparams.p))
+        d_bold.append(gmpy2.powmod(pk, r_j, secparams.p))
 
-    beta = Response(b, c, d)
+    beta = Response(b_bold, c_bold, d_bold)
 
-    return (beta, r)
+    return (beta, r_bold)
 
 class GenResponseTest(unittest.TestCase):
     def testGenResponse(self):

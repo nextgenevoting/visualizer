@@ -13,54 +13,54 @@ from Utils.RecHash         import RecHash
 from Utils.ToInteger       import ToInteger
 from Utils.XorByteArray    import XorByteArray
 
-def GetPoints(beta, k, s, r, secparams=secparams_default):
+def GetPoints(beta, k_bold, s_bold, r_bold, secparams=secparams_default):
     """
     Algorithm 7.26: Computes the k-by-s matrix P_s = (P_ij)k x s of the points obtained from
     the s authorities for the selection s. The points are derived from the messages included
     in the OT responses beta = (beta_1, ..., beta_s)
 
     Args:
-        beta:               Oblivious Transfer Response
-        k (list):           Number of selections
-        s (list):           Selections
-        r (list):           Randomizations
+        beta:                    Oblivious Transfer Response
+        k_bold (list):           Number of selections
+        s_bold (list):           Selections
+        r_bold (list):           Randomizations
 
     Returns:
         list                Points
     """
 
     AssertClass(beta, Response)
-    AssertList(k)
-    AssertList(s)
-    AssertList(r)
+    AssertList(k_bold)
+    AssertList(s_bold)
+    AssertList(r_bold)
     AssertClass(secparams, SecurityParams)
 
     (b,c,d) = beta
 
     l_m = ceil(secparams.L_M // secparams.L)
     i = 0
-    p = []
+    p_bold = []
 
-    for j in range(len(k)):
-        for l in range(k[j]):
-            k_l = (b[i] * gmpy2.powmod(d[j],-r[i], secparams.p)) % secparams.p
-            k_tmp = bytearray()
+    for j in range(len(k_bold)):
+        for l in range(k_bold[j]):
+            k = (b[i] * gmpy2.powmod(d[j],-r_bold[i], secparams.p)) % secparams.p
 
+            K = bytearray()
             for l_counter in range(l_m):
-                k_tmp += RecHash([k_l,l_counter], secparams)
+                K += RecHash([k,l_counter], secparams)
 
-            K_tmp = Truncate(k_tmp, secparams.L_M)
-            M = XorByteArray([c[s[i]], K_tmp])
+            K = Truncate(K, secparams.L_M)
+            M = XorByteArray([c[s_bold[i]], K])
             x = ToInteger(Truncate(M,secparams.L_M//2))
             y = ToInteger(Skip(M,secparams.L_M//2))
 
             if x >= secparams.p_prime or y >= secparams.p_prime:
                 return None
 
-            p.append(Point(x,y))
+            p_bold.append(Point(x,y))
             i += 1
 
-    return p
+    return p_bold
 
 class GetPointsTest(unittest.TestCase):
     def testGetPoints(self):

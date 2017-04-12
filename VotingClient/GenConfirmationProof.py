@@ -30,7 +30,7 @@ def GenConfirmationProof(y, y_hat, secparams=secparams_default):
 
     w = randomMpz(secparams.q_hat, secparams)
     t = gmpy2.powmod(secparams.g_hat, w, secparams.p_hat)
-    c = GetNIZKPChallenge(y_hat, t, secparams.q_hat)
+    c = GetNIZKPChallenge(y_hat, t, secparams.q_hat, secparams)
     s = w + c * y % secparams.q_hat
     pi = (t, s)
 

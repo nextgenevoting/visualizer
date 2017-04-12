@@ -53,7 +53,7 @@ class ProtocolRunner(object):
         # Run Protocol 6.2: Printing of Code Sheets
 
         D = [authority.d_j for authority in self.authorities]
-        (sheets, rawSheetData) = self.printingAuth.getSheets(D, self.secparams)
+        (sheets, rawSheetData) = self.printingAuth.getVotingCards(D, self.secparams)
         for sheet in sheets: print(sheet)
 
         # Run Protocol 6.3: Key Generation

@@ -12,35 +12,35 @@ from Utils.MarkByteArray   import MarkByteArray
 from Utils.ToString        import ByteArrayToString
 from Utils.XorByteArray    import XorByteArray
 
-def GetReturnCodes(s, P_s, secparams=secparams_default):
+def GetReturnCodes(s_bold, P_s_bold, secparams=secparams_default):
     """
     Algorithm 7.28: Computes the k return codes rcs = (RC_s_1, ... , RC_s_k) for the selected
     candidates by combining the hash values of the transferred points p_ij in P_s from different authorities.
 
     Args:
-        s (list):           Selections
-        P_s (list):         Points
+        s_bold (list):           Selections
+        P_s_bold (list):         Points
 
     Returns:
         list                Points
     """
 
-    AssertList(s)
-    AssertList(P_s)
+    AssertList(s_bold)
+    AssertList(P_s_bold)
     AssertClass(secparams, SecurityParams)
 
-    rc_s = []
+    rc_s_bold = []
 
-    for i in range(len(s)):
+    for i in range(len(s_bold)):
         R_j = []
 
-        for j in range(len(P_s)):
-            R_j.append(Truncate(RecHash(P_s[j][i], secparams), secparams.L_R))
+        for j in range(len(P_s_bold)):
+            R_j.append(Truncate(RecHash(P_s_bold[j][i], secparams), secparams.L_R))
 
-        R = MarkByteArray(XorByteArray(R_j), s[i], secparams.n_max)
-        rc_s.append(ByteArrayToString(R, secparams.A_R))
+        R = MarkByteArray(XorByteArray(R_j), s_bold[i], secparams.n_max)
+        rc_s_bold.append(ByteArrayToString(R, secparams.A_R))
 
-    return rc_s
+    return rc_s_bold
 
 class GetReturnCodesTest(unittest.TestCase):
     def testGetReturnCodes(self):

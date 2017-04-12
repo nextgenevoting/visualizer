@@ -11,51 +11,53 @@ from ElectionAuthority.GenPoints          import GenPoints
 from ElectionAuthority.GenSecretVoterData import GenSecretVoterData
 from ElectionAuthority.GetPublicVoterData import GetPublicVoterData
 from UnitTestParams                       import unittestparams
+from Types                                import *
 
-def GenElectorateData(n, k, E, secparams = secparams_default):
+
+def GenElectorateData(n_bold, k_bold, E_bold, secparams = secparams_default):
     """
     Algorithm 7.6: Generates the data for the whole electorate
 
     Args:
-        n (list):               A list containing the number of candidates: (n_1, ... , n_t)
-        k (list):               A list containing the number of possible selections per election: (k_1, ... , k_t)
-        E ([[]]):               Eligibility matrix [N][t], 1 means eligible
+        n_bold (list):               A list containing the number of candidates: (n_1, ... , n_t)
+        k_bold (list):               A list containing the number of possible selections per election: (k_1, ... , k_t)
+        E_bold ([[]]):               Eligibility matrix [N][t], 1 means eligible
 
     Returns:
         tuple:                  (d, d^, P, K)
     """
 
-    AssertList(n)
-    AssertList(k)
+    AssertList(n_bold)
+    AssertList(k_bold)
     AssertClass(secparams, SecurityParams)
 
-    N = len(E)
-    t = len(k)
+    N_E = len(E_bold)
+    t = len(k_bold)
 
-    d = []
-    d_hat = []
-    K = []                                      #  precomputed selection matrix Nxt
-    P = []
+    d_bold = []
+    d_hat_bold = []
+    K_bold = []                                      #  precomputed selection matrix Nxt
+    P_bold = []
 
-    for i in range (N):                         # loop over N (all voters)
-        K_i = []
+    for i in range (N_E):                         # loop over N (all voters)
+        K_i_bold = []
         for j in range(t):
-            k_ij = E[i][j] * k[j]               # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
-            K_i.append(k_ij)
+            k_ij = E_bold[i][j] * k_bold[j]               # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
+            K_i_bold.append(k_ij)
 
         # generate n random points
-        p, y = GenPoints(n, K_i, secparams)
+        p_bold, y_bold = GenPoints(n_bold, K_i_bold, secparams)
 
         # generate x, y values, finalization code and return codes
-        x,y,F,R = GenSecretVoterData(p, secparams)
+        d_hat_i = GenSecretVoterData(p_bold, secparams)
 
         # prepare return values
-        d.append((x,y,F,R))                     # private voter data
-        d_hat.append(GetPublicVoterData(x,y, p, secparams)) # public voter data
-        K.append(K_i)                           # precomputed selection matrix Nxt
-        P.append(p)                             # points on the polynomials
+        d_bold.append(d_hat_i)                     # private voter data
+        d_hat_bold.append(GetPublicVoterData(d_hat_i.x_i,d_hat_i.y_i, y_bold, secparams)) # public voter data
+        K_bold.append(K_i_bold)                           # precomputed selection matrix Nxt
+        P_bold.append(p_bold)                             # points on the polynomials
 
-    return (d, d_hat, P, K)
+    return (d_bold, d_hat_bold, P_bold, K_bold)
 
 class GenElectorateDataTest(unittest.TestCase):
     def testGenElectorateData(self):

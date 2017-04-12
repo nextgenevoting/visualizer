@@ -7,24 +7,24 @@ from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l
 from Utils.Utils           import AssertList, AssertClass
 from Types                 import Point
 
-def GetValue(p, secparams=secparams_default):
+def GetValue(p_bold, secparams=secparams_default):
     """
     Algorithm 7.32: Computes a polynomial A(X) of degree k - 1 from given
     points p = (p_1, ..., p_k) using Lagrange's interpolation method and returns
     the value y = A(0).
 
     Args:
-        p (list of points): Given points
+        p_bold (list of points): Given points
 
     Returns:
         y: y = A(0) of polynomial A(X)
     """
 
-    AssertList(p)
+    AssertList(p_bold)
     AssertClass(secparams, SecurityParams)
 
     y = 0
-    k = len(p)
+    k = len(p_bold)
 
     for i in range(k):
         n = 1
@@ -32,10 +32,10 @@ def GetValue(p, secparams=secparams_default):
 
         for j in range(k):
             if i != j:
-                n = (n * p[j].x) % secparams.p_prime
-                d = (d * (p[j].x - p[i].x)) % secparams.p_prime
+                n = (n * p_bold[j].x) % secparams.p_prime
+                d = (d * (p_bold[j].x - p_bold[i].x)) % secparams.p_prime
 
-        y = (y + p[i].y * n // d) % secparams.p_prime
+        y = (y + p_bold[i].y * n // d) % secparams.p_prime
 
     return y
 

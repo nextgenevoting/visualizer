@@ -13,35 +13,35 @@ from Types                             import Point
 from VotingClient.GetValues            import GetValues
 from VotingClient.GenConfirmationProof import GenConfirmationProof
 
-def GenConfirmation(Y, P_, k, secparams=secparams_default):
+def GenConfirmation(Y, P_prime_bold, k_bold, secparams=secparams_default):
     """
     Algorithm 7.30: Generates the confirmation gamma, which consists of the public
     confirmation credential y_hat and a NIZKP of knowledge pi of the secret
     confirmation credential y.
 
     Args:
-        Y: Confirmation code
-        P_ (list of points): Points
-        k: Number of selections
+        Y:                              Confirmation code
+        P_prime_bold (list of points):  Points
+        k_bold:                         Number of selections
 
     Returns:
         gamma: Confirmation
     """
 
-    AssertList(P_)
+    AssertList(P_prime_bold)
     AssertClass(secparams, SecurityParams)
 
-    s = len(P_)
+    s = len(P_prime_bold)
     h = [None] * s
 
     for j in range(s):
-        p_j = [P_[k_][j] for k_ in range(sum(k))]
-        y_j = GetValues(p_j, k)
-        h[j] = ToInteger(RecHash(y_j)) % secparams.q_hat
+        p_j = [P_prime_bold[k_][j] for k_ in range(sum(k_bold))]
+        y_j_bold = GetValues(p_j, k_bold, secparams)
+        h[j] = ToInteger(RecHash(y_j_bold)) % secparams.q_hat
 
     y = (ToInteger(Y) + sum(h)) % secparams.q_hat
     y_hat = gmpy2.powmod(secparams.g_hat, y, secparams.p_hat)
-    pi = GenConfirmationProof(y, y_hat)
+    pi = GenConfirmationProof(y, y_hat, secparams)
     gamma = (y_hat, pi)
 
     return gamma

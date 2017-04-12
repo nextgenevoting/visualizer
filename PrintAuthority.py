@@ -1,6 +1,6 @@
-from Crypto.SecurityParams       import secparams_default
-from PrintingAuthority.GetSheets import GetSheets
-from BulletinBoard               import BulletinBoard
+from Crypto.SecurityParams              import secparams_default
+from PrintingAuthority.GetVotingCards   import GetVotingCards
+from BulletinBoard                      import BulletinBoard
 
 class PrintingAuthority(object):
     """
@@ -12,9 +12,9 @@ class PrintingAuthority(object):
     def __init__(self, bulletinBoardRef):
         self.bulletinBoard = bulletinBoardRef
 
-    def getSheets(self, D, secparams = secparams_default):
+    def getVotingCards(self, D, secparams = secparams_default):
         """
-        (Protocol 6.2) PerformGetSheets: Prints the voting sheets for all voters
+        (Protocol 6.2) getVotingCards: Prints the voting sheets for all voters
 
         Args:
             V (list):   Voter description
@@ -28,6 +28,6 @@ class PrintingAuthority(object):
             list:       code sheet
         """
 
-        (s, rawSheetData) = GetSheets(self.bulletinBoard.v, self.bulletinBoard.c, self.bulletinBoard.n, self.bulletinBoard.k, self.bulletinBoard.E, D, secparams)
+        (s, rawSheetData) = GetVotingCards(self.bulletinBoard.v, self.bulletinBoard.c, self.bulletinBoard.n, self.bulletinBoard.k, self.bulletinBoard.E, D, secparams)
 
         return (s, rawSheetData)

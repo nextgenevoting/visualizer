@@ -14,7 +14,7 @@ from VotingClient.GenBallot             import GenBallot
 from UnitTestParams                     import unittestparams
 from Types                              import *
 
-def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
+def CheckBallot(i, alpha, pk, K_bold, x_hat, B, secparams=secparams_default):
     """
     Algorithm 7.22: Checks if a ballot alpha obtained from voter i is valid. For this, voter i
     must not have submitted a valid ballot before, pi must be valid, and x_hat must be the public
@@ -24,8 +24,8 @@ def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
         i (int):            Voter index
         alpha (Ballot):     Ballot
         pk (mpz):           Public Key
-        K ([][]):           Number of selections
-        x_hat (list):        Public voting credential
+        K_bold ([][]):      Number of selections
+        x_hat (list):       Public voting credential
         B (list):           Ballot List
 
     Returns:
@@ -35,14 +35,14 @@ def CheckBallot(i, alpha, pk, K, x_hat, B, secparams=secparams_default):
     AssertInt(i)
     AssertClass(alpha, Ballot)
     AssertMpz(pk)
-    AssertList(K)
+    AssertList(K_bold)
     AssertList(x_hat)
     AssertList(B)
     AssertClass(secparams, SecurityParams)
 
     if not HasBallot(i,B, secparams) and x_hat[i] == alpha.x_hat:
 
-        if len(alpha.a) != sum(K[i]):   # check if the number of selections matches the sum of K[i]
+        if len(alpha.a) != sum(K_bold[i]):   # check if the number of selections matches the sum of K[i]
             return False
 
         a = mpz(1)

@@ -12,27 +12,27 @@ from Utils.MarkByteArray   import MarkByteArray
 from Utils.ToString        import ByteArrayToString
 from Utils.XorByteArray    import XorByteArray
 
-def CheckReturnCodes(rc, rc_prime, s):
+def CheckReturnCodes(rc_bold, rc_prime_bold, s_bold):
     """
     Algorithm 7.29: Checks if every displayed return code RC'_i i matches with the return code
     RC_s_i of the selected candidate s_i as printed on the code sheet.
     Note that this algorithm is executed by humans.
 
     Args:
-        rc (list):          Printed return codes
-        rc_prime (list):    Displayed return codes rc'
-        s (list):           Selections
+        rc_bold (list):          Printed return codes
+        rc_prime_bold (list):    Displayed return codes rc'
+        s_bold (list):           Selections
 
     Returns:
         bool
     """
 
-    AssertList(rc)
-    AssertList(rc_prime)
-    AssertList(s)
+    AssertList(rc_bold)
+    AssertList(rc_prime_bold)
+    AssertList(s_bold)
 
-    for i in range(len(s)):
-        if rc[s[i]] != rc_prime[i]:
+    for i in range(len(s_bold)):
+        if rc_bold[s_bold[i]] != rc_prime_bold[i]:
             return False
 
     return True

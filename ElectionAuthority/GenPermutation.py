@@ -9,7 +9,7 @@ from Utils.Utils  import AssertInt
 from Types        import *
 from Utils.Random import randomBoundedInt
 
-def GenPermutation(N):
+def GenPermutation(N_E):
     """
     Algorithm 7.42: Generates a random permutation ψ ∈ Ψ following Knuth's shuffle algorithm.
 
@@ -20,13 +20,13 @@ def GenPermutation(N):
         list
     """
 
-    AssertInt(N)
+    AssertInt(N_E)
 
-    I = list(range(N))
+    I = list(range(N_E))
     res = []
 
-    for i in range(N):
-        k = randomBoundedInt(i,N-1)
+    for i in range(N_E):
+        k = randomBoundedInt(i,N_E-1)
         j_i = I[k]
         I[k] = I[i]
 

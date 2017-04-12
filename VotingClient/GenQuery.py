@@ -9,33 +9,33 @@ from Utils.Utils           import AssertMpz, AssertList, AssertClass
 from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0
 from Utils.Random          import randomMpz
 
-def GenQuery(q, pk, secparams=secparams_default):
+def GenQuery(q_bold, pk, secparams=secparams_default):
     """
     Algorithm 7.20: Generates an OT query a from the prime numbers representing the
     voter's selection and a for a given public encryption key (which serves as a
     generator).
 
     Args:
-        q (list):   Selected primes
-        pk (mpz):   Encryption key
+        q_bold (list):   Selected primes
+        pk (mpz):        Encryption key
 
     Returns:
         (a, r):     The OT query
     """
 
-    AssertList(q)
+    AssertList(q_bold)
     AssertMpz(pk)
     AssertClass(secparams, SecurityParams)
 
-    k = len(q)
-    a = [None] * k
-    r = [None] * k
+    k = len(q_bold)
+    a_bold = [None] * k
+    r_bold = [None] * k
 
     for i in range(k):
-        r[i] = randomMpz(secparams.q, secparams)
-        a[i] = (q[i] * gmpy2.powmod(pk, r[i], secparams.p)) % secparams.p
+        r_bold[i] = randomMpz(secparams.q, secparams)
+        a_bold[i] = (q_bold[i] * gmpy2.powmod(pk, r_bold[i], secparams.p)) % secparams.p
 
-    return (a, r)
+    return (a_bold, r_bold)
 
 class GenQueryTest(unittest.TestCase):
     def testGenQueryL0(self):

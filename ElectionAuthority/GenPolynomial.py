@@ -26,7 +26,7 @@ def GenPolynomial(d, secparams = secparams_default):
     AssertClass(secparams, SecurityParams)
     assert(d >= -1)
 
-    a = []
+    a_bold = []
     a_d = 0
 
     if (d == -1):
@@ -34,15 +34,15 @@ def GenPolynomial(d, secparams = secparams_default):
 
     else:
         for i in range (0, d):
-            a.append(randomMpz(secparams.p_prime, secparams))
+            a_bold.append(randomMpz(secparams.p_prime, secparams))
 
         # generate the last coefficient != 0
         while a_d == 0:
             a_d = randomMpz(secparams.p_prime, secparams)
 
-        a.append(a_d)
+        a_bold.append(a_d)
 
-    return a
+    return a_bold
 
 def printPolynomial(a):
     """
