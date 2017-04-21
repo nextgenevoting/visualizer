@@ -6,7 +6,7 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertMpz, AssertList, AssertClass, AssertInt, Truncate
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams import SecurityParams, secparams_l0
 from Utils.Random          import randomMpz
 from math                  import ceil
 from Crypto.GetPrimes      import GetPrimes
@@ -16,7 +16,7 @@ from Utils.RecHash         import RecHash
 from Types                 import *
 from Utils.XorByteArray    import XorByteArray
 
-def GenResponse(i, a_bold, pk, n_bold, K_bold, P_bold, secparams=secparams_default):
+def GenResponse(i, a_bold, pk, n_bold, K_bold, P_bold, secparams):
     """
     Algorithm 7.25: Generates the response beta for the given OT query a. The messages to
     transfer are byte array representations of the n points p_i = (p_i,1, ... p_i,n). Along with beta,

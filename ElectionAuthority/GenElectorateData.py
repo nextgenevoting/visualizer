@@ -6,7 +6,7 @@ from gmpy2 import mpz
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                          import AssertClass, AssertList
-from Crypto.SecurityParams                import SecurityParams, secparams_l0, secparams_l3, secparams_default
+from Crypto.SecurityParams                import SecurityParams, secparams_l0, secparams_l3
 from ElectionAuthority.GenPoints          import GenPoints
 from ElectionAuthority.GenSecretVoterData import GenSecretVoterData
 from ElectionAuthority.GetPublicVoterData import GetPublicVoterData
@@ -14,7 +14,7 @@ from UnitTestParams                       import unittestparams
 from Types                                import *
 
 
-def GenElectorateData(n_bold, k_bold, E_bold, secparams = secparams_default):
+def GenElectorateData(n_bold, k_bold, E_bold, secparams):
     """
     Algorithm 7.6: Generates the data for the whole electorate
 

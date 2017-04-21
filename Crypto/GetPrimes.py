@@ -5,10 +5,10 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertInt, AssertClass
-from Crypto.SecurityParams import secparams_default, secparams_l0, secparams_l1, secparams_l2, secparams_l3, SecurityParams
+from Crypto.SecurityParams import secparams_l0, secparams_l1, secparams_l2, secparams_l3, SecurityParams
 from Crypto.IsMember       import IsMember
 
-def GetPrimes(n, secparams=secparams_default):
+def GetPrimes(n, secparams):
     """
     Algorithm 7.1: Computes the first n prime numbers from G_q. The computation possibly
     fails if n is large and p is small, but this case is very unlikely in practice. In a more

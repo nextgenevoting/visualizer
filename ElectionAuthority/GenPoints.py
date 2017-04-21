@@ -8,12 +8,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Types                           import Point
 from Utils.Utils                     import AssertInt, AssertList
 from Utils.Random                    import randomMpz
-from Crypto.SecurityParams           import secparams_default, secparams_l3, secparams_l0
+from Crypto.SecurityParams           import secparams_l3, secparams_l0
 from ElectionAuthority.GenPolynomial import GenPolynomial
 from ElectionAuthority.GetYValue     import GetYValue
 from UnitTestParams                  import unittestparams
 
-def GenPoints(n_bold, k_bold, secparams = secparams_default):
+def GenPoints(n_bold, k_bold, secparams):
     """
     Algorithm 7.7: Generates a list of n random points picket from t random polynomials
     A_j(X) of degree k_j - 1 (by picking n_j different random points from each polynomial).

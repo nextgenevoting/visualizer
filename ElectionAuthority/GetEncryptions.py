@@ -5,12 +5,12 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams             import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams             import SecurityParams, secparams_l0, secparams_l3
 from Utils.Utils                       import AssertList, AssertClass
 from Types                             import *
 from ElectionAuthority.HasConfirmation import HasConfirmation
 
-def GetEncryptions(B, C, secparams=secparams_default):
+def GetEncryptions(B, C, secparams):
     """
     Algorithm 7.40: Computes a sorted list of ElGamal encryptions from the list of submitted
     ballots, for which a valid confirmation is available. Sorting this list is necessary

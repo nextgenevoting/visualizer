@@ -3,10 +3,9 @@ import gmpy2
 from gmpy2 import mpz
 
 from Utils.ToByteArray     import ToByteArray
-from Crypto.SecurityParams import secparams_default, secparams_l0
 from Types                 import Point
 
-def RecHash(v, secparams=secparams_default):
+def RecHash(v, secparams):
     """
     Algorithm 4.9: Computes the hash value h(v_1,...v_k) of multiple inputs v_1..v_k in a recursive manner.
 

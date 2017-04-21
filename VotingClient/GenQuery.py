@@ -6,10 +6,10 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertMpz, AssertList, AssertClass
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams import SecurityParams, secparams_l0
 from Utils.Random          import randomMpz
 
-def GenQuery(q_bold, pk, secparams=secparams_default):
+def GenQuery(q_bold, pk, secparams):
     """
     Algorithm 7.20: Generates an OT query a from the prime numbers representing the
     voter's selection and a for a given public encryption key (which serves as a

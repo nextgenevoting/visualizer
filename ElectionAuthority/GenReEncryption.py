@@ -8,9 +8,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertMpz
 from Types                 import *
 from Utils.Random          import randomMpz
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 
-def GenReEncryption(e, pk, secparams = secparams_default):
+def GenReEncryption(e, pk, secparams):
     """
     Algorithm 7.43: Generates a re-encryption e' = (a * pk^r', b*g^r') of the given ElGamal encryption
     e = (a,b) in G_q^2. The re-encryption e' is returned together with the randomization r' in Z_q

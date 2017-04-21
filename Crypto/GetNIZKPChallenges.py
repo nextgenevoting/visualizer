@@ -7,9 +7,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertMpz, AssertInt, AssertClass
 from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
-from Crypto.SecurityParams import secparams_default, secparams_l0, secparams_l3, SecurityParams
+from Crypto.SecurityParams import secparams_l0, secparams_l3, SecurityParams
 
-def GetNIZKPChallenges(n, y, kappa, secparams=secparams_default):
+def GetNIZKPChallenges(n, y, kappa, secparams):
     """
     Algorithm 7.5: Computes n challenges c ∈ Z_q for a given of public value y. The domain
     Y of the input value is unspecified. The results in c = (c_1, ..., c_n) are identical to

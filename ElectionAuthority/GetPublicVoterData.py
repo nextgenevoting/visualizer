@@ -8,9 +8,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertMpz, AssertList, AssertClass
 from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 
-def GetPublicVoterData(x, y, y_bold, secparams = secparams_default):
+def GetPublicVoterData(x, y, y_bold, secparams):
     """
     Algorithm 7.11: Generates the public data for a single voter, which is sent to the bulletin board.
 

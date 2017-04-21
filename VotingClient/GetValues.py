@@ -3,12 +3,12 @@ import os, sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams import SecurityParams, secparams_l0
 from Utils.Utils           import AssertList, AssertClass
 from VotingClient.GetValue import GetValue
 from Types                 import Point
 
-def GetValues(p_bold, k_bold, secparams=secparams_default):
+def GetValues(p_bold, k_bold, secparams):
     """
     Algorithm 7.31: Computes the values y_j = A_j(0) of the t polynomials
     A_j(X) of degree k_j - 1 interpolated from k = Sum^t_j=1 k_j points p = (p_1,
@@ -31,7 +31,8 @@ def GetValues(p_bold, k_bold, secparams=secparams_default):
     y_bold = [None] * t
 
     for j in range(t):
-        p_j_bold = p_bold[i:i+k_bold[j]-1]
+        #p_j_bold = p_bold[i:i+k_bold[j]-1]
+        p_j_bold = p_bold[i:i + k_bold[j]]      # [0:0] yields 0 items, this probably isn't intended?
         y_bold[j] = GetValue(p_j_bold, secparams)
         i = i + k_bold[j]
 

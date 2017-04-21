@@ -5,13 +5,13 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams                      import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams                      import SecurityParams, secparams_l0, secparams_l3
 from Utils.Utils                                import AssertClass, AssertNumeric, AssertList
 from ElectionAuthority.CheckConfirmationProof   import CheckConfirmationProof
 from ElectionAuthority.HasConfirmation          import HasConfirmation
 from ElectionAuthority.HasBallot                import HasBallot
 
-def CheckConfirmation(i, gamma, y_hat_bold, B, C, secparams=secparams_default):
+def CheckConfirmation(i, gamma, y_hat_bold, B, C, secparams):
     """
     Algorithm 7.34: Checks if a confirmation γ obtained from voter i is valid. For
     this, voter i must have submitted a valid ballot before, but not a valid
@@ -38,8 +38,8 @@ def CheckConfirmation(i, gamma, y_hat_bold, B, C, secparams=secparams_default):
 
     (y_hat_, pi) = gamma
 
-    if HasBallot(i, B) and not HasConfirmation(i, C) and y_hat_ == y_hat_bold[i]:
-        if CheckConfirmationProof(pi, y_hat_bold):
+    if HasBallot(i, B, secparams) and not HasConfirmation(i, C, secparams) and y_hat_ == y_hat_bold[i]:
+        if CheckConfirmationProof(pi, y_hat_, secparams):
             return True
 
     return False

@@ -5,7 +5,7 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams              import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams              import SecurityParams, secparams_l0, secparams_l3
 from ElectionAuthority.HasBallot        import HasBallot
 from ElectionAuthority.CheckBallotProof import CheckBallotProof
 from Utils.Utils                        import AssertInt, AssertList, AssertMpz, AssertClass
@@ -14,7 +14,7 @@ from VotingClient.GenBallot             import GenBallot
 from UnitTestParams                     import unittestparams
 from Types                              import *
 
-def CheckBallot(i, alpha, pk, K_bold, x_hat, B, secparams=secparams_default):
+def CheckBallot(i, alpha, pk, K_bold, x_hat, B, secparams):
     """
     Algorithm 7.22: Checks if a ballot alpha obtained from voter i is valid. For this, voter i
     must not have submitted a valid ballot before, pi must be valid, and x_hat must be the public

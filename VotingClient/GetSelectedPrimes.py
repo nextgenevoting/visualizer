@@ -3,11 +3,11 @@ import os, sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams import SecurityParams, secparams_l0
 from Crypto.GetPrimes      import GetPrimes
 from Utils.Utils           import AssertList, AssertClass
 
-def GetSelectedPrimes(s_bold, secparams=secparams_default):
+def GetSelectedPrimes(s_bold, secparams):
     """
     Algorithm 7.19: Selects k prime numbers from Gq corresponding to the given
     indices s = (s_1, ..., s_k). For example, s = (1, 3, 7) means selecting the

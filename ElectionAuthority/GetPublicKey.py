@@ -6,9 +6,9 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertMpz, AssertClass, AssertList
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 
-def GetPublicKey(pk_bold, secparams=secparams_default):
+def GetPublicKey(pk_bold, secparams):
     """
     Algorithm 7.16: Computes a public ElGamal encryption key pk ∈ G_q from given shares pk_j ∈ G_q
 
@@ -24,7 +24,7 @@ def GetPublicKey(pk_bold, secparams=secparams_default):
 
     resultPk = mpz(1)
 
-    for j in range(secparams_default.s): # loop over s (authorities)
+    for j in range(secparams.s): # loop over s (authorities)
         resultPk = (resultPk * pk_bold[j]) % secparams.p
 
     AssertMpz(resultPk)

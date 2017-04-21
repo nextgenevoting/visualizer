@@ -6,13 +6,13 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertMpz, AssertList, AssertClass, Truncate
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams import SecurityParams
 from Utils.RecHash         import RecHash
 from Utils.MarkByteArray   import MarkByteArray
 from Utils.ToString        import ByteArrayToString
 from Utils.XorByteArray    import XorByteArray
 
-def GetReturnCodes(s_bold, P_s_bold, secparams=secparams_default):
+def GetReturnCodes(s_bold, P_s_bold, secparams):
     """
     Algorithm 7.28: Computes the k return codes rcs = (RC_s_1, ... , RC_s_k) for the selected
     candidates by combining the hash values of the transferred points p_ij in P_s from different authorities.

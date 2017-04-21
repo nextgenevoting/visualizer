@@ -3,11 +3,11 @@ import os, sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams import SecurityParams, secparams_l0
 from Utils.Utils           import AssertList, AssertClass
 from Types                 import Point
 
-def GetValue(p_bold, secparams=secparams_default):
+def GetValue(p_bold, secparams):
     """
     Algorithm 7.32: Computes a polynomial A(X) of degree k - 1 from given
     points p = (p_1, ..., p_k) using Lagrange's interpolation method and returns

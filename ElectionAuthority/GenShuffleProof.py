@@ -7,11 +7,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                        import AssertList, AssertMpz, AssertClass
 from Types                              import *
-from Crypto.SecurityParams              import secparams_default, secparams_l3, secparams_l0, SecurityParams
+from Crypto.SecurityParams              import secparams_l3, secparams_l0, SecurityParams
 from Crypto.GetGenerators               import GetGenerators
 from Crypto.GetNIZKPChallenges          import GetNIZKPChallenges
 
-def GenShuffleProof(e, e_prime, r_prime, psi, pk, secparams = secparams_default):
+def GenShuffleProof(e, e_prime, r_prime, psi, pk, secparams):
     """
     Algorithm 7.44: Generates a NIZKP of shuffle relative to ElGamal encryptions e and e1,
     which is equivalent to proving knowledge of a permutation psi and randomizations r_prime such

@@ -5,11 +5,11 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 from Utils.Utils           import AssertList, AssertClass, AssertNumeric
 from Types                 import *
 
-def HasConfirmation(i, C, secparams=secparams_default):
+def HasConfirmation(i, C, secparams):
     """
     Algorithm 7.35: Checks if the confirmation list C contains an entry for i.
 

@@ -7,9 +7,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertInt, AssertClass
 from Utils.Random          import randomMpz
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 
-def GenPolynomial(d, secparams = secparams_default):
+def GenPolynomial(d, secparams):
     """
     Algorithm 7.8: Generates the coefficients a_0,...,a_d of a random polynomial A(X) = Sigma(i=0...d) a_i X^i mod p' of degree d >= 0.
     The algorithm also accepts d = -1 as input, which we interpret as the polynomial A(X) = 0.

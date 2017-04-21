@@ -7,12 +7,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils              import AssertMpz, AssertClass
 from Utils.Random             import randomMpz, randomQuadResMpz
-from Crypto.SecurityParams    import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams    import SecurityParams, secparams_l0
 from Crypto.GetNIZKPChallenge import GetNIZKPChallenge
 from UnitTestParams           import unittestparams
 from Types                    import *
 
-def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams=secparams_default):
+def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams):
     """
     Algorithm 7.21: Generates a NIZKP, which proves that the ballot has been formed properly.
     This proof includes a proof of knowledge of the secret voting credential x that matches with

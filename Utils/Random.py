@@ -6,12 +6,12 @@ from random import randint
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams import secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams import secparams_l0, secparams_l3
 
-seed = int.from_bytes(os.urandom(secparams_default.p.bit_length()), byteorder='big')
+seed = int.from_bytes(os.urandom(secparams_l3.p.bit_length()), byteorder='big')
 rstate = gmpy2.random_state(seed)
 
-def randomMpz(n, secparams=secparams_default):
+def randomMpz(n, secparams):
     """
     An algorithm for picking elements uniformly at random from Z_n
 
@@ -30,7 +30,7 @@ def randomMpz(n, secparams=secparams_default):
     else:
         return mpz(2)
 
-def randomInt(n, secparams=secparams_default):
+def randomInt(n, secparams):
     """
     An algorithm for picking elements uniformly at random from Z_n
 
@@ -46,7 +46,7 @@ def randomInt(n, secparams=secparams_default):
     else:
         return 2
 
-def randomQuadResMpz(secparams=secparams_default):
+def randomQuadResMpz(secparams):
     """
     An algorithm for picking elements uniformly at random from G_q \subset Z_p^*
 
@@ -57,12 +57,12 @@ def randomQuadResMpz(secparams=secparams_default):
     """
 
     if not secparams.deterministicRandomGen:
-        r = randomRelativePrimeMpz(secparams.p)
+        r = randomRelativePrimeMpz(secparams.p, secparams)
         return gmpy2.powmod(r,2,secparams.p)
     else:
         return mpz(2)
 
-def randomBoundedMpz(lb, ub, secparams=secparams_default):
+def randomBoundedMpz(lb, ub, secparams):
     """
     An algorithm for picking elements uniformly at random from Z_ub \ Z_lb
 
@@ -81,7 +81,7 @@ def randomBoundedMpz(lb, ub, secparams=secparams_default):
     else:
         return mpz(lb)
 
-def randomBoundedInt(lb, ub, secparams=secparams_default):
+def randomBoundedInt(lb, ub, secparams):
     """
     An algorithm for picking elements uniformly at random from Z_ub \ Z_lb
 
@@ -100,7 +100,7 @@ def randomBoundedInt(lb, ub, secparams=secparams_default):
     else:
         return lb
 
-def randomRelativePrimeMpz(n, secparams=secparams_default):
+def randomRelativePrimeMpz(n, secparams):
     """
     An algorithm for picking elements uniformly at random from Z_n^*
 
@@ -125,7 +125,7 @@ def randomRelativePrimeMpz(n, secparams=secparams_default):
 
     return r
 
-def randomEltMpz(g, q, secparams=secparams_default):
+def randomEltMpz(g, q, secparams):
     """
     An algorithm for picking elements uniformly at random from G
 

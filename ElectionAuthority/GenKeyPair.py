@@ -8,9 +8,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertClass
 from Crypto.SecurityParams import SecurityParams
 from Utils.Random          import randomMpz
-from Crypto.SecurityParams import secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams import secparams_l0, secparams_l3
 
-def GenKeyPair(secparams=secparams_default):
+def GenKeyPair(secparams):
     """
     Algorithm 7.15: Generates a random ElGamal encryption key pair (sk, pk) ∈ Z_q x G_q.
     This algorithm is used in Prot. 6.3 by the authorities to generate private shares of a common public encryption key.

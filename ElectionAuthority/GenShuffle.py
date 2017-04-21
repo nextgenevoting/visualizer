@@ -7,11 +7,11 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                       import AssertList, AssertMpz
 from Types                             import *
-from Crypto.SecurityParams             import secparams_default, secparams_l3, secparams_l0
+from Crypto.SecurityParams             import secparams_l3, secparams_l0
 from ElectionAuthority.GenPermutation  import GenPermutation
 from ElectionAuthority.GenReEncryption import GenReEncryption
 
-def GenShuffle(e, pk, secparams = secparams_default):
+def GenShuffle(e, pk, secparams):
     """
     Algorithm 7.41: Generates a random permutation psi and uses it to shuffle a given
     list e = (e_1, ..., e_n) of ElGamal encryptions e_i = (a_i, b_i) in G_q^2.

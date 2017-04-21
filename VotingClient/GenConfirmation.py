@@ -7,13 +7,14 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                       import AssertClass, AssertList
 from Utils.ToInteger                   import ToInteger
+from Utils.StringToInteger             import StringToInteger
 from Utils.RecHash                     import RecHash
-from Crypto.SecurityParams             import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams             import SecurityParams
 from Types                             import Point
 from VotingClient.GetValues            import GetValues
 from VotingClient.GenConfirmationProof import GenConfirmationProof
 
-def GenConfirmation(Y, P_prime_bold, k_bold, secparams=secparams_default):
+def GenConfirmation(Y, P_prime_bold, k_bold, secparams):
     """
     Algorithm 7.30: Generates the confirmation gamma, which consists of the public
     confirmation credential y_hat and a NIZKP of knowledge pi of the secret
@@ -35,11 +36,11 @@ def GenConfirmation(Y, P_prime_bold, k_bold, secparams=secparams_default):
     h = [None] * s
 
     for j in range(s):
-        p_j = [P_prime_bold[k_][j] for k_ in range(sum(k_bold))]
+        p_j = [P_prime_bold[j][k_] for k_ in range(sum(k_bold))]
         y_j_bold = GetValues(p_j, k_bold, secparams)
-        h[j] = ToInteger(RecHash(y_j_bold)) % secparams.q_hat
+        h[j] = ToInteger(RecHash(y_j_bold, secparams)) % secparams.q_hat
 
-    y = (ToInteger(Y) + sum(h)) % secparams.q_hat
+    y = (StringToInteger(Y, secparams.A_Y) + sum(h)) % secparams.q_hat
     y_hat = gmpy2.powmod(secparams.g_hat, y, secparams.p_hat)
     pi = GenConfirmationProof(y, y_hat, secparams)
     gamma = (y_hat, pi)

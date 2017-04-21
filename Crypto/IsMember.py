@@ -8,9 +8,9 @@ from Crypto.SecurityParams import SecurityParams
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertNumeric, AssertClass
-from Crypto.SecurityParams import secparams_default, SecurityParams
+from Crypto.SecurityParams import SecurityParams
 
-def IsMember(x, secparams=secparams_default):
+def IsMember(x, secparams):
     """
     Algorithm 7.2: Checks if x is an element of G_q.
     The core of the algorithm is the computation of the Jacobi symbol for which we refer to existing algorithms

@@ -8,9 +8,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertInt, AssertClass
 from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
-from Crypto.SecurityParams import secparams_default, secparams_l0, SecurityParams
+from Crypto.SecurityParams import secparams_l0, SecurityParams
 
-def GetGenerators(n, secparams=secparams_default):
+def GetGenerators(n, secparams):
     """
     Algorithm 7.3: Computes n independent generators of G_q. The algorithm is an adaption of the NIST standard FIPS PUB 186-4 [1, Appendix A.2.3].
     The string "chVote" guarantees that the resulting values are specific for chVote.

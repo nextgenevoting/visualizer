@@ -9,12 +9,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils                 import Truncate, AssertList, AssertClass
 from Utils.Random                import randomMpz
 from Utils.RecHash               import RecHash
-from Crypto.SecurityParams       import SecurityParams, secparams_default, secparams_l0, secparams_l3
+from Crypto.SecurityParams       import SecurityParams, secparams_l0, secparams_l3
 from ElectionAuthority.GenPoints import GenPoints
 from UnitTestParams              import unittestparams
 from Types                       import *
 
-def GenSecretVoterData(p_bold, secparams = secparams_default):
+def GenSecretVoterData(p_bold, secparams):
     """
     Algorithm 7.10: Generates the secret data for a single voter, which is sent to the voter prior to an election event via the printing authority.
 

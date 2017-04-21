@@ -6,10 +6,10 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils            import AssertMpz, AssertList, AssertClass
-from Crypto.SecurityParams  import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams  import SecurityParams, secparams_l0
 from VotingClient.GetPoints import GetPoints
 
-def GetPointMatrix(beta_bold, k_bold, s_bold, r_bold, secparams=secparams_default):
+def GetPointMatrix(beta_bold, k_bold, s_bold, r_bold, secparams):
     """
     Algorithm 7.26: Computes the k-by-s matrix P_s = (P_ij)k x s of the points obtained from
     the s authorities for the selection s. The points are derived from the messages included

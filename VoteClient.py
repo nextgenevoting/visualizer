@@ -3,25 +3,30 @@ from BulletinBoard               import BulletinBoard
 from VotingClient.GenBallot      import GenBallot
 from VotingClient.GetPointMatrix import GetPointMatrix
 from VotingClient.GetReturnCodes import GetReturnCodes
+from VotingClient.GenConfirmation import GenConfirmation
 
 class VoteClient(object):
     """
     The VoteClient class represents a voting client participating in the protocols (for example prot 6.5)
     """
 
-    voter = None
-    i = None
-    bulletinBoard = None                # Reference to the bulletinBoard object
-    k_i = None
-    s = None
-    votingSheet = None
-    r = None
-    P_s = None
+    bulletinBoard = None  # Reference to the bulletinBoard object
+    voterData = None      # JSON data like the autoInput selection
+    i = None              # Voter index
+    k_i_bold = None       # Number of allowed selections per election of voter i
+    s_bold = None         # Selection (candidate indices)
+    votingSheet = None    # The voting sheet data (for automatic user input)
 
-    def __init__(self, i, voter, votingSheet, bulletinBoard):
+    alpha = None          # Ballot
+    r = None              # Ballot randomizations
+    P_s_bold = [None]
+    rc_s_bold = [None]
+    gamme = None
+
+    def __init__(self, i, voterData, votingSheet, bulletinBoard):
         self.i = i
         self.bulletinBoard = bulletinBoard
-        self.voterData = voter
+        self.voterData = voterData
         self.votingSheet = votingSheet
 
     def candidateSelection(self, autoInput, secparams):
@@ -32,15 +37,15 @@ class VoteClient(object):
             list:       Selection
         """
 
-        c, n, k, E = self.bulletinBoard.getCandidateSelectionParams()
+        c_bold, n_bold, k_bold, E_bold = self.bulletinBoard.getCandidateSelectionParams()
 
         # Calculate eligibility vector
-        self.k_i = []
-        for j in range(len(k)):
-            self.k_i.append(E[self.i][j] * k[j]) # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
+        self.k_i_bold = []
+        for j in range(len(k_bold)):
+            self.k_i_bold.append(E_bold[self.i][j] * k_bold[j]) # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
 
         # Get the voting page string
-        P_i = GetVotingPage(self.i, c,n,self.k_i)
+        P_i = GetVotingPage(self.i, c_bold,n_bold,self.k_i_bold)
 
         print(P_i)
         if autoInput:
@@ -54,7 +59,6 @@ class VoteClient(object):
         return self.s
 
     def castVote(self, s, autoInput, secparams):
-        pk = self.bulletinBoard.pk
 
         if autoInput:
             X = self.votingSheet.X
@@ -62,15 +66,28 @@ class VoteClient(object):
         else:
             X = input('Enter your voting code: ')
 
-        (alpha, r) = GenBallot(X, s, pk, secparams)
-        self.r = r
+        (self.alpha, self.r) = GenBallot(X, s, self.bulletinBoard.pk, secparams)
 
-        return (alpha, r)
+        return (self.alpha, self.r)
 
     def getPointsFromResponse(self, beta, secparams):
-        self.P_s = GetPointMatrix(beta, self.k_i, self.s, self.r, secparams)
-        return self.P_s
+        self.P_s_bold = GetPointMatrix(beta, self.k_i_bold, self.s, self.r, secparams)
+        return self.P_s_bold
 
     def getReturnCodes(self, secparams):
-        rc_s = GetReturnCodes(self.s, self.P_s, secparams)
-        return rc_s
+        self.rc_s_bold = GetReturnCodes(self.s, self.P_s_bold, secparams)
+        return self.rc_s_bold
+
+
+    def confirm(self, autoInput, secparams):
+        if autoInput:
+            Y_i = self.votingSheet.Y
+            print("Voter entered confirmation code: %s" % Y_i)
+        else:
+            Y_i = input('Enter your confirmation code: ')
+
+        self.gamma = GenConfirmation(Y_i,self.P_s_bold, self.k_i_bold, secparams)
+        return (self.i, self.gamma)
+
+        return
+

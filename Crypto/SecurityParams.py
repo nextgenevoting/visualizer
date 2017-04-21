@@ -138,5 +138,3 @@ secparams_l3 = SecurityParams(
     32,
     False
 )
-
-secparams_default = secparams_l3

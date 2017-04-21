@@ -6,7 +6,7 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                    import AssertMpz, AssertList, AssertClass, AssertString
-from Crypto.SecurityParams          import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams          import SecurityParams, secparams_l0
 from Utils.ToInteger                import ToInteger
 from VotingClient.GetSelectedPrimes import GetSelectedPrimes
 from VotingClient.GenQuery          import GenQuery
@@ -15,7 +15,7 @@ from UnitTestParams                 import unittestparams
 from Types                          import Ballot
 from Utils.StringToInteger          import StringToInteger
 
-def GenBallot(X_bold, s, pk, secparams=secparams_default):
+def GenBallot(X_bold, s, pk, secparams):
     """
     Algorithm 7.18: Generates a ballot based on the selection s and the voting code X. The
     ballot includes an OT query a and a proof pi. The algorithm also returns the random

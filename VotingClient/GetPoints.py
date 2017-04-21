@@ -6,14 +6,14 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertMpz, AssertList, AssertClass, Skip, Truncate
-from Crypto.SecurityParams import SecurityParams, secparams_default, secparams_l0
+from Crypto.SecurityParams import SecurityParams, secparams_l0
 from Types                 import *
 from math                  import ceil
 from Utils.RecHash         import RecHash
 from Utils.ToInteger       import ToInteger
 from Utils.XorByteArray    import XorByteArray
 
-def GetPoints(beta, k_bold, s_bold, r_bold, secparams=secparams_default):
+def GetPoints(beta, k_bold, s_bold, r_bold, secparams):
     """
     Algorithm 7.26: Computes the k-by-s matrix P_s = (P_ij)k x s of the points obtained from
     the s authorities for the selection s. The points are derived from the messages included
