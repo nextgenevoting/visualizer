@@ -31,7 +31,6 @@ def GenBallot(X_bold, s, pk, secparams):
         tuple:           alpha = (r, Ballot) = (r, (x_hat, a, b, pi))
     """
 
-    #AssertString(X)
     AssertMpz(pk)
     AssertList(s)
     AssertClass(secparams, SecurityParams)
@@ -42,7 +41,7 @@ def GenBallot(X_bold, s, pk, secparams):
     q_bold = GetSelectedPrimes(s, secparams)                    # q = (q_1, ... , q_k)
     m = mpz(1)
 
-    for i in range (len(q_bold)):
+    for i in range(len(q_bold)):
         m = m * q_bold[i]
 
     if m >= secparams.p:

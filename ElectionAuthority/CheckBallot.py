@@ -42,12 +42,12 @@ def CheckBallot(i, alpha, pk, K_bold, x_hat, B, secparams):
 
     if not HasBallot(i,B, secparams) and x_hat[i] == alpha.x_hat:
 
-        if len(alpha.a) != sum(K_bold[i]):   # check if the number of selections matches the sum of K[i]
+        if len(alpha.a_bold) != sum(K_bold[i]):   # check if the number of selections matches the sum of K[i]
             return False
 
         a = mpz(1)
-        for j in range(len(alpha.a)):
-            a = (a * alpha.a[j]) % secparams.p
+        for j in range(len(alpha.a_bold)):
+            a = (a * alpha.a_bold[j]) % secparams.p
         if CheckBallotProof(alpha.pi, alpha.x_hat, a, alpha.b, pk, secparams):
             return True
     return False

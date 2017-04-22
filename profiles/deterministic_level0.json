@@ -2,7 +2,7 @@
   "voters" : [
     {
       "name" : "Voter1",
-      "selection" : "1,4"
+      "selection" : "0,5"
     },
     {
       "name" : "Voter2",
@@ -17,5 +17,5 @@
   "k" : [1,1],
   "E" : [[1,1], [1,1]],
   "securityLevel" : 0,
-  "deterministicRandomGeneration" : false
+  "deterministicRandomGeneration" : true
 }

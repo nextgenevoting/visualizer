@@ -4,30 +4,28 @@ from VotingClient.GenBallot      import GenBallot
 from VotingClient.GetPointMatrix import GetPointMatrix
 from VotingClient.GetReturnCodes import GetReturnCodes
 from VotingClient.GenConfirmation import GenConfirmation
+from ElectionAuthority.GetPublicKey import GetPublicKey
 
 class VoteClient(object):
     """
     The VoteClient class represents a voting client participating in the protocols (for example prot 6.5)
     """
 
-    bulletinBoard = None  # Reference to the bulletinBoard object
-    voterData = None      # JSON data like the autoInput selection
-    i = None              # Voter index
-    k_i_bold = None       # Number of allowed selections per election of voter i
-    s_bold = None         # Selection (candidate indices)
-    votingSheet = None    # The voting sheet data (for automatic user input)
-
-    alpha = None          # Ballot
-    r = None              # Ballot randomizations
-    P_s_bold = [None]
-    rc_s_bold = [None]
-    gamme = None
-
     def __init__(self, i, voterData, votingSheet, bulletinBoard):
         self.i = i
         self.bulletinBoard = bulletinBoard
         self.voterData = voterData
         self.votingSheet = votingSheet
+
+        self.k_i_bold = None  # Number of allowed selections per election of voter i
+        self.s_bold = None  # Selection (candidate indices)
+        self.pk = None
+        self.alpha = None  # Ballot
+        self.r = None  # Ballot randomizations
+        self.P_s_bold = [None]
+        self.rc_s_bold = [None]
+        self.gamma = None
+
 
     def candidateSelection(self, autoInput, secparams):
         """
@@ -60,13 +58,14 @@ class VoteClient(object):
 
     def castVote(self, s, autoInput, secparams):
 
+        self.pk = GetPublicKey(self.bulletinBoard.pk,secparams)
         if autoInput:
             X = self.votingSheet.X
             print("Voter entered voting code: %s" % X)
         else:
             X = input('Enter your voting code: ')
 
-        (self.alpha, self.r) = GenBallot(X, s, self.bulletinBoard.pk, secparams)
+        (self.alpha, self.r) = GenBallot(X, s, self.pk, secparams)
 
         return (self.alpha, self.r)
 

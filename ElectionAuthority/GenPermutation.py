@@ -5,11 +5,12 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils  import AssertInt
-from Types        import *
-from Utils.Random import randomBoundedInt
+from Utils.Utils                    import AssertInt, AssertClass
+from Types                          import *
+from Utils.Random                   import randomBoundedInt
+from Crypto.SecurityParams          import SecurityParams
 
-def GenPermutation(N_E):
+def GenPermutation(N_E, secparams):
     """
     Algorithm 7.42: Generates a random permutation ψ ∈ Ψ following Knuth's shuffle algorithm.
 
@@ -21,12 +22,14 @@ def GenPermutation(N_E):
     """
 
     AssertInt(N_E)
+    AssertClass(secparams, SecurityParams)
+
 
     I = list(range(N_E))
     res = []
 
     for i in range(N_E):
-        k = randomBoundedInt(i,N_E-1)
+        k = randomBoundedInt(i,N_E-1, secparams)
         j_i = I[k]
         I[k] = I[i]
 

@@ -4,6 +4,8 @@ from Crypto.SecurityParams                  import secparams_l0, secparams_l1, s
 from VoteClient                             import VoteClient
 from PrintAuthority                         import PrintingAuthority
 from VotingClient.CheckReturnCodes          import CheckReturnCodes
+from ElectionAuthority.GetDecryptions       import GetDecryptions
+from ElectionAdministrator.GetVotes         import GetVotes
 import json
 
 class ProtocolRunner(object):
@@ -62,9 +64,10 @@ class ProtocolRunner(object):
         for sheet in sheets: print(sheet)
 
         # Run Protocol 6.3: Key Generation
-        elgamalKeyshares = [authority.GenKeyPair(self.secparams) for authority in self.authorities]
         for authority in self.authorities:
-            self.bulletinBoard.pk = authority.getPublicKey(elgamalKeyshares, self.secparams)         # combine the resulting public key
+            authority.GenKeyPair(self.secparams)
+        for authority in self.authorities:
+            authority.getPublicKey(self.secparams)         # combine the resulting public key
 
         # ********** ELECTION PHASE **********
         # Run Protocol 6.4 & 6.5: Candidate Selection & Vote Casting
@@ -82,7 +85,7 @@ class ProtocolRunner(object):
                 valid = valid and authority.runCheckBallot(votingClient.i,ballot, self.secparams)
                 print("Ballot validity checked by authority %s: %r" % (authority.name, valid))
 
-            beta = [authority.genResponse(votingClient.i,ballot.a, self.secparams)[0] for authority in self.authorities]
+            beta = [authority.genResponse(votingClient.i,ballot.a_bold, ballot, self.secparams)[0] for authority in self.authorities]
             P_s = votingClient.getPointsFromResponse(beta, self.secparams)
             if verbose: print(P_s)
             returnCodes = votingClient.getReturnCodes(self.secparams)
@@ -96,3 +99,18 @@ class ProtocolRunner(object):
                 valid = valid and authority.checkConfirmation(i,gamma, self.secparams)
                 print("Confirmation-Code checked by authority %s: %r" % (authority.name, valid))
 
+
+        # Mixing (6.7)
+        for authority in self.authorities:
+            authority.shuffle(self.secparams)
+
+        # Decryption (6.8)
+        for authority in self.authorities:
+            authority.decrypt(self.secparams)
+
+        # Tallying (6.9) by the election administrator
+        # TODO: CheckDecryptionProofs
+        m_bold = GetDecryptions(self.bulletinBoard.EN_bold[-1], self.bulletinBoard.B_prime_bold, self.secparams)
+        V_bold = GetVotes(m_bold, self.bulletinBoard.n_sum, self.secparams)
+        print("Election result: ")
+        print(V_bold)

@@ -15,6 +15,7 @@ from Utils.ToByteArray     import ToByteArrayN
 from Utils.RecHash         import RecHash
 from Types                 import *
 from Utils.XorByteArray    import XorByteArray
+from Crypto.IsMember       import IsMember
 
 def GenResponse(i, a_bold, pk, n_bold, K_bold, P_bold, secparams):
     """
@@ -36,7 +37,10 @@ def GenResponse(i, a_bold, pk, n_bold, K_bold, P_bold, secparams):
 
     AssertInt(i)
     AssertList(a_bold)
+    for a in a_bold: assert IsMember(a, secparams), "All elements of a_bold must be in G_q"
     AssertMpz(pk)
+    assert IsMember(pk, secparams), "Public key must be in G_q"
+    assert pk != mpz(1), "Public key cannot be equal to 1"
     AssertList(n_bold)
     AssertList(K_bold)
     AssertList(P_bold)

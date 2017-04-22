@@ -32,7 +32,7 @@ def GetGenerators(n, secparams):
 
         while True:
             x += 1
-            h = mpz(ToInteger(RecHash(["chVote", i, x])) % secparams.p)
+            h = mpz(ToInteger(RecHash(["chVote", i, x], secparams)) % secparams.p)
             h = (h ** 2) % secparams.p
 
             if h not in (0, 1, secparams.h, secparams.g) and h not in generators:

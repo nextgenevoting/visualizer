@@ -13,31 +13,6 @@ class SecurityParams(object):
     For the purpose of easier unit testing, the parameters for securityLevel0 can be injected as an optional parameter
     """
 
-    # Public crypto parameters
-    p = q = k = g = h = p_hat = q_hat = k_hat = g_hat = p_hat = L = L_M = delta = tau = deterministicRandomGen = 0
-
-    s = 3                                                           # Number of authorities
-    n_max = 255                                                      # Max. Number of candidates
-    epsilon = 0.9999                                                # deterrence factor --> The chance of an undetected attack is 1-deterrenceFactor
-
-    # Return code
-    A_R = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Return code alphabet
-    L_R = 3                                                         # Length of Returncodes in bytes
-    l_R = ceil((8 * L_R + BitAbs(n_max)) / log2(len(A_R)))           # Length of return codes in characters
-
-    # Finalization code
-    A_F = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Final. code alphabet
-    L_F = 3                                                         # Length of finalizationcode in bytes
-    l_F = ceil(8 * L_F / log2(len(A_F)))                            # Length of finalization codes in characters
-
-    # Voting code
-    q_hat_X = q_hat                                                 # Upper bound of secret voting credential x
-    A_X = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Voting code alphabet
-
-    # Confirmation code
-    q_hat_Y = q_hat                                                 # Upper bound of secret confirmation credential y
-    A_Y = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]         # Confirmation code alphabet
-
     def hash(self, input):
         hashFunc = hashlib.new('sha256')                            # must be initialized every time before using hashFunc.update()
         hashFunc.update(input)
@@ -62,6 +37,28 @@ class SecurityParams(object):
         self.L = L                                                  # Hash Length in bits
         self.deterministicRandomGen = detRandomGen                  # True is deterministic random generation should be used (for testing purposes only!)
 
+        self.s = 3                                                  # Number of authorities
+        self.n_max = 255                                            # Max. Number of candidates
+        self.epsilon = 0.9999                                       # deterrence factor --> The chance of an undetected attack is 1-deterrenceFactor
+
+        # Return code
+        self.A_R = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]    # Return code alphabet
+        self.L_R = 3                                                    # Length of Returncodes in bytes
+        self.l_R = ceil((8 * self.L_R + BitAbs(self.n_max)) / log2(len(self.A_R)))     # Length of return codes in characters
+
+        # Finalization code
+        self.A_F = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]    # Final. code alphabet
+        self.L_F = 3                                                    # Length of finalizationcode in bytes
+        self.l_F = ceil(8 * self.L_F / log2(len(self.A_F)))                       # Length of finalization codes in characters
+
+        # Voting code
+        self.q_hat_X = q_hat                                            # Upper bound of secret voting credential x
+        self.A_X = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]    # Voting code alphabet
+
+        # Confirmation code
+        self.q_hat_Y = q_hat                                            # Upper bound of secret confirmation credential y
+        self.A_Y = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]    # Confirmation code alphabet
+
         # calculated values:
         self.q_hat_X = q_hat
         self.q_hat_Y = q_hat
@@ -69,8 +66,8 @@ class SecurityParams(object):
         self.l_X = ceil(BitAbs(self.q_hat_X) / log2(len(self.A_X))) # Length of voting codes (characters)
         self.l_Y = ceil(BitAbs(self.q_hat_Y) / log2(len(self.A_Y))) # Length of confirmation codes in characters
 
-# global objects
 
+# global objects
 secparams_l0 = SecurityParams(
     4,
     4,

@@ -1,18 +1,19 @@
 class BulletinBoard(object):
 
-    t = None         # number of elections
-    v_bold = []      # voters descriptions
-    E_bold = []      # eligibility matrix E = (e_ij) N x t
-    c_bold = []      # candidates
-    n_bold = []      # number of candidates
-    k_bold = []      # number of selections
-
-    # Data generated during the election preparation (Protocol 6.1)
-    D_hat_bold = []  # Electorate data
-    pk = None        # public key
-
     def __init__(self):
-        pass
+        self.t = None  # number of elections
+        self.v_bold = []  # voters descriptions
+        self.E_bold = []  # eligibility matrix E = (e_ij) N x t
+        self.c_bold = []  # candidates
+        self.n_bold = []  # number of candidates
+        self.k_bold = []  # number of selections
+        self.EN_bold = [] # encryptions (E_bold in specification!)
+        self.pi_bold = [] # Shuffle proofs
+        self.B_prime_bold = []
+
+        # Data generated during the election preparation (Protocol 6.1)
+        self.D_hat_bold = []  # Electorate data
+        self.pk = []  # public key
 
     def setupElectionEvent(self, v_bold, n_bold, k_bold, t, c_bold, E_bold):
         """

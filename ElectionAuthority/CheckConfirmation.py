@@ -30,7 +30,6 @@ def CheckConfirmation(i, gamma, y_hat_bold, B, C, secparams):
     """
 
     AssertNumeric(i)
-    # TODO check type of gamma
     AssertList(y_hat_bold)
     AssertList(B)
     AssertList(C)

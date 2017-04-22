@@ -5,7 +5,7 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils           import AssertMpz
+from Utils.Utils           import AssertMpz, AssertClass
 from Types                 import *
 from Utils.Random          import randomMpz
 from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
@@ -24,14 +24,15 @@ def GenReEncryption(e, pk, secparams):
     """
 
     AssertMpz(pk)
+    AssertClass(secparams, SecurityParams)
 
     (a, b) = e
-    r_prime = randomMpz(secparams.q)
+    r_prime = randomMpz(secparams.q, secparams)
     a_prime = (a * gmpy2.powmod(pk, r_prime, secparams.p)) % secparams.p
     b_prime = (b * gmpy2.powmod(secparams.g, r_prime, secparams.p)) % secparams.p
-    e_prime = (a_prime, b_prime)
+    e_prime = ElGamalEncryption(a_prime, b_prime)
 
-    return e_prime
+    return (e_prime, r_prime)
 
 class GenReEncryptionTest(unittest.TestCase):
     def testGenReEncryption(self):

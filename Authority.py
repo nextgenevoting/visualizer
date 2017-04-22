@@ -7,34 +7,38 @@ from ElectionAuthority.GetPublicKey         import GetPublicKey
 from ElectionAuthority.CheckBallot          import CheckBallot
 from ElectionAuthority.GenResponse          import GenResponse
 from ElectionAuthority.CheckConfirmation    import CheckConfirmation
+from ElectionAuthority.GetEncryptions       import GetEncryptions
+from ElectionAuthority.GenShuffle           import GenShuffle
+from ElectionAuthority.GenShuffleProof      import GenShuffleProof
+from ElectionAuthority.GetPartialDecryptions import GetPartialDecryptions
 
 class Authority(object):
     """
     The Authority class represents a single election authority which performs several algorithms according
     to the protocol diagrams in chapter 6 of the specification document
     """
-    j = None
-    name = None
-    bulletinBoard = None
-
-    # The election authority knows:
-    n_bold = None
-    d_j_bold = None
-    d_hat_j_bold = None
-    P_j_bold = None
-    K_bold = None
-
-    x_hat_bold = []
-    y_hat_bold = []
-
-    pk = None
-    B_j = []
-    C_j = []
 
     def __init__(self, j, bulletinBoard):
         self.name = "S%d" % j
         self.j = j
         self.bulletinBoard = bulletinBoard
+
+        # The election authority knows:
+        self.n_bold = None
+        self.d_j_bold = None
+        self.d_hat_j_bold = None
+        self.P_j_bold = None
+        self.K_bold = None
+
+        self.x_hat_bold = []
+        self.y_hat_bold = []
+
+        self.pk_j = None
+        self.sk_j = None
+        self.pk = None
+        self.B_j = []
+        self.C_j = []
+
 
     def GenElectionData(self, n_bold, k_bold, E_bold, secparams):
         """
@@ -77,24 +81,24 @@ class Authority(object):
             mpz:                pk
         """
 
-        (sk_j, pk_j) = GenKeyPair(secparams)
-        return pk_j
+        self.sk_j, self.pk_j = GenKeyPair(secparams)
+        self.bulletinBoard.pk.append(self.pk_j)
+        return self.pk_j
 
-    def getPublicKey(self, pk, secparams):
+    def getPublicKey(self, secparams):
         """
         (Protocol 6.3) GetPublicKey: Combining the s key shares of all authorities
 
         Args:
-            pk (list):          Public Key Shares pk = (pk_1, ... , pk_s)
 
         Returns:
             mpz:                pk
         """
 
-        self.pk = GetPublicKey(pk, secparams)
+        self.pk = GetPublicKey(self.bulletinBoard.pk, secparams)
         return self.pk
 
-    def runCheckBallot(self, i, ballot, secparams):
+    def runCheckBallot(self, i, alpha, secparams):
         """
         (Protocol 6.5) PerformCheckBallot: Receives the ballot from the client and checks its validity
 
@@ -106,9 +110,9 @@ class Authority(object):
             bool
         """
 
-        return CheckBallot(i, ballot, self.pk, self.K_bold, self.x_hat, self.B_j, secparams)
+        return CheckBallot(i, alpha, self.pk, self.K_bold, self.x_hat, self.B_j, secparams)
 
-    def genResponse(self, i, alpha, secparams):
+    def genResponse(self, i, a, alpha, secparams):
         """
         (Protocol 6.5) genResponse: Generates a response for the OT query a
 
@@ -119,8 +123,8 @@ class Authority(object):
         Returns:
             tuple:              (i, beta_j)
         """
-        (beta_j, r_bold) = GenResponse(i, alpha, self.pk, self.n_bold, self.K_bold, self.P_j_bold, secparams)
-        self.B_j.append((i,alpha, r_bold))
+        (beta_j, r_bold) = GenResponse(i, a, self.pk, self.n_bold, self.K_bold, self.P_j_bold, secparams)
+        self.B_j.append((i, alpha, r_bold))
         return (beta_j, r_bold)
 
     def printPoints(self):
@@ -129,4 +133,56 @@ class Authority(object):
 
 
     def checkConfirmation(self, i, gamma, secparams):
-        return CheckConfirmation(i,gamma, self.y_hat, self.B_j, self.C_j, secparams)
+        """
+        (Protocol 6.6) checkConfirmation()
+        
+        Args:
+           i (int):            Voter index
+           gamma (tuple):      Confirmation
+        
+        Returns:
+           bool
+        """
+        if CheckConfirmation(i,gamma, self.y_hat, self.B_j, self.C_j, secparams):
+            self.C_j.append((i,gamma))
+            return True
+        else:
+            return False
+
+    def shuffle(self, secparams):
+        """
+       (Protocol 6.7) shuffle()
+
+       Args:
+
+       Returns:
+          None
+       """
+        if self.j == 0:
+            # the following steps are only performed by the first election authority
+            e_bold_0 = GetEncryptions(self.B_j, self.C_j, secparams)
+            (e_bold_1, r_bold_1, psi_1) = GenShuffle(e_bold_0, self.pk, secparams)
+            # TODO: Shuffle Proof! pi_1 = GenShuffleProof(e_bold_0, e_bold_1, r_bold_1, psi_1, self.pk, secparams)
+
+            self.bulletinBoard.EN_bold.append(e_bold_1)
+            # TODO: add shuffleproof to bulletin board: self.bulletinBoard.pi_bold.append()
+        else:
+            # executed by election authorities 1..s
+            e_bold_j_minus_1 = self.bulletinBoard.EN_bold[self.j-1]
+            (e_bold_j, r_bold_j, psi_j) = GenShuffle(e_bold_j_minus_1, self.pk, secparams)
+
+            # TODO: Shuffle Proof!
+            self.bulletinBoard.EN_bold.append(e_bold_j)
+
+    def decrypt(self, secparams):
+        """
+        (Protocol 6.8) decrypt()
+
+        Args:
+
+        Returns:
+          None
+        """
+        b_prime_j = GetPartialDecryptions(self.bulletinBoard.EN_bold[-1], self.sk_j, secparams)
+        # TODO: CheckShuffleProofs and GenDecryptionProof
+        self.bulletinBoard.B_prime_bold.append(b_prime_j)

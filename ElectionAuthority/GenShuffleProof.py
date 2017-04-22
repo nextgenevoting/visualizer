@@ -36,8 +36,8 @@ def GenShuffleProof(e, e_prime, r_prime, psi, pk, secparams):
     AssertMpz(pk)
     AssertClass(secparams, SecurityParams)
 
-    h = GetGenerators(len(e))
-    (c,r) = GenPermutationCommitment(psi, h)
+    h = GetGenerators(len(e), secparams)
+    (c,r) = GenPermutationCommitment(psi, h, secparams)
     u = GetNIZKPChallenges(len(e), (e,e_prime,c), secparams.q)
 
     return False

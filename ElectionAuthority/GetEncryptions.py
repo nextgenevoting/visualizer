@@ -30,22 +30,22 @@ def GetEncryptions(B, C, secparams):
     AssertClass(secparams, SecurityParams)
 
     i = 0
-    e = []
+    e_bold = []
 
     for j in range(len(B)):
         (i_j, alpha_j, r_j) = B[j]
-        a_j = 1
+        a_j = mpz(1)
 
-        if HasConfirmation(i_j, C):
-            for l in range(len(alpha_j.a)):
-                a_j = (a_j * alpha_j.a[l]) % secparams.p
+        if HasConfirmation(i_j, C, secparams):
+            for l in range(len(alpha_j.a_bold)):
+                a_j = (a_j * alpha_j.a_bold[l]) % secparams.p
 
-            e.append((a_j, alpha_j.b))
+            e_bold.append(ElGamalEncryption(a_j, alpha_j.b))
             i += 1
 
-    e.sort(key=lambda tup: (tup[0], tup[1]), reverse=False)
+    e_bold.sort(key=lambda enc: (enc.a, enc.b), reverse=False)
 
-    return e
+    return e_bold
 
 class GetEncryptionsTest(unittest.TestCase):
     def testGetEncryptions(self):
