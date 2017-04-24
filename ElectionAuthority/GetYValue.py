@@ -14,8 +14,9 @@ def GetYValue(x, a_bold, secparams):
     The algorithm is an implementation of Horners method.
 
     Args:
-       x (mpz):     value x \in Z_p', normally mpz is used except for x = 0
-       a (list):    list of coefficients
+       x (mpz):                            value x \in Z_p', normally mpz is used except for x = 0
+       a (list of mpz):                    list of coefficients
+       secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
        mpz:         the y value for x on the polynomial

@@ -10,7 +10,8 @@ def RecHash(v, secparams):
     Algorithm 4.9: Computes the hash value h(v_1,...v_k) of multiple inputs v_1..v_k in a recursive manner.
 
     Args:
-       v (list):        Input values v_i \in  V_i, V_i unspecified, k >= 0
+       v (list):                            Input values v_i \in  V_i, V_i unspecified, k >= 0
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
        bytes:           An immutable array of bytes representing the recursive hash of the input values with a length corresponding to the used hash function

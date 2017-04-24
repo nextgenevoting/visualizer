@@ -13,10 +13,11 @@ def GetPublicKey(pk_bold, secparams):
     Algorithm 7.16: Computes a public ElGamal encryption key pk ∈ G_q from given shares pk_j ∈ G_q
 
     Args:
-        pk_bold (list):   List of public keys = (pk_1, ... , pk_s), pk_j ∈ G_q
+       pk_bold (list of mpz):              List of public keys = (pk_1, ... , pk_s), pk_j ∈ G_q
+       secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-        mpz:    Public Key pk
+        mpz:                               Public Key pk
     """
 
     AssertList(pk_bold)

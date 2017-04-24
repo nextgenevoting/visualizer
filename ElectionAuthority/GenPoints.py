@@ -20,8 +20,9 @@ def GenPoints(n_bold, k_bold, secparams):
     Additional, the values y_j = A_j(0) are computed for all random polynomials and returned together with the random points.
 
     Args:
-        n_bold (list):  A list containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
-        k_bold (list):  A list containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
+        n_bold (list):                      A list containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
+        k_bold (list):                      A list containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
+        secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
         tuple:        (p,y), points p ∈ (Z_p^2)^n, and the y values of x=0 ∈ Z_q^t

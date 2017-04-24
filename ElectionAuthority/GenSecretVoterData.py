@@ -19,10 +19,11 @@ def GenSecretVoterData(p_bold, secparams):
     Algorithm 7.10: Generates the secret data for a single voter, which is sent to the voter prior to an election event via the printing authority.
 
     Args:
-       p_bold (list):    A list of n points = (p_1, ... , p_n) in Z_p'
+       p_bold (list):                      A list of n points = (p_1, ... , p_n) in Z_p'
+       secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-       tuple:   Secret voter data (x,y,F,r)
+       tuple:                              Secret voter data (x,y,F,r)
     """
 
     AssertList(p_bold)

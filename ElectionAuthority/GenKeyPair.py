@@ -9,6 +9,7 @@ from Utils.Utils           import AssertClass
 from Crypto.SecurityParams import SecurityParams
 from Utils.Random          import randomMpz
 from Crypto.SecurityParams import secparams_l0, secparams_l3
+from Crypto.IsMember       import IsMember
 
 def GenKeyPair(secparams):
     """
@@ -16,14 +17,17 @@ def GenKeyPair(secparams):
     This algorithm is used in Prot. 6.3 by the authorities to generate private shares of a common public encryption key.
 
     Args:
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        tuple:    Key Pair (sk, pk) in Z_q x G_q.
+        tuple:                               Key Pair (sk, pk) in Z_q x G_q
     """
     AssertClass(secparams, SecurityParams)
 
     sk = randomMpz(secparams.q, secparams)
     pk = gmpy2.powmod(secparams.g, sk, secparams.p)
+
+    assert IsMember(pk, secparams)
 
     return (sk, pk)
 

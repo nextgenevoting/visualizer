@@ -19,15 +19,16 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams):
     the public voting credential x_hat. Note that this is equivalent to a Schnorr Identification proof.
 
     Args:
-        x (mpz):    Voting credential ∈ Z_q_hat
-        m (mpz):    Product of selected primes m ∈ G_q
-        r (mpz):    Randomization r ∈ Z_q
-        a (mpz):    ElGamal Encryption
-        b (mpz):    ElGamal Encryption
-        pk (mpz):   Encryption key pk ∈ G_q
+        x (mpz):                            Voting credential ∈ Z_q_hat
+        m (mpz):                            Product of selected primes m ∈ G_q
+        r (mpz):                            Randomization r ∈ Z_q
+        a (mpz):                            ElGamal Encryption
+        b (mpz):                            ElGamal Encryption
+        pk (mpz):                           Encryption key pk ∈ G_q
+        secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-        tuple:     ((t_1, t_2, t_3), (s_1, s_2, s_3))
+        tuple:                              ((t_1, t_2, t_3), (s_1, s_2, s_3))
     """
 
     AssertMpz(x)
@@ -48,7 +49,7 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams):
 
     y = (x_hat, a, b)
     t = (t_1, t_2, t_3)
-    c = GetNIZKPChallenge(y, t, min(secparams.q, secparams.q_hat), secparams)
+    c = GetNIZKPChallenge(y, t, secparams.tau, secparams)
 
     s_1 = (w_1 + c * x) % secparams.q_hat
     s_2 = (w_2 * gmpy2.powmod(m, c, secparams.p)) % secparams.p

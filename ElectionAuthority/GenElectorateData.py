@@ -19,16 +19,18 @@ def GenElectorateData(n_bold, k_bold, E_bold, secparams):
     Algorithm 7.6: Generates the data for the whole electorate
 
     Args:
-        n_bold (list):               A list containing the number of candidates: (n_1, ... , n_t)
-        k_bold (list):               A list containing the number of possible selections per election: (k_1, ... , k_t)
-        E_bold ([[]]):               Eligibility matrix [N][t], 1 means eligible
+        n_bold (list of int):                A list containing the number of candidates: (n_1, ... , n_t)
+        k_bold (list of int):                A list containing the number of possible selections per election: (k_1, ... , k_t)
+        E_bold (list of list):               Eligibility matrix [N][t], 1 means eligible
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        tuple:                  (d, d^, P, K)
+        tuple:                               (d, d^, P, K)
     """
 
     AssertList(n_bold)
     AssertList(k_bold)
+    AssertList(E_bold)
     AssertClass(secparams, SecurityParams)
 
     N_E = len(E_bold)
@@ -72,13 +74,6 @@ class GenElectorateDataTest(unittest.TestCase):
         for d_i in d:
             self.assertTrue(len(d_i) == 4 and d_i[0].__class__.__name__ == 'mpz' and d_i[1].__class__.__name__ == 'mpz' and isinstance(d_i[2], bytes) and isinstance(d_i[3], list))
             self.assertTrue(len(d_i[3]) == 6)    # total number of candidates
-
-    def testGenElectorateDataL0(self):
-        # Test with 2 voters, 2 elections, 2*3 candidates
-        d, d_hat, P, K = GenElectorateData(unittestparams.n, unittestparams.k, unittestparams.E, secparams_l0)
-
-        d_hat_manual =  [(mpz(161), mpz(253)), (mpz(161), mpz(253))]
-        self.assertEqual(d_hat, d_hat_manual)
 
 if __name__ == '__main__':
     unittest.main()

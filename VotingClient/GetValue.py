@@ -14,7 +14,8 @@ def GetValue(p_bold, secparams):
     the value y = A(0).
 
     Args:
-        p_bold (list of points): Given points
+        p_bold (list of points):             Given points
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
         y: y = A(0) of polynomial A(X)

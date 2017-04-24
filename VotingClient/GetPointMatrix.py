@@ -17,13 +17,14 @@ def GetPointMatrix(beta_bold, k_bold, s_bold, r_bold, secparams):
     in the OT responses beta = (beta_1, ..., beta_s)
 
     Args:
-        beta_bold (list):        Oblivious Transfer Responses
-        k_bold (list):           Number of selections
-        s_bold (list):           Selections
-        r_bold (list):           Randomizations
+        beta_bold (list of Response):       Oblivious Transfer Responses
+        k_bold (list of int):               Number of selections
+        s_bold (list of int):               Selections
+        r_bold (list of mpz):               Randomizations
+        secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-        list                Points
+        list                                Points
     """
 
     AssertList(beta_bold)

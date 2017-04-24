@@ -16,10 +16,11 @@ def GenPolynomial(d, secparams):
     In this case, the algorithm returns the coefficient list a = (0).
 
     Args:
-       d (int):     Degree d >= -1
+       d (int):                            Degree d >= -1
+       secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-       list:        A list of coefficients a_0 ... a_d of polynomial A(X)
+       list of mpz:                        A list of coefficients a_0 ... a_d of polynomial A(X)
     """
 
     AssertInt(d)

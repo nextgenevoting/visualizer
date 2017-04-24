@@ -13,8 +13,9 @@ def HasBallot(i, B_bold, secparams):
     Algorithm 7.23: Checks if the ballot list B contains an entry for i.
 
     Args:
-        i (int):            Voter index
-        B_bold (list):      Ballot list
+        i (int):                            Voter index
+        B_bold (list):                      Ballot list
+        secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
         bool

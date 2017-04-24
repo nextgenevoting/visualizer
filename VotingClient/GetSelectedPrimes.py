@@ -14,10 +14,11 @@ def GetSelectedPrimes(s_bold, secparams):
     first, the third, and the seventh prime from G_q.
 
     Args:
-        s_bold (list):   Selections
+        s_bold (list of int):                Selections
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        list:       List of the selected prime numbers
+        list of mpz:                         List of the selected prime numbers
     """
 
     AssertList(s_bold)

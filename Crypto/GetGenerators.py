@@ -8,22 +8,25 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertInt, AssertClass
 from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
-from Crypto.SecurityParams import secparams_l0, SecurityParams
+from Crypto.SecurityParams import SecurityParams
 
 def GetGenerators(n, secparams):
     """
     Algorithm 7.3: Computes n independent generators of G_q. The algorithm is an adaption of the NIST standard FIPS PUB 186-4 [1, Appendix A.2.3].
-    The string "chVote" guarantees that the resulting values are specific for chVote.
+    The string "chVote" guarantees that the resulting values are specific for chVote. In a more efficient implementation of this algorithm, the list of resulting generators is accumulated in a cache
+    or precomputed for the largest expected value n_max >= n.
 
     Args:
-       n (int):     The number of primes to be calculated
+       n (int):                             The number of primes to be calculated
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-       list:        a list with independent generators of G_p (mpz)
+       list of mpz:                         a list with independent generators of G_p (mpz)
     """
 
     AssertInt(n)
     AssertClass(secparams, SecurityParams)
+    assert n >= 0, "n must be greater than or equal 0"
 
     generators = []
 
@@ -48,7 +51,7 @@ class GetGeneratorsTest(unittest.TestCase):
         for i in range(20):
             self.assertTrue(len(GetGenerators(i)) == i)
 
-        # Checking if all elements in the list are unique
+        # Check if all elements in the list are unique
         x = GetGenerators(50)
         self.assertFalse(len(x) > len(set(x)))
 

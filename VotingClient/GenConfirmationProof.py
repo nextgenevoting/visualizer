@@ -18,8 +18,9 @@ def GenConfirmationProof(y, y_hat, secparams):
     verification of π, see Alg. 7.36.
 
     Args:
-        y:          Secret confirmation credential
-        y_hat:      Public confirmation credential
+        y:                                   Secret confirmation credential
+        y_hat:                               Public confirmation credential
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
         π:          The NIZKP challenge
@@ -30,7 +31,7 @@ def GenConfirmationProof(y, y_hat, secparams):
 
     w = randomMpz(secparams.q_hat, secparams)
     t = gmpy2.powmod(secparams.g_hat, w, secparams.p_hat)
-    c = GetNIZKPChallenge(y_hat, t, secparams.q_hat, secparams)
+    c = GetNIZKPChallenge(y_hat, t, secparams.tau, secparams)
     s = w + c * y % secparams.q_hat
     pi = (t, s)
 

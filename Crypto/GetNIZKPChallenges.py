@@ -16,35 +16,37 @@ def GetNIZKPChallenges(n, y, kappa, secparams):
     c_i = RecHash(y, i), but precomputing H makes the algorithm more efficient.
 
     Args:
-        n (int):        Number of challenges to compute
-        y (mpz):        Public value
-        kappa (mpz):    Soundness strength 1 <= kappa <= 8L
+        y (unspecified):                    Public value
+        t (unspecified):                    Commitment
+        kappa (int):                        Soundness strength 1 <= kappa <= 8L
+        secparams (SecurityParams):         Collection of public security parameters
 
     Retuns:
-        c (list):   List containing n computed challenges (mpz)
+        list of mpz:                        List containing n computed challenges (mpz)
     """
 
     AssertInt(n)
     AssertMpz(y)
-    AssertMpz(kappa)
-    assert(kappa >= 2)
+    AssertInt(kappa)
+    assert kappa >= 1 and kappa <= 8 * secparams.L, "Constraint for kappa: 1 <= kappa <= 8L"
     AssertClass(secparams, SecurityParams)
 
     H = RecHash(y, secparams)
     c = []
 
     for i in range(1, n + 1):
-        I = RecHash(i)
+        I = RecHash(i, secparams)
         c.append(mpz(ToInteger(secparams.hash(H + I)) % 2^kappa))
 
     return c
 
 class GetGetNIZKPChallengesTest(unittest.TestCase):
-    def test(self):
+    def testGetNIZKPChallenges(self):
         # The results in c should be identical to c_i = ToInteger(RecHash(y,i)):
-        c = GetNIZKPChallenges(50, mpz(1234), mpz(1024))
+        c = GetNIZKPChallenges(50, mpz(1234), secparams_l3.tau, secparams_l3)
+        self.assertEqual(len(c), 50)
         for i in range(1, len(c)+1):
-            self.assertEqual(c[i-1], ToInteger(RecHash([mpz(1234), i]))%mpz(1024))
+            self.assertEqual(c[i-1], ToInteger(RecHash([mpz(1234), i], secparams_l3))% 2^secparams_l3.tau)
 
 if __name__ == '__main__':
     unittest.main()
