@@ -19,11 +19,12 @@ def GenShuffle(e_bold, pk, secparams):
     we denote the set of all N! possible permutations of the values {1, ..., N}
 
     Args:
-       e_bold (list):        ElGamal Encryptions
-       pk (mpz):            Encryption key pk
+       e_bold (list):                      ElGamal Encryptions
+       pk (mpz):                           Encryption key pk
+       secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-        tuple           (e_prime, r_prime, psi)
+        tuple                              (e_prime, r_prime, psi)
     """
 
     AssertList(e_bold)

@@ -1,6 +1,7 @@
 import unittest
 import os, sys
 import gmpy2
+from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -16,22 +17,23 @@ def GetPrimes(n, secparams):
     the largest expected value n.
 
     Args:
-       n (int):     Number of primes to be calculated
+       n (int):                             Number of primes to be calculated
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-       list:        A list with length n containing the first n prime numbers in G_p
+       list of mpz :                        A list with length n containing the first n prime numbers in G_p
     """
 
     AssertInt(n)
     assert n >= 2, "n must be greater or equal 2"
     AssertClass(secparams, SecurityParams)
 
-    x = 1
+    x = mpz(1)
     primes = []
 
     for i in range(n):                                # i = 0, ... , n-1
         while True:
-            x += 1 if x <= 2 else 2
+            x += 1 if x <= 2 else mpz(2)
 
             if x >= secparams.p:
                 return []                                # n is incompatible with p
@@ -45,7 +47,7 @@ def GetPrimes(n, secparams):
 class GetPrimesTest(unittest.TestCase):
     def testOne(self):
         # Test if the lenght of the returned list matches the parameter n
-        self.assertTrue(len(GetPrimes(10)) == 10)
+        self.assertTrue(len(GetPrimes(10, secparams_l3)) == 10)
 
     def testPrimesForSecurityLevel0(self):
         # Test whether the 50 first primes of group G_563 (this corresponds to

@@ -4,7 +4,7 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Utils.Utils           import AssertMpz, AssertClass
+from Utils.Utils           import AssertInt, AssertMpz, AssertClass
 from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
 from Crypto.SecurityParams import secparams_l0, secparams_l3, SecurityParams
@@ -16,16 +16,17 @@ def GetNIZKPChallenge(y, t, kappa, secparams):
     unspecified.
 
     Args:
-        y (mpz):        Public value
-        t (mpz):        Commitment
-        kappa (mpz):    Soundness strength 1 <= kappa <= 8L
+        y (unspecified):                    Public value
+        t (unspecified):                    Commitment
+        kappa (int):                        Soundness strength 1 <= kappa <= 8L
+        secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-        c (mpz):    The NIZKP challenge
+        mpz:                                The NIZKP challenge
     """
 
-    AssertMpz(kappa)
-    assert kappa >= 2
+    AssertInt(kappa)
+    assert kappa >= 1 and kappa <= 8 * secparams.L, "Constraint for kappa: 1 <= kappa <= 8L"
     AssertClass(secparams, SecurityParams)
 
     c = mpz(ToInteger(RecHash([y, t], secparams)) % 2^kappa)
@@ -33,8 +34,11 @@ def GetNIZKPChallenge(y, t, kappa, secparams):
     return c
 
 class GetNIZKPChallengeTest(unittest.TestCase):
-    def test(self):
-        self.assertTrue(False) # TODO
+    def testGetNIZKPChallenge(self):
+        for i in range (100):
+            c = GetNIZKPChallenge("Test", "chvote", secparams_l3.tau, secparams_l3)
+            AssertMpz(c)
+            assert c >= 0 and c <= 2^secparams_l3.tau
 
 if __name__ == '__main__':
     unittest.main()

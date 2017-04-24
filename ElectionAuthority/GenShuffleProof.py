@@ -20,11 +20,12 @@ def GenShuffleProof(e, e_prime, r_prime, psi, pk, secparams):
     verification, see Alg. 7.48. For further background information we refer to Section 5.5.
 
     Args:
-       e (list):                ElGamal Encryptions
-       e_prime (list):          Shuffled ElGamal Encryptions e'
-       r_prime (list):          Re-encryption randomizations r'
-       psi (list):              Permutation
-       pk (mpz):                Encryption key pk
+       e (list):                           ElGamal Encryptions
+       e_prime (list):                     Shuffled ElGamal Encryptions e'
+       r_prime (list):                     Re-encryption randomizations r'
+       psi (list):                         Permutation
+       pk (mpz):                           Encryption key pk
+       secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
         ShuffleProof

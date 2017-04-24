@@ -19,9 +19,9 @@ def CheckReturnCodes(rc_bold, rc_prime_bold, s_bold):
     Note that this algorithm is executed by humans.
 
     Args:
-        rc_bold (list):          Printed return codes
-        rc_prime_bold (list):    Displayed return codes rc'
-        s_bold (list):           Selections
+        rc_bold (list):                     Printed return codes
+        rc_prime_bold (list):               Displayed return codes rc'
+        s_bold (list):                      Selections
 
     Returns:
         bool

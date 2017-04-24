@@ -19,14 +19,15 @@ def CheckConfirmation(i, gamma, y_hat_bold, B, C, secparams):
     confirmation credential of voter i.
 
     Args:
-        i (int):                Voter index
-        gamma:                  Confirmation
-        y_hat_bold (list):      Public confirmation credentials
-        B (list):               Ballot list
-        C (list):               Confirmation list
+        i (int):                             Voter index
+        gamma:                               Confirmation
+        y_hat_bold (list):                   Public confirmation credentials
+        B (list):                            Ballot list
+        C (list):                            Confirmation list
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        bool            True if the goven confirmation is valid, False otherwise.
+        bool                                 True if the given confirmation is valid, False otherwise.
     """
 
     AssertNumeric(i)

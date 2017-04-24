@@ -16,10 +16,11 @@ def IsMember(x, secparams):
     The core of the algorithm is the computation of the Jacobi symbol for which we refer to existing algorithms
 
     Args:
-        x (mpz):     The number to test x \in N
+       x (mpz):                             The number to test x \in N
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        list:        A list with length n containing the first n prime numbers in G_p
+       bool:                                True if x is a member of G_q, False if not
     """
 
     AssertNumeric(x)

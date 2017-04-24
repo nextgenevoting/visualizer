@@ -10,7 +10,7 @@ from Utils.ToInteger                   import ToInteger
 from Utils.StringToInteger             import StringToInteger
 from Utils.RecHash                     import RecHash
 from Crypto.SecurityParams             import SecurityParams
-from Types                             import Point
+from Types                             import *
 from VotingClient.GetValues            import GetValues
 from VotingClient.GenConfirmationProof import GenConfirmationProof
 
@@ -21,12 +21,13 @@ def GenConfirmation(Y, P_prime_bold, k_bold, secparams):
     confirmation credential y.
 
     Args:
-        Y:                              Confirmation code
-        P_prime_bold (list of points):  Points
-        k_bold:                         Number of selections
+        Y:                                   Confirmation code
+        P_prime_bold (list of points):       Points
+        k_bold:                              Number of selections
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        gamma: Confirmation
+        gamma:                               Confirmation
     """
 
     AssertList(P_prime_bold)
@@ -43,7 +44,7 @@ def GenConfirmation(Y, P_prime_bold, k_bold, secparams):
     y = (StringToInteger(Y, secparams.A_Y) + sum(h)) % secparams.q_hat
     y_hat = gmpy2.powmod(secparams.g_hat, y, secparams.p_hat)
     pi = GenConfirmationProof(y, y_hat, secparams)
-    gamma = (y_hat, pi)
+    gamma = Confirmation(y_hat, pi)
 
     return gamma
 

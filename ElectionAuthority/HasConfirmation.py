@@ -14,11 +14,12 @@ def HasConfirmation(i, C, secparams):
     Algorithm 7.35: Checks if the confirmation list C contains an entry for i.
 
     Args:
-        i (int):            Voter Index i in N
-        C (list):           Confirmation list C
+        i (int):                           Voter Index i in N
+        C (list of Confirmation):          Confirmation list C
+        secparams (SecurityParams):        Collection of public security parameters
 
     Returns:
-        bool
+        bool:                              True if the list C contains a Confirmation of voter i
     """
 
     AssertNumeric(i)

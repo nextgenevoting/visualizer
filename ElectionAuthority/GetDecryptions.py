@@ -16,11 +16,12 @@ def GetDecryptions(e_bold, B_prime_bold, secparams):
     partial decryptions b_prime_ij obtained from s different authorities.
 
     Args:
-       e_bold (List):            ElGamal encryptions
-       B_prime_bold (list):      Partial decryptions
+       e_bold (list of ElGamalEncryption): ElGamal encryptions
+       B_prime_bold (list of list):        Partial decryptions
+       secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-        list                Partial decryptions
+        list of mpz                        Partial decryptions
     """
 
     AssertList(e_bold)

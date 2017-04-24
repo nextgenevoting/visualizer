@@ -15,8 +15,9 @@ def GetValues(p_bold, k_bold, secparams):
     ..., p_k).
 
     Args:
-        p_bold (list of points):    Given points
-        k_bold (list):              Number of selections
+        p_bold (list of points):             Given points
+        k_bold (list of int):                Number of selections
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
         y: Computed values A_j(0) of the t polynomials A_j(X)

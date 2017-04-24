@@ -18,11 +18,13 @@ def GetEncryptions(B, C, secparams):
     <-> (a_i < a_j) or (a_i = a_a and b_i <= b_j), for e_i = (a_i, b_i) and e_j = (a_j, b_j)
 
     Args:
-        B (list):           Ballot List
-        C (list):           Confirmation list C
+        B (list of Ballot):                Ballot List
+        C (list of tuple):                 Confirmation list C
+       secparams (SecurityParams):         Collection of public security parameters
+
 
     Returns:
-        list
+        list of ElGamalEncryption:         ElGamal Encryptions
     """
 
     AssertList(B)

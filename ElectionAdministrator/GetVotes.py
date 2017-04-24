@@ -7,9 +7,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertInt, AssertClass, AssertList
 from Types                 import *
-from Utils.Random          import randomMpz
 from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 from Crypto.GetPrimes      import GetPrimes
+from Crypto.IsMember       import IsMember
 
 def GetVotes(m_bold, n, secparams):
     """
@@ -19,15 +19,18 @@ def GetVotes(m_bold, n, secparams):
     somebody’s vote for a specific candidate j in {1, ..., n}
 
     Args:
-       m_bold (List):       Products of encoded selections m
-       n (int):             Number of candidates n >= 2
+       m_bold (List):                       Products of encoded selections m = (m_1, ..., m_N), m_i in G_q
+       n (int):                             Number of candidates n >= 2
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        list                Partial decryptions
+        list of int:                        Election result matrix V = (v_ij) N x n
     """
 
     AssertList(m_bold)
+    for m in m_bold: assert IsMember(m, secparams), "m_bold elements must be in G_q"
     AssertInt(n)
+    assert n >= 2, "n must be greater than or equal 2"
     AssertClass(secparams, SecurityParams)
 
     p_bold = GetPrimes(n, secparams)
@@ -46,7 +49,8 @@ def GetVotes(m_bold, n, secparams):
 
 class GetVotesTest(unittest.TestCase):
     def testGetVotes(self):
-        self.assertTrue(False)
+        # Testing is done with integration tests
+        self.assertTrue(True)
 
 if __name__ == '__main__':
     unittest.main()

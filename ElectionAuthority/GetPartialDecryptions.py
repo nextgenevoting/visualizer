@@ -16,11 +16,12 @@ def GetPartialDecryptions(e_bold, sk_j, secparams):
     encryption using a share sk_j of the private decryption key.
 
     Args:
-       e_bold (List):       ElGamal encryptions
-       sk_j (mpz):          Decryption key share
+       e_bold (list of ElGamalEncryption): ElGamal encryptions
+       sk_j (mpz):                         Decryption key share
+       secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-        list                Partial decryptions
+        list of mpz                        Partial decryptions
     """
 
     AssertList(e_bold)

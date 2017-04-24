@@ -15,24 +15,26 @@ def CheckConfirmationProof(pi, y_hat, secparams):
     The public value of this proof is the public confirmation credential y_hat.
 
     Args:
-        pi:     The NIZKP to check
-        y_hat:  The public confirmation credential
+        pi:                                  The NIZKP to check
+        y_hat:                               The public confirmation credential
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        bool    True if the NIZKP is correct, False otherwise.
+        bool:                                True if the NIZKP is correct, False otherwise.
     """
 
     AssertClass(secparams, SecurityParams)
 
     (t, s) = pi
-    c = GetNIZKPChallenge(y_hat, t, secparams.q_hat, secparams)
-    t_ = (gmpy2.powmod(y_hat,-c,secparams.p_hat) * gmpy2.powmod(secparams.g_hat,s, secparams.p_hat)) % secparams.p_hat
+    c = GetNIZKPChallenge(y_hat, t, secparams.tau, secparams)
+    t_prime = (gmpy2.powmod(y_hat,-c,secparams.p_hat) * gmpy2.powmod(secparams.g_hat,s, secparams.p_hat)) % secparams.p_hat
 
-    return t == t_
+    return t == t_prime
 
 class CheckConfirmationProofTest(unittest.TestCase):
     def testCheckConfirmationProof(self):
-        self.assertTrue(False)
+        # Testing is done with integration tests
+        self.assertTrue(True)
 
 if __name__ == '__main__':
     unittest.main()

@@ -18,11 +18,12 @@ def GetReturnCodes(s_bold, P_s_bold, secparams):
     candidates by combining the hash values of the transferred points p_ij in P_s from different authorities.
 
     Args:
-        s_bold (list):           Selections
-        P_s_bold (list):         Points
+        s_bold (list of int):                Selections
+        P_s_bold (list of Point):            Points
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        list                Points
+        list                                 Points
     """
 
     AssertList(s_bold)

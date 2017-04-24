@@ -8,17 +8,18 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils                    import AssertInt, AssertClass
 from Types                          import *
 from Utils.Random                   import randomBoundedInt
-from Crypto.SecurityParams          import SecurityParams
+from Crypto.SecurityParams          import SecurityParams, secparams_l3
 
 def GenPermutation(N_E, secparams):
     """
     Algorithm 7.42: Generates a random permutation ψ ∈ Ψ following Knuth's shuffle algorithm.
 
     Args:
-       N (int):     Permutation size
+       N (int):                             Permutation size
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        list
+        list of int:                        Permutation
     """
 
     AssertInt(N_E)
@@ -39,11 +40,11 @@ def GenPermutation(N_E, secparams):
 
 class GenPermutationTest(unittest.TestCase):
     def testGenPermutation(self):
-        self.assertTrue(len(GenPermutation(10)) == 10)
-        self.assertTrue(len(GenPermutation(5)) == 5)
-        self.assertTrue(len(GenPermutation(0)) == 0)
+        self.assertTrue(len(GenPermutation(10, secparams_l3)) == 10)
+        self.assertTrue(len(GenPermutation(5, secparams_l3)) == 5)
+        self.assertTrue(len(GenPermutation(0, secparams_l3)) == 0)
 
-        for i in GenPermutation(100):
+        for i in GenPermutation(100, secparams_l3):
             self.assertTrue(i >= 0 and i < 100)
 
 if __name__ == '__main__':

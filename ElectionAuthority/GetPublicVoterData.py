@@ -15,12 +15,13 @@ def GetPublicVoterData(x, y, y_bold, secparams):
     Algorithm 7.11: Generates the public data for a single voter, which is sent to the bulletin board.
 
     Args:
-       x (mpz):             Voting credential
-       y (mpz):             Confirmation credential
-       y_bold (list):       Values y ∈ Z_p_prime ^t
+       x (mpz):                            Voting credential
+       y (mpz):                            Confirmation credential
+       y_bold (list of mpz):               Values y ∈ Z_p_prime ^t
+       secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-       tuple:               Public data of a voter
+       tuple:                              Public data of a voter
     """
 
     AssertMpz(x)

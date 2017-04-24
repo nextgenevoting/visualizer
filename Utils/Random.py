@@ -16,7 +16,8 @@ def randomMpz(n, secparams):
     An algorithm for picking elements uniformly at random from Z_n
 
     Args:
-       n (int | mpz):       The order of Z
+       n (int | mpz):                       The order of Z
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
        mpz:     Random number < n (returns 2 if deterministic mode is set)
@@ -35,7 +36,8 @@ def randomInt(n, secparams):
     An algorithm for picking elements uniformly at random from Z_n
 
     Args:
-       n (int):       The order of Z
+       n (int):                             The order of Z
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
        int:     Random number < n (returns 2 if deterministic mode is set)
@@ -53,7 +55,8 @@ def randomQuadResMpz(secparams):
     Args:
 
     Returns:
-       mpz:     Random element of G_q
+       mpz:                                 Random element of G_q
+       secparams (SecurityParams):          Collection of public security parameters
     """
 
     if not secparams.deterministicRandomGen:
@@ -67,8 +70,9 @@ def randomBoundedMpz(lb, ub, secparams):
     An algorithm for picking elements uniformly at random from Z_ub \ Z_lb
 
     Args:
-       lb (int | mpz):       lower bound
-       ub (int | mpz):       upper bound
+       lb (int | mpz):                      lower bound
+       ub (int | mpz):                      upper bound
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
        mpz:     Random number: lb < r < ub (returns lb if deterministic mode is set)
@@ -86,8 +90,9 @@ def randomBoundedInt(lb, ub, secparams):
     An algorithm for picking elements uniformly at random from Z_ub \ Z_lb
 
     Args:
-       lb (int):       lower bound
-       ub (int):       upper bound
+       lb (int):                            lower bound
+       ub (int):                            upper bound
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
        int:         Random number: lb < r < ub (returns lb if deterministic mode is set)
@@ -105,7 +110,8 @@ def randomRelativePrimeMpz(n, secparams):
     An algorithm for picking elements uniformly at random from Z_n^*
 
     Args:
-       n (int | mpz):       Group order
+       n (int | mpz):                       Group order
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
        mpz:     Random number < n (returns 1 if deterministic mode is set)
@@ -130,8 +136,9 @@ def randomEltMpz(g, q, secparams):
     An algorithm for picking elements uniformly at random from G
 
     Args:
-       g (int | mpz):       generator
-       q (int | mpz):       group order |G|
+       g (int | mpz):                       generator
+       q (int | mpz):                       group order |G|
+       secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
        mpz:     Random group element (returns g^1 if deterministic mode is set)

@@ -16,11 +16,12 @@ def GenQuery(q_bold, pk, secparams):
     generator).
 
     Args:
-        q_bold (list):   Selected primes
-        pk (mpz):        Encryption key
+        q_bold (list):                       Selected primes
+        pk (mpz):                            Encryption key
+        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        (a, r):     The OT query
+        (a, r):                              The OT query
     """
 
     AssertList(q_bold)
