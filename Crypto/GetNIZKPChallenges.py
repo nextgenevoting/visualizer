@@ -26,7 +26,6 @@ def GetNIZKPChallenges(n, y, kappa, secparams):
     """
 
     AssertInt(n)
-    AssertMpz(y)
     AssertInt(kappa)
     assert kappa >= 1 and kappa <= 8 * secparams.L, "Constraint for kappa: 1 <= kappa <= 8L"
     AssertClass(secparams, SecurityParams)

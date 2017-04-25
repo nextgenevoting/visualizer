@@ -17,11 +17,11 @@ class ProtocolRunner(object):
     voters = []
 
     def __init__(self, file):
+        self.bulletinBoard = BulletinBoard()
+
         # read the profile json file
         with open(file) as data_file:
             self.jsonData = json.load(data_file)
-
-        self.bulletinBoard = BulletinBoard()
 
         if self.jsonData["securityLevel"] == 0:     self.secparams = secparams_l0
         elif self.jsonData["securityLevel"] == 1:   self.secparams = secparams_l1
@@ -40,7 +40,9 @@ class ProtocolRunner(object):
         self.printingAuth = PrintingAuthority(self.bulletinBoard)
 
     def run(self, autoInput = False, verbose = False):
-        # ********** ELECTION PREPARATION PHASE **********
+
+        # ********** PRE ELECTION PHASE **********
+
         # publish the data on the bulletin board
         self.bulletinBoard.setupElectionEvent(self.voters, self.jsonData["n"], self.jsonData["k"], self.jsonData["t"], self.jsonData["c"], self.jsonData["E"])
         if verbose: print("Number of simultaneous elections: %d, of voters: %d, candidates: %d" %(self.bulletinBoard.t, self.bulletinBoard.N_E, self.bulletinBoard.n_sum))
@@ -99,6 +101,7 @@ class ProtocolRunner(object):
                 valid = valid and authority.checkConfirmation(i,gamma, self.secparams)
                 print("Confirmation-Code checked by authority %s: %r" % (authority.name, valid))
 
+        # ********** POST ELECTION PHASE **********
 
         # Mixing (6.7)
         for authority in self.authorities:
