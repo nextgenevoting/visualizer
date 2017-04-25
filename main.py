@@ -6,7 +6,7 @@ def main():
     #level0test.run(True, True)
 
     level3test = ProtocolRunner(os.path.join("profiles","level3.json"))
-    level3test.run(False, True)
+    level3test.run(True, True)
 
 
 if __name__ == '__main__':

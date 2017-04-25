@@ -11,6 +11,7 @@ from ElectionAuthority.GetEncryptions       import GetEncryptions
 from ElectionAuthority.GenShuffle           import GenShuffle
 from ElectionAuthority.GenShuffleProof      import GenShuffleProof
 from ElectionAuthority.GetPartialDecryptions import GetPartialDecryptions
+from ElectionAuthority.CheckShuffleProofs   import CheckShuffleProofs
 
 class Authority(object):
     """
@@ -162,17 +163,18 @@ class Authority(object):
             # the following steps are only performed by the first election authority
             e_bold_0 = GetEncryptions(self.B_j, self.C_j, secparams)
             (e_bold_1, r_bold_1, psi_1) = GenShuffle(e_bold_0, self.pk, secparams)
-            # TODO: Shuffle Proof! pi_1 = GenShuffleProof(e_bold_0, e_bold_1, r_bold_1, psi_1, self.pk, secparams)
+            pi_1 = GenShuffleProof(e_bold_0, e_bold_1, r_bold_1, psi_1, self.pk, secparams)
 
             self.bulletinBoard.EN_bold.append(e_bold_1)
-            # TODO: add shuffleproof to bulletin board: self.bulletinBoard.pi_bold.append()
+            self.bulletinBoard.pi_bold.append(pi_1)
         else:
             # executed by election authorities 1..s
             e_bold_j_minus_1 = self.bulletinBoard.EN_bold[self.j-1]
             (e_bold_j, r_bold_j, psi_j) = GenShuffle(e_bold_j_minus_1, self.pk, secparams)
+            pi_j = GenShuffleProof(e_bold_j_minus_1, e_bold_j, r_bold_j, psi_j, self.pk, secparams)
 
-            # TODO: Shuffle Proof!
             self.bulletinBoard.EN_bold.append(e_bold_j)
+            self.bulletinBoard.pi_bold.append(pi_j)
 
     def decrypt(self, secparams):
         """
@@ -183,6 +185,11 @@ class Authority(object):
         Returns:
           None
         """
+        e_0 = GetEncryptions(self.B_j, self.C_j, secparams)
+        if not CheckShuffleProofs(self.bulletinBoard.pi_bold, e_0, self.bulletinBoard.EN_bold, self.pk, self.j, secparams):
+            print("Shuffle proof check failed! Aborting.")
+            return
+        print("Shuffle proofs are correct!")
         b_prime_j = GetPartialDecryptions(self.bulletinBoard.EN_bold[-1], self.sk_j, secparams)
-        # TODO: CheckShuffleProofs and GenDecryptionProof
+
         self.bulletinBoard.B_prime_bold.append(b_prime_j)
