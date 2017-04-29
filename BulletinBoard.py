@@ -9,11 +9,12 @@ class BulletinBoard(object):
         self.k_bold = []  # number of selections
         self.EN_bold = [] # encryptions (E_bold in specification!)
         self.pi_bold = [] # Shuffle proofs
-        self.B_prime_bold = []
+        self.B_prime_bold = [] # partial decryptions
+        self.pi_prime_bold = [] # Decryption proofs
 
         # Data generated during the election preparation (Protocol 6.1)
         self.D_hat_bold = []  # Electorate data
-        self.pk = []  # public key
+        self.pk_bold = []  # public key shares
 
     def setupElectionEvent(self, v_bold, n_bold, k_bold, t, c_bold, E_bold):
         """
