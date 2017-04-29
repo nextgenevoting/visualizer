@@ -12,6 +12,7 @@ from ElectionAuthority.GenShuffle           import GenShuffle
 from ElectionAuthority.GenShuffleProof      import GenShuffleProof
 from ElectionAuthority.GetPartialDecryptions import GetPartialDecryptions
 from ElectionAuthority.CheckShuffleProofs   import CheckShuffleProofs
+from ElectionAuthority.GenDecryptionProof   import GenDecryptionProof
 
 class Authority(object):
     """
@@ -41,37 +42,33 @@ class Authority(object):
         self.C_j = []
 
 
-    def GenElectionData(self, n_bold, k_bold, E_bold, secparams):
+    def GenElectionData(self, secparams):
         """
         (Protocol 6.1) Every authority j ∈ {1,...,s} calls GenElectorateData with n, k, E in order to (independently) generate
         the public election parameters for all voters.
 
         Args:
-            n_bold (list):           A list containing the number of candidates: (n_1, ... , n_t)
-            k_bold (list):           A list containing the number of possible selections per election: (k_1, ... , k_t)
-            E_bold (list):           Eligibility matrix [N][t], 1 means eligible
 
         Returns:
             list:                   d_hat_j, a list of public data of all voters, calculated by authority j
 
         """
 
-        self.n_bold = n_bold
-        self.d_j_bold, self.d_hat_j_bold, self.P_j_bold, self.K_bold = GenElectorateData(n_bold, k_bold, E_bold, secparams)
+        self.n_bold = self.bulletinBoard.n_bold
+        self.d_j_bold, self.d_hat_j_bold, self.P_j_bold, self.K_bold = GenElectorateData(self.n_bold, self.bulletinBoard.k_bold, self.bulletinBoard.E_bold, secparams)
 
         self.bulletinBoard.D_hat_bold.append(self.d_hat_j_bold)
         return self.d_hat_j_bold
 
-    def GetPublicCredentials(self, D_hat_bold, secparams):
+    def GetPublicCredentials(self, secparams):
         """
         (Protocol 6.1) Every authority j ∈ {1,...,s} calls GetPublicCredentials upon knowing the public data of the whole electorate D_hat.
         This algorithm outputs the two lists x_hat and y_hat of all public credentials, which are used to identify the voters during the vote casting and vote confirmation phases
 
         Args:
-           D_hat_bold (list):        The public data of the whole electorate
         """
 
-        self.x_hat, self.y_hat = GetPublicCredentials(D_hat_bold, secparams)
+        self.x_hat, self.y_hat = GetPublicCredentials(self.bulletinBoard.D_hat_bold, secparams)
 
     def GenKeyPair(self, secparams):
         """
@@ -83,7 +80,7 @@ class Authority(object):
         """
 
         self.sk_j, self.pk_j = GenKeyPair(secparams)
-        self.bulletinBoard.pk.append(self.pk_j)
+        self.bulletinBoard.pk_bold.append(self.pk_j)
         return self.pk_j
 
     def getPublicKey(self, secparams):
@@ -96,7 +93,7 @@ class Authority(object):
             mpz:                pk
         """
 
-        self.pk = GetPublicKey(self.bulletinBoard.pk, secparams)
+        self.pk = GetPublicKey(self.bulletinBoard.pk_bold, secparams)
         return self.pk
 
     def runCheckBallot(self, i, alpha, secparams):
@@ -187,9 +184,11 @@ class Authority(object):
         """
         e_0 = GetEncryptions(self.B_j, self.C_j, secparams)
         if not CheckShuffleProofs(self.bulletinBoard.pi_bold, e_0, self.bulletinBoard.EN_bold, self.pk, self.j, secparams):
-            print("Shuffle proof check failed! Aborting.")
-            return
-        print("Shuffle proofs are correct!")
+            return False
         b_prime_j = GetPartialDecryptions(self.bulletinBoard.EN_bold[-1], self.sk_j, secparams)
+        pi_prime_j = GenDecryptionProof(self.sk_j, self.pk_j, self.bulletinBoard.EN_bold[-1], b_prime_j, secparams)
 
         self.bulletinBoard.B_prime_bold.append(b_prime_j)
+        self.bulletinBoard.pi_prime_bold.append(pi_prime_j)
+
+        return True

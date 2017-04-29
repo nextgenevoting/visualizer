@@ -58,7 +58,7 @@ class VoteClient(object):
 
     def castVote(self, s, autoInput, secparams):
 
-        self.pk = GetPublicKey(self.bulletinBoard.pk,secparams)
+        self.pk = GetPublicKey(self.bulletinBoard.pk_bold,secparams)
         if autoInput:
             X = self.votingSheet.X
             print("Voter entered voting code: %s" % X)
