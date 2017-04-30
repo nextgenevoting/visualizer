@@ -56,7 +56,8 @@ def GenResponse(i, a_bold, pk, n_bold, K_bold, P_bold, secparams):
     d_bold = []
     r_bold = []
 
-    for j in range(len(n_bold)):
+    t = len(n_bold)
+    for j in range(t):
         r_j = randomMpz(secparams.q, secparams)
         r_bold.append(r_j)
 

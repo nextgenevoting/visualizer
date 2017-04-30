@@ -34,7 +34,8 @@ def GenShuffle(e_bold, pk, secparams):
     e_prime_bold = [None] * len(e_bold)
     r_prime_bold = []
 
-    for i in range(len(e_bold)):
+    N = len(e_bold)
+    for i in range(N):
         (e_prime_i, r_prime_i) = GenReEncryption(e_bold[i], pk, secparams)
         e_prime_bold[psi_bold[i]] = e_prime_i
         r_prime_bold.append(r_prime_i)

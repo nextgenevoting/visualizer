@@ -33,12 +33,12 @@ def GenConfirmation(Y, P_prime_bold, k_bold, secparams):
     AssertList(P_prime_bold)
     AssertClass(secparams, SecurityParams)
 
-    s = len(P_prime_bold)
+    s = secparams.s
     h = [None] * s
 
     for j in range(s):
-        p_j = [P_prime_bold[j][k_] for k_ in range(sum(k_bold))]
-        y_j_bold = GetValues(p_j, k_bold, secparams)
+        p_j_bold = [P_prime_bold[j][k_] for k_ in range(sum(k_bold))]
+        y_j_bold = GetValues(p_j_bold, k_bold, secparams)
         h[j] = ToInteger(RecHash(y_j_bold, secparams)) % secparams.q_hat
 
     y = (StringToInteger(Y, secparams.A_Y) + sum(h)) % secparams.q_hat

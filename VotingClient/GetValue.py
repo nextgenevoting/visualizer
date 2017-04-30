@@ -1,5 +1,7 @@
 import unittest
 import os, sys
+from gmpy2 import mpz
+import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -28,15 +30,15 @@ def GetValue(p_bold, secparams):
     k = len(p_bold)
 
     for i in range(k):
-        n = 1
-        d = 1
+        n = mpz(1)
+        d = mpz(1)
 
         for j in range(k):
             if i != j:
                 n = (n * p_bold[j].x) % secparams.p_prime
                 d = (d * (p_bold[j].x - p_bold[i].x)) % secparams.p_prime
 
-        y = (y + p_bold[i].y * n // d) % secparams.p_prime
+        y = (y + p_bold[i].y * n * gmpy2.invert(d, secparams.p_prime)) % secparams.p_prime
 
     return y
 

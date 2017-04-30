@@ -35,7 +35,8 @@ def GetVotingCards(v_bold, c_bold, n_bold, k_bold, E_bold, D_bold, secparams):
     s_bold = []
     rawSheetData = []
 
-    for i in range(len(E_bold)):
+    N_E = len(E_bold)
+    for i in range(N_E):
         k_i = [E_bold[i][j] * k_bold[j] for j in range(len(k_bold))]
         sum_x_ij = sum_y_ij = mpz(0)
 

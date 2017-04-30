@@ -33,10 +33,11 @@ def GetPointMatrix(beta_bold, k_bold, s_bold, r_bold, secparams):
     AssertList(r_bold)
     AssertClass(secparams, SecurityParams)
 
-    P_s_bold = []
+    s = len(beta_bold)
+    P_s_bold = [None] * s
 
-    for j in range(len(beta_bold)):
-        P_s_bold.append(GetPoints(beta_bold[j],k_bold,s_bold,r_bold,secparams))
+    for j in range(s):
+        P_s_bold[j] = GetPoints(beta_bold[j],k_bold,s_bold,r_bold,secparams)
 
     return P_s_bold
 

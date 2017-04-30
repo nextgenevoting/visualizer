@@ -38,7 +38,8 @@ def GenDecryptionProof(sk_j, pk_j, e_bold, b_prime_bold, secparams):
     t_0 = gmpy2.powmod(secparams.g, w, secparams.p)
 
     t_1_to_N = []
-    for i in range(len(e_bold)):
+    N = len(e_bold)
+    for i in range(N):
         t_1_to_N.append(gmpy2.powmod(e_bold[i].b, w, secparams.p))
 
     t = (t_0, t_1_to_N)

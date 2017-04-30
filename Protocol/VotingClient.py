@@ -1,14 +1,13 @@
-from VotingClient.GetVotingPage  import GetVotingPage
-from BulletinBoard               import BulletinBoard
+from ElectionAuthority.GetPublicKey import GetPublicKey
 from VotingClient.GenBallot      import GenBallot
+from VotingClient.GenConfirmation import GenConfirmation
 from VotingClient.GetPointMatrix import GetPointMatrix
 from VotingClient.GetReturnCodes import GetReturnCodes
-from VotingClient.GenConfirmation import GenConfirmation
-from ElectionAuthority.GetPublicKey import GetPublicKey
+from VotingClient.GetVotingPage  import GetVotingPage
 
-class VoteClient(object):
+class VotingClient(object):
     """
-    The VoteClient class represents a voting client participating in the protocols (for example prot 6.5)
+    The VotingClient class represents a voting client participating in the protocols (for example prot 6.5)
     """
 
     def __init__(self, i, voterData, votingSheet, bulletinBoard):
@@ -71,6 +70,10 @@ class VoteClient(object):
 
     def getPointsFromResponse(self, beta, secparams):
         self.P_s_bold = GetPointMatrix(beta, self.k_i_bold, self.s, self.r, secparams)
+
+        if not all(points != None for points in self.P_s_bold):
+            raise RuntimeError('Failed to get points from OT response! Invalid selection?')
+
         return self.P_s_bold
 
     def getReturnCodes(self, secparams):

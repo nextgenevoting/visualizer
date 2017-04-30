@@ -29,7 +29,8 @@ def GetPartialDecryptions(e_bold, sk_j, secparams):
     AssertClass(secparams, SecurityParams)
 
     b_prime_bold = []
-    for i in range(len(e_bold)):
+    N = len(e_bold)
+    for i in range(N):
         b_prime_bold.append(gmpy2.powmod(e_bold[i][1], sk_j, secparams.p))
 
     return b_prime_bold

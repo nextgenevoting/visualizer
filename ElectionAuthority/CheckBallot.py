@@ -49,7 +49,7 @@ def CheckBallot(i, alpha, pk, K_bold, x_hat_bold, B, secparams):
             return False
 
         a = mpz(1)
-        for j in range(len(alpha.a_bold)):
+        for j in range(len(alpha.a_bold)):        # for j = 0 to k_i
             a = (a * alpha.a_bold[j]) % secparams.p
         if CheckBallotProof(alpha.pi, alpha.x_hat, a, alpha.b, pk, secparams):
             return True

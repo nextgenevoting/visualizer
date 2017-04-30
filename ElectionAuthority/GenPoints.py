@@ -34,7 +34,8 @@ def GenPoints(n_bold, k_bold, secparams):
     p_bold = []
     y_bold = []
 
-    for j in range(len(n_bold)):
+    t = len(n_bold)
+    for j in range(t):
         a_j_bold = GenPolynomial(k_bold[j] - 1, secparams) # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
         X_bold = []
 

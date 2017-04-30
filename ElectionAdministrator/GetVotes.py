@@ -36,7 +36,8 @@ def GetVotes(m_bold, n, secparams):
     p_bold = GetPrimes(n, secparams)
 
     V_bold = []
-    for i in range(len(m_bold)):
+    N = len(m_bold)
+    for i in range(N):
         v_bold_i = []
         for j in range(n):
             if m_bold[i] % p_bold[j] == 0:
