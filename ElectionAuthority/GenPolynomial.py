@@ -34,7 +34,7 @@ def GenPolynomial(d, secparams):
         return [0]
 
     else:
-        for i in range (0, d):
+        for i in range (d):
             a_bold.append(randomMpz(secparams.p_prime, secparams))
 
         # generate the last coefficient != 0

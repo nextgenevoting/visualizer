@@ -10,27 +10,27 @@ from Types                          import *
 from Utils.Random                   import randomBoundedInt
 from Crypto.SecurityParams          import SecurityParams, secparams_l3
 
-def GenPermutation(N_E, secparams):
+def GenPermutation(N, secparams):
     """
     Algorithm 7.42: Generates a random permutation ψ ∈ Ψ following Knuth's shuffle algorithm.
 
     Args:
-       N (int):                             Permutation size
+       N (int):                           Permutation size
        secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
         list of int:                        Permutation
     """
 
-    AssertInt(N_E)
+    AssertInt(N)
     AssertClass(secparams, SecurityParams)
 
 
-    I = list(range(N_E))
+    I = list(range(N))
     res = []
 
-    for i in range(N_E):
-        k = randomBoundedInt(i,N_E-1, secparams)
+    for i in range(N):
+        k = randomBoundedInt(i,N-1, secparams)
         j_i = I[k]
         I[k] = I[i]
 

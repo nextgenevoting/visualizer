@@ -22,24 +22,25 @@ def GetVotingCard(i, V_bold, c_bold, n_bold, k_bold, X_bold, Y_bold, FC_bold, rc
 
     S = \
     """
-    Voter {i}: {V}
-
-    Candidates: {c}
-    Selections: {k}
-    Voting code: {X}
-    Confirmation code: {Y}
-    Finalization code: {FC}
-    Return codes: {rc}
+VotingCard for voter {i}: {V}
+---------------------------------------------------
+Candidates: [{c}]
+Selections: {k}
+Voting code: {X}
+Confirmation code: {Y}
+Finalization code: {FC}
+Return codes:
+    {rc}
     """.format(
         i =  i
         , V =  V_bold
-        , c = '\n'.join(c_bold)
+        , c = ', '.join(c_bold)
         , n = n_bold
         , k = k_bold
         , X = X_bold
         , Y = Y_bold
         , FC = FC_bold
-        , rc = '\n'.join(rc_bold)
+        , rc = '\n\t'.join(rc_bold)
     )
 
     return S

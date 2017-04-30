@@ -41,7 +41,7 @@ def GenElectorateData(n_bold, k_bold, E_bold, secparams):
     K_bold = []                                      #  precomputed selection matrix Nxt
     P_bold = []
 
-    for i in range (N_E):                         # loop over N (all voters)
+    for i in range (N_E):                            # loop over N (all voters)
         K_i_bold = []
         for j in range(t):
             k_ij = E_bold[i][j] * k_bold[j]               # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j

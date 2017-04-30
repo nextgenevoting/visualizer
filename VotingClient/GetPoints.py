@@ -38,16 +38,18 @@ def GetPoints(beta, k_bold, s_bold, r_bold, secparams):
 
     (b,c,d) = beta
 
-    l_m = ceil(secparams.L_M // secparams.L)
+    t = len(k_bold)
+
+    l_M = ceil(secparams.L_M // secparams.L)
     i = 0
     p_bold = []
 
-    for j in range(len(k_bold)):
+    for j in range(t):
         for l in range(k_bold[j]):
             k = (b[i] * gmpy2.powmod(d[j],-r_bold[i], secparams.p)) % secparams.p
 
             K = bytearray()
-            for l_counter in range(l_m):
+            for l_counter in range(l_M):
                 K += RecHash([k,l_counter], secparams)
 
             K = Truncate(K, secparams.L_M)

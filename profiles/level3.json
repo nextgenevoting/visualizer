@@ -2,11 +2,11 @@
   "voters" : [
     {
       "name" : "Voter1",
-      "selection" : "1,4"
+      "selection" : "1,5"
     },
     {
       "name" : "Voter2",
-      "selection" : "1,4"
+      "selection" : "0,3"
     }
 
   ],

@@ -41,7 +41,8 @@ def CheckDecryptionProof(pi_prime, pk_j, e_bold, b_prime_bold, secparams):
     t_prime_0 = (gmpy2.powmod(pk_j, -c, secparams.p) * gmpy2.powmod(secparams.g, pi_prime.s, secparams.p)) % secparams.p
 
     t_prime_bold = []
-    for i in range(len(e_bold)):
+    N = len(e_bold)
+    for i in range(N):
         t_prime_bold.append((gmpy2.powmod(b_prime_bold[i],-c, secparams.p) * gmpy2.powmod(b_bold[i], pi_prime.s, secparams.p)) % secparams.p)
 
 

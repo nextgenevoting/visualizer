@@ -32,7 +32,8 @@ def CheckDecryptionProofs(pi_prime_bold, pk_bold, e_bold, B_prime_bold, secparam
     AssertList(B_prime_bold)
     AssertClass(secparams, SecurityParams)
 
-    for j in range(len(pk_bold)):
+    s = len(pk_bold)
+    for j in range(s):
         if not CheckDecryptionProof(pi_prime_bold[j], pk_bold[j], e_bold, B_prime_bold[j], secparams):
             return False
     return True

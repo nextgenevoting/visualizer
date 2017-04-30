@@ -31,7 +31,8 @@ def GenPermutationCommitment(psi, h_bold, secparams):
     r_bold = [None] * len(psi)
     c_bold = [None] * len(psi)
 
-    for i in range(len(psi)):
+    N = len(psi)
+    for i in range(N):
         r_bold[psi[i]] = randomMpz(secparams.p, secparams)
         c_bold[psi[i]] = (gmpy2.powmod(secparams.g, r_bold[psi[i]], secparams.p) * h_bold[i]) % secparams.p
 

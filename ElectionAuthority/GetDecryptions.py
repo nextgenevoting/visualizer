@@ -29,7 +29,8 @@ def GetDecryptions(e_bold, B_prime_bold, secparams):
     AssertClass(secparams, SecurityParams)
 
     m_bold = []
-    for i in range(len(e_bold)):
+    N = len(e_bold)
+    for i in range(N):
         b_prime_i = mpz(1)
         for j in range(secparams.s):
             b_prime_i = (b_prime_i * B_prime_bold[j][i]) % secparams.p

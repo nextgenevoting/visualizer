@@ -32,10 +32,13 @@ def GetReturnCodes(s_bold, P_s_bold, secparams):
 
     rc_s_bold = []
 
-    for i in range(len(s_bold)):
+    k = len(s_bold)
+    s = len(P_s_bold)
+
+    for i in range(k):
         R_j = []
 
-        for j in range(len(P_s_bold)):
+        for j in range(s):
             R_j.append(Truncate(RecHash(P_s_bold[j][i], secparams), secparams.L_R))
 
         R = MarkByteArray(XorByteArray(R_j), s_bold[i], secparams.n_max)
