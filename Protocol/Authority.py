@@ -157,6 +157,9 @@ class Authority(object):
           None
        """
         if self.j == 0:
+            if len(self.B_j) == 0 or len(self.C_j) == 0:
+                raise RuntimeError('Shuffle called without any valid ballots!')
+
             # the following steps are only performed by the first election authority
             e_bold_0 = GetEncryptions(self.B_j, self.C_j, secparams)
             (e_bold_1, r_bold_1, psi_1) = GenShuffle(e_bold_0, self.pk, secparams)

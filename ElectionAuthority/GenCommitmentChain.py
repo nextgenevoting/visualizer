@@ -24,14 +24,22 @@ def GenCommitmentChain(c_0, u_bold, secparams):
         tuple:                              (c,r)
     """
 
-    r_bold = [None] * len(u_bold)
-    c_bold = [None] * len(u_bold)
+    r_bold = []
+    c_bold = []
 
     N = len(u_bold)
+
+    c_bold.append(c_0)
+
     for i in range(N):
-        c_i_minus_1 = c_0 if i == 0 else c_bold[i-1]
-        r_bold[i] = randomMpz(secparams.p, secparams)
-        c_bold[i] = (gmpy2.powmod(secparams.g, r_bold[i], secparams.p) * gmpy2.powmod(c_i_minus_1,u_bold[i], secparams.p)) % secparams.p
+        c_i_minus_1 = c_bold[i]
+        r_i = randomMpz(secparams.q, secparams)
+        c_i = ((gmpy2.powmod(secparams.g, r_i, secparams.p) * gmpy2.powmod(c_i_minus_1,u_bold[i], secparams.p)) % secparams.p)
+
+        r_bold.append(r_i)
+        c_bold.append(c_i)
+
+    del c_bold[0]
 
     return (c_bold, r_bold)
 

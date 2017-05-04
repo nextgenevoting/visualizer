@@ -1,0 +1,23 @@
+{
+  "voters" : [
+    {
+      "name" : "Voter1",
+      "selection" : "1,5"
+    },
+    {
+      "name" : "Voter2",
+      "selection" : "0,5"
+    },
+    {
+      "name": "Voter3",
+      "selection": "0,5"
+    }
+  ],
+  "t" : 2,
+  "n" : [5,3],
+  "c" : ["Hillary Clinton", "Donald Trump", "Vladimir Putin", "Marine Le Pen", "May", "Yes", "No", "Empty"],
+  "k" : [1,1],
+  "E" : [[1,1], [1,1], [1,1]],
+  "securityLevel" : 2,
+  "deterministicRandomGeneration" : false
+}

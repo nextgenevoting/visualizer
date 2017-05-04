@@ -52,16 +52,19 @@ def GenShuffleProof(e_bold, e_prime_bold, r_prime_bold, psi, pk, secparams):
 
     (c_hat_bold, r_hat_bold) = GenCommitmentChain(secparams.h, u_prime_bold, secparams)
 
-    w_1 = randomMpz(secparams.p, secparams)
-    w_2 = randomMpz(secparams.p, secparams)
-    w_3 = randomMpz(secparams.p, secparams)
-    w_4 = randomMpz(secparams.p, secparams)
+    w_1 = randomMpz(secparams.q, secparams)
+    w_2 = randomMpz(secparams.q, secparams)
+    w_3 = randomMpz(secparams.q, secparams)
+    w_4 = randomMpz(secparams.q, secparams)
 
     w_hat_bold = [None] * N
     w_prime_bold = [None] * N
     for i in range(N):
-        w_hat_bold[i] = randomMpz(secparams.p, secparams)
-        w_prime_bold[i] = randomMpz(secparams.p, secparams)
+        w_hat_bold[i] = randomMpz(secparams.q, secparams)
+        w_prime_bold[i] = randomMpz(secparams.q, secparams)
+
+
+    # Computing the T values:
 
     t_1 = gmpy2.powmod(secparams.g, w_1, secparams.p)
     t_2 = gmpy2.powmod(secparams.g, w_2, secparams.p)
@@ -82,17 +85,23 @@ def GenShuffleProof(e_bold, e_prime_bold, r_prime_bold, psi, pk, secparams):
         b_prime_i_product = (b_prime_i_product * gmpy2.powmod(e_prime_bold[i].b, w_prime_bold[i], secparams.p)) % secparams.p
     t_4_2 = (gmpy2.powmod(secparams.g, -w_4, secparams.p) * b_prime_i_product) % secparams.p
 
-    c_hat_0 = secparams.h
-    c_hat_bold.insert(0, c_hat_0)
+    c_hat_bold_tmp = []
+    c_hat_bold_tmp.append(secparams.h)
+    c_hat_bold_tmp.extend(c_hat_bold)
 
     t_hat_bold = [None] * N
     for i in range(N):
-        t_hat_bold[i] = (gmpy2.powmod(secparams.g, w_hat_bold[i], secparams.p) * gmpy2.powmod(c_hat_bold[i], w_prime_bold[i], secparams.p) ) % secparams.p
+        t_hat_bold[i] = (gmpy2.powmod(secparams.g, w_hat_bold[i], secparams.p) * gmpy2.powmod(c_hat_bold_tmp[i], w_prime_bold[i], secparams.p) ) % secparams.p
+
+    del c_hat_bold_tmp[0]   # remove the element c_0 that we manually inserted ???????????
 
     t = (t_1, t_2, t_3, (t_4_1, t_4_2), t_hat_bold)
+
+    # Computing the challenge:
     y = (e_bold, e_prime_bold, c_bold, c_hat_bold, pk)
     c = GetNIZKPChallenge(y, t, secparams.tau, secparams)
 
+    # Computing the S values:
     r_line = mpz(0)
     for i in range(N):
         r_line = (r_line + r_bold[i]) % secparams.q
@@ -102,14 +111,14 @@ def GenShuffleProof(e_bold, e_prime_bold, r_prime_bold, psi, pk, secparams):
         s_1 = (w_1 + c * r_line) % secparams.q
 
     v_bold = [None] * N
-    v_bold[N-1] = 1
+    v_bold[N-1] = mpz(1)
     for i in reversed(range(N-1)):
         v_bold[i] = (u_prime_bold[i+1] * v_bold[i+1]) % secparams.q
 
     r_hat = mpz(0)
     for i in range(N):
         r_hat = (r_hat + (r_hat_bold[i] * v_bold[i])) % secparams.q
-    s_2 = (w_2 + c* r_hat ) % secparams.q
+    s_2 = (w_2 + c * r_hat ) % secparams.q
 
     r_tilde = mpz(0)
     for i in range(N):
@@ -124,12 +133,11 @@ def GenShuffleProof(e_bold, e_prime_bold, r_prime_bold, psi, pk, secparams):
     s_hat_bold = [None] * N
     s_prime_bold = [None] * N
     for i in range(N):
-        s_hat_bold[i] = (w_hat_bold[i] + c * r_hat_bold[i]) % secparams.q
-        s_prime_bold[i] = (w_prime_bold[i] + c * u_prime_bold[i]) % secparams.q
+        s_hat_bold[i] = (w_hat_bold[i] + (c * r_hat_bold[i])) % secparams.q
+        s_prime_bold[i] = (w_prime_bold[i] + (c * u_prime_bold[i])) % secparams.q
 
     s = (s_1, s_2, s_3, s_4, s_hat_bold, s_prime_bold)
 
-    #del c_hat_bold[0]   # remove the element c_0 that we manually inserted ???????????
     pi = ShuffleProof(t,s,c_bold,c_hat_bold)
 
     return pi

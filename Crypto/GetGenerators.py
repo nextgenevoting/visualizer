@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertInt, AssertClass
 from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
-from Crypto.SecurityParams import SecurityParams
+from Crypto.SecurityParams import SecurityParams, secparams_l3
 
 def GetGenerators(n, secparams):
     """
@@ -49,7 +49,7 @@ class GetGeneratorsTest(unittest.TestCase):
     def testGetGenerators(self):
         # Test if the lenght of the returned list matches the parameter n
         for i in range(20):
-            self.assertTrue(len(GetGenerators(i)) == i)
+            self.assertTrue(len(GetGenerators(i, secparams_l3)) == i)
 
         # Check if all elements in the list are unique
         x = GetGenerators(50)
