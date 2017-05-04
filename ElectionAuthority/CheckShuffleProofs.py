@@ -33,11 +33,14 @@ def CheckShuffleProofs(pi_bold, e_0_bold, E_bold, pk, j, secparams):
     AssertInt(j)
     AssertClass(secparams, SecurityParams)
 
+    N = len(e_0_bold)
+    e_bold_tmp = []
+    e_bold_tmp.append(e_0_bold)
+    e_bold_tmp.extend(E_bold)
 
     for i in range(secparams.s):
         if i != j:
-            e_i_minus_1 = e_0_bold if i == 0 else E_bold[i-1]
-            if not CheckShuffleProof(pi_bold[i], e_i_minus_1, E_bold[i],pk, secparams):
+            if not CheckShuffleProof(pi_bold[i], e_bold_tmp[i], e_bold_tmp[i+1],pk, secparams):
                 return False
     return True
 

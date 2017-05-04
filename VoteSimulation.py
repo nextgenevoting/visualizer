@@ -73,8 +73,7 @@ class VoteSimulation(object):
     def election(self, autoInput, verbose):
         # ********** ELECTION PHASE **********
         # Protocol steps 6.4 & 6.5: Candidate Selection & Vote Casting
-        votingClients = [VotingClient(i, self.jsonData["voters"][i], self.rawSheetData[i], self.bulletinBoard) for i in
-                         range(len(self.voters))]
+        votingClients = [VotingClient(i, self.jsonData["voters"][i], self.rawSheetData[i], self.bulletinBoard) for i in range(len(self.voters))]
         for votingClient in votingClients:
 
             # Get selection (6.4)
@@ -114,7 +113,7 @@ class VoteSimulation(object):
 
         # Decryption (6.8)
         shuffleResults = [(authority.name, authority.decrypt(self.secparams)) for authority in self.authorities]
-        for res in shuffleResults: print("Shuffle Proof checked by authority %s: %r" % (res[0], res[1]))
+        for res in shuffleResults: print("Shuffle proofs checked by authority %s: %r" % (res[0], res[1]))
 
         if not all(res[1] == True for res in shuffleResults):
             print("Shuffle proof / Decryption failed. Aborting")

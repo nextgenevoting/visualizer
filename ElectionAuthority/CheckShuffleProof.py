@@ -37,26 +37,34 @@ def CheckShuffleProof(pi, e_bold, e_prime_bold, pk, secparams):
     AssertClass(secparams, SecurityParams)
 
     N = len(e_bold)
-    s = pi.s
-    s_1 = s[0]
-    s_2 = s[1]
-    s_3 = s[2]
-    s_4 = s[3]
-    s_hat = s[4] # tuple
-    s_prime = s[5] # list
+    c_bold = pi.c_bold
+    c_hat_bold = pi.c_hat_bold
 
-    t = pi.t
-    t_1 = t[0]
-    t_2 = t[1]
-    t_3 = t[2]
-    t_4_1 = t[3][0]
-    t_4_2 = t[3][1]
-    t_hat_bold = t[4]
+    s_1 = pi.s[0]
+    s_2 = pi.s[1]
+    s_3 = pi.s[2]
+    s_4 = pi.s[3]
+    s_hat = pi.s[4] # tuple
+    s_prime = pi.s[5] # list
+
+    t_1 = pi.t[0]
+    t_2 = pi.t[1]
+    t_3 = pi.t[2]
+    t_4_1 = pi.t[3][0]
+    t_4_2 = pi.t[3][1]
+    t_hat = pi.t[4]
+
+    assert len(e_prime_bold) == N, "The size of e_prime_bold must be identical to N ( = len(e_bold))"
+    assert len(c_bold) == N, "The size of c_bold must be identical to N ( = len(e_bold))"
+    assert len(c_hat_bold) == N, "The size of c_bold must be identical to N ( = len(e_bold))"
+    assert len(pi.t[3]) == 2, "The size of t_4 must be identical to 2"
+    assert len(t_hat) == N, "The size of t_hat must be identical to N ( = len(e_bold))"
+    assert len(s_hat) == N, "The size of s_hat must be identical to N ( = len(e_bold))"
 
     h_bold = GetGenerators(N, secparams)
-    u_bold = GetNIZKPChallenges(N, (e_bold, e_prime_bold, pi.c_bold), secparams.tau, secparams)
-    y = (e_bold, e_prime_bold, pi.c_bold, pi.c_hat_bold, pk)
-    c = GetNIZKPChallenge(y, t, secparams.tau, secparams)
+    u_bold = GetNIZKPChallenges(N, (e_bold, e_prime_bold, c_bold), secparams.tau, secparams)
+    y = (e_bold, e_prime_bold, c_bold, c_hat_bold, pk)
+    c = GetNIZKPChallenge(y, pi.t, secparams.tau, secparams)
 
     c_product = mpz(1)
     for i in range(N):
@@ -68,16 +76,15 @@ def CheckShuffleProof(pi, e_bold, e_prime_bold, pk, secparams):
 
     c_line = (c_product * gmpy2.invert(h_product, secparams.p)) % secparams.p
 
-    u_product = mpz(1)
+    u = mpz(1)
     for i in range(N):
-        u_product = (u_product * u_bold[i]) % secparams.q
-    u = u_product % secparams.q
+        u = (u * u_bold[i]) % secparams.q
 
-    c_hat = (pi.c_hat_bold[N] * gmpy2.invert(gmpy2.powmod(secparams.h,u, secparams.p), secparams.p)) % secparams.p
+    c_hat = (c_hat_bold[N-1] * gmpy2.invert(gmpy2.powmod(secparams.h,u, secparams.p), secparams.p)) % secparams.p
 
     c_product2 = mpz(1)
     for i in range(N):
-        c_product2 = (c_product2 * gmpy2.powmod(pi.c_bold[i], u_bold[i], secparams.p)) % secparams.p
+        c_product2 = (c_product2 * gmpy2.powmod(c_bold[i], u_bold[i], secparams.p)) % secparams.p
     c_tilde = c_product2 % secparams.p
 
     a_prime = mpz(1)
@@ -105,11 +112,16 @@ def CheckShuffleProof(pi, e_bold, e_prime_bold, pk, secparams):
         b_prime_product = (b_prime_product * gmpy2.powmod(e_prime_bold[i].b, s_prime[i], secparams.p)) % secparams.p
     t_prime_4_2 = (gmpy2.powmod(b_prime, -c, secparams.p) * gmpy2.powmod(secparams.g, -s_4, secparams.p) * b_prime_product) % secparams.p
 
+
+    c_hat_bold_tmp = []
+    c_hat_bold_tmp.append(secparams.h)
+    c_hat_bold_tmp.extend(c_hat_bold)
+
     t_hat_prime_bold = [None] * N
     for i in range(N):
-        t_hat_prime_bold[i] = (gmpy2.powmod(pi.c_hat_bold[i+1], -c, secparams.p) * gmpy2.powmod(secparams.g, s_hat[i], secparams.p) * gmpy2.powmod(pi.c_hat_bold[i], s_prime[i], secparams.p)) % secparams.p
+        t_hat_prime_bold[i] = (gmpy2.powmod(c_hat_bold_tmp[i+1], -c, secparams.p) * gmpy2.powmod(secparams.g, s_hat[i], secparams.p) * gmpy2.powmod(c_hat_bold_tmp[i], s_prime[i], secparams.p)) % secparams.p
 
-    return (t_1 == t_prime_1) and (t_2 == t_prime_2) and (t_3 == t_prime_3) and (t_4_1 == t_prime_4_1) and (t_4_2 == t_prime_4_2) and (t_hat_bold == t_hat_prime_bold)
+    return (t_1 == t_prime_1) and (t_2 == t_prime_2) and (t_3 == t_prime_3) and (t_4_1 == t_prime_4_1) and (t_4_2 == t_prime_4_2) and (t_hat == t_hat_prime_bold)
 
 class CheckShuffleProofTest(unittest.TestCase):
     def testCheckShuffleProof(self):

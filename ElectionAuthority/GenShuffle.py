@@ -31,16 +31,19 @@ def GenShuffle(e_bold, pk, secparams):
     AssertMpz(pk)
 
     psi_bold = GenPermutation(len(e_bold), secparams)
-    e_prime_bold = [None] * len(e_bold)
+    e_prime_bold = []
     r_prime_bold = []
 
     N = len(e_bold)
     for i in range(N):
         (e_prime_i, r_prime_i) = GenReEncryption(e_bold[i], pk, secparams)
-        e_prime_bold[psi_bold[i]] = e_prime_i
+        e_prime_bold.append(e_prime_i)
         r_prime_bold.append(r_prime_i)
 
-    return (e_prime_bold, r_prime_bold, psi_bold)
+    e_prime_shuffled = [None] * len(e_prime_bold)
+    for i in range(N):
+        e_prime_shuffled[i] = e_prime_bold[psi_bold[i]]
+    return (e_prime_shuffled, r_prime_bold, psi_bold)
 
 class GenShuffleTest(unittest.TestCase):
     def testGenShuffle(self):
