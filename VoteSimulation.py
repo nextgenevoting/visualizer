@@ -29,17 +29,31 @@ class VoteSimulation(object):
 
         self.secparams.deterministicRandomGen = self.jsonData["deterministicRandomGeneration"]
 
+        self.n = self.jsonData["n"]
+        self.k = self.jsonData["k"]
+        self.t = self.jsonData["t"]
+        self.c = self.jsonData["c"]
+
+        self.autoGenerateVoters = self.jsonData["autoGenerateVoters"]
+        if self.autoGenerateVoters:
+            self.numberOfVotersToGenerate = self.jsonData["numberOfVotersToGenerate"]
+            self.voters = [ {'name':'voter%d'%i, 'selection': '0,5'} for i in range(self.numberOfVotersToGenerate)]
+            self.E = [[True for el in range(self.t)] for i in range(self.numberOfVotersToGenerate)]
+        else:
+            # extract voter names from json data
+            self.voters = self.jsonData["voters"]
+            self.voterNames = [voter["name"] for voter in self.voters]
+            self.E = self.jsonData["E"]
+
         # set up s authorites
         self.authorities = [Authority(j, self.bulletinBoard) for j in range(self.secparams.s)]
-
-        # extract voter names from json data
-        self.voters = [voter["name"] for voter in self.jsonData["voters"]]
         self.printingAuth = PrintingAuthority(self.bulletinBoard)
+
+        self.bulletinBoard.setupElectionEvent(self.voters, self.n, self.k, self.t, self.c, self.E)
 
 
     def run(self, autoInput = False, verbose = False):
         # publish the data on the bulletin board
-        self.bulletinBoard.setupElectionEvent(self.voters, self.jsonData["n"], self.jsonData["k"], self.jsonData["t"], self.jsonData["c"], self.jsonData["E"])
         if verbose: print("Test election [t= %d, N_E= %d, sum(n)= %d]" %(self.bulletinBoard.t, self.bulletinBoard.N_E, self.bulletinBoard.n_sum))
 
         self.preElection(verbose)
@@ -48,7 +62,7 @@ class VoteSimulation(object):
 
 
     def preElection(self, verbose):
-        # ********** PRE ELECTION PHASE **********
+        print("********** PRE-ELECTION PHASE **********")
         # Protocol step 6.1: Election Preparation
         for authority in self.authorities:
             authority.GenElectionData(self.secparams)
@@ -71,9 +85,9 @@ class VoteSimulation(object):
 
 
     def election(self, autoInput, verbose):
-        # ********** ELECTION PHASE **********
+        print("********** ELECTION PHASE **********")
         # Protocol steps 6.4 & 6.5: Candidate Selection & Vote Casting
-        votingClients = [VotingClient(i, self.jsonData["voters"][i], self.rawSheetData[i], self.bulletinBoard) for i in range(len(self.voters))]
+        votingClients = [VotingClient(i, self.voters[i], self.rawSheetData[i], self.bulletinBoard) for i in range(len(self.voters))]
         for votingClient in votingClients:
 
             # Get selection (6.4)
@@ -106,7 +120,7 @@ class VoteSimulation(object):
 
 
     def postElection(self, verbose):
-        # ********** POST ELECTION PHASE **********
+        print("********** POST-ELECTION PHASE **********")
         # Mixing (6.7)
         for authority in self.authorities:
             authority.shuffle(self.secparams)
