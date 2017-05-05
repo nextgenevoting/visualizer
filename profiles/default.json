@@ -1,4 +1,6 @@
 {
+  "autoGenerateVoters" : true,
+  "numberOfVotersToGenerate" : 50,
   "voters" : [
     {
       "name" : "Voter1",
