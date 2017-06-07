@@ -1,0 +1,293 @@
+\documentclass[a4paper,12pt]{report}
+
+% Package import
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage{tabularx}
+\usepackage{etoolbox}
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{mathtools}
+\usepackage{tcolorbox}
+\usepackage{minted}
+\usepackage{geometry}
+ \geometry{
+ a4paper,
+ total={170mm,257mm},
+ left=20mm,
+ top=30mm,
+ bottom=30mm
+ }
+%%%%%%%%%%%%%%%%%%%%Literaturverzeichnis%%%%%%%%%%%%%%%%%%%%% 
+\usepackage[]{biblatex}
+
+\usepackage[english]{babel}
+\usepackage{fancyhdr}
+
+
+\addto\captionsenglish{\def\figurename{Figure}} 
+\addto\captionsenglish{\renewcommand{\chaptername}{Chapter}}
+\selectlanguage{english} 
+
+\makeatletter
+\renewcommand{\@chapapp}{Chapter}
+\makeatother
+
+\tcbuselibrary{theorems}
+
+\theoremstyle{definition}
+\newtheorem{exmp}{Beispiel}[subsection]
+\renewcommand{\chaptername}{Chapter}
+\newmintinline['macro name']{'language'}{'options'}
+
+\newtcbtheorem[number within=section]{mytheo}{Theorem}
+{colback=green!5,colframe=green!35!black,fonttitle=\bfseries,before
+skip=20pt plus 2pt,after skip=20pt plus 2pt}{th}
+
+\makeatletter
+\def\@seccntformat#1{%
+  \expandafter\ifx\csname c@#1\endcsname\c@subsection\else
+  \csname the#1\endcsname\quad
+  \fi}
+\makeatother
+
+
+
+\begin{document}
+\pagestyle{empty} %Keine Kopf-/Fusszeilen auf den ersten Seiten.
+\begin{titlepage}
+\begin{center}
+
+% Oberer Teil der Titelseite:
+\includegraphics[width=0.08\textwidth]{images/bfh_logo.png}\\[1cm]    
+\textsc{\LARGE Bern University of Applied Sciences}\\[1.5cm]
+\textsc{\Large Project II}\\[0.5cm]
+
+% Title
+\newcommand{\HRule}{\rule{\linewidth}{0.3mm}}
+\HRule \\[0.4cm]
+{\huge \bfseries CHVote}\\[0.3cm]
+{\bfseries 15.05.2017}\\[0.2cm]
+\HRule \\[1.5cm]
+
+% Author und Lehrer
+\begin{minipage}{0.4\textwidth}
+\begin{flushleft} \large
+Kevin \textsc{Häni}, Yanick \textsc{Denzer}
+\end{flushleft}
+\end{minipage}
+\hfill
+\begin{minipage}{0.4\textwidth}
+\begin{flushright} \large
+
+\end{flushright}
+\end{minipage}
+\vfill
+
+% Unterer Teil der Seite
+Bern, {\large \today}
+\end{center}
+\end{titlepage}
+\pagestyle {plain}
+
+\chapter{Introduction}
+\section{E-Voting}
+Since 2015, it is possible for Swiss citizens registered in the cantons Geneva and Neuchâtel and living abroad, to vote electronically. However, these systems did not yet meet the requirements in terms of security and transparency, to be accepted as a secure E-Voting platform on a nationwide scale.\\\\
+One of the requirements that is hardest to achieve, is that the system must ensure the voters privacy while at the same time, it must be verifiable that only valid votes have been counted.\\\\
+A contract was formed between the state of Geneva and the Bern University of Applied Sciences to work out a new protocol which does meet the complex requirements set up by the government. Some of the concepts behind this protocol are based on a Norwegian E-Voting system. In 2017, the resulting specification document has been officially published and the protocol proved to be working correctly by the proof-of-concept implementation developed by the State of Geneva. 
+\section{Task}
+The task of "`Project II"' was to implement all the algorithms specified by the CHVote specification document. In addition, a primitive protocol implementation should be built, which combines all the algorithms and allows to simulate a small election event. Aside from the programming part, building knowledge about E-Voting and specifically, the CHVote protocol and algorithms was the main task which enables us to further work on this topic as our bachelor thesis.\\\\
+\noindent Another goal of our project was to prove that the CHVote specification can be implemented regardless of the programming language. Therefore, we decided to use a programming language that is different from the one used by the team in Geneva. While the state of Geneva has put a lot of emphasis on the performance of the system, performance is not of great relevance for our project. 
+\chapter{Introduction to CHVote}
+\section{Protocol}
+As pointed out earlier, one of the big challenges the protocol is trying to solve, is the verifiability of the result while still ensuring the privacy of the voters. Another big problem E-Voting systems are facing is the risk of a voting client being infected by malware and manipulating the casting of a vote without the voters notice. Both of these issues are addressed by the use of modern cryptography.
+\section{Basic idea}
+Before the actual election, voting sheets are generated and printed for the whole electorate and delivered to the voters by a trusted mailing service. The voting sheets contain several codes, namely:
+\begin{itemize}
+	\item Voting code
+	\item Confirmation code
+	\item Finalization code
+	\item One verification code for every candidate
+\end{itemize}
+The voting and confirmation code are \textbf{authentication codes} used for authenticating the voter.\\\\
+The voter first selects the candidates by entering their indices. The voting client then forms a ballot contains the voters selection encrypted with the authorities public key and authenticated with the voters personal voting code. Additionally, the ballot contains a query that queries the authorities for the corresponding verification codes of the selected candidates, without the server knowing which candidates the voter had selected. The voter then checks if the returned verification codes match the codes of the candidates he had chosen on the printed voting sheet. If the selection was somehow manipulated by malware, the returned verification codes would not match the printed ones and the voter would have to abort the vote casting process. This way, the integrity of the vote casting can be assured even in the presence of malware (the privacy on the other hand cannot be protected since the malware will learn the plaintext of the voters selection).
+\\\\\noindent In order to verify, that a voter has formed the ballot correctly by choosing exactly the number of candidates he is supposed to choose, the following trick is being used: The verification codes are derived from $n = \sum_{n=1}^{t} n_j$ random points on $t$ polynomials (one for every election event $j$) of degree $k_j - 1$, that each election authority has chosen randomly prior to the election. By learning exactly $k = \sum_{n=1}^{t} k_j$ points on these polynomials, the voting client is able to reproduce these polynomials and therefore s able calculate a particular point with $x=0$ on these polynomials. The corresponding $y$ values are incorporated into the second voting credential from which the confirmation code is derived. Only if the voter knows these values (by submitting a valid candidate selection), he will be able to confirm the vote that he had cast.
+\\\\\noindent Since there is still a connection between the encrypted ballot and the voter at this point, the encrypted candidate selection is extracted from the ballots before tallying. After that, every authority is shuffling/mixing these encryptions in order to make it impossible to find out which voter has submitted which encryption. This mixing of the encrypted votes is done by using the homomorphic property of the ElGamal encryption. Reencryption of the encryptions multiplied with the neutral element 1 yields a new ciphertext for the same plaintext.
+\\\\noindent The public key that is used for encryption was generated jointly by all authorities. Therefore in order to decrypt the result, all authorities must provide their share of the private key. The measure of multiple authorities participating in the whole E-Voting process ensures the security of the whole election even if only one authority can be trusted.
+\chapter{Project}
+\section{Language choice}
+As both team members are working in different fields of employment and are experienced in different programming languages, there wasn't an obvious choice as in what programming language we would implement this project. Also, as Java has already been used by the team in Geneva, Java was out of question. In the end, Python seemed like a rather suitable language because for the following reasons:
+\begin{itemize}
+	\item Easy to learn
+	\item Allows for a compact and readable style of coding
+	\item Has native support for BigIntegers and bindings for the GMP library
+	\item Can run on any platform
+	\items Has many popular web development frameworks
+\end{itemize}
+
+\section{Project method}
+The first step was to get a basic understanding of the CHVote protocol by reading the specification document and refreshing our knowledge about the cryptographic primitives used in the protocol. We decided to follow a "`learning by doing"' approach: while implementing an algorithm, we tried to understand how it does work and how it interacts with the other algorithms.
+\\\\
+\noindent Before we started the implementation, we created a timetable so we wont lose track about the progress and in order to plan and allocate work inside our team.
+\\\\\noindent We typically implemented those algorithms first that other algorithms depend on.
+
+\chapter{Implementation Details}
+\section{Project structure}
+We decided to put every algorithm of the specification in its own file. The files are structured according to the actors of the protocol, for example:
+\begin{itemize}
+	\item \textbf{Common}: Contains algorithms and the security parameters used by multiple algorithms
+	\item \textbf{ElectionAuthority}: Contains all the algorithms used by the election authority
+	\item \textbf{PrintingAuthority}: Contains all the algorithms used by the election authority
+	\item \textbf{VotingClient}: Contains all the algorithms used by the voting client
+	\item \textbf{ElectionAdministration}: Contains all the algorithms used by the election administrator
+	\item \textbf{Utils}: Contains helper classes
+	\item \textbf{Protocol}: Contains the protocol implementation
+	\item \textbf{profiles}: Contains .json files that are used to define election parameters	
+\end{itemize}
+
+\section{Public parameters}
+There exist two types of public parameters: \\\\
+\textbf{Security relevant parameters}, e.g:
+\begin{itemize}
+	\item The order of the prime groups: $p$, $\prime{p}$, $\hat{p}$
+	\item The length of the voting, confirmation, return- and finalization-codes
+	\item The number of authorities: $s$
+	\item etc.
+\end{itemize}
+and \textbf{public election parameters}, e.g.:
+\begin{itemize}
+	\item The size of the electorate: $N_E$
+	\item The number of candidates: $n$
+	\item The list of candidate descriptions: $c$
+\end{itemize}
+The security parameters are typically used within the algorithms and remain unchanged for a longer time period whereas the public election parameters are only used by the protocol implementations and change with every election. We have also made this distinction in our code:
+\begin{itemize}
+	\item The \textbf{SecurityParams} object holds all security relevant parameters and is injected as a function argument to all the algorithms. Several different SecurityParams objects are created initially, which contain all the parameters according the recommendations in the document. This approach allows for easier unit-testing by allowing to inject a low-security SecurityParams object (with the values corresponding to the values specified as "`level 0"' in the specification document) from our unit-test method while in a practical use, a "`"level-2' SecurityParams object will be handled to the algorithms.
+	\item 
+\end{itemize} The public election parameters are defined in a json file and simply read as an object which is directly accessed by the protocol. If an algorithm needs to know certain election parameters like the size of the electorate $N_E$, these values are typically derived from vectors that they have access to, so they do not require specific knowledge of these parameters.
+
+\section{Coding style}
+\begin{minted}[linenos,tabsize=2,breaklines]{python}
+import unittest
+import os, sys
+from gmpy2 import mpz
+import gmpy2
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+from Utils.Utils                    import AssertMpz, AssertList, AssertClass, AssertString
+from Crypto.SecurityParams          import SecurityParams, secparams_l0
+from Utils.ToInteger                import ToInteger
+from VotingClient.GetSelectedPrimes import GetSelectedPrimes
+from VotingClient.GenQuery          import GenQuery
+from VotingClient.GenBallotProof    import GenBallotProof
+from UnitTestParams                 import unittestparams
+from Types                          import Ballot
+from Utils.StringToInteger          import StringToInteger
+
+def GenBallot(X_bold, s, pk, secparams):
+    """
+    Algorithm 7.18: Generates a ballot based on the selection s and the voting code X. The
+    ballot includes an OT query a and a proof pi. The algorithm also returns the random
+    values used to generate the OT query. These random values are required in Alg. 7.27
+    to derive the transferred messages from the OT response, which itself is generated by Alg. 7.25.
+
+    Args:
+        X_bold (str):                       Voting Code X ∈ A_X^l_X
+        s (list of int):                    Selection s = (s_1, ... , s_k), 1 <= s_1 < ... < s_k
+        pk (mpz):                           ElGamal key pk ∈ G_p \ {1}
+        secparams (SecurityParams):         Collection of public security parameters
+
+    Returns:
+        tuple:                              alpha = (r, Ballot) = (r, (x_hat, a, b, pi))
+    """
+
+    AssertMpz(pk)
+    AssertList(s)
+    AssertClass(secparams, SecurityParams)
+
+    x = mpz(StringToInteger(X_bold, secparams.A_X))
+    x_hat = gmpy2.powmod(secparams.g_hat, x, secparams.p_hat)
+
+    q_bold = GetSelectedPrimes(s, secparams)                    # q = (q_1, ... , q_k)
+    m = mpz(1)
+
+    for i in range(len(q_bold)):
+        m = m * q_bold[i]
+
+    if m >= secparams.p:
+        return None
+
+    (a_bold, r_bold) = GenQuery(q_bold, pk, secparams)
+    a = mpz(1)
+    r = mpz(0)
+
+    for i in range(len(a_bold)):
+        a = (a * a_bold[i]) % secparams.p
+        r = (r + r_bold[i]) % secparams.q
+
+    b = gmpy2.powmod(secparams.g,r, secparams.p)
+    pi = GenBallotProof(x,m,r,x_hat,a,b,pk, secparams)
+    alpha = Ballot(x_hat,a_bold,b,pi)
+
+    return (alpha, r_bold)
+
+class GenBallotTest(unittest.TestCase):
+    def testGenBallot(self):
+        selection = [1,4]       # select candidates with indices 1,4
+        (ballot, r) = GenBallot(unittestparams.X, selection, unittestparams.pk, secparams_l0)
+        print(ballot)
+        print(r)
+
+if __name__ == '__main__':
+    unittest.main()
+
+\end{minted}
+All algorithms contain a short description from the specification document as a comment (google style docstring), which can be used to automatically generate code documentation. The algorithm itself is implemented as close to the specification as possible, using the same variable names and (as far as the language supports it) similar control structures:
+
+\begin{itemize}
+	\item using the suffix \_bold if the variable is written in bold
+	\item $a_hat$ for variables like $\hat{a}$
+	\item $a_prime$ for variables like $\prime{a}$
+	\item 
+\end{itemize}
+
+The files also contain UnitTests (if unittesting is considered useful for the particular algorithm).
+
+\subsection{Return types}
+In most cases, when an algorithm returns more than a scalar datatype, tuples are used. Tuples allow to return multiple values from a function:
+\begin{minted}[linenos,tabsize=2,breaklines]{python}
+def foo():
+   return (1, 2)
+	
+def main():
+	 a, b = foo()
+\end{minted}
+
+For more complex data types or return values that are used more often, namedtuples were used:
+\begin{minted}[linenos,tabsize=2,breaklines]{python}
+Ballot      = namedtuple("Ballot", "x_hat, a_bold, b, pi")
+
+def main():
+   Ballot b = getBallot()
+	 x_hat = b.x_hat
+\end{minted}
+namedtuple are like lightweight classes and allow access to named properties.
+\\\\\noindent By following this approach, we could avoid having hundreds of classes only used to pass data structures between the algorithms
+%\begin{center}
+%\includegraphics[width=0.9\textwidth]{img/DH_1.PNG}
+%\end{center}
+%Bibliographie 
+\begin{thebibliography}{999}
+\bibitem {tutorial} "`Learn You a Haskell"' book, \url{http://learnyouahaskell.com/introduction}
+%\bibitem {sideeffects} Side Effects: http://softwareengineering.stackexchange.com/questions/15269/why-are-side-effects-considered-evil-in-functional-programming
+\end{thebibliography}
+
+\end{document}
