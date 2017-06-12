@@ -7,9 +7,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                        import AssertList, AssertInt, AssertMpz, AssertClass
 from Types                              import *
-from Crypto.SecurityParams              import secparams_l3, secparams_l0, SecurityParams
+from Common.SecurityParams              import secparams_l3, secparams_l0, SecurityParams
 from Utils.Random                       import randomMpz
-from Crypto.GetNIZKPChallenge           import GetNIZKPChallenge
+from Common.GetNIZKPChallenge           import GetNIZKPChallenge
 
 def GenDecryptionProof(sk_j, pk_j, e_bold, b_prime_bold, secparams):
     """

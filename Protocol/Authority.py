@@ -13,6 +13,7 @@ from ElectionAuthority.GenShuffleProof      import GenShuffleProof
 from ElectionAuthority.GetPartialDecryptions import GetPartialDecryptions
 from ElectionAuthority.CheckShuffleProofs   import CheckShuffleProofs
 from ElectionAuthority.GenDecryptionProof   import GenDecryptionProof
+from ElectionAuthority.GetFinalization      import GetFinalization
 
 class Authority(object):
     """
@@ -143,6 +144,9 @@ class Authority(object):
         """
         if CheckConfirmation(i,gamma, self.y_hat, self.B_j, self.C_j, secparams):
             self.C_j.append((i,gamma))
+
+            self.bulletinBoard.delta_bold[i][self.j] = GetFinalization(i, self.P_j_bold, self.B_j, secparams)
+
             return True
         else:
             return False

@@ -1,13 +1,12 @@
 import unittest
 import os, sys
-import gmpy2
-from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+from gmpy2 import mpz
 from Utils.Utils           import AssertInt, AssertClass
 from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
-from Crypto.SecurityParams import SecurityParams, secparams_l3
+from Common.SecurityParams import SecurityParams, secparams_l3
 
 def GetGenerators(n, secparams):
     """
@@ -51,7 +50,7 @@ class GetGeneratorsTest(unittest.TestCase):
             self.assertTrue(len(GetGenerators(i, secparams_l3)) == i)
 
         # Check if all elements in the list are unique
-        x = GetGenerators(50)
+        x = GetGenerators(50, secparams_l3)
         self.assertFalse(len(x) > len(set(x)))
 
 if __name__ == '__main__':

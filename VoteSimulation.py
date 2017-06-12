@@ -4,13 +4,12 @@ from Protocol.Authority                     import Authority
 from Protocol.PrintingAuthority             import PrintingAuthority
 from Protocol.VotingClient                  import VotingClient
 
-from Crypto.SecurityParams                  import secparams_l0, secparams_l1, secparams_l2, secparams_l3
+from Common.SecurityParams                  import secparams_l0, secparams_l1, secparams_l2, secparams_l3
 from ElectionAdministrator.GetVotes         import GetVotes
 from ElectionAuthority.CheckDecryptionProofs import CheckDecryptionProofs
 from ElectionAuthority.GetDecryptions       import GetDecryptions
-from Protocol.BulletinBoard import BulletinBoard
-from VotingClient.CheckReturnCodes          import CheckReturnCodes
-
+from Protocol.BulletinBoard                 import BulletinBoard
+from VotingClient.CheckVerificationCodes    import CheckVerificationCodes
 
 class VoteSimulation(object):
     def __init__(self, file):
@@ -37,7 +36,7 @@ class VoteSimulation(object):
         self.autoGenerateVoters = self.jsonData["autoGenerateVoters"]
         if self.autoGenerateVoters:
             self.numberOfVotersToGenerate = self.jsonData["numberOfVotersToGenerate"]
-            self.voters = [ {'name':'voter%d'%i, 'selection': '0,5'} for i in range(self.numberOfVotersToGenerate)]
+            self.voters = [ {'name':'Random Voter %d'%i, 'selection': '0,5'} for i in range(self.numberOfVotersToGenerate)]
             self.E = [[True for el in range(self.t)] for i in range(self.numberOfVotersToGenerate)]
         else:
             # extract voter names from json data
@@ -49,7 +48,7 @@ class VoteSimulation(object):
         self.authorities = [Authority(j, self.bulletinBoard) for j in range(self.secparams.s)]
         self.printingAuth = PrintingAuthority(self.bulletinBoard)
 
-        self.bulletinBoard.setupElectionEvent(self.voters, self.n, self.k, self.t, self.c, self.E)
+        self.bulletinBoard.setupElectionEvent(self.voters, self.n, self.k, self.t, self.c, self.E, self.secparams.s)
 
 
     def run(self, autoInput = False, verbose = False):
@@ -57,7 +56,7 @@ class VoteSimulation(object):
         if verbose: print("Test election [t= %d, N_E= %d, sum(n)= %d]" %(self.bulletinBoard.t, self.bulletinBoard.N_E, self.bulletinBoard.n_sum))
 
         self.preElection(verbose)
-        self.election(autoInput, verbose)
+        self.voteCasting(autoInput, verbose)
         self.postElection(verbose)
 
 
@@ -74,8 +73,7 @@ class VoteSimulation(object):
         # Protocol step 6.2: Printing of Code Sheets
         D = [authority.d_j_bold for authority in self.authorities]
         # rawSheetData is required for automatic user input and checking of the voting, confirmation and return codes
-        (sheets, self.rawSheetData) = self.printingAuth.getVotingCards(D, self.secparams)
-        for sheet in sheets: print(sheet)
+        (self.sheets, self.rawSheetData) = self.printingAuth.getVotingCards(D, self.secparams)
 
         # Protocol step 6.3: Key Generation
         for authority in self.authorities:
@@ -84,11 +82,12 @@ class VoteSimulation(object):
             authority.getPublicKey(self.secparams)  # combine the resulting public key
 
 
-    def election(self, autoInput, verbose):
-        print("********** ELECTION PHASE **********")
+    def voteCasting(self, autoInput, verbose):
+        print("********** VOTE CASTING PHASE **********")
         # Protocol steps 6.4 & 6.5: Candidate Selection & Vote Casting
         votingClients = [VotingClient(i, self.voters[i], self.rawSheetData[i], self.bulletinBoard) for i in range(len(self.voters))]
         for votingClient in votingClients:
+            print(self.sheets[votingClient.i])
 
             # Get selection (6.4)
             s = votingClient.candidateSelection(autoInput, self.secparams)
@@ -96,27 +95,32 @@ class VoteSimulation(object):
             (ballot, r) = votingClient.castVote(s, autoInput, self.secparams)
 
             # Generate oblivious transfer response & check ballot (6.5)
-            responses = [(authority.name, authority.runCheckBallot(votingClient.i, ballot, self.secparams)) for
-                         authority in self.authorities]
+            responses = [(authority.name, authority.runCheckBallot(votingClient.i, ballot, self.secparams)) for authority in self.authorities]
             for res in responses: print("Ballot validity checked by authority %s: %r" % (res[0], res[1]))
 
-            beta = [authority.genResponse(votingClient.i, ballot.a_bold, ballot, self.secparams)[0] for authority in
-                    self.authorities]
+            beta = [authority.genResponse(votingClient.i, ballot.a_bold, ballot, self.secparams)[0] for authority in self.authorities]
             try:
                 P_s = votingClient.getPointsFromResponse(beta, self.secparams)
             except RuntimeError as e:
                 print(e)
                 return;
             if verbose: print(P_s)
-            returnCodes = votingClient.getReturnCodes(self.secparams)
+            returnCodes = votingClient.getVerificationCodes(self.secparams)
             if verbose: print(returnCodes)
-            print("CheckReturnCodes: %r" % CheckReturnCodes(votingClient.votingSheet.rc, returnCodes, s))
+            print("Check Verification Codes result: %r" % CheckVerificationCodes(votingClient.rawSheetData.rc, returnCodes, s))
 
             # Confirmation (6.6)
             (i, gamma) = votingClient.confirm(autoInput, self.secparams)
             confirmationResults = [(authority.name, authority.checkConfirmation(i, gamma, self.secparams)) for authority
                                    in self.authorities]
             for res in confirmationResults: print("Confirmation-Code checked by authority %s: %r" % (res[0], res[1]))
+
+            # Finalization (6.6)
+            if(votingClient.finalize(autoInput, self.secparams)):
+                print("Finalization Code check: True")
+            else:
+                print("Finalization Code check: False")
+                return
 
 
     def postElection(self, verbose):

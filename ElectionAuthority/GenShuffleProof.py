@@ -7,10 +7,10 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                        import AssertList, AssertMpz, AssertClass
 from Types                              import *
-from Crypto.SecurityParams              import secparams_l3, secparams_l0, SecurityParams
-from Crypto.GetGenerators               import GetGenerators
-from Crypto.GetNIZKPChallenges          import GetNIZKPChallenges
-from Crypto.GetNIZKPChallenge          import GetNIZKPChallenge
+from Common.SecurityParams              import secparams_l3, secparams_l0, SecurityParams
+from Common.GetGenerators               import GetGenerators
+from Common.GetNIZKPChallenges          import GetNIZKPChallenges
+from Common.GetNIZKPChallenge          import GetNIZKPChallenge
 from ElectionAuthority.GenPermutationCommitment import GenPermutationCommitment
 from ElectionAuthority.GenCommitmentChain import GenCommitmentChain
 from Utils.Random                       import randomMpz

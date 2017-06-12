@@ -6,10 +6,10 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertClass
-from Crypto.SecurityParams import SecurityParams
+from Common.SecurityParams import SecurityParams
 from Utils.Random          import randomMpz
-from Crypto.SecurityParams import secparams_l0, secparams_l3
-from Crypto.IsMember       import IsMember
+from Common.SecurityParams import secparams_l0, secparams_l3
+from Common.IsMember       import IsMember
 
 def GenKeyPair(secparams):
     """

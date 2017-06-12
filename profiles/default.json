@@ -1,5 +1,5 @@
 {
-  "autoGenerateVoters" : true,
+  "autoGenerateVoters" : false,
   "numberOfVotersToGenerate" : 50,
   "voters" : [
     {
@@ -16,8 +16,8 @@
     }
   ],
   "t" : 2,
-  "n" : [5,3],
-  "c" : ["Hillary Clinton", "Donald Trump", "Vladimir Putin", "Marine Le Pen", "May", "Yes", "No", "Empty"],
+  "n" : [4,3],
+  "c" : ["Hillary Clinton", "Donald Trump", "Vladimir Putin", "Marine Le Pen", "Yes", "No", "Empty"],
   "k" : [1,1],
   "E" : [[1,1], [1,1], [1,1]],
   "securityLevel" : 2,

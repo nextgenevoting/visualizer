@@ -7,8 +7,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                        import AssertList, AssertInt, AssertMpz, AssertClass
 from Types                              import *
-from Crypto.SecurityParams              import secparams_l3, secparams_l0, SecurityParams
-from Crypto.GetNIZKPChallenge           import GetNIZKPChallenge
+from Common.SecurityParams              import secparams_l3, secparams_l0, SecurityParams
+from Common.GetNIZKPChallenge           import GetNIZKPChallenge
 
 def CheckDecryptionProof(pi_prime, pk_j, e_bold, b_prime_bold, secparams):
     """

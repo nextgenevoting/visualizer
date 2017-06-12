@@ -5,7 +5,7 @@ import gmpy2
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams              import SecurityParams, secparams_l0, secparams_l3
+from Common.SecurityParams              import SecurityParams, secparams_l0, secparams_l3
 from ElectionAuthority.HasBallot        import HasBallot
 from ElectionAuthority.CheckBallotProof import CheckBallotProof
 from Utils.Utils                        import AssertInt, AssertList, AssertMpz, AssertClass
@@ -13,7 +13,7 @@ from Types                              import Ballot, BallotProof
 from VotingClient.GenBallot             import GenBallot
 from UnitTestParams                     import unittestparams
 from Types                              import *
-from Crypto.IsMember                    import IsMember
+from Common.IsMember                    import IsMember
 
 def CheckBallot(i, alpha, pk, K_bold, x_hat_bold, B, secparams):
     """

@@ -6,15 +6,15 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertMpz, AssertList, AssertClass, Truncate
-from Crypto.SecurityParams import SecurityParams, secparams_l0
+from Common.SecurityParams import SecurityParams, secparams_l0
 from Utils.RecHash         import RecHash
 from Utils.MarkByteArray   import MarkByteArray
 from Utils.ToString        import ByteArrayToString
 from Utils.XorByteArray    import XorByteArray
 
-def CheckReturnCodes(rc_bold, rc_prime_bold, s_bold):
+def CheckVerificationCodes(rc_bold, rc_prime_bold, s_bold):
     """
-    Algorithm 7.29: Checks if every displayed return code RC'_i i matches with the return code
+    Algorithm 7.29: Checks if every displayed verification code RC'_i i matches with the return code
     RC_s_i of the selected candidate s_i as printed on the code sheet.
     Note that this algorithm is executed by humans.
 
@@ -37,8 +37,8 @@ def CheckReturnCodes(rc_bold, rc_prime_bold, s_bold):
 
     return True
 
-class CheckReturnCodesTest(unittest.TestCase):
-    def testCheckReturnCodes(self):
+class CheckVerificationCodesTest(unittest.TestCase):
+    def testCheckVerificationCodes(self):
         self.assertTrue(False)
 
 if __name__ == '__main__':

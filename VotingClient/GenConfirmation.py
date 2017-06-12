@@ -9,7 +9,7 @@ from Utils.Utils                       import AssertClass, AssertList
 from Utils.ToInteger                   import ToInteger
 from Utils.StringToInteger             import StringToInteger
 from Utils.RecHash                     import RecHash
-from Crypto.SecurityParams             import SecurityParams
+from Common.SecurityParams             import SecurityParams
 from Types                             import *
 from VotingClient.GetValues            import GetValues
 from VotingClient.GenConfirmationProof import GenConfirmationProof

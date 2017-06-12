@@ -1,20 +1,22 @@
-from ElectionAuthority.GetPublicKey import GetPublicKey
-from VotingClient.GenBallot      import GenBallot
-from VotingClient.GenConfirmation import GenConfirmation
-from VotingClient.GetPointMatrix import GetPointMatrix
-from VotingClient.GetReturnCodes import GetReturnCodes
-from VotingClient.GetVotingPage  import GetVotingPage
+from ElectionAuthority.GetPublicKey     import GetPublicKey
+from VotingClient.GenBallot             import GenBallot
+from VotingClient.GenConfirmation       import GenConfirmation
+from VotingClient.GetPointMatrix        import GetPointMatrix
+from VotingClient.GetReturnCodes        import GetReturnCodes
+from VotingClient.GetVotingPage         import GetVotingPage
+from VotingClient.GetFinalizationCode   import GetFinalizationCode
+from VotingClient.CheckFinalizationCode import CheckFinalizationCode
 
 class VotingClient(object):
     """
     The VotingClient class represents a voting client participating in the protocols (for example prot 6.5)
     """
 
-    def __init__(self, i, voterData, votingSheet, bulletinBoard):
+    def __init__(self, i, voterData, rawSheetData, bulletinBoard):
         self.i = i
         self.bulletinBoard = bulletinBoard
         self.voterData = voterData
-        self.votingSheet = votingSheet
+        self.rawSheetData = rawSheetData
 
         self.k_i_bold = None  # Number of allowed selections per election of voter i
         self.s_bold = None  # Selection (candidate indices)
@@ -59,7 +61,7 @@ class VotingClient(object):
 
         self.pk = GetPublicKey(self.bulletinBoard.pk_bold,secparams)
         if autoInput:
-            X = self.votingSheet.X
+            X = self.rawSheetData.X
             print("Voter entered voting code: %s" % X)
         else:
             X = input('Enter your voting code: ')
@@ -76,14 +78,14 @@ class VotingClient(object):
 
         return self.P_s_bold
 
-    def getReturnCodes(self, secparams):
+    def getVerificationCodes(self, secparams):
         self.rc_s_bold = GetReturnCodes(self.s, self.P_s_bold, secparams)
         return self.rc_s_bold
 
 
     def confirm(self, autoInput, secparams):
         if autoInput:
-            Y_i = self.votingSheet.Y
+            Y_i = self.rawSheetData.Y
             print("Voter entered confirmation code: %s" % Y_i)
         else:
             Y_i = input('Enter your confirmation code: ')
@@ -91,5 +93,18 @@ class VotingClient(object):
         self.gamma = GenConfirmation(Y_i,self.P_s_bold, self.k_i_bold, secparams)
         return (self.i, self.gamma)
 
-        return
+    def finalize(self, autoInput, secparams):
+        delta_bold_i = self.bulletinBoard.delta_bold[self.i]
+        FC = GetFinalizationCode(delta_bold_i, secparams)
+        print("Displayed finalization code: %s" % FC)
 
+        if autoInput:
+            FC_i = self.rawSheetData.FC
+            print("Voter entered finalization code: %s" % FC_i)
+        else:
+            FC_i = input('Enter your finalization code: ')
+
+        if (CheckFinalizationCode(FC_i, FC, secparams)):
+            return True
+        else:
+            return False

@@ -6,8 +6,8 @@ from gmpy2 import mpz
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertInt, AssertClass
-from Crypto.SecurityParams import secparams_l0, secparams_l1, secparams_l2, secparams_l3, SecurityParams
-from Crypto.IsMember       import IsMember
+from Common.SecurityParams import secparams_l0, secparams_l1, secparams_l2, secparams_l3, SecurityParams
+from Common.IsMember       import IsMember
 
 def GetPrimes(n, secparams):
     """

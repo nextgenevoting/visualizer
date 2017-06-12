@@ -6,7 +6,7 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                    import AssertMpz, AssertList, AssertClass, AssertString
-from Crypto.SecurityParams          import SecurityParams, secparams_l0
+from Common.SecurityParams          import SecurityParams, secparams_l0
 from Utils.ToInteger                import ToInteger
 from VotingClient.GetSelectedPrimes import GetSelectedPrimes
 from VotingClient.GenQuery          import GenQuery
@@ -40,8 +40,8 @@ def GenBallot(X_bold, s, pk, secparams):
     x_hat = gmpy2.powmod(secparams.g_hat, x, secparams.p_hat)
 
     q_bold = GetSelectedPrimes(s, secparams)                    # q = (q_1, ... , q_k)
+    
     m = mpz(1)
-
     for i in range(len(q_bold)):
         m = m * q_bold[i]
 

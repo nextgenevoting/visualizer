@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertMpz, AssertClass, AssertList
 from Types                 import *
 from Utils.Random          import randomMpz
-from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
+from Common.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 
 def GetPartialDecryptions(e_bold, sk_j, secparams):
     """

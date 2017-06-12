@@ -3,7 +3,7 @@ import gmpy2
 from gmpy2 import mpz
 from math import ceil, log2
 
-from Crypto.SecurityParams  import secparams_l0
+from Common.SecurityParams  import secparams_l0
 from Types                  import *
 
 class UnitTestParams(object):
