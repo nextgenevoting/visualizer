@@ -3,8 +3,8 @@ import os, sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams import SecurityParams, secparams_l0
-from Crypto.GetPrimes      import GetPrimes
+from Common.SecurityParams import SecurityParams, secparams_l0
+from Common.GetPrimes      import GetPrimes
 from Utils.Utils           import AssertList, AssertClass
 
 def GetSelectedPrimes(s_bold, secparams):

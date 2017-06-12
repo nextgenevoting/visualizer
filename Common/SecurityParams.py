@@ -7,20 +7,19 @@ from Utils.Utils import BitAbs
 
 class SecurityParams(object):
     """
-    This class holds all public security parameters used by many algorithms
-    For every security level, a separate object should exist holding the corresponding values.
-
-    For the purpose of easier unit testing, the parameters for securityLevel0 can be injected as an optional parameter
+    This class holds all public security parameters used by many algorithms. For every security level, a separate object should exist holding the corresponding values.
     """
-
     def hash(self, input):
         hashFunc = hashlib.new('sha256')                            # must be initialized every time before using hashFunc.update()
         hashFunc.update(input)
         hashByteLength = int(self.L)
         return hashFunc.digest()[0:hashByteLength]                  # truncate the hash output to the hash length of the security level
 
+    def getBase64Alphabet(self):
+        base64 = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ_-"
+        return list(base64)
+
     def __init__(self, delta, tau, p, q, k, g, h, p_hat, q_hat, k_hat, g_hat, p_prime, L, detRandomGen):
-        #super(SecurityParams, self).__setattr__("hashObj", hashlib.new('sha256'))
 
         self.delta = delta                                          # Security strength delta in bits
         self.tau = tau                                              # Security strength tau in bits
@@ -42,29 +41,27 @@ class SecurityParams(object):
         self.epsilon = 0.9999                                       # deterrence factor --> The chance of an undetected attack is 1-deterrenceFactor
 
         # Return code
-        self.A_R = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]    # Return code alphabet
-        self.L_R = 3                                                    # Length of Returncodes in bytes
+        self.A_R = self.getBase64Alphabet()                         # Return code alphabet
+        self.L_R = 4                                                # Length of Returncodes in bytes
         self.l_R = ceil((8 * self.L_R + BitAbs(self.n_max)) / log2(len(self.A_R)))     # Length of return codes in characters
 
         # Finalization code
-        self.A_F = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]    # Final. code alphabet
-        self.L_F = 3                                                    # Length of finalizationcode in bytes
-        self.l_F = ceil(8 * self.L_F / log2(len(self.A_F)))                       # Length of finalization codes in characters
+        self.A_F = self.getBase64Alphabet()                         # Final. code alphabet
+        self.L_F = 3                                                # Length of finalizationcode in bytes
+        self.l_F = ceil(8 * self.L_F / log2(len(self.A_F)))         # Length of finalization codes in characters
 
         # Voting code
-        self.q_hat_X = q_hat                                            # Upper bound of secret voting credential x
-        self.A_X = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]    # Voting code alphabet
+        self.q_hat_X = q_hat                                        # Upper bound of secret voting credential x
+        self.A_X = self.getBase64Alphabet()                         # Voting code alphabet
+        self.l_X = ceil(BitAbs(self.q_hat_X) / log2(len(self.A_X)))  # Length of voting codes (characters)
 
         # Confirmation code
-        self.q_hat_Y = q_hat                                            # Upper bound of secret confirmation credential y
-        self.A_Y = [ chr(i) for i in range(ord('A'), ord('Z') + 1) ]    # Confirmation code alphabet
+        self.q_hat_Y = q_hat                                        # Upper bound of secret confirmation credential y
+        self.A_Y = self.getBase64Alphabet()                         # Confirmation code alphabet
+        self.l_Y = ceil(BitAbs(self.q_hat_Y) / log2(len(self.A_Y)))  # Length of confirmation codes in characters
 
         # calculated values:
-        self.q_hat_X = q_hat
-        self.q_hat_Y = q_hat
-        self.L_M = 2 * ceil(BitAbs(p_prime) // 8)                   # Length of OT messages (bytes)
-        self.l_X = ceil(BitAbs(self.q_hat_X) / log2(len(self.A_X))) # Length of voting codes (characters)
-        self.l_Y = ceil(BitAbs(self.q_hat_Y) / log2(len(self.A_Y))) # Length of confirmation codes in characters
+        self.L_M = 2 * ceil(BitAbs(p_prime) // 8)  # Length of OT messages (bytes)
 
 
 # global objects
@@ -97,7 +94,7 @@ secparams_l1 = SecurityParams(
     0x800000000000000000000000000000000000012B,
     0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFDAA00000000000000000000000000000000000574E3FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF340F3680000000000000000000000000000001DC6476B0FFFFFFFFFFFFFFFFFFFFFFFFFFFFFBA72D52BE8A00000000000000100,
     0x3E4EC67D0801039E0DAA11CA82D1798C899914750ADAE377DB63181A5657EEFCC8F110113B0E644DAA50A9193EAA6863001CA3BF1B91D6131746AB1056C17AD54367FC740B85CE7629CCC529D916A9A00C391308133AF108920407D35C0B1BCF406E1B9374DA697C55650F89743A4AED7D857F6FEB68EA3E5F2404B4ABF33FC4,
-    0x800000000000000000000000000000000000012B,
+    0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFD1,
     20,
     False
 )
@@ -114,7 +111,7 @@ secparams_l2 = SecurityParams(
     0x800000000000000000000000000000000000000000000000000000BD,
     0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFE8600000000000000000000000000000000000000000000000000022E23FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFCC7DED8000000000000000000000000000000000000000000000004C0E0F50FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF8FB33D626600000000000000000000000000000000000000000000A5D1575CB563FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF0B28E5011C2A58000000000000000000000000000000000000000169859DDC5C697A10000000566,
     0x8FC32AED89182BD1CAC46EA9CDBECF57DB18D8748E039355CCBC90DEDA214943780680CCD7D379440E833E03681AD5C93C3CCB3909333D2DC500688237C4D0623703823F026FCD67103BA49EE2D3B3DDFAC5B797636FFC4369177FFA357B722935B2EF3B2E3F1DFEA736903F76927794D071A723F79666EE23FF0EDE87AFB3F60792CFFC7078CB96D8A23066C8C412813F5943CF9E98B8FE3E21A0A8F241A830BF39C16BB8F2F21D53EB91F30262A86A043C5DF1167CB748B6EACC5946D612EB8DFEB454E0B1289A7CF66F2940C83CD46118B37B949905AEAF315F537B5B54BF75138603D54BCC4C2D6E72C0E7DD50B5925417E5C277E411B9394FB2FDAC0DF,
-    0x800000000000000000000000000000000000000000000000000000BD,
+    0xFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFC1,
     28,
     False
 )

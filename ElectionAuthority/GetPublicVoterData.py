@@ -8,7 +8,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertMpz, AssertList, AssertClass
 from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
-from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
+from Common.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 
 def GetPublicVoterData(x, y, y_bold, secparams):
     """

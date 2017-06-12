@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils                                import AssertList, AssertInt, AssertMpz, AssertClass
 from Types                                      import *
-from Crypto.SecurityParams                      import secparams_l3, secparams_l0, SecurityParams
+from Common.SecurityParams                      import secparams_l3, secparams_l0, SecurityParams
 from ElectionAuthority.CheckShuffleProof        import CheckShuffleProof
 from ElectionAuthority.CheckDecryptionProof     import CheckDecryptionProof
 

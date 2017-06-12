@@ -6,16 +6,16 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertMpz, AssertList, AssertClass, AssertInt, Truncate
-from Crypto.SecurityParams import SecurityParams, secparams_l0
+from Common.SecurityParams import SecurityParams, secparams_l0
 from Utils.Random          import randomMpz
 from math                  import ceil
-from Crypto.GetPrimes      import GetPrimes
+from Common.GetPrimes      import GetPrimes
 from UnitTestParams        import unittestparams
 from Utils.ToByteArray     import ToByteArrayN
 from Utils.RecHash         import RecHash
 from Types                 import *
 from Utils.XorByteArray    import XorByteArray
-from Crypto.IsMember       import IsMember
+from Common.IsMember       import IsMember
 
 def GenResponse(i, a_bold, pk, n_bold, K_bold, P_bold, secparams):
     """

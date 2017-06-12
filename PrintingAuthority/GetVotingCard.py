@@ -12,7 +12,7 @@ def GetVotingCard(i, V_bold, c_bold, n_bold, k_bold, X_bold, Y_bold, FC_bold, rc
         X_bold (...):    Voting code
         Y_bold (...):    Confirmation code
         FC_bold (...):   Finalization code
-        rc_bold (...):   Return codes
+        rc_bold (...):   Verification codes
 
     Returns:
         string:     code sheet
@@ -29,7 +29,7 @@ Selections: {k}
 Voting code: {X}
 Confirmation code: {Y}
 Finalization code: {FC}
-Return codes:
+Verification codes:
     {rc}
     """.format(
         i =  i

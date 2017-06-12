@@ -6,7 +6,7 @@ from random import randint
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from Crypto.SecurityParams import secparams_l0, secparams_l3
+from Common.SecurityParams import secparams_l0, secparams_l3
 
 seed = int.from_bytes(os.urandom(secparams_l3.p.bit_length()), byteorder='big')
 rstate = gmpy2.random_state(seed)

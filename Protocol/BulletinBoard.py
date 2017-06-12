@@ -11,12 +11,14 @@ class BulletinBoard(object):
         self.pi_bold = [] # Shuffle proofs
         self.B_prime_bold = [] # partial decryptions
         self.pi_prime_bold = [] # Decryption proofs
+        self.delta_bold = []
+        self.s = 0
 
         # Data generated during the election preparation (Protocol 6.1)
         self.D_hat_bold = []  # Electorate data
         self.pk_bold = []  # public key shares
 
-    def setupElectionEvent(self, v_bold, n_bold, k_bold, t, c_bold, E_bold):
+    def setupElectionEvent(self, v_bold, n_bold, k_bold, t, c_bold, E_bold, s):
         """
         Election Event setup, done by the Election Administration before the election
 
@@ -35,6 +37,8 @@ class BulletinBoard(object):
         self.k_bold = k_bold
         self.t = t
         self.E_bold = E_bold
+        self.s = s
+        self.delta_bold = [[None] * self.s for i in range(len(self.E_bold))]
 
     def getCandidateSelectionParams(self):
         """

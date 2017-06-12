@@ -7,8 +7,8 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils              import AssertMpz, AssertClass
 from Utils.Random             import randomMpz, randomQuadResMpz
-from Crypto.SecurityParams    import SecurityParams, secparams_l0
-from Crypto.GetNIZKPChallenge import GetNIZKPChallenge
+from Common.SecurityParams    import SecurityParams, secparams_l0
+from Common.GetNIZKPChallenge import GetNIZKPChallenge
 from UnitTestParams           import unittestparams
 from Types                    import *
 

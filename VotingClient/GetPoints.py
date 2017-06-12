@@ -6,7 +6,7 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertMpz, AssertList, AssertClass, Skip, Truncate
-from Crypto.SecurityParams import SecurityParams, secparams_l0
+from Common.SecurityParams import SecurityParams, secparams_l0
 from Types                 import *
 from math                  import ceil
 from Utils.RecHash         import RecHash

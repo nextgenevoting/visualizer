@@ -7,9 +7,9 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertInt, AssertClass, AssertList
 from Types                 import *
-from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
-from Crypto.GetPrimes      import GetPrimes
-from Crypto.IsMember       import IsMember
+from Common.SecurityParams import SecurityParams, secparams_l0, secparams_l3
+from Common.GetPrimes      import GetPrimes
+from Common.IsMember       import IsMember
 
 def GetVotes(m_bold, n, secparams):
     """
@@ -33,17 +33,17 @@ def GetVotes(m_bold, n, secparams):
     assert n >= 2, "n must be greater than or equal 2"
     AssertClass(secparams, SecurityParams)
 
-    p_bold = GetPrimes(n, secparams)
-
     V_bold = []
     N = len(m_bold)
+
+    p_bold = GetPrimes(n, secparams)
     for i in range(N):
-        v_bold_i = []
+        v_bold_i = [None] * n
         for j in range(n):
             if m_bold[i] % p_bold[j] == 0:
-                v_bold_i.append(1)
+                v_bold_i[j] = 1
             else:
-                v_bold_i.append(0)
+                v_bold_i[j] = 0
         V_bold.append(v_bold_i)
 
     return V_bold

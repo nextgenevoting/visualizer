@@ -3,12 +3,12 @@ import os, sys
 import gmpy2
 from gmpy2 import mpz
 from gmpy2 import jacobi
-from Crypto.SecurityParams import SecurityParams
+from Common.SecurityParams import SecurityParams
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertNumeric, AssertClass
-from Crypto.SecurityParams import SecurityParams
+from Common.SecurityParams import SecurityParams
 
 def IsMember(x, secparams):
     """
@@ -27,10 +27,7 @@ def IsMember(x, secparams):
     AssertClass(secparams, SecurityParams)
 
     if 1 <= x and x < secparams.p:
-        j = jacobi(x, secparams.p)
-
-        if j == 1:
-            return True
+        return jacobi(x, secparams.p) == 1
 
     return False
 

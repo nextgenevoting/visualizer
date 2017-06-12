@@ -7,7 +7,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils           import AssertInt, AssertMpz, AssertClass
 from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
-from Crypto.SecurityParams import secparams_l0, secparams_l3, SecurityParams
+from Common.SecurityParams import secparams_l0, secparams_l3, SecurityParams
 
 def GetNIZKPChallenge(y, t, kappa, secparams):
     """

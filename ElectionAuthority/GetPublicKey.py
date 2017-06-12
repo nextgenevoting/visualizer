@@ -6,7 +6,7 @@ import gmpy2
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from Utils.Utils           import AssertMpz, AssertClass, AssertList
-from Crypto.SecurityParams import SecurityParams, secparams_l0, secparams_l3
+from Common.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 
 def GetPublicKey(pk_bold, secparams):
     """
