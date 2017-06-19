@@ -117,9 +117,9 @@ Before the actual election, voting sheets are generated and printed for the whol
 	\item One verification code for every candidate
 \end{itemize}
 The voting and confirmation code are \textbf{authentication codes} used for authenticating the voter.\\\\
-The voter first selects the candidates by entering their indices. The voting client then forms a ballot contains the voters selection encrypted with the authorities public key and authenticated with the voters personal voting code. Additionally, the ballot contains a query that queries the authorities for the corresponding verification codes of the selected candidates, without the server knowing which candidates the voter had selected. The voter then checks if the returned verification codes match the codes of the candidates he had chosen on the printed voting sheet. If the selection was somehow manipulated by malware, the returned verification codes would not match the printed ones and the voter would have to abort the vote casting process. This way, the integrity of the vote casting can be assured even in the presence of malware (the privacy on the other hand cannot be protected since the malware will learn the plaintext of the voters selection).
+The voter first selects the candidates by entering their indices. The voting client then forms a ballot containing the voters selection encrypted with the authorities public key and authenticated with the voters personal voting code. Additionally, the ballot contains a query that queries the authorities for the corresponding verification codes of the selected candidates, without the server knowing which candidates the voter had selected. The voter then checks if the returned verification codes match the codes of the candidates he had chosen on the printed voting sheet. If the selection was somehow manipulated by malware, the returned verification codes would not match the printed ones and the voter would have to abort the vote casting process. This way, the integrity of the vote casting can be assured even in the presence of malware (the privacy on the other hand cannot be protected since the malware will learn the plaintext of the voters selection).
 \\\\\noindent In order to verify, that a voter has formed the ballot correctly by choosing exactly the number of candidates he is supposed to choose, the following trick is being used: The verification codes are derived from $n = \sum_{n=1}^{t} n_j$ random points on $t$ polynomials (one for every election event $j$) of degree $k_j - 1$, that each election authority has chosen randomly prior to the election. By learning exactly $k = \sum_{n=1}^{t} k_j$ points on these polynomials, the voting client is able to reproduce these polynomials and therefore s able calculate a particular point with $x=0$ on these polynomials. The corresponding $y$ values are incorporated into the second voting credential from which the confirmation code is derived. Only if the voter knows these values (by submitting a valid candidate selection), he will be able to confirm the vote that he had cast.
-\\\\\noindent Since there is still a connection between the encrypted ballot and the voter at this point, the encrypted candidate selection is extracted from the ballots before tallying. After that, every authority is shuffling/mixing these encryptions in order to make it impossible to find out which voter has submitted which encryption. This mixing of the encrypted votes is done by using the homomorphic property of the ElGamal encryption. Reencryption of the encryptions multiplied with the neutral element 1 yields a new ciphertext for the same plaintext.
+\\\\\noindent Since there is still a connection between the encrypted ballot and the voter at this point, the encrypted candidate selection is extracted from the ballots before tallying. After that, every authority is shuffling/mixing these encryptions in order to make it impossible to find out which voter has submitted which encrypted ballot. This mixing of the encrypted votes is done by using the homomorphic property of the ElGamal encryption scheme. Reencryption of the ballots multiplied with the neutral element 1 yields a new ciphertext for the same plaintext.
 \\\\noindent The public key that is used for encryption was generated jointly by all authorities. Therefore in order to decrypt the result, all authorities must provide their share of the private key. The measure of multiple authorities participating in the whole E-Voting process ensures the security of the whole election even if only one authority can be trusted.
 \chapter{Project}
 \section{Language choice}
@@ -133,7 +133,7 @@ As both team members are working in different fields of employment and are exper
 \end{itemize}
 
 \section{Project method}
-The first step was to get a basic understanding of the CHVote protocol by reading the specification document and refreshing our knowledge about the cryptographic primitives used in the protocol. We decided to follow a "`learning by doing"' approach: while implementing an algorithm, we tried to understand how it does work and how it interacts with the other algorithms.
+The first step was to get a basic understanding of the CHVote protocol by reading the specification document and refreshing our knowledge about the cryptographic primitives used in the protocol. We decided to follow a "`learning by doing"' approach: while implementing an algorithm, we tried to understand how it works and how it interacts with the other algorithms.
 \\\\
 \noindent Before we started the implementation, we created a timetable so we wont lose track about the progress and in order to plan and allocate work inside our team.
 \\\\\noindent We typically implemented those algorithms first that other algorithms depend on.
@@ -285,6 +285,36 @@ namedtuple are like lightweight classes and allow access to named properties.
 %\includegraphics[width=0.9\textwidth]{img/DH_1.PNG}
 %\end{center}
 %Bibliographie 
+\section{Protocol}
+Upon completion of the algorithms implmentation, we have built a protocol-layer according to the specification. For that purpose, we created a seperate entity for every protocol participant, namely \textbf{VotingClient}, \textbf{ElectionAuthority}, \textbf{BulletinBoard} and \textbf{PrintingAuthority}. The following example shows the first step of the protocol 6.5:
+\begin{minted}[linenos,tabsize=2,breaklines]{python}
+def castVote(self, s, autoInput, secparams):
+		self.pk = GetPublicKey(self.bulletinBoard.pk_bold,secparams)
+   	
+		X = input('Enter your voting code: ')
+		(self.alpha, self.r) = GenBallot(X, s, self.pk, secparams)
+
+		return (self.alpha, self.r)
+\end{minted}[linenos,tabsize=2,breaklines]{python}
+
+Finally, within a \textbf{VoteSimulation}, all these entities are instantiated and the perform their protocol steps in order. Example of the vote casting phase:
+\begin{minted}[linenos,tabsize=2,breaklines]{python}
+votingClients = [VotingClient(i, self.voters[i], self.rawSheetData[i], self.bulletinBoard) for i in range(len(self.voters))]
+for votingClient in votingClients:		
+		# Get selection (protocol 6.4)
+		s = votingClient.candidateSelection(autoInput, self.secparams)
+		
+		# Generate ballot & send oblivious transfer query (protocol 6.5)
+		(ballot, r) = votingClient.castVote(s, autoInput, self.secparams)
+
+		# Generate oblivious transfer response & check ballot (protocol 6.5)
+		responses = [(authority.name, authority.runCheckBallot(votingClient.i, ballot, self.secparams)) for authority in self.authorities]
+		for res in responses: print("Ballot validity checked by authority %s: %r" % (res[0], res[1]))
+\end{minted}
+\chapter{Summary}
+\section{Summary}
+\section{Python drawbacks}
+Was war schlecht an python?
 \begin{thebibliography}{999}
 \bibitem {tutorial} "`Learn You a Haskell"' book, \url{http://learnyouahaskell.com/introduction}
 %\bibitem {sideeffects} Side Effects: http://softwareengineering.stackexchange.com/questions/15269/why-are-side-effects-considered-evil-in-functional-programming
