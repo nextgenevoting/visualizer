@@ -12,6 +12,7 @@
 \usepackage{amsfonts}
 \usepackage{fancyhdr}
 \usepackage{amsthm}
+\usepackage{multicol}
 \usepackage{lastpage}
 \usepackage{mathtools}
 \usepackage{tcolorbox}
@@ -213,6 +214,36 @@ The object \texttt{SecurityParams} holds all security relevant parameters and is
 
 The public election parameters are defined in a JSON file and simply read as an object which is directly accessed by the protocol. If an algorithm needs to know certain election parameters (like the size of the electorate $N_E$), these values are typically derived from vectors that they have access to, so they do not require specific knowledge of these parameters.
 
+The following is a exmaple for the contents of a JSON file containing all the parameters:
+
+\begin{minted}[linenos,tabsize=2,breaklines]{json}
+{
+  "autoGenerateVoters" : true,
+  "numberOfVotersToGenerate" : 50,
+  "voters" : [
+    {
+      "name" : "Voter1",
+      "selection" : "1,5"
+    },
+    {
+      "name" : "Voter2",
+      "selection" : "0,5"
+    },
+    {
+      "name": "Voter3",
+      "selection": "0,5"
+    }
+  ],
+  "t" : 2,
+  "n" : [5, 3],
+  "c" : ["Hillary Clinton", "Donald Trump", "Vladimir Putin", "Marine Le Pen", "May", "Yes", "No", "Empty"],
+  "k" : [1, 1],
+  "E" : [[1, 1], [1, 1], [1, 1]],
+  "securityLevel" : 2,
+  "deterministicRandomGeneration" : false
+}
+\end{minted}
+
 \section{Coding style}
 The following source code sample shows a typical implemation of an algorithm (in this exmaple, algorithm 7.18 according to the CHVote specification).
 
@@ -295,13 +326,46 @@ if __name__ == '__main__':
 All algorithms contain a short description, which was taken as-is from the specification document, as well as a comment (Google-style documentation string), which can be used to automatically generate code documentation. The algorithm itself is implemented as close to the specification as possible, using the same variable names and (as far as the language supports it) similar control structures:
 
 \begin{itemize}
-	\item using the suffix \_bold if the variable is written in bold
-	\item $a_hat$ for variables like $\hat{a}$
-	\item $a_prime$ for variables like $\prime{a}$
-	\item
+	\item The suffix \texttt{\_bold} for emphatized (bold) variables, e.g. \texttt{p\_bold} for \textbf{p}
+	\item The suffix \texttt{\_hat} for variables with a hat, e.g. \texttt{a\_hat} for $\hat{a}$
+	\item The suffix \texttt{\_prime} for variables with a prime, e.g. \texttt{a\_prime} for $a'$
+	\item etc.
 \end{itemize}
 
-The files also contain unit tests (if unit testing was considered useful for the particular algorithm).
+Each file also contains unit test relevant to the specific algorithm (if unit testing was considered useful for the particular algorithm).
+
+The following example shows the similarities between the algorithm pseudo code and the actual implmentation in Python:
+
+\begin{multicols}{2}
+\includegraphics[width=0.46\textwidth]{images/genballot.png}
+\columnbreak
+\begin{minted}[fontsize=\scriptsize]{python}
+x = mpz(StringToInteger(X_bold, secparams.A_X))
+x_hat = gmpy2.powmod(secparams.g_hat, x, secparams.p_hat)
+q_bold = GetSelectedPrimes(s, secparams)
+
+m = mpz(1)
+for i in range(len(q_bold)):
+    m = m * q_bold[i]
+
+if m >= secparams.p:
+    return None
+
+(a_bold, r_bold) = GenQuery(q_bold, pk, secparams)
+a = mpz(1)
+r = mpz(0)
+
+for i in range(len(a_bold)):
+    a = (a * a_bold[i]) % secparams.p
+    r = (r + r_bold[i]) % secparams.q
+
+b = gmpy2.powmod(secparams.g,r, secparams.p)
+pi = GenBallotProof(x,m,r,x_hat,a,b,pk, secparams)
+alpha = Ballot(x_hat,a_bold,b,pi)
+
+return (alpha, r_bold)
+\end{minted}
+\end{multicols}
 
 \subsection{Return types}
 In most cases, when an algorithm returns more than a scalar datatype, tuples are used. Tuples allow to return multiple values from a function:
@@ -327,10 +391,6 @@ def main():
 The data type namedtuple are like lightweight classes and allow access to named properties.
 
 By following this approach, we could avoid having hundreds of classes only used to pass data structures between the algorithms
-%\begin{center}
-%\includegraphics[width=0.9\textwidth]{img/DH_1.PNG}
-%\end{center}
-%Bibliographie
 
 \section{Protocol}
 Upon completion of the algorithms implmentation, we have built a protocol-layer according to the specification. For that purpose, we created a seperate entity for every protocol participant, namely \textbf{VotingClient}, \textbf{ElectionAuthority}, \textbf{BulletinBoard} and \textbf{PrintingAuthority}. The following example shows the first step of the protocol 6.5:
