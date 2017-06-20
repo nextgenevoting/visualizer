@@ -8,3 +8,5 @@ _minted-chvote
 *.xml
 *.log
 *.out
+*.lot
+*.toc
