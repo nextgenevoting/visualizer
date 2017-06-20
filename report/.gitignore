@@ -1,0 +1,10 @@
+_minted-chvote
+*.tmp
+*.aux
+*.bbl
+*.bcf
+*.blg
+*.pdf
+*.xml
+*.log
+*.out
