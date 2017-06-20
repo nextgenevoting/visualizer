@@ -4,7 +4,6 @@ _minted-chvote
 *.bbl
 *.bcf
 *.blg
-*.pdf
 *.xml
 *.log
 *.out
