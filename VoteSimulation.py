@@ -104,9 +104,8 @@ class VoteSimulation(object):
             except RuntimeError as e:
                 print(e)
                 return;
-            if verbose: print(P_s)
             returnCodes = votingClient.getVerificationCodes(self.secparams)
-            if verbose: print(returnCodes)
+            print("Verification Codes: %r" % returnCodes)
             print("Check Verification Codes result: %r" % CheckVerificationCodes(votingClient.rawSheetData.rc, returnCodes, s))
 
             # Confirmation (6.6)

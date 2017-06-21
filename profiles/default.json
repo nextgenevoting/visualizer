@@ -3,23 +3,19 @@
   "numberOfVotersToGenerate" : 50,
   "voters" : [
     {
-      "name" : "Voter1",
+      "name" : "Voter A",
       "selection" : "1,5"
     },
     {
-      "name" : "Voter2",
+      "name" : "Voter B",
       "selection" : "0,5"
-    },
-    {
-      "name": "Voter3",
-      "selection": "0,5"
     }
   ],
   "t" : 2,
   "n" : [4,3],
   "c" : ["Hillary Clinton", "Donald Trump", "Vladimir Putin", "Marine Le Pen", "Yes", "No", "Empty"],
   "k" : [1,1],
-  "E" : [[1,1], [1,1], [1,1]],
+  "E" : [[1,1], [1,1]],
   "securityLevel" : 2,
   "deterministicRandomGeneration" : false
 }
