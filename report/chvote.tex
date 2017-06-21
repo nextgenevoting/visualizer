@@ -29,16 +29,21 @@
 	bottom	= 30mm
 }
 
-%\usepackage{biblatex}
-
 % Header and footer
+% The use of "\chapter" forces "\pagestyle{plain}", therefore both page styles
+% "plain" and "fancy" have to be set
+\newcommand{\mystyle}{
+	\fancyhf{}
+	\lhead{Bern University of Applied Sciences}
+	\rhead{CHVote prototype in Python}
+	\lfoot{}
+	\cfoot{Page \thepage\ of \pageref{LastPage}}
+	\rfoot{}
+}
+
 \pagestyle{fancy}
-\fancyhf{}
-\lhead{Bern University of Applied Sciences}
-\rhead{CHVote prototype in Python}
-\lfoot{}
-\cfoot{Page \thepage\ of \pageref{LastPage}}
-\rfoot{}
+\mystyle
+\fancypagestyle{plain}{\mystyle}
 
 % Paragraph configuration
 \setlength{\parindent}{1em}
@@ -173,6 +178,13 @@ Throughout the project not all of the reason above turned out to be true or idea
 The first step was to get a basic understanding of the CHVote protocol by reading the specification document and refreshing our knowledge about the cryptographic primitives used in the protocol. We decided to follow the "learning by doing" approach: while implementing an algorithm, we tried to understand how it works and how it interacts with other algorithms.
 
 Before starting with the implementation, we created a timetable in order to track the project's progress. The idea of the timetable was to keep track of each individual algorithm and its implementation status, as well as appropriate unit tests and the review status of each algorithm. We made sure that all algorithms were reviewed by a different person than the one who implemented it. This way we were able to eliminate a lot of careless mistakes.
+
+The following table is an excerpt from the timetable that we used, displaying the first algorithms that we implemented in an early stage of the project.
+
+\noindent
+\makebox[\textwidth]{
+	\includegraphics[width=1.1\textwidth]{images/timetable.pdf}
+}
 
 \chapter{Implementation Details}
 \section{Project structure}
@@ -375,25 +387,32 @@ def foo():
    return (1, 2)
 
 def main():
-	 a, b = foo()
+   a, b = foo()
 \end{minted}
 
-For more complex data types or return values that are used more often, namedtuples were used:
+This way a lot of the source code looked very similar to the pseudo code in the CHVote specification. For more complex data types or return values that are used more often, named tuples were used. The data type "namedtuple" is like a lightweight class and allows access to named properties.
 
 \begin{minted}[linenos,tabsize=2,breaklines]{python}
-Ballot      = namedtuple("Ballot", "x_hat, a_bold, b, pi")
+Ballot = namedtuple("Ballot", "x_hat, a_bold, b, pi")
 
 def main():
    Ballot b = getBallot()
-	 x_hat = b.x_hat
+   x_hat = b.x_hat
 \end{minted}
 
-The data type namedtuple are like lightweight classes and allow access to named properties.
-
-By following this approach we could avoid having hundreds of classes only used to pass data structures between the algorithms
+By following this approach we can avoid having hundreds of classes only used to pass data structures between the algorithms.
 
 \section{Protocol}
-Upon completion of the algorithms implmentation, we have built a protocol-layer according to the specification. For that purpose we created a seperate entity for every protocol participant, namely \textbf{VotingClient}, \textbf{ElectionAuthority}, \textbf{BulletinBoard} and \textbf{PrintingAuthority}. The following example shows the first step of the protocol 6.5:
+Upon completion of the algorithm implmentation we have built a protocol layer according to the specification. For that purpose we created a seperate entity for every protocol participant, namely the following ones:
+
+\begin{itemize}
+	\item \textbf{VotingClient}
+	\item \textbf{ElectionAuthority}
+	\item \textbf{BulletinBoard}
+	\item \textbf{PrintingAuthority}
+\end{itemize}
+
+The following example shows the first step of protocol 6.5:
 
 \begin{minted}[linenos,tabsize=2,breaklines]{python}
 def castVote(self, s, autoInput, secparams):
@@ -405,7 +424,7 @@ def castVote(self, s, autoInput, secparams):
 		return (self.alpha, self.r)
 \end{minted}
 
-Finally, within a \textbf{VoteSimulation}, all these entities are instantiated and perform their protocol steps in order. Example of the vote casting phase:
+Finally, within a \textbf{VoteSimulation}, all these entities are instantiated and perform their protocol steps in order. The following example illustrates the vote casting phase:
 
 \begin{minted}[linenos,tabsize=2,breaklines]{python}
 votingClients = [VotingClient(i, self.voters[i], self.rawSheetData[i], self.bulletinBoard) for i in range(len(self.voters))]
@@ -421,25 +440,36 @@ for votingClient in votingClients:
 		for res in responses: print("Ballot validity checked by authority %s: %r" % (res[0], res[1]))
 \end{minted}
 
-\chapter{Summary}
-\section{Summary}
+\chapter{Conclusion}
 \section{Python drawbacks}
 
+During the project we have experienced a few issues with the programming language that we used to implement the specification in, Python. In particular, we have observed the following issues:
+
 \begin{itemize}
-	\item Interpreted language (performance issues)
-	\item Function overhead
-	\item Strongly dynamic typing vs. static typing
-	\item BigInteger library isn’t as fast as using the GMP library
-	\item Large projects tend to turn out messy
+	\item Performance issues due to Python being an interpreted language
+	\item Function overhead: function calls in Python seem to be quite slow
+	\item Strongly dynamic typing vs. static typing: the Python interpreter needs to inspect every single object during run time (be it an integer or a more complex object)
+	\item The \textit{BigInteger} library surprisingly isn't as fast as using directly the GMP library
+	\item Larger projects tend to turn out messy
 	\item Little to no standard documentation regarding project structure
 	\item No real standard for unit testing, documentation generation etc.
 \end{itemize}
 
-Based on the experience with Python that we have gathered throughout this project, we would not recommend to use Python for the use in similar project due to the reasons mentioned above. Python is indeed a very handy language to write quick prototypes and proof of concepts, but issues become more frequent in larger projects.
+For detailed information regarding the performance issues that we have experienced see \cite{slowpy} and \cite{slowpy2}. Based on the reasons above we would not recommend to use Python for the use in similar or larger project. Python is indeed a very handy language to write quick prototypes and proof of concepts, but issues become more frequent in larger projects.
+
+\clearpage
+\section{Next steps}
+Now that a prototype has been implemented according to the CHVote specification, the next step will be to figure out a specific project idea for our bachelor thesis. Some ideas came up during our final presentation of the project, but the exact assignment will still have to be defined.
 
 \begin{thebibliography}{999}
 	\bibitem{chvote}
 	"CHVote System Specification", by Rolf Haenni, Reto E. Koenig, Philipp Locher and Eric Dubuis, April 11, 2017.
+
+	\bibitem{slowpy}
+	"Why Python is Slow: Looking Under the Hood", by Jake VanderPlas, see \url{http://jakevdp.github.io/blog/2014/05/09/why-python-is-slow/}
+
+	\bibitem{slowpy2}
+	"Python speed: performance tips", from the official Python wiki, see \url{https://wiki.python.org/moin/PythonSpeed/PerformanceTips}
 \end{thebibliography}
 
 \end{document}
