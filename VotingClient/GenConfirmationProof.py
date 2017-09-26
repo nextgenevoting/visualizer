@@ -10,15 +10,16 @@ from Utils.Random             import randomMpz, randomQuadResMpz
 from Common.SecurityParams    import SecurityParams, secparams_l0
 from Common.GetNIZKPChallenge import GetNIZKPChallenge
 
-def GenConfirmationProof(y, y_hat, secparams):
+def GenConfirmationProof(y, y_prime, y_hat, secparams):
     """
-    Algorithm 7.33: Generates a NIZKP of knowledge of the secret confirmation
+    Algorithm 7.32: Generates a NIZKP of knowledge of the secret confirmation
     credential y that matches with a given public confirmation credential y_hat.
     Note that this proof is equivalent to a Schnorr identification proof. For the
-    verification of π, see Alg. 7.36.
+    verification of pi, see Alg. 7.36.
 
     Args:
         y:                                   Secret confirmation credential
+        y_prime:                             Secret validity credential
         y_hat:                               Public confirmation credential
         secparams (SecurityParams):          Collection of public security parameters
 
@@ -32,7 +33,7 @@ def GenConfirmationProof(y, y_hat, secparams):
     w = randomMpz(secparams.q_hat, secparams)
     t = gmpy2.powmod(secparams.g_hat, w, secparams.p_hat)
     c = GetNIZKPChallenge(y_hat, t, secparams.tau, secparams)
-    s = w + c * y % secparams.q_hat
+    s = w + c * (y + y_prime) % secparams.q_hat
     pi = (t, s)
 
     return pi
