@@ -13,15 +13,14 @@ from Utils.RecHash         import RecHash
 from Utils.ToInteger       import ToInteger
 from Utils.XorByteArray    import XorByteArray
 
-def GetPoints(beta, k_bold, s_bold, r_bold, secparams):
+def GetPoints(beta, s_bold, r_bold, secparams):
     """
-    Algorithm 7.26: Computes the k-by-s matrix P_s = (P_ij)k x s of the points obtained from
+    Algorithm 7.27: Computes the k-by-s matrix P_s = (P_ij)k x s of the points obtained from
     the s authorities for the selection s. The points are derived from the messages included
     in the OT responses beta = (beta_1, ..., beta_s)
 
     Args:
         beta (Response):                     Oblivious Transfer Response
-        k_bold (list of int):                Number of selections
         s_bold (list of int):                Selections
         r_bold (list of mpz):                Randomizations
         secparams (SecurityParams):          Collection of public security parameters
@@ -31,37 +30,31 @@ def GetPoints(beta, k_bold, s_bold, r_bold, secparams):
     """
 
     AssertClass(beta, Response)
-    AssertList(k_bold)
     AssertList(s_bold)
     AssertList(r_bold)
     AssertClass(secparams, SecurityParams)
 
-    (b,c,d) = beta
-
-    t = len(k_bold)
+    (b_bold, C_bold, d) = beta
 
     l_M = ceil(secparams.L_M // secparams.L)
-    i = 0
     p_bold = []
 
-    for j in range(t):
-        for l in range(k_bold[j]):
-            k = (b[i] * gmpy2.powmod(d[j],-r_bold[i], secparams.p)) % secparams.p
+    for j in range(k):
+        k_j = (b[j] * gmpy2.powmod(d, -r_bold[j], secparams.p)) % secparams.p
 
-            K = bytearray()
-            for l_counter in range(l_M):
-                K += RecHash([k,l_counter], secparams)
+        K_j = bytearray()
+        for c in range(l_M):
+            k_j += RecHash([k_j, c], secparams)
 
-            K = Truncate(K, secparams.L_M)
-            M = XorByteArray([c[s_bold[i]], K])
-            x = ToInteger(Truncate(M,secparams.L_M//2))
-            y = ToInteger(Skip(M,secparams.L_M//2))
+        K_j = Truncate(K_j, secparams.L_M)
+        M_j = XorByteArray([C[s_bold[j]][j], K_j])
+        x_j = ToInteger(Truncate(M_j, secparams.L_M//2))
+        y_j = ToInteger(Skip(M_j, secparams.L_M//2))
 
-            if x >= secparams.p_prime or y >= secparams.p_prime:
+            if x_j >= secparams.p_prime or y_j >= secparams.p_prime:
                 return None
 
-            p_bold.append(Point(x,y))
-            i += 1
+        p_bold.append(Point(x_j, y_j))
 
     return p_bold
 
