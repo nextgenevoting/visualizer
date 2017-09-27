@@ -9,12 +9,12 @@ from Common.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 from Utils.Utils           import AssertList, AssertClass, AssertNumeric
 from Types                 import *
 
-def HasConfirmation(i, C, secparams):
+def HasConfirmation(v, C, secparams):
     """
-    Algorithm 7.35: Checks if the confirmation list C contains an entry for i.
+    Algorithm 7.34: Checks if the confirmation list C contains an entry for v.
 
     Args:
-        i (int):                           Voter Index i in N
+        v (int):                           Voter Index v in N
         C (list of Confirmation):          Confirmation list C
         secparams (SecurityParams):        Collection of public security parameters
 
@@ -22,13 +22,13 @@ def HasConfirmation(i, C, secparams):
         bool:                              True if the list C contains a Confirmation of voter i
     """
 
-    AssertNumeric(i)
+    AssertNumeric(v)
     AssertList(C)
     AssertClass(secparams, SecurityParams)
 
     for j in range(len(C)):
-        (i_j, epsilon_j) = C[j]
-        if i == i_j:
+        (v_j, epsilon_j) = C[j]
+        if v == v_j:
             return True
 
     return False

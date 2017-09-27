@@ -8,15 +8,15 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Utils.Utils    import AssertList, AssertInt
 from UnitTestParams import unittestparams
 
-def GetVotingPage(i, c_bold, n_bold, k_bold):
+def GetVotingPage(v, c_bold, n_bold, k_bold):
     """
     Algorithm 7.17: Computes a string P in A_UCS^*, which represents the voting page displayed
     to voter. Specifying the details of presenting the information on the voting page is beyond
     the scope of this document.
 
     Args:
-        i (int):         Voter index i ∈ N
-        c_bold (list):   Candidate descriptions c = (C_1, ..., C_n), c_i ∈ A_UCS^*
+        v (int):         Voter index
+        c_bold (list):   Candidate descriptions c = (C_1, ..., C_n), c_v ∈ A_UCS^*
         n_bold (list):   Number of candidates n =(n_1, ..., n_t), n_j >= 2
         k_bold (list):   Number of selections k = (k_1, ..., k_t), 0 <= k_j < n_j
 
@@ -24,7 +24,7 @@ def GetVotingPage(i, c_bold, n_bold, k_bold):
         string:     String P ∈ A_UCS^* displayed to the voter
     """
 
-    AssertInt(i)
+    AssertInt(v)
     AssertList(c_bold)
     AssertList(n_bold)
     AssertList(k_bold)
@@ -43,15 +43,15 @@ def GetVotingPage(i, c_bold, n_bold, k_bold):
 
     P = \
 """
-Voting page for voter {i}:
+Voting page for voter {v}:
 
 Simultaneous elections:
 
 {elections}
 """.format(
-        i=i,
-        elections=electionString
-    )
+          v = v
+        , elections = electionString
+        )
 
     return P
 

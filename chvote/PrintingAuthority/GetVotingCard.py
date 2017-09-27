@@ -1,10 +1,10 @@
-def GetVotingCard(i, V_bold, c_bold, n_bold, k_bold, X_bold, Y_bold, FC_bold, rc_bold):
+def GetVotingCard(v, V_bold, c_bold, n_bold, k_bold, X_bold, Y_bold, FC_bold, rc_bold):
     """
     Algorithm 7.14: Computes a string S ∈ A*_ucs, which represents a code sheet
-    that can be printed on paper and sent to voter i.
+    that can be printed on paper and sent to voter v.
 
     Args:
-        i (int):         Voter index
+        v (int):         Voter index
         V_bold (string): Voter description
         c_bold (list):   List of candidate descriptions
         n_bold (int):    Number of candidated
@@ -22,7 +22,7 @@ def GetVotingCard(i, V_bold, c_bold, n_bold, k_bold, X_bold, Y_bold, FC_bold, rc
 
     S = \
     """
-VotingCard for voter {i}: {V}
+VotingCard for voter {v}: {V}
 ---------------------------------------------------
 Candidates: [{c}]
 Selections: {k}
@@ -32,7 +32,7 @@ Finalization code: {FC}
 Verification codes:
     {rc}
     """.format(
-        i =  i
+          v =  v
         , V =  V_bold
         , c = ', '.join(c_bold)
         , n = n_bold

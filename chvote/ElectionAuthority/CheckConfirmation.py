@@ -11,15 +11,15 @@ from ElectionAuthority.CheckConfirmationProof   import CheckConfirmationProof
 from ElectionAuthority.HasConfirmation          import HasConfirmation
 from ElectionAuthority.HasBallot                import HasBallot
 
-def CheckConfirmation(i, gamma, y_hat_bold, B, C, secparams):
+def CheckConfirmation(v, gamma, y_hat_bold, B, C, secparams):
     """
-    Algorithm 7.34: Checks if a confirmation γ obtained from voter i is valid. For
-    this, voter i must have submitted a valid ballot before, but not a valid
+    Algorithm 7.33: Checks if a confirmation γ obtained from voter v is valid. For
+    this, voter v must have submitted a valid ballot before, but not a valid
     confirmation. The check then succeeds if π is valid and if y_hat is the public
-    confirmation credential of voter i.
+    confirmation credential of voter v.
 
     Args:
-        i (int):                             Voter index
+        v (int):                             Voter index
         gamma:                               Confirmation
         y_hat_bold (list):                   Public confirmation credentials
         B (list):                            Ballot list
@@ -30,7 +30,7 @@ def CheckConfirmation(i, gamma, y_hat_bold, B, C, secparams):
         bool                                 True if the given confirmation is valid, False otherwise.
     """
 
-    AssertNumeric(i)
+    AssertNumeric(v)
     AssertList(y_hat_bold)
     AssertList(B)
     AssertList(C)
@@ -38,7 +38,7 @@ def CheckConfirmation(i, gamma, y_hat_bold, B, C, secparams):
 
     (y_hat_, pi) = gamma
 
-    if HasBallot(i, B, secparams) and not HasConfirmation(i, C, secparams) and y_hat_ == y_hat_bold[i]:
+    if HasBallot(v, B, secparams) and not HasConfirmation(v, C, secparams) and y_hat_ == y_hat_bold[v]:
         if CheckConfirmationProof(pi, y_hat_, secparams):
             return True
 
