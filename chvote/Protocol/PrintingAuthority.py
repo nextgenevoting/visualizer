@@ -26,6 +26,6 @@ class PrintingAuthority(object):
             list:       code sheet
         """
 
-        (s, rawSheetData) = GetVotingCards(self.bulletinBoard.v_bold, self.bulletinBoard.c_bold, self.bulletinBoard.n_bold, self.bulletinBoard.k_bold, self.bulletinBoard.E_bold, D_bold, secparams)
+        (s, rawSheetData) = GetVotingCards(self.bulletinBoard.v_bold, self.bulletinBoard.c_bold, self.bulletinBoard.n_bold, self.bulletinBoard.K_bold, self.bulletinBoard.E_bold, D_bold, secparams)
 
         return (s, rawSheetData)

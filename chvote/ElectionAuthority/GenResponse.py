@@ -17,7 +17,7 @@ from Types                 import *
 from Utils.XorByteArray    import XorByteArray
 from Common.IsMember       import IsMember
 
-def GenResponse(v, a_bold, pk, n_bold, k_bold, E_bold, P_bold, secparams):
+def GenResponse(v, a_bold, pk, n_bold, K_bold, E_bold, P_bold, secparams):
     """
     Algorithm 7.25: Generates the response beta for the given OT query a. The messages to
     transfer are byte array representations of the n points (p_v,1, ... p_v,n). Along with beta,
@@ -28,7 +28,7 @@ def GenResponse(v, a_bold, pk, n_bold, k_bold, E_bold, P_bold, secparams):
         a_bold (list of mpz):               Queries
         pk (mpz):                           Encryption Key
         n_bold (list of int):               Number of candidates
-        k_bold (list of int):               Number of selections
+        K_bold (list of int):               Number of selections
         E_bold:                             Eligibility matrix
         P_bold (list of list):              Points N x n
         secparams (SecurityParams):         Collection of public security parameters
@@ -50,7 +50,7 @@ def GenResponse(v, a_bold, pk, n_bold, k_bold, E_bold, P_bold, secparams):
 
     M = []
 
-    for j in range(n):
+    for j in range(sum(n_bold)):
         M.append(ToByteArrayN(P_bold[v][j], secparams.L_M//2) + ToByteArrayN(P_bold[v][j], secparams.L_M//2))
 
     z_1 = randomMpz(secparams.q, secparams)
@@ -79,16 +79,16 @@ def GenResponse(v, a_bold, pk, n_bold, k_bold, E_bold, P_bold, secparams):
 
             C.append([])
             for j in range(k_prime + 1, k_prime, E_bold[v][l]):
-                k_bold[i][j] = p_prime * beta[j]
+                K_bold[i][j] = p_prime * beta[j]
 
                 k_tmp = bytearray()
                 for c in range(l_M):
-                    k_tmp += RecHash([k_bold[i][j], c], secparams)
+                    k_tmp += RecHash([K_bold[i][j], c], secparams)
 
                 K_i_j = Truncate(k_temp, secparams.L_M)
                 C[i].append(XorByteArray([M[i], K_i_j]))
 
-        n_prime = n_prime + n[l]
+        n_prime = n_prime + n_bold[l]
         k_prime = k_prime + e[v][l] * k[l]
 
     d = gmpy2.powmod(pk, z_1, secparams.p) * gmpy2.powmod(g, z_2, secparams.p)

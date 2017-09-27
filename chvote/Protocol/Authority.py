@@ -1,19 +1,19 @@
 import multiprocessing as mp
 
-from ElectionAuthority.GenElectorateData    import GenElectorateData
-from ElectionAuthority.GetPublicCredentials import GetPublicCredentials
-from ElectionAuthority.GenKeyPair           import GenKeyPair
-from ElectionAuthority.GetPublicKey         import GetPublicKey
-from ElectionAuthority.CheckBallot          import CheckBallot
-from ElectionAuthority.GenResponse          import GenResponse
-from ElectionAuthority.CheckConfirmation    import CheckConfirmation
-from ElectionAuthority.GetEncryptions       import GetEncryptions
-from ElectionAuthority.GenShuffle           import GenShuffle
-from ElectionAuthority.GenShuffleProof      import GenShuffleProof
+from ElectionAuthority.GenElectorateData     import GenElectorateData
+from ElectionAuthority.GetPublicCredentials  import GetPublicCredentials
+from ElectionAuthority.GenKeyPair            import GenKeyPair
+from ElectionAuthority.GetPublicKey          import GetPublicKey
+from ElectionAuthority.CheckBallot           import CheckBallot
+from ElectionAuthority.GenResponse           import GenResponse
+from ElectionAuthority.CheckConfirmation     import CheckConfirmation
+from ElectionAuthority.GetEncryptions        import GetEncryptions
+from ElectionAuthority.GenShuffle            import GenShuffle
+from ElectionAuthority.GenShuffleProof       import GenShuffleProof
 from ElectionAuthority.GetPartialDecryptions import GetPartialDecryptions
-from ElectionAuthority.CheckShuffleProofs   import CheckShuffleProofs
-from ElectionAuthority.GenDecryptionProof   import GenDecryptionProof
-from ElectionAuthority.GetFinalization      import GetFinalization
+from ElectionAuthority.CheckShuffleProofs    import CheckShuffleProofs
+from ElectionAuthority.GenDecryptionProof    import GenDecryptionProof
+from ElectionAuthority.GetFinalization       import GetFinalization
 
 class Authority(object):
     """
@@ -30,8 +30,9 @@ class Authority(object):
         self.n_bold = None
         self.d_j_bold = None
         self.d_hat_j_bold = None
-        self.P_j_bold = None
         self.K_bold = None
+        self.E_bold = None
+        self.P_bold = None
 
         self.x_hat_bold = []
         self.y_hat_bold = []
@@ -56,7 +57,7 @@ class Authority(object):
         """
 
         self.n_bold = self.bulletinBoard.n_bold
-        self.d_j_bold, self.d_hat_j_bold, self.P_j_bold, self.K_bold = GenElectorateData(self.n_bold, self.bulletinBoard.k_bold, self.bulletinBoard.E_bold, secparams)
+        self.d_j_bold, self.d_hat_j_bold, self.P_bold, self.K_bold = GenElectorateData(self.n_bold, self.bulletinBoard.K_bold, self.bulletinBoard.E_bold, secparams)
 
         self.bulletinBoard.D_hat_bold.append(self.d_hat_j_bold)
         return self.d_hat_j_bold
@@ -97,55 +98,55 @@ class Authority(object):
         self.pk = GetPublicKey(self.bulletinBoard.pk_bold, secparams)
         return self.pk
 
-    def runCheckBallot(self, i, alpha, secparams):
+    def runCheckBallot(self, v, alpha, secparams):
         """
         (Protocol 6.5) PerformCheckBallot: Receives the ballot from the client and checks its validity
 
         Args:
-            i (int):            Voter index
+            v (int):            Voter index
             alpha (Ballot):     Ballot
 
         Returns:
             bool
         """
 
-        return CheckBallot(i, alpha, self.pk, self.K_bold, self.x_hat, self.B_j, secparams)
+        return CheckBallot(v, alpha, self.pk, self.K_bold, self.x_hat, self.B_j, secparams)
 
-    def genResponse(self, i, a, alpha, secparams):
+    def genResponse(self, v, a_bold, alpha, secparams):
         """
         (Protocol 6.5) genResponse: Generates a response for the OT query a
 
         Args:
-            i (int):            Voter index
-            a (list):           Queries
+            v (int):            Voter index
+            a_bold (list):      Queries
 
         Returns:
-            tuple:              (i, beta_j)
+            tuple:              (v, beta_j)
         """
-        (beta_j, r_bold) = GenResponse(i, a, self.pk, self.n_bold, self.K_bold, self.P_j_bold, secparams)
-        self.B_j.append((i, alpha, r_bold))
+        (beta_j, r_bold) = GenResponse(v, a_bold, self.pk, self.n_bold, self.K_bold, self.E_bold, self.P_bold, secparams)
+        self.B_j.append((v, alpha, r_bold))
         return (beta_j, r_bold)
 
     def printPoints(self):
         print("Points of Authority %s:" % self.name)
-        print(self.P_j_bold)
+        print(self.P_bold)
 
 
-    def checkConfirmation(self, i, gamma, secparams):
+    def checkConfirmation(self, v, gamma, secparams):
         """
         (Protocol 6.6) checkConfirmation()
-        
+
         Args:
-           i (int):            Voter index
+           v (int):            Voter index
            gamma (tuple):      Confirmation
-        
+
         Returns:
            bool
         """
-        if CheckConfirmation(i,gamma, self.y_hat, self.B_j, self.C_j, secparams):
-            self.C_j.append((i,gamma))
+        if CheckConfirmation(v, gamma, self.y_hat, self.B_j, self.C_j, secparams):
+            self.C_j.append((v, gamma))
 
-            self.bulletinBoard.delta_bold[i][self.j] = GetFinalization(i, self.P_j_bold, self.B_j, secparams)
+            self.bulletinBoard.delta_bold[v][self.j] = GetFinalization(v, self.P_bold, self.B_j, secparams)
 
             return True
         else:
