@@ -51,8 +51,8 @@ def GetPoints(beta, s_bold, r_bold, secparams):
         x_j = ToInteger(Truncate(M_j, secparams.L_M//2))
         y_j = ToInteger(Skip(M_j, secparams.L_M//2))
 
-            if x_j >= secparams.p_prime or y_j >= secparams.p_prime:
-                return None
+        if x_j >= secparams.p_prime or y_j >= secparams.p_prime:
+            return None
 
         p_bold.append(Point(x_j, y_j))
 
