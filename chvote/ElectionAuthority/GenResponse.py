@@ -17,18 +17,19 @@ from Types                 import *
 from Utils.XorByteArray    import XorByteArray
 from Common.IsMember       import IsMember
 
-def GenResponse(i, a_bold, pk, n_bold, K_bold, P_bold, secparams):
+def GenResponse(v, a_bold, pk, n_bold, k_bold, E_bold, P_bold, secparams):
     """
     Algorithm 7.25: Generates the response beta for the given OT query a. The messages to
-    transfer are byte array representations of the n points p_i = (p_i,1, ... p_i,n). Along with beta,
+    transfer are byte array representations of the n points (p_v,1, ... p_v,n). Along with beta,
     the algorithm also returns the randomizations r used to generate the response.
 
     Args:
-        i (int):                            Voter Index
+        v (int):                            Voter Index
         a_bold (list of mpz):               Queries
         pk (mpz):                           Encryption Key
         n_bold (list of int):               Number of candidates
-        K_bold (list of int):               Number of selections
+        k_bold (list of int):               Number of selections
+        E_bold:                             Eligibility matrix
         P_bold (list of list):              Points N x n
         secparams (SecurityParams):         Collection of public security parameters
 
@@ -36,7 +37,7 @@ def GenResponse(i, a_bold, pk, n_bold, K_bold, P_bold, secparams):
         tuple:                              (beta, r)
     """
 
-    AssertInt(i)
+    AssertInt(v)
     AssertList(a_bold)
     for a in a_bold: assert IsMember(a, secparams), "All elements of a_bold must be in G_q"
     AssertMpz(pk)
@@ -47,45 +48,54 @@ def GenResponse(i, a_bold, pk, n_bold, K_bold, P_bold, secparams):
     AssertList(P_bold)
     AssertClass(secparams, SecurityParams)
 
-    l_M = ceil(secparams.L_M / secparams.L)
-    p = GetPrimes(sum(n_bold), secparams)
-    u = v = 0
+    M = []
 
+    for j in range(n):
+        M.append(ToByteArrayN(P_bold[v][j], secparams.L_M//2) + ToByteArrayN(P_bold[v][j], secparams.L_M//2))
+
+    z_1 = randomMpz(secparams.q, secparams)
+    z_2 = randomMpz(secparams.q, secparams)
+    beta = []
     b_bold = []
-    c_bold = []
-    d_bold = []
-    r_bold = []
 
-    t = len(n_bold)
-    for j in range(t):
-        r_j = randomMpz(secparams.q, secparams)
-        r_bold.append(r_j)
+    for j in range(k):
+        beta.append(randomMpz(secparams.p, secparams))
+        b_j = gmpy2.powmod(a[j][0], z_1, secparams.p)
+        b_j *= gmpy2.powmod(a[j][1], z_2, secparams.p)
+        b_j *= beta[j]
+        b_j %= secparams.p
+        b_bold.append(b_j)
 
-        for l in range(K_bold[i][j]):
-            b_bold.append(gmpy2.powmod(a_bold[u], r_j, secparams.p))
-            u += 1
+    l_M = ceil(secparams.L_M / secparams.L)
+    p_bold = GetPrimes(sum(n_bold), secparams)
+    n_prime = 0
+    k_prime = 0
 
-        for l in range(n_bold[j]):
-            x_i_v = P_bold[i][v].x
-            y_i_v = P_bold[i][v].y
-            M = bytearray()
-            M += ToByteArrayN(x_i_v, secparams.L_M / 2)
-            M += ToByteArrayN(y_i_v, secparams.L_M / 2)
-            k = gmpy2.powmod(p[v], r_j, secparams.p)
-            k_tmp = bytearray()
+    C_bold = []
 
-            for l_counter in range(l_M):
-                k_tmp += RecHash([k,l_counter], secparams)
+    for l in range(t):
+        for i in range(n_prime + 1, n_prime + n_bold[l]):
+            p_prime_i = gmpy2.powmod(P_bold[i], z_1, secparams.p)
 
-            K = Truncate(k_tmp, secparams.L_M)
-            c_bold.append(XorByteArray([M, K]))
-            v += 1
+            C.append([])
+            for j in range(k_prime + 1, k_prime, E_bold[v][l]):
+                k_bold[i][j] = p_prime * beta[j]
 
-        d_bold.append(gmpy2.powmod(pk, r_j, secparams.p))
+                k_tmp = bytearray()
+                for c in range(l_M):
+                    k_tmp += RecHash([k_bold[i][j], c], secparams)
 
-    beta = Response(b_bold, c_bold, d_bold)
+                K_i_j = Truncate(k_temp, secparams.L_M)
+                C[i].append(XorByteArray([M[i], K_i_j]))
 
-    return (beta, r_bold)
+        n_prime = n_prime + n[l]
+        k_prime = k_prime + e[v][l] * k[l]
+
+    d = gmpy2.powmod(pk, z_1, secparams.p) * gmpy2.powmod(g, z_2, secparams.p)
+    beta = (b_bold, C_bold, d)
+    z = (z_1, z_2)
+
+    return (beta, z)
 
 class GenResponseTest(unittest.TestCase):
     def testGenResponse(self):
