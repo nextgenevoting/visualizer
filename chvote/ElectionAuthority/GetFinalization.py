@@ -11,34 +11,34 @@ from Types                 import Point
 from Utils.RecHash         import RecHash
 from Utils.Utils           import Truncate
 
-def GetFinalization(i, P_bold, B, secparams):
+def GetFinalization(v, P_bold, B, secparams):
     """
-    Algorithm 7.37: Computes the finalization code F_i for voter i from the given points p_i
-    and returns F_i together with the randomizations r_i used in the OT response.
+    Algorithm 7.36: Computes the finalization code F_v for voter v from the given points p_i
+    and returns F_v together with the randomizations r_v used in the OT response.
 
     Args:
-        i (int):                             Voter index i
+        v (int):                             Voter index
         p_bold (list of points):             Points
         B (list):                            Ballot list
         secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        tuple:                               delta (F_i, r_bold_i)
+        tuple:                               delta (F_v, r_bold_v)
     """
 
-    AssertInt(i)
+    AssertInt(v)
     AssertList(P_bold)
     AssertList(B)
     AssertClass(secparams, SecurityParams)
 
-    r_i_bold = []
+    r_v_bold = []
     for j in range(len(B)):
-        if(B[j][0] == i):
-            r_i_bold = B[j][2]
+        if (B[j][0] == v):
+            r_v_bold = B[j][2]
 
-    p_bold_i = P_bold[i]
-    F_i = Truncate(RecHash(p_bold_i, secparams), secparams.L_F)
-    delta = (F_i, r_i_bold)
+    p_bold_v = P_bold[v]
+    F_v = Truncate(RecHash(p_bold_v, secparams), secparams.L_F)
+    delta = (F_v, r_v_bold)
 
     return delta
 

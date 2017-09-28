@@ -14,36 +14,31 @@ from Types                             import *
 from VotingClient.GetValues            import GetValues
 from VotingClient.GenConfirmationProof import GenConfirmationProof
 
-def GenConfirmation(Y, P_prime_bold, k_bold, secparams):
+def GenConfirmation(Y, P_bold, secparams):
     """
-    Algorithm 7.30: Generates the confirmation gamma, which consists of the public
-    confirmation credential y_hat and a NIZKP of knowledge pi of the secret
-    confirmation credential y.
+    Algorithm 7.30: Generates the confirmation gamma, which consists of the
+    public confirmation credential y_hat and a NIZKP of knowledge pi of the secret
+    confirmation and validity credentials y and y_prime.
 
     Args:
         Y:                                   Confirmation code
-        P_prime_bold (list of points):       Points
-        k_bold:                              Number of selections
+        P_bold (list of points):             Points
         secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
         gamma:                               Confirmation
     """
 
-    AssertList(P_prime_bold)
+    AssertList(P_bold)
     AssertClass(secparams, SecurityParams)
 
-    s = secparams.s
-    h = [None] * s
+    for i in range(secparams.s):
+        p_bold_i = [ P_bold[i][k_i] for k_i in range(len(P_bold)) ]
+        y_prime_i = GetValues(p_bold_i, secparams)
 
-    for j in range(s):
-        p_j_bold = [P_prime_bold[j][k_] for k_ in range(sum(k_bold))]
-        y_j_bold = GetValues(p_j_bold, k_bold, secparams)
-        h[j] = ToInteger(RecHash(y_j_bold, secparams)) % secparams.q_hat
-
-    y = (StringToInteger(Y, secparams.A_Y) + sum(h)) % secparams.q_hat
-    y_hat = gmpy2.powmod(secparams.g_hat, y, secparams.p_hat)
-    pi = GenConfirmationProof(y, y_hat, secparams)
+    y = StringToInteger(Y, secparams.A_Y) % secparams.q_hat
+    y_hat = gmpy2.powmod(secparams.g_hat, y + y_prime, secparams.p_hat)
+    pi = GenConfirmationProof(y, y_prime, y_hat, secparams)
     gamma = Confirmation(y_hat, pi)
 
     return gamma

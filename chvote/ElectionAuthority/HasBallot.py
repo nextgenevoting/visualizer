@@ -8,12 +8,12 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from Common.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 from Utils.Utils           import AssertInt, AssertList, AssertClass
 
-def HasBallot(i, B_bold, secparams):
+def HasBallot(v, B_bold, secparams):
     """
-    Algorithm 7.23: Checks if the ballot list B contains an entry for i.
+    Algorithm 7.23: Checks if the ballot list B contains an entry for v.
 
     Args:
-        i (int):                            Voter index
+        v (int):                            Voter index
         B_bold (list):                      Ballot list
         secparams (SecurityParams):         Collection of public security parameters
 
@@ -21,13 +21,13 @@ def HasBallot(i, B_bold, secparams):
         bool
     """
 
-    AssertInt(i)
+    AssertInt(v)
     AssertList(B_bold)
     AssertClass(secparams, SecurityParams)
 
     for j in range(len(B_bold)):
-        (i_j, alpha, r) = B_bold[j]
-        if i == i_j:
+        (v_j, alpha, r) = B_bold[j]
+        if v == v_j:
             return True
 
     return False

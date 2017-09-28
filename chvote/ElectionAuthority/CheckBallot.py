@@ -15,14 +15,14 @@ from UnitTestParams                     import unittestparams
 from Types                              import *
 from Common.IsMember                    import IsMember
 
-def CheckBallot(i, alpha, pk, K_bold, x_hat_bold, B, secparams):
+def CheckBallot(v, alpha, pk, K_bold, x_hat_bold, B, secparams):
     """
-    Algorithm 7.22: Checks if a ballot alpha obtained from voter i is valid. For this, voter i
+    Algorithm 7.22: Checks if a ballot alpha obtained from voter v is valid. For this, voter i
     must not have submitted a valid ballot before, pi must be valid, and x_hat must be the public
-    voting credential of voter i. Note that parameter checking |a|  ki for ki  °tj1 kij is an important initial step of this algorithm.
+    voting credential of voter v. Note that parameter checking |a|  ki for ki  °tj1 kij is an important initial step of this algorithm.
 
     Args:
-        i (int):                             Voter index
+        v (int):                             Voter index
         alpha (Ballot):                      Ballot
         pk (mpz):                            Public Key
         K_bold ([][]):                       Number of selections
@@ -34,7 +34,7 @@ def CheckBallot(i, alpha, pk, K_bold, x_hat_bold, B, secparams):
         bool:                                True if the ballot is valid, False if not
     """
 
-    AssertInt(i)
+    AssertInt(v)
     AssertClass(alpha, Ballot)
     AssertMpz(pk)
     assert IsMember(pk, secparams), "pk must be in G_q"
@@ -43,9 +43,9 @@ def CheckBallot(i, alpha, pk, K_bold, x_hat_bold, B, secparams):
     AssertList(B)
     AssertClass(secparams, SecurityParams)
 
-    if not HasBallot(i,B, secparams) and x_hat_bold[i] == alpha.x_hat:
+    if not HasBallot(v, B, secparams) and x_hat_bold[v] == alpha.x_hat:
 
-        if len(alpha.a_bold) != sum(K_bold[i]):   # check if the number of selections matches the sum of K[i]
+        if len(alpha.a_bold) != sum(K_bold[v]):   # check if the number of selections matches the sum of K[v]
             return False
 
         a = mpz(1)

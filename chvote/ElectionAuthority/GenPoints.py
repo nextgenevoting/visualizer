@@ -13,33 +13,33 @@ from ElectionAuthority.GenPolynomial import GenPolynomial
 from ElectionAuthority.GetYValue     import GetYValue
 from UnitTestParams                  import unittestparams
 
-def GenPoints(n_bold, k_bold, secparams):
+def GenPoints(n, k, secparams):
     """
     Algorithm 7.7: Generates a list of n random points picket from t random polynomials
     A_j(X) of degree k_j - 1 (by picking n_j different random points from each polynomial).
     Additional, the values y_j = A_j(0) are computed for all random polynomials and returned together with the random points.
 
     Args:
-        n_bold (list):                      A list containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
-        k_bold (list):                      A list containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
-        secparams (SecurityParams):         Collection of public security parameters
+        n (list):                      A list containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
+        k (list):                      A list containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
+        secparams (SecurityParams):    Collection of public security parameters
 
     Returns:
         tuple:        (p,y), points p ∈ (Z_p^2)^n, and the y values of x=0 ∈ Z_q^t
     """
 
-    AssertList(n_bold)
-    AssertList(k_bold)
+    AssertList(n)
+    AssertList(k)
 
     p_bold = []
     y_bold = []
 
-    t = len(n_bold)
+    t = len(n)
     for j in range(t):
-        a_j_bold = GenPolynomial(k_bold[j] - 1, secparams) # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
+        a_j_bold = GenPolynomial(k[j] - 1, secparams) # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
         X_bold = []
 
-        for l in range(n_bold[j]):                        # loop over all candidates of election j
+        for l in range(n[j]):                         # loop over all candidates of election j
             x = mpz(0)
             # get a unique x from Z_p'
             while True:
@@ -49,10 +49,10 @@ def GenPoints(n_bold, k_bold, secparams):
                     break
 
             y_j = GetYValue(x,a_j_bold,secparams)            # get the corresponding y value of x on the polynomial a_j
-            p_i = Point(x,y_j)                          # Point tuple
+            p_i = Point(x,y_j)                               # Point tuple
             p_bold.append(p_i)                               # part of the private voter data
 
-        y_bold.append(GetYValue(mpz(0),a_j_bold, secparams))      # Point (0,Y(0))
+        y_bold.append(GetYValue(mpz(0),a_j_bold, secparams)) # Point (0,Y(0))
 
     return (p_bold, y_bold)
 
