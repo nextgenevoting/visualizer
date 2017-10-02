@@ -32,9 +32,11 @@ def GenQuery(q_bold, pk, secparams):
     a_bold = [None] * k
     r_bold = [None] * k
 
-    for i in range(k):
-        r_bold[i] = randomMpz(secparams.q, secparams)
-        a_bold[i] = (q_bold[i] * gmpy2.powmod(pk, r_bold[i], secparams.p)) % secparams.p
+    for j in range(k):
+        r_bold[j] = randomMpz(secparams.q, secparams)
+        a_j_1 = (q_bold[j] * gmpy2.powmod(pk, r_bold[j], secparams.p)) % secparams.p
+        a_j_2 = gmpy2.powmod(secparams.g, r_bold[j], secparams.p)
+        a_bold[j] = (a_j_1, a_j_2)
 
     return (a_bold, r_bold)
 

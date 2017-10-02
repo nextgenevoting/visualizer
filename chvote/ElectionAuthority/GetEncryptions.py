@@ -9,8 +9,9 @@ from Common.SecurityParams             import SecurityParams, secparams_l0, secp
 from Utils.Utils                       import AssertList, AssertClass
 from Types                             import *
 from ElectionAuthority.HasConfirmation import HasConfirmation
+from Common.GetPrimes                  import GetPrimes
 
-def GetEncryptions(B, C, secparams):
+def GetEncryptions(B, C, n_bold, w_bold, secparams):
     """
     Algorithm 7.40: Computes a sorted list of ElGamal encryptions from the list of submitted
     ballots, for which a valid confirmation is available. Sorting this list is necessary
@@ -20,7 +21,9 @@ def GetEncryptions(B, C, secparams):
     Args:
         B (list of Ballot):                Ballot List
         C (list of tuple):                 Confirmation list C
-       secparams (SecurityParams):         Collection of public security parameters
+        n_bold (list):                     Number of candidates n
+        w_bold (list):                     Counting circles w
+        secparams (SecurityParams):         Collection of public security parameters
 
 
     Returns:
@@ -29,20 +32,29 @@ def GetEncryptions(B, C, secparams):
 
     AssertList(B)
     AssertList(C)
+    AssertList(n_bold)
+    AssertList(w_bold)
     AssertClass(secparams, SecurityParams)
 
+    n = sum(n_bold)
+    w = max(w_bold)
+    p_bold = GetPrimes(n+w, secparams)
     i = 0
+
     e_bold = []
-
     for j in range(len(B)):
-        (i_j, alpha_j, r_j) = B[j]
-        a_j = mpz(1)
+        (v, alpha, z) = B[j]
 
-        if HasConfirmation(i_j, C, secparams):
-            for l in range(len(alpha_j.a_bold)):
-                a_j = (a_j * alpha_j.a_bold[l]) % secparams.p
+        a_1 = mpz(1)
+        a_2 = mpz(1)
+        if HasConfirmation(v, C, secparams):
+            a_j_1_product = mpz(1)
+            for j in range(len(alpha.a_bold)):
+                a_j_1_product = (a_j_1_product * alpha.a_bold[j][0]) % secparams.p
+                a_2 = (a_2 * alpha.a_bold[j][1]) % secparams.p
+            a_1 = (p_bold[(n-1)+w_bold[v]] * a_j_1_product) % secparams.p
+            e_bold.append(ElGamalEncryption(a_1, a_2))
 
-            e_bold.append(ElGamalEncryption(a_j, alpha_j.b))
             i += 1
 
     e_bold.sort(key=lambda enc: (enc.a, enc.b), reverse=False)

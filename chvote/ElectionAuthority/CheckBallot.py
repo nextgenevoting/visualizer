@@ -15,7 +15,7 @@ from UnitTestParams                     import unittestparams
 from Types                              import *
 from Common.IsMember                    import IsMember
 
-def CheckBallot(v, alpha, pk, K_bold, x_hat_bold, B, secparams):
+def CheckBallot(v, alpha, pk, k_bold, E_bold, x_hat_bold, B, secparams):
     """
     Algorithm 7.22: Checks if a ballot alpha obtained from voter v is valid. For this, voter i
     must not have submitted a valid ballot before, pi must be valid, and x_hat must be the public
@@ -25,7 +25,8 @@ def CheckBallot(v, alpha, pk, K_bold, x_hat_bold, B, secparams):
         v (int):                             Voter index
         alpha (Ballot):                      Ballot
         pk (mpz):                            Public Key
-        K_bold ([][]):                       Number of selections
+        k_bold (list):                       Number of selections
+        E_bold (list):                       Eligibility matrix E
         x_hat_bold (list):                   Public voting credentials
         B (list):                            Ballot List
         secparams (SecurityParams):          Collection of public security parameters
@@ -38,20 +39,27 @@ def CheckBallot(v, alpha, pk, K_bold, x_hat_bold, B, secparams):
     AssertClass(alpha, Ballot)
     AssertMpz(pk)
     assert IsMember(pk, secparams), "pk must be in G_q"
-    AssertList(K_bold)
+    AssertList(k_bold)
     AssertList(x_hat_bold)
     AssertList(B)
     AssertClass(secparams, SecurityParams)
 
-    if not HasBallot(v, B, secparams) and x_hat_bold[v] == alpha.x_hat:
+    k_prime = 0
+    for j in range(len(k_bold)):
+        k_prime = k_prime + E_bold[v][j] * k_bold[j]  # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
 
-        if len(alpha.a_bold) != sum(K_bold[v]):   # check if the number of selections matches the sum of K[v]
-            return False
-
+    if not HasBallot(v,B, secparams) and x_hat_bold[v] == alpha.x_hat and len(alpha.a_bold) == k_prime:
         a = mpz(1)
         for j in range(len(alpha.a_bold)):        # for j = 0 to k_i
-            a = (a * alpha.a_bold[j]) % secparams.p
-        if CheckBallotProof(alpha.pi, alpha.x_hat, a, alpha.b, pk, secparams):
+            a = (a * alpha.a_bold[j][0]) % secparams.p
+
+        b = mpz(1)
+        for j in range(len(alpha.a_bold)):        # for j = 0 to k_i
+            b = (b * alpha.a_bold[j][1]) % secparams.p
+
+        e = (a, b)
+
+        if CheckBallotProof(alpha.pi, alpha.x_hat, e, pk, secparams):
             return True
     return False
 

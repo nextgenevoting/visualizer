@@ -25,7 +25,7 @@ def GenElectorateData(n_bold, k_bold, E_bold, secparams):
         secparams (SecurityParams):          Collection of public security parameters
 
     Returns:
-        tuple:                               (d, d^, P, K)
+        tuple:                               (d, d^, P)
     """
 
     AssertList(n_bold)
@@ -33,38 +33,36 @@ def GenElectorateData(n_bold, k_bold, E_bold, secparams):
     AssertList(E_bold)
     AssertClass(secparams, SecurityParams)
 
+    n = sum(n_bold)
     N_E = len(E_bold)
     t = len(k_bold)
 
     d_bold = []
     d_hat_bold = []
-    K_bold = []                                      #  precomputed selection matrix Nxt
     P_bold = []
 
-    for i in range (N_E):                            # loop over N (all voters)
-        K_i_bold = []
+    for i in range (N_E):                                      # loop over N (all voters)
+        k_prime_i = 0
         for j in range(t):
-            k_ij = E_bold[i][j] * k_bold[j]               # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
-            K_i_bold.append(k_ij)
+            k_prime_i = k_prime_i + (E_bold[i][j] * k_bold[j])               # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
 
         # generate n random points
-        p_bold, y_bold = GenPoints(n_bold, K_i_bold, secparams)
+        p_bold_i, y_prime_i = GenPoints(n, k_prime_i, secparams)
+        P_bold.append(p_bold_i)  # points on the polynomials
 
         # generate x, y values, finalization code and return codes
-        d_hat_i = GenSecretVoterData(p_bold, secparams)
+        d_i = GenSecretVoterData(p_bold_i, secparams)
+        d_bold.append(d_i)                     # private voter data
 
-        # prepare return values
-        d_bold.append(d_hat_i)                     # private voter data
-        d_hat_bold.append(GetPublicVoterData(d_hat_i.x_i,d_hat_i.y_i, y_bold, secparams)) # public voter data
-        K_bold.append(K_i_bold)                           # precomputed selection matrix Nxt
-        P_bold.append(p_bold)                             # points on the polynomials
+        d_hat_i = GetPublicVoterData(d_i.x_i,d_i.y_i, y_prime_i, secparams)
+        d_hat_bold.append(d_hat_i) # public voter data
 
-    return (d_bold, d_hat_bold, P_bold, K_bold)
+    return (d_bold, d_hat_bold, P_bold)
 
 class GenElectorateDataTest(unittest.TestCase):
     def testGenElectorateData(self):
         # Test with 2 voters, 2 elections, 2*3 candidates
-        d, d_hat, P, K = GenElectorateData(unittestparams.n, unittestparams.k, unittestparams.E, secparams_l3)
+        d, d_hat, P = GenElectorateData(unittestparams.n, unittestparams.k, unittestparams.E, secparams_l3)
 
         # Test if len(d) matches the number of voters (3)
         self.assertTrue(len(d) == 2)

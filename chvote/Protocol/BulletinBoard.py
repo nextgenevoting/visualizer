@@ -6,7 +6,8 @@ class BulletinBoard(object):
         self.E_bold = []  # eligibility matrix E = (e_ij) N x t
         self.c_bold = []  # candidates
         self.n_bold = []  # number of candidates
-        self.K_bold = []  # number of selections
+        self.k_bold = []  # number of selections
+        self.w_bold = []  # Counting circles
         self.EN_bold = [] # encryptions (E_bold in specification!)
         self.pi_bold = [] # Shuffle proofs
         self.B_prime_bold = [] # partial decryptions
@@ -18,14 +19,15 @@ class BulletinBoard(object):
         self.D_hat_bold = []  # Electorate data
         self.pk_bold = []  # public key shares
 
-    def setupElectionEvent(self, v_bold, n_bold, K_bold, t, c_bold, E_bold, s):
+    def setupElectionEvent(self, v_bold, n_bold, k_bold, w_bold, t, c_bold, E_bold, s):
         """
         Election Event setup, done by the Election Administration before the election
 
         Args:
             v_bold (list):           Voter Descriptions
             n_bold (list):           Number of candidates
-            K_bold (list):           Number of selections
+            k_bold (list):           Number of selections
+            w_bold (list):           Counting circles
             t (int):                 Number of elections
             c_bold (list):           Candidate descriptions
             E_bold (list):           Elegibility matrix
@@ -34,7 +36,8 @@ class BulletinBoard(object):
         self.v_bold = v_bold
         self.c_bold = c_bold
         self.n_bold = n_bold
-        self.K_bold = K_bold
+        self.k_bold = k_bold
+        self.w_bold = w_bold
         self.t = t
         self.E_bold = E_bold
         self.s = s
@@ -45,10 +48,10 @@ class BulletinBoard(object):
         Protocol 6.4: Returns the parameters required by the voting client
 
         Returns:
-            tuple:  (c_bold, n_bold, K_bold, E_bold)
+            tuple:  (c_bold, n_bold, k_bold, E_bold)
         """
 
-        return self.c_bold, self.n_bold, self.K_bold, self.E_bold
+        return self.c_bold, self.n_bold, self.k_bold, self.E_bold
 
     @property
     def n_sum(self):

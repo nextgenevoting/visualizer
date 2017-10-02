@@ -30,6 +30,7 @@ class VoteSimulation(object):
 
         self.n = self.jsonData["n"]
         self.k = self.jsonData["k"]
+        self.w = self.jsonData["w"]
         self.t = self.jsonData["t"]
         self.c = self.jsonData["c"]
 
@@ -48,7 +49,7 @@ class VoteSimulation(object):
         self.authorities = [Authority(j, self.bulletinBoard) for j in range(self.secparams.s)]
         self.printingAuth = PrintingAuthority(self.bulletinBoard)
 
-        self.bulletinBoard.setupElectionEvent(self.voters, self.n, self.k, self.t, self.c, self.E, self.secparams.s)
+        self.bulletinBoard.setupElectionEvent(self.voters, self.n, self.k, self.w, self.t, self.c, self.E, self.secparams.s)
 
 
     def run(self, autoInput = False, verbose = False):
@@ -85,9 +86,9 @@ class VoteSimulation(object):
     def voteCasting(self, autoInput, verbose):
         print("********** VOTE CASTING PHASE **********")
         # Protocol steps 6.4 & 6.5: Candidate Selection & Vote Casting
-        votingClients = [VotingClient(i, self.voters[i], self.rawSheetData[i], self.bulletinBoard) for i in range(len(self.voters))]
+        votingClients = [VotingClient(v, self.voters[v], self.rawSheetData[v], self.bulletinBoard) for v in range(len(self.voters))]
         for votingClient in votingClients:
-            print(self.sheets[votingClient.i])
+            print(self.sheets[votingClient.v])
 
             # Get selection (6.4)
             s = votingClient.candidateSelection(autoInput, self.secparams)
@@ -95,10 +96,10 @@ class VoteSimulation(object):
             (ballot, r) = votingClient.castVote(s, autoInput, self.secparams)
 
             # Generate oblivious transfer response & check ballot (6.5)
-            responses = [(authority.name, authority.runCheckBallot(votingClient.i, ballot, self.secparams)) for authority in self.authorities]
+            responses = [(authority.name, authority.runCheckBallot(votingClient.v, ballot, self.secparams)) for authority in self.authorities]
             for res in responses: print("Ballot validity checked by authority %s: %r" % (res[0], res[1]))
 
-            beta = [authority.genResponse(votingClient.i, ballot.a_bold, ballot, self.secparams)[0] for authority in self.authorities]
+            beta = [authority.genResponse(votingClient.v, ballot.a_bold, ballot, self.secparams)[0] for authority in self.authorities]
             try:
                 P_s = votingClient.getPointsFromResponse(beta, self.secparams)
             except RuntimeError as e:
@@ -145,7 +146,7 @@ class VoteSimulation(object):
 
         # Tallying (6.9) by the election administrator
         m_bold = GetDecryptions(self.bulletinBoard.EN_bold[-1], self.bulletinBoard.B_prime_bold, self.secparams)
-        V_bold = GetVotes(m_bold, self.bulletinBoard.n_sum, self.secparams)
+        V_bold, W_bold = GetVotes(m_bold, self.bulletinBoard.n_bold, self.bulletinBoard.w_bold, self.secparams)
         print("Election result matrix: ")
         print(V_bold)
 
@@ -157,5 +158,7 @@ class VoteSimulation(object):
 
         print("Number of votes per candidate: ")
         print(candidateVotes)
+        print("Counting circles: ")
+        print(W_bold)
 
 

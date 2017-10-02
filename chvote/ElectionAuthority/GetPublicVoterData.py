@@ -10,14 +10,14 @@ from Utils.ToInteger       import ToInteger
 from Utils.RecHash         import RecHash
 from Common.SecurityParams import SecurityParams, secparams_l0, secparams_l3
 
-def GetPublicVoterData(x, y, y_bold, secparams):
+def GetPublicVoterData(x, y, y_prime, secparams):
     """
     Algorithm 7.11: Generates the public data for a single voter, which is sent to the bulletin board.
 
     Args:
-       x (mpz):                            Voting credential
-       y (mpz):                            Confirmation credential
-       y_bold (list of mpz):               Values y ∈ Z_p_prime ^t
+       x (mpz):                            Secret voting credential
+       y (mpz):                            Secret confirmation credential
+       y_prime (mpz):                      Secret vote validity credential y_prime in Z_p_prime
        secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
@@ -26,12 +26,12 @@ def GetPublicVoterData(x, y, y_bold, secparams):
 
     AssertMpz(x)
     AssertMpz(y)
-    AssertList(y_bold)
+    AssertMpz(y_prime)
     AssertClass(secparams, SecurityParams)
 
-    h = ToInteger(RecHash(y_bold, secparams)) % secparams.q_hat
+    # h = ToInteger(RecHash(y_bold, secparams)) % secparams.q_hat
     x_hat = gmpy2.powmod(secparams.g_hat, x, secparams.p_hat)
-    y_hat = gmpy2.powmod(secparams.g_hat, y+h, secparams.p_hat)
+    y_hat = gmpy2.powmod(secparams.g_hat, (y+y_prime) % secparams.q_hat, secparams.p_hat)
 
     return (x_hat, y_hat) # as d_hat
 

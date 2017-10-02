@@ -11,7 +11,7 @@ from Utils.StringToInteger             import StringToInteger
 from Utils.RecHash                     import RecHash
 from Common.SecurityParams             import SecurityParams
 from Types                             import *
-from VotingClient.GetValues            import GetValues
+from VotingClient.GetValue             import GetValue
 from VotingClient.GenConfirmationProof import GenConfirmationProof
 
 def GenConfirmation(Y, P_bold, secparams):
@@ -32,12 +32,16 @@ def GenConfirmation(Y, P_bold, secparams):
     AssertList(P_bold)
     AssertClass(secparams, SecurityParams)
 
-    for i in range(secparams.s):
-        p_bold_i = [ P_bold[i][k_i] for k_i in range(len(P_bold)) ]
-        y_prime_i = GetValues(p_bold_i, secparams)
+    y_prime = 0
+    for i in range(len(P_bold)):
+        p_bold_i = P_bold[i]
+        y_prime_i = GetValue(p_bold_i, secparams)
+        y_prime += y_prime_i
+        y_prime %= secparams.q_hat
 
     y = StringToInteger(Y, secparams.A_Y) % secparams.q_hat
-    y_hat = gmpy2.powmod(secparams.g_hat, y + y_prime, secparams.p_hat)
+    y_hat = gmpy2.powmod(secparams.g_hat, (y + y_prime) % secparams.q_hat, secparams.p_hat)
+
     pi = GenConfirmationProof(y, y_prime, y_hat, secparams)
     gamma = Confirmation(y_hat, pi)
 

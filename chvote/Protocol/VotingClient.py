@@ -12,8 +12,8 @@ class VotingClient(object):
     The VotingClient class represents a voting client participating in the protocols (for example prot 6.5)
     """
 
-    def __init__(self, i, voterData, rawSheetData, bulletinBoard):
-        self.i = i
+    def __init__(self, v, voterData, rawSheetData, bulletinBoard):
+        self.v = v
         self.bulletinBoard = bulletinBoard
         self.voterData = voterData
         self.rawSheetData = rawSheetData
@@ -41,10 +41,10 @@ class VotingClient(object):
         # Calculate eligibility vector
         self.k_i_bold = []
         for j in range(len(k_bold)):
-            self.k_i_bold.append(E_bold[self.i][j] * k_bold[j]) # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
+            self.k_i_bold.append(E_bold[self.v][j] * k_bold[j]) # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
 
         # Get the voting page string
-        P_i = GetVotingPage(self.i, c_bold,n_bold,self.k_i_bold)
+        P_i = GetVotingPage(self.v, c_bold,n_bold,self.k_i_bold)
 
         print(P_i)
         if autoInput:
@@ -71,7 +71,7 @@ class VotingClient(object):
         return (self.alpha, self.r)
 
     def getPointsFromResponse(self, beta, secparams):
-        self.P_s_bold = GetPointMatrix(beta, self.k_i_bold, self.s, self.r, secparams)
+        self.P_s_bold = GetPointMatrix(beta, self.s, self.r, secparams)
 
         if not all(points != None for points in self.P_s_bold):
             raise RuntimeError('Failed to get points from OT response! Invalid selection?')
@@ -85,16 +85,16 @@ class VotingClient(object):
 
     def confirm(self, autoInput, secparams):
         if autoInput:
-            Y_i = self.rawSheetData.Y
-            print("Voter entered confirmation code: %s" % Y_i)
+            Y_v = self.rawSheetData.Y
+            print("Voter entered confirmation code: %s" % Y_v)
         else:
-            Y_i = input('Enter your confirmation code: ')
+            Y_v = input('Enter your confirmation code: ')
 
-        self.gamma = GenConfirmation(Y_i,self.P_s_bold, self.k_i_bold, secparams)
-        return (self.i, self.gamma)
+        self.gamma = GenConfirmation(Y_v,self.P_s_bold, secparams)
+        return (self.v, self.gamma)
 
     def finalize(self, autoInput, secparams):
-        delta_bold_i = self.bulletinBoard.delta_bold[self.i]
+        delta_bold_i = self.bulletinBoard.delta_bold[self.v]
         FC = GetFinalizationCode(delta_bold_i, secparams)
         print("Displayed finalization code: %s" % FC)
 

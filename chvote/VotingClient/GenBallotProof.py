@@ -12,7 +12,7 @@ from Common.GetNIZKPChallenge import GetNIZKPChallenge
 from UnitTestParams           import unittestparams
 from Types                    import *
 
-def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams):
+def GenBallotProof(x, m, r, x_hat, e, pk, secparams):
     """
     Algorithm 7.21: Generates a NIZKP, which proves that the ballot has been formed properly.
     This proof includes a proof of knowledge of the secret voting credential x that matches with
@@ -22,8 +22,7 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams):
         x (mpz):                            Voting credential ∈ Z_q_hat
         m (mpz):                            Product of selected primes m ∈ G_q
         r (mpz):                            Randomization r ∈ Z_q
-        a (mpz):                            ElGamal Encryption
-        b (mpz):                            ElGamal Encryption
+        e (tuple):                          ElGamal Encryption (a,b) ∈ G_q x G_q
         pk (mpz):                           Encryption key pk ∈ G_q
         secparams (SecurityParams):         Collection of public security parameters
 
@@ -35,11 +34,12 @@ def GenBallotProof(x, m, r, x_hat, a, b, pk, secparams):
     AssertMpz(m)
     AssertMpz(r)
     AssertMpz(x_hat)
-    AssertMpz(a)
-    AssertMpz(b)
+    AssertMpz(e[0])
+    AssertMpz(e[1])
     AssertMpz(pk)
     AssertClass(secparams, SecurityParams)
 
+    (a, b) = e
     w_1 = randomMpz(secparams.q_hat, secparams)
     w_2 = randomQuadResMpz(secparams)
     w_3 = randomMpz(secparams.q, secparams)

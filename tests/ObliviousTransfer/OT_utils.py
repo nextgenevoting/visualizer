@@ -1,6 +1,4 @@
 
-from Utils.Utils           import AssertInt, AssertClass
-from Common.IsMember       import IsMember
 import gmpy2
 from gmpy2 import mpz
 from gmpy2 import jacobi
@@ -28,7 +26,6 @@ def randomQuadResMpz(Z_q, g, p):
 
 def GetPrimes(n, Z_p):
 
-    AssertInt(n)
     assert n >= 2, "n must be greater or equal 2"
 
     x = mpz(1)

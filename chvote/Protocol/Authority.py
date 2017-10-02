@@ -32,7 +32,7 @@ class Authority(object):
         self.d_hat_j_bold = None
         self.K_bold = None
         self.E_bold = None
-        self.P_bold = None
+        self.P_bold_j = None
 
         self.x_hat_bold = []
         self.y_hat_bold = []
@@ -57,7 +57,7 @@ class Authority(object):
         """
 
         self.n_bold = self.bulletinBoard.n_bold
-        self.d_j_bold, self.d_hat_j_bold, self.P_bold, self.K_bold = GenElectorateData(self.n_bold, self.bulletinBoard.K_bold, self.bulletinBoard.E_bold, secparams)
+        self.d_j_bold, self.d_hat_j_bold, self.P_bold_j = GenElectorateData(self.n_bold, self.bulletinBoard.k_bold, self.bulletinBoard.E_bold, secparams)
 
         self.bulletinBoard.D_hat_bold.append(self.d_hat_j_bold)
         return self.d_hat_j_bold
@@ -110,7 +110,7 @@ class Authority(object):
             bool
         """
 
-        return CheckBallot(v, alpha, self.pk, self.K_bold, self.x_hat, self.B_j, secparams)
+        return CheckBallot(v, alpha, self.pk, self.bulletinBoard.k_bold, self.bulletinBoard.E_bold, self.x_hat, self.B_j, secparams)
 
     def genResponse(self, v, a_bold, alpha, secparams):
         """
@@ -123,13 +123,13 @@ class Authority(object):
         Returns:
             tuple:              (v, beta_j)
         """
-        (beta_j, r_bold) = GenResponse(v, a_bold, self.pk, self.n_bold, self.K_bold, self.E_bold, self.P_bold, secparams)
+        (beta_j, r_bold) = GenResponse(v, a_bold, self.pk, self.n_bold, self.bulletinBoard.k_bold, self.bulletinBoard.E_bold, self.P_bold_j, secparams)
         self.B_j.append((v, alpha, r_bold))
         return (beta_j, r_bold)
 
     def printPoints(self):
         print("Points of Authority %s:" % self.name)
-        print(self.P_bold)
+        print(self.P_bold_j)
 
 
     def checkConfirmation(self, v, gamma, secparams):
@@ -146,7 +146,7 @@ class Authority(object):
         if CheckConfirmation(v, gamma, self.y_hat, self.B_j, self.C_j, secparams):
             self.C_j.append((v, gamma))
 
-            self.bulletinBoard.delta_bold[v][self.j] = GetFinalization(v, self.P_bold, self.B_j, secparams)
+            self.bulletinBoard.delta_bold[v][self.j] = GetFinalization(v, self.P_bold_j, self.B_j, secparams)
 
             return True
         else:
@@ -166,7 +166,7 @@ class Authority(object):
                 raise RuntimeError('Shuffle called without any valid ballots!')
 
             # the following steps are only performed by the first election authority
-            e_bold_0 = GetEncryptions(self.B_j, self.C_j, secparams)
+            e_bold_0 = GetEncryptions(self.B_j, self.C_j, self.n_bold, self.bulletinBoard.w_bold, secparams)
             (e_bold_1, r_bold_1, psi_1) = GenShuffle(e_bold_0, self.pk, secparams)
             pi_1 = GenShuffleProof(e_bold_0, e_bold_1, r_bold_1, psi_1, self.pk, secparams)
 
@@ -190,7 +190,7 @@ class Authority(object):
         Returns:
           None
         """
-        e_0 = GetEncryptions(self.B_j, self.C_j, secparams)
+        e_0 = GetEncryptions(self.B_j, self.C_j, self.n_bold, self.bulletinBoard.w_bold, secparams)
         if not CheckShuffleProofs(self.bulletinBoard.pi_bold, e_0, self.bulletinBoard.EN_bold, self.pk, self.j, secparams):
             return False
         b_prime_j = GetPartialDecryptions(self.bulletinBoard.EN_bold[-1], self.sk_j, secparams)

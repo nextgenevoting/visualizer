@@ -10,7 +10,7 @@ from Common.SecurityParams  import SecurityParams, secparams_l0
 from VotingClient.GetPoints import GetPoints
 from Common.IsMember        import IsMember
 
-def GetPointMatrix(beta_bold, k_bold, s_bold, r_bold, secparams):
+def GetPointMatrix(beta_bold, s_bold, r_bold, secparams):
     """
     Algorithm 7.26: Computes the k-by-s matrix P_s = (P_ij)k x s of the points obtained from
     the s authorities for the selection s. The points are derived from the messages included
@@ -28,7 +28,6 @@ def GetPointMatrix(beta_bold, k_bold, s_bold, r_bold, secparams):
     """
 
     AssertList(beta_bold)
-    AssertList(k_bold)
     AssertList(s_bold)
     AssertList(r_bold)
     AssertClass(secparams, SecurityParams)
@@ -36,8 +35,12 @@ def GetPointMatrix(beta_bold, k_bold, s_bold, r_bold, secparams):
     s = len(beta_bold)
     P_s_bold = [None] * s
 
-    for j in range(s):
-        P_s_bold[j] = GetPoints(beta_bold[j],k_bold,s_bold,r_bold,secparams)
+    for i in range(s):
+        P_s_bold[i] = GetPoints(beta_bold[i],s_bold,r_bold,secparams)
+
+    # Check that the length of P_s is s x k
+    for elem in P_s_bold:
+        assert len(elem) == len(s_bold)
 
     return P_s_bold
 

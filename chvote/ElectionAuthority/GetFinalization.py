@@ -31,15 +31,15 @@ def GetFinalization(v, P_bold, B, secparams):
     AssertList(B)
     AssertClass(secparams, SecurityParams)
 
-    r_v_bold = []
-    for j in range(len(B)):
-        if (B[j][0] == v):
-            r_v_bold = B[j][2]
 
     p_bold_v = P_bold[v]
-    F_v = Truncate(RecHash(p_bold_v, secparams), secparams.L_F)
-    delta = (F_v, r_v_bold)
+    F = Truncate(RecHash(p_bold_v, secparams), secparams.L_F)
 
+    for i in range(len(B)):
+        if (B[i][0] == v):
+            z_i = B[i][2]
+
+    delta = (F, z_i)
     return delta
 
 class GetFinalizationTest(unittest.TestCase):

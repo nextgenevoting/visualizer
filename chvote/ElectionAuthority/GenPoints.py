@@ -20,46 +20,43 @@ def GenPoints(n, k, secparams):
     Additional, the values y_j = A_j(0) are computed for all random polynomials and returned together with the random points.
 
     Args:
-        n (list):                      A list containing the number of candidates per election: n = (n_1, ..., n_t), n_j >= 2, n = Sigma(j=1...t) n_j
-        k (list):                      A list containing the number of selections k = (k_1, ..., k_t), 0 <= k_j <= n_j # k_j = 0 means ineligible
-        secparams (SecurityParams):    Collection of public security parameters
+        n (int):                            Number of candidates n >= 2
+        k (int):                            Number of selections 0 < k < n
+        secparams (SecurityParams):         Collection of public security parameters
 
     Returns:
-        tuple:        (p,y), points p ∈ (Z_p^2)^n, and the y values of x=0 ∈ Z_q^t
+        tuple:        (p,y'), points p ∈ (Z_p^2)^n, and the y value of x=0
     """
 
-    AssertList(n)
-    AssertList(k)
+    AssertInt(n)
+    AssertInt(k)
 
     p_bold = []
-    y_bold = []
 
-    t = len(n)
-    for j in range(t):
-        a_j_bold = GenPolynomial(k[j] - 1, secparams) # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
-        X_bold = []
+    a_bold = GenPolynomial(k - 1, secparams)               # the number of 1's in the eligibility matrix indicate how many selections the voter can make and therefore decides the degree of the polynomial
+    X = []
 
-        for l in range(n[j]):                         # loop over all candidates of election j
-            x = mpz(0)
-            # get a unique x from Z_p'
-            while True:
-                x = randomMpz(secparams.p_prime, secparams)
-                if x not in X_bold or secparams.deterministicRandomGen:      # if randomMpz is deterministic, we would be stuck in an endless loop
-                    X_bold.append(x)
-                    break
+    for i in range(n):
+        x = mpz(0)
+        # get a unique x from Z_p'
+        while True:
+            x = randomMpz(secparams.p_prime, secparams)
+            if x not in X or secparams.deterministicRandomGen:      # if randomMpz is deterministic, we would be stuck in an endless loop
+                X.append(x)
+                break
 
-            y_j = GetYValue(x,a_j_bold,secparams)            # get the corresponding y value of x on the polynomial a_j
-            p_i = Point(x,y_j)                               # Point tuple
-            p_bold.append(p_i)                               # part of the private voter data
+        y = GetYValue(x,a_bold,secparams)                    # get the corresponding y value of x on the polynomial a_j
+        p_i = Point(x,y)                                # Point tuple
+        p_bold.append(p_i)                              # part of the private voter data
 
-        y_bold.append(GetYValue(mpz(0),a_j_bold, secparams)) # Point (0,Y(0))
+        y_prime = GetYValue(mpz(0),a_bold, secparams)        # Point (0,Y(0))
 
-    return (p_bold, y_bold)
+    return (p_bold, y_prime)
 
 class GenPointsTest(unittest.TestCase):
     def testGenPoints(self):
         # generate dummy points
-        points, y = GenPoints(unittestparams.n, unittestparams.k, secparams_l3)
+        points, y = GenPoints(unittestparams.n, 2, secparams_l3)
 
         # check if the number of points returned matches the total number of candidates
         self.assertTrue(len(points) == unittestparams.n_total)
@@ -82,7 +79,7 @@ class GenPointsTest(unittest.TestCase):
         secparams = secparams_l0
         # make sure determnistic random gen is enabled!
         assert(secparams.deterministicRandomGen == True)
-        points, y = GenPoints([1], [1], secparams)
+        points, y = GenPoints([1], 1, secparams)
         i = 1
 
 if __name__ == '__main__':

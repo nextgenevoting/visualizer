@@ -60,8 +60,8 @@ def randomQuadResMpz(secparams):
     """
 
     if not secparams.deterministicRandomGen:
-        r = randomRelativePrimeMpz(secparams.p, secparams)
-        return gmpy2.powmod(r,2,secparams.p)
+        x = randomMpz(secparams.q, secparams)
+        return gmpy2.powmod(secparams.g, x, secparams.p)
     else:
         return mpz(2)
 

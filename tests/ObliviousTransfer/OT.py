@@ -19,10 +19,11 @@ t = 2           # number of simult. elections
 k_bold = [1,1]  # number of selections per election
 n_bold = [3, 3] # number of candidates
 
-determ = True
+determ = True   # False for random values, True for using the following deterministic values
 det_z_1 = 11
 det_z_2 = 22
 det_beta_j = 29
+det_r_j = 2
 
 def Query(s):
     k = len(s)
@@ -36,7 +37,7 @@ def Query(s):
         if not determ:
             r[j] = randomMpz(Z_q)
         else:
-            r[j] = j+1
+            r[j] = det_r_j
         a_j_1 = (q[j] * gmpy2.powmod(pk, r[j], Z_p)) % Z_p
         a_j_2 = gmpy2.powmod(g_2, r[j], Z_p)
         a[j] = (a_j_1, a_j_2)
@@ -44,16 +45,17 @@ def Query(s):
     return (a, r)
 
 def Reply(a):
-    # Generate OT messages; M contains the verification codes, in this simplified example, message 1 = 0x01 0x01 0x01 0x01, message 2 = 0x02 0x02 0x02 0x02 (with L_M = 4)
     k = len(a)
     n_sum = sum(n_bold)
 
-
+    # Generate OT messages; M contains the verification codes, in this simplified example, message 1 = 0x01 0x01 0x01 0x01, message 2 = 0x02 0x02 0x02 0x02 (with L_M = 4)
     M = []
     for j in range(n_sum):
         M_j = bytearray()
-        M_j += ToByteArrayN(j, L_M / 2)
-        M_j += ToByteArrayN(j, L_M / 2)
+        M_j += ToByteArrayN(j, L_M / 4)
+        M_j += ToByteArrayN(j, L_M / 4)
+        M_j += ToByteArrayN(j, L_M / 4)
+        M_j += ToByteArrayN(j, L_M / 4)
         M.append(M_j)
 
     if not determ:
@@ -86,7 +88,7 @@ def Reply(a):
             p_prime_i = gmpy2.powmod(p_bold[i], z_1, Z_p)
 
             for j in range(k_prime, k_prime + k_bold[l]):
-                k_ij = p_prime_i * beta[j]
+                k_ij = p_prime_i * beta[j] % Z_p
                 k_tmp = bytearray()
 
                 for c in range(l_M):
@@ -126,7 +128,7 @@ def Open(beta, s, r):
     return M
 
 if __name__ == '__main__':
-    s = [0,2]
+    s = [1,5]
     (a, r) = Query(s)
     (beta, z) = Reply(a)
     M = Open(beta, s, r)
