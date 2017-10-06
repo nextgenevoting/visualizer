@@ -7,7 +7,8 @@ export default new Vuex.Store({
     state: {
         count: 1,
         message : "None",
-        connected: false
+        connected: false,
+        elections: []
     },
     mutations: {
         SOCKET_CONNECT: (state,  status) => {
@@ -22,6 +23,9 @@ export default new Vuex.Store({
         SOCKET_GETUPDATE: (state, data) => {
             state.message = data.data.message;
             state.count = data.data.counter;
+        },
+        SOCKET_GETELECTIONS: (state, data) => {
+            state.elections = data.elections
         }
     },
     actions: {
