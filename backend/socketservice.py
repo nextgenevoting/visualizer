@@ -1,9 +1,12 @@
+# By importing eventlet, flask will automatically use it instead of Werkzeug.
+import eventlet
+
 from flask import Flask, render_template
 from flask_socketio import SocketIO, emit
 from datetime import datetime
 
 app = Flask(__name__)
-socketio = SocketIO(app)
+socketio = SocketIO(app, engineio_logger=True)
 
 global counter
 
