@@ -1,5 +1,11 @@
 # CHVote #
 
+### Installation
+
+Install python 3.4
+pip install gmpy2
+pip install flask-socketio
+
 ## Unit tests ##
 
 ### Run all unit tests for a single file ###
