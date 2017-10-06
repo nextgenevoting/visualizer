@@ -3,7 +3,7 @@
         <h2>Ongoing election events</h2>
         <p>The following elections are still ongoing:</p>
         <v-list two-line subheader>
-                <v-list-tile v-for="item in data.elections" v-bind:key="item.title" avatar v-bind:href="`/#/election/${item.id}`">
+                <v-list-tile v-for="item in getElections" v-bind:key="item.title" avatar v-bind:href="`/#/election/${item.id}`">
                    <v-list-tile-avatar>
                      <v-icon v-bind:class="[item.iconClass]">{{ item.icon }}</v-icon>
                    </v-list-tile-avatar>
@@ -28,16 +28,14 @@ Create new</v-btn>
 <script>
   export default {
     computed: {
-        data() {
+        getElections: function() {
            var elections = [];
            this.$dataStore.state.elections.forEach((el) => {
                 var election = { id:el.id, icon: 'assignment', iconClass: 'blue white--text', title: el.title, subtitle: 'Jan 20, 2018' };
                 elections.push(election);
            });
 
-           return {
-              elections: elections
-           }
+           return elections;
        }
      },
 
