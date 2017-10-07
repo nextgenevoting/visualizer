@@ -1,7 +1,6 @@
 // initial state
 const state = {
     count: 1,
-    message : "None",
     elections: []
 }
 
@@ -10,12 +9,10 @@ const state = {
 const mutations = {
     SOCKET_GETUPDATE: (state, data) => {
         console.log("SOCKET_GETUPDATE called");
-        state.message = data.data.message;
         state.count = data.data.counter;
     },
-    SOCKET_GETELECTIONS: (state, data) => {
-        console.log("SOCKET_GETELECTIONS called");
-
+    SOCKET_SYNCELECTIONS: (state, data) => {
+        console.log("SOCKET_SYNCELECTIONS called");
         state.elections = JSON.parse(data)
     }
 }

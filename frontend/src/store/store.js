@@ -16,10 +16,10 @@ export default new Vuex.Store({
         SOCKET_DISCONNECT: (state,  status) => {
             state.connected = false;
         },
-        SOCKET_USERMESSAGE: (state,  message) => {
+        /*SOCKET_USERMESSAGE: (state,  message) => {
             console.log("SOCKET_USERMESSAGE called");
             state.message = message;
-        }
+        }*/
     },
     actions: {
         /*socket_getdata: (context, message) => {
