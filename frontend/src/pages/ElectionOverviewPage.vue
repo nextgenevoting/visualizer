@@ -16,8 +16,8 @@
         computed: {
             data() {
                 return {
-                    count: this.$dataStore.state.count,
-                    message: this.$dataStore.state.message,
+                    count: this.$dataStore.state.elections.count,
+                    message: this.$dataStore.state.elections.message,
                     connected: this.$dataStore.state.connected
 
                 }

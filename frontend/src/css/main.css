@@ -1,3 +1,13 @@
+body{
+  color: rgb(12,12,12);
+  font-size: 16px;
+  font-weight: 300;
+}
+
+.application--light{
+  background-color: white !important;
+}
+
 .intro {
   display: flex;
   justify-content: center;
@@ -10,4 +20,7 @@ a {
 
 .text-center {
   text-align: center;
+}
+.application--light .toolbar{
+  background-color: #027be3 !important;
 }

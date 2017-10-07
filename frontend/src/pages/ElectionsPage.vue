@@ -30,7 +30,7 @@ Create new</v-btn>
     computed: {
         getElections: function() {
            var elections = [];
-           this.$dataStore.state.elections.forEach((el) => {
+           this.$dataStore.state.elections.elections.forEach((el) => {
                 var election = { id:el.id, icon: 'assignment', iconClass: 'blue white--text', title: el.title, subtitle: 'Jan 20, 2018' };
                 elections.push(election);
            });

@@ -1,14 +1,13 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
+import elections from './modules/elections'
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
+    namespaced: true,
     state: {
-        count: 1,
-        message : "None",
-        connected: false,
-        elections: []
+        connected: false
     },
     mutations: {
         SOCKET_CONNECT: (state,  status) => {
@@ -18,14 +17,8 @@ export default new Vuex.Store({
             state.connected = false;
         },
         SOCKET_USERMESSAGE: (state,  message) => {
+            console.log("SOCKET_USERMESSAGE called");
             state.message = message;
-        },
-        SOCKET_GETUPDATE: (state, data) => {
-            state.message = data.data.message;
-            state.count = data.data.counter;
-        },
-        SOCKET_GETELECTIONS: (state, data) => {
-            state.elections = data.elections
         }
     },
     actions: {
@@ -33,5 +26,8 @@ export default new Vuex.Store({
             // console.log(message.data);
             context.commit('updateData', message.data);
         }*/
-    }
+    },
+    modules: {
+        elections
+    },
 })

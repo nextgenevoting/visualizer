@@ -9,9 +9,9 @@ import LoginPage from './pages/auth/LoginPage.vue';
 import NewElectionPage from './pages/NewElectionPage.vue';
 import ElectionOverviewPage from './pages/ElectionOverviewPage.vue'
 import Vuex from 'vuex'
-import storePlugin from './storePlugin'
+import storePlugin from './store/storeplugin'
 import VueSocketio from 'vue-socket.io';
-import { MyVuexStore } from './store.js'
+import { MyVuexStore } from './store/store.js'
 
 const routes = [
   {
