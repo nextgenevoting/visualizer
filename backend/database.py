@@ -3,6 +3,16 @@ import json
 from bson.json_util import dumps
 import gmpy2
 from gmpy2 import mpz
+from pymongo.son_manipulator import SONManipulator
+import pickle
+
+# use the following function to convert an arbitrary complex data structure into a binary JSON string
+def saveComplex(obj):
+    return pickle.dumps(obj)
+
+# use the following function to recover the original data structure
+def loadComplex(bson):
+    return pickle.loads(bson)
 
 class database(object):
     _db = None
@@ -15,11 +25,24 @@ class database(object):
     def elections(self):
         return self._db.elections
 
-    def insert(self):
-        self._db.mpztest.insert({'test': str(mpz(123))})
+    @property
+    def electorateData(self):
+        return self._db.electorateData
+
+    def insertSample(self):
+        a = (mpz(1), mpz(2))
+        valueToStore = saveComplex(a)
+
+        self.electorateData.insert({'tupletest': valueToStore})
+
+        loadedValue = self.electorateData.find().sort([('timestamp', -1)]).limit(1)
+        restored = loadComplex(loadedValue[0]["tupletest"])
+        print(restored)
+
 
 db = database()
+#db._db.add_son_manipulator(TransformMPZ())
 
 
 if __name__ == '__main__':
-    db.insert()
+    db.insertSample()

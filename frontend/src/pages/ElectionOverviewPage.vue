@@ -20,12 +20,17 @@
             }
         },
         mounted() {
-            this.$dataStore.subscribe((mutation, state) => console.log(mutation));
+            this.$socket.emit('join', {'election': this.$route.params["id"]});
+            this.unsub = this.$dataStore.subscribe((mutation, state) => console.log(mutation));
+        },
+        beforeDestroy() {
+            console.log("before destroy");
+            this.unsub();
         },
         methods: {
 
             increment: function (event) {
-                this.$socket.emit('increment');
+                this.$socket.emit('increment', {'election': this.$route.params["id"]});
                 //console.log("Increment called");
                 //this.$dataStore.dispatch('increment')
             }
