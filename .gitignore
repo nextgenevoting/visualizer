@@ -29,6 +29,7 @@ __pycache__
 bld/
 [Bb]in/
 [Oo]bj/
+tests/
 
 # Visual Studio 2015 cache/options directory
 .vs/

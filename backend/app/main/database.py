@@ -18,7 +18,8 @@ class database(object):
     _db = None
 
     def __init__(self):
-        client = pymongo.MongoClient('mongodb://chvote:chv0t3_2017_$$$@cluster0-shard-00-00-wrqp9.mongodb.net:27017,cluster0-shard-00-01-wrqp9.mongodb.net:27017,cluster0-shard-00-02-wrqp9.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin')
+        #client = pymongo.MongoClient('mongodb://chvote:chv0t3_2017_$$$@cluster0-shard-00-00-wrqp9.mongodb.net:27017,cluster0-shard-00-01-wrqp9.mongodb.net:27017,cluster0-shard-00-02-wrqp9.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin')
+        client = pymongo.MongoClient('localhost', 27017)
         self._db = client.chvote
 
     @property
@@ -28,6 +29,15 @@ class database(object):
     @property
     def electorateData(self):
         return self._db.electorateData
+
+    @property
+    def counter(self):
+        return self._db.counter
+
+
+    @property
+    def test(self):
+        return self._db.test
 
     def insertSample(self):
         a = (mpz(1), mpz(2))
@@ -43,6 +53,5 @@ class database(object):
 db = database()
 #db._db.add_son_manipulator(TransformMPZ())
 
-
 if __name__ == '__main__':
-    db.insertSample()
+    db.insertComplex()
