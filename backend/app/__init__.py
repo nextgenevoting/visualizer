@@ -4,7 +4,6 @@ from flask_socketio import SocketIO, leave_room, join_room, rooms
 socketio = SocketIO(engineio_logger=True)
 
 def create_app(debug=False):
-    """Create an application."""
     app = Flask(__name__)
     app.debug = debug
     app.config['SECRET_KEY'] = 'gjr39dkjn344_!67#'

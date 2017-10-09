@@ -1,17 +1,17 @@
-import os, sys
+import os
+import sys
+
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-from flask_socketio import SocketIO, emit
+from flask_socketio import emit
 from bson.json_util import dumps
-from backend.app.main.database import db, saveComplex, loadComplex
-from backend.app.main.models.electionParams import ElectionParams
-import json
+from backend.app.database import db, saveComplex, loadComplex
+from backend.app.models.electionParams import ElectionParams
 from .. import socketio
 
-# EVENTS
+# OBSERVERS
 
 @socketio.on('createElection')
 def createElection(data):
-    print("CREATE ELECTION!!!")
     id = db.elections.insert({'title': data["title"]})
     db.counter.insert({'election': str(id), 'counter': 0})
     syncElections(True)
@@ -23,8 +23,7 @@ def setUpElection(data):
     syncElectorateData(data["election"])
 
 
-# FUNCTIONS
-
+# EMITTERS
 def syncElections(broadcast):
     res = db.elections.find()
     elections = dumps(res)

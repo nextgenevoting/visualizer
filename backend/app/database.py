@@ -22,6 +22,8 @@ class database(object):
         client = pymongo.MongoClient('localhost', 27017)
         self._db = client.chvote
 
+    # Mongo DB collections (tables):
+
     @property
     def elections(self):
         return self._db.elections
@@ -34,12 +36,12 @@ class database(object):
     def counter(self):
         return self._db.counter
 
-
     @property
     def test(self):
         return self._db.test
 
     def insertSample(self):
+        # an example of how to insert arbitrary complex objects
         a = (mpz(1), mpz(2))
         valueToStore = saveComplex(a)
 
