@@ -28,7 +28,7 @@
     },
       methods: {
         createElection: function(){
-          this.$socket.emit('createelection', { title: this.title});
+          this.$socket.emit('createElection', { title: this.title});
         }
       }
     };

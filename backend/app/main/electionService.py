@@ -18,7 +18,7 @@ def createElection(data):
 
 @socketio.on('setUpElection')
 def setUpElection(data):
-    electionParams = ElectionParams(data["election"], ["Voter1", "Voter 2"], [1], ["Clinton", "Trump"], [1], [1], [[1],[1]])
+    electionParams = ElectionParams(data["election"], ["Voter1", "Voter 2"], [1], ["Clinton", "Trump"], [1], [1])
     db.electorateData.insert({'election':data["election"], 'data' : saveComplex(electionParams)})
     syncElectorateData(data["election"])
 

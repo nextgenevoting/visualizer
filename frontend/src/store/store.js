@@ -1,6 +1,8 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import elections from './modules/elections'
+import election from './modules/election'
+
 
 Vue.use(Vuex)
 
@@ -28,6 +30,7 @@ export default new Vuex.Store({
         }*/
     },
     modules: {
-        elections
+        elections,
+        election
     },
 })
