@@ -1,0 +1,109 @@
+\documentclass
+	[ a4paper	% paper format
+	, 10pt		% fontsize
+	, twoside	% double-sided
+	, openright	% begin new chapter on right side
+	, notitlepage	% use no standard title page
+	, parskip=half	% set paragraph skip to half of a line
+	]{scrreprt}
+
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{latexsym}
+\usepackage[T1]{fontenc}
+\usepackage[utf8x]{inputenc}
+\usepackage{graphicx}
+\usepackage[hidelinks]{hyperref}	% "hidelinks" removes the border around links
+\usepackage{tabularx}
+%\usepackage{etoolbox}
+\usepackage{amsfonts}
+\usepackage{fancyhdr}
+\usepackage{amsthm}
+\usepackage{multicol}
+\usepackage{lastpage}
+\usepackage{mathtools}
+\usepackage{tcolorbox}
+\usepackage{minted}
+\usepackage{geometry}
+\usepackage[english]{babel}
+\usepackage{fancyhdr}
+\usepackage{parskip}
+\geometry{
+	a4paper,
+	total	= {170mm, 257mm},
+	left	= 20mm,
+	top	= 30mm,
+	bottom	= 30mm
+}
+
+% Header and footer
+% The use of "\chapter" forces "\pagestyle{plain}", therefore both page styles
+% "plain" and "fancy" have to be set
+\newcommand{\mystyle}{
+	\fancyhf{}
+	\lhead{Bern University of Applied Sciences}
+	\rhead{CHVote Demonstrator}
+	\lfoot{}
+	\cfoot{Page \thepage\ of \pageref{LastPage}}
+	\rfoot{}
+}
+
+\pagestyle{fancy}
+\mystyle
+\fancypagestyle{plain}{\mystyle}
+
+% Paragraph configuration
+\setlength{\parindent}{1em}
+\setlength{\parskip}{1em}
+
+% Quotes
+%\usepackage[autostyle, english = american]{csquotes}
+%\MakeOuterQuote{"}
+
+%\addto\captionsenglish{\def\figurename{Figure}}
+%\addto\captionsenglish{\renewcommand{\chaptername}{Chapter}}
+%\selectlanguage{english}
+
+%\makeatletter
+%\renewcommand{\@chapapp}{Chapter}
+%\makeatother
+
+%\tcbuselibrary{theorems}
+%
+%\theoremstyle{definition}
+%\newtheorem{exmp}{Beispiel}[subsection]
+%\renewcommand{\chaptername}{Chapter}
+%\newmintinline['macro name']{'language'}{'options'}
+%
+%\newtcbtheorem[number within=section]{mytheo}{Theorem}
+%{colback=green!5,colframe=green!35!black,fonttitle=\bfseries,before
+%skip=20pt plus 2pt,after skip=20pt plus 2pt}{th}
+%
+%\makeatletter
+%\def\@seccntformat#1{
+%	\expandafter\ifx\csname c@#1\endcsname\c@subsection\else
+%	\csname the#1\endcsname\quad
+%	\fi
+%}
+%\makeatother
+
+
+\begin{document}
+%\pagestyle{empty} % hide header and footer on title page
+
+\include{titlepage}
+
+\clearpage
+\tableofcontents
+%\listoftables
+%\pagestyle{plain}
+
+\clearpage
+\include{chapters/introduction}
+\include{chapters/management-summary}
+\include{chapters/implementation}
+\include{chapters/journal}
+\include{chapters/discussion}
+\include{chapters/bibliography}
+
+\end{document}
