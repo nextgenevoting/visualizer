@@ -13,6 +13,7 @@ import Vuex from 'vuex'
 import storePlugin from './store/storeplugin'
 import VueSocketio from 'vue-socket.io';
 import { MyVuexStore } from './store/store.js'
+import VueResource from 'vue-resource'
 
 const routes = [
   {
@@ -66,8 +67,10 @@ const router = new VueRouter({
 Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.use(Vuex)
+Vue.use(VueResource)
 Vue.use(storePlugin)
 Vue.use(VueSocketio, 'http://localhost:5000', Vue.prototype.$dataStore);
+Vue.url.options.root = 'http://localhost:5000';
 
 new Vue({ // eslint-disable-line no-new
   el: '#app',

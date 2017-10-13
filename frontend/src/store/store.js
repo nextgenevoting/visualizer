@@ -20,8 +20,6 @@ export default new Vuex.Store({
         },
         SOCKET_SYNCELECTIONS: (state, data) => {
             state.elections = JSON.parse(data);
-        },
-        SOCKET_CREATEDELECTION: (state, data) => {
         }
     },
     actions: {

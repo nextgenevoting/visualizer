@@ -1,12 +1,18 @@
 from flask import Flask, request
 from flask_socketio import SocketIO, leave_room, join_room, rooms
+from flask_cors import CORS, cross_origin
 
 socketio = SocketIO(engineio_logger=True)
 
 def create_app(debug=False):
     app = Flask(__name__)
+    cors = CORS(app)
+    app.config['CORS_HEADERS'] = 'Content-Type'
     app.debug = debug
     app.config['SECRET_KEY'] = 'gjr39dkjn344_!67#'
+
+    from .main import main as main_blueprint
+    app.register_blueprint(main_blueprint)
 
     socketio.init_app(app)
     return app

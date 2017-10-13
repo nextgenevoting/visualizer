@@ -1,22 +1,25 @@
-import os
-import sys
-
+from flask import session, redirect, url_for, render_template, request
+from . import main
 from flask_socketio import emit
 from bson.json_util import dumps
 from app.database import db, saveComplex, loadComplex
 from app.models.bulletinBoardState import BulletinBoardState
 from .. import socketio
 from app.voteSimulator import VoteSimulator
+from flask.ext.cors import CORS, cross_origin
+
 import json
 
 # LISTENERS
 
-@socketio.on('createElection')
-def createElection(data):
+@main.route('/createElection', methods=['POST'])
+@cross_origin(origin='*')
+def createElection():
+    data = request.json
     id = db.elections.insert({'title': data["title"]})
     db.counter.insert({'election': str(id), 'counter': 0})
     syncElections(True)
-    emit('createdElection',str(id) , broadcast=False)
+    return json.dumps({'id': str(id)})
 
 
 @socketio.on('setUpElection')
@@ -44,7 +47,7 @@ def setUpElection(data):
 def syncElections(broadcast):
     res = db.elections.find()
     elections = dumps(res)
-    emit('syncElections',elections , broadcast=broadcast)
+    socketio.emit('syncElections',elections , broadcast=broadcast)
 
 def syncElectorateData(electionID):
     bbState = db.bulletinBoardStates.find_one({'election':electionID})
