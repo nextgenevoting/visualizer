@@ -1,14 +1,15 @@
 import os
 import sys
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from flask_socketio import emit
 from bson.json_util import dumps
-from backend.app.database import db, saveComplex, loadComplex
-from backend.app.models.electionParams import ElectionParams
+from app.database import db, saveComplex, loadComplex
+from app.models.bulletinBoardState import BulletinBoardState
 from .. import socketio
+from app.voteSimulator import VoteSimulator
+import json
 
-# OBSERVERS
+# LISTENERS
 
 @socketio.on('createElection')
 def createElection(data):
@@ -18,9 +19,23 @@ def createElection(data):
 
 @socketio.on('setUpElection')
 def setUpElection(data):
-    electionParams = ElectionParams(data["election"], ["Voter1", "Voter 2"], [1], ["Clinton", "Trump"], [1], [1])
-    db.electorateData.insert({'election':data["election"], 'data' : saveComplex(electionParams)})
-    syncElectorateData(data["election"])
+    electionId = data["election"]
+
+    # load states
+    bbState = BulletinBoardState(electionId, ["Voter1", "Voter 2"], [1], ["Clinton", "Trump"], [1], [1])
+    electionAuthorityStates = []
+
+    # prepare voteSimulator
+    sim = VoteSimulator(bbState, electionAuthorityStates)
+
+    # perform action
+    sim.genElectorateData()
+
+    # retrieve and persist modified state
+    newBBState = sim.bulletinBoardState
+    db.bulletinBoardStates.insert({'election':electionId, 'state' : saveComplex(newBBState)})
+
+    syncElectorateData(electionId)
 
 
 # EMITTERS
@@ -30,10 +45,11 @@ def syncElections(broadcast):
     emit('syncElections',elections , broadcast=broadcast)
 
 def syncElectorateData(electionID):
-    electorateData = db.electorateData.find_one({'election':electionID})
-    if electorateData != None:
-        electionParams = loadComplex(electorateData["data"])
-        jsonRes = dumps({"election": electionID, "v": electionParams.voters, "c" : electionParams.candidates})
+    bbState = db.bulletinBoardStates.find_one({'election':electionID})
+    if bbState != None:
+        bbState = loadComplex(bbState["state"])
+
+        print(bbState.toJSON())
     else:
-        jsonRes = dumps({"election": electionID, "v": [], "c": []})
-    emit('syncElectionData', jsonRes, room=electionID)
+        raise RuntimeError("No BulletinBoardState for this election!")
+    emit('syncElectionData', bbState.toJSON(), room=electionID)

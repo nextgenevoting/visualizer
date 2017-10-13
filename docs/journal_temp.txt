@@ -1,0 +1,15 @@
+Week 1:
+During our kickoff meeting we discussed the several possibilities of our bachelor thesis based on the spadework of the previous "project 2" module and broke them down into two options: A realistic prototype of the whole chVote system that includes everything a real implementation would need, like signatures, channel security, distributed election authorities with docker etc., or an interative prototype ("demonstrator") that allows to demonstrate the functionality of the chVote protocol in a more visual manner.
+
+Week 2:
+The following week we have made the decision to build the demonstrator mainly because the final product would potentially be more attractive visually than a prototype where the main work is hidden behind the scences. We have also started thinking about what technologies and frameworks to use and to build a few sketches and mockups to have some basis for discussion for our next meeting. At this stage we have yet been very unsure about how the application should look like, what audience we should have as our main target and what functionality the application should offer.
+
+During our second meeting we ellaborated the goals and some more technical details. 
+- In essence, the application should allow to demonstrate a chVote election from the view of every party participating in the election process. 
+- The system should manage multiple elections
+- The application should be a realtime webapp that updates the views automatically as soon as something changes and without having to reload the page
+
+Week 3:
+In the third week we finished describing the goals and further worked on the system architecture. We also made some first experiences with the envisaged frameworks and technologies (VueJS, socket.io, Flask, MongoDB). 
+- working with socket.io and VueJS has been very intuitive and looked very promising and suitable for our project
+- We were not yet sure whether or not mongoDB is the right technology for our needs. 

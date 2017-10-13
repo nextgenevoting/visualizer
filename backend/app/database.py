@@ -5,6 +5,7 @@ import gmpy2
 from gmpy2 import mpz
 from pymongo.son_manipulator import SONManipulator
 import pickle
+from app.models.bulletinBoardState import BulletinBoardState
 
 
 def encode_mpz(son):
@@ -88,8 +89,8 @@ class database(object):
         return self._db.elections
 
     @property
-    def electorateData(self):
-        return self._db.electorateData
+    def bulletinBoardStates(self):
+        return self._db.bulletinBoardStates
 
     @property
     def counter(self):
@@ -98,17 +99,6 @@ class database(object):
     @property
     def test(self):
         return self._db.test
-
-    def insertSample(self):
-        # an example of how to insert arbitrary complex objects
-        a = (mpz(1), mpz(2))
-        valueToStore = saveComplex(a)
-
-        self.electorateData.insert({'tupletest': valueToStore})
-
-        loadedValue = self.electorateData.find().sort([('timestamp', -1)]).limit(1)
-        restored = loadComplex(loadedValue[0]["tupletest"])
-        print(restored)
 
     def transformTest(self):
         a = (mpz(1), (mpz(2), mpz(3)))
@@ -122,4 +112,8 @@ db = database()
 db._db.add_son_manipulator(TransformMPZ())
 
 if __name__ == '__main__':
-    db.transformTest()
+    from chvote.Types import Custom
+    from chvote.foo import foo
+
+    a = Custom()
+    foo(a)

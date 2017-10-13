@@ -1,6 +1,6 @@
 <template>
     <v-container fluid class="pa-0">
-        <div class="indigo darken-3 pa-3 text-center">
+        <div class="cyan darken-3 pa-3 text-center">
             <img src="public/v.png">
         </div>
         <v-container>

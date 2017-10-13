@@ -3,7 +3,7 @@ import sys
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from flask_socketio import emit
-from backend.app.database import db
+from app.database import db
 import json
 from .. import socketio
 

@@ -8,6 +8,7 @@ import ElectionsPage from './pages/ElectionsPage.vue';
 import LoginPage from './pages/auth/LoginPage.vue';
 import NewElectionPage from './pages/NewElectionPage.vue';
 import ElectionOverviewPage from './pages/ElectionOverviewPage.vue'
+import ElectionAdminPage from './pages/ElectionAdminPage.vue'
 import Vuex from 'vuex'
 import storePlugin from './store/storeplugin'
 import VueSocketio from 'vue-socket.io';
@@ -38,6 +39,11 @@ const routes = [
     path: '/election/:id',
     name: 'electionoverview',
     component: ElectionOverviewPage,
+  },
+  {
+    path: '/election/admin/:id',
+    name: 'electionadmin',
+    component: ElectionAdminPage,
   },
   {
     path: '/login',

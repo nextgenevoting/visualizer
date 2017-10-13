@@ -15,7 +15,8 @@
     "vue-socket.io": "^2.1.1-a",
     "vue-template-compiler": "^2.3.3",
     "vuetify": "^0.15.7",
-    "vuex": "^2.4.1"
+    "vuex": "^2.4.1",
+    "mdi": "^2.0.46"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

@@ -1,15 +1,15 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import elections from './modules/elections'
 import election from './modules/election'
 
 
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-    namespaced: true,
+    namespaced: false,
     state: {
-        connected: false
+        connected: false,
+        elections: []
     },
     mutations: {
         SOCKET_CONNECT: (state,  status) => {
@@ -17,11 +17,11 @@ export default new Vuex.Store({
         },
         SOCKET_DISCONNECT: (state,  status) => {
             state.connected = false;
+            location.href("/elections");
         },
-        /*SOCKET_USERMESSAGE: (state,  message) => {
-            console.log("SOCKET_USERMESSAGE called");
-            state.message = message;
-        }*/
+        SOCKET_SYNCELECTIONS: (state, data) => {
+            state.elections = JSON.parse(data)
+        }
     },
     actions: {
         /*socket_getdata: (context, message) => {
@@ -30,7 +30,6 @@ export default new Vuex.Store({
         }*/
     },
     modules: {
-        elections,
         election
     },
 })

@@ -1,6 +1,11 @@
 // initial state
 const state = {
-        count: 1
+        count: 1,
+        voters: [],
+        candidates: [],
+        publicVotingCredentials: [],
+        numberOfSelections: [],
+
 }
 
 
@@ -14,15 +19,16 @@ const mutations = {
     },
     SOCKET_SYNCELECTIONDATA: (state, data) => {
         console.log("SOCKET_SYNCELECTIONDATA called");
-        console.log(data);
         data = JSON.parse(data);
-        state.voters = data.v;
-        state.candidates = data.c;
+        state.voters = data.voters;
+        state.candidates = data.candidates;
+        state.publicVotingCredentials = data.publicCredentials;
+        state.numberOfSelections = data.numberOfSelections;
     }
 }
 
 export default {
-    namespaced: true,
+    namespaced: false,
     state,
     mutations
 }

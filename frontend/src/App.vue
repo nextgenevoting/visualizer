@@ -22,7 +22,7 @@
                 </template>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar class="indigo" dark>
+        <v-toolbar class="cyan" dark>
             <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
             <v-toolbar-title>CHVote</v-toolbar-title>
             <v-spacer></v-spacer>
@@ -30,6 +30,32 @@
                 <v-icon>home</v-icon>
             </v-btn>
         </v-toolbar>
+         <v-tabs dark fixed icons centered>
+             <v-tabs-bar class="cyan" v-show="$route.path.includes('/election/') ? true : false">
+              <v-tabs-slider color="yellow"></v-tabs-slider>
+               <v-tabs-item :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
+                <v-icon>mdi-view-dashboard</v-icon>
+                Overview
+              </v-tabs-item>
+              <v-tabs-item :to="{ name: 'electionadmin', params: {id: $route.params['id'] }}">
+                <v-icon>mdi-account-key</v-icon>
+                Election Admin
+              </v-tabs-item>
+              <v-tabs-item :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
+              <v-icon>mdi-printer</v-icon>
+              Printing Authority
+            </v-tabs-item>
+              <v-tabs-item href="#tab-3">
+                <v-icon>mdi-account</v-icon>
+                Voter
+              </v-tabs-item>
+              <v-tabs-item href="#tab-3">
+                <v-icon>mdi-checkbox-marked-outline</v-icon>
+                Verifier
+              </v-tabs-item>
+            </v-tabs-bar>
+
+          </v-tabs>
         <main>
             <v-fade-transition mode="out-in">
                 <router-view></router-view>
@@ -37,7 +63,7 @@
         </main>
 
         <v-snackbar error top :timeout="0" v-model="data.offlineNotification">
-            Connection to websocket server lost!
+            Websocket connection to server lost!
             <v-btn dark flat @click.native="data.offlineNotification = false">Close</v-btn>
         </v-snackbar>
 
