@@ -2,7 +2,7 @@ import os
 import sys
 import unittest
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+#sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from gmpy2 import mpz
 from chvote.Utils.Utils           import AssertInt, AssertClass
 from chvote.Utils.ToInteger       import ToInteger

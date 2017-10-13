@@ -3,7 +3,7 @@
         <h2>Ongoing election events</h2>
         <p>The following elections are still ongoing:</p>
         <v-list two-line subheader>
-                <v-list-tile v-for="item in getElections" v-bind:key="item.title" avatar v-bind:href="`/#/election/${item.id}`">
+                <v-list-tile v-for="item in getElections" v-bind:key="item.title" avatar :to="{ name: 'electionoverview', params: {id: item.id }}">
                    <v-list-tile-avatar>
                      <v-icon v-bind:class="[item.iconClass]">{{ item.icon }}</v-icon>
                    </v-list-tile-avatar>
@@ -12,7 +12,7 @@
                      <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
                    </v-list-tile-content>
                    <v-list-tile-action>
-                     <v-btn router icon ripple href="/#/election/1">
+                     <v-btn icon ripple>
                        <v-icon class="grey--text text--lighten-1">info</v-icon>
                      </v-btn>
                    </v-list-tile-action>

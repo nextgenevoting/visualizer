@@ -60,6 +60,7 @@ const routes = [
 const router = new VueRouter({
   routes,
   root: '/home',
+  mode: 'history'
 });
 
 Vue.use(Vuetify);

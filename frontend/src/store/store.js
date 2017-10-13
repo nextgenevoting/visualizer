@@ -17,10 +17,11 @@ export default new Vuex.Store({
         },
         SOCKET_DISCONNECT: (state,  status) => {
             state.connected = false;
-            location.href("/elections");
         },
         SOCKET_SYNCELECTIONS: (state, data) => {
-            state.elections = JSON.parse(data)
+            state.elections = JSON.parse(data);
+        },
+        SOCKET_CREATEDELECTION: (state, data) => {
         }
     },
     actions: {

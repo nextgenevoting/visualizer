@@ -1,6 +1,4 @@
 from app.models.state import State
-from chvote.Utils.JsonParser import mpzconverter
-import json
 
 class BulletinBoardState(State):
 

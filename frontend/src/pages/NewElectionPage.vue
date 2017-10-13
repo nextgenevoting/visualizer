@@ -30,7 +30,14 @@
         createElection: function(){
           this.$socket.emit('createElection', { title: this.title});
         }
-      }
+      },
+      created() {
+          this.unsub = this.$dataStore.subscribe((mutation, state) => console.log(mutation));
+      },
+      beforeDestroy() {
+          console.log("before destroy");
+          this.unsub();
+      },
     };
 </script>
 

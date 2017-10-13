@@ -16,6 +16,8 @@ def createElection(data):
     id = db.elections.insert({'title': data["title"]})
     db.counter.insert({'election': str(id), 'counter': 0})
     syncElections(True)
+    emit('createdElection',str(id) , broadcast=False)
+
 
 @socketio.on('setUpElection')
 def setUpElection(data):
