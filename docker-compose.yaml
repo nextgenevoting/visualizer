@@ -5,18 +5,16 @@ services:
   mongodb:
     image: mongo:latest
     ports:
-      - 0.0.0.0:27018:27018/tcp
+      - 27017:27017/tcp
   backend:
     build: ./backend
     depends_on:
       - mongodb
     ports:
-      - 0.0.0.0:5000:5000/tcp
+      - 5000:5000/tcp
   frontend:
     build: ./frontend
     depends_on:
       - backend
     ports:
-      - 0.0.0.0:8080:8080/tcp
-    environment:
-      SOCKETIO_BASE_URL: https://chvote.virvum.ch/ws
+      - 8080:8080/tcp
