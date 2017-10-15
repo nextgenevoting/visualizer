@@ -42,7 +42,10 @@ module.exports = {
         compress: true,
         disableHostCheck: true
     },
-    devtool: '#eval-source-map'
+    devtool: '#eval-source-map',
+    plugins: [
+        new webpack.EnvironmentPlugin(['SOCKETIO_BASE_URL'])
+    ]
 };
 
 if (process.env.NODE_ENV === 'production') {
