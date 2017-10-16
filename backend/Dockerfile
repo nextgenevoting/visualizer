@@ -6,4 +6,5 @@ RUN apk update
 RUN apk add gcc musl-dev gmp-dev mpfr-dev mpc1-dev
 RUN pip install flask flask-socketio flask-cors eventlet pymongo gmpy2
 #RUN pip install -r requirements.txt
+EXPOSE 5000
 CMD python backend_service.py
