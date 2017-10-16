@@ -3,7 +3,7 @@
         <h3 class="my-3">Election Administration</h3>
         Voters: <b>{{ data.voters }}</b><br>
         Candidates: <b>{{ data.candidates }}</b><br>
-        Number of elections: <b>{{ data.numberOfElections }}</b><br>
+        Number of selections: <b>{{ data.numberOfSelections }}</b><br>
         Public voting credentials: <b>{{ data.publicVotingCredentials }}</b><br>
         <br>
         <v-btn color="primary" v-on:click="setUpElection">setUpElection</v-btn>

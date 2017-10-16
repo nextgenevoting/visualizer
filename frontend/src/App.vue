@@ -41,9 +41,10 @@
                 <v-icon>mdi-account-key</v-icon>
                 Election Admin
               </v-tabs-item>
-              <v-tabs-item :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
-              <v-icon>mdi-printer</v-icon>
-              Printing Authority
+              <v-tabs-item :to="{ name: 'printingauth', params: {id: $route.params['id'] }}">
+                  <!--<v-icon v-badge="{ value: '99', overlap: true }" class="red--after">mdi-printer</v-icon>-->
+                  <v-icon>mdi-printer</v-icon>
+                  Printing Auth.
             </v-tabs-item>
               <v-tabs-item href="#tab-3">
                 <v-icon>mdi-account</v-icon>

@@ -1,6 +1,9 @@
 <template>
     <v-container>
         <h3 class="my-3">Election overview</h3>
+        ID: <b>{{ data.id }}</b>
+        <br>
+        Status: <b>{{ data.status() }}</b>
         <br>
         Count: <b>{{ data.count }}</b>
         <br>
@@ -16,18 +19,25 @@
         computed: {
             data() {
                 return {
-                    count: this.$dataStore.state.election.count
-
+                    count: this.$dataStore.state.election.count,
+                    id: this.$dataStore.state.election.id,
+                    status: ()=> {
+                        var statusId = this.$dataStore.state.election.status;
+                        if (statusId == 0)
+                            return "Created";
+                        if (statusId == 1)
+                            return "Electorate data generated";
+                    }
                 }
-            }
+            },
         },
         created() {
             this.$socket.emit('join', {'election': this.$route.params["id"]});
-            this.unsub = this.$dataStore.subscribe((mutation, state) => console.log(mutation));
+            //this.unsub = this.$dataStore.subscribe((mutation, state) => console.log(mutation));
         },
         beforeDestroy() {
             console.log("before destroy");
-            this.unsub();
+            //this.unsub();
         },
         methods: {
 

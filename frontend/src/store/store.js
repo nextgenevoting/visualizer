@@ -2,7 +2,6 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import election from './modules/election'
 
-
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -14,6 +13,7 @@ export default new Vuex.Store({
     mutations: {
         SOCKET_CONNECT: (state,  status) => {
             state.connected = true;
+            // router.push({name: 'elections'});
         },
         SOCKET_DISCONNECT: (state,  status) => {
             state.connected = false;

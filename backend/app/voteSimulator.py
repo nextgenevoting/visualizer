@@ -1,24 +1,35 @@
 from chvote.Common.SecurityParams import secparams_l1
 from app.models.electionAuthorityState import ElectionAuthorityState
 from app.parties.ElectionAuthority import ElectionAuthority
+from app.database import db
+from app.parties.BulletinBoard import BulletinBoard
 
 
 class VoteSimulator(object):
-    authorities = []
-    secparams = secparams_l1
-    bulletinBoardState = None
 
-    def __init__(self, bbState, electionAuthorityStates):
-        print("VoteSimulator init")
-        self.bulletinBoardState = bbState
-        # create new (empty) electionAuthorityStates if none have been passed
-        if electionAuthorityStates == []:
-            for j in range(self.secparams.s):
-                electionAuthorityStates.append(ElectionAuthorityState(j))
-        self.authorities = [ElectionAuthority(electionAuthorityStates[j]) for j in range(self.secparams.s)]
+    def __init__(self, election):
+        self.electionID = election
+        self.secparams = secparams_l1
+        self.authorities = [None] * self.secparams.s
+        self.bulletinBoard = BulletinBoard(db.bulletinBoardStates, election)
 
+        # create new election authorities
+        for j in range(self.secparams.s):
+            self.authorities[j] = ElectionAuthority(db.electionAuthorityStates, election, j)
+            self.authorities[j].loadState()
 
-    def genElectorateData(self):
+    def persist(self):
+        self.bulletinBoard.persist()
         for authority in self.authorities:
-            authority.GenElectionData(self.bulletinBoardState, self.secparams)
+            authority.persist()
+
+    def setupElection(self, v_bold, w_bold, c_bold, n_bold, k_bold):
+        self.bulletinBoard.voters = v_bold
+        self.bulletinBoard.countingCircles = w_bold
+        self.bulletinBoard.candidates = c_bold
+        self.bulletinBoard.numberOfCandidates = n_bold
+        self.bulletinBoard.numberOfSelections = k_bold
+
+        for authority in self.authorities:
+            authority.GenElectionData(self.bulletinBoard, self.secparams)
 

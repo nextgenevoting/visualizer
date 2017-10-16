@@ -7,6 +7,7 @@ import AboutPage from './pages/AboutPage.vue';
 import ElectionsPage from './pages/ElectionsPage.vue';
 import LoginPage from './pages/auth/LoginPage.vue';
 import NewElectionPage from './pages/NewElectionPage.vue';
+import PrintingAuthPage from './pages/PrintingAuthPage.vue';
 import ElectionOverviewPage from './pages/ElectionOverviewPage.vue'
 import ElectionAdminPage from './pages/ElectionAdminPage.vue'
 import Vuex from 'vuex'
@@ -45,6 +46,11 @@ const routes = [
     path: '/election/admin/:id',
     name: 'electionadmin',
     component: ElectionAdminPage,
+  },
+  {
+      path: '/election/print/:id',
+      name: 'printingauth',
+      component: PrintingAuthPage,
   },
   {
     path: '/login',

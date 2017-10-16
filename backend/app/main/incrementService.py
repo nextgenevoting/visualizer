@@ -16,11 +16,10 @@ def increment(data):
     replaceCounter["counter"] = replaceCounter["counter"] + 1
     db.counter.replace_one(counterRecord, replaceCounter)
     syncCounter(data['election'])
-
-
 # EMITTERS
 
 def syncCounter(election):
+    print("SyncCounter")
     data = db.counter.find_one({'election':election})
     jsonRes = json.dumps({'election': data['election'], 'counter': data['counter']})
     emit('syncCounter', jsonRes, room=election)
