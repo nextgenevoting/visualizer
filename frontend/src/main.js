@@ -7,8 +7,10 @@ import AboutPage from './pages/AboutPage.vue';
 import ElectionsPage from './pages/ElectionsPage.vue';
 import LoginPage from './pages/auth/LoginPage.vue';
 import NewElectionPage from './pages/NewElectionPage.vue';
-import ElectionOverviewPage from './pages/ElectionOverviewPage.vue'
-import ElectionAdminPage from './pages/ElectionAdminPage.vue'
+import VoterPage from './pages/election/VoterPage.vue';
+import PrintingAuthPage from './pages/election/PrintingAuthPage.vue';
+import ElectionOverviewPage from './pages/election/ElectionOverviewPage.vue'
+import ElectionAdminPage from './pages/election/ElectionAdminPage.vue'
 import Vuex from 'vuex'
 import storePlugin from './store/storeplugin'
 import VueSocketio from 'vue-socket.io';
@@ -45,6 +47,16 @@ const routes = [
     path: '/election/admin/:id',
     name: 'electionadmin',
     component: ElectionAdminPage,
+  },
+  {
+    path: '/election/print/:id',
+    name: 'printingauth',
+    component: PrintingAuthPage,
+  },
+  {
+      path: '/election/voter/:id',
+      name: 'voter',
+      component: VoterPage,
   },
   {
     path: '/login',

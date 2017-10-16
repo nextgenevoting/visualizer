@@ -31,7 +31,6 @@ Create new</v-btn>
         getElections: function() {
            var elections = [];
            this.$dataStore.state.elections.forEach((el) => {
-           console.log(el._id.$oid);
                 var election = { id:el._id.$oid, icon: 'assignment', iconClass: 'blue white--text', title: el.title, subtitle: 'Jan 20, 2018' };
                 elections.push(election);
            });

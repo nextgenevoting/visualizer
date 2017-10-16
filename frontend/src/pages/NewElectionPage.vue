@@ -30,12 +30,9 @@
         createElection: function(){
             //this.$socket.emit('createElection', { title: this.title});
             this.$http.post('createElection', { title: this.title }).then(response => {
-
-                // get body data
                 response.json().then((data) => {
                     this.$router.push({name: 'electionoverview', params: {id: data.id}});
                 });
-
             }, response => {
                 // error callback
             });

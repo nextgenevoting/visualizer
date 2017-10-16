@@ -38,14 +38,16 @@
                 Overview
               </v-tabs-item>
               <v-tabs-item :to="{ name: 'electionadmin', params: {id: $route.params['id'] }}">
-                <v-icon>mdi-account-key</v-icon>
-                Election Admin
+                  <v-icon v-if="data.status == 0" v-badge="{ value: '!', overlap: true }" class="red--after">mdi-account-key</v-icon>
+                  <v-icon v-else>mdi-account-key</v-icon>
+                  Election Admin
               </v-tabs-item>
-              <v-tabs-item :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
-              <v-icon>mdi-printer</v-icon>
-              Printing Authority
+              <v-tabs-item :to="{ name: 'printingauth', params: {id: $route.params['id'] }}">
+                  <v-icon v-if="data.status == 1" v-badge="{ value: '!', overlap: true }" class="red--after">mdi-printer</v-icon>
+                  <v-icon v-else>mdi-printer</v-icon>
+                  Printing Auth.
             </v-tabs-item>
-              <v-tabs-item href="#tab-3">
+                 <v-tabs-item :to="{ name: 'voter', params: {id: $route.params['id'] }}">
                 <v-icon>mdi-account</v-icon>
                 Voter
               </v-tabs-item>
@@ -102,7 +104,8 @@
         data() {
             return {
                 onlineNotification: this.$dataStore.state.connected,
-                offlineNotification: !this.$dataStore.state.connected
+                offlineNotification: !this.$dataStore.state.connected,
+                status: this.$dataStore.state.election.status
             }
         }
     },
