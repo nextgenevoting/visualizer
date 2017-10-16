@@ -70,7 +70,7 @@ Vue.use(Vuex)
 Vue.use(VueResource)
 Vue.use(storePlugin)
 
-if (process.env.SOCKETIO_BASE_URL) {
+if (process.env.SOCKETIO_BASE_URL !== undefined) {
   Vue.url.options.root = process.env.SOCKETIO_BASE_URL;
 } else {
   Vue.url.options.root = 'http://localhost:5000';

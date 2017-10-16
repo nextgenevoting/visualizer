@@ -44,7 +44,7 @@ module.exports = {
     },
     devtool: '#eval-source-map',
     plugins: [
-        new webpack.EnvironmentPlugin(['SOCKETIO_BASE_URL'])
+        new webpack.EnvironmentPlugin({ 'SOCKETIO_BASE_URL': '/socket.io' })
     ]
 };
 
