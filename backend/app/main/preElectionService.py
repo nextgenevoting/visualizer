@@ -41,21 +41,34 @@ def createElection():
     return json.dumps({'id': str(id)})
 
 
-@socketio.on('setUpElection')
-def setUpElection(data):
+@main.route('/setUpElection', methods=['POST'])
+@cross_origin(origin='*')
+def setUpElection():
+    data = request.json
     electionId = data["election"]
+    voters = json.loads(data["voters"])
+    candidates = json.loads(data["candidates"])
+    countingCircles = json.loads(data["countingCircles"])
+    numberOfSelections = json.loads(data["numberOfSelections"])
+    numberOfCandidates = json.loads(data["numberOfCandidates"])
 
-    # prepare voteSimulator
-    sim = VoteSimulator(electionId)
+    print(data)
+    try:
+        # prepare voteSimulator
+        sim = VoteSimulator(electionId)
 
-    # perform action
-    sim.setupElection(["Voter1", "Voter 2"], [1], ["Clinton", "Trump"], [1], [1])
+        # perform action
+        sim.setupElection(voters, countingCircles, candidates, numberOfCandidates, numberOfSelections)
 
-    # retrieve and persist modified state
-    sim.persist()
+        # retrieve and persist modified state
+        sim.persist()
 
-    db.elections.update_one({'_id': ObjectId(electionId)}, {"$set": {"status" : 1}}, upsert=False)
+        db.elections.update_one({'_id': ObjectId(electionId)}, {"$set": {"status" : 1}}, upsert=False)
 
-    syncElectionData(electionId)
+        syncElectionData(electionId)
+    except Exception as ex:
+        return json.dumps({'result': 'error', })
+
+    return json.dumps({'result': 'success'})
 
 
