@@ -82,13 +82,8 @@ Vue.use(Vuex)
 Vue.use(VueResource)
 Vue.use(storePlugin)
 
-if (process.env.SOCKETIO_BASE_URL !== undefined) {
-  Vue.url.options.root = process.env.SOCKETIO_BASE_URL;
-} else {
-  Vue.url.options.root = 'http://localhost:5000';
-}
-
-Vue.use(VueSocketio, Vue.url.options.root, Vue.prototype.$dataStore);
+Vue.url.options.root = process.env.URL_ROOT;
+Vue.use(VueSocketio, process.env.SOCKETIO_BASE_URL, Vue.prototype.$dataStore);
 
 new Vue({ // eslint-disable-line no-new
   el: '#app',

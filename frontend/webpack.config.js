@@ -34,6 +34,14 @@ module.exports = {
                 test: /\.styl$/,
                 loader: ['style-loader', 'css-loader', 'stylus-loader']
             }
+
+/*
+	    {
+	    	// Doesn't seem to work: handler for material icon fonts
+                test: /\.(eot|svg|ttf|woff|woff2)$/,
+                loader: 'file?name=node_modules/mdi/fonts/[name].[ext]'
+	    }
+*/
         ]
     },
     devServer: {
@@ -44,7 +52,10 @@ module.exports = {
     },
     devtool: '#eval-source-map',
     plugins: [
-        new webpack.EnvironmentPlugin({ 'SOCKETIO_BASE_URL': '/socket.io' })
+        new webpack.EnvironmentPlugin({
+		'URL_ROOT': process.env.NODE_ENV === 'production' ? '/api' : '/',
+		'SOCKETIO_BASE_URL': '/'
+	})
     ]
 };
 
