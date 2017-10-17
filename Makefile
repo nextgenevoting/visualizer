@@ -1,3 +1,6 @@
+dev:
+	docker-compose -f docker-compose.dev.yaml up
+
 up:
 	docker-compose up
 
