@@ -8,3 +8,8 @@ class ElectionAuthorityState(State):
         self.secretVotingCredentials = []
         self.publicVotingCredentials = []
         self.points = []
+
+        # 7.3
+        self.secretKeyShare = None      # sk_j
+        self.publicKeyShare = None      # pk_j
+        self.publicKey = None           # pk

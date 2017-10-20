@@ -6,6 +6,7 @@ const state = {
         candidates: [],
         publicVotingCredentials: [],
         numberOfSelections: [],
+        publicKey: 0,
 
 }
 
@@ -14,6 +15,7 @@ const state = {
 const mutations = {
     SOCKET_SYNCELECTIONDATA: (state, data) => {
         console.log("SOCKET_SYNCELECTIONDATA called");
+        console.log(data);
         state.id = data.election;
         state.status = data.status;
 
@@ -22,11 +24,12 @@ const mutations = {
         state.candidates = bb.candidates;
         state.publicVotingCredentials = bb.publicCredentials;
         state.numberOfSelections = bb.numberOfSelections;
+        state.publicKey = bb.publicKey;
     }
 }
 
 const getters = {
-    getStatus: ()=> {
+    getStatusText: ()=> {
         var statusId = state.status;
         if (statusId == 0)
             return "Created";

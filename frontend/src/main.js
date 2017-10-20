@@ -11,6 +11,7 @@ import VoterPage from './pages/election/VoterPage.vue';
 import PrintingAuthPage from './pages/election/PrintingAuthPage.vue';
 import ElectionOverviewPage from './pages/election/ElectionOverviewPage.vue'
 import ElectionAdminPage from './pages/election/ElectionAdminPage.vue'
+import BulletinBoardPage from './pages/election/BulletinBoardPage.vue'
 import Vuex from 'vuex'
 import VueSocketio from 'vue-socket.io';
 import { store } from './store/store.js'
@@ -57,6 +58,11 @@ const routes = [
       name: 'voter',
       component: VoterPage,
   },
+    {
+        path: '/election/bulletinboard/:id',
+        name: 'bulletinboard',
+        component: BulletinBoardPage,
+    },
   {
     path: '/login',
     name: '/login',
@@ -80,8 +86,8 @@ Vue.use(VueRouter);
 Vue.use(Vuex)
 Vue.use(VueResource)
 
-Vue.url.options.root = process.env.URL_ROOT;
-Vue.use(VueSocketio, process.env.SOCKETIO_BASE_URL, Vue.prototype.$dataStore);
+Vue.url.options.root = process.env.SOCKETIO_BASE_URL || 'http://localhost:5000'
+Vue.use(VueSocketio, Vue.url.options.root, store);
 
 new Vue({ // eslint-disable-line no-new
   el: '#app', store,

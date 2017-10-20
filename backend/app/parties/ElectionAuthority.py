@@ -1,4 +1,6 @@
 from chvote.ElectionAuthority.GenElectorateData import GenElectorateData
+from chvote.ElectionAuthority.GenKeyPair import GenKeyPair
+from chvote.ElectionAuthority.GetPublicKey import GetPublicKey
 from app.parties.Party import Party
 
 class ElectionAuthority(Party):
@@ -15,15 +17,30 @@ class ElectionAuthority(Party):
         (Protocol 6.1) Every authority j ∈ {1,...,s} calls GenElectorateData with n, k, E in order to (independently) generate
         the public election parameters for all voters.
 
-        Args:
-
-        Returns:
-            list:                   d_hat_j, a list of public data of all voters, calculated by authority j
-
         """
 
         self.state.secretVoterData, self.state.publicVoterData, self.state.points = GenElectorateData(bulletinBoard.numberOfCandidates, bulletinBoard.numberOfSelections, bulletinBoard.elegibilityMatrix, secparams)
 
         bulletinBoard.publicCredentials = []
         bulletinBoard.publicCredentials.append(self.state.publicVoterData)
-        return bulletinBoard
+        return True
+
+    def GenKey(self, bulletinBoard, secparams):
+        """
+        (Protocol 6.3) Every authority j ∈ {1,...,s} calls GenKeyPair() in order to (independently) generate
+        a key pair
+
+        """
+
+        self.state.secretKeyShare, self.state.publicKeyShare = GenKeyPair(secparams)
+
+        bulletinBoard.publicKeyShares.append(self.state.secretKeyShare)
+        return True
+
+    def GetPublicKey(self, bulletinBoard, secparams):
+        """
+        (Protocol 6.3) Every authority j ∈ {1,...,s} calls GetPublicKey() to combine the s public key shares into one public key
+
+        """
+        self.state.publicKey = GetPublicKey(bulletinBoard.publicKeyShares, secparams)
+        return self.state.publicKey

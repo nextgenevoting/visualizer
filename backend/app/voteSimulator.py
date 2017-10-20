@@ -30,6 +30,15 @@ class VoteSimulator(object):
         self.bulletinBoard.numberOfCandidates = n_bold
         self.bulletinBoard.numberOfSelections = k_bold
 
+
+        # 7.1 Generation of electorate data
         for authority in self.authorities:
             authority.GenElectionData(self.bulletinBoard, self.secparams)
 
+
+        # 7.3 Key generation
+        for authority in self.authorities:
+            authority.GenKey(self.bulletinBoard, self.secparams)
+        for authority in self.authorities:
+            pk = authority.GetPublicKey(self.bulletinBoard, self.secparams)
+        self.bulletinBoard.publicKey = pk

@@ -17,7 +17,7 @@
             data() {
                 return {
                     id: this.$store.state.BulletinBoard.id,
-                    status: this.$store.getters.getStatus
+                    status: this.$store.getters.getStatusText
                 }
             },
         },

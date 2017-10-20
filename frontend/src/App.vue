@@ -51,13 +51,12 @@
                 <v-icon>mdi-account</v-icon>
                 Voter
               </v-tabs-item>
-              <v-tabs-item href="#tab-3">
-                <v-icon>mdi-checkbox-marked-outline</v-icon>
-                Verifier
-              </v-tabs-item>
-            </v-tabs-bar>
-
-          </v-tabs>
+                 <v-tabs-item :to="{ name: 'bulletinboard', params: {id: $route.params['id'] }}">
+                    <v-icon>mdi-checkbox-marked-outline</v-icon>
+                     Bulletin Board
+                 </v-tabs-item>
+             </v-tabs-bar>
+        </v-tabs>
         <main>
             <v-fade-transition mode="out-in">
                 <router-view></router-view>

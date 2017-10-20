@@ -1,6 +1,6 @@
 from chvote.ElectionAuthority.GenElectorateData import GenElectorateData
 from app.parties.Party import Party
-from chvote.Utils.Utils import AssertList, AssertInt
+from chvote.Utils.Utils import AssertList, AssertInt, AssertMpz
 
 class BulletinBoard(Party):
 
@@ -95,3 +95,21 @@ class BulletinBoard(Party):
     def confirmations(self, value):
         AssertList(value)
         self.state.confirmations = value
+
+    @property
+    def publicKeyShares(self):
+        return self.state.publicKeyShares
+
+    @publicKeyShares.setter
+    def publicKeyShares(self, value):
+        AssertList(value)
+        self.state.publicKeyShares = value
+
+    @property
+    def publicKey(self):
+        return self.state.publicKey
+
+    @publicKey.setter
+    def publicKey(self, value):
+        AssertMpz(value)
+        self.state.publicKey = value
