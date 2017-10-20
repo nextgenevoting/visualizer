@@ -1,3 +1,4 @@
+import os
 import pymongo
 import json
 from bson.json_util import dumps
@@ -20,7 +21,8 @@ class database(object):
 
     def __init__(self):
         #client = pymongo.MongoClient('mongodb://chvote:chv0t3_2017_$$$@cluster0-shard-00-00-wrqp9.mongodb.net:27017,cluster0-shard-00-01-wrqp9.mongodb.net:27017,cluster0-shard-00-02-wrqp9.mongodb.net:27017/test?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin')
-        client = pymongo.MongoClient('localhost', 27017)
+        client = pymongo.MongoClient(os.environ['MONGODB_HOST'] if 'MONGODB_HOST' in os.environ else 'localhost',
+            os.environ['MONGODB_PORT'] if 'MONGODB_PORT' in os.environ else 27017)
         self._db = client.chvote
 
     # Mongo DB collections (tables):
