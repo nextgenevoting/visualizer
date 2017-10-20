@@ -2,7 +2,6 @@
 const state = {
         id: "",
         status: 0,
-        count: 1,
         voters: [],
         candidates: [],
         publicVotingCredentials: [],
@@ -13,11 +12,6 @@ const state = {
 
 // mutations
 const mutations = {
-    SOCKET_SYNCCOUNTER: (state, data) => {
-        console.log("SOCKET_SYNCCOUNTER called");
-        data = JSON.parse(data);
-        state.count = data.counter;
-    },
     SOCKET_SYNCELECTIONDATA: (state, data) => {
         console.log("SOCKET_SYNCELECTIONDATA called");
         state.id = data.election;
@@ -31,8 +25,19 @@ const mutations = {
     }
 }
 
+const getters = {
+    getStatus: ()=> {
+        var statusId = state.status;
+        if (statusId == 0)
+            return "Created";
+        if (statusId == 1)
+            return "Electorate data generated";
+    }
+
+}
+
 export default {
-    namespaced: false,
     state,
-    mutations
+    mutations,
+    getters
 }

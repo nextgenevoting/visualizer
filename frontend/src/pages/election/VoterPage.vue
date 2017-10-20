@@ -17,14 +17,14 @@
         computed: {
             data() {
                 return {
-                    voters: this.$dataStore.state.election.voters,
-                    status: this.$dataStore.state.election.status
+                    voters: this.$store.state.BulletinBoard.voters,
+                    status: this.$store.state.BulletinBoard.status
                 }
             }
         },
         created() {
             this.$socket.emit('join', {'election': this.$route.params["id"]});
-            this.unsub = this.$dataStore.subscribe((mutation, state) => console.log(mutation));
+            this.unsub = this.$store.subscribe((mutation, state) => console.log(mutation));
         },
         beforeDestroy() {
             console.log("before destroy");

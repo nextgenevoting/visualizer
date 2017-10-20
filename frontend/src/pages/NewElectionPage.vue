@@ -39,7 +39,7 @@
         }
       },
       created() {
-          this.unsub = this.$dataStore.subscribe((mutation, state) => console.log(mutation));
+          this.unsub = this.$store.subscribe((mutation, state) => console.log(mutation));
       },
       beforeDestroy() {
           console.log("before destroy");

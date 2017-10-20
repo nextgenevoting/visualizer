@@ -3,11 +3,8 @@
         <h3 class="my-3">Election overview</h3>
         ID: <b>{{ data.id }}</b>
         <br>
-        Status: <b>{{ data.status() }}</b>
+        Status: <b>{{ data.status }}</b>
         <br>
-        Count: <b>{{ data.count }}</b>
-        <br>
-        <v-btn color="primary" v-on:click="increment">Increment</v-btn>
         <br>
 
 
@@ -19,33 +16,13 @@
         computed: {
             data() {
                 return {
-                    count: this.$dataStore.state.election.count,
-                    id: this.$dataStore.state.election.id,
-                    status: ()=> {
-                        var statusId = this.$dataStore.state.election.status;
-                        if (statusId == 0)
-                            return "Created";
-                        if (statusId == 1)
-                            return "Electorate data generated";
-                    }
+                    id: this.$store.state.BulletinBoard.id,
+                    status: this.$store.getters.getStatus
                 }
             },
         },
-        created() {
+        created(){
             this.$socket.emit('join', {'election': this.$route.params["id"]});
-            //this.unsub = this.$dataStore.subscribe((mutation, state) => console.log(mutation));
-        },
-        beforeDestroy() {
-            console.log("before destroy");
-            //this.unsub();
-        },
-        methods: {
-
-            increment: function (event) {
-                this.$socket.emit('increment', {'election': this.$route.params["id"]});
-                //console.log("Increment called");
-                //this.$dataStore.dispatch('increment')
-            }
         }
     };
 </script>

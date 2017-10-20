@@ -61,18 +61,18 @@
         computed: {
             data() {
                 return {
-                    voters: this.$dataStore.state.election.voters,
-                    candidates: this.$dataStore.state.election.candidates,
-                    publicVotingCredentials: this.$dataStore.state.election.publicVotingCredentials,
-                    numberOfSelections: this.$dataStore.state.election.numberOfSelections,
-                    status: this.$dataStore.state.election.status
+                    voters: this.$store.state.BulletinBoard.voters,
+                    candidates: this.$store.state.BulletinBoard.candidates,
+                    publicVotingCredentials: this.$store.state.BulletinBoard.publicVotingCredentials,
+                    numberOfSelections: this.$store.state.BulletinBoard.numberOfSelections,
+                    status: this.$store.state.BulletinBoard.status
 
                 }
             }
         },
         created() {
             this.$socket.emit('join', {'election': this.$route.params["id"]});
-            this.unsub = this.$dataStore.subscribe((mutation, state) => console.log(mutation));
+            this.unsub = this.$store.subscribe((mutation, state) => console.log(mutation));
         },
         beforeDestroy() {
             console.log("before destroy");

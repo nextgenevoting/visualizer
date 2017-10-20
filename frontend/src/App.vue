@@ -38,12 +38,12 @@
                 Overview
               </v-tabs-item>
               <v-tabs-item :to="{ name: 'electionadmin', params: {id: $route.params['id'] }}">
-                  <v-icon v-if="data.status == 0" v-badge="{ value: '!', overlap: true }" class="red--after">mdi-account-key</v-icon>
+                  <v-icon v-if="status == 0" v-badge="{ value: '!', overlap: true }" class="red--after">mdi-account-key</v-icon>
                   <v-icon v-else>mdi-account-key</v-icon>
                   Election Admin
               </v-tabs-item>
               <v-tabs-item :to="{ name: 'printingauth', params: {id: $route.params['id'] }}">
-                  <v-icon v-if="data.status == 1" v-badge="{ value: '!', overlap: true }" class="red--after">mdi-printer</v-icon>
+                  <v-icon v-if="status == 1" v-badge="{ value: '!', overlap: true }" class="red--after">mdi-printer</v-icon>
                   <v-icon v-else>mdi-printer</v-icon>
                   Printing Auth.
             </v-tabs-item>
@@ -64,14 +64,14 @@
             </v-fade-transition>
         </main>
 
-        <v-snackbar error top :timeout="0" v-model="data.offlineNotification">
+        <v-snackbar error top :timeout="0" v-model="offlineNotification">
             Websocket connection to server lost!
-            <v-btn dark flat @click.native="data.offlineNotification = false">Close</v-btn>
+            <v-btn dark flat @click.native="offlineNotification = false">Close</v-btn>
         </v-snackbar>
 
-        <v-snackbar success top :timeout="2000" v-model="data.onlineNotification">
+        <v-snackbar success top :timeout="2000" v-model="onlineNotification">
             Websocket connection established!
-            <v-btn dark flat @click.native="data.onlineNotification = false">Close</v-btn>
+            <v-btn dark flat @click.native="onlineNotification = false">Close</v-btn>
         </v-snackbar>
 
     </v-app>
@@ -101,13 +101,28 @@
       };
     },
     computed:{
-        data() {
-            return {
-                onlineNotification: this.$dataStore.state.connected,
-                offlineNotification: !this.$dataStore.state.connected,
-                status: this.$dataStore.state.election.status
-            }
+
+       onlineNotification: {
+          get () {
+             return this.$store.state.connected
+          },
+        set (value) {
         }
+          },
+        offlineNotification: {
+          get () {
+             return !this.$store.state.connected
+          },
+          set (value) {
+          }
+          },
+       status: {
+          get () {
+               return this.$store.state.BulletinBoard.status
+            },
+          set (value) {
+          }
+       },
     },
     methods: {
       openGithub() {

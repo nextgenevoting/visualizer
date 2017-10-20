@@ -1,14 +1,14 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import election from './modules/election'
+import Election from './modules/Election'
+import BulletinBoard from './modules/BulletinBoard'
 
 Vue.use(Vuex)
 
-export default new Vuex.Store({
+export const store = new Vuex.Store({
     namespaced: false,
     state: {
         connected: false,
-        elections: []
     },
     mutations: {
         SOCKET_CONNECT: (state,  status) => {
@@ -17,9 +17,6 @@ export default new Vuex.Store({
         },
         SOCKET_DISCONNECT: (state,  status) => {
             state.connected = false;
-        },
-        SOCKET_SYNCELECTIONS: (state, data) => {
-            state.elections = JSON.parse(data);
         }
     },
     actions: {
@@ -29,6 +26,7 @@ export default new Vuex.Store({
         }*/
     },
     modules: {
-        election
+        Election,
+        BulletinBoard
     },
 })

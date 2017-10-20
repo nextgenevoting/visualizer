@@ -12,9 +12,8 @@ import PrintingAuthPage from './pages/election/PrintingAuthPage.vue';
 import ElectionOverviewPage from './pages/election/ElectionOverviewPage.vue'
 import ElectionAdminPage from './pages/election/ElectionAdminPage.vue'
 import Vuex from 'vuex'
-import storePlugin from './store/storeplugin'
 import VueSocketio from 'vue-socket.io';
-import { MyVuexStore } from './store/store.js'
+import { store } from './store/store.js'
 import VueResource from 'vue-resource'
 
 const routes = [
@@ -80,7 +79,6 @@ Vue.use(Vuetify);
 Vue.use(VueRouter);
 Vue.use(Vuex)
 Vue.use(VueResource)
-Vue.use(storePlugin)
 
 if (process.env.SOCKETIO_BASE_URL) {
   Vue.url.options.root = process.env.SOCKETIO_BASE_URL;
@@ -88,10 +86,10 @@ if (process.env.SOCKETIO_BASE_URL) {
   Vue.url.options.root = 'http://localhost:5000';
 }
 
-Vue.use(VueSocketio, Vue.url.options.root, Vue.prototype.$dataStore);
+Vue.use(VueSocketio, Vue.url.options.root, store);
 
 new Vue({ // eslint-disable-line no-new
-  el: '#app',
+  el: '#app', store,
   router,
   render: h => h(App),
 });
