@@ -1,3 +1,5 @@
+// vim: set expandtab tabstop=2 :
+
 let path    = require('path');
 let webpack = require('webpack');
 
@@ -36,11 +38,11 @@ module.exports = {
             }
 
 /*
-	    {
-	    	// Doesn't seem to work: handler for material icon fonts
+      {
+        // Doesn't seem to work: handler for material icon fonts
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
                 loader: 'file?name=node_modules/mdi/fonts/[name].[ext]'
-	    }
+      }
 */
         ]
     },
@@ -53,9 +55,9 @@ module.exports = {
     devtool: '#eval-source-map',
     plugins: [
         new webpack.EnvironmentPlugin({
-		'URL_ROOT': process.env.NODE_ENV === 'production' ? '/api' : '/',
-		'SOCKETIO_BASE_URL': '/'
-	})
+          'URL_ROOT': process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5000',
+          'SOCKETIO_BASE_URL': process.env.NODE_ENV === 'production' ? '/': 'http://localhost:5000'
+        })
     ]
 };
 
