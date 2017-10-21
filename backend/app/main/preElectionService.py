@@ -8,7 +8,7 @@ from app.models.electionAuthorityState import ElectionAuthorityState
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
-from app.main.syncService import syncElections, syncElectionData
+from app.main.syncService import syncElections, syncElectionData, SyncType
 from bson.objectid import ObjectId
 
 import json
@@ -36,7 +36,7 @@ def createElection():
     db.counter.insert({'election': str(id), 'counter': 0})
 
     # update the election list on all clients
-    syncElections(True)
+    syncElections(SyncType.BROADCAST)
     # return the new elections id to the client so it can load the overview directly
     return json.dumps({'id': str(id)})
 
@@ -65,7 +65,7 @@ def setUpElection():
 
         db.elections.update_one({'_id': ObjectId(electionId)}, {"$set": {"status" : 1}}, upsert=False)
 
-        syncElectionData(electionId)
+        syncElectionData(electionId, SyncType.ROOM)
     except Exception as ex:
         return json.dumps({'result': 'error', })
 

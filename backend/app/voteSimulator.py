@@ -37,6 +37,8 @@ class VoteSimulator(object):
 
 
         # 7.3 Key generation
+        self.bulletinBoard.publicKeyShares = []
+
         for authority in self.authorities:
             authority.GenKey(self.bulletinBoard, self.secparams)
         for authority in self.authorities:

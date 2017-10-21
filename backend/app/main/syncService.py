@@ -7,19 +7,36 @@ from app.database import db, saveComplex, loadComplex
 from app.models.bulletinBoardState import BulletinBoardState
 from .. import socketio
 import json
+from enum import Enum
+
+class SyncType(Enum):
+   SENDER_ONLY = 1
+   ROOM = 2
+   BROADCAST = 3
+
+def emitToClient(messageName, payload, syncType, room = None):
+    if syncType == SyncType.ROOM:
+        socketio.emit(messageName, payload , room=room)
+    else:
+        socketio.emit(messageName, payload, broadcast=True if syncType == SyncType.BROADCAST else False)
 
 # EMITTERS
-def syncElections(broadcast):
+def syncElections(syncType):
+    assert syncType != SyncType.ROOM, "SyncType of syncElections must be SENDER_ONLY or BROADCAST"
     res = db.elections.find()
     elections = dumps(res)
-    socketio.emit('syncElections',elections , broadcast=broadcast)
+    emitToClient('syncElections', elections, syncType)
 
-def syncElectionData(electionID):
+def fullSync(electionID, syncType):
+    syncElectionData(electionID, syncType)
+
+def syncElectionData(electionID, syncType):
     election = db.elections.find_one({'_id': ObjectId(electionID)})
 
     bbState = db.bulletinBoardStates.find_one({'election':electionID})
     if bbState != None:
         bbState = loadComplex(bbState["state"])
-        socketio.emit('syncElectionData', {'election':electionID, 'status': election["status"], 'bulletinBoard': bbState.toJSON()}, room=electionID)
+        #socketio.emit('syncElectionData', {'election':electionID, 'status': election["status"], 'bulletinBoard': bbState.toJSON()}, room=electionID)
+        emitToClient('syncElectionData', {'election':electionID, 'status': election["status"], 'bulletinBoard': bbState.toJSON()}, syncType, electionID)
     else:
         raise RuntimeError("No BulletinBoardState for this election!")

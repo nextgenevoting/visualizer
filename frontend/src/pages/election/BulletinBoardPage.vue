@@ -5,8 +5,7 @@
         <br>
         Status: <b>{{ data.status }}</b>
         <br>
-        Public Key: <b>{{ data.publicKey }}</b>
-
+        Public Key: <BigIntLabel :mpzValue="data.publicKey"></BigIntLabel>
         <br>
         <br>
     </v-container>
@@ -30,6 +29,6 @@
         beforeDestroy() {
             console.log("before destroy");
             this.unsub();
-        },
+        }
     };
 </script>

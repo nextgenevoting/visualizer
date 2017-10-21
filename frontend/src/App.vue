@@ -38,13 +38,17 @@
                 Overview
               </v-tabs-item>
               <v-tabs-item :to="{ name: 'electionadmin', params: {id: $route.params['id'] }}">
-                  <v-icon v-if="status == 0" v-badge="{ value: '!', overlap: true }" class="red--after">mdi-account-key</v-icon>
-                  <v-icon v-else>mdi-account-key</v-icon>
+                 <v-badge color="">
+                    <v-icon slot="badge" dark v-if="status == 0">notifications</v-icon>
+                   <v-icon>mdi-account-key</v-icon>
+                   </v-badge>
                   Election Admin
               </v-tabs-item>
               <v-tabs-item :to="{ name: 'printingauth', params: {id: $route.params['id'] }}">
-                  <v-icon v-if="status == 1" v-badge="{ value: '!', overlap: true }" class="red--after">mdi-printer</v-icon>
-                  <v-icon v-else>mdi-printer</v-icon>
+                  <v-badge color="">
+                   <v-icon slot="badge" dark v-if="status == 1">notifications</v-icon>
+                  <v-icon>mdi-printer</v-icon>
+                  </v-badge>
                   Printing Auth.
             </v-tabs-item>
                  <v-tabs-item :to="{ name: 'voter', params: {id: $route.params['id'] }}">
@@ -77,7 +81,7 @@
 </template>
 
 <script type="text/babel">
-  export default {
+    export default {
     data() {
       return {
         drawer: false,
@@ -127,7 +131,7 @@
       openGithub() {
         window.open('https://github.com/disjfa/vuetify-sidebar-template');
       },
-    },
+    }
   };
 </script>
 

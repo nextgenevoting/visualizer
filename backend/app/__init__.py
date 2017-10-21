@@ -20,17 +20,18 @@ def create_app(debug=False):
 @socketio.on('connect')
 def handle_connection():
     from app.main.preElectionService import syncElections
-    syncElections(False)
+    from app.main.syncService import SyncType
+
+    syncElections(SyncType.SENDER_ONLY)
 
 # on_join is called whenever a client selects an election. Election specific messages will only be sent to clients that have joined the room
 @socketio.on('join')
 def on_join(data):
+    from app.main.syncService import SyncType, fullSync
+
     electionID = data['election']
     for room in rooms():
         if room != request.sid:
             leave_room(room)
     join_room(electionID)
-    from app.main.preElectionService import syncElectionData
-    from app.main.incrementService import syncCounter
-    syncElectionData(electionID)
-    syncCounter(electionID)
+    fullSync(electionID, SyncType.SENDER_ONLY)

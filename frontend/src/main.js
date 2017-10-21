@@ -16,6 +16,7 @@ import Vuex from 'vuex'
 import VueSocketio from 'vue-socket.io';
 import { store } from './store/store.js'
 import VueResource from 'vue-resource'
+import BigIntLabel from './utils/BigIntLabel.vue';
 
 const routes = [
   {
@@ -83,14 +84,16 @@ const router = new VueRouter({
 
 Vue.use(Vuetify);
 Vue.use(VueRouter);
-Vue.use(Vuex)
-Vue.use(VueResource)
+Vue.use(Vuex);
+Vue.use(VueResource);
+Vue.component('BigIntLabel', BigIntLabel);
 
-Vue.url.options.root = process.env.SOCKETIO_BASE_URL || 'http://localhost:5000'
+Vue.url.options.root = process.env.SOCKETIO_BASE_URL || 'http://localhost:5000';
 Vue.use(VueSocketio, Vue.url.options.root, store);
 
 new Vue({ // eslint-disable-line no-new
   el: '#app', store,
   router,
   render: h => h(App),
+  components: { BigIntLabel },
 });
