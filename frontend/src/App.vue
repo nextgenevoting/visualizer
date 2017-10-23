@@ -126,7 +126,7 @@
           },
        status: {
           get () {
-               return this.$store.state.BulletinBoard.status
+               return this.$store.state.Election.status
             },
           set (value) {
           }

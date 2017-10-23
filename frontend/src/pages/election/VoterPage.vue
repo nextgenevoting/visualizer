@@ -18,7 +18,7 @@
             data() {
                 return {
                     voters: this.$store.state.BulletinBoard.voters,
-                    status: this.$store.state.BulletinBoard.status
+                    status: this.$store.state.Election.status
                 }
             }
         },

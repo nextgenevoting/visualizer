@@ -4,7 +4,8 @@ from app.parties.ElectionAuthority import ElectionAuthority
 from app.database import db
 from app.parties.BulletinBoard import BulletinBoard
 from app.parties.PrintingAuthority import PrintingAuthority
-
+from bson.objectid import ObjectId
+from app.main.syncService import syncElectionStatus, SyncType
 
 class VoteSimulator(object):
 
@@ -26,6 +27,12 @@ class VoteSimulator(object):
             authority.persist()
 
         self.printingAuthority.persist()
+
+    def updateStatus(self, newStatus):
+        assert isinstance(newStatus, int), "status must be a number"
+        # update election status
+        db.elections.update_one({'_id': ObjectId(self.electionID)}, {"$set": {"status" : newStatus}}, upsert=False)
+        syncElectionStatus(self.electionID, SyncType.ROOM)
 
     def setupElection(self, v_bold, w_bold, c_bold, n_bold, k_bold):
         self.bulletinBoard.voters = v_bold

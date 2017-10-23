@@ -28,10 +28,11 @@ def syncElections(syncType):
     emitToClient('syncElections', elections, syncType)
 
 def fullSync(electionID, syncType):
-    syncElectionData(electionID, syncType)
+    syncElectionStatus(electionID, syncType)
+    syncBulletinBoard(electionID, syncType)
     syncPrintingAuthority(electionID, syncType)
 
-def syncElectionData(electionID, syncType):
+def syncBulletinBoard(electionID, syncType):
     election = db.elections.find_one({'_id': ObjectId(electionID)})
 
     bbState = db.bulletinBoardStates.find_one({'election':electionID})
@@ -40,7 +41,7 @@ def syncElectionData(electionID, syncType):
         #socketio.emit('syncElectionData', {'election':electionID, 'status': election["status"], 'bulletinBoard': bbState.toJSON()}, room=electionID)
         emitToClient('syncElectionData', {'election':electionID, 'status': election["status"], 'bulletinBoard': bbState.toJSON()}, syncType, electionID)
     else:
-        raise RuntimeError("No BulletinBoardState for this election!")
+        raise RuntimeError("No BulletinBoardState for election {}!".format(electionID))
 
 
 def syncPrintingAuthority(electionID, syncType):
@@ -51,4 +52,11 @@ def syncPrintingAuthority(electionID, syncType):
         paState = loadComplex(paState["state"])
         emitToClient('syncPrintingAuthority', {'election':electionID, 'status': election["status"], 'printingAuthorityState': paState.toJSON()}, syncType, electionID)
     else:
-        raise RuntimeError("No PrintingAuthorityState for this election!")
+        raise RuntimeError("No PrintingAuthorityState for this election {}!".format(electionID))
+
+def syncElectionStatus(electionID, syncType):
+    election = db.elections.find_one({'_id': ObjectId(electionID)})
+    if election != None:
+        emitToClient('syncElection', {'electionID':electionID, 'status': election["status"]}, syncType, electionID)
+    else:
+        raise RuntimeError("No Election entry for this election {}!".format(electionID))

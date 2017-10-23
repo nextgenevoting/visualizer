@@ -63,7 +63,7 @@
                     candidates: this.$store.state.BulletinBoard.candidates,
                     publicVotingCredentials: this.$store.state.BulletinBoard.publicVotingCredentials,
                     numberOfSelections: this.$store.state.BulletinBoard.numberOfSelections,
-                    status: this.$store.state.BulletinBoard.status
+                    status: this.$store.state.Election.status
 
                 }
             }

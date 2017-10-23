@@ -9,7 +9,7 @@ from app.models.printingAuthorityState import PrintingAuthorityState
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
-from app.main.syncService import syncElections, syncElectionData, SyncType, syncPrintingAuthority
+from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus
 from bson.objectid import ObjectId
 
 import json
@@ -66,9 +66,10 @@ def setUpElection():
         # retrieve and persist modified state
         sim.persist()
 
-        db.elections.update_one({'_id': ObjectId(electionId)}, {"$set": {"status" : 1}}, upsert=False)
+        syncBulletinBoard(electionId, SyncType.ROOM)
 
-        syncElectionData(electionId, SyncType.ROOM)
+        # update election status
+        sim.updateStatus(1)
     except Exception as ex:
         return json.dumps({'result': 'error', })
 
@@ -87,11 +88,11 @@ def printVotingCards():
         sim.printVotingCards()
         sim.persist()                               # persist the modified state
 
-        # update the status of the election
-        db.elections.update_one({'_id': ObjectId(electionId)}, {"$set": {"status": 2}}, upsert=False)
-
         syncPrintingAuthority(electionId, SyncType.ROOM)
-        syncElectionData(electionId, SyncType.ROOM)
+
+        # update election status
+        db.elections.update_one({'_id': ObjectId(electionId)}, {"$set": {"status" : 2}}, upsert=False)
+        syncElectionStatus(electionId, SyncType.ROOM)
 
     except Exception as ex:
         return json.dumps({'result': 'error', })

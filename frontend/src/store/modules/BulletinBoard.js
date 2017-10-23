@@ -1,7 +1,6 @@
 // initial state
 const state = {
         id: "",
-        status: 0,
         voters: [],
         candidates: [],
         publicVotingCredentials: [],
@@ -17,7 +16,6 @@ const mutations = {
         console.log("SOCKET_SYNCELECTIONDATA called");
         console.log(data);
         state.id = data.election;
-        state.status = data.status;
 
         var bb = JSON.parse(data.bulletinBoard);
         state.voters = bb.voters;
@@ -29,23 +27,6 @@ const mutations = {
 }
 
 const getters = {
-    getStatusText: ()=> {
-        var statusId = state.status;
-        switch(statusId){
-            case 0:
-                return "New";
-                break;
-            case 1:
-                return "Electorate data generated";
-                break;
-            case 2:
-                return "Voting Cards Printed";
-                break;
-            default:
-                return "Unknown status";
-        }
-
-    }
 
 }
 
