@@ -8,11 +8,13 @@
         </div>
 
         <div v-if="data.status == 1">
-            <v-btn color="primary" v-on:click="generateVotingSheets">Generate voting sheets</v-btn>
+            <v-btn color="primary" v-on:click="printVotingCards">Print voting sheets</v-btn>
         </div>
 
         <div v-if="data.status == 2">
-            todo: printing voting sheets
+            todo: printing voting sheets<br><br>
+            Voting Sheets: {{ data.votingCards }}
+
         </div>
     </v-container>
 </template>
@@ -23,7 +25,8 @@
             data() {
                 return {
                     voters: this.$store.state.BulletinBoard.voters,
-                    status: this.$store.state.BulletinBoard.status
+                    status: this.$store.state.BulletinBoard.status,
+                    votingCards: this.$store.state.PrintingAuthority.votingCards
                 }
             }
         },
@@ -37,8 +40,18 @@
         },
         methods: {
 
-            generateVotingSheets: function (event) {
-                this.$socket.emit('generateVotingSheets', {'election': this.$route.params["id"]});
+            printVotingCards: function (event) {
+               this.$http.post('printVotingCards',
+                   {
+                       'election': this.$route.params["id"],
+                   }
+                   ).then(response => {
+                   response.json().then((data) => {
+                       // success callback
+                   });
+               }, response => {
+                   // error callback
+               });
             }
         }
     };

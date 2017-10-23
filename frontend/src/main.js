@@ -91,6 +91,13 @@ Vue.component('BigIntLabel', BigIntLabel);
 Vue.url.options.root = process.env.SOCKETIO_BASE_URL || 'http://localhost:5000';
 Vue.use(VueSocketio, Vue.url.options.root, store);
 
+Vue.http.interceptors.push((request, next) => {
+    NProgress.start();
+    next((response)=>{
+        NProgress.done();
+    });
+});
+
 new Vue({ // eslint-disable-line no-new
   el: '#app', store,
   router,

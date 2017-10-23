@@ -6,7 +6,6 @@ class BulletinBoard(Party):
 
     def __init__(self, collection, electionID):
         Party.__init__(self, collection, electionID)
-        self.loadState()
 
     @property
     def voters(self):

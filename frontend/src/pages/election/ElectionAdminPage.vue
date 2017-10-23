@@ -3,7 +3,7 @@
         <h3 class="my-3">Election Administration</h3>
 
 
-        <div>
+        <div v-if="data.status == 0">
             <v-form v-model="valid" ref="form" lazy-validation>
                 <v-text-field
                         label="Candidates"
@@ -36,14 +36,12 @@
             </v-form>
         </div>
 
-        <div v-if="data.status > 0">
-            Voters: <b>{{ data.voters }}</b><br>
-            Candidates: <b>{{ data.candidates }}</b><br>
-            Number of selections: <b>{{ data.numberOfSelections }}</b><br>
-            Public voting credentials: <b>{{ data.publicVotingCredentials }}</b><br>
-            Counting circles: <b>{{ data.countingCircles }}</b><br>
+        <div v-if="data.status == 1 || data.status == 2">
+           The electorate data has been submitted to the printing authority.
+        </div>
 
-            <br>
+        <div v-if="data.status == 3">
+            <v-btn>Decrypt & Tally</v-btn>
         </div>
     </v-container>
 </template>
@@ -55,7 +53,7 @@
             candidates: '["Clinton", "Trump"]',
             voters: '["Voter1", "Voter 2"]',
             numberOfSelections: '[1]',
-            numberOfCandidates: '[1]',
+            numberOfCandidates: '[2]',
             countingCircles: '[1, 1]'
         }),
         computed: {

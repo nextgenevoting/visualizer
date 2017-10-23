@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import Election from './modules/Election'
 import BulletinBoard from './modules/BulletinBoard'
+import PrintingAuthority from './modules/PrintingAuthority'
+
 
 Vue.use(Vuex)
 
@@ -27,6 +29,7 @@ export const store = new Vuex.Store({
     },
     modules: {
         Election,
-        BulletinBoard
+        BulletinBoard,
+        PrintingAuthority
     },
 })

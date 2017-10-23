@@ -1,5 +1,5 @@
 <template>
-    <v-app id="example-1">
+    <v-app id="app">
         <v-navigation-drawer temporary v-model="drawer">
             <v-list>
                 <v-list-tile>
@@ -22,45 +22,50 @@
                 </template>
             </v-list>
         </v-navigation-drawer>
-        <v-toolbar class="cyan" dark>
-            <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-            <v-toolbar-title>CHVote</v-toolbar-title>
-            <v-spacer></v-spacer>
-            <v-btn icon @click.native.stop="openGithub()">
-                <v-icon>home</v-icon>
-            </v-btn>
-        </v-toolbar>
-         <v-tabs dark fixed icons centered>
-             <v-tabs-bar class="cyan" v-show="$route.path.includes('/election/') ? true : false">
-              <v-tabs-slider color="yellow"></v-tabs-slider>
-               <v-tabs-item :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
-                <v-icon>mdi-view-dashboard</v-icon>
-                Overview
-              </v-tabs-item>
-              <v-tabs-item :to="{ name: 'electionadmin', params: {id: $route.params['id'] }}">
-                 <v-badge color="">
-                    <v-icon slot="badge" dark v-if="status == 0">notifications</v-icon>
-                   <v-icon>mdi-account-key</v-icon>
-                   </v-badge>
-                  Election Admin
-              </v-tabs-item>
-              <v-tabs-item :to="{ name: 'printingauth', params: {id: $route.params['id'] }}">
-                  <v-badge color="">
-                   <v-icon slot="badge" dark v-if="status == 1">notifications</v-icon>
-                  <v-icon>mdi-printer</v-icon>
-                  </v-badge>
-                  Printing Auth.
-            </v-tabs-item>
-                 <v-tabs-item :to="{ name: 'voter', params: {id: $route.params['id'] }}">
-                <v-icon>mdi-account</v-icon>
-                Voter
-              </v-tabs-item>
-                 <v-tabs-item :to="{ name: 'bulletinboard', params: {id: $route.params['id'] }}">
-                    <v-icon>mdi-checkbox-marked-outline</v-icon>
-                     Bulletin Board
-                 </v-tabs-item>
-             </v-tabs-bar>
-        </v-tabs>
+        <header class="siteHeader">
+            <v-toolbar class="blue" dark>
+                <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
+                <v-toolbar-title><img src="public/logo.png" style="height:22px"></v-toolbar-title>
+                <v-spacer></v-spacer>
+                <v-btn icon>
+                    <v-icon>mdi-translate</v-icon>
+                </v-btn>
+                <v-btn icon @click.native.stop="openGithub()">
+                    <v-icon>home</v-icon>
+                </v-btn>
+            </v-toolbar>
+             <v-tabs dark fixed icons centered>
+                 <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
+                  <v-tabs-slider color="yellow"></v-tabs-slider>
+                   <v-tabs-item ripple :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
+                    <v-icon>mdi-view-dashboard</v-icon>
+                    Overview
+                  </v-tabs-item>
+                  <v-tabs-item ripple :to="{ name: 'electionadmin', params: {id: $route.params['id'] }}">
+                     <v-badge color="">
+                        <v-icon slot="badge" dark v-if="status == 0">notifications</v-icon>
+                       <v-icon>mdi-account-key</v-icon>
+                       </v-badge>
+                      Election Admin
+                  </v-tabs-item>
+                  <v-tabs-item ripple :to="{ name: 'printingauth', params: {id: $route.params['id'] }}">
+                      <v-badge color="">
+                       <v-icon slot="badge" dark v-if="status == 1">notifications</v-icon>
+                      <v-icon>mdi-printer</v-icon>
+                      </v-badge>
+                      Printing Auth.
+                </v-tabs-item>
+                     <v-tabs-item ripple :to="{ name: 'voter', params: {id: $route.params['id'] }}">
+                    <v-icon>mdi-account</v-icon>
+                    Voter
+                  </v-tabs-item>
+                     <v-tabs-item ripple :to="{ name: 'bulletinboard', params: {id: $route.params['id'] }}">
+                        <v-icon>mdi-checkbox-marked-outline</v-icon>
+                         Bulletin Board
+                     </v-tabs-item>
+                 </v-tabs-bar>
+            </v-tabs>
+        </header>
         <main>
             <v-fade-transition mode="out-in">
                 <router-view></router-view>

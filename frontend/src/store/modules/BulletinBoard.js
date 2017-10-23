@@ -31,10 +31,20 @@ const mutations = {
 const getters = {
     getStatusText: ()=> {
         var statusId = state.status;
-        if (statusId == 0)
-            return "Created";
-        if (statusId == 1)
-            return "Electorate data generated";
+        switch(statusId){
+            case 0:
+                return "New";
+                break;
+            case 1:
+                return "Electorate data generated";
+                break;
+            case 2:
+                return "Voting Cards Printed";
+                break;
+            default:
+                return "Unknown status";
+        }
+
     }
 
 }

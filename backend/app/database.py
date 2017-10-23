@@ -37,22 +37,11 @@ class database(object):
 
     @property
     def electionAuthorityStates(self):
-        return self._db.electionAuthorities
+        return self._db.electionAuthorityStates
 
     @property
-    def counter(self):
-        return self._db.counter
+    def printingAuthorityStates(self):
+        return self._db.printingAuthorityStates
 
-    @property
-    def test(self):
-        return self._db.test
-
-    def transformTest(self):
-        a = (mpz(1), (mpz(2), mpz(3)))
-        self.test.insert({'tuplempztest': a})
-
-        loadedValue = self.test.find().sort([('timestamp', -1)]).limit(1)
-        restored = loadedValue[0]["tuplempztest"]
-        print(restored)
 
 db = database()

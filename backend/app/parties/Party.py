@@ -8,6 +8,8 @@ class Party(object):
         self.electionID = electionID
         self.additionalConditions = additionalConditions    # dict
 
+        self.loadState()
+
     def loadState(self):
         loadCondition = {'election':self.electionID}
         if self.additionalConditions != None:

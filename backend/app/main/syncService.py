@@ -29,6 +29,7 @@ def syncElections(syncType):
 
 def fullSync(electionID, syncType):
     syncElectionData(electionID, syncType)
+    syncPrintingAuthority(electionID, syncType)
 
 def syncElectionData(electionID, syncType):
     election = db.elections.find_one({'_id': ObjectId(electionID)})
@@ -40,3 +41,14 @@ def syncElectionData(electionID, syncType):
         emitToClient('syncElectionData', {'election':electionID, 'status': election["status"], 'bulletinBoard': bbState.toJSON()}, syncType, electionID)
     else:
         raise RuntimeError("No BulletinBoardState for this election!")
+
+
+def syncPrintingAuthority(electionID, syncType):
+    election = db.elections.find_one({'_id': ObjectId(electionID)})
+
+    paState = db.printingAuthorityStates.find_one({'election':electionID})
+    if paState != None:
+        paState = loadComplex(paState["state"])
+        emitToClient('syncPrintingAuthority', {'election':electionID, 'status': election["status"], 'printingAuthorityState': paState.toJSON()}, syncType, electionID)
+    else:
+        raise RuntimeError("No PrintingAuthorityState for this election!")

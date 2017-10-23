@@ -7,6 +7,12 @@
         <br>
         Public Key: <BigIntLabel :mpzValue="data.publicKey"></BigIntLabel>
         <br>
+        Voters: <b>{{ data.voters }}</b><br>
+        Candidates: <b>{{ data.candidates }}</b><br>
+        Number of selections: <b>{{ data.numberOfSelections }}</b><br>
+        Public voting credentials: <b>{{ data.publicVotingCredentials }}</b><br>
+        Counting circles: <b>{{ data.countingCircles }}</b><br>
+
         <br>
     </v-container>
 </template>
@@ -18,7 +24,11 @@
                 return {
                     id: this.$store.state.BulletinBoard.id,
                     status: this.$store.getters.getStatusText,
-                    publicKey: this.$store.state.BulletinBoard.publicKey
+                    publicKey: this.$store.state.BulletinBoard.publicKey,
+                    voters: this.$store.state.BulletinBoard.voters,
+                    candidates: this.$store.state.BulletinBoard.candidates,
+                    publicVotingCredentials: this.$store.state.BulletinBoard.publicVotingCredentials,
+                    numberOfSelections: this.$store.state.BulletinBoard.numberOfSelections,
                 }
             }
         },

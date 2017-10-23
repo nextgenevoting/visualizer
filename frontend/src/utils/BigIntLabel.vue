@@ -1,5 +1,5 @@
 <template>
-  <p>{{ data.truncatedValue }}<v-tooltip right>
+  <p>{{ data.truncatedValue() }}<v-tooltip right>
    <v-icon slot="activator">mdi-dots-horizontal</v-icon>
     <span>{{ mpzValue }}</span>
     </v-tooltip></p>
@@ -9,10 +9,16 @@
     export default {
       computed: {
           data() {
+            var self = this;
               return {
-                  truncatedValue: this.mpzValue.substring(0,10)
+                  truncatedValue: function(){
+                    if(self.mpzValue != undefined)
+                        return self.mpzValue.substring(0,10);
+                    else
+                        return "";
+                    }
+                  }
               }
-          },
       },
         props:{
             mpzValue: {

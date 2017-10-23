@@ -3,6 +3,7 @@ from app.models.electionAuthorityState import ElectionAuthorityState
 from app.parties.ElectionAuthority import ElectionAuthority
 from app.database import db
 from app.parties.BulletinBoard import BulletinBoard
+from app.parties.PrintingAuthority import PrintingAuthority
 
 
 class VoteSimulator(object):
@@ -12,6 +13,7 @@ class VoteSimulator(object):
         self.secparams = secparams_l1
         self.authorities = [None] * self.secparams.s
         self.bulletinBoard = BulletinBoard(db.bulletinBoardStates, election)
+        self.printingAuthority = PrintingAuthority(db.printingAuthorityStates, election)
 
         # create new election authorities
         for j in range(self.secparams.s):
@@ -22,6 +24,8 @@ class VoteSimulator(object):
         self.bulletinBoard.persist()
         for authority in self.authorities:
             authority.persist()
+
+        self.printingAuthority.persist()
 
     def setupElection(self, v_bold, w_bold, c_bold, n_bold, k_bold):
         self.bulletinBoard.voters = v_bold
@@ -40,7 +44,18 @@ class VoteSimulator(object):
         self.bulletinBoard.publicKeyShares = []
 
         for authority in self.authorities:
-            authority.GenKey(self.bulletinBoard, self.secparams)
+            publicKeyShare = authority.GenKey(self.bulletinBoard, self.secparams)
+            self.bulletinBoard.publicKeyShares.append(publicKeyShare)
         for authority in self.authorities:
             pk = authority.GetPublicKey(self.bulletinBoard, self.secparams)
         self.bulletinBoard.publicKey = pk
+
+
+    def printVotingCards(self):
+        # 7.2 Printing of voting cards
+        privateCredentials = []
+        for authority in self.authorities:
+            privateCredentials.append(authority.secretVotingCredentials)
+
+        self.printingAuthority.privateCredentials = privateCredentials
+        self.printingAuthority.PrintVotingCards(self.bulletinBoard, self.secparams)

@@ -5,10 +5,11 @@ from bson.json_util import dumps
 from app.database import db, saveComplex, loadComplex
 from app.models.bulletinBoardState import BulletinBoardState
 from app.models.electionAuthorityState import ElectionAuthorityState
+from app.models.printingAuthorityState import PrintingAuthorityState
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
-from app.main.syncService import syncElections, syncElectionData, SyncType
+from app.main.syncService import syncElections, syncElectionData, SyncType, syncPrintingAuthority
 from bson.objectid import ObjectId
 
 import json
@@ -32,8 +33,10 @@ def createElection():
         newAuthState = ElectionAuthorityState(j)
         db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j, 'state': saveComplex(newAuthState)})
 
-    # Create a new counter state (for testing purposes only)
-    db.counter.insert({'election': str(id), 'counter': 0})
+
+    printingAuthState =  PrintingAuthorityState()
+    # create new printing authority state
+    db.printingAuthorityStates.insert({'election':str(id), 'state' : saveComplex(printingAuthState)})
 
     # update the election list on all clients
     syncElections(SyncType.BROADCAST)
@@ -72,3 +75,25 @@ def setUpElection():
     return json.dumps({'result': 'success'})
 
 
+
+
+@main.route('/printVotingCards', methods=['POST'])
+@cross_origin(origin='*')
+def printVotingCards():
+    electionId = request.json["election"]
+
+    try:
+        sim = VoteSimulator(electionId)             # prepare voteSimulator
+        sim.printVotingCards()
+        sim.persist()                               # persist the modified state
+
+        # update the status of the election
+        db.elections.update_one({'_id': ObjectId(electionId)}, {"$set": {"status": 2}}, upsert=False)
+
+        syncPrintingAuthority(electionId, SyncType.ROOM)
+        syncElectionData(electionId, SyncType.ROOM)
+
+    except Exception as ex:
+        return json.dumps({'result': 'error', })
+
+    return json.dumps({'result': 'success'})
