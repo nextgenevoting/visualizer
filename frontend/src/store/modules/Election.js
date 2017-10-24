@@ -32,6 +32,9 @@ const getters = {
       case 2:
         return 'Voting Cards Printed';
         break;
+      case 3:
+        return 'Voting Cards Devlivered';
+        break;
       default:
         return 'Unknown status';
     }

@@ -75,7 +75,6 @@ class VoteSimulator(object):
             pk = authority.GetPublicKey(self.bulletinBoard, self.secparams)
         self.bulletinBoard.publicKey = pk
 
-
     def printVotingCards(self):
         # 7.2 Printing of voting cards
         privateCredentials = []

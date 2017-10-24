@@ -9,7 +9,7 @@ from app.models.printingAuthorityState import PrintingAuthorityState
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
-from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus, syncVoters
+from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus, syncVoters, syncElectionAuthorities
 from bson.objectid import ObjectId
 
 import json
@@ -55,7 +55,6 @@ def setUpElection():
     numberOfSelections = json.loads(data["numberOfSelections"])
     numberOfCandidates = json.loads(data["numberOfCandidates"])
 
-    print(data)
     try:
         # prepare voteSimulator
         sim = VoteSimulator(electionId)
@@ -74,8 +73,6 @@ def setUpElection():
         return json.dumps({'result': 'error', })
 
     return json.dumps({'result': 'success'})
-
-
 
 
 @main.route('/printVotingCards', methods=['POST'])
@@ -116,6 +113,22 @@ def sendVotingCards():
         sim.updateStatus(3)
 
 
+    except Exception as ex:
+        return json.dumps({'result': 'error', })
+
+    return json.dumps({'result': 'success'})
+
+@main.route('/debugVotingSim', methods=['POST'])
+@cross_origin(origin='*')
+def debugVotingSim():
+    electionId = request.json["election"]
+    from gmpy2 import mpz
+    try:
+        sim = VoteSimulator(electionId)             # prepare voteSimulator
+        sim.authorities[0].publicKey = mpz(33333)
+        sim.persist()
+        syncElectionAuthorities(electionId, SyncType.ROOM)
+        print(sim)
     except Exception as ex:
         return json.dumps({'result': 'error', })
 

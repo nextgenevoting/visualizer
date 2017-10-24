@@ -9,6 +9,7 @@ from .. import socketio
 import json
 from enum import Enum
 from chvote.Utils.JsonParser import mpzconverter
+import pymongo
 
 class SyncType(Enum):
    SENDER_ONLY = 1
@@ -29,9 +30,22 @@ def syncElections(syncType):
     emitToClient('syncElections', elections, syncType)
 
 def fullSync(electionID, syncType):
-    syncElectionStatus(electionID, syncType)
     syncBulletinBoard(electionID, syncType)
     syncPrintingAuthority(electionID, syncType)
+    syncVoters(electionID, syncType)
+    syncElectionAuthorities(electionID, syncType)
+    syncElectionStatus(electionID, syncType)
+
+def syncElectionStatus(electionID, syncType):
+    election = db.elections.find_one({'_id': ObjectId(electionID)})
+    if election != None:
+        emitToClient('syncElection', {'electionID':electionID, 'status': election["status"]}, syncType, electionID)
+    else:
+        raise RuntimeError("No Election entry for election {}!".format(electionID))
+
+# ************************
+# VoteSim State Syncs
+# ************************
 
 def syncBulletinBoard(electionID, syncType):
     bbState = db.bulletinBoardStates.find_one({'election':electionID})
@@ -48,22 +62,24 @@ def syncPrintingAuthority(electionID, syncType):
         paState = loadComplex(paState["state"])
         emitToClient('syncPrintingAuthority', paState.toJSON(), syncType, electionID)
     else:
-        raise RuntimeError("No PrintingAuthorityState for this election {}!".format(electionID))
+        raise RuntimeError("No PrintingAuthorityState for election {}!".format(electionID))
 
 def syncVoters(electionID, syncType):
     voters = []
     try:
-        for voterState in db.voterStates.find({'election':electionID}):
+        for voterState in db.voterStates.find({'election':electionID}).sort([("voterID", pymongo.ASCENDING)]):
             state = loadComplex(voterState["state"])
             voters.append(state)
         emitToClient('syncVoters', json.dumps(voters, default=mpzconverter), syncType, electionID)
     except Exception as ex:
-        raise RuntimeError("No PrintingAuthorityState for this election {}!".format(electionID))
+        raise RuntimeError("No VoterStates for election {}!".format(electionID))
 
-
-def syncElectionStatus(electionID, syncType):
-    election = db.elections.find_one({'_id': ObjectId(electionID)})
-    if election != None:
-        emitToClient('syncElection', {'electionID':electionID, 'status': election["status"]}, syncType, electionID)
-    else:
-        raise RuntimeError("No Election entry for this election {}!".format(electionID))
+def syncElectionAuthorities(electionID, syncType):
+    electionAuthorities = []
+    try:
+        for authorityState in db.electionAuthorityStates.find({'election':electionID}).sort([("authorityID", pymongo.ASCENDING)]):
+            state = loadComplex(authorityState["state"])
+            electionAuthorities.append(state)
+        emitToClient('syncElectionAuthorities', json.dumps(electionAuthorities, default=mpzconverter), syncType, electionID)
+    except Exception as ex:
+        raise RuntimeError("No ElectionAuthorityStates for election {}!".format(electionID))

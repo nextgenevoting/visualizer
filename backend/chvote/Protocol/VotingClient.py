@@ -61,7 +61,7 @@ class VotingClient(object):
 
         self.pk = GetPublicKey(self.bulletinBoard.pk_bold,secparams)
         if autoInput:
-            X = self.rawSheetData.X
+            X = self.rawSheetData.votingCode
             print("Voter entered voting code: %s" % X)
         else:
             X = input('Enter your voting code: ')
@@ -85,7 +85,7 @@ class VotingClient(object):
 
     def confirm(self, autoInput, secparams):
         if autoInput:
-            Y_v = self.rawSheetData.Y
+            Y_v = self.rawSheetData.confirmationCode
             print("Voter entered confirmation code: %s" % Y_v)
         else:
             Y_v = input('Enter your confirmation code: ')
@@ -99,7 +99,7 @@ class VotingClient(object):
         print("Displayed finalization code: %s" % FC)
 
         if autoInput:
-            FC_i = self.rawSheetData.FC
+            FC_i = self.rawSheetData.finalizationCode
             print("Voter entered finalization code: %s" % FC_i)
         else:
             FC_i = input('Enter your finalization code: ')

@@ -4,7 +4,7 @@ import Election from './modules/Election'
 import BulletinBoard from './modules/BulletinBoard'
 import PrintingAuthority from './modules/PrintingAuthority'
 import Voter from './modules/Voter'
-
+import ElectionAuthority from './modules/ElectionAuthority'
 
 Vue.use(Vuex)
 
@@ -32,6 +32,7 @@ export const store = new Vuex.Store({
         Election,
         BulletinBoard,
         PrintingAuthority,
-        Voter
+        Voter,
+        ElectionAuthority
     },
 })

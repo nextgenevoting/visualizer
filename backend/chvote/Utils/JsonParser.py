@@ -14,5 +14,7 @@ def mpzconverter(o):
         return o.__dict__
 
     from app.models.voterState import VoterState
-    if isinstance(o, VoterState):
+    from app.models.electionAuthorityState import ElectionAuthorityState
+
+    if isinstance(o, VoterState) or isinstance(o, ElectionAuthorityState):
         return o.__dict__

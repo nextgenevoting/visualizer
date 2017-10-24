@@ -6,8 +6,7 @@
         Status: <b>{{ data.status }}</b>
         <br>
         <br>
-
-
+        <v-btn color="primary" v-on:click="debugVotingSim">Debug VoteSim trigger</v-btn>
     </v-container>
 </template>
 
@@ -24,5 +23,19 @@ export default {
   created() {
     this.$socket.emit('join', {election: this.$route.params['id'] });
   },
+  methods: {
+      debugVotingSim: function (event) {
+          this.$http.post('debugVotingSim', {
+                  'election': this.$route.params["id"],
+              }
+          ).then(response => {
+              response.json().then((data) => {
+                  // success callback
+              });
+          }, response => {
+              // error callback
+          });
+      },
+  }
 };
 </script>

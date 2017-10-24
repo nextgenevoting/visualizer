@@ -108,7 +108,7 @@ class VoteSimulation(object):
                 return;
             returnCodes = votingClient.getVerificationCodes(self.secparams)
             print("Verification Codes: %r" % returnCodes)
-            print("Check Verification Codes result: %r" % CheckVerificationCodes(votingClient.rawSheetData.rc, returnCodes, s))
+            print("Check Verification Codes result: %r" % CheckVerificationCodes(votingClient.rawSheetData.verificationCodes, returnCodes, s))
 
             # Confirmation (6.6)
             (i, gamma) = votingClient.confirm(autoInput, self.secparams)
