@@ -1,20 +1,19 @@
 // initial state
 const state = {
-    votingCards: [],
-}
+  votingCards: [],
+};
 
 // mutations
 const mutations = {
-    SOCKET_SYNCPRINTINGAUTHORITY: (state, data) => {
-        console.log("SOCKET_SYNCPRINTINGAUTHORITY called");
+  SOCKET_SYNCPRINTINGAUTHORITY: (state, data) => {
+    console.log('SOCKET_SYNCPRINTINGAUTHORITY called');
 
-        var printingAuthorityState = JSON.parse(data.printingAuthorityState);
-        console.log(printingAuthorityState);
-        state.votingCards = printingAuthorityState.votingCards;
-    }
-}
+    const printingAuthorityState = JSON.parse(data);
+    state.votingCards = printingAuthorityState.votingCards;
+  },
+};
 
 export default {
-    state,
-    mutations
-}
+  state,
+  mutations,
+};

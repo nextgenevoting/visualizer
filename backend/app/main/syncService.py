@@ -8,6 +8,7 @@ from app.models.bulletinBoardState import BulletinBoardState
 from .. import socketio
 import json
 from enum import Enum
+from chvote.Utils.JsonParser import mpzconverter
 
 class SyncType(Enum):
    SENDER_ONLY = 1
@@ -33,26 +34,32 @@ def fullSync(electionID, syncType):
     syncPrintingAuthority(electionID, syncType)
 
 def syncBulletinBoard(electionID, syncType):
-    election = db.elections.find_one({'_id': ObjectId(electionID)})
-
     bbState = db.bulletinBoardStates.find_one({'election':electionID})
     if bbState != None:
         bbState = loadComplex(bbState["state"])
-        #socketio.emit('syncElectionData', {'election':electionID, 'status': election["status"], 'bulletinBoard': bbState.toJSON()}, room=electionID)
-        emitToClient('syncElectionData', {'election':electionID, 'status': election["status"], 'bulletinBoard': bbState.toJSON()}, syncType, electionID)
+        emitToClient('syncElectionData', bbState.toJSON(), syncType, electionID)
     else:
         raise RuntimeError("No BulletinBoardState for election {}!".format(electionID))
 
 
 def syncPrintingAuthority(electionID, syncType):
-    election = db.elections.find_one({'_id': ObjectId(electionID)})
-
     paState = db.printingAuthorityStates.find_one({'election':electionID})
     if paState != None:
         paState = loadComplex(paState["state"])
-        emitToClient('syncPrintingAuthority', {'election':electionID, 'status': election["status"], 'printingAuthorityState': paState.toJSON()}, syncType, electionID)
+        emitToClient('syncPrintingAuthority', paState.toJSON(), syncType, electionID)
     else:
         raise RuntimeError("No PrintingAuthorityState for this election {}!".format(electionID))
+
+def syncVoters(electionID, syncType):
+    voters = []
+    try:
+        for voterState in db.voterStates.find({'election':electionID}):
+            state = loadComplex(voterState["state"])
+            voters.append(state)
+        emitToClient('syncVoters', json.dumps(voters, default=mpzconverter), syncType, electionID)
+    except Exception as ex:
+        raise RuntimeError("No PrintingAuthorityState for this election {}!".format(electionID))
+
 
 def syncElectionStatus(electionID, syncType):
     election = db.elections.find_one({'_id': ObjectId(electionID)})

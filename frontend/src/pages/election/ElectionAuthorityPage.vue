@@ -1,11 +1,6 @@
 <template>
     <v-container>
-        <h3 class="my-3">Election overview</h3>
-        ID: <b>{{ data.id }}</b>
-        <br>
-        Status: <b>{{ data.status }}</b>
-        <br>
-        <br>
+        <h3 class="my-3">Election Authority</h3>
 
 
     </v-container>

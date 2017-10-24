@@ -43,5 +43,8 @@ class database(object):
     def printingAuthorityStates(self):
         return self._db.printingAuthorityStates
 
+    @property
+    def voterStates(self):
+        return self._db.voterStates
 
 db = database()

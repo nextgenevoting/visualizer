@@ -7,7 +7,9 @@
             Before you can vote, the election must be set up and voting cards printed
         </div>
         <div v-if="data.status == 3">
-            todo: Vote casting
+            todo: Vote casting<br><br>
+            {{ data.votingCards }}
+
         </div>
     </v-container>
 </template>
@@ -18,7 +20,8 @@
             data() {
                 return {
                     voters: this.$store.state.BulletinBoard.voters,
-                    status: this.$store.state.Election.status
+                    status: this.$store.state.Election.status,
+                    votingCards: this.$store.state.Voter.voters,
                 }
             }
         },

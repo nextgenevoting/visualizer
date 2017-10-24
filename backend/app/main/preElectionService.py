@@ -9,7 +9,7 @@ from app.models.printingAuthorityState import PrintingAuthorityState
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
-from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus
+from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus, syncVoters
 from bson.objectid import ObjectId
 
 import json
@@ -49,7 +49,7 @@ def createElection():
 def setUpElection():
     data = request.json
     electionId = data["election"]
-    voters = json.loads(data["voters"])
+    numberOfVoters = json.loads(data["numberOfVoters"])
     candidates = json.loads(data["candidates"])
     countingCircles = json.loads(data["countingCircles"])
     numberOfSelections = json.loads(data["numberOfSelections"])
@@ -61,7 +61,7 @@ def setUpElection():
         sim = VoteSimulator(electionId)
 
         # perform action
-        sim.setupElection(voters, countingCircles, candidates, numberOfCandidates, numberOfSelections)
+        sim.setupElection(numberOfVoters, countingCircles, candidates, numberOfCandidates, numberOfSelections)
 
         # retrieve and persist modified state
         sim.persist()
@@ -91,8 +91,30 @@ def printVotingCards():
         syncPrintingAuthority(electionId, SyncType.ROOM)
 
         # update election status
-        db.elections.update_one({'_id': ObjectId(electionId)}, {"$set": {"status" : 2}}, upsert=False)
-        syncElectionStatus(electionId, SyncType.ROOM)
+        sim.updateStatus(2)
+
+
+    except Exception as ex:
+        return json.dumps({'result': 'error', })
+
+    return json.dumps({'result': 'success'})
+
+
+@main.route('/sendVotingCards', methods=['POST'])
+@cross_origin(origin='*')
+def sendVotingCards():
+    electionId = request.json["election"]
+
+    try:
+        sim = VoteSimulator(electionId)             # prepare voteSimulator
+        sim.sendVotingCards()
+        sim.persist()                               # persist the modified state
+
+        syncVoters(electionId, SyncType.ROOM)
+
+        # update election status
+        sim.updateStatus(3)
+
 
     except Exception as ex:
         return json.dumps({'result': 'error', })

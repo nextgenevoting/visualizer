@@ -4,7 +4,7 @@
             <v-list>
                 <v-list-tile>
                     <v-list-tile-content>
-                        <v-list-tile-title >
+                        <v-list-tile-title>
                             <span>Menu</span>
                         </v-list-tile-title>
                     </v-list-tile-content>
@@ -34,36 +34,43 @@
                     <v-icon>home</v-icon>
                 </v-btn>
             </v-toolbar>
-             <v-tabs dark fixed icons centered>
-                 <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
-                  <v-tabs-slider color="yellow"></v-tabs-slider>
-                   <v-tabs-item ripple :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
-                    <v-icon>mdi-view-dashboard</v-icon>
-                    Overview
-                  </v-tabs-item>
-                  <v-tabs-item ripple :to="{ name: 'electionadmin', params: {id: $route.params['id'] }}">
-                     <v-badge color="">
-                        <v-icon slot="badge" dark v-if="status == 0">notifications</v-icon>
-                       <v-icon>mdi-account-key</v-icon>
-                       </v-badge>
-                      Election Admin
-                  </v-tabs-item>
-                  <v-tabs-item ripple :to="{ name: 'printingauth', params: {id: $route.params['id'] }}">
-                      <v-badge color="">
-                       <v-icon slot="badge" dark v-if="status == 1">notifications</v-icon>
-                      <v-icon>mdi-printer</v-icon>
-                      </v-badge>
-                      Printing Auth.
-                </v-tabs-item>
-                     <v-tabs-item ripple :to="{ name: 'voter', params: {id: $route.params['id'] }}">
-                    <v-icon>mdi-account</v-icon>
-                    Voter
-                  </v-tabs-item>
-                     <v-tabs-item ripple :to="{ name: 'bulletinboard', params: {id: $route.params['id'] }}">
+            <v-tabs dark fixed icons centered>
+                <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
+                    <v-tabs-slider color="yellow"></v-tabs-slider>
+                    <v-tabs-item ripple :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
+                        <v-icon>mdi-view-dashboard</v-icon>
+                        Overview
+                    </v-tabs-item>
+                    <v-tabs-item ripple :to="{ name: 'electionadmin', params: {id: $route.params['id'] }}">
+                        <v-badge color="">
+                            <v-icon slot="badge" dark v-if="status == 0">notifications</v-icon>
+                            <v-icon>mdi-account-key</v-icon>
+                        </v-badge>
+                        Election Admin
+                    </v-tabs-item>
+                    <v-tabs-item ripple :to="{ name: 'printingauth', params: {id: $route.params['id'] }}">
+                        <v-badge color="">
+                            <v-icon slot="badge" dark v-if="status == 1">notifications</v-icon>
+                            <v-icon>mdi-printer</v-icon>
+                        </v-badge>
+                        Printing Auth.
+                    </v-tabs-item>
+                    <v-tabs-item ripple :to="{ name: 'voter', params: {id: $route.params['id'] }}">
+                        <v-icon>mdi-account</v-icon>
+                        Voter
+                    </v-tabs-item>
+                    <v-tabs-item ripple :to="{ name: 'electionauthority', params: {id: $route.params['id'] }}">
+                        <v-badge color="">
+                            <v-icon slot="badge" dark v-if="status == 0">notifications</v-icon>
+                            <v-icon>mdi-settings-box</v-icon>
+                        </v-badge>
+                        Election Authority
+                    </v-tabs-item>
+                    <v-tabs-item ripple :to="{ name: 'bulletinboard', params: {id: $route.params['id'] }}">
                         <v-icon>mdi-checkbox-marked-outline</v-icon>
-                         Bulletin Board
-                     </v-tabs-item>
-                 </v-tabs-bar>
+                        Bulletin Board
+                    </v-tabs-item>
+                </v-tabs-bar>
             </v-tabs>
         </header>
         <main>
@@ -77,7 +84,7 @@
             <v-btn dark flat @click.native="offlineNotification = false">Close</v-btn>
         </v-snackbar>
 
-        <v-snackbar success top :timeout="2000" v-model="onlineNotification">
+        <v-snackbar success top :timeout="4000" v-model="onlineNotification">
             Websocket connection established!
             <v-btn dark flat @click.native="onlineNotification = false">Close</v-btn>
         </v-snackbar>
@@ -87,60 +94,60 @@
 
 <script type="text/babel">
     export default {
-    data() {
-      return {
-        drawer: false,
-        items: [{
-          href: 'home',
-          router: true,
-          title: 'Home',
-          icon: 'home',
-        }, {
-          href: 'elections',
-          router: true,
-          title: 'Elections',
-          icon: 'extension',
-        }, {
-          href: 'about',
-          router: true,
-          title: 'About',
-          icon: 'domain',
-        }],
-      };
-    },
-    computed:{
+        data() {
+            return {
+                drawer: false,
+                items: [{
+                    href: 'home',
+                    router: true,
+                    title: 'Home',
+                    icon: 'home',
+                }, {
+                    href: 'elections',
+                    router: true,
+                    title: 'Elections',
+                    icon: 'extension',
+                }, {
+                    href: 'about',
+                    router: true,
+                    title: 'About',
+                    icon: 'domain',
+                }],
+            };
+        },
+        computed: {
 
-       onlineNotification: {
-          get () {
-             return this.$store.state.connected
-          },
-        set (value) {
-        }
-          },
-        offlineNotification: {
-          get () {
-             return !this.$store.state.connected
-          },
-          set (value) {
-          }
-          },
-       status: {
-          get () {
-               return this.$store.state.Election.status
+            onlineNotification: {
+                get() {
+                    return this.$store.state.connected
+                },
+                set(value) {
+                }
             },
-          set (value) {
-          }
-       },
-    },
-    methods: {
-      openGithub() {
-        window.open('https://github.com/disjfa/vuetify-sidebar-template');
-      },
-    }
-  };
+            offlineNotification: {
+                get() {
+                    return !this.$store.state.connected
+                },
+                set(value) {
+                }
+            },
+            status: {
+                get() {
+                    return this.$store.state.Election.status
+                },
+                set(value) {
+                }
+            },
+        },
+        methods: {
+            openGithub() {
+                window.open('https://github.com/disjfa/vuetify-sidebar-template');
+            },
+        }
+    };
 </script>
 
 <style lang="stylus">
-@import '../node_modules/vuetify/src/stylus/main';
-@import 'css/main.css';
+    @import '../node_modules/vuetify/src/stylus/main';
+    @import 'css/main.css';
 </style>

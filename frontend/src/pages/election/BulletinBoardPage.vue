@@ -5,7 +5,8 @@
         <br>
         Status: <b>{{ data.status }}</b>
         <br>
-        Public Key: <BigIntLabel :mpzValue="data.publicKey"></BigIntLabel>
+        Public Key:
+        <BigIntLabel :mpzValue="data.publicKey"></BigIntLabel>
         <br>
         Voters: <b>{{ data.voters }}</b><br>
         Candidates: <b>{{ data.candidates }}</b><br>
@@ -22,23 +23,19 @@
         computed: {
             data() {
                 return {
-                    id: this.$store.state.BulletinBoard.id,
+                    id: this.$store.state.Election.electionID,
                     status: this.$store.getters.getStatusText,
                     publicKey: this.$store.state.BulletinBoard.publicKey,
                     voters: this.$store.state.BulletinBoard.voters,
                     candidates: this.$store.state.BulletinBoard.candidates,
                     publicVotingCredentials: this.$store.state.BulletinBoard.publicVotingCredentials,
                     numberOfSelections: this.$store.state.BulletinBoard.numberOfSelections,
+                    countingCircles: this.$store.state.BulletinBoard.countingCircles,
                 }
             }
         },
         created() {
             this.$socket.emit('join', {'election': this.$route.params["id"]});
-            this.unsub = this.$store.subscribe((mutation, state) => console.log(mutation));
-        },
-        beforeDestroy() {
-            console.log("before destroy");
-            this.unsub();
         }
     };
 </script>

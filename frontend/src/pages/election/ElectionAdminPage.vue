@@ -11,8 +11,8 @@
                         required
                 ></v-text-field>
                 <v-text-field
-                        label="Voters"
-                        v-model="voters"
+                        label="Number of voters"
+                        v-model="numberOfVoters"
                         required
                 ></v-text-field>
                 <v-text-field
@@ -51,10 +51,10 @@
         data: () => ({
             valid: true,
             candidates: '["Clinton", "Trump"]',
-            voters: '["Voter1", "Voter 2"]',
+            numberOfVoters: '5',
             numberOfSelections: '[1]',
             numberOfCandidates: '[2]',
-            countingCircles: '[1, 1]'
+            countingCircles: '[1,1,1,1,1]'
         }),
         computed: {
             data() {
@@ -70,11 +70,6 @@
         },
         created() {
             this.$socket.emit('join', {'election': this.$route.params["id"]});
-            this.unsub = this.$store.subscribe((mutation, state) => console.log(mutation));
-        },
-        beforeDestroy() {
-            console.log("before destroy");
-            this.unsub();
         },
         methods: {
 
@@ -85,7 +80,7 @@
                     this.$http.post('setUpElection',
                         {
                             'election': this.$route.params["id"],
-                            'voters': this.voters,
+                            'numberOfVoters': this.numberOfVoters,
                             'candidates': this.candidates,
                             'numberOfCandidates': this.numberOfCandidates,
                             'numberOfSelections': this.numberOfSelections,

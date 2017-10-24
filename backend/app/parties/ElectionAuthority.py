@@ -76,8 +76,7 @@ class ElectionAuthority(Party):
 
         self.secretVotingCredentials, self.publicVotingCredentials, self.points = GenElectorateData(bulletinBoard.numberOfCandidates, bulletinBoard.numberOfSelections, bulletinBoard.elegibilityMatrix, secparams)
 
-        bulletinBoard.publicCredentials = []
-        bulletinBoard.publicCredentials.append(self.publicVotingCredentials)
+        bulletinBoard.publicCredentials = self.publicVotingCredentials
         return True
 
     def GenKey(self, bulletinBoard, secparams):
