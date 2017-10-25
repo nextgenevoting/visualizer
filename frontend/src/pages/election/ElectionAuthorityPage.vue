@@ -2,9 +2,9 @@
     <v-container>
         <h3 class="my-3">Election Authority</h3>
 
-        <v-container fluid grid-list-md>
             <v-layout row wrap>
                 <v-flex xs12 sm4>
+                    Please choose which election authority to observe
                     <v-select
                             v-bind:items="data.electionAuthorities"
                             v-model="currentAuthority"
@@ -16,10 +16,10 @@
                 </v-flex>
                 <v-flex sm2></v-flex>
             </v-layout>
-        </v-container>
+
 
         <h5 class="my-3">Tasks</h5>
-        <!--<v-layout row v-if="">
+        <v-layout row v-if="">
             <v-flex xs12 sm12>
                 <v-card>
 
@@ -44,7 +44,7 @@
                     </v-slide-y-transition>
                 </v-card>
             </v-flex>
-        </v-layout>-->
+        </v-layout>
 
         <h5 class="my-3">Data</h5>
         <v-switch label="Expert mode" v-model="verbose" ></v-switch>
@@ -59,11 +59,11 @@
         <BigIntLabel :mpzValue="data.electionAuthority.secretKeyShare"></BigIntLabel>
         <br>
 
-        Points:
-        <ul id="voterList" v-if="verbose">
+        <ul id="Points" v-if="verbose">
+            Points:
             <li v-for="voter in data.electionAuthority.points">
                 Voter1
-                <ul id="pointList">
+                <ul id="subList">
                     <li v-for="point in voter">
                         x: <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
                         y: <BigIntLabel :mpzValue="point[1]"></BigIntLabel>

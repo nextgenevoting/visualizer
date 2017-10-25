@@ -30,13 +30,58 @@
                 <v-btn icon>
                     <v-icon>mdi-translate</v-icon>
                 </v-btn>
+                      <v-menu
+                          offset-x
+                          :close-on-content-click="false"
+                          :nudge-width="200"
+                          v-model="menu"
+                        >
+                            <v-btn icon slot="activator"><v-icon>settings</v-icon></v-btn>
+                            <v-card>
+                            <v-list>
+                              <v-list-tile avatar>
+                                <v-list-tile-avatar>
+                                  <img src="/static/doc-images/john.jpg" alt="">
+                                </v-list-tile-avatar>
+                                <v-list-tile-content>
+                                  <v-list-tile-title>Voteadmin</v-list-tile-title>
+                                  <v-list-tile-sub-title>Vote Administrator</v-list-tile-sub-title>
+                                </v-list-tile-content>
+                                <v-list-tile-action>
+                                  <v-btn icon>
+                                    <v-icon>logout</v-icon>
+                                  </v-btn>
+                                </v-list-tile-action>
+                              </v-list-tile>
+                            </v-list>
+                            <v-divider></v-divider>
+                            <v-list>
+                              <v-list-tile>
+                                <v-list-tile-action>
+                                  <v-switch color="purple"></v-switch>
+                                </v-list-tile-action>
+                                <v-list-tile-title>Status on all pages</v-list-tile-title>
+                              </v-list-tile>
+                              <v-list-tile>
+                                <v-list-tile-action>
+                                  <v-switch color="purple"></v-switch>
+                                </v-list-tile-action>
+                                <v-list-tile-title>Enable hints</v-list-tile-title>
+                              </v-list-tile>
+                            </v-list>
+                            <v-card-actions>
+                              <v-spacer></v-spacer>
+                              <v-btn flat @click="menu = false">OK</v-btn>
+                            </v-card-actions>
+                          </v-card>
+                        </v-menu>
                 <v-btn icon @click.native.stop="openGithub()">
                     <v-icon>home</v-icon>
                 </v-btn>
             </v-toolbar>
             <v-tabs dark fixed icons centered>
                 <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
-                    <v-tabs-slider color="yellow"></v-tabs-slider>
+                    <v-tabs-slider color="white"></v-tabs-slider>
                     <v-tabs-item ripple :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
                         <v-icon>mdi-view-dashboard</v-icon>
                         Overview
@@ -67,7 +112,7 @@
                         Election Authority
                     </v-tabs-item>
                     <v-tabs-item ripple :to="{ name: 'bulletinboard', params: {id: $route.params['id'] }}">
-                        <v-icon>mdi-checkbox-marked-outline</v-icon>
+                        <v-icon>mdi-bulletin-board</v-icon>
                         Bulletin Board
                     </v-tabs-item>
                 </v-tabs-bar>
@@ -113,6 +158,8 @@
                     title: 'About',
                     icon: 'domain',
                 }],
+                  menu: false,
+
             };
         },
         computed: {
@@ -141,7 +188,7 @@
         },
         methods: {
             openGithub() {
-                window.open('https://github.com/disjfa/vuetify-sidebar-template');
+                window.open('https://chvote.ch');
             },
         }
     };

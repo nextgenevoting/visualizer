@@ -1,7 +1,7 @@
 {
-  "name": "vuetify-sidebar-template",
-  "description": "Forked webpack simple from official vue docs",
-  "author": "Disjfa <disjfa@disjfa.nl>",
+  "name": "CHVote Demonstrator",
+  "description": "CHVote Demonstrator",
+  "author": "Kevin Häni, Yanick Denzer",
   "private": true,
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --public localhost:8080 --open --inline --hot --host=0.0.0.0 --port=8080",

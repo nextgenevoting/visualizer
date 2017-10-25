@@ -84,8 +84,7 @@ const routes = [
 ];
 const router = new VueRouter({
     routes,
-    root: '/home',
-    mode: 'history'
+    root: '/home'
 });
 
 Vue.use(Vuetify);
