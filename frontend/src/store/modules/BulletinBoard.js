@@ -1,12 +1,12 @@
 // initial state
 const state = {
-  id: '',
-  voters: [],
-  candidates: [],
-  publicVotingCredentials: [],
-  numberOfSelections: [],
-  publicKey: 0,
-  countingCircles: [],
+  id: null,
+  voters: null,
+  candidates: null,
+  publicVotingCredentials: null,
+  numberOfSelections: null,
+  publicKey: null,
+  countingCircles: null,
 };
 
 

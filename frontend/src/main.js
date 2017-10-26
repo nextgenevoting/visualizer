@@ -18,6 +18,7 @@ import VueSocketio from 'vue-socket.io';
 import {store} from './store/store.js'
 import VueResource from 'vue-resource'
 import BigIntLabel from './utils/BigIntLabel.vue';
+import DataCard from './utils/DataCard.vue';
 
 const routes = [
     {
@@ -92,6 +93,7 @@ Vue.use(VueRouter);
 Vue.use(Vuex);
 Vue.use(VueResource);
 Vue.component('BigIntLabel', BigIntLabel);
+Vue.component('DataCard', DataCard);
 
 Vue.url.options.root = process.env.SOCKETIO_BASE_URL || 'http://localhost:5000';
 Vue.use(VueSocketio, Vue.url.options.root, store);

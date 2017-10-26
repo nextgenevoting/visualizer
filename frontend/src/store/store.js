@@ -12,6 +12,7 @@ export const store = new Vuex.Store({
     namespaced: false,
     state: {
         connected: false,
+        showConfidentiality: true
     },
     mutations: {
         SOCKET_CONNECT: (state,  status) => {

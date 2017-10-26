@@ -1,6 +1,11 @@
 <template>
     <v-container>
-        <h3 class="my-3">Election Authority</h3>
+        <div class="layout row wrap">
+            <div class="contentHeader">
+                <i class="mdi icon mdi-settings-box"></i>
+            </div>
+            <h3 class="my-3">Election Authority</h3>
+        </div>
 
             <v-layout row wrap>
                 <v-flex xs12 sm4>

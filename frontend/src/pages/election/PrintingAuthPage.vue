@@ -1,7 +1,11 @@
 <template>
     <v-container>
-        <h3 class="my-3">Printing Authority</h3>
-
+        <div class="layout row wrap">
+            <div class="contentHeader">
+                <i class="mdi icon mdi-printer"></i>
+            </div>
+            <h3 class="my-3">Printing Authority</h3>
+        </div>
         <br>
         <div v-if="data.status == 0">
             Before voting cards can be printed, the election administrator must set up the election.

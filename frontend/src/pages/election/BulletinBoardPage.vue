@@ -1,145 +1,64 @@
 <template>
     <v-container>
 
-<div class="layout row wrap">
-<div class="" style="float: left;font-size: 38px; color:#2196f3; width:60px"><i class="mdi icon mdi-bulletin-board" style="
-    font-size: 48px; color: #2196f3; margin-top: 10px;"></i></div>
-    <div style="color: #2196f3; clear: both;"><h3 class="my-3" style="color: #2196f3;">Bulletin Board</h3></div>
-    </div>
-    </div>
-
- <v-container grid-list-md text-xs-center>
-    <v-layout row wrap>
-     <v-flex xs12 md4>
-       <v-card class="infoCard">
-      <v-card-title primary-title>
-        <div><span class="label grey--text">Unique Election Identifier
-        <v-tooltip top>
-                          <v-icon color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
-                       </v-tooltip></span>
-        <div class="value">{{data.id}}</div>
+        <div class="layout row wrap">
+            <div class="contentHeader">
+                <i class="mdi icon mdi-bulletin-board"></i>
+            </div>
+            <h3 class="my-3">Bulletin Board</h3>
         </div>
-       </v-card-title>
-       </v-card>
-      </v-flex>
 
-     <v-flex xs12 md4>
-       <v-card class="infoCard">
-      <v-card-title primary-title>
-        <div><span class="label grey--text">Status
-        <v-tooltip top>
-                          <v-icon color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
-                       </v-tooltip></span>
-        <div class="value">{{data.status}}</div>
-        </div>
-       </v-card-title>
-       </v-card>
-      </v-flex>
+        <v-container grid-list-md text-xs-center>
+            <v-layout row wrap>
 
+                <v-flex xy12 md4>
+                    <DataCard title="Unique Election Identifier" :value="data.id" :isMpz=false :expandable=false confidentiality="public"></DataCard>
+                </v-flex>
 
-     <v-flex xs12 md4>
-       <v-card class="infoCard">
-      <v-card-title primary-title>
-        <div><span class="label grey--text">Public Key
-        <v-tooltip top>
-                          <v-icon color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
-                       </v-tooltip></span>
-        <div class="value"><BigIntLabel :mpzValue="data.publicKey"></BigIntLabel></div>
-        </div>
-       </v-card-title>
-       </v-card>
-      </v-flex>
+                <v-flex xy12 md4>
+                    <DataCard title="Status" :value="data.status" :isMpz=false :expandable=false confidentiality="public"></DataCard>
+                </v-flex>
 
-     <v-flex xs12 md4>
-       <v-card class="infoCard">
-      <v-card-title primary-title>
-        <div><span class="label grey--text">Candidates
-        <v-tooltip top>
-                          <v-icon color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
-                       </v-tooltip></span>
-        <div class="value">{{data.candidates}}</div>
-        </div>
-       </v-card-title>
-       </v-card>
-      </v-flex>
+                <v-flex xy12 md4>
+                    <DataCard title="Public Key" :value="data.publicKey" :isMpz=true :expandable=false confidentiality="public"></DataCard>
+                </v-flex>
 
-     <v-flex xs12 md4>
-       <v-card class="infoCard">
-      <v-card-title primary-title>
-        <div><span class="label grey--text">Counting Circles
-        <v-tooltip top>
-                          <v-icon color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
-                       </v-tooltip></span>
-        <div class="value">{{data.countingCircles}}</div>
-        </div>
-       </v-card-title>
-       </v-card>
-      </v-flex>
+                <v-flex xy12 md4>
+                    <DataCard title="Candidates" :value="data.candidates" :isMpz=false :expandable=false confidentiality="public"></DataCard>
+                </v-flex>
 
-     <v-flex xs12 md4>
-       <v-card class="infoCard">
-      <v-card-title primary-title>
-        <div><span class="label grey--text">Selections
-        <v-tooltip top>
-                          <v-icon color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
-                       </v-tooltip></span>
-        <div class="value">{{data.numberOfSelections}}</div>
-        </div>
-       </v-card-title>
-       </v-card>
-      </v-flex>
+                <v-flex xy12 md4>
+                    <DataCard title="Counting Circles" :value="data.countingCircles" :isMpz=false :expandable=false confidentiality="public"></DataCard>
+                </v-flex>
 
-     <v-flex xs12 md4>
-       <v-card class="infoCard">
-      <v-card-title primary-title>
-        <div><span class="label grey--text">Voters
-        <v-tooltip top>
-                          <v-icon color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
-                       </v-tooltip></span>
-        <div class="value">{{data.voters}}</div>
-        </div>
-       </v-card-title>
-       </v-card>
-      </v-flex>
+                <v-flex xy12 md4>
+                    <DataCard title="Selections" :value="data.numberOfSelections" :isMpz=false :expandable=false confidentiality="public"></DataCard>
+                </v-flex>
+
+                <v-flex xy12 md4>
+                    <DataCard title="Voters" :value="data.voters":isMpz=false :expandable=false confidentiality="public"></DataCard>
+                </v-flex>
 
 
-           <v-flex xs12 md4>
-             <v-card class="infoCard">
-            <v-card-title primary-title>
-              <div><span class="label grey--text">Public Voting Credentials
-              <v-tooltip top>
-                                <v-icon color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
-                             </v-tooltip></span>
-              <div class="value"> Voting Credentials for all voters</div>
-              </div>
-             </v-card-title>
- <v-card-actions style="height:33px; padding: 0px">
+                <v-flex xy12 md4>
+                    <DataCard title="Public Voting Credentials" value="Voters public voting credentials" :isMpz=false :expandable=true confidentiality="public">
+                        <ul id="subList">
+                            <li v-for="(item, key, index) in data.publicVotingCredentials">
+                                {{ index}}
+                                <ul>
+                                    X:
+                                    <BigIntLabel :mpzValue="item[0]"></BigIntLabel>
+                                    Y:
+                                    <BigIntLabel :mpzValue="item[1]"></BigIntLabel>
+                                </ul>
 
-          <v-spacer></v-spacer>
-          <v-btn icon @click.native="showCredentials = !showCredentials">
-            <v-icon>{{ !showCredentials ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-          </v-btn>
-        </v-card-actions>
-        <v-slide-y-transition>
-          <v-card-text v-show="showCredentials">
-            <ul id="subList">
-             <li v-for="(item, key, index) in data.publicVotingCredentials">
-                {{ index}}
-                 <ul>
-                     X: <BigIntLabel :mpzValue="item[0]"></BigIntLabel>
-                     Y: <BigIntLabel :mpzValue="item[1]"></BigIntLabel>
-                 </ul>
+                            </li>
+                        </ul>
+                    </DataCard>
+                </v-flex>
 
-             </li>
-         </ul>
-          </v-card-text>
-        </v-slide-y-transition>
-             </v-card>
-            </v-flex>
-
-      </v-flex>
-      </v-layout>
-      </v-container>
+            </v-layout>
+        </v-container>
         <br>
     </v-container>
 </template>
@@ -147,7 +66,7 @@
 <script>
     export default {
         data: () => ({
-          showCredentials: false
+            showCredentials: false
         }),
         computed: {
             data() {

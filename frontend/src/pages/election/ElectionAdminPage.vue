@@ -1,7 +1,11 @@
 <template>
     <v-container>
-        <h3 class="my-3">Election Administration</h3>
-
+        <div class="layout row wrap">
+            <div class="contentHeader">
+                <i class="mdi icon mdi-account-key"></i>
+            </div>
+            <h3 class="my-3">Election Administration</h3>
+        </div>
 
         <div v-if="data.status == 0">
             <v-form v-model="valid" ref="form" lazy-validation>

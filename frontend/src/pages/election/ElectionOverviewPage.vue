@@ -1,6 +1,13 @@
 <template>
     <v-container>
-        <h3 class="my-3">Election overview</h3>
+
+        <div class="layout row wrap">
+            <div class="contentHeader">
+                <i class="mdi icon mdi-view-dashboard"></i>
+            </div>
+            <h3 class="my-3">Overview</h3>
+        </div>
+
         ID: <b>{{ data.id }}</b>
         <br>
         Status: <b>{{ data.status }}</b>

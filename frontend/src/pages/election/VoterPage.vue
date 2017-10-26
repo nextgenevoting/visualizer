@@ -1,7 +1,11 @@
 <template>
     <v-container>
-        <h3 class="my-3">Voter</h3>
-
+        <div class="layout row wrap">
+            <div class="contentHeader">
+                <i class="mdi icon mdi-account"></i>
+            </div>
+            <h3 class="my-3">Voter</h3>
+        </div>
         <br>
         <div v-if="data.status < 3">
             Before you can vote, the election must be set up and voting cards printed
