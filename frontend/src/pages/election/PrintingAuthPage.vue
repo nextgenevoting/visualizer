@@ -22,7 +22,7 @@
 
         </div>
         <div v-if="data.status == 3">
-            Voting cards have been delivered to the voters! <br>
+            Voting cards have been delivered to the voters! <br><br>
             Voting Sheets: {{ data.votingCards }}
         </div>
     </v-container>

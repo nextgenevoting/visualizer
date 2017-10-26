@@ -1,19 +1,15 @@
 <template>
-    <v-card class="infoCard" v-if="value !== null">
+    <v-card class="infoCard">
 
         <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4" v-bind:class="confidentiality == 'private' ? 'red' : 'green'">{{confidentiality}}</span>
 
         <v-card-title primary-title class="primaryContent">
             <div><span class="label grey--text">{{title}}
               <v-tooltip top>
-                <v-icon color="grey lighten-1"
-                        slot="activator">info</v-icon><span>Programmatic tooltip</span>
+                <v-icon color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
              </v-tooltip></span>
-                <div v-if="isMpz" class="value">
-                    <BigIntLabel :mpzValue="value"></BigIntLabel>
-                </div>
-                <div v-else class="value">
-                    {{ value }}
+                <div class="value">
+                    <slot></slot>
                 </div>
             </div>
         </v-card-title>
@@ -26,7 +22,7 @@
         </v-card-actions>
         <v-slide-y-transition v-show="expandable">
             <v-card-text v-show="showExpander">
-                <slot>
+                <slot name="expandContent">
                 </slot>
             </v-card-text>
         </v-slide-y-transition>
@@ -52,16 +48,6 @@
                 type: String,
                 required: true,
                 default: "Title"
-            },
-            value: {
-                type: String,
-                required: true,
-                default: ""
-            },
-            isMpz: {
-                type: Boolean,
-                required: true,
-                default: false
             },
             expandable: {
                 type: Boolean,

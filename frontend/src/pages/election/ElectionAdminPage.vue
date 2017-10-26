@@ -54,10 +54,10 @@
     export default {
         data: () => ({
             valid: true,
-            candidates: '["Clinton", "Trump"]',
+            candidates: '["Yes", "No", "Maybe"]',
             numberOfVoters: '5',
             numberOfSelections: '[1]',
-            numberOfCandidates: '[2]',
+            numberOfCandidates: '[3]',
             countingCircles: '[1,1,1,1,1]'
         }),
         computed: {

@@ -12,37 +12,38 @@
             <v-layout row wrap>
 
                 <v-flex xy12 md4>
-                    <DataCard title="Unique Election Identifier" :value="data.id" :isMpz=false :expandable=false confidentiality="public"></DataCard>
+                    <DataCard title="Unique Election Identifier" :expandable=false confidentiality="public">{{data.id}}</DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard title="Status" :value="data.status" :isMpz=false :expandable=false confidentiality="public"></DataCard>
+                    <DataCard title="Status" :expandable=false confidentiality="public">{{data.status}}</DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard title="Public Key" :value="data.publicKey" :isMpz=true :expandable=false confidentiality="public"></DataCard>
+                    <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public"><BigIntLabel :mpzValue="data.publicKey"></BigIntLabel></DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard title="Candidates" :value="data.candidates" :isMpz=false :expandable=false confidentiality="public"></DataCard>
+                    <DataCard title="Candidates" :expandable=false confidentiality="public">{{data.candidates}}</DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard title="Counting Circles" :value="data.countingCircles" :isMpz=false :expandable=false confidentiality="public"></DataCard>
+                    <DataCard title="Counting Circles" :expandable=false confidentiality="public">{{data.countingCircles}}</DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard title="Selections" :value="data.numberOfSelections" :isMpz=false :expandable=false confidentiality="public"></DataCard>
+                    <DataCard title="Selections" :expandable=false confidentiality="public">{{data.numberOfSelections}}</DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard title="Voters" :value="data.voters":isMpz=false :expandable=false confidentiality="public"></DataCard>
+                    <DataCard title="Voters" :expandable=false confidentiality="public">{{data.voters}}</DataCard>
                 </v-flex>
 
 
                 <v-flex xy12 md4>
-                    <DataCard title="Public Voting Credentials" value="Voters public voting credentials" :isMpz=false :expandable=true confidentiality="public">
-                        <ul id="subList">
+                    <DataCard title="Public Voting Credentials" :expandable=true confidentiality="public">
+                        Voters public voting credentials
+                        <ul id="subList" slot="expandContent">
                             <li v-for="(item, key, index) in data.publicVotingCredentials">
                                 {{ index}}
                                 <ul>

@@ -1,7 +1,7 @@
 <template>
     <v-container>
-        <h2>Ongoing election events</h2>
-        <p>The following elections are still ongoing:</p>
+        <h2>Available election events</h2>
+        <p>Please choose an election:</p>
         <v-list two-line subheader>
             <v-list-tile v-for="item in getElections" v-bind:key="item.title" avatar
                          :to="{ name: 'electionoverview', params: {id: item.id }}">

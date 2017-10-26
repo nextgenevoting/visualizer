@@ -12,7 +12,7 @@
             var self = this;
               return {
                   truncatedValue: function(){
-                    if(self.mpzValue != undefined)
+                    if(self.mpzValue !== undefined && self.mpzValue !== null)
                         return self.mpzValue.toString().substring(0,10);
                     else
                         return "";
