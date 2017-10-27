@@ -100,6 +100,9 @@ Vue.component('DataCard', DataCard);
 Vue.url.options.root = process.env.SOCKETIO_BASE_URL;
 Vue.use(VueSocketio, Vue.url.options.root, store);
 
+NProgress.configure({ showSpinner: false });
+
+
 Vue.http.interceptors.push((request, next) => {
     NProgress.start();
     next((response) => {
