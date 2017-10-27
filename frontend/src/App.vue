@@ -25,7 +25,7 @@
         <header class="siteHeader">
             <v-toolbar class="blue" dark>
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-                <v-toolbar-title><img src="public/logo.png" style="height:22px"></v-toolbar-title>
+                <v-toolbar-title><img src="/public/logo.png" style="height:22px"></v-toolbar-title>
                 <v-spacer></v-spacer>
                 <v-btn icon>
                     <v-icon>mdi-translate</v-icon>
@@ -206,4 +206,5 @@
 <style lang="stylus">
     @import '../node_modules/vuetify/src/stylus/main';
     @import 'css/main.css';
+    @import '../node_modules/nprogress/nprogress.css';
 </style>

@@ -19,6 +19,7 @@ import {store} from './store/store.js'
 import VueResource from 'vue-resource'
 import BigIntLabel from './utils/BigIntLabel.vue';
 import DataCard from './utils/DataCard.vue';
+import NProgress from 'nprogress/nprogress.js';
 
 const routes = [
     {
@@ -85,7 +86,8 @@ const routes = [
 ];
 const router = new VueRouter({
     routes,
-    root: '/home'
+    root: '/home',
+    mode: 'history'
 });
 
 Vue.use(Vuetify);
@@ -95,8 +97,11 @@ Vue.use(VueResource);
 Vue.component('BigIntLabel', BigIntLabel);
 Vue.component('DataCard', DataCard);
 
-Vue.url.options.root = process.env.SOCKETIO_BASE_URL || 'http://localhost:5000';
+Vue.url.options.root = process.env.SOCKETIO_BASE_URL;
 Vue.use(VueSocketio, Vue.url.options.root, store);
+
+NProgress.configure({ showSpinner: false });
+
 
 Vue.http.interceptors.push((request, next) => {
     NProgress.start();
