@@ -203,7 +203,12 @@
     };
 </script>
 
+<style type="text/css">
+@import '../node_modules/nprogress/nprogress.css';
+@import '../node_modules/mdi/css/materialdesignicons.css';
+</style>
+
 <style lang="stylus">
-    @import '../node_modules/vuetify/src/stylus/main';
-    @import 'css/main.css';
+@import '../node_modules/vuetify/src/stylus/main';
+@import 'css/main.css';
 </style>

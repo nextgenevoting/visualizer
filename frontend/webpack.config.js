@@ -35,15 +35,11 @@ module.exports = {
             {
                 test: /\.styl$/,
                 loader: ['style-loader', 'css-loader', 'stylus-loader']
-            }
-
-/*
-      {
-        // Doesn't seem to work: handler for material icon fonts
+            },
+            {
                 test: /\.(eot|svg|ttf|woff|woff2)$/,
-                loader: 'file?name=node_modules/mdi/fonts/[name].[ext]'
-      }
-*/
+                loader: 'file-loader?name=public/fonts/[name].[ext]'
+            }
         ]
     },
     devServer: {
