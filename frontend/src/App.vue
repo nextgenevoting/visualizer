@@ -156,32 +156,32 @@
 </template>
 
 <i18n>
-    en:
-    change_language: Change language
-    menu:
+en:
+  change_language: Change language
+  menu:
     title: Menu
     home: Home
     elections: Elections
-    about: About
-    close: Close
-    settings:
+  about: About
+  close: Close
+  settings:
     title: Settings
     status: Status on all pages
     confidentiality: Show confidentiality
-    open_repo: Open BFH Gitlab repository
-    de:
-    change_language: Sprache ändern
-    menu:
+  open_repo: Open BFH Gitlab repository
+de:
+  change_language: Sprache ändern
+  menu:
     title: Menü
     home: Homepage
     elections: Wahlen
-    about: Über
-    close: Schliessen
-    settings:
+  about: Über
+  close: Schliessen
+  settings:
     title: Einstellungen
     status: Status auf allen Seiten
     confidentiality: Vertraulichkeit anzeigen
-    open_repo: BFH Gitlab Repository öffnen
+  open_repo: BFH Gitlab Repository öffnen
 </i18n>
 
 <script type="text/babel">
