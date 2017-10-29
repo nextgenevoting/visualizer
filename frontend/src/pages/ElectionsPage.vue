@@ -22,23 +22,23 @@
         </v-list-tile-action>
 
         <v-list-tile-action>
-          <v-btn icon @click.prevent="dialog = true">
+          <v-btn icon @click.prevent="dialog.election = item.id; dialog.visible = true">
             <v-icon class="grey--text text--lighten-1" :title="$t('remove.title')">delete</v-icon>
           </v-btn>
         </v-list-tile-action>
-
-        <v-dialog v-model="dialog">
-          <v-card>
-            <v-card-title class="headline" v-t="'remove.question'" />
-            <v-card-actions>
-              <v-spacer />
-              <v-btn flat color="darken-1" @click.native="dialog = false" v-t="'remove.cancel'" />
-              <v-btn flat color="red darken-1" @click.native="remove" v-t="'remove.action'" />
-            </v-card-actions>
-          </v-card>
-        </v-dialog>
       </v-list-tile>
     </v-list>
+
+    <v-dialog v-model="dialog.visible">
+      <v-card>
+        <v-card-title class="headline" v-t="'remove.question'" />
+        <v-card-actions>
+          <v-spacer />
+          <v-btn flat color="darken-1" @click.native="dialog.visible = false" v-t="'remove.cancel'" />
+          <v-btn flat color="red darken-1" @click.native="remove" v-t="'remove.action'" />
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
 
     <v-btn to="newElection" v-t="'create'" />
   </v-container>
@@ -71,7 +71,10 @@ de:
 export default {
   data () {
     return {
-      dialog: false
+      dialog: {
+        election: null,
+        visible: false
+      }
     }
   },
   computed: {
@@ -96,8 +99,8 @@ export default {
       console.log('info')
     },
     remove () {
-      this.dialog = false
-      console.log('delete') // TODO
+      this.dialog.visible = false
+      console.log('delete ' + this.dialog.election) // TODO
     }
   }
 }
