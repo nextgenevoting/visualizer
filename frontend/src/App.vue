@@ -4,9 +4,7 @@
             <v-list>
                 <v-list-tile>
                     <v-list-tile-content>
-                        <v-list-tile-title>
-                            <span>Menu</span>
-                        </v-list-tile-title>
+                        <v-list-tile-title v-t="'menu.title'" />
                     </v-list-tile-content>
                 </v-list-tile>
                 <v-divider></v-divider>
@@ -31,7 +29,7 @@
                     <v-icon>account_circle</v-icon>
                     {{ selectedVoterName }}
                 </v-btn>
-                <v-menu offset-y>
+                <v-menu offset-y flat>
                     <v-btn icon slot="activator" :title="$t('change_language')">
                         <v-icon>mdi-translate</v-icon>
                     </v-btn>
