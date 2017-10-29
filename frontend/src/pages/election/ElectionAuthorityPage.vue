@@ -10,7 +10,7 @@
         <v-flex xs12 sm12>
             <v-btn-toggle v-model="currentAuthority">
                 <v-btn flat>
-                     Authority 1
+                    Authority 1
                 </v-btn>
                 <v-btn flat>
                     Authority 2
@@ -22,7 +22,7 @@
             </v-btn-toggle>
         </v-flex>
 
-<br>
+        <br>
         <h5 class="">Tasks</h5>
         <v-layout row v-if="1==0">
             <v-flex xs12 sm12>
@@ -58,15 +58,21 @@
         <v-layout row wrap>
 
             <v-flex xy12 md4>
-                <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public"><BigIntLabel :mpzValue="data.electionAuthority.publicKey"></BigIntLabel></DataCard>
+                <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public">
+                    <BigIntLabel :mpzValue="data.electionAuthority.publicKey"></BigIntLabel>
+                </DataCard>
             </v-flex>
 
             <v-flex xy12 md4>
-                <DataCard title="Public Key Share" :isMpz=true :expandable=false confidentiality="public"><BigIntLabel :mpzValue="data.electionAuthority.publicKeyShare"></BigIntLabel></DataCard>
+                <DataCard title="Public Key Share" :isMpz=true :expandable=false confidentiality="public">
+                    <BigIntLabel :mpzValue="data.electionAuthority.publicKeyShare"></BigIntLabel>
+                </DataCard>
             </v-flex>
 
             <v-flex xy12 md4>
-                <DataCard title="Secret Key Share" :isMpz=true :expandable=false confidentiality="secret"><BigIntLabel :mpzValue="data.electionAuthority.secretKeyShare"></BigIntLabel></DataCard>
+                <DataCard title="Secret Key Share" :isMpz=true :expandable=false confidentiality="secret">
+                    <BigIntLabel :mpzValue="data.electionAuthority.secretKeyShare"></BigIntLabel>
+                </DataCard>
             </v-flex>
 
             <v-flex xy12 md4 v-if="data.expertMode">
@@ -77,8 +83,10 @@
                             Voter {{ index}}
                             <ul id="subList">
                                 <li v-for="point in voter">
-                                    x: <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
-                                    y: <BigIntLabel :mpzValue="point[1]"></BigIntLabel>
+                                    x:
+                                    <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
+                                    y:
+                                    <BigIntLabel :mpzValue="point[1]"></BigIntLabel>
                                 </li>
                             </ul>
 
@@ -92,34 +100,35 @@
 </template>
 
 <script>
-export default {
-    data: () => ({
-        currentAuthority: 0,
-        show: false,
-    }),
-  computed: {
-    data() {
-      return {
-        id: this.$store.state.Election.electionID,
-        status: this.$store.getters.getStatusText,
-        electionAuthorities: this.$store.state.ElectionAuthority.electionAuthorities,
-        electionAuthority: this.$store.getters.getElectionAuthority(this.currentAuthority),
-        expertMode: this.$store.state.expertMode,
-      };
-    },
-  },
-  created() {
-    this.$socket.emit('join', {election: this.$route.params['id'] });
-  },
-};
+    export default {
+        data: () => ({
+            currentAuthority: 0,
+            show: false,
+        }),
+        computed: {
+            data() {
+                return {
+                    id: this.$store.state.Election.electionID,
+                    status: this.$store.getters.getStatusText,
+                    electionAuthorities: this.$store.state.ElectionAuthority.electionAuthorities,
+                    electionAuthority: this.$store.getters.getElectionAuthority(this.currentAuthority),
+                    expertMode: this.$store.state.expertMode,
+                };
+            },
+        },
+        created() {
+            if (this.$store.getters.getJoinedElectionID() !== this.$route.params['id'])
+                this.$socket.emit('join', {election: this.$route.params['id']});
+        },
+    };
 </script>
 
 <style>
-.btn-toggle{
-    width: 100%;
-}
+    .btn-toggle {
+        width: 100%;
+    }
 
-.btn-toggle .btn{
-    width: 33%;
-}
+    .btn-toggle .btn {
+        width: 33%;
+    }
 </style>

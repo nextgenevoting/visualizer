@@ -27,7 +27,8 @@
             },
         },
         created () {
-            this.$socket.emit('join', { election: this.$route.params['id'] })
+            if(this.$store.getters.getJoinedElectionID() !== this.$route.params['id'])
+                this.$socket.emit('join', { election: this.$route.params['id'] });
         },
         methods: {
             debugVotingSim: function (event) {

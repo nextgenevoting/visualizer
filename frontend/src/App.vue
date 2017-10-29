@@ -1,4 +1,4 @@
-<template>
+﻿<template>
     <v-app id="app">
         <v-navigation-drawer temporary v-model="drawer">
             <v-list>
@@ -16,7 +16,7 @@
                             <v-icon light v-html="item.icon"></v-icon>
                         </v-list-tile-action>
                         <v-list-tile-content>
-                            <v-list-tile-title v-html="item.title"></v-list-tile-title>
+                            <v-list-tile-title>{{ $t(item.title) }}</v-list-tile-title>
                         </v-list-tile-content>
                     </v-list-tile>
                 </template>
@@ -41,12 +41,7 @@
                         </v-list-tile>
                     </v-list>
                 </v-menu>
-                <v-menu
-                        offset-x
-                        :close-on-content-click="false"
-                        :nudge-width="200"
-                        v-model="menu"
-                >
+                <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="menu">
                     <v-btn icon slot="activator">
                         <v-icon>settings</v-icon>
                     </v-btn>
@@ -88,9 +83,6 @@
                         </v-card-actions>
                     </v-card>
                 </v-menu>
-                <v-btn icon @click.native.stop="openGithub()">
-                    <v-icon>home</v-icon>
-                </v-btn>
             </v-toolbar>
             <v-tabs dark grow icons centered>
                 <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
@@ -162,7 +154,7 @@ en:
     title: Menu
     home: Home
     elections: Elections
-  about: About
+    about: About
   close: Close
   settings:
     title: Settings
@@ -175,7 +167,7 @@ de:
     title: Menü
     home: Homepage
     elections: Wahlen
-  about: Über
+    about: Über
   close: Schliessen
   settings:
     title: Einstellungen
@@ -194,17 +186,17 @@ de:
                 items: [{
                     href: 'home',
                     router: true,
-                    title: 'Home',
+                    title: 'menu.home',
                     icon: 'home',
                 }, {
                     href: 'elections',
                     router: true,
-                    title: 'Elections',
+                    title: 'menu.elections',
                     icon: 'extension',
                 }, {
                     href: 'about',
                     router: true,
-                    title: 'About',
+                    title: 'menu.about',
                     icon: 'domain',
                 }],
                 menu: false,
@@ -269,9 +261,6 @@ de:
             },
         },
         methods: {
-            openGithub: function () {
-                window.open('https://chvote.ch');
-            },
             changeVoter: function () {
                 this.$store.commit("voterDialog", true);
             },
