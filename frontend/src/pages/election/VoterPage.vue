@@ -57,14 +57,16 @@
                     getVoter: function(voterID){
                         return self.$store.getters.getVoter(self.data.selectedVoter);
                     },
-                    getVotingCard: function(voterID){
+                    getVotingCard: function(){
+                        console.log(self.$store.getters.getVotingCard(self.data.selectedVoter));
                         return self.$store.getters.getVotingCard(self.data.selectedVoter);
                     }
                 }
             }
         },
         created() {
-            this.$socket.emit('join', {'election': this.$route.params["id"]});
+            if(this.$store.getters.getJoinedElectionID() !== this.$route.params['id'])
+                this.$socket.emit('join', { election: this.$route.params['id'] });
             this.unsub = this.$store.subscribe((mutation, state) => console.log(mutation));
         },
         beforeDestroy() {

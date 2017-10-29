@@ -34,4 +34,8 @@ def on_join(data):
         if room != request.sid:
             leave_room(room)
     join_room(electionID)
+
+    from app.main.syncService import emitToClient, SyncType
+    emitToClient('joinAck', electionID, SyncType.SENDER_ONLY)
+
     fullSync(electionID, SyncType.SENDER_ONLY)

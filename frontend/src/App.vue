@@ -88,9 +88,6 @@
                         </v-card-actions>
                     </v-card>
                 </v-menu>
-                <v-btn icon @click.native.stop="openGithub()">
-                    <v-icon>home</v-icon>
-                </v-btn>
             </v-toolbar>
             <v-tabs dark grow icons centered>
                 <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
@@ -270,9 +267,6 @@ de:
             },
         },
         methods: {
-            openGithub: function () {
-                window.open('https://chvote.ch');
-            },
             changeVoter: function () {
                 this.$store.commit("voterDialog", true);
             },
