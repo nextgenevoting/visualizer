@@ -15,8 +15,8 @@ export const store = new Vuex.Store({
         showConfidentiality: true,
         expertMode: false,
         selectedVoter: null,
-        voterDialog: false
-
+        voterDialog: false,
+        language: 'en'
     },
     mutations: {
         SOCKET_CONNECT: (state,  status) => {

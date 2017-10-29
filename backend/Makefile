@@ -1,6 +1,9 @@
 help:
 	@echo "USAGE: make testall | test | clean"
 
+dev:
+	python3 backend_service.py
+
 test: ${FILE}
 	python3 -m unittest -v ${FILE}
 

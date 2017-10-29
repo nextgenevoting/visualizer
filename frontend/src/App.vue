@@ -31,9 +31,16 @@
                     <v-icon>account_circle</v-icon>
                     {{ selectedVoterName }}
                 </v-btn>
-                <v-btn icon>
-                    <v-icon>mdi-translate</v-icon>
-                </v-btn>
+                <v-menu offset-y>
+                    <v-btn icon slot="activator" :title="$t('change_language')">
+                        <v-icon>mdi-translate</v-icon>
+                    </v-btn>
+                    <v-list>
+                        <v-list-tile v-for="(name, id) in languages" :key="id" @click="changeLanguage(id)">
+                            <v-list-tile-title>{{ name }}</v-list-tile-title>
+                        </v-list-tile>
+                    </v-list>
+                </v-menu>
                 <v-menu
                         offset-x
                         :close-on-content-click="false"
@@ -106,7 +113,8 @@
                         </v-badge>
                         Printing Auth.
                     </v-tabs-item>
-                    <v-tabs-item ripple :to="{ name: 'voter', params: {id: $route.params['id'] }}" :disabled="this.$store.getters.getStatus < 1">
+                    <v-tabs-item ripple :to="{ name: 'voter', params: {id: $route.params['id'] }}"
+                                 :disabled="this.$store.getters.getStatus < 1">
                         <v-badge color="">
                             <v-icon slot="badge" dark v-if="status == 3">mdi-alert-decagram</v-icon>
                             <v-icon>mdi-account</v-icon>
@@ -144,10 +152,41 @@
         </v-snackbar>
         <SelectVoterDialog></SelectVoterDialog>
     </v-app>
+
 </template>
+
+<i18n>
+    en:
+    change_language: Change language
+    menu:
+    title: Menu
+    home: Home
+    elections: Elections
+    about: About
+    close: Close
+    settings:
+    title: Settings
+    status: Status on all pages
+    confidentiality: Show confidentiality
+    open_repo: Open BFH Gitlab repository
+    de:
+    change_language: Sprache ändern
+    menu:
+    title: Menü
+    home: Homepage
+    elections: Wahlen
+    about: Über
+    close: Schliessen
+    settings:
+    title: Einstellungen
+    status: Status auf allen Seiten
+    confidentiality: Vertraulichkeit anzeigen
+    open_repo: BFH Gitlab Repository öffnen
+</i18n>
 
 <script type="text/babel">
     import SelectVoterDialog from './pages/SelectVoterDialog.vue';
+
     export default {
         data() {
             return {
@@ -169,7 +208,11 @@
                     icon: 'domain',
                 }],
                 menu: false,
-                voterDialog: false
+                voterDialog: false,
+                languages: {
+                    'en': 'English',
+                    'de': 'Deutsch',
+                },
             };
         },
         computed: {
@@ -214,9 +257,9 @@
             },
             selectedVoterName: {
                 get() {
-                    if(this.$store.state.selectedVoter != null){
+                    if (this.$store.state.selectedVoter != null) {
                         return this.$store.getters.getVoter(this.$store.state.selectedVoter).name;
-                    }else{
+                    } else {
                         return '';
                     }
                 },
@@ -226,26 +269,31 @@
             },
         },
         methods: {
-            openGithub: function() {
+            openGithub: function () {
                 window.open('https://chvote.ch');
             },
-            changeVoter: function(){
+            changeVoter: function () {
                 this.$store.commit("voterDialog", true);
             },
+            changeLanguage(lang) {
+                this.$root.$i18n.locale = lang
+                this.$store.state.language = lang
+            }
         },
         components: {
             'SelectVoterDialog': SelectVoterDialog
         }
     };
+
 </script>
 
 <style type="text/css">
-@import '../node_modules/nprogress/nprogress.css';
-@import '../node_modules/mdi/css/materialdesignicons.css';
-@import '../node_modules/nprogress/nprogress.css';
+    @import '../node_modules/nprogress/nprogress.css';
+    @import '../node_modules/mdi/css/materialdesignicons.css';
+    @import '../node_modules/nprogress/nprogress.css';
 </style>
 
 <style lang="stylus">
-@import '../node_modules/vuetify/src/stylus/main';
-@import 'css/main.css';
+    @import '../node_modules/vuetify/src/stylus/main';
+    @import 'css/main.css';
 </style>
