@@ -20,19 +20,19 @@
                 </v-list-tile-action>
             </v-list-tile>
         </v-list>
-        <v-btn to="newElection" v-t="'create'" />
+        <v-btn to="newElection" v-t="'create'"/>
     </v-container>
 </template>
 
 <i18n>
-    en:
-    title: Available election events
-    choose: Please choose an election event.
-    create: Create new
-    de:
-    title: Verfügbare Wahlereignisse
-    choose: Bitte wählen Sie ein Wahlereignis aus.
-    create: Neue erstellen
+en:
+  title: Available election events
+  choose: Please choose an election event.
+  create: Create new
+de:
+  title: Verfügbare Wahlereignisse
+  choose: Bitte wählen Sie ein Wahlereignis aus.
+  create: Neue erstellen
 </i18n>
 
 <script>
@@ -54,6 +54,7 @@
                 return elections
             }
         },
-        mounted () { }
+        mounted() {
+        }
     }
 </script>
