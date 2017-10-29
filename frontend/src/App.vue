@@ -18,7 +18,7 @@
             <v-icon light v-html="item.icon" />
           </v-list-tile-action>
           <v-list-tile-content>
-            <v-list-tile-title v-html="item.title" />
+            <v-list-tile-title>{{ $t(item.title) }}</v-list-tile-title>
           </v-list-tile-content>
         </v-list-tile>
       </template>
@@ -60,7 +60,7 @@
               </v-list-tile-content>
               <v-list-tile-action>
                 <v-btn icon>
-                  <v-icon>logout</v-icon>
+                  <v-icon>exit-to-app</v-icon>
                 </v-btn>
               </v-list-tile-action>
             </v-list-tile>
@@ -69,20 +69,20 @@
           <v-list>
             <v-list-tile>
               <v-list-tile-action>
-                <v-switch color="green"></v-switch>
+                <v-switch color="green" />
               </v-list-tile-action>
               <v-list-tile-title v-t="'settings.status'" />
             </v-list-tile>
             <v-list-tile>
               <v-list-tile-action>
-                <v-switch color="green" v-model="showConfidentiality"></v-switch>
+                <v-switch color="green" v-model="showConfidentiality" />
               </v-list-tile-action>
               <v-list-tile-title v-t="'settings.confidentiality'" />
             </v-list-tile>
           </v-list>
           <v-card-actions>
             <v-spacer />
-            <v-btn flat @click="menu = false" :v-t="'close'" />
+            <v-btn flat @click="menu = false" v-t="'close'" />
           </v-card-actions>
         </v-card>
       </v-menu>
@@ -186,9 +186,9 @@ export default {
     return {
       drawer: false,
       items: [
-        { href: 'home',      router: true, title: this.$i18n.t('menu.home'),      icon: 'home' },
-        { href: 'elections', router: true, title: this.$i18n.t('menu.elections'), icon: 'extension' },
-        { href: 'about',     router: true, title: this.$i18n.t('menu.about'),     icon: 'domain' }
+        { href: 'home',      router: true, title: 'menu.home',      icon: 'home' },
+        { href: 'elections', router: true, title: 'menu.elections', icon: 'extension' },
+        { href: 'about',     router: true, title: 'menu.about',     icon: 'domain' }
       ],
       menu: false,
       languages: {
@@ -231,7 +231,7 @@ export default {
       this.$store.state.language = lang
     },
     openGithub () {
-      window.open('https://chvote.ch')
+      window.open('https://gitlab.ti.bfh.ch/chvote/demonstrator')
     }
   }
 }
