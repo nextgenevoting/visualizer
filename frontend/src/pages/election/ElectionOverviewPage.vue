@@ -1,6 +1,5 @@
 <template>
-    <v-container grid-list-md>
-
+    <v-container>
         <div class="layout row wrap">
             <div class="contentHeader">
                 <i class="mdi icon mdi-view-dashboard"></i>
@@ -18,31 +17,30 @@
 </template>
 
 <script>
-export default {
-  computed: {
-    data() {
-      return {
-        id: this.$store.state.Election.electionID,
-        status: this.$store.getters.getStatusText,
-      };
-    },
-  },
-  created() {
-    this.$socket.emit('join', {election: this.$route.params['id'] });
-  },
-  methods: {
-      debugVotingSim: function (event) {
-          this.$http.post('debugVotingSim', {
-                  'election': this.$route.params["id"],
-              }
-          ).then(response => {
-              response.json().then((data) => {
-                  // success callback
-              });
-          }, response => {
-              // error callback
-          });
-      },
-  }
-};
+    export default {
+        computed: {
+            data () {
+                return {
+                    id: this.$store.state.Election.electionID,
+                    status: this.$store.getters.getStatusText
+                }
+            },
+        },
+        created () {
+            this.$socket.emit('join', { election: this.$route.params['id'] })
+        },
+        methods: {
+            debugVotingSim: function (event) {
+                this.$http.post('debugVotingSim', {
+                    'election': this.$route.params['id']
+                }).then(response => {
+                    response.json().then((data) => {
+                        // success callback
+                    })
+                }, response => {
+                    // error callback
+                })
+            }
+        }
+    }
 </script>
