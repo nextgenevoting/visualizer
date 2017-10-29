@@ -12,7 +12,11 @@ export const store = new Vuex.Store({
     namespaced: false,
     state: {
         connected: false,
-        showConfidentiality: true
+        showConfidentiality: true,
+        expertMode: false,
+        selectedVoter: null,
+        voterDialog: false
+
     },
     mutations: {
         SOCKET_CONNECT: (state,  status) => {
@@ -21,6 +25,12 @@ export const store = new Vuex.Store({
         },
         SOCKET_DISCONNECT: (state,  status) => {
             state.connected = false;
+        },
+        changeSelectedVoter: (state, selectedVoter) => {
+            state.selectedVoter = selectedVoter;
+        },
+        voterDialog: (state, value) => {
+            state.voterDialog = value;
         }
     },
     actions: {
@@ -28,6 +38,13 @@ export const store = new Vuex.Store({
             // console.log(message.data);
             context.commit('updateData', message.data);
         }*/
+    },
+    getters: {
+        getSelectedVoter:  (state, getters) => () => {
+            return state.selectedVoter;
+        },
+
+
     },
     modules: {
         Election,

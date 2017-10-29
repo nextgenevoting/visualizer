@@ -2,7 +2,7 @@ from flask import session, redirect, url_for, render_template, request
 from . import main
 from flask_socketio import emit
 from bson.json_util import dumps
-from app.database import db, saveComplex, loadComplex
+from app.database import db, serializeState, deserializeState
 from app.models.bulletinBoardState import BulletinBoardState
 from app.models.electionAuthorityState import ElectionAuthorityState
 from app.models.printingAuthorityState import PrintingAuthorityState
@@ -26,17 +26,17 @@ def createElection():
 
     # create a new (empty) BulletinBoardState
     newBBState =  BulletinBoardState(str(id))
-    db.bulletinBoardStates.insert({'election':str(id), 'state' : saveComplex(newBBState)})
+    db.bulletinBoardStates.insert({'election':str(id), 'state' : serializeState(newBBState)})
 
     # create new electionAuthority states
     for j in range(3):
         newAuthState = ElectionAuthorityState(j)
-        db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j, 'state': saveComplex(newAuthState)})
+        db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j, 'state': serializeState(newAuthState)})
 
 
     printingAuthState =  PrintingAuthorityState()
     # create new printing authority state
-    db.printingAuthorityStates.insert({'election':str(id), 'state' : saveComplex(printingAuthState)})
+    db.printingAuthorityStates.insert({'election':str(id), 'state' : serializeState(printingAuthState)})
 
     # update the election list on all clients
     syncElections(SyncType.BROADCAST)
@@ -56,6 +56,14 @@ def setUpElection():
     numberOfCandidates = json.loads(data["numberOfCandidates"])
 
     try:
+        # validate vote parameters
+        if len(candidates) != sum(numberOfCandidates):
+            raise RuntimeError("The numberOfCandidates must match the number of candidates")
+        if numberOfVoters != len(countingCircles):
+            raise RuntimeError("The length of countingCircles must match the number of voters")
+        if len(numberOfSelections) != len(numberOfCandidates):
+            raise RuntimeError("The length of numberOfSelections must match the length of numberOfCandidates")
+
         # prepare voteSimulator
         sim = VoteSimulator(electionId)
 
@@ -66,11 +74,12 @@ def setUpElection():
         sim.persist()
 
         syncBulletinBoard(electionId, SyncType.ROOM)
+        syncPrintingAuthority(electionId, SyncType.ROOM)
 
         # update election status
         sim.updateStatus(1)
     except Exception as ex:
-        return json.dumps({'result': 'error', })
+        return json.dumps({'result': 'error', 'message': str(ex) })
 
     return json.dumps({'result': 'success'})
 

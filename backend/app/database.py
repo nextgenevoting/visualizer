@@ -8,12 +8,12 @@ from pymongo.son_manipulator import SONManipulator
 import pickle
 from app.models.bulletinBoardState import BulletinBoardState
 
-# use the following function to convert an arbitrary complex data structure into a binary JSON string
-def saveComplex(obj):
+# use the following function to convert an arbitrary complex data structure into a binary string
+def serializeState(obj):
     return pickle.dumps(obj)
 
 # use the following function to recover the original data structure
-def loadComplex(bson):
+def deserializeState(bson):
     return pickle.loads(bson)
 
 class database(object):
@@ -26,7 +26,6 @@ class database(object):
         self._db = client.chvote
 
     # Mongo DB collections (tables):
-
     @property
     def elections(self):
         return self._db.elections

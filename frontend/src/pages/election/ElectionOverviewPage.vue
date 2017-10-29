@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container grid-list-md>
 
         <div class="layout row wrap">
             <div class="contentHeader">

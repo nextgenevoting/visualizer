@@ -12,8 +12,8 @@ ShuffleProof = namedtuple("ShuffleProof", "t, s, c_bold, c_hat_bold")
 DecryptionProof = namedtuple("DecryptionProof", "t, s")
 
 class VotingCard(object):
-        def __init__(self, v, X, Y, FC, rc):
-            self.voter = v
+        def __init__(self, id, X, Y, FC, rc):
+            self.id = id
             self.votingCode = X
             self.confirmationCode = Y
             self.verificationCodes = rc

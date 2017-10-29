@@ -20,6 +20,7 @@ import VueResource from 'vue-resource'
 import BigIntLabel from './utils/BigIntLabel.vue';
 import DataCard from './utils/DataCard.vue';
 import NProgress from 'nprogress/nprogress.js';
+import Toasted from 'vue-toasted';
 
 const routes = [
     {
@@ -96,9 +97,10 @@ Vue.use(Vuex);
 Vue.use(VueResource);
 Vue.component('BigIntLabel', BigIntLabel);
 Vue.component('DataCard', DataCard);
+Vue.use(Toasted, {position: 'top-right', duration: '4000'})
 
-Vue.url.options.root = process.env.SOCKETIO_BASE_URL;
-Vue.use(VueSocketio, Vue.url.options.root, store);
+Vue.url.options.root = process.env.URL_ROOT;
+Vue.use(VueSocketio, process.env.SOCKETIO_BASE_URL, store);
 
 NProgress.configure({ showSpinner: false });
 

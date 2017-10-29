@@ -12,13 +12,8 @@
                     <v-list-tile-title>{{ item.title }}</v-list-tile-title>
                     <v-list-tile-sub-title>{{ item.subtitle }}</v-list-tile-sub-title>
                 </v-list-tile-content>
-                <v-list-tile-action>
-                    <v-btn icon ripple>
-                        <v-icon class="grey--text text--lighten-1">info</v-icon>
-                    </v-btn>
-                </v-list-tile-action>
+
             </v-list-tile>
-            </v-subheader>
         </v-list>
         <v-btn light to="newElection">
             Create new

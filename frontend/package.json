@@ -18,7 +18,9 @@
     "vuex": "^3.0.0",
     "mdi": "^2.0.46",
     "vue-resource": "^1.3.4",
-    "nprogress": "^0.2.0"
+    "nprogress": "^0.2.0",
+    "normalizr": "^3.2.4",
+    "vue-toasted": "^1.1.22"
   },
   "devDependencies": {
     "babel-core": "^6.26.0",

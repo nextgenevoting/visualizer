@@ -20,6 +20,9 @@ const mutations = {
 
 
 const getters = {
+  getStatus: () =>{
+    return state.status;
+  },
   getStatusText: () => {
     const statusId = state.status;
     switch (statusId) {

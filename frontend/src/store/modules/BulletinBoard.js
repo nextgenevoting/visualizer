@@ -1,6 +1,5 @@
 // initial state
 const state = {
-  id: null,
   voters: null,
   candidates: null,
   publicVotingCredentials: null,

@@ -1,5 +1,5 @@
 <template>
-    <v-container>
+    <v-container grid-list-md>
         <div class="layout row wrap">
             <div class="contentHeader">
                 <i class="mdi icon mdi-account-key"></i>
@@ -78,6 +78,7 @@
         methods: {
 
             setUpElection: function (event) {
+                var self = this;
                 if (this.$refs.form.validate()) {
 
                     //this.$socket.emit('setUpElection', {'election': this.$route.params["id"]});
@@ -93,6 +94,13 @@
                         ).then(response => {
                         response.json().then((data) => {
                             // success callback
+                            if(data.result == 'success') {
+                                this.$toasted.success("Successfully set up election");
+                            }
+                            else {
+                                this.$toasted.error(data.message);
+                            }
+
                         });
                     }, response => {
                         // error callback

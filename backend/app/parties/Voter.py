@@ -38,3 +38,23 @@ class Voter(Party):
     def votingCard(self, value):
         AssertClass(value, VotingCard)
         self.state.votingCard = value
+
+
+    @property
+    def countingCircle(self):
+        return self.state.countingCircle
+
+    @countingCircle.setter
+    def countingCircle(self, value):
+        AssertInt(value)
+        self.state.countingCircle = value
+
+
+    @property
+    def status(self):
+        return self.state.status
+
+    @status.setter
+    def status(self, value):
+        AssertInt(value)
+        self.state.status = value

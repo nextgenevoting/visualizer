@@ -1,12 +1,12 @@
 <template>
     <v-card class="infoCard">
 
-        <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4" v-bind:class="confidentiality == 'private' ? 'red' : 'green'">{{confidentiality}}</span>
+        <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4" v-bind:class="confidentiality == 'secret' ? 'red' : 'green'">{{confidentiality}}</span>
 
         <v-card-title primary-title class="primaryContent">
             <div><span class="label grey--text">{{title}}
               <v-tooltip top>
-                <v-icon color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
+                <v-icon v-if="!disableTooltip" color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
              </v-tooltip></span>
                 <div class="value">
                     <slot></slot>
@@ -58,7 +58,13 @@
                 type: String,
                 required: true,
                 default: 'public'
-            }
+            },
+            disableTooltip: {
+                type: Boolean,
+                required: false,
+                default: false
+            },
+
         },
 
         mounted() {
@@ -79,5 +85,9 @@
         position: absolute;
         top: 7px;
         right: 7px;
+    }
+
+    .infoCard .primaryContent div{
+        width: 100%;
     }
 </style>

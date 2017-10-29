@@ -2,7 +2,7 @@ from chvote.Common.SecurityParams import secparams_l1
 from app.models.electionAuthorityState import ElectionAuthorityState
 from app.models.voterState import VoterState
 from app.parties.ElectionAuthority import ElectionAuthority
-from app.database import db, saveComplex
+from app.database import db, serializeState
 from app.parties.BulletinBoard import BulletinBoard
 from app.parties.PrintingAuthority import PrintingAuthority
 from app.parties.Voter import Voter
@@ -56,7 +56,8 @@ class VoteSimulator(object):
         voters = []
         for v in range(numberOfVoters):
             newVoter = VoterState(v+1)
-            db.voterStates.insert({'election': self.electionID, 'voterID': v, 'state': saveComplex(newVoter)})
+            newVoter.countingCircle = w_bold[v]
+            db.voterStates.insert({'election': self.electionID, 'voterID': v, 'state': serializeState(newVoter)})
             voters.append(newVoter.name)
         self.bulletinBoard.voters = voters
 
@@ -75,13 +76,15 @@ class VoteSimulator(object):
             pk = authority.GetPublicKey(self.bulletinBoard, self.secparams)
         self.bulletinBoard.publicKey = pk
 
-    def printVotingCards(self):
-        # 7.2 Printing of voting cards
+        # 7.2 Send secret voter data to the printing authority (this is typically done in the printVotingCards(), but since we want to show the secret voter data before printing the cards, we do it here)
         privateCredentials = []
         for authority in self.authorities:
             privateCredentials.append(authority.secretVotingCredentials)
+            self.printingAuthority.privateCredentials = privateCredentials
 
-        self.printingAuthority.privateCredentials = privateCredentials
+
+    def printVotingCards(self):
+        # 7.2 Printing of voting cards
         self.printingAuthority.PrintVotingCards(self.bulletinBoard, self.secparams)
 
     def sendVotingCards(self):

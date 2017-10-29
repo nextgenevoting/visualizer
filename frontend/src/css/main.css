@@ -11,6 +11,10 @@ header.siteHeader{
   box-shadow: 0 2px 4px -1px rgba(0,0,0,.2), 0 4px 5px rgba(0,0,0,.14), 0 1px 10px rgba(0,0,0,.12);
 }
 
+.toolbar__title img{
+  margin-top: 4px;
+}
+
 .container {
   margin: 0 auto !important;
 }
@@ -38,15 +42,17 @@ a {
 }
 
 .contentHeader{
-  float: left;font-size: 38px; color:#2196f3; width:60px
+  float: left;font-size: 38px; color: #505050; width:60px
 }
 
 .contentHeader .icon{
-  font-size: 48px; color: #2196f3 !important; margin-top: 15px;
+  font-size: 36px;
+  color: #505050 !important;
+  margin-top: 18px;
 }
 
 .my-3{
-  color: #2196f3;  font-size: 32px;
+  color: #505050;  font-size: 32px;
 }
 /* Badge */
 
@@ -57,6 +63,15 @@ a {
 .badge:after {
   height: 17px !important;
   width: 17px !important;
+}
+
+.badge__badge{
+  height: 32px !important;
+  width: 32px !important;
+}
+
+.badge__badge .icon{
+  font-size: 24px !important;
 }
 
 .label{
@@ -70,6 +85,7 @@ font-size: 14px;
 .infoCard .value{
   text-align: left;
   font-size: 22px;
+  clear: both;
 }
 
 .infoCard .label{
@@ -94,4 +110,35 @@ font-size: 14px;
 #nprogress .spinner-icon {
   border-top-color: white !important;
   border-left-color: white !important;
+}
+
+.toasted-container.top-right {
+  right: 10px !important;
+  top: 140px !important;
+  width: 400px;
+}
+
+.toasted-container.bottom-right .toasted, .toasted-container.top-right .toasted{
+  padding: 15px !important;
+}
+
+.alert.grey.lighten-3 div{
+  color: rgba(0,0,0,0.87);
+}
+
+.tabNotificationBadge {
+  font-size: 26px;
+}
+
+.icon.pending{
+  color: rgba(206, 206, 206, 0.54) !important;
+}
+
+.siteHeader .chip {
+  background: #1ea3f3 !important;
+  color: rgba(255, 255, 255, 1) !important;
+}
+
+.chip .icon{
+  opacity: 1 !important;
 }

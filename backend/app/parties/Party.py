@@ -1,4 +1,4 @@
-from app.database import loadComplex, saveComplex
+from app.database import deserializeState, serializeState
 
 class Party(object):
 
@@ -17,13 +17,13 @@ class Party(object):
 
         loadState = self.collection.find_one(loadCondition)
         if loadState != None:
-            self.state = loadComplex(loadState["state"])
+            self.state = deserializeState(loadState["state"])
         else:
             raise RuntimeError("Failed to load state in {}".format(self.__class__.__name__))
 
     def persist(self):
         saveCondition = {"election": self.electionID}
-        replaceCondition = {"election": self.electionID, "state": saveComplex (self.state)}
+        replaceCondition = {"election": self.electionID, "state": serializeState (self.state)}
         if self.additionalConditions != None:
             saveCondition.update(self.additionalConditions)
             replaceCondition.update(self.additionalConditions)

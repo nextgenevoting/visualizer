@@ -1,6 +1,7 @@
 import json
-from chvote.Utils.JsonParser import mpzconverter
-from abc import ABC, abstractmethod
+from abc import ABC
+
+from app.utils.JsonParser import mpzconverter
 
 
 class State(ABC):

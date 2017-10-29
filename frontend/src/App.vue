@@ -27,6 +27,10 @@
                 <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
                 <v-toolbar-title><img src="/public/logo.png" style="height:22px"></v-toolbar-title>
                 <v-spacer></v-spacer>
+                <v-btn flat v-if="this.$store.state.selectedVoter != null" @click="changeVoter()">
+                    <v-icon>account_circle</v-icon>
+                    {{ selectedVoterName }}
+                </v-btn>
                 <v-btn icon>
                     <v-icon>mdi-translate</v-icon>
                 </v-btn>
@@ -43,7 +47,7 @@
                         <v-list>
                             <v-list-tile avatar>
                                 <v-list-tile-avatar>
-                                    <img src="/static/doc-images/john.jpg" alt="">
+                                    <img src="/public/avatar.jpg" alt="">
                                 </v-list-tile-avatar>
                                 <v-list-tile-content>
                                     <v-list-tile-title>Voteadmin</v-list-tile-title>
@@ -60,9 +64,9 @@
                         <v-list>
                             <v-list-tile>
                                 <v-list-tile-action>
-                                    <v-switch color="green"></v-switch>
+                                    <v-switch color="green" v-model="expertMode"></v-switch>
                                 </v-list-tile-action>
-                                <v-list-tile-title>Status on all pages</v-list-tile-title>
+                                <v-list-tile-title>Expert mode</v-list-tile-title>
                             </v-list-tile>
                             <v-list-tile>
                                 <v-list-tile-action>
@@ -81,7 +85,7 @@
                     <v-icon>home</v-icon>
                 </v-btn>
             </v-toolbar>
-            <v-tabs dark fixed icons centered>
+            <v-tabs dark grow icons centered>
                 <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
                     <v-tabs-slider color="white"></v-tabs-slider>
                     <v-tabs-item ripple :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
@@ -90,28 +94,31 @@
                     </v-tabs-item>
                     <v-tabs-item ripple :to="{ name: 'electionadmin', params: {id: $route.params['id'] }}">
                         <v-badge color="">
-                            <v-icon slot="badge" dark v-if="status == 0">notifications</v-icon>
+                            <v-icon slot="badge" dark v-if="status == 0">mdi-alert-decagram</v-icon>
                             <v-icon>mdi-account-key</v-icon>
                         </v-badge>
                         Election Admin
                     </v-tabs-item>
                     <v-tabs-item ripple :to="{ name: 'printingauth', params: {id: $route.params['id'] }}">
                         <v-badge color="">
-                            <v-icon slot="badge" dark v-if="status == 1">notifications</v-icon>
+                            <v-icon slot="badge" dark v-if="status == 1">mdi-alert-decagram</v-icon>
                             <v-icon>mdi-printer</v-icon>
                         </v-badge>
                         Printing Auth.
                     </v-tabs-item>
-                    <v-tabs-item ripple :to="{ name: 'voter', params: {id: $route.params['id'] }}">
-                        <v-icon>mdi-account</v-icon>
-                        Voter
+                    <v-tabs-item ripple :to="{ name: 'voter', params: {id: $route.params['id'] }}" :disabled="this.$store.getters.getStatus < 1">
+                        <v-badge color="">
+                            <v-icon slot="badge" dark v-if="status == 3">mdi-alert-decagram</v-icon>
+                            <v-icon>mdi-account</v-icon>
+                        </v-badge>
+                        Voters
                     </v-tabs-item>
                     <v-tabs-item ripple :to="{ name: 'electionauthority', params: {id: $route.params['id'] }}">
-                        <v-badge color="">
-                            <v-icon slot="badge" dark v-if="status == 0">notifications</v-icon>
+                        <v-badge class="">
+                            <v-icon slot="badge" dark v-if="status == 5">mdi-alert-decagram</v-icon>
                             <v-icon>mdi-settings-box</v-icon>
                         </v-badge>
-                        Election Authority
+                        Election Authorities
                     </v-tabs-item>
                     <v-tabs-item ripple :to="{ name: 'bulletinboard', params: {id: $route.params['id'] }}">
                         <v-icon>mdi-bulletin-board</v-icon>
@@ -135,11 +142,12 @@
             Websocket connection established!
             <v-btn dark flat @click.native="onlineNotification = false">Close</v-btn>
         </v-snackbar>
-
+        <SelectVoterDialog></SelectVoterDialog>
     </v-app>
 </template>
 
 <script type="text/babel">
+    import SelectVoterDialog from './pages/SelectVoterDialog.vue';
     export default {
         data() {
             return {
@@ -161,6 +169,7 @@
                     icon: 'domain',
                 }],
                 menu: false,
+                voterDialog: false
             };
         },
         computed: {
@@ -186,6 +195,7 @@
                 set(value) {
                 }
             },
+
             showConfidentiality: {
                 get() {
                     return this.$store.state.showConfidentiality;
@@ -194,11 +204,37 @@
                     this.$store.state.showConfidentiality = value;
                 }
             },
+            expertMode: {
+                get() {
+                    return this.$store.state.expertMode;
+                },
+                set(value) {
+                    this.$store.state.expertMode = value;
+                }
+            },
+            selectedVoterName: {
+                get() {
+                    if(this.$store.state.selectedVoter != null){
+                        return this.$store.getters.getVoter(this.$store.state.selectedVoter).name;
+                    }else{
+                        return '';
+                    }
+                },
+                set(value) {
+                    this.$store.commit("changeSelectedVoter", value);
+                }
+            },
         },
         methods: {
-            openGithub() {
+            openGithub: function() {
                 window.open('https://chvote.ch');
             },
+            changeVoter: function(){
+                this.$store.commit("voterDialog", true);
+            },
+        },
+        components: {
+            'SelectVoterDialog': SelectVoterDialog
         }
     };
 </script>

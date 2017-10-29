@@ -1,30 +1,30 @@
 <template>
-    <v-container>
+    <v-container grid-list-md>
         <div class="layout row wrap">
             <div class="contentHeader">
                 <i class="mdi icon mdi-settings-box"></i>
             </div>
-            <h3 class="my-3">Election Authority</h3>
+            <h3 class="my-3">Election Authorities</h3>
         </div>
 
-            <v-layout row wrap>
-                <v-flex xs12 sm4>
-                    Please choose which election authority to observe
-                    <v-select
-                            v-bind:items="data.electionAuthorities"
-                            v-model="currentAuthority"
-                            item-text="name"
-                            item-value="j"
-                            single-line
-                            bottom
-                    ></v-select>
-                </v-flex>
-                <v-flex sm2></v-flex>
-            </v-layout>
+        <v-flex xs12 sm12>
+            <v-btn-toggle v-model="currentAuthority">
+                <v-btn flat>
+                     Authority 1
+                </v-btn>
+                <v-btn flat>
+                    Authority 2
+                </v-btn>
+                <v-btn flat>
+                    Authority 3
+                </v-btn>
 
+            </v-btn-toggle>
+        </v-flex>
 
-        <h5 class="my-3">Tasks</h5>
-        <v-layout row v-if="">
+<br>
+        <h5 class="">Tasks</h5>
+        <v-layout row v-if="1==0">
             <v-flex xs12 sm12>
                 <v-card>
 
@@ -51,31 +51,42 @@
             </v-flex>
         </v-layout>
 
-        <h5 class="my-3">Data</h5>
-        <v-switch label="Expert mode" v-model="verbose" ></v-switch>
+        <br>
+        <br>
+        <h5 class="">Data</h5>
 
-        Public Key:
-        <BigIntLabel :mpzValue="data.electionAuthority.publicKey"></BigIntLabel>
-        <br>
-        Public Key Share:
-        <BigIntLabel :mpzValue="data.electionAuthority.publicKeyShare"></BigIntLabel>
-        <br>
-        Secret Key Share:
-        <BigIntLabel :mpzValue="data.electionAuthority.secretKeyShare"></BigIntLabel>
-        <br>
+        <v-layout row wrap>
 
-        <ul id="Points" v-if="verbose">
-            Points:
-            <li v-for="voter in data.electionAuthority.points">
-                Voter1
-                <ul id="subList">
-                    <li v-for="point in voter">
-                        x: <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
-                        y: <BigIntLabel :mpzValue="point[1]"></BigIntLabel>
-                    </li>
-                </ul>
-            </li>
-        </ul>
+            <v-flex xy12 md4>
+                <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public"><BigIntLabel :mpzValue="data.electionAuthority.publicKey"></BigIntLabel></DataCard>
+            </v-flex>
+
+            <v-flex xy12 md4>
+                <DataCard title="Public Key Share" :isMpz=true :expandable=false confidentiality="public"><BigIntLabel :mpzValue="data.electionAuthority.publicKeyShare"></BigIntLabel></DataCard>
+            </v-flex>
+
+            <v-flex xy12 md4>
+                <DataCard title="Secret Key Share" :isMpz=true :expandable=false confidentiality="secret"><BigIntLabel :mpzValue="data.electionAuthority.secretKeyShare"></BigIntLabel></DataCard>
+            </v-flex>
+
+            <v-flex xy12 md4 v-if="data.expertMode">
+                <DataCard title="Points" :expandable=true confidentiality="secret">
+                    Points of all voters
+                    <ul id="subList" slot="expandContent">
+                        <li v-for="(voter, index) in data.electionAuthority.points">
+                            Voter {{ index}}
+                            <ul id="subList">
+                                <li v-for="point in voter">
+                                    x: <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
+                                    y: <BigIntLabel :mpzValue="point[1]"></BigIntLabel>
+                                </li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                </DataCard>
+            </v-flex>
+        </v-layout>
 
     </v-container>
 </template>
@@ -85,7 +96,6 @@ export default {
     data: () => ({
         currentAuthority: 0,
         show: false,
-        verbose: false
     }),
   computed: {
     data() {
@@ -94,6 +104,7 @@ export default {
         status: this.$store.getters.getStatusText,
         electionAuthorities: this.$store.state.ElectionAuthority.electionAuthorities,
         electionAuthority: this.$store.getters.getElectionAuthority(this.currentAuthority),
+        expertMode: this.$store.state.expertMode,
       };
     },
   },
@@ -102,3 +113,13 @@ export default {
   },
 };
 </script>
+
+<style>
+.btn-toggle{
+    width: 100%;
+}
+
+.btn-toggle .btn{
+    width: 33%;
+}
+</style>

@@ -55,7 +55,7 @@ def GetVotingCards(v_bold, w_bold, c_bold, n_bold, k_bold, E_bold, D_bold, secpa
             R = MarkByteArray(XorByteArray(R_ijk), k_index, secparams.n_max)
             rc_bold.append(ByteArrayToString(R, secparams.A_R))
         s_bold.append(GetVotingCard(i, v_bold[i], w_bold, c_bold, n_bold, k_i, X, Y, FC, rc_bold))
-        rawSheetData.append(VotingCard(v_bold[i], X, Y, FC, rc_bold))
+        rawSheetData.append(VotingCard(i, X, Y, FC, rc_bold))
 
         # the following data structure is additionally returned so we can retrieve a
         # voters data for automatic user input (for example the voting code) without
