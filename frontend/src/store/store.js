@@ -12,31 +12,40 @@ export const store = new Vuex.Store({
     namespaced: false,
     state: {
         connected: false,
+        joinedElectionID: null,
         showConfidentiality: true,
         expertMode: false,
         selectedVoter: null,
         voterDialog: false,
         language: 'en',
-        joinedElectionID: null
     },
     mutations: {
-        SOCKET_CONNECT: (state,  status) => {
+        SOCKET_CONNECT: (state,  data) => {
             state.connected = true;
-            // router.push({name: 'elections'});
         },
-        SOCKET_DISCONNECT: (state,  status) => {
+        SOCKET_DISCONNECT: (state,  data) => {
             state.connected = false;
             state.joinedElectionID = null;
         },
         SOCKET_JOINACK: (state, electionID) => {
             console.log("JOINACK");
             state.joinedElectionID = electionID;
+            state.selectedVoter = null;
         },
-        changeSelectedVoter: (state, selectedVoter) => {
+        selectedVoter: (state, selectedVoter) => {
             state.selectedVoter = selectedVoter;
         },
         voterDialog: (state, value) => {
             state.voterDialog = value;
+        },
+        language: (state, value) => {
+            state.language = value;
+        },
+        showConfidentiality: (state, value) => {
+            state.showConfidentiality = value;
+        },
+        expertMode: (state, value) => {
+            state.expertMode = value;
         }
     },
     actions: {

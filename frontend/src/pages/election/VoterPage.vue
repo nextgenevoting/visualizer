@@ -10,21 +10,16 @@
         </div>
 
 
-        <div v-if="data.status < 2">
-            Before you can vote, the election must be set up and voting cards printed
+        <div v-if="status < 1">
+            Before you can vote, the election must be set up
         </div>
         <div v-else>
-            <v-flex xy12 md6 v-if="data.selectedVoter == null" class="text-xs-center">
-
-                <v-card class="text-xs-center">
-                    <v-card-title primary-title class="primaryContent">
-                        <div><span class="label grey--text">Please choose a voter</span></div>
-                    </v-card-title>
-                    <v-btn @click="selectVoter">Choose voter</v-btn>
-                </v-card>
+            <v-flex xy12 md6 v-if="selectedVoter == null">
+                Please choose a voter first<br><br>
+                <v-btn @click="selectVoter">Select voter</v-btn>
             </v-flex>
             <v-flex xy12 md12 v-else>
-                <v-stepper alt-labels :value="data.getVoter().status + 1">
+                <v-stepper alt-labels :value="voter.status + 1">
                     <v-stepper-header>
                         <v-stepper-step step="1">Vote Casting</v-stepper-step>
                         <v-divider></v-divider>
@@ -35,7 +30,7 @@
                 </v-stepper>
                 <div class="layout row wrap">
                     <v-flex x12 md8>Selection form...</v-flex>
-                    <v-flex x12 md4>{{ data.getVotingCard() }}</v-flex>
+                    <v-flex x12 md4>{{ votingCard }}</v-flex>
                 </div>
             </v-flex>
         </div>
@@ -48,18 +43,30 @@
         data: () => ({
         }),
         computed: {
-            data() {
-                var self = this;
-                return {
-                    status: this.$store.state.Election.status,
-                    voters: this.$store.state.Voter.voters,
-                    selectedVoter: this.$store.state.selectedVoter,
-                    getVoter: function(voterID){
-                        return self.$store.getters.getVoter(self.data.selectedVoter);
-                    },
-                    getVotingCard: function(){
-                        console.log(self.$store.getters.getVotingCard(self.data.selectedVoter));
-                        return self.$store.getters.getVotingCard(self.data.selectedVoter);
+            status: {
+              get: function(){
+                return this.$store.state.Voter.voters;
+              }
+            },
+            selectedVoter: {
+                get: function(){
+                    return this.$store.state.selectedVoter;
+                }
+            },
+            voters: {
+                get: function(){
+                    return this.$store.state.Election.status;
+                }
+            },
+            voter: {
+                get: function(id){
+                    return this.$store.getters.getVoter(this.selectedVoter);
+                }
+            },
+            votingCard: {
+                get:function(){
+                    if(this.selectedVoter != null && this.selectedVoter != 0){
+                        return this.$store.getters.getVotingCard(this.selectedVoter);
                     }
                 }
             }
@@ -67,11 +74,6 @@
         created() {
             if(this.$store.getters.getJoinedElectionID() !== this.$route.params['id'])
                 this.$socket.emit('join', { election: this.$route.params['id'] });
-            this.unsub = this.$store.subscribe((mutation, state) => console.log(mutation));
-        },
-        beforeDestroy() {
-            console.log("before destroy");
-            this.unsub();
         },
         methods: {
             generateVotingSheets: function (event) {
@@ -81,7 +83,13 @@
                 this.$store.commit("voterDialog", true);
             }
 
-        }
+        },
+        watch: {
+            // whenever votingCard state changes, this function will be executed
+            votingCard: function (newValue) {
+               console.log(newValue);
+            }
+        },
     };
 </script>
 <style>

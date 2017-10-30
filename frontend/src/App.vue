@@ -242,7 +242,7 @@ de:
                     return this.$store.state.showConfidentiality;
                 },
                 set(value) {
-                    this.$store.state.showConfidentiality = value;
+                    this.$store.commit("showConfidentiality", value);
                 }
             },
             expertMode: {
@@ -250,7 +250,7 @@ de:
                     return this.$store.state.expertMode;
                 },
                 set(value) {
-                    this.$store.state.expertMode = value;
+                    this.$store.commit("expertMode", value);
                 }
             },
             selectedVoterName: {
@@ -262,7 +262,7 @@ de:
                     }
                 },
                 set(value) {
-                    this.$store.commit("changeSelectedVoter", value);
+                    this.$store.commit("selectedVoter", value);
                 }
             },
         },
@@ -272,7 +272,7 @@ de:
             },
             changeLanguage(lang) {
                 this.$root.$i18n.locale = lang
-                this.$store.state.language = lang
+                this.$store.commit('language', lang);
             }
         },
         components: {

@@ -37,8 +37,11 @@ const getters = {
     getVoter:  (state, getters) => (id) => {
         return state.voters[id];
     },
-    getVotingCard:  (state, getters) => (id) => {
-        return state.votingCards[state.voters[id].votingCard];
+    getVotingCard: (state, getters) => (id) => {
+        if(state.voters[id].votingCard !== null)
+            return state.votingCards[state.voters[id].votingCard];
+        else
+            return null;
     },
 
 };

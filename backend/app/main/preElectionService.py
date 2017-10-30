@@ -9,7 +9,7 @@ from app.models.printingAuthorityState import PrintingAuthorityState
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
-from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus, syncVoters, syncElectionAuthorities
+from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus, syncVoters, syncElectionAuthorities, fullSync
 from bson.objectid import ObjectId
 
 import json
@@ -73,8 +73,7 @@ def setUpElection():
         # retrieve and persist modified state
         sim.persist()
 
-        syncBulletinBoard(electionId, SyncType.ROOM)
-        syncPrintingAuthority(electionId, SyncType.ROOM)
+        fullSync(electionId, SyncType.ROOM)
 
         # update election status
         sim.updateStatus(1)

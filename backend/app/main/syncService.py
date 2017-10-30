@@ -1,5 +1,6 @@
 import json
 from enum import Enum
+from flask import Flask, request
 
 import pymongo
 from app.database import db, deserializeState
@@ -18,8 +19,10 @@ class SyncType(Enum):
 def emitToClient(messageName, payload, syncType, room = None):
     if syncType == SyncType.ROOM:
         socketio.emit(messageName, payload , room=room)
+    elif syncType == SyncType.BROADCAST:
+        socketio.emit(messageName, payload, broadcast=True)
     else:
-        socketio.emit(messageName, payload, broadcast=True if syncType == SyncType.BROADCAST else False)
+        socketio.emit(messageName, payload, room=request.sid)
 
 # EMITTERS
 def syncElections(syncType):

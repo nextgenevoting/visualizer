@@ -9,7 +9,7 @@
 
         ID: <b>{{ data.id }}</b>
         <br>
-        Status: <b>{{ data.status }}</b>
+        Status: <b>{{ status }}</b>
         <br>
         <br>
         <v-btn color="primary" v-on:click="debugVotingSim">Debug VoteSim trigger</v-btn>
@@ -25,9 +25,15 @@
                     status: this.$store.getters.getStatusText
                 }
             },
+            status: {
+                get:function(){
+                    return this.$store.getters.getStatusText
+                }
+            }
         },
         created () {
             if(this.$store.getters.getJoinedElectionID() !== this.$route.params['id'])
+                console.log("Join in overview!");
                 this.$socket.emit('join', { election: this.$route.params['id'] });
         },
         methods: {
@@ -42,6 +48,12 @@
                     // error callback
                 })
             }
-        }
+        },
+        watch: {
+            // whenever question changes, this function will run
+            status: function (newStatus) {
+                console.log("Status Watcher:" + newStatus);
+            }
+        },
     }
 </script>

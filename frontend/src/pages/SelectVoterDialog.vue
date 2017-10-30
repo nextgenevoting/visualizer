@@ -53,7 +53,7 @@
         },
         methods:{
             selectVoter: function(id){
-                this.$store.commit('changeSelectedVoter', id);
+                this.$store.commit('selectedVoter', id);
                 this.$store.commit('voterDialog', false);
             }
         },
