@@ -8,21 +8,21 @@
         </div>
         <div>
             <h5 class="">Tasks</h5>
-            <v-alert v-if="data.status == 3" color="grey lighten-3" icon="check_circle" value="true"
+            <v-alert v-if="status == 3" color="grey lighten-3" icon="check_circle" value="true"
                      v-model="sentAlert">
                 Voting cards have been delivered to the voters!
             </v-alert>
-            <!-- <v-alert v-if="data.status == 3" color="info" icon="info" value="true" v-model="sentAlert">
+            <!-- <v-alert v-if="status == 3" color="info" icon="info" value="true" v-model="sentAlert">
                  Voting cards have been delivered to the voters!
              </v-alert>-->
-            <p v-if="data.status == 0">
+            <p v-if="status == 0">
                 Before voting cards can be printed, the election administrator must set up the election.</p>
-            <div v-if="data.status < 3">
-                <v-btn v-on:click="printVotingCards" :disabled="data.status != 1">
+            <div v-if="status < 3">
+                <v-btn v-on:click="printVotingCards" :disabled="status != 1">
                     <v-icon>mdi-printer</v-icon>
                     Print voting cards
                 </v-btn>
-                <v-btn v-on:click="sendVotingCards" :disabled="data.status != 2">
+                <v-btn v-on:click="sendVotingCards" :disabled="status != 2">
                     <v-icon>mdi-email</v-icon>
                     Send voting cards to voters
                 </v-btn>
@@ -33,14 +33,14 @@
 
         <v-layout row wrap>
 
-            <v-flex xy12 md12 v-if="data.status >=2">
+            <v-flex xy12 md12 v-if="status >=2">
                 <DataCard title="Voting Cards" :expandable=false confidentiality="secret" :disableTooltip="true">
                     <v-layout row wrap>
 
                         <v-flex xy12 md2>
 
                             <v-list>
-                                <v-list-tile v-for="(item, index) in data.voters" v-bind:key="item.name"
+                                <v-list-tile v-for="(item, index) in voters" v-bind:key="item.name"
                                              active-class="default-class your-class"
                                              @click="selectedVoter = index-1">
                                     <v-list-tile-content>
@@ -53,7 +53,7 @@
                         </v-flex>
 
                         <v-flex xy12 md10>
-                            {{ data.getVotingCard() }}
+                            {{ getVotingCard }}
 
                         </v-flex>
                     </v-layout>
@@ -65,7 +65,7 @@
 
             <v-flex xy12 md12 v-if="this.$store.state.expertMode">
                 <DataCard title="Private Voter Data" :expandable=false confidentiality="secret">
-                    {{data.privateCredentials}}
+                    {{ privateCredentials}}
                 </DataCard>
             </v-flex>
         </v-layout>
@@ -79,25 +79,44 @@
             sentAlert: true
         }),
         computed: {
-            data() {
-                var self = this;
-                return {
-                    voters: this.$store.state.Voter.voters,
-                    status: this.$store.state.Election.status,
-                    privateCredentials: this.$store.state.PrintingAuthority.privateCredentials,
-                    votingCards: this.$store.state.PrintingAuthority.votingCards,
-                    getVotingCard: function () {
-                        if (self.selectedVoter <= self.$store.state.PrintingAuthority.votingCards.length) {
-                            return self.$store.state.PrintingAuthority.votingCards[self.selectedVoter];
-                        } else {
-                            return "";
-                        }
+            id: {
+                get: function(){
+                    return this.$store.getters.electionId;
+                }
+            },
+            status: {
+                get: function(){
+                    return this.$store.getters.status;
+                }
+            },
+            voters: {
+                get: function(){
+                    return this.$store.state.Voter.voters;
+                }
+            },
+            votingCards: {
+                get: function(){
+                    return this.$store.state.PrintingAuthority.votingCards;
+                }
+            },
+            privateCredentials: {
+                get: function(){
+                    return this.$store.state.PrintingAuthority.privateCredentials;
+                }
+            },
+            getVotingCard: {
+                get: function(){
+                    if (this.selectedVoter <= this.$store.state.PrintingAuthority.votingCards.length) {
+                        return this.$store.state.PrintingAuthority.votingCards[this.selectedVoter];
+                    } else {
+                        return "";
                     }
                 }
-            }
+            },
+
         },
         created() {
-            if(this.$store.getters.getJoinedElectionID() !== this.$route.params['id'])
+            if(this.$store.getters.joinedElectionId !== this.$route.params['id'])
                 this.$socket.emit('join', { election: this.$route.params['id'] });
         },
         methods: {

@@ -104,7 +104,7 @@
             </v-badge>
             Printing Auth.
           </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'voter', params: {id: $route.params['id'] }}" :disabled="this.$store.getters.getStatus < 1">
+          <v-tabs-item ripple :to="{ name: 'voter', params: {id: $route.params['id'] }}" :disabled="this.$store.getters.status < 1">
             <v-badge color="">
               <v-icon slot="badge" dark v-if="status == 3">mdi-alert-decagram</v-icon>
               <v-icon>mdi-account</v-icon>
@@ -156,7 +156,7 @@ en:
   close: Close
   settings:
     title: Settings
-    exppert: Expert mode
+    expert: Expert mode
     confidentiality: Show confidentiality
     ok: OK
   open_repo: Open BFH Gitlab repository

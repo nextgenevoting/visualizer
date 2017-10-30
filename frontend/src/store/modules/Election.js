@@ -2,6 +2,7 @@
 const state = {
   elections: [],
   status: -1,
+  electionId: null
 };
 
 // mutations
@@ -12,7 +13,7 @@ const mutations = {
   SOCKET_SYNCELECTION: (state, data) => {
     console.log('SOCKET_SYNCELECTION called');
     console.log(data);
-    state.electionID = data.electionID;
+    state.electionId = data.electionID;
     state.status = data.status;
   },
 
@@ -20,10 +21,13 @@ const mutations = {
 
 
 const getters = {
-  getStatus: () =>{
+  electionId: () =>{
+      return state.electionId;
+  },
+  status: () =>{
     return state.status;
   },
-  getStatusText: () => {
+  statusText: () => {
     const statusId = state.status;
     switch (statusId) {
       case 0:

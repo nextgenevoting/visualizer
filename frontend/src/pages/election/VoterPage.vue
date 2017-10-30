@@ -45,17 +45,12 @@
         computed: {
             status: {
               get: function(){
-                return this.$store.state.Voter.voters;
+                return this.$store.state.Election.status;
               }
             },
             selectedVoter: {
                 get: function(){
                     return this.$store.state.selectedVoter;
-                }
-            },
-            voters: {
-                get: function(){
-                    return this.$store.state.Election.status;
                 }
             },
             voter: {
@@ -72,7 +67,7 @@
             }
         },
         created() {
-            if(this.$store.getters.getJoinedElectionID() !== this.$route.params['id'])
+            if(this.$store.getters.joinedElectionId !== this.$route.params['id'])
                 this.$socket.emit('join', { election: this.$route.params['id'] });
         },
         methods: {

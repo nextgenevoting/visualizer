@@ -12,7 +12,7 @@ export const store = new Vuex.Store({
     namespaced: false,
     state: {
         connected: false,
-        joinedElectionID: null,
+        joinedElectionId: null,
         showConfidentiality: true,
         expertMode: false,
         selectedVoter: null,
@@ -25,11 +25,11 @@ export const store = new Vuex.Store({
         },
         SOCKET_DISCONNECT: (state,  data) => {
             state.connected = false;
-            state.joinedElectionID = null;
+            state.joinedElectionId = null;
         },
-        SOCKET_JOINACK: (state, electionID) => {
+        SOCKET_JOINACK: (state, electionId) => {
             console.log("JOINACK");
-            state.joinedElectionID = electionID;
+            state.joinedElectionId = electionId;
             state.selectedVoter = null;
         },
         selectedVoter: (state, selectedVoter) => {
@@ -55,11 +55,8 @@ export const store = new Vuex.Store({
         }*/
     },
     getters: {
-        getSelectedVoter:  (state, getters) => () => {
-            return state.selectedVoter;
-        },
-        getJoinedElectionID : (state, getters) => () => {
-            return state.joinedElectionID;
+        joinedElectionId : (state, getters) => {
+            return state.joinedElectionId;
         }
     },
     modules: {

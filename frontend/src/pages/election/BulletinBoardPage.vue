@@ -11,36 +11,36 @@
         <v-layout row wrap>
 
             <v-flex xy12 md4>
-                <DataCard title="Unique Election Identifier" :expandable=false confidentiality="public">{{data.id}}
+                <DataCard title="Unique Election Identifier" :expandable=false confidentiality="public">{{id}}
                 </DataCard>
             </v-flex>
 
             <v-flex xy12 md4>
-                <DataCard title="Status" :expandable=false confidentiality="public">{{data.status}}</DataCard>
+                <DataCard title="Status" :expandable=false confidentiality="public">{{status}}</DataCard>
             </v-flex>
 
             <v-flex xy12 md4>
                 <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public">
-                    <BigIntLabel :mpzValue="data.publicKey"></BigIntLabel>
+                    <BigIntLabel :mpzValue="publicKey"></BigIntLabel>
                 </DataCard>
             </v-flex>
 
             <v-flex xy12 md4>
-                <DataCard title="Candidates" :expandable=false confidentiality="public">{{data.candidates}}</DataCard>
+                <DataCard title="Candidates" :expandable=false confidentiality="public">{{candidates}}</DataCard>
             </v-flex>
 
             <v-flex xy12 md4>
-                <DataCard title="Counting Circles" :expandable=false confidentiality="public">{{data.countingCircles}}
+                <DataCard title="Counting Circles" :expandable=false confidentiality="public">{{countingCircles}}
                 </DataCard>
             </v-flex>
 
             <v-flex xy12 md4>
-                <DataCard title="Selections" :expandable=false confidentiality="public">{{data.numberOfSelections}}
+                <DataCard title="Selections" :expandable=false confidentiality="public">{{numberOfSelections}}
                 </DataCard>
             </v-flex>
 
             <v-flex xy12 md4>
-                <DataCard title="Voters" :expandable=false confidentiality="public">{{data.voters}}</DataCard>
+                <DataCard title="Voters" :expandable=false confidentiality="public">{{voters}}</DataCard>
             </v-flex>
 
 
@@ -48,7 +48,7 @@
                 <DataCard title="Public Voting Credentials" :expandable=true confidentiality="public">
                     Voters public voting credentials
                     <ul id="subList" slot="expandContent">
-                        <li v-for="(item, key, index) in data.publicVotingCredentials">
+                        <li v-for="(item, key, index) in publicVotingCredentials">
                             {{ index}}
                             <ul>
                                 X:
@@ -73,21 +73,49 @@
             showCredentials: false
         }),
         computed: {
-            data() {
-                return {
-                    id: this.$store.state.Election.electionID,
-                    status: this.$store.getters.getStatusText,
-                    publicKey: this.$store.state.BulletinBoard.publicKey,
-                    voters: this.$store.state.BulletinBoard.voters,
-                    candidates: this.$store.state.BulletinBoard.candidates,
-                    publicVotingCredentials: this.$store.state.BulletinBoard.publicVotingCredentials,
-                    numberOfSelections: this.$store.state.BulletinBoard.numberOfSelections,
-                    countingCircles: this.$store.state.BulletinBoard.countingCircles,
+            id: {
+                get: function(){
+                    return this.$store.getters.electionId;
                 }
-            }
+            },
+            status: {
+                get: function(){
+                    return this.$store.getters.statusText;
+                }
+            },
+            publicKey: {
+                get: function(){
+                    return this.$store.state.BulletinBoard.publicKey;
+                }
+            },
+            voters: {
+                get: function(){
+                    return this.$store.state.BulletinBoard.voters;
+                }
+            },
+            candidates: {
+                get: function(){
+                    return this.$store.state.BulletinBoard.candidates;
+                }
+            },
+            numberOfSelections: {
+                get: function(){
+                    return this.$store.state.BulletinBoard.numberOfSelections;
+                }
+            },
+            countingCircles: {
+                get: function(){
+                    return this.$store.state.BulletinBoard.countingCircles;
+                }
+            },
+            publicVotingCredentials: {
+                get: function(){
+                    return this.$store.state.BulletinBoard.publicVotingCredentials;
+                }
+            },
         },
         created() {
-            if(this.$store.getters.getJoinedElectionID() !== this.$route.params['id'])
+            if(this.$store.getters.joinedElectionId !== this.$route.params['id'])
                 this.$socket.emit('join', { election: this.$route.params['id'] });
         }
     };

@@ -7,7 +7,7 @@
             <h3 class="my-3">Overview</h3>
         </div>
 
-        ID: <b>{{ data.id }}</b>
+        ID: <b>{{ id }}</b>
         <br>
         Status: <b>{{ status }}</b>
         <br>
@@ -19,20 +19,19 @@
 <script>
     export default {
         computed: {
-            data () {
-                return {
-                    id: this.$store.state.Election.electionID,
-                    status: this.$store.getters.getStatusText
+            id: {
+                get: function(){
+                    return this.$store.getters.electionId;
                 }
             },
             status: {
-                get:function(){
-                    return this.$store.getters.getStatusText
+                get: function(){
+                    return this.$store.getters.statusText;
                 }
-            }
+            },
         },
         created () {
-            if(this.$store.getters.getJoinedElectionID() !== this.$route.params['id'])
+            if(this.$store.getters.joinedElectionId !== this.$route.params['id'])
                 console.log("Join in overview!");
                 this.$socket.emit('join', { election: this.$route.params['id'] });
         },

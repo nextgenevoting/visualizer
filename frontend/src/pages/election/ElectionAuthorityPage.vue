@@ -59,27 +59,27 @@
 
             <v-flex xy12 md4>
                 <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public">
-                    <BigIntLabel :mpzValue="data.electionAuthority.publicKey"></BigIntLabel>
+                    <BigIntLabel :mpzValue="electionAuthority.publicKey"></BigIntLabel>
                 </DataCard>
             </v-flex>
 
             <v-flex xy12 md4>
                 <DataCard title="Public Key Share" :isMpz=true :expandable=false confidentiality="public">
-                    <BigIntLabel :mpzValue="data.electionAuthority.publicKeyShare"></BigIntLabel>
+                    <BigIntLabel :mpzValue="electionAuthority.publicKeyShare"></BigIntLabel>
                 </DataCard>
             </v-flex>
 
             <v-flex xy12 md4>
                 <DataCard title="Secret Key Share" :isMpz=true :expandable=false confidentiality="secret">
-                    <BigIntLabel :mpzValue="data.electionAuthority.secretKeyShare"></BigIntLabel>
+                    <BigIntLabel :mpzValue="electionAuthority.secretKeyShare"></BigIntLabel>
                 </DataCard>
             </v-flex>
 
-            <v-flex xy12 md4 v-if="data.expertMode">
+            <v-flex xy12 md4 v-if="expertMode">
                 <DataCard title="Points" :expandable=true confidentiality="secret">
                     Points of all voters
                     <ul id="subList" slot="expandContent">
-                        <li v-for="(voter, index) in data.electionAuthority.points">
+                        <li v-for="(voter, index) in electionAuthority.points">
                             Voter {{ index}}
                             <ul id="subList">
                                 <li v-for="point in voter">
@@ -106,18 +106,34 @@
             show: false,
         }),
         computed: {
-            data() {
-                return {
-                    id: this.$store.state.Election.electionID,
-                    status: this.$store.getters.getStatusText,
-                    electionAuthorities: this.$store.state.ElectionAuthority.electionAuthorities,
-                    electionAuthority: this.$store.getters.getElectionAuthority(this.currentAuthority),
-                    expertMode: this.$store.state.expertMode,
-                };
+            id: {
+                get: function(){
+                    return this.$store.getters.electionId;
+                }
+            },
+            status: {
+                get: function(){
+                    return this.$store.getters.statusText;
+                }
+            },
+            electionAuthorities: {
+                get: function(){
+                    return this.$store.state.ElectionAuthority.electionAuthorities;
+                }
+            },
+            electionAuthority: {
+                get: function(){
+                    return this.$store.getters.getElectionAuthority(this.currentAuthority);
+                }
+            },
+            expertMode: {
+                get: function(){
+                    return this.$store.state.expertMode;
+                }
             },
         },
         created() {
-            if (this.$store.getters.getJoinedElectionID() !== this.$route.params['id'])
+            if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
                 this.$socket.emit('join', {election: this.$route.params['id']});
         },
     };
