@@ -11,8 +11,9 @@ from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
 from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus, syncVoters, syncElectionAuthorities, fullSync
 from bson.objectid import ObjectId
-
+from app.utils.errorhandling import make_error
 import json
+
 
 # LISTENERS
 
@@ -21,26 +22,30 @@ import json
 def createElection():
     data = request.json
 
-    # Create a new election
-    id = db.elections.insert({'title': data["title"], 'status': 0})
+    try:
+        # Create a new election
+        id = db.elections.insert({'title': data["title"], 'status': 0})
 
-    # create a new (empty) BulletinBoardState
-    newBBState =  BulletinBoardState(str(id))
-    db.bulletinBoardStates.insert({'election':str(id), 'state' : serializeState(newBBState)})
+        # create a new (empty) BulletinBoardState
+        newBBState =  BulletinBoardState(str(id))
+        db.bulletinBoardStates.insert({'election':str(id), 'state' : serializeState(newBBState)})
 
-    # create new electionAuthority states
-    for j in range(3):
-        newAuthState = ElectionAuthorityState(j+1)
-        db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j+1, 'state': serializeState(newAuthState)})
+        # create new electionAuthority states
+        for j in range(3):
+            newAuthState = ElectionAuthorityState(j+1)
+            db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j+1, 'state': serializeState(newAuthState)})
 
 
-    printingAuthState =  PrintingAuthorityState()
-    # create new printing authority state
-    db.printingAuthorityStates.insert({'election':str(id), 'state' : serializeState(printingAuthState)})
+        printingAuthState =  PrintingAuthorityState()
+        # create new printing authority state
+        db.printingAuthorityStates.insert({'election':str(id), 'state' : serializeState(printingAuthState)})
 
-    # update the election list on all clients
-    syncElections(SyncType.BROADCAST)
-    # return the new elections id to the client so it can load the overview directly
+        # update the election list on all clients
+        syncElections(SyncType.BROADCAST)
+        # return the new elections id to the client so it can load the overview directly
+    except Exception as ex:
+        return make_error(400, str(ex))
+
     return json.dumps({'id': str(id)})
 
 
@@ -133,7 +138,7 @@ def debugVotingSim():
     from gmpy2 import mpz
     try:
         sim = VoteSimulator(electionId)             # prepare voteSimulator
-        sim.authorities[0].publicKey = mpz(33333)
+        sim.authorities[0].publicKey = mpz(1111)
         sim.persist()
         syncElectionAuthorities(electionId, SyncType.ROOM)
         print(sim)

@@ -3,7 +3,7 @@
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-account-key" title="Election Administration"></ContentTitle>
 
-            <div v-if="data.status == 0">
+            <div v-if="status == 0">
                 <v-form v-model="valid" ref="form" lazy-validation>
                     <v-text-field
                             label="Candidates"
@@ -36,11 +36,11 @@
                 </v-form>
             </div>
 
-            <div v-if="data.status == 1 || data.status == 2">
+            <div v-if="status == 1 || status == 2">
                 The electorate data has been submitted to the printing authority.
             </div>
 
-            <div v-if="data.status == 3">
+            <div v-if="status == 3">
                 <v-btn>Decrypt & Tally</v-btn>
             </div>
         </div>
@@ -51,7 +51,12 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+    import { mapGetters } from 'vuex'
+    import joinRoomMixin from '../../mixins/joinRoomMixin.js'
+
     export default {
+        mixins: [joinRoomMixin],
         data: () => ({
             valid: true,
             candidates: '["Yes", "No", "Maybe"]',
@@ -61,20 +66,10 @@
             countingCircles: '[1,1,1,1,1]'
         }),
         computed: {
-            data() {
-                return {
-                    voters: this.$store.state.BulletinBoard.voters,
-                    candidates: this.$store.state.BulletinBoard.candidates,
-                    publicVotingCredentials: this.$store.state.BulletinBoard.publicVotingCredentials,
-                    numberOfSelections: this.$store.state.BulletinBoard.numberOfSelections,
-                    status: this.$store.state.Election.status
-
-                }
-            }
-        },
-        created() {
-            if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
-                this.$socket.emit('join', {election: this.$route.params['id']});
+            ...mapGetters({
+                electionId: "electionId",
+                status: "status",
+            }),
         },
         methods: {
 

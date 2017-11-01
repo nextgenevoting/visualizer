@@ -3,9 +3,9 @@
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-view-dashboard" title="Overview"></ContentTitle>
 
-            ID: <b>{{ id }}</b>
+            ID: <b>{{ electionId }}</b>
             <br>
-            Status: <b>{{ status }}</b>
+            Status: <b>{{ statusText }}</b>
             <br>
             <br>
             <v-btn color="primary" v-on:click="debugVotingSim">Debug VoteSim trigger</v-btn>
@@ -17,22 +17,15 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+    import joinRoomMixin from '../../mixins/joinRoomMixin.js'
     export default {
+        mixins: [joinRoomMixin],
         computed: {
-            id: {
-                get: function () {
-                    return this.$store.getters.electionId;
-                }
-            },
-            status: {
-                get: function () {
-                    return this.$store.getters.statusText;
-                }
-            },
-        },
-        created() {
-            if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
-                this.$socket.emit('join', {election: this.$route.params['id']});
+            ...mapGetters({
+                electionId: "electionId",
+                statusText: "statusText",
+            }),
         },
         methods: {
             debugVotingSim: function (event) {

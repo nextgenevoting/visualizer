@@ -73,37 +73,27 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+    import { mapGetters } from 'vuex'
+    import joinRoomMixin from '../../mixins/joinRoomMixin.js'
+
     export default {
+        mixins: [joinRoomMixin],
         data: () => ({
             selectedVoter: 0,
             sentAlert: true
         }),
         computed: {
-            id: {
-                get: function () {
-                    return this.$store.getters.electionId;
-                }
-            },
-            status: {
-                get: function () {
-                    return this.$store.getters.status;
-                }
-            },
-            voters: {
-                get: function () {
-                    return this.$store.state.Voter.voters;
-                }
-            },
-            votingCards: {
-                get: function () {
-                    return this.$store.state.PrintingAuthority.votingCards;
-                }
-            },
-            privateCredentials: {
-                get: function () {
-                    return this.$store.state.PrintingAuthority.privateCredentials;
-                }
-            },
+            ...mapState({
+                voters: state => state.Voter.voters,
+                votingCards: state => state.PrintingAuthority.votingCards,
+                privateCredentials: state => state.PrintingAuthority.privateCredentials,
+                numberOfSelections: state => state.BulletinBoard.numberOfSelections,
+            }),
+            ...mapGetters({
+                electionId: "electionId",
+                status: "status",
+            }),
             getVotingCard: {
                 get: function () {
                     if (this.selectedVoter <= this.$store.state.PrintingAuthority.votingCards.length) {
@@ -114,10 +104,6 @@
                 }
             },
 
-        },
-        created() {
-            if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
-                this.$socket.emit('join', {election: this.$route.params['id']});
         },
         methods: {
             printVotingCards: function (event) {

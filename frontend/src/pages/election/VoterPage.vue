@@ -77,23 +77,30 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+    import { mapGetters } from 'vuex'
+    import joinRoomMixin from '../../mixins/joinRoomMixin.js'
+
     export default {
+        mixins: [joinRoomMixin],
         data: () => ({
             selection: [],
             votingCode: ''
 
         }),
         computed: {
-            status: {
-                get: function () {
-                    return this.$store.state.Election.status;
-                }
-            },
-            selectedVoter: {
-                get: function () {
-                    return this.$store.state.selectedVoter;
-                }
-            },
+            ...mapState({
+                selectedVoter: state => state.selectedVoter,
+                numberOfParallelElections: state => state.BulletinBoard.numberOfParallelElections,
+                candidates: state => state.BulletinBoard.candidates,
+                numberOfCandidates: state => state.BulletinBoard.numberOfCandidates,
+                publicKey: state => state.BulletinBoard.publicKey
+            }),
+            ...mapGetters({
+                electionId: "electionId",
+                status: "status",
+            }),
+
             voter: {
                 get: function () {
                     return this.$store.getters.getVoter(this.selectedVoter);
@@ -104,21 +111,6 @@
                     if (this.selectedVoter != null && this.selectedVoter != 0) {
                         return this.$store.getters.getVotingCard(this.selectedVoter);
                     }
-                }
-            },
-            numberOfParallelElections: {
-                get: function () {
-                    return this.$store.state.BulletinBoard.numberOfParallelElections;
-                }
-            },
-            candidates: {
-                get: function () {
-                    return this.$store.state.BulletinBoard.candidates;
-                }
-            },
-            numberOfCandidates: {
-                get: function () {
-                    return this.$store.state.BulletinBoard.numberOfCandidates;
                 }
             },
             selectedVoterName: {
@@ -157,10 +149,6 @@
                     return this.$store.getters.hasVoterBallot(this.$store.state.selectedVoter);
                 }
             }
-        },
-        created() {
-            if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
-                this.$socket.emit('join', {election: this.$route.params['id']});
         },
         methods: {
             generateVotingSheets: function (event) {

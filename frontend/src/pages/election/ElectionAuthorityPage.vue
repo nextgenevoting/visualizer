@@ -56,7 +56,9 @@
 
                 <v-flex xy12 md12>
                     <DataCard title="Ballots" :isMpz=true :expandable=false confidentiality="encrypted">
-                        {{ballots}}
+                        <transition-group tag="ul" name="highlight" :appear="ballotTransition">
+                            <li v-for="ballot in ballots" :key="ballot.ballot.x_hat">Ballot: {{ballot.ballot.a_bold}}</li>
+                        </transition-group>
                     </DataCard>
                 </v-flex>
 
@@ -106,27 +108,28 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+    import { mapGetters } from 'vuex'
+    import joinRoomMixin from '../../mixins/joinRoomMixin.js'
+
     export default {
+        mixins: [joinRoomMixin],
         data: () => ({
             currentAuthority: 0,
             show: false,
+            ballotTransition: false,
         }),
+        mounted() {
+            this.ballotTransition = false
+        },
         computed: {
-            id: {
-                get: function () {
-                    return this.$store.getters.electionId;
-                }
-            },
-            status: {
-                get: function () {
-                    return this.$store.getters.statusText;
-                }
-            },
-            electionAuthorities: {
-                get: function () {
-                    return this.$store.state.ElectionAuthority.electionAuthorities;
-                }
-            },
+            ...mapState({
+                electionAuthorities: state => state.ElectionAuthority.electionAuthorities,
+                expertMode: state => state.BulletinBoard.expertMode
+            }),
+            ...mapGetters({
+                electionId: "electionId",
+            }),
             electionAuthority: {
                 get: function () {
                     // bug: if the page if reloaded, it tries to access electionAuthority[0] even though they haven't been populated by the websocket sync yet
@@ -143,11 +146,7 @@
                     return this.$store.getters.getBallots(this.currentAuthority+1);
                 }
             },
-            expertMode: {
-                get: function () {
-                    return this.$store.state.expertMode;
-                }
-            },
+
         },
         methods: {
             checkBallot: function (voterId) {
@@ -171,10 +170,7 @@
                 });
             }
         },
-        created() {
-            if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
-                this.$socket.emit('join', {election: this.$route.params['id']});
-        },
+
     };
 </script>
 
@@ -185,5 +181,20 @@
 
     .btn-toggle .btn {
         width: 33%;
+    }
+
+    .highlight-enter-active {
+        animation: highlight 2.5s;
+    }
+    @keyframes highlight {
+        0% {
+            background: inherit;
+        }
+        50% {
+            background: yellow;
+        }
+        100% {
+            background: inherit;
+        }
     }
 </style>

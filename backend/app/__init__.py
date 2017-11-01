@@ -17,6 +17,7 @@ def create_app(debug=False):
     socketio.init_app(app)
     return app
 
+
 @socketio.on('connect')
 def handle_connection():
     from app.main.preElectionService import syncElections
