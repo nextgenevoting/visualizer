@@ -8,6 +8,8 @@ from app.parties.PrintingAuthority import PrintingAuthority
 from app.parties.Voter import Voter
 from bson.objectid import ObjectId
 from app.main.syncService import syncElectionStatus, SyncType
+from chvote.VotingClient.GenBallot import GenBallot
+from chvote.Types import *
 
 class VoteSimulator(object):
 
@@ -23,7 +25,7 @@ class VoteSimulator(object):
 
         # create new election authorities
         for j in range(self.secparams.s):
-            self.authorities[j] = ElectionAuthority(db.electionAuthorityStates, election, j)
+            self.authorities[j] = ElectionAuthority(db.electionAuthorityStates, election, j+1)
 
         # create voters
         for i in range(len(self.bulletinBoard.voters)):
@@ -52,6 +54,7 @@ class VoteSimulator(object):
         self.bulletinBoard.candidates = c_bold
         self.bulletinBoard.numberOfCandidates = n_bold
         self.bulletinBoard.numberOfSelections = k_bold
+        self.bulletinBoard.numberOfParallelElections = len(k_bold)
 
         voters = []
         for v in range(numberOfVoters):
@@ -61,12 +64,14 @@ class VoteSimulator(object):
             voters.append(newVoter.name)
         self.bulletinBoard.voters = voters
 
-        # 7.1 Generation of electorate data
+        self.bulletinBoard.generateEligibilityMatrix()
+
+        # 6.1 Generation of electorate data
         for authority in self.authorities:
             authority.GenElectionData(self.bulletinBoard, self.secparams)
 
 
-        # 7.3 Key generation
+        # 6.3 Key generation
         self.bulletinBoard.publicKeyShares = []
 
         for authority in self.authorities:
@@ -76,7 +81,7 @@ class VoteSimulator(object):
             pk = authority.GetPublicKey(self.bulletinBoard, self.secparams)
         self.bulletinBoard.publicKey = pk
 
-        # 7.2 Send secret voter data to the printing authority (this is typically done in the printVotingCards(), but since we want to show the secret voter data before printing the cards, we do it here)
+        # 6.2 Send secret voter data to the printing authority (this is typically done in the printVotingCards(), but since we want to show the secret voter data before printing the cards, we do it here)
         privateCredentials = []
         for authority in self.authorities:
             privateCredentials.append(authority.secretVotingCredentials)
@@ -84,10 +89,18 @@ class VoteSimulator(object):
 
 
     def printVotingCards(self):
-        # 7.2 Printing of voting cards
+        # 6.2 Printing of voting cards
         self.printingAuthority.PrintVotingCards(self.bulletinBoard, self.secparams)
 
     def sendVotingCards(self):
-        # 7.2 Printing of voting cards contd.
+        # 6.2 Printing of voting cards contd.
         for voter in self.voters:
             voter.votingCard = self.printingAuthority.votingCards[voter.id-1]   # id = index + 1  --> (1,2,3...)
+
+
+    def castVote(self, voterId, selection, votingCode):
+        # 6.4 Vote Casting
+        (alpha, r) = GenBallot(votingCode, selection, self.bulletinBoard.publicKey, self.secparams)
+        self.authorities[0].voterBallots.append(VoterBallot(voterId, alpha))
+
+        pass

@@ -36,7 +36,7 @@ class PrintingAuthority(Party):
 
         """
 
-        votingCardStrings, rawVotingCards = GetVotingCards(bulletinBoard.voters, bulletinBoard.countingCircles, bulletinBoard.candidates, bulletinBoard.numberOfCandidates, bulletinBoard.numberOfSelections, bulletinBoard.elegibilityMatrix, self.privateCredentials, secparams)
+        votingCardStrings, rawVotingCards = GetVotingCards(bulletinBoard.voters, bulletinBoard.countingCircles, bulletinBoard.candidates, bulletinBoard.numberOfCandidates, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.privateCredentials, secparams)
         self.votingCards = rawVotingCards
 
         return self.votingCards

@@ -9,8 +9,8 @@ class BulletinBoardState(State):
         self.candidates = []
         self.numberOfCandidates = []
         self.numberOfSelections = []
-        self.t = 0
-        self.elegibilityMatrix = []
+        self.numberOfParallelElections = 0
+        self.eligibilityMatrix = []
 
         self.publicCredentials = []
         self.ballots = []

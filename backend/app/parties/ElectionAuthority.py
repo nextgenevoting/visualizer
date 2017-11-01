@@ -13,6 +13,15 @@ class ElectionAuthority(Party):
         Party.__init__(self, collection, electionID, {'authorityID' : authorityID})
 
     @property
+    def id(self):
+        return self.state.id
+
+    @id.setter
+    def id(self, value):
+        AssertInt(value)
+        self.state.id = value
+
+    @property
     def publicVotingCredentials(self):
         return self.state.publicVotingCredentials
 
@@ -67,6 +76,16 @@ class ElectionAuthority(Party):
         AssertMpz(value)
         self.state.publicKey = value
 
+    @property
+    def voterBallots(self):
+        return self.state.voterBallots
+
+    @voterBallots.setter
+    def voterBallots(self, value):
+        AssertList(value)
+        self.state.voterBallots = value
+
+
     def GenElectionData(self, bulletinBoard, secparams):
         """
         (Protocol 6.1) Every authority j ∈ {1,...,s} calls GenElectorateData with n, k, E in order to (independently) generate
@@ -74,7 +93,7 @@ class ElectionAuthority(Party):
 
         """
 
-        self.secretVotingCredentials, self.publicVotingCredentials, self.points = GenElectorateData(bulletinBoard.numberOfCandidates, bulletinBoard.numberOfSelections, bulletinBoard.elegibilityMatrix, secparams)
+        self.secretVotingCredentials, self.publicVotingCredentials, self.points = GenElectorateData(bulletinBoard.numberOfCandidates, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, secparams)
 
         bulletinBoard.publicCredentials = self.publicVotingCredentials
         return True

@@ -16,8 +16,6 @@ class BulletinBoard(Party):
         AssertList(value)
         self.state.voters = value
 
-        self.generateElegibilityMatrix()
-
     @property
     def countingCircles(self):
         return self.state.countingCircles
@@ -35,9 +33,6 @@ class BulletinBoard(Party):
     def candidates(self, value):
         AssertList(value)
         self.state.candidates = value
-        # number of parallel elections
-        self.state.t = len(value)
-        self.generateElegibilityMatrix()
 
     @property
     def numberOfCandidates(self):
@@ -59,14 +54,19 @@ class BulletinBoard(Party):
 
     @property
     def numberOfParallelElections(self):
-        return self.state.t
+        return self.state.numberOfParallelElections
+
+    @numberOfParallelElections.setter
+    def numberOfParallelElections(self, value):
+        AssertInt(value)
+        self.state.numberOfParallelElections = value
 
     @property
-    def elegibilityMatrix(self):
-        return self.state.elegibilityMatrix
+    def eligibilityMatrix(self):
+        return self.state.eligibilityMatrix
 
-    def generateElegibilityMatrix(self):
-        self.state.elegibilityMatrix = [[True for el in range(self.numberOfParallelElections)] for i in range(len(self.voters))]
+    def generateEligibilityMatrix(self):
+        self.state.eligibilityMatrix = [[True for el in range(self.numberOfParallelElections)] for i in range(len(self.voters))]
 
     @property
     def publicCredentials(self):

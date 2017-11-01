@@ -36,6 +36,7 @@ def on_join(data):
     join_room(electionID)
 
     from app.main.syncService import emitToClient, SyncType
-    emitToClient('joinAck', electionID, SyncType.SENDER_ONLY)
 
     fullSync(electionID, SyncType.SENDER_ONLY)
+
+    emitToClient('joinAck', electionID, SyncType.SENDER_ONLY)

@@ -18,6 +18,7 @@ export const store = new Vuex.Store({
         selectedVoter: null,
         voterDialog: false,
         language: 'en',
+        loaded: false
     },
     mutations: {
         SOCKET_CONNECT: (state,  data) => {
@@ -31,6 +32,7 @@ export const store = new Vuex.Store({
             console.log("JOINACK");
             state.joinedElectionId = electionId;
             state.selectedVoter = null;
+            state.loaded = true;
         },
         selectedVoter: (state, selectedVoter) => {
             state.selectedVoter = selectedVoter;
@@ -46,7 +48,7 @@ export const store = new Vuex.Store({
         },
         expertMode: (state, value) => {
             state.expertMode = value;
-        }
+        },
     },
     actions: {
         /*socket_getdata: (context, message) => {

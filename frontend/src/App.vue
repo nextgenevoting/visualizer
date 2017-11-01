@@ -26,10 +26,6 @@
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
         <v-toolbar-title><img src="/public/logo.png" style="height:22px"></v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn flat v-if="this.$store.state.selectedVoter != null" @click="changeVoter()">
-          <v-icon>account_circle</v-icon>
-          {{ selectedVoterName }}
-        </v-btn>
         <v-menu offset-y flat>
           <v-btn icon slot="activator" :title="$t('change_language')">
             <v-icon>mdi-translate</v-icon>
@@ -48,7 +44,7 @@
             <v-list>
               <v-list-tile avatar>
                 <v-list-tile-avatar>
-                  <img src="/public/avatar.jpg" alt="">
+                  <!--<img src="/public/avatar.jpg" alt="">-->
                 </v-list-tile-avatar>
                 <v-list-tile-content>
                   <v-list-tile-title>Voteadmin</v-list-tile-title>
@@ -83,7 +79,7 @@
           </v-card>
         </v-menu>
       </v-toolbar>
-      <v-tabs dark grow icons centered>
+      <v-tabs dark grow icons centered :scrollable="false">
         <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
           <v-tabs-slider color="white"></v-tabs-slider>
           <v-tabs-item ripple :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
@@ -109,7 +105,7 @@
               <v-icon slot="badge" dark v-if="status == 3">mdi-alert-decagram</v-icon>
               <v-icon>mdi-account</v-icon>
             </v-badge>
-            Voters
+            Voter
           </v-tabs-item>
           <v-tabs-item ripple :to="{ name: 'electionauthority', params: {id: $route.params['id'] }}">
             <v-badge class="">
@@ -141,7 +137,6 @@
       Websocket connection established!
       <v-btn dark flat @click.native="onlineNotification = false">Close</v-btn>
     </v-snackbar>
-    <SelectVoterDialog></SelectVoterDialog>
   </v-app>
 </template>
 
@@ -177,8 +172,6 @@ de:
 </i18n>
 
 <script type="text/babel">
-    import SelectVoterDialog from './pages/SelectVoterDialog.vue';
-
     export default {
         data() {
             return {
@@ -200,7 +193,6 @@ de:
                     icon: 'domain',
                 }],
                 menu: false,
-                voterDialog: false,
                 languages: {
                     'en': 'English',
                     'de': 'Deutsch',
@@ -247,31 +239,13 @@ de:
                     this.$store.commit("expertMode", value);
                 }
             },
-            selectedVoterName: {
-                get() {
-                    if (this.$store.state.selectedVoter != null) {
-                        return this.$store.getters.getVoter(this.$store.state.selectedVoter).name;
-                    } else {
-                        return '';
-                    }
-                },
-                set(value) {
-                    this.$store.commit("selectedVoter", value);
-                }
-            },
         },
         methods: {
-            changeVoter: function () {
-                this.$store.commit("voterDialog", true);
-            },
             changeLanguage(lang) {
                 this.$root.$i18n.locale = lang
                 this.$store.commit('language', lang);
             }
         },
-        components: {
-            'SelectVoterDialog': SelectVoterDialog
-        }
     };
 
 </script>
@@ -285,4 +259,10 @@ de:
 <style lang="stylus">
     @import '../node_modules/vuetify/src/stylus/main';
     @import 'css/main.css';
+</style>
+
+<style>
+  .tabs__wrapper{
+    overflow: hidden !important;
+  }
 </style>

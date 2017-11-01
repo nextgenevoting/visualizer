@@ -1,18 +1,18 @@
 <template>
     <v-container>
-        <div class="layout row wrap">
-            <div class="contentHeader">
-                <i class="mdi icon mdi-view-dashboard"></i>
-            </div>
-            <h3 class="my-3">Overview</h3>
-        </div>
+        <div v-if="this.$store.state.loaded">
+            <ContentTitle icon="mdi-view-dashboard" title="Overview"></ContentTitle>
 
-        ID: <b>{{ id }}</b>
-        <br>
-        Status: <b>{{ status }}</b>
-        <br>
-        <br>
-        <v-btn color="primary" v-on:click="debugVotingSim">Debug VoteSim trigger</v-btn>
+            ID: <b>{{ id }}</b>
+            <br>
+            Status: <b>{{ status }}</b>
+            <br>
+            <br>
+            <v-btn color="primary" v-on:click="debugVotingSim">Debug VoteSim trigger</v-btn>
+        </div>
+        <div v-else>
+            <LoadingOverlay></LoadingOverlay>
+        </div>
     </v-container>
 </template>
 
@@ -20,20 +20,19 @@
     export default {
         computed: {
             id: {
-                get: function(){
+                get: function () {
                     return this.$store.getters.electionId;
                 }
             },
             status: {
-                get: function(){
+                get: function () {
                     return this.$store.getters.statusText;
                 }
             },
         },
-        created () {
-            if(this.$store.getters.joinedElectionId !== this.$route.params['id'])
-                console.log("Join in overview!");
-                this.$socket.emit('join', { election: this.$route.params['id'] });
+        created() {
+            if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
+                this.$socket.emit('join', {election: this.$route.params['id']});
         },
         methods: {
             debugVotingSim: function (event) {

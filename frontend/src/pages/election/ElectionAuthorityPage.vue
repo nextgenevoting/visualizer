@@ -1,101 +1,101 @@
 <template>
     <v-container grid-list-md>
-        <div class="layout row wrap">
-            <div class="contentHeader">
-                <i class="mdi icon mdi-settings-box"></i>
-            </div>
-            <h3 class="my-3">Election Authorities</h3>
-        </div>
+        <div v-if="this.$store.state.loaded">
+            <ContentTitle icon="mdi-settings-box" title="Election Authorities"></ContentTitle>
 
-        <v-flex xs12 sm12>
-            <v-btn-toggle v-model="currentAuthority">
-                <v-btn flat>
-                    Authority 1
-                </v-btn>
-                <v-btn flat>
-                    Authority 2
-                </v-btn>
-                <v-btn flat>
-                    Authority 3
-                </v-btn>
-
-            </v-btn-toggle>
-        </v-flex>
-
-        <br>
-        <h5 class="">Tasks</h5>
-        <v-layout row v-if="1==0">
             <v-flex xs12 sm12>
-                <v-card>
+                <v-btn-toggle v-model="currentAuthority">
+                    <v-btn flat>
+                        Authority 1
+                    </v-btn>
+                    <v-btn flat>
+                        Authority 2
+                    </v-btn>
+                    <v-btn flat>
+                        Authority 3
+                    </v-btn>
 
-                    <v-card-title primary-title>
-                        <div>
-                            <div class="headline">New ballot submitted</div>
-                            <span class="grey--text">Please check the ballot and respond to the query</span>
-                        </div>
-                    </v-card-title>
-                    <v-card-actions>
-                        <v-btn flat>Check</v-btn>
-                        <v-btn flat color="blue">Respond</v-btn>
-                        <v-spacer></v-spacer>
-                        <v-btn icon @click.native="show = !show">
-                            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                        </v-btn>
-                    </v-card-actions>
-                    <v-slide-y-transition>
-                        <v-card-text v-show="show">
-                            Show additional information about the ballot
+                </v-btn-toggle>
+            </v-flex>
+
+            <br>
+            <h5 class="">Tasks</h5>
+            <v-layout row v-for="voterBallot in voterBallots">
+                <v-flex xs12 sm12 >
+                    <v-card>
+                        <v-card-title primary-title>
+                            <div>
+                                <div class="headline">New ballot submitted</div>
+                            </div>
+                        </v-card-title>
+                        <v-card-text>
+                            <p>Please check the ballot and respond to the query</p>
                         </v-card-text>
-                    </v-slide-y-transition>
-                </v-card>
-            </v-flex>
-        </v-layout>
+                        <v-card-actions>
+                            <v-btn flat color="blue" @click="checkBallot(voterBallot.voterId)">Check & Respond</v-btn>
+                            <v-spacer></v-spacer>
+                            <v-btn icon @click.native="show = !show">
+                                <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+                            </v-btn>
+                        </v-card-actions>
+                        <v-slide-y-transition>
+                            <v-card-text v-show="show">
+                                a_bold: {{ voterBallot.ballot.a_bold }}<br>
+                                x_hat: {{ voterBallot.ballot.x_hat }}
+                            </v-card-text>
+                        </v-slide-y-transition>
+                    </v-card>
+                </v-flex>
+            </v-layout>
 
-        <br>
-        <br>
-        <h5 class="">Data</h5>
+            <br>
+            <br>
+            <h5 class="">Data</h5>
 
-        <v-layout row wrap>
+            <v-layout row wrap>
 
-            <v-flex xy12 md4>
-                <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public">
-                    <BigIntLabel :mpzValue="electionAuthority.publicKey"></BigIntLabel>
-                </DataCard>
-            </v-flex>
+                <v-flex xy12 md4>
+                    <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public">
+                        <BigIntLabel :mpzValue="electionAuthority.publicKey"></BigIntLabel>
+                    </DataCard>
+                </v-flex>
 
-            <v-flex xy12 md4>
-                <DataCard title="Public Key Share" :isMpz=true :expandable=false confidentiality="public">
-                    <BigIntLabel :mpzValue="electionAuthority.publicKeyShare"></BigIntLabel>
-                </DataCard>
-            </v-flex>
+                <v-flex xy12 md4>
+                    <DataCard title="Public Key Share" :isMpz=true :expandable=false confidentiality="public">
+                        <BigIntLabel :mpzValue="electionAuthority.publicKeyShare"></BigIntLabel>
+                    </DataCard>
+                </v-flex>
 
-            <v-flex xy12 md4>
-                <DataCard title="Secret Key Share" :isMpz=true :expandable=false confidentiality="secret">
-                    <BigIntLabel :mpzValue="electionAuthority.secretKeyShare"></BigIntLabel>
-                </DataCard>
-            </v-flex>
+                <v-flex xy12 md4>
+                    <DataCard title="Secret Key Share" :isMpz=true :expandable=false confidentiality="secret">
+                        <BigIntLabel :mpzValue="electionAuthority.secretKeyShare"></BigIntLabel>
+                    </DataCard>
+                </v-flex>
 
-            <v-flex xy12 md4 v-if="expertMode">
-                <DataCard title="Points" :expandable=true confidentiality="secret">
-                    Points of all voters
-                    <ul id="subList" slot="expandContent">
-                        <li v-for="(voter, index) in electionAuthority.points">
-                            Voter {{ index}}
-                            <ul id="subList">
-                                <li v-for="point in voter">
-                                    x:
-                                    <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
-                                    y:
-                                    <BigIntLabel :mpzValue="point[1]"></BigIntLabel>
-                                </li>
-                            </ul>
+                <v-flex xy12 md4 v-if="expertMode">
+                    <DataCard title="Points" :expandable=true confidentiality="secret">
+                        Points of all voters
+                        <ul id="subList" slot="expandContent">
+                            <li v-for="(voter, index) in electionAuthority.points">
+                                Voter {{ index}}
+                                <ul id="subList">
+                                    <li v-for="point in voter">
+                                        x:
+                                        <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
+                                        y:
+                                        <BigIntLabel :mpzValue="point[1]"></BigIntLabel>
+                                    </li>
+                                </ul>
 
-                        </li>
-                    </ul>
-                </DataCard>
-            </v-flex>
-        </v-layout>
-
+                            </li>
+                        </ul>
+                    </DataCard>
+                </v-flex>
+            </v-layout>
+        </div>
+        <div v-else>
+            <LoadingOverlay></LoadingOverlay>
+        </div>
     </v-container>
 </template>
 
@@ -107,27 +107,33 @@
         }),
         computed: {
             id: {
-                get: function(){
+                get: function () {
                     return this.$store.getters.electionId;
                 }
             },
             status: {
-                get: function(){
+                get: function () {
                     return this.$store.getters.statusText;
                 }
             },
             electionAuthorities: {
-                get: function(){
+                get: function () {
                     return this.$store.state.ElectionAuthority.electionAuthorities;
                 }
             },
             electionAuthority: {
-                get: function(){
-                    return this.$store.getters.getElectionAuthority(this.currentAuthority);
+                get: function () {
+                    // bug: if the page if reloaded, it tries to access electionAuthority[0] even though they haven't been populated by the websocket sync yet
+                    return this.$store.getters.getElectionAuthority(this.currentAuthority+1);
+                }
+            },
+            voterBallots: {
+                get: function () {
+                    return this.$store.getters.getVoterBallots(this.currentAuthority+1);
                 }
             },
             expertMode: {
-                get: function(){
+                get: function () {
                     return this.$store.state.expertMode;
                 }
             },

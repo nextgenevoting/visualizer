@@ -1,6 +1,6 @@
 from collections import namedtuple
 
-Ballot      = namedtuple("Ballot", "x_hat, a_bold, pi")
+TBallot      = namedtuple("Ballot", "x_hat, a_bold, pi")
 BallotProof = namedtuple("BallotProof", "t, s")
 Point       = namedtuple("Point", "x, y")
 Response    = namedtuple("Response", "b, C_bold, d")
@@ -18,3 +18,21 @@ class VotingCard(object):
             self.confirmationCode = Y
             self.verificationCodes = rc
             self.finalizationCode = FC
+
+
+class Ballot(object):
+    def __init__(self, x_hat, a_bold, pi):
+        self.x_hat = x_hat
+        self.a_bold = a_bold
+        self.pi = pi
+
+class VoterBallot(object):
+    def __init__(self, voterId, ballot):
+        self.voterId = voterId
+        self.ballot = ballot
+
+
+class BallotWithRandomizations(object):
+    def __init__(self, ballot, randomizations):
+        self.ballot = ballot
+        self.randomizations = randomizations

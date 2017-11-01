@@ -20,9 +20,11 @@ import ElectionOverviewPage  from './pages/election/ElectionOverviewPage.vue'
 import ElectionAdminPage     from './pages/election/ElectionAdminPage.vue'
 import BulletinBoardPage     from './pages/election/BulletinBoardPage.vue'
 import ElectionAuthorityPage from './pages/election/ElectionAuthorityPage.vue'
-
+import SelectVoterDialog     from './utils/SelectVoterDialog.vue'
+import LoadingOverlay        from './utils/LoadingOverlay.vue'
 import BigIntLabel           from './utils/BigIntLabel.vue'
 import DataCard              from './utils/DataCard.vue'
+import ContentTitle          from './utils/ContentTitle.vue'
 import Toasted               from 'vue-toasted'
 
 const routes = [
@@ -55,6 +57,9 @@ Vue.use(VueI18nDirectives)
 Vue.use(Toasted, {position: 'top-right', duration: '4000'})
 Vue.component('BigIntLabel', BigIntLabel)
 Vue.component('DataCard', DataCard)
+Vue.component('LoadingOverlay', LoadingOverlay)
+Vue.component('ContentTitle', ContentTitle)
+Vue.component('SelectVoterDialog', SelectVoterDialog);
 
 Vue.url.options.root = process.env.SOCKETIO_BASE_URL
 Vue.use(VueSocketio, Vue.url.options.root, store)

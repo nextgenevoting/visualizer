@@ -1,51 +1,51 @@
 <template>
     <v-container grid-list-md>
-        <div class="layout row wrap">
-            <div class="contentHeader">
-                <i class="mdi icon mdi-account-key"></i>
+        <div v-if="this.$store.state.loaded">
+            <ContentTitle icon="mdi-account-key" title="Election Administration"></ContentTitle>
+
+            <div v-if="data.status == 0">
+                <v-form v-model="valid" ref="form" lazy-validation>
+                    <v-text-field
+                            label="Candidates"
+                            v-model="candidates"
+                            required
+                    ></v-text-field>
+                    <v-text-field
+                            label="Number of voters"
+                            v-model="numberOfVoters"
+                            required
+                    ></v-text-field>
+                    <v-text-field
+                            label="Number of Candidates"
+                            v-model="numberOfCandidates"
+                            required
+                    ></v-text-field>
+                    <v-text-field
+                            label="Number of selections"
+                            v-model="numberOfSelections"
+                            required
+                    ></v-text-field>
+                    <v-text-field
+                            label="Counting Circles"
+                            v-model="countingCircles"
+                            required
+                    ></v-text-field>
+
+                    <v-btn color="primary" v-on:click="setUpElection" :disabled="!valid">setUpElection</v-btn>
+                    <v-btn @click="clear">clear</v-btn>
+                </v-form>
             </div>
-            <h3 class="my-3">Election Administration</h3>
+
+            <div v-if="data.status == 1 || data.status == 2">
+                The electorate data has been submitted to the printing authority.
+            </div>
+
+            <div v-if="data.status == 3">
+                <v-btn>Decrypt & Tally</v-btn>
+            </div>
         </div>
-
-        <div v-if="data.status == 0">
-            <v-form v-model="valid" ref="form" lazy-validation>
-                <v-text-field
-                        label="Candidates"
-                        v-model="candidates"
-                        required
-                ></v-text-field>
-                <v-text-field
-                        label="Number of voters"
-                        v-model="numberOfVoters"
-                        required
-                ></v-text-field>
-                <v-text-field
-                        label="Number of Candidates"
-                        v-model="numberOfCandidates"
-                        required
-                ></v-text-field>
-                <v-text-field
-                        label="Number of selections"
-                        v-model="numberOfSelections"
-                        required
-                ></v-text-field>
-                <v-text-field
-                        label="Counting Circles"
-                        v-model="countingCircles"
-                        required
-                ></v-text-field>
-
-                <v-btn color="primary" v-on:click="setUpElection":disabled="!valid">setUpElection</v-btn>
-                <v-btn @click="clear">clear</v-btn>
-            </v-form>
-        </div>
-
-        <div v-if="data.status == 1 || data.status == 2">
-           The electorate data has been submitted to the printing authority.
-        </div>
-
-        <div v-if="data.status == 3">
-            <v-btn>Decrypt & Tally</v-btn>
+        <div v-else>
+            <LoadingOverlay></LoadingOverlay>
         </div>
     </v-container>
 </template>
@@ -73,8 +73,8 @@
             }
         },
         created() {
-            if(this.$store.getters.joinedElectionId !== this.$route.params['id'])
-                this.$socket.emit('join', { election: this.$route.params['id'] });
+            if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
+                this.$socket.emit('join', {election: this.$route.params['id']});
         },
         methods: {
 
@@ -92,10 +92,10 @@
                             'numberOfSelections': this.numberOfSelections,
                             'countingCircles': this.countingCircles,
                         }
-                        ).then(response => {
+                    ).then(response => {
                         response.json().then((data) => {
                             // success callback
-                            if(data.result == 'success') {
+                            if (data.result == 'success') {
                                 this.$toasted.success("Successfully set up election");
                             }
                             else {
@@ -108,7 +108,7 @@
                     });
                 }
             },
-            clear () {
+            clear() {
                 this.$refs.form.reset()
             }
         }

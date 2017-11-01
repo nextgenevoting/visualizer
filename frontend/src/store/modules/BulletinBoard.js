@@ -4,8 +4,12 @@ const state = {
   candidates: null,
   publicVotingCredentials: null,
   numberOfSelections: null,
+  numberOfCandidates: null,
   publicKey: null,
   countingCircles: null,
+  eligibilityMatrix: null,
+  numberOfParallelElections: null
+
 };
 
 
@@ -14,12 +18,16 @@ const mutations = {
   SOCKET_SYNCELECTIONDATA: (state, data) => {
     console.log('SOCKET_SYNCELECTIONDATA called');
     const bb = JSON.parse(data);
+    console.log(bb);
     state.voters = bb.voters;
     state.candidates = bb.candidates;
     state.publicVotingCredentials = bb.publicCredentials;
     state.numberOfSelections = bb.numberOfSelections;
+    state.numberOfCandidates = bb.numberOfCandidates;
     state.publicKey = bb.publicKey;
     state.countingCircles = bb.countingCircles;
+    state.eligibilityMatrix = bb.eligibilityMatrix;
+    state.numberOfParallelElections = bb.numberOfParallelElections;
   },
 };
 

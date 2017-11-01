@@ -30,8 +30,8 @@ def createElection():
 
     # create new electionAuthority states
     for j in range(3):
-        newAuthState = ElectionAuthorityState(j)
-        db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j, 'state': serializeState(newAuthState)})
+        newAuthState = ElectionAuthorityState(j+1)
+        db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j+1, 'state': serializeState(newAuthState)})
 
 
     printingAuthState =  PrintingAuthorityState()

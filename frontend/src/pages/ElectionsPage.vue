@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h2 v-t="'title'"></h2>
+    <h3 class="my-3" v-t="'title'"></h3>
     <p v-t="'choose'"></p>
 
     <v-list two-line subheader>
@@ -40,7 +40,7 @@
       </v-card>
     </v-dialog>
 
-    <v-btn to="newElection" v-t="'create'" />
+    <v-btn to="newElection" v-t="'create'" class="newElectionButton" />
   </v-container>
 </template>
 
@@ -105,3 +105,9 @@ export default {
   }
 }
 </script>
+
+<style>
+  .newElectionButton{
+    width: 200px;
+  }
+</style>

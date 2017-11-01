@@ -26,7 +26,6 @@ def GetPrimes(n, secparams):
     """
 
     AssertInt(n)
-    assert n >= 2, "n must be greater or equal 2"
     AssertClass(secparams, SecurityParams)
 
     x = mpz(1)

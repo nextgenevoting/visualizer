@@ -1,88 +1,203 @@
 <template>
     <v-container grid-list-md>
-        <div class="layout row wrap">
-            <div class="contentHeader">
-                <i class="mdi icon mdi-account"></i>
+        <div v-if="this.$store.state.loaded">
+            <ContentTitle icon="mdi-account" :title="selectedVoterName || 'Voter View'"></ContentTitle>
+            <v-btn flat color="blue" v-if="this.$store.state.selectedVoter != null" @click="changeVoter()" class="changeVoterButton">Change Voter</v-btn>
+            <div v-if="status < 1">
+                Before you can vote, the election must be set up
             </div>
-            <h3 class="my-3">
-                <p>Voters</p>
-            </h3>
+            <div v-else>
+                <v-flex xy12 md6 v-if="selectedVoter == null">Please choose a voter first<br>
+                    <v-btn flat color="blue" @click="changeVoter">Select voter</v-btn>
+                </v-flex>
+                <v-flex xy12 md12 v-else>
+                    <v-stepper color="blue" alt-labels :value="voter.status + 1">
+                        <v-stepper-header>
+                            <v-stepper-step step="1">Vote Casting</v-stepper-step>
+                            <v-divider></v-divider>
+                            <v-stepper-step step="2">Confirmation</v-stepper-step>
+                            <v-divider></v-divider>
+                            <v-stepper-step step="3">Finalization</v-stepper-step>
+                        </v-stepper-header>
+                    </v-stepper>
+                    <div class="layout row wrap">
+                        <!-- 1. Vote Cast -->
+                        <v-flex v-if="voter.status == 0" x12 md6>
+                            <v-card v-if="hasVoterBallot">
+                                <v-card-title primary-title>
+                                    <div class="headline">Waiting for authority response</div>
+                                </v-card-title>
+                                <v-card-text>
+                                    Authority {{ hasVoterBallot }} is checking the ballot
+                                    <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
+                                </v-card-text>
+                            </v-card>
+                            <v-card v-else>
+                                <v-card-title primary-title>
+                                    <div class="headline">Candidate selection</div>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-form ref="form" class="votingForm" lazy-validation>
+
+                                    <ul v-for="(i,index) in numberOfParallelElections" class="electionForm">
+                                        Your selection for election {{index}}
+                                        <li v-for="candidate in candidatesForElection[index]">
+                                            <v-checkbox :label="candidate.name"
+                                                        v-model="selection"
+                                                        :value="candidate.index"
+                                                        color="blue"
+                                                        hide-details></v-checkbox>
+                                        </li>
+                                    </ul>
+                                        <v-text-field label="Voting Code" v-model="votingCode" required></v-text-field>
+                                    </v-form>
+
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-btn flat color="blue" @click="castVote()">Cast vote</v-btn><v-btn flat>Abort</v-btn>
+                                </v-card-actions>
+                            </v-card>
+
+                        </v-flex>
+                        <!-- 2. Vote Confirmation -->
+                        <!-- 3. Vote Finalization -->
+
+                        <v-flex x12 md6>{{ votingCard }}</v-flex>
+                    </div>
+
+                </v-flex>
+            </div>
         </div>
 
-
-        <div v-if="status < 1">
-            Before you can vote, the election must be set up
-        </div>
         <div v-else>
-            <v-flex xy12 md6 v-if="selectedVoter == null">
-                Please choose a voter first<br><br>
-                <v-btn @click="selectVoter">Select voter</v-btn>
-            </v-flex>
-            <v-flex xy12 md12 v-else>
-                <v-stepper alt-labels :value="voter.status + 1">
-                    <v-stepper-header>
-                        <v-stepper-step step="1">Vote Casting</v-stepper-step>
-                        <v-divider></v-divider>
-                        <v-stepper-step step="2">Confirmation</v-stepper-step>
-                        <v-divider></v-divider>
-                        <v-stepper-step step="3">Finalization</v-stepper-step>
-                    </v-stepper-header>
-                </v-stepper>
-                <div class="layout row wrap">
-                    <v-flex x12 md8>Selection form...</v-flex>
-                    <v-flex x12 md4>{{ votingCard }}</v-flex>
-                </div>
-            </v-flex>
+            <LoadingOverlay></LoadingOverlay>
         </div>
-
+        <SelectVoterDialog></SelectVoterDialog>
     </v-container>
 </template>
 
 <script>
     export default {
         data: () => ({
+            selection: [],
+            votingCode: ''
+
         }),
         computed: {
             status: {
-              get: function(){
-                return this.$store.state.Election.status;
-              }
+                get: function () {
+                    return this.$store.state.Election.status;
+                }
             },
             selectedVoter: {
-                get: function(){
+                get: function () {
                     return this.$store.state.selectedVoter;
                 }
             },
             voter: {
-                get: function(id){
+                get: function () {
                     return this.$store.getters.getVoter(this.selectedVoter);
                 }
             },
             votingCard: {
-                get:function(){
-                    if(this.selectedVoter != null && this.selectedVoter != 0){
+                get: function () {
+                    if (this.selectedVoter != null && this.selectedVoter != 0) {
                         return this.$store.getters.getVotingCard(this.selectedVoter);
                     }
+                }
+            },
+            numberOfParallelElections: {
+                get: function () {
+                    return this.$store.state.BulletinBoard.numberOfParallelElections;
+                }
+            },
+            candidates: {
+                get: function () {
+                    return this.$store.state.BulletinBoard.candidates;
+                }
+            },
+            numberOfCandidates: {
+                get: function () {
+                    return this.$store.state.BulletinBoard.numberOfCandidates;
+                }
+            },
+            selectedVoterName: {
+                get() {
+                    if (this.$store.state.selectedVoter != null) {
+                        return this.$store.getters.getVoter(this.$store.state.selectedVoter).name;
+                    } else {
+                        return '';
+                    }
+                }
+            },
+            candidatesForElection: {
+                get: function () {
+                    var candidatesForElections = [];
+                    for (var j = 0; j < this.numberOfParallelElections; j++) {
+                        var startIndex = 0;
+                        var candidates = [];
+
+                        for (var i = 0; i < j; i++) {
+                            startIndex += this.numberOfCandidates[i];
+                        }
+                        for (var i = 0; i < this.numberOfCandidates[j]; i++) {
+                            candidates.push({
+                                name: this.candidates[startIndex + i],
+                                index: startIndex + i,
+                                checked: false
+                            });
+                        }
+                        candidatesForElections.push(candidates);
+                    }
+                    return candidatesForElections;
+                }
+            },
+            hasVoterBallot: {
+                get: function(){
+                    return this.$store.getters.hasVoterBallot(this.$store.state.selectedVoter);
                 }
             }
         },
         created() {
-            if(this.$store.getters.joinedElectionId !== this.$route.params['id'])
-                this.$socket.emit('join', { election: this.$route.params['id'] });
+            if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
+                this.$socket.emit('join', {election: this.$route.params['id']});
         },
         methods: {
             generateVotingSheets: function (event) {
                 this.$socket.emit('generateVotingSheets', {'election': this.$route.params["id"]});
             },
-            selectVoter: function(){
+            changeVoter: function () {
                 this.$store.commit("voterDialog", true);
-            }
+            },
+            castVote: function () {
+                debugger;
+                var selection = this.selection.sort();
+                var voterId = this.selectedVoter;
+                this.$http.post('castVote',
+                    {
+                        'election': this.$route.params["id"],
+                        'selection': this.selection.sort(),
+                        'voterId': this.selectedVoter,
+                        'votingCode': this.votingCode
+                    }
+                ).then(response => {
+                    response.json().then((data) => {
+                        // success callback
+                        if (data.result == 'success')
+                            this.$toasted.success("Successfully cast vote");
+                        else
+                            this.$toasted.error(data.message);
 
+                    });
+                }, response => {
+                    // error callback
+                });
+            }
         },
         watch: {
-            // whenever votingCard state changes, this function will be executed
-            votingCard: function (newValue) {
-               console.log(newValue);
+            selectedVoter: function (newValue) {
+                console.log('voter changed');
+                this.selection = [];
             }
         },
     };
@@ -93,7 +208,28 @@
     }
 
     .stepper {
-        box-shadow: none !important
+        box-shadow: none !important;
+        margin-top: -20px;
+    }
+    .application--light .stepper .stepper__step__step{
+        box-shadow: 0 0 2px 2px rgba(0,0,0,.2), 0px 0px 0px 0px rgba(0,0,0,.14), 0 1px 10px rgba(0,0,0,.12);
+
+    }
+
+    .stepper__step--active .stepper__step__step {
+        background: #2196f3 ;
+    }
+
+    .electionForm{
+        width:100%;
+        margin-bottom: 20px;
+    }
+
+    .changeVoterButton{
+        top: 155px;
+        right: 70px;
+        position: absolute;
+      /*  color: rgba(120, 120, 120, 0.87) !important;*/
     }
 
 </style>

@@ -1,13 +1,10 @@
 import { normalize, schema } from 'normalizr';
 
+// Schema for normalization
 const votingCard = new schema.Entity('votingCard');
-
-// Define your comments schema
 const voter = new schema.Entity('voter', {
     votingCard: votingCard,
 });
-
-// Define your article
 const votersSchema = new schema.Array(voter);
 
 
