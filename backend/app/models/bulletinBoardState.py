@@ -12,7 +12,7 @@ class BulletinBoardState(State):
         self.numberOfParallelElections = 0
         self.eligibilityMatrix = []
 
-        self.publicCredentials = []
+        self.partialPublicVotingCredentials = []  # D_hat
         self.ballots = []
         self.confirmations = []
 

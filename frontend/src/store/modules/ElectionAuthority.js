@@ -19,13 +19,16 @@ const getters = {
                 return electionAuthority;
         }
     },
+    getBallots:  (state, getters) => (id) => {
+        // Returns the BallotList of an authority with authorityId == id
+        return getters.getElectionAuthority(id).ballots;
+    },
     getVoterBallots:  (state, getters) => (id) => {
         // Returns the voterBallots of an authority with authorityId == id
         return getters.getElectionAuthority(id).voterBallots;
     },
     hasVoterBallot: (state, getters) => (voterId) => {
         // checks if a given voter has a VoterBallot, returns the id of the election authority that has the check pending
-        debugger;
         for(let electionIndex in state.electionAuthorities){
             let authority = state.electionAuthorities[electionIndex];
             for (let voterBallotIndex in getters.getVoterBallots(authority.id)) {

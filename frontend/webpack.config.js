@@ -31,7 +31,7 @@ module.exports = {
       },
       {
         test: /\.js$/,
-        loader: 'buble-loader',
+        loader: 'babel-loader',
         exclude: /node_modules/,
       },
       {

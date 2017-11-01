@@ -54,6 +54,12 @@
 
             <v-layout row wrap>
 
+                <v-flex xy12 md12>
+                    <DataCard title="Ballots" :isMpz=true :expandable=false confidentiality="encrypted">
+                        {{ballots}}
+                    </DataCard>
+                </v-flex>
+
                 <v-flex xy12 md4>
                     <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKey"></BigIntLabel>
@@ -132,11 +138,38 @@
                     return this.$store.getters.getVoterBallots(this.currentAuthority+1);
                 }
             },
+            ballots: {
+                get: function () {
+                    return this.$store.getters.getBallots(this.currentAuthority+1);
+                }
+            },
             expertMode: {
                 get: function () {
                     return this.$store.state.expertMode;
                 }
             },
+        },
+        methods: {
+            checkBallot: function (voterId) {
+                this.$http.post('checkVote',
+                    {
+                        'election': this.$route.params["id"],
+                        'authorityId': this.currentAuthority+1,
+                        'voterId': voterId,
+                    }
+                ).then(response => {
+                    response.json().then((data) => {
+                        // success callback
+                        if (data.result == 'success')
+                            this.$toasted.success("Successfully checked vote");
+                        else
+                            this.$toasted.error(data.message);
+
+                    });
+                }, response => {
+                    // error callback
+                });
+            }
         },
         created() {
             if (this.$store.getters.joinedElectionId !== this.$route.params['id'])

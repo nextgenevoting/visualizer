@@ -49,6 +49,54 @@ class Voter(Party):
         AssertInt(value)
         self.state.countingCircle = value
 
+    @property
+    def checkResults(self):
+        return self.state.checkResults
+
+    @checkResults.setter
+    def checkResults(self, value):
+        AssertList(value)
+        self.state.checkResults = value
+
+    # Votingclient Properties
+
+    @property
+    def selection(self):
+        return self.state.selection
+
+    @selection.setter
+    def selection(self, value):
+        AssertList(value)
+        self.state.selection = value
+
+    @property
+    def randomizations(self):
+        return self.state.randomizations
+
+    @randomizations.setter
+    def randomizations(self, value):
+        AssertList(value)
+        self.state.randomizations = value
+
+
+    @property
+    def responses(self):
+        return self.state.responses
+
+    @responses.setter
+    def responses(self, value):
+        AssertList(value)
+        self.state.responses = value
+
+    @property
+    def verificationCodes(self):
+        return self.state.verificationCodes
+
+    @verificationCodes.setter
+    def verificationCodes(self, value):
+        AssertList(value)
+        self.state.verificationCodes = value
+
 
     @property
     def status(self):

@@ -26,8 +26,8 @@ def HasBallot(v, B_bold, secparams):
     AssertClass(secparams, SecurityParams)
 
     for j in range(len(B_bold)):
-        (v_j, alpha, r) = B_bold[j]
-        if v == v_j:
+        # (v_j, alpha, r) = B_bold[j]
+        if v == B_bold[j].voterId-1:
             return True
 
     return False

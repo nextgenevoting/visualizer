@@ -10,6 +10,8 @@ from bson.objectid import ObjectId
 from app.main.syncService import syncElectionStatus, SyncType
 from chvote.VotingClient.GenBallot import GenBallot
 from chvote.Types import *
+from chvote.VotingClient.GetPointMatrix import GetPointMatrix
+from chvote.VotingClient.GetReturnCodes import GetReturnCodes
 
 class VoteSimulator(object):
 
@@ -68,8 +70,9 @@ class VoteSimulator(object):
 
         # 6.1 Generation of electorate data
         for authority in self.authorities:
-            authority.GenElectionData(self.bulletinBoard, self.secparams)
-
+            self.bulletinBoard.partialPublicVotingCredentials.append(authority.GenElectionData(self.bulletinBoard, self.secparams))
+        for authority in self.authorities:
+            authority.GetPublicCredentials(self.bulletinBoard, self.secparams)
 
         # 6.3 Key generation
         self.bulletinBoard.publicKeyShares = []
@@ -82,10 +85,8 @@ class VoteSimulator(object):
         self.bulletinBoard.publicKey = pk
 
         # 6.2 Send secret voter data to the printing authority (this is typically done in the printVotingCards(), but since we want to show the secret voter data before printing the cards, we do it here)
-        privateCredentials = []
-        for authority in self.authorities:
-            privateCredentials.append(authority.secretVotingCredentials)
-            self.printingAuthority.privateCredentials = privateCredentials
+        secretCredentials = [auth.partialSecretVotingCredentials for auth in self.authorities]
+        self.printingAuthority.privateCredentials = secretCredentials
 
 
     def printVotingCards(self):
@@ -99,8 +100,45 @@ class VoteSimulator(object):
 
 
     def castVote(self, voterId, selection, votingCode):
-        # 6.4 Vote Casting
+        # 6.5 Vote Casting
+        voter = self.voters[voterId - 1]
+        # reset the voters data:
+        voter.responses = []
+        voter.checkResults = []
+
+        # create a new VoterBallot (a temporary ballot that will be passed to the authorities for checking)
         (alpha, r) = GenBallot(votingCode, selection, self.bulletinBoard.publicKey, self.secparams)
+        # pass it to the first authority
         self.authorities[0].voterBallots.append(VoterBallot(voterId, alpha))
 
-        pass
+        voter.selection = selection
+        voter.randomizations = r
+
+        # if the first authority is set to autoCheck = true, check ballot and reply automatically, otherwise checkVote will be called by the user through the webapp later
+        if(self.authorities[0].autoCheck): self.checkVote(voterId, 1)
+
+    def checkVote(self, voterId, authorityId):
+        # 6.5 Vote Casting
+        #for j in range(authorityId, self.secparams.s):
+        authority = self.authorities[authorityId-1]
+        voter = self.voters[voterId - 1]
+
+        (voterBallot, isBallotValid, response) = authority.checkBallot(voterId, self.bulletinBoard, self.secparams)
+        voter.checkResults.append(isBallotValid)
+        voter.responses.append(response)
+
+        # pass voterBallot to the next authority
+        if authorityId < self.secparams.s:
+            self.authorities[authorityId].voterBallots.append(voterBallot)
+
+            if(self.authorities[authorityId].autoCheck):
+                self.checkVote(voterId, authorityId+1)
+        else:
+            # this was the last authority to check the ballot
+            # Generate return codes
+            if all(checkResult for checkResult in voter.checkResults):
+                self.getReturnCodes(voter)
+
+    def getReturnCodes(self, voter):
+        P_s = GetPointMatrix(voter.responses, voter.selection, voter.randomizations, self.secparams)
+        voter.verificationCodes = GetReturnCodes(voter.selection, P_s, self.secparams)

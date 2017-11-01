@@ -170,7 +170,6 @@
                 this.$store.commit("voterDialog", true);
             },
             castVote: function () {
-                debugger;
                 var selection = this.selection.sort();
                 var voterId = this.selectedVoter;
                 this.$http.post('castVote',
@@ -198,6 +197,7 @@
             selectedVoter: function (newValue) {
                 console.log('voter changed');
                 this.selection = [];
+                this.votingCode = "";
             }
         },
     };

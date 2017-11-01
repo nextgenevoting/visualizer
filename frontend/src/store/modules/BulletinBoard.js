@@ -21,7 +21,7 @@ const mutations = {
     console.log(bb);
     state.voters = bb.voters;
     state.candidates = bb.candidates;
-    state.publicVotingCredentials = bb.publicCredentials;
+    state.publicVotingCredentials = bb.publicVotingCredentials;
     state.numberOfSelections = bb.numberOfSelections;
     state.numberOfCandidates = bb.numberOfCandidates;
     state.publicKey = bb.publicKey;

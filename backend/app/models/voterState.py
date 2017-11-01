@@ -8,3 +8,11 @@ class VoterState(State):
         self.votingCard = None
         self.countingCircle = None
         self.status = 0
+
+        # voting client data
+        self.selection = []
+        self.randomizations = []
+        self.responses = []
+        self.checkResults = []
+
+        self.verificationCodes = []

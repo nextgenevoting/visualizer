@@ -41,3 +41,29 @@ def castVote():
         return json.dumps({'result': 'error', 'message': str(ex)})
 
     return json.dumps({'result': 'success'})
+
+
+@main.route('/checkVote', methods=['POST'])
+@cross_origin(origin='*')
+def checkVote():
+    data = request.json
+    electionId = data["election"]
+    voterId = data["voterId"]
+    authorityId = data["authorityId"]
+
+    try:
+        # prepare voteSimulator
+        sim = VoteSimulator(electionId)
+
+        # perform action
+        sim.checkVote(voterId, authorityId)
+
+        # retrieve and persist modified state
+        sim.persist()
+
+        syncElectionAuthorities(electionId, SyncType.ROOM)
+        syncVoters(electionId, SyncType.ROOM)
+    except Exception as ex:
+        return json.dumps({'result': 'error', 'message': str(ex)})
+
+    return json.dumps({'result': 'success'})

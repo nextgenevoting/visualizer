@@ -69,13 +69,13 @@ class BulletinBoard(Party):
         self.state.eligibilityMatrix = [[True for el in range(self.numberOfParallelElections)] for i in range(len(self.voters))]
 
     @property
-    def publicCredentials(self):
-        return self.state.publicCredentials
+    def partialPublicVotingCredentials(self):
+        return self.state.partialPublicVotingCredentials
 
-    @publicCredentials.setter
-    def publicCredentials(self, value):
+    @partialPublicVotingCredentials.setter
+    def partialPublicVotingCredentials(self, value):
         AssertList(value)
-        self.state.publicCredentials = value
+        self.state.partialPublicVotingCredentials = value
 
     @property
     def ballots(self):

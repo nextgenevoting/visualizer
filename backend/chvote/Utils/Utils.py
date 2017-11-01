@@ -22,6 +22,9 @@ def AssertBytes(B):
 def AssertList(V):
     assert isinstance(V, list), 'Expected list!'
 
+def AssertTuple(V):
+    assert isinstance(V, tuple), 'Expected tuple!'
+
 def AssertClass(c, type):
     assert isinstance(c, type), 'Expected class %s' % type
     #return

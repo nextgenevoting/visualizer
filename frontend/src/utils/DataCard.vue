@@ -1,7 +1,7 @@
 <template>
     <v-card class="infoCard">
 
-        <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4" v-bind:class="confidentiality == 'secret' ? 'red' : 'green'">{{confidentiality}}</span>
+        <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4" v-bind:class="confidentiality == 'secret' ? 'red' : (confidentiality == 'encrypted' ? 'yellow' : 'green')">{{confidentiality}}</span>
 
         <v-card-title primary-title class="primaryContent">
             <div><span class="label grey--text">{{title}}
