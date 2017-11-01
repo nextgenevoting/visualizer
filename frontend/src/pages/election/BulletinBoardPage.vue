@@ -86,6 +86,11 @@
                     return this.$store.state.BulletinBoard.publicKey;
                 }
             },
+            voters: {
+                get: function () {
+                    return this.$store.state.BulletinBoard.voters;
+                }
+            },
             candidates: {
                 get: function () {
                     return this.$store.state.BulletinBoard.candidates;
@@ -106,10 +111,7 @@
                     return this.$store.state.BulletinBoard.publicVotingCredentials;
                 }
             },
-            ...mapState({
-                voters: state => this.$store.state.BulletinBoard.voters,
-
-            })
+            
         },
         created() {
             if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
