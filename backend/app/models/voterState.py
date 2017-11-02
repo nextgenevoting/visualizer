@@ -13,6 +13,5 @@ class VoterState(State):
         self.selection = []
         self.randomizations = []
         self.responses = []
-        self.checkResults = []
 
         self.verificationCodes = []

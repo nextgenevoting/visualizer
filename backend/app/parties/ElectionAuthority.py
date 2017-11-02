@@ -164,20 +164,41 @@ class ElectionAuthority(Party):
             if v.voterId == voterId:
                 voterBallot = v
 
-
         if voterBallot == None:
             raise RuntimeError("voterBallot not found on election authority")
 
         checkResult = CheckBallot(voterId, voterBallot.ballot, self.publicKey, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.publicVotingCredentials[0], self.ballots, secparams)
-        if checkResult:
-            (beta_j, z) = GenResponse(voterId, voterBallot.ballot.a_bold, self.publicKey, bulletinBoard.numberOfCandidates, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.points, secparams)
-            self.ballots.append(BallotWithRandomizations(voterId, voterBallot.ballot, z))
-        else:
-            # abort
-            beta_j = None
-            pass
+        voterBallot.checkResults[self.id] = checkResult;
+
+        return checkResult
+
+    def respond(self, voterId, bulletinBoard, secparams):
+        voterBallot = None
+        for v in self.voterBallots:
+            if v.voterId == voterId:
+                voterBallot = v
+
+        if voterBallot == None:
+            raise RuntimeError("voterBallot not found on election authority")
+
+        (beta_j, z) = GenResponse(voterId, voterBallot.ballot.a_bold, self.publicKey, bulletinBoard.numberOfCandidates,
+                                  bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.points,
+                                  secparams)
+        self.ballots.append(BallotWithRandomizations(voterId, voterBallot.ballot, z))
 
         # remove the voterBallot from this elections voterBallot list (it will be moved to the next authority that's why we have to return the voterBallot)
         self.voterBallots.remove(voterBallot)
 
-        return (voterBallot, checkResult, beta_j)
+        return (voterBallot, beta_j)
+
+    def discardBallot(self, voterId, bulletinBoard, secparams):
+        voterBallot = None
+        for v in self.voterBallots:
+            if v.voterId == voterId:
+                voterBallot = v
+
+        if voterBallot == None:
+            raise RuntimeError("voterBallot not found on election authority")
+
+        self.voterBallots.remove(voterBallot)
+        return

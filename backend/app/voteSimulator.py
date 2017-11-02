@@ -122,7 +122,9 @@ class VoteSimulator(object):
         # create a new VoterBallot (a temporary ballot that will be passed to the authorities for checking)
         (alpha, r) = GenBallot(votingCode, selection, self.bulletinBoard.publicKey, self.secparams)
         # pass it to the first authority
-        self.authorities[0].voterBallots.append(VoterBallot(voterId, alpha))
+        voterBallot = VoterBallot(voterId, alpha)
+        voterBallot.checkResults = [None] * self.secparams.s
+        self.authorities[0].voterBallots.append(voterBallot)
 
         voter.selection = selection
         voter.randomizations = r
@@ -136,21 +138,36 @@ class VoteSimulator(object):
         authority = self.authorities[authorityId]
         voter = self.voters[voterId]
 
-        (voterBallot, isBallotValid, response) = authority.checkBallot(voterId, self.bulletinBoard, self.secparams)
-        voter.checkResults.append(isBallotValid)
+        authority.checkBallot(voterId, self.bulletinBoard, self.secparams)
+
+        if authority.autoCheck: self.respond(voterId, authorityId)
+
+    def respond(self, voterId, authorityId):
+        # 6.5 Vote Casting
+        authority = self.authorities[authorityId]
+        voter = self.voters[voterId]
+
+        (voterBallot, response) = authority.respond(voterId, self.bulletinBoard, self.secparams)
         voter.responses.append(response)
 
         # pass voterBallot to the next authority
-        if authorityId < self.secparams.s-1:
-            self.authorities[authorityId+1].voterBallots.append(voterBallot)
-
-            if(self.authorities[authorityId+1].autoCheck):
-                self.checkVote(voterId, authorityId+1)
+        if authorityId < self.secparams.s - 1:
+            self.authorities[authorityId + 1].voterBallots.append(voterBallot)
+            if (self.authorities[authorityId + 1].autoCheck):
+                self.checkVote(voterId, authorityId + 1)
         else:
             # this was the last authority to check the ballot
             # Generate return codes
-            if all(checkResult for checkResult in voter.checkResults):
+            if all(checkResult for checkResult in voterBallot.checkResults):
                 self.getReturnCodes(voter)
+
+    def discardBallot(self, voterId, authorityId):
+        # 6.5 Vote Casting
+        authority = self.authorities[authorityId]
+        voter = self.voters[voterId]
+
+        authority.discardBallot(voterId, self.bulletinBoard, self.secparams)
+
 
     def getReturnCodes(self, voter):
         P_s = GetPointMatrix(voter.responses, voter.selection, voter.randomizations, self.secparams)

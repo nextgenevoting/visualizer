@@ -30,6 +30,7 @@ class VoterBallot(object):
     def __init__(self, voterId, ballot):
         self.voterId = voterId
         self.ballot = ballot
+        self.checkResults = []
 
 
 class BallotWithRandomizations(object):

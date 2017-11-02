@@ -49,15 +49,6 @@ class Voter(Party):
         AssertInt(value)
         self.state.countingCircle = value
 
-    @property
-    def checkResults(self):
-        return self.state.checkResults
-
-    @checkResults.setter
-    def checkResults(self, value):
-        AssertList(value)
-        self.state.checkResults = value
-
     # Votingclient Properties
 
     @property

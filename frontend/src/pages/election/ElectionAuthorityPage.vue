@@ -28,8 +28,13 @@
                             <v-card-text>
                                 <p>Please check the ballot and respond to the query</p>
                             </v-card-text>
+                            <v-card-text v-if="voterBallot.checkResults[currentAuthority] != null">
+                            Result of Check: {{ voterBallot.checkResults[currentAuthority] }}
+                            </v-card-text>
                             <v-card-actions>
-                                <v-btn flat color="blue" @click="checkBallot(voterBallot.voterId)">Check & Respond</v-btn>
+                                <v-btn flat color="blue" @click="checkBallot(voterBallot.voterId)"><v-icon left>mdi-approval</v-icon> Check Validity</v-btn>
+                                <v-btn flat color="blue" @click="respond(voterBallot.voterId)" :disabled="!voterBallot.checkResults[currentAuthority]"><v-icon left>mdi-reply</v-icon>Respond to query</v-btn>
+                                <v-btn flat color="red" @click="discardBallot(voterBallot.voterId)" :disabled="voterBallot.checkResults[currentAuthority] || voterBallot.checkResults[currentAuthority] == null"><v-icon left>mdi-cancel</v-icon>Discard ballot</v-btn>
                                 <v-spacer></v-spacer>
                                 <v-btn icon @click.native="show = !show">
                                     <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
@@ -192,7 +197,35 @@
                 }).catch(e => {
                     this.$toasted.error(e.body.message);
                 })
-            }
+            },
+            respond: function (voterId) {
+                this.$http.post('respond', {
+                    'election': this.$route.params["id"],
+                    'authorityId': this.currentAuthority,
+                    'voterId': voterId,
+                }).then(response => {
+                    response.json().then((data) => {
+                        // success callback
+                        this.$toasted.success("Successfully replied to vote");
+                    });
+                }).catch(e => {
+                    this.$toasted.error(e.body.message);
+                })
+            },
+            discardBallot: function (voterId) {
+                this.$http.post('discardBallot', {
+                    'election': this.$route.params["id"],
+                    'authorityId': this.currentAuthority,
+                    'voterId': voterId,
+                }).then(response => {
+                    response.json().then((data) => {
+                        // success callback
+                        this.$toasted.success("Successfully replied to vote");
+                    });
+                }).catch(e => {
+                    this.$toasted.error(e.body.message);
+                })
+            },
         },
         watch: {
             currentAuthority: function (newAuthority) {
