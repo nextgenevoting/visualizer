@@ -38,7 +38,7 @@
                                 <v-list>
                                     <v-list-tile v-for="(item, index) in voters" v-bind:key="item.name"
                                                  active-class="default-class your-class"
-                                                 @click="selectedVoter = index-1">
+                                                 @click="selectedVoter = index">
                                         <v-list-tile-content>
                                             <v-list-tile-title>{{ item.name }}</v-list-tile-title>
                                         </v-list-tile-content>
@@ -112,18 +112,12 @@
                     }
                 ).then(response => {
                     response.json().then((data) => {
-                        // success callback
-                        if (data.result == 'success') {
-                            this.$toasted.success("Successfully printed voting sheets");
-                            this.selectedVoter = 0;
-                        }
-                        else {
-                            this.$toasted.error(data.message);
-                        }
+                        this.$toasted.success("Successfully printed voting sheets");
+                        this.selectedVoter = 0; // selectedVoter is only local (for viewing the voting sheets) and has no influence on the selected voter in the voter-view
                     });
-                }, response => {
-                    // error callback
-                });
+                }).catch(e => {
+                    this.$toasted.error(e.body.message);
+                })
             },
             sendVotingCards: function (event) {
                 this.$http.post('sendVotingCards', {
@@ -131,17 +125,11 @@
                     }
                 ).then(response => {
                     response.json().then((data) => {
-                        // success callback
-                        if (data.result == 'success') {
-                            this.$toasted.success("Successfully sent the voting cards to the voters");
-                        }
-                        else {
-                            this.$toasted.error(data.message);
-                        }
+                        this.$toasted.success("Successfully sent the voting cards to the voters");
                     });
-                }, response => {
-                    // error callback
-                });
+                }).catch(e => {
+                    this.$toasted.error(e.body.message);
+                })
             },
         }
     };

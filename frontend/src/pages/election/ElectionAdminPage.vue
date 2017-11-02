@@ -90,17 +90,11 @@
                     ).then(response => {
                         response.json().then((data) => {
                             // success callback
-                            if (data.result == 'success') {
-                                this.$toasted.success("Successfully set up election");
-                            }
-                            else {
-                                this.$toasted.error(data.message);
-                            }
-
+                            this.$toasted.success("Successfully set up election");
                         });
-                    }, response => {
-                        // error callback
-                    });
+                    }).catch(e => {
+                        this.$toasted.error(e.body.message);
+                    })
                 }
             },
             clear() {

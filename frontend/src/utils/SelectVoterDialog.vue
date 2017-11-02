@@ -6,23 +6,23 @@
         </v-card-title>
         <v-card-text>
             <v-list>
-                <v-list-tile v-for="(item, index) in this.$store.state.Voter.voters" v-bind:key="item.name"
+                <v-list-tile v-for="(voter, index) in this.$store.state.Voter.voters" v-bind:key="voter.id"
                              active-class="default-class your-class"
-                             @click="selectVoter(item.id)">
+                             @click="selectVoter(voter.id)">
                     <v-list-tile-avatar>
                         <v-icon>mdi-account</v-icon>
                     </v-list-tile-avatar>
                     <v-list-tile-content>
-                        <v-list-tile-title>{{ item.name }}</v-list-tile-title>
+                        <v-list-tile-title>{{ voter.name }}</v-list-tile-title>
                     </v-list-tile-content>
                     <v-list-tile-action>
-                        <v-icon class="status < 1 ? pending : ">mdi-thumbs-up-down</v-icon>
+                        <v-icon :class="voter.status < 1 ? 'pending' : ''">mdi-thumbs-up-down</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-action>
-                        <v-icon class="status < 2 ? pending : ">mdi-checkbox-marked-circle</v-icon>
+                        <v-icon :class="voter.status < 2 ? 'pending' : ''">mdi-checkbox-marked-circle</v-icon>
                     </v-list-tile-action>
                     <v-list-tile-action>
-                        <v-icon class="status < 3 ? pending : ">mdi-ray-end</v-icon>
+                        <v-icon :class="voter.status < 3 ? 'pending' : ''">mdi-ray-end</v-icon>
                     </v-list-tile-action>
 
                 </v-list-tile>

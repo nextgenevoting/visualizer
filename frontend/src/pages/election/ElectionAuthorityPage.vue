@@ -5,16 +5,12 @@
 
             <v-flex xs12 sm12>
                 <v-btn-toggle v-model="currentAuthority">
-                    <v-btn flat>
-                        Authority 1
+                    <v-btn flat v-for="auth in electionAuthorities">
+                        <v-badge color="blue" right>
+                            <span slot="badge" v-if="auth.voterBallots.length > 0">{{ auth.voterBallots.length }}</span>
+                            <v-icon>mdi-settings-box</v-icon> Election Authority {{auth.id + 1}}
+                        </v-badge>
                     </v-btn>
-                    <v-btn flat>
-                        Authority 2
-                    </v-btn>
-                    <v-btn flat>
-                        Authority 3
-                    </v-btn>
-
                 </v-btn-toggle>
             </v-flex>
 
@@ -56,7 +52,7 @@
 
                 <v-flex xy12 md12>
                     <DataCard title="Ballots" :isMpz=true :expandable=false confidentiality="encrypted">
-                        <transition-group tag="ul" name="highlight" :appear="ballotTransition">
+                        <transition-group tag="ul" :name="ballotTransitionClass" :appear="ballotTransition">
                             <li v-for="ballot in ballots" :key="ballot.ballot.x_hat">Ballot: {{ballot.ballot.a_bold}}</li>
                         </transition-group>
                     </DataCard>
@@ -118,6 +114,7 @@
             currentAuthority: 0,
             show: false,
             ballotTransition: false,
+            ballotTransitionClass: 'highlight'
         }),
         mounted() {
             this.ballotTransition = false
@@ -132,18 +129,17 @@
             }),
             electionAuthority: {
                 get: function () {
-                    // bug: if the page if reloaded, it tries to access electionAuthority[0] even though they haven't been populated by the websocket sync yet
-                    return this.$store.getters.getElectionAuthority(this.currentAuthority+1);
+                    return this.$store.getters.getElectionAuthority(this.currentAuthority);
                 }
             },
             voterBallots: {
                 get: function () {
-                    return this.$store.getters.getVoterBallots(this.currentAuthority+1);
+                    return this.$store.getters.getVoterBallots(this.currentAuthority);
                 }
             },
             ballots: {
                 get: function () {
-                    return this.$store.getters.getBallots(this.currentAuthority+1);
+                    return this.$store.getters.getBallots(this.currentAuthority);
                 }
             },
 
@@ -153,21 +149,26 @@
                 this.$http.post('checkVote',
                     {
                         'election': this.$route.params["id"],
-                        'authorityId': this.currentAuthority+1,
+                        'authorityId': this.currentAuthority,
                         'voterId': voterId,
                     }
                 ).then(response => {
                     response.json().then((data) => {
                         // success callback
-                        if (data.result == 'success')
-                            this.$toasted.success("Successfully checked vote");
-                        else
-                            this.$toasted.error(data.message);
-
+                        this.$toasted.success("Successfully checked vote");
                     });
-                }, response => {
-                    // error callback
-                });
+                }).catch(e => {
+                    this.$toasted.error(e.body.message);
+                })
+            }
+        },
+        watch: {
+            currentAuthority: function (newAuthority) {
+                // Transition animation is also shown when the selected authority has changed. As a workaround, temporarily remove the CSS transition class and re-assign it after some delay
+                let self = this;
+                let savedTransitionClass = this.ballotTransitionClass;
+                this.ballotTransitionClass = ""
+                setTimeout(function(){ self.ballotTransitionClass = savedTransitionClass}, 1000);
             }
         },
 
@@ -177,21 +178,32 @@
 <style>
     .btn-toggle {
         width: 100%;
+        background-color: transparent !important;
     }
 
     .btn-toggle .btn {
         width: 33%;
     }
+    .btn-toggle--selected {
+        box-shadow: none;
+    }
+    .btn-toggle .icon{
+        display: none;
+    }
+
+    .btn--active .icon{
+        display: inline-flex;
+    }
 
     .highlight-enter-active {
-        animation: highlight 2.5s;
+        animation: highlight 2.0s;
     }
     @keyframes highlight {
         0% {
             background: inherit;
         }
         50% {
-            background: yellow;
+            background: rgba(11, 176, 255, 0.4);
         }
         100% {
             background: inherit;

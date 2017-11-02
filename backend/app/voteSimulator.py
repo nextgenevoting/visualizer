@@ -15,42 +15,54 @@ from chvote.VotingClient.GetReturnCodes import GetReturnCodes
 
 class VoteSimulator(object):
 
-    def __init__(self, election):
-        self.electionID = election
+    # *************************************************************************************
+    # *** Internal methods for loading/saving the states
+    # *************************************************************************************
+
+    # Constructor:
+    # Set up the voteSim instance by instantiating all parties and loading the corresponding states from the database
+    def __init__(self, electionID):
+        self.electionID = electionID
         self.secparams = secparams_l1
 
-        # Parties
+        # load bulletinBoard
+        self.bulletinBoard = BulletinBoard(db.bulletinBoardStates, electionID)
+
+        # load printing authority
+        self.printingAuthority = PrintingAuthority(db.printingAuthorityStates, electionID)
+
+        # load election authorities
         self.authorities = [None] * self.secparams.s
-        self.bulletinBoard = BulletinBoard(db.bulletinBoardStates, election)
-        self.printingAuthority = PrintingAuthority(db.printingAuthorityStates, election)
-        self.voters = []
-
-        # create new election authorities
         for j in range(self.secparams.s):
-            self.authorities[j] = ElectionAuthority(db.electionAuthorityStates, election, j+1)
+            self.authorities[j] = ElectionAuthority(db.electionAuthorityStates, electionID, j)
 
-        # create voters
+        # load voters
+        self.voters = []
         for i in range(len(self.bulletinBoard.voters)):
-            self.voters.append(Voter(db.voterStates, election, i))
+            self.voters.append(Voter(db.voterStates, electionID, i))
 
-        print("init sim done")
-
+    # persist()
+    # Save the state of all parties to the database
     def persist(self):
         self.bulletinBoard.persist()
-        for authority in self.authorities:
-            authority.persist()
-
         self.printingAuthority.persist()
+        for authority in self.authorities: authority.persist()
+        for voter in self.voters: voter.persist()
 
-        for voter in self.voters:
-            voter.persist()
-
+    # updateStatus()
+    # Helper function to update the status of an election
     def updateStatus(self, newStatus):
         assert isinstance(newStatus, int), "status must be a number"
-        # update election status
         db.elections.update_one({'_id': ObjectId(self.electionID)}, {"$set": {"status" : newStatus}}, upsert=False)
         syncElectionStatus(self.electionID, SyncType.ROOM)
 
+
+    # *************************************************************************************
+    # The following functions implement the chVote protocol
+    # *************************************************************************************
+
+    # setupElection()
+    # Set the pre-election parameters and generate electorate data
     def setupElection(self, numberOfVoters, w_bold, c_bold, n_bold, k_bold):
         self.bulletinBoard.countingCircles = w_bold
         self.bulletinBoard.candidates = c_bold
@@ -60,7 +72,7 @@ class VoteSimulator(object):
 
         voters = []
         for v in range(numberOfVoters):
-            newVoter = VoterState(v+1)
+            newVoter = VoterState(v)
             newVoter.countingCircle = w_bold[v]
             db.voterStates.insert({'election': self.electionID, 'voterID': v, 'state': serializeState(newVoter)})
             voters.append(newVoter.name)
@@ -96,13 +108,14 @@ class VoteSimulator(object):
     def sendVotingCards(self):
         # 6.2 Printing of voting cards contd.
         for voter in self.voters:
-            voter.votingCard = self.printingAuthority.votingCards[voter.id-1]   # id = index + 1  --> (1,2,3...)
+            voter.votingCard = self.printingAuthority.votingCards[voter.id]   # id = index + 1  --> (1,2,3...)
 
 
     def castVote(self, voterId, selection, votingCode):
         # 6.5 Vote Casting
-        voter = self.voters[voterId - 1]
-        # reset the voters data:
+        voter = self.voters[voterId]
+
+        # reset previous votecasting data
         voter.responses = []
         voter.checkResults = []
 
@@ -115,23 +128,23 @@ class VoteSimulator(object):
         voter.randomizations = r
 
         # if the first authority is set to autoCheck = true, check ballot and reply automatically, otherwise checkVote will be called by the user through the webapp later
-        if(self.authorities[0].autoCheck): self.checkVote(voterId, 1)
+        if(self.authorities[0].autoCheck): self.checkVote(voterId, 0)
 
     def checkVote(self, voterId, authorityId):
         # 6.5 Vote Casting
         #for j in range(authorityId, self.secparams.s):
-        authority = self.authorities[authorityId-1]
-        voter = self.voters[voterId - 1]
+        authority = self.authorities[authorityId]
+        voter = self.voters[voterId]
 
         (voterBallot, isBallotValid, response) = authority.checkBallot(voterId, self.bulletinBoard, self.secparams)
         voter.checkResults.append(isBallotValid)
         voter.responses.append(response)
 
         # pass voterBallot to the next authority
-        if authorityId < self.secparams.s:
-            self.authorities[authorityId].voterBallots.append(voterBallot)
+        if authorityId < self.secparams.s-1:
+            self.authorities[authorityId+1].voterBallots.append(voterBallot)
 
-            if(self.authorities[authorityId].autoCheck):
+            if(self.authorities[authorityId+1].autoCheck):
                 self.checkVote(voterId, authorityId+1)
         else:
             # this was the last authority to check the ballot
@@ -142,3 +155,4 @@ class VoteSimulator(object):
     def getReturnCodes(self, voter):
         P_s = GetPointMatrix(voter.responses, voter.selection, voter.randomizations, self.secparams)
         voter.verificationCodes = GetReturnCodes(voter.selection, P_s, self.secparams)
+        voter.status = 1

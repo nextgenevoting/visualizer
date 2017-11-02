@@ -44,21 +44,21 @@ a {
 
 /* Badge */
 
-.badge--overlap:after {
+.tabs  .badge--overlap:after {
   top: -4px !important;
 }
 
-.badge:after {
+.tabs .badge:after {
   height: 17px !important;
   width: 17px !important;
 }
 
-.badge__badge{
+.tabs .badge__badge{
   height: 32px !important;
   width: 32px !important;
 }
 
-.badge__badge .icon{
+.tabs .badge__badge .icon{
   font-size: 24px !important;
 }
 

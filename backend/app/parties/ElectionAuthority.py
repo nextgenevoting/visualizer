@@ -168,9 +168,9 @@ class ElectionAuthority(Party):
         if voterBallot == None:
             raise RuntimeError("voterBallot not found on election authority")
 
-        checkResult = CheckBallot(voterId-1, voterBallot.ballot, self.publicKey, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.publicVotingCredentials[0], self.ballots, secparams)
+        checkResult = CheckBallot(voterId, voterBallot.ballot, self.publicKey, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.publicVotingCredentials[0], self.ballots, secparams)
         if checkResult:
-            (beta_j, z) = GenResponse(voterId-1, voterBallot.ballot.a_bold, self.publicKey, bulletinBoard.numberOfCandidates, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.points, secparams)
+            (beta_j, z) = GenResponse(voterId, voterBallot.ballot.a_bold, self.publicKey, bulletinBoard.numberOfCandidates, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.points, secparams)
             self.ballots.append(BallotWithRandomizations(voterId, voterBallot.ballot, z))
         else:
             # abort

@@ -27,7 +27,7 @@ def HasBallot(v, B_bold, secparams):
 
     for j in range(len(B_bold)):
         # (v_j, alpha, r) = B_bold[j]
-        if v == B_bold[j].voterId-1:
+        if v == B_bold[j].voterId:
             return True
 
     return False

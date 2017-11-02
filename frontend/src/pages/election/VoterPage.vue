@@ -13,34 +13,34 @@
                 <v-flex xy12 md12 v-else>
                     <v-stepper color="blue" alt-labels :value="voter.status + 1">
                         <v-stepper-header>
-                            <v-stepper-step step="1">Vote Casting</v-stepper-step>
+                            <v-stepper-step step="1" :complete="voter.status >= 1">Vote Casting</v-stepper-step>
                             <v-divider></v-divider>
-                            <v-stepper-step step="2">Confirmation</v-stepper-step>
+                            <v-stepper-step step="2" :complete="voter.status >= 2">Confirmation</v-stepper-step>
                             <v-divider></v-divider>
-                            <v-stepper-step step="3">Finalization</v-stepper-step>
+                            <v-stepper-step step="3" :complete="voter.status >= 3">Finalization</v-stepper-step>
                         </v-stepper-header>
                     </v-stepper>
                     <div class="layout row wrap">
                         <!-- 1. Vote Cast -->
                         <v-flex v-if="voter.status == 0" x12 md6>
-                            <v-card v-if="hasVoterBallot">
+                            <v-card v-if="hasVoterBallot > -1">
                                 <v-card-title primary-title>
                                     <div class="headline">Waiting for authority response</div>
                                 </v-card-title>
                                 <v-card-text>
-                                    Authority {{ hasVoterBallot }} is checking the ballot
+                                    Authority {{ hasVoterBallot + 1 }} is checking the ballot
                                     <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
                                 </v-card-text>
                             </v-card>
                             <v-card v-else>
                                 <v-card-title primary-title>
-                                    <div class="headline">Candidate selection</div>
+                                    <div class="headline">Vote Casting</div>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-form ref="form" class="votingForm" lazy-validation>
 
                                     <ul v-for="(i,index) in numberOfParallelElections" class="electionForm">
-                                        Your selection for election {{index}}
+                                        Your selection for election {{index + 1}}
                                         <li v-for="candidate in candidatesForElection[index]">
                                             <v-checkbox :label="candidate.name"
                                                         v-model="selection"
@@ -60,6 +60,24 @@
 
                         </v-flex>
                         <!-- 2. Vote Confirmation -->
+                        <v-flex v-if="voter.status == 1" x12 md6>
+                            <v-card>
+                                <v-card-title primary-title>
+                                    <div class="headline">Vote Confirmation</div>
+                                </v-card-title>
+                                <v-card-text>
+                                    <v-form ref="form" class="confirmationForm" lazy-validation>
+
+                                        <v-text-field label="Confirmation Code" v-model="confirmationCode" required></v-text-field>
+                                    </v-form>
+
+                                </v-card-text>
+                                <v-card-actions>
+                                    <v-btn flat color="blue" @click="castVote()">Confirm vote</v-btn><v-btn flat>Abort</v-btn>
+                                </v-card-actions>
+                            </v-card>
+
+                        </v-flex>
                         <!-- 3. Vote Finalization -->
 
                         <v-flex x12 md6>{{ votingCard }}</v-flex>
@@ -108,7 +126,7 @@
             },
             votingCard: {
                 get: function () {
-                    if (this.selectedVoter != null && this.selectedVoter != 0) {
+                    if (this.selectedVoter != null) {
                         return this.$store.getters.getVotingCard(this.selectedVoter);
                     }
                 }
@@ -204,8 +222,8 @@
 
     }
 
-    .stepper__step--active .stepper__step__step {
-        background: #2196f3 ;
+    .stepper__step--active .stepper__step__step, .stepper__step--complete .stepper__step__step {
+        background: #696969 ;
     }
 
     .electionForm{

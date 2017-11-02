@@ -4,7 +4,7 @@ class ElectionAuthorityState(State):
 
     def __init__(self, id):
         self.id = id
-        self.name = "ElectionAuthority{}".format(id)
+        self.name = "ElectionAuthority{}".format(id+1)
         self.autoCheck = False
         self.partialSecretVotingCredentials = []
         self.partialPublicVotingCredentials = []

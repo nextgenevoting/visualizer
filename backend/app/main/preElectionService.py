@@ -32,8 +32,8 @@ def createElection():
 
         # create new electionAuthority states
         for j in range(3):
-            newAuthState = ElectionAuthorityState(j+1)
-            db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j+1, 'state': serializeState(newAuthState)})
+            newAuthState = ElectionAuthorityState(j)
+            db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j, 'state': serializeState(newAuthState)})
 
 
         printingAuthState =  PrintingAuthorityState()
@@ -83,7 +83,7 @@ def setUpElection():
         # update election status
         sim.updateStatus(1)
     except Exception as ex:
-        return json.dumps({'result': 'error', 'message': str(ex) })
+        return make_error(400, str(ex))
 
     return json.dumps({'result': 'success'})
 
@@ -103,9 +103,8 @@ def printVotingCards():
         # update election status
         sim.updateStatus(2)
 
-
     except Exception as ex:
-        return json.dumps({'result': 'error', })
+        return make_error(400, str(ex))
 
     return json.dumps({'result': 'success'})
 
@@ -125,9 +124,8 @@ def sendVotingCards():
         # update election status
         sim.updateStatus(3)
 
-
     except Exception as ex:
-        return json.dumps({'result': 'error', })
+        return make_error(400, str(ex))
 
     return json.dumps({'result': 'success'})
 
@@ -143,6 +141,6 @@ def debugVotingSim():
         syncElectionAuthorities(electionId, SyncType.ROOM)
         print(sim)
     except Exception as ex:
-        return json.dumps({'result': 'error', })
+        return make_error(400, str(ex))
 
     return json.dumps({'result': 'success'})
