@@ -67,7 +67,14 @@
                                 </v-card-title>
                                 <v-card-text>
                                     <v-form ref="form" class="confirmationForm" lazy-validation>
-
+                                        <p>Please check if the displayed codes match the verification codes of the selected candidates on your voting card:</p>
+                                        <div>
+                                        <ul>
+                                            <li v-for="(verificationCode, index) in voter.verificationCodes">
+                                                Verification Code {{index + 1}}: <b>{{ verificationCode }}</b>
+                                            </li>
+                                        </ul><br></div>
+                                        <p>Please confirm your vote with your confirmation code:</p>
                                         <v-text-field label="Confirmation Code" v-model="confirmationCode" required></v-text-field>
                                     </v-form>
 

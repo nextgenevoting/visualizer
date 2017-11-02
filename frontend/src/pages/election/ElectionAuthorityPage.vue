@@ -16,7 +16,38 @@
 
             <br>
             <h5 class="">Tasks</h5>
-            <v-layout row v-for="voterBallot in voterBallots">
+            <transition-group tag="div" :name="checkTransitionClass" :appear="checkTransition">
+                <v-layout row v-for="voterBallot in voterBallots" :key="voterBallot.voterId">
+                    <v-flex xs12 sm12 >
+                        <v-card>
+                            <v-card-title primary-title>
+                                <div>
+                                    <div class="headline">New ballot submitted</div>
+                                </div>
+                            </v-card-title>
+                            <v-card-text>
+                                <p>Please check the ballot and respond to the query</p>
+                            </v-card-text>
+                            <v-card-actions>
+                                <v-btn flat color="blue" @click="checkBallot(voterBallot.voterId)">Check & Respond</v-btn>
+                                <v-spacer></v-spacer>
+                                <v-btn icon @click.native="show = !show">
+                                    <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+                                </v-btn>
+                            </v-card-actions>
+                            <v-slide-y-transition>
+                                <v-card-text v-show="show">
+                                    a_bold: {{ voterBallot.ballot.a_bold }}<br>
+                                    x_hat: {{ voterBallot.ballot.x_hat }}
+                                </v-card-text>
+                            </v-slide-y-transition>
+                        </v-card>
+                    </v-flex>
+                </v-layout>
+            </transition-group>
+
+
+            <!--<v-layout row v-for="voterBallot in voterBallots">
                 <v-flex xs12 sm12 >
                     <v-card>
                         <v-card-title primary-title>
@@ -42,7 +73,7 @@
                         </v-slide-y-transition>
                     </v-card>
                 </v-flex>
-            </v-layout>
+            </v-layout>-->
 
             <br>
             <br>
@@ -114,10 +145,13 @@
             currentAuthority: 0,
             show: false,
             ballotTransition: false,
-            ballotTransitionClass: 'highlight'
+            checkTransition: false,
+            ballotTransitionClass: 'highlight',
+            checkTransitionClass: 'bounce'
         }),
         mounted() {
             this.ballotTransition = false
+            this.checkTransition = false
         },
         computed: {
             ...mapState({
@@ -146,13 +180,11 @@
         },
         methods: {
             checkBallot: function (voterId) {
-                this.$http.post('checkVote',
-                    {
-                        'election': this.$route.params["id"],
-                        'authorityId': this.currentAuthority,
-                        'voterId': voterId,
-                    }
-                ).then(response => {
+                this.$http.post('checkVote', {
+                    'election': this.$route.params["id"],
+                    'authorityId': this.currentAuthority,
+                    'voterId': voterId,
+                }).then(response => {
                     response.json().then((data) => {
                         // success callback
                         this.$toasted.success("Successfully checked vote");
@@ -167,8 +199,13 @@
                 // Transition animation is also shown when the selected authority has changed. As a workaround, temporarily remove the CSS transition class and re-assign it after some delay
                 let self = this;
                 let savedTransitionClass = this.ballotTransitionClass;
-                this.ballotTransitionClass = ""
-                setTimeout(function(){ self.ballotTransitionClass = savedTransitionClass}, 1000);
+                let savedCheckTransitionClass = this.checkTransitionClass;
+                this.ballotTransitionClass = "";
+                this.checkTransitionClass = "";
+                setTimeout(function(){
+                    self.ballotTransitionClass = savedTransitionClass;
+                    self.checkTransitionClass = savedCheckTransitionClass
+                }, 1000);
             }
         },
 
@@ -207,6 +244,23 @@
         }
         100% {
             background: inherit;
+        }
+    }
+
+    .bounce-enter-active {
+        animation: bounce-in .5s;
+    }
+    .bounce-leave-active {
+        animation: bounce-in .4s reverse;
+    }
+    @keyframes bounce-in {
+        0% {
+            transform: scale(0);
+            opacity: 0;
+        }
+        100% {
+            transform: scale(1);
+            opacity: 1;
         }
     }
 </style>
