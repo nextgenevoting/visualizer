@@ -9,9 +9,6 @@
                 <v-list-tile v-for="(voter, index) in this.$store.state.Voter.voters" v-bind:key="voter.id"
                              active-class="default-class your-class"
                              @click="selectVoter(voter.id)">
-                    <v-list-tile-avatar>
-                        <v-icon>mdi-account</v-icon>
-                    </v-list-tile-avatar>
                     <v-list-tile-content>
                         <v-list-tile-title>{{ voter.name }}</v-list-tile-title>
                     </v-list-tile-content>

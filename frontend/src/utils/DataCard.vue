@@ -1,18 +1,19 @@
 <template>
-    <v-card class="infoCard">
+    <v-card class="dataCard">
 
         <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4" v-bind:class="confidentiality == 'secret' ? 'red' : (confidentiality == 'encrypted' ? 'yellow' : 'green')">{{confidentiality}}</span>
 
-        <v-card-title primary-title class="primaryContent">
+        <v-card-title primary-title class="dataCardTitle">
             <div><span class="label grey--text">{{title}}
               <v-tooltip top>
                 <v-icon v-if="!disableTooltip" color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
              </v-tooltip></span>
-                <div class="value">
-                    <slot></slot>
-                </div>
             </div>
         </v-card-title>
+        <v-card-text class="dataCardContent">
+                <slot></slot>
+
+        </v-card-text>
         <v-card-actions style="height:33px; padding: 0px" v-show="expandable">
 
             <v-spacer></v-spacer>
@@ -77,17 +78,18 @@
         display: inline;
     }
 
-    .infoCard .primaryContent{
-        padding-top: 14px;
+    .dataCard .dataCardTitle{
+        padding: 10px 16px 5px 16px !important;
     }
 
-    .infoCard .chip {
+    .dataCard .dataCardContent{
+        padding: 2px 16px 10px 16px !important;
+        font-size: 22px;
+    }
+
+    .dataCard .chip {
         position: absolute;
         top: 7px;
         right: 7px;
-    }
-
-    .infoCard .primaryContent div{
-        width: 100%;
     }
 </style>

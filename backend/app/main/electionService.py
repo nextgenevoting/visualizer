@@ -36,6 +36,7 @@ def castVote():
         sim.persist()
 
         syncElectionAuthorities(electionId, SyncType.ROOM)
+        syncVoters(electionId, SyncType.ROOM)
 
     except Exception as ex:
         return json.dumps({'result': 'error', 'message': str(ex)})
@@ -62,6 +63,7 @@ def checkVote():
         sim.persist()
 
         syncElectionAuthorities(electionId, SyncType.ROOM)
+        syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
         return json.dumps({'result': 'error', 'message': str(ex)})
 
@@ -112,6 +114,30 @@ def discardBallot():
 
         syncElectionAuthorities(electionId, SyncType.ROOM)
         syncVoters(electionId, SyncType.ROOM)
+    except Exception as ex:
+        return json.dumps({'result': 'error', 'message': str(ex)})
+
+    return json.dumps({'result': 'success'})
+
+@main.route('/setAutoMode', methods=['POST'])
+@cross_origin(origin='*')
+def setAutoMode():
+    data = request.json
+    electionId = data["election"]
+    authorityId = data["authorityId"]
+    value = data["value"]
+
+    try:
+        # prepare voteSimulator
+        sim = VoteSimulator(electionId)
+
+        # perform action
+        sim.authorities[authorityId].autoCheck = value
+
+        # retrieve and persist modified state
+        sim.persist()
+
+        syncElectionAuthorities(electionId, SyncType.ROOM)
     except Exception as ex:
         return json.dumps({'result': 'error', 'message': str(ex)})
 

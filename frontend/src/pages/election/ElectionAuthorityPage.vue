@@ -2,23 +2,31 @@
     <v-container grid-list-md>
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-settings-box" title="Election Authorities"></ContentTitle>
+            <v-layout row>
 
-            <v-flex xs12 sm12>
-                <v-btn-toggle v-model="currentAuthority">
-                    <v-btn flat v-for="auth in electionAuthorities">
-                        <v-badge color="blue" right>
-                            <span slot="badge" v-if="auth.voterBallots.length > 0">{{ auth.voterBallots.length }}</span>
-                            <v-icon>mdi-settings-box</v-icon> Election Authority {{auth.id + 1}}
-                        </v-badge>
-                    </v-btn>
-                </v-btn-toggle>
-            </v-flex>
-
+                <v-flex xs12 sm12>
+                    <v-btn-toggle v-model="currentAuthority">
+                        <v-btn flat v-for="auth in electionAuthorities">
+                            <v-badge color="blue" right>
+                                <span slot="badge" v-if="auth.voterBallots.length > 0">{{ auth.voterBallots.length
+                                    }}</span>
+                                <v-icon>mdi-settings-box</v-icon>
+                                Authority {{auth.id + 1}}
+                            </v-badge>
+                        </v-btn>
+                    </v-btn-toggle>
+                </v-flex>
+            </v-layout>
             <br>
-            <h5 class="">Tasks</h5>
+            <v-layout row>
+                <v-flex xs12 sm1><h5 class="">Tasks</h5></v-flex>
+                <v-flex sm12 sm11>
+                    <v-switch label="Automatic processing" v-model="autoMode"></v-switch>
+                </v-flex>
+            </v-layout>
             <transition-group tag="div" :name="checkTransitionClass" :appear="checkTransition">
                 <v-layout row v-for="voterBallot in voterBallots" :key="voterBallot.voterId">
-                    <v-flex xs12 sm12 >
+                    <v-flex xs12 sm12>
                         <v-card>
                             <v-card-title primary-title>
                                 <div>
@@ -29,12 +37,23 @@
                                 <p>Please check the ballot and respond to the query</p>
                             </v-card-text>
                             <v-card-text v-if="voterBallot.checkResults[currentAuthority] != null">
-                            Result of Check: {{ voterBallot.checkResults[currentAuthority] }}
+                                Result of Check: {{ voterBallot.checkResults[currentAuthority] }}
                             </v-card-text>
                             <v-card-actions>
-                                <v-btn flat color="blue" @click="checkBallot(voterBallot.voterId)"><v-icon left>mdi-approval</v-icon> Check Validity</v-btn>
-                                <v-btn flat color="blue" @click="respond(voterBallot.voterId)" :disabled="!voterBallot.checkResults[currentAuthority]"><v-icon left>mdi-reply</v-icon>Respond to query</v-btn>
-                                <v-btn flat color="red" @click="discardBallot(voterBallot.voterId)" :disabled="voterBallot.checkResults[currentAuthority] || voterBallot.checkResults[currentAuthority] == null"><v-icon left>mdi-cancel</v-icon>Discard ballot</v-btn>
+                                <v-btn flat color="blue" @click="checkBallot(voterBallot.voterId)">
+                                    <v-icon left>mdi-approval</v-icon>
+                                    Check Validity
+                                </v-btn>
+                                <v-btn flat color="blue" @click="respond(voterBallot.voterId)"
+                                       :disabled="!voterBallot.checkResults[currentAuthority]">
+                                    <v-icon left>mdi-reply</v-icon>
+                                    Respond to query
+                                </v-btn>
+                                <v-btn flat color="red" @click="discardBallot(voterBallot.voterId)"
+                                       :disabled="voterBallot.checkResults[currentAuthority] || voterBallot.checkResults[currentAuthority] == null">
+                                    <v-icon left>mdi-cancel</v-icon>
+                                    Discard ballot
+                                </v-btn>
                                 <v-spacer></v-spacer>
                                 <v-btn icon @click.native="show = !show">
                                     <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
@@ -51,37 +70,6 @@
                 </v-layout>
             </transition-group>
 
-
-            <!--<v-layout row v-for="voterBallot in voterBallots">
-                <v-flex xs12 sm12 >
-                    <v-card>
-                        <v-card-title primary-title>
-                            <div>
-                                <div class="headline">New ballot submitted</div>
-                            </div>
-                        </v-card-title>
-                        <v-card-text>
-                            <p>Please check the ballot and respond to the query</p>
-                        </v-card-text>
-                        <v-card-actions>
-                            <v-btn flat color="blue" @click="checkBallot(voterBallot.voterId)">Check & Respond</v-btn>
-                            <v-spacer></v-spacer>
-                            <v-btn icon @click.native="show = !show">
-                                <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                            </v-btn>
-                        </v-card-actions>
-                        <v-slide-y-transition>
-                            <v-card-text v-show="show">
-                                a_bold: {{ voterBallot.ballot.a_bold }}<br>
-                                x_hat: {{ voterBallot.ballot.x_hat }}
-                            </v-card-text>
-                        </v-slide-y-transition>
-                    </v-card>
-                </v-flex>
-            </v-layout>-->
-
-            <br>
-            <br>
             <h5 class="">Data</h5>
 
             <v-layout row wrap>
@@ -89,7 +77,8 @@
                 <v-flex xy12 md12>
                     <DataCard title="Ballots" :isMpz=true :expandable=false confidentiality="encrypted">
                         <transition-group tag="ul" :name="ballotTransitionClass" :appear="ballotTransition">
-                            <li v-for="ballot in ballots" :key="ballot.ballot.x_hat">Ballot: {{ballot.ballot.a_bold}}</li>
+                            <li v-for="ballot in ballots" :key="ballot.ballot.x_hat">Ballot: {{ballot.ballot.a_bold}}
+                            </li>
                         </transition-group>
                     </DataCard>
                 </v-flex>
@@ -140,8 +129,8 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import { mapGetters } from 'vuex'
+    import {mapState} from 'vuex'
+    import {mapGetters} from 'vuex'
     import joinRoomMixin from '../../mixins/joinRoomMixin.js'
 
     export default {
@@ -181,7 +170,14 @@
                     return this.$store.getters.getBallots(this.currentAuthority);
                 }
             },
-
+            autoMode: {
+                get: function () {
+                    return this.electionAuthority.autoCheck;
+                },
+                set: function(value){
+                    this.$store.dispatch('setAutoMode', { electionId: this.$route.params["id"], electionAuthorityId: this.currentAuthority, newValue: value});
+                }
+            },
         },
         methods: {
             checkBallot: function (voterId) {
@@ -235,7 +231,7 @@
                 let savedCheckTransitionClass = this.checkTransitionClass;
                 this.ballotTransitionClass = "";
                 this.checkTransitionClass = "";
-                setTimeout(function(){
+                setTimeout(function () {
                     self.ballotTransitionClass = savedTransitionClass;
                     self.checkTransitionClass = savedCheckTransitionClass
                 }, 1000);
@@ -249,25 +245,23 @@
     .btn-toggle {
         width: 100%;
         background-color: transparent !important;
+        margin-top: -5px !important;
     }
 
     .btn-toggle .btn {
         width: 33%;
-    }
-    .btn-toggle--selected {
-        box-shadow: none;
-    }
-    .btn-toggle .icon{
-        display: none;
+        border-radius: 4px !important;
+
     }
 
-    .btn--active .icon{
-        display: inline-flex;
+    .btn-toggle--selected {
+        box-shadow: none;
     }
 
     .highlight-enter-active {
         animation: highlight 2.0s;
     }
+
     @keyframes highlight {
         0% {
             background: inherit;
@@ -283,9 +277,11 @@
     .bounce-enter-active {
         animation: bounce-in .5s;
     }
+
     .bounce-leave-active {
         animation: bounce-in .4s reverse;
     }
+
     @keyframes bounce-in {
         0% {
             transform: scale(0);

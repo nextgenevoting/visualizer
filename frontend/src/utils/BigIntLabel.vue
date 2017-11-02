@@ -1,12 +1,34 @@
 <template>
-  <p>{{ data.truncatedValue() }}<v-tooltip right>
-   <v-icon slot="activator">mdi-dots-horizontal</v-icon>
-    <span>{{ mpzValue }}</span>
-    </v-tooltip></p>
+    <p>{{ data.truncatedValue() }}
+    <v-menu
+            offset-x
+            :close-on-content-click="false"
+            :nudge-width="200"
+            v-model="menu"
+    >
+        <v-btn flat icon  slot="activator"> <v-icon>mdi-dots-horizontal</v-icon></v-btn>
+        <v-card>
+            <v-divider></v-divider>
+            <v-card-text>
+                <v-list>
+                    <v-list-tile-title style=" overflow-wrap: break-word; word-wrap: break-word; white-space: pre-wrap; height: auto;">Size:</v-list-tile-title>
+
+                    <v-list-tile-title style=" overflow-wrap: break-word; word-wrap: break-word; white-space: pre-wrap; height: auto;">{{ mpzValue }}</v-list-tile-title>
+                </v-list>
+            </v-card-text>
+
+        </v-card>
+    </v-menu>
+    </p>
+
+
 </template>
 
 <script>
     export default {
+        data: () => ({
+            menu: false
+        }),
       computed: {
           data() {
             var self = this;

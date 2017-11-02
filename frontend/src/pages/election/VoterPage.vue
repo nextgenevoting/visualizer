@@ -2,7 +2,7 @@
     <v-container grid-list-md>
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-account" :title="selectedVoterName || 'Voter View'"></ContentTitle>
-            <v-btn flat color="blue" v-if="this.$store.state.selectedVoter != null" @click="changeVoter()" class="changeVoterButton">Change Voter</v-btn>
+            <!--<v-btn flat color="blue" v-if="this.$store.state.selectedVoter != null" @click="changeVoter()" class="changeVoterButton">Change Voter</v-btn>-->
             <div v-if="status < 1">
                 Before you can vote, the election must be set up
             </div>
@@ -67,7 +67,7 @@
                                 </v-card-title>
                                 <v-card-text>
                                     <v-form ref="form" class="confirmationForm" lazy-validation>
-                                        <p>Please check if the displayed codes match the verification codes of the selected candidates on your voting card:</p>
+                                        <p>Please check if the displayed codes match the verification codes of the selected candidates on your voting card:<br><br></p>
                                         <div>
                                         <ul>
                                             <li v-for="(verificationCode, index) in voter.verificationCodes">
@@ -89,11 +89,13 @@
 
                         <v-flex x12 md6>{{ votingCard }}</v-flex>
                     </div>
-
+                    <v-tooltip left>
+                        <v-btn slot="activator"  color="blue" fab fixed top right dark style="top: 150px;"  v-if="this.$store.state.selectedVoter != null" @click="changeVoter()"><v-icon>mdi-account-multiple</v-icon></v-btn>
+                        <span>Change voter</span>
+                    </v-tooltip>
                 </v-flex>
             </div>
         </div>
-
         <div v-else>
             <LoadingOverlay></LoadingOverlay>
         </div>
@@ -110,7 +112,8 @@
         mixins: [joinRoomMixin],
         data: () => ({
             selection: [],
-            votingCode: ''
+            votingCode: '',
+            confirmationCode: ''
 
         }),
         computed: {
@@ -232,17 +235,13 @@
     .stepper__step--active .stepper__step__step, .stepper__step--complete .stepper__step__step {
         background: #696969 ;
     }
+    .application--light .stepper .stepper__step:not(.stepper__step--active):not(.stepper__step--complete):not(.stepper__step--error) .stepper__step__step {
+        background: rgba(0, 0, 0, 0.2) !important;
+    }
 
     .electionForm{
         width:100%;
         margin-bottom: 20px;
-    }
-
-    .changeVoterButton{
-        top: 155px;
-        right: 70px;
-        position: absolute;
-      /*  color: rgba(120, 120, 120, 0.87) !important;*/
     }
 
 </style>

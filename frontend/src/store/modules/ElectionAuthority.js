@@ -1,5 +1,6 @@
 import { normalize, schema } from 'normalizr';
 import cuid from 'cuid'
+import Vue from 'vue';
 
 /*
 const processStrategy = value => {
@@ -31,6 +32,24 @@ const mutations = {
         state.electionAuthorities = JSON.parse(data);
     },
 };
+
+const actions = {
+    setAutoMode ({ commit }, data) {
+        debugger;
+        //this.electionAuthorities[data.electionAuthorityId].autoMode = data.newValue;
+        Vue.http.post('setAutoMode', {
+            'election': data.electionId,
+            'authorityId': data.electionAuthorityId,
+            'value': data.newValue
+        }).then(response => {
+            response.json().then((data) => {
+                // success callback
+            });
+        }).catch(e => {
+            this.$toasted.error(e.body.message);
+        })
+    }
+}
 
 const getters = {
     getElectionAuthority:  (state, getters) => (id) => {
@@ -71,5 +90,6 @@ const getters = {
 export default {
     state,
     mutations,
+    actions,
     getters
 };

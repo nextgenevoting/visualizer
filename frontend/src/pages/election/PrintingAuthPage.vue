@@ -4,8 +4,7 @@
             <ContentTitle icon="mdi-printer" title="Printing Authority"></ContentTitle>
             <div>
                 <h5 class="">Tasks</h5>
-                <v-alert v-if="status == 3" color="grey lighten-3" icon="check_circle" value="true"
-                         v-model="sentAlert">
+                <v-alert v-if="status == 3" color="grey lighten-3" icon="check_circle" value="true" v-model="sentAlert" dismissible>
                     Voting cards have been delivered to the voters!
                 </v-alert>
                 <!-- <v-alert v-if="status == 3" color="info" icon="info" value="true" v-model="sentAlert">
@@ -134,3 +133,8 @@
         }
     };
 </script>
+
+<style>
+    .alert.grey.lighten-3{background-color: #fff !important;
+    }
+</style>
