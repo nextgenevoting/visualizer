@@ -83,11 +83,11 @@ export default {
 
       this.$store.state.Election.elections.forEach((el) => {
         elections.push({
-          id:        el._id.$oid,
-          icon:      'assignment',
+          id: el._id.$oid,
+          icon: 'assignment',
           iconClass: 'blue white--text',
-          title:     el.title,
-          subtitle:  'Jan 20, 2018'
+          title: el.title,
+          subtitle: 'Jan 20, 2018'
         })
       })
 

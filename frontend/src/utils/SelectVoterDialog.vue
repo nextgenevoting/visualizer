@@ -34,27 +34,27 @@
 
 <script>
     export default {
-        data: function () {
-            return {
-            }
-        },
-        computed: {
-            showDialog: {
-                get() {
-                    return this.$store.state.voterDialog;
-                },
-                set(value) {
-                    this.$store.commit('voterDialog', value);
-                }
-            },
-        },
-        methods:{
-            selectVoter: function(id){
-                this.$store.commit('selectedVoter', id);
-                this.$store.commit('voterDialog', false);
-            }
-        },
-        created() {
+      data: function () {
+        return {
         }
-    };
+      },
+      computed: {
+        showDialog: {
+          get () {
+            return this.$store.state.voterDialog
+          },
+          set (value) {
+            this.$store.commit('voterDialog', value)
+          }
+        }
+      },
+      methods: {
+        selectVoter: function (id) {
+          this.$store.commit('selectedVoter', id)
+          this.$store.commit('voterDialog', false)
+        }
+      },
+      created () {
+      }
+    }
 </script>

@@ -6,7 +6,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development webpack-dev-server --public localhost:8080 --open --inline --hot --host=0.0.0.0 --port=8080",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
-    "eslint": "eslint --ext .js,.vue src"
+    "eslint": "eslint --ext .js,.vue src",
+    "eslint fix": "eslint --fix --ext .js,.vue src"
   },
   "dependencies": {
     "@kazupon/vue-i18n-loader": "^0.2.1",

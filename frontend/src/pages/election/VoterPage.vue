@@ -104,119 +104,112 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import { mapGetters } from 'vuex'
+    import { mapState, mapGetters } from 'vuex'
     import joinRoomMixin from '../../mixins/joinRoomMixin.js'
 
     export default {
-        mixins: [joinRoomMixin],
-        data: () => ({
-            selection: [],
-            votingCode: '',
-            confirmationCode: ''
+      mixins: [joinRoomMixin],
+      data: () => ({
+        selection: [],
+        votingCode: '',
+        confirmationCode: ''
 
+      }),
+      computed: {
+        ...mapState({
+          selectedVoter: state => state.selectedVoter,
+          numberOfParallelElections: state => state.BulletinBoard.numberOfParallelElections,
+          candidates: state => state.BulletinBoard.candidates,
+          numberOfCandidates: state => state.BulletinBoard.numberOfCandidates,
+          publicKey: state => state.BulletinBoard.publicKey
         }),
-        computed: {
-            ...mapState({
-                selectedVoter: state => state.selectedVoter,
-                numberOfParallelElections: state => state.BulletinBoard.numberOfParallelElections,
-                candidates: state => state.BulletinBoard.candidates,
-                numberOfCandidates: state => state.BulletinBoard.numberOfCandidates,
-                publicKey: state => state.BulletinBoard.publicKey
-            }),
-            ...mapGetters({
-                electionId: "electionId",
-                status: "status",
-            }),
+        ...mapGetters({
+          electionId: 'electionId',
+          status: 'status'
+        }),
 
-            voter: {
-                get: function () {
-                    return this.$store.getters.getVoter(this.selectedVoter);
-                }
-            },
-            votingCard: {
-                get: function () {
-                    if (this.selectedVoter != null) {
-                        return this.$store.getters.getVotingCard(this.selectedVoter);
-                    }
-                }
-            },
-            selectedVoterName: {
-                get() {
-                    if (this.$store.state.selectedVoter != null) {
-                        return this.$store.getters.getVoter(this.$store.state.selectedVoter).name;
-                    } else {
-                        return '';
-                    }
-                }
-            },
-            candidatesForElection: {
-                get: function () {
-                    var candidatesForElections = [];
-                    for (var j = 0; j < this.numberOfParallelElections; j++) {
-                        var startIndex = 0;
-                        var candidates = [];
+        voter: {
+          get: function () {
+            return this.$store.getters.getVoter(this.selectedVoter)
+          }
+        },
+        votingCard: {
+          get: function () {
+            if (this.selectedVoter != null) {
+              return this.$store.getters.getVotingCard(this.selectedVoter)
+            }
+          }
+        },
+        selectedVoterName: {
+          get () {
+            if (this.$store.state.selectedVoter != null) {
+              return this.$store.getters.getVoter(this.$store.state.selectedVoter).name
+            } else {
+              return ''
+            }
+          }
+        },
+        candidatesForElection: {
+          get: function () {
+            var candidatesForElections = []
+            for (var j = 0; j < this.numberOfParallelElections; j++) {
+              var startIndex = 0
+              var candidates = []
 
-                        for (var i = 0; i < j; i++) {
-                            startIndex += this.numberOfCandidates[i];
-                        }
-                        for (var i = 0; i < this.numberOfCandidates[j]; i++) {
-                            candidates.push({
-                                name: this.candidates[startIndex + i],
-                                index: startIndex + i,
-                                checked: false
-                            });
-                        }
-                        candidatesForElections.push(candidates);
-                    }
-                    return candidatesForElections;
-                }
-            },
-            hasVoterBallot: {
-                get: function(){
-                    return this.$store.getters.hasVoterBallot(this.$store.state.selectedVoter);
-                }
+              for (var i = 0; i < j; i++) {
+                startIndex += this.numberOfCandidates[i]
+              }
+              for (i = 0; i < this.numberOfCandidates[j]; i++) {
+                candidates.push({
+                  name: this.candidates[startIndex + i],
+                  index: startIndex + i,
+                  checked: false
+                })
+              }
+              candidatesForElections.push(candidates)
             }
+            return candidatesForElections
+          }
         },
-        methods: {
-            generateVotingSheets: function (event) {
-                this.$socket.emit('generateVotingSheets', {'election': this.$route.params["id"]});
-            },
-            changeVoter: function () {
-                this.$store.commit("voterDialog", true);
-            },
-            castVote: function () {
-                var selection = this.selection.sort();
-                var voterId = this.selectedVoter;
-                this.$http.post('castVote',
-                    {
-                        'election': this.$route.params["id"],
-                        'selection': this.selection.sort(),
-                        'voterId': this.selectedVoter,
-                        'votingCode': this.votingCode
-                    }
-                ).then(response => {
-                    response.json().then((data) => {
-                        // success callback
-                        if (data.result == 'success')
-                            this.$toasted.success("Successfully cast vote");
-                        else
-                            this.$toasted.error(data.message);
-
-                    });
-                }, response => {
-                    // error callback
-                });
+        hasVoterBallot: {
+          get: function () {
+            return this.$store.getters.hasVoterBallot(this.$store.state.selectedVoter)
+          }
+        }
+      },
+      methods: {
+        generateVotingSheets: function (event) {
+          this.$socket.emit('generateVotingSheets', {'election': this.$route.params['id']})
+        },
+        changeVoter: function () {
+          this.$store.commit('voterDialog', true)
+        },
+        castVote: function () {
+          this.$http.post('castVote',
+            {
+              'election': this.$route.params['id'],
+              'selection': this.selection.sort(),
+              'voterId': this.selectedVoter,
+              'votingCode': this.votingCode
             }
-        },
-        watch: {
-            selectedVoter: function (newValue) {
-                console.log('voter changed');
-                this.selection = [];
-                this.votingCode = "";
-            }
-        },
-    };
+          ).then(response => {
+            response.json().then((data) => {
+              // success callback
+              if (data.result === 'success') { this.$toasted.success('Successfully cast vote') } else { this.$toasted.error(data.message) }
+            })
+          }, response => {
+            // error callback
+          })
+        }
+      },
+      watch: {
+        selectedVoter: function (newValue) {
+          console.log('voter changed')
+          this.selection = []
+          this.votingCode = ''
+        }
+      }
+    }
 </script>
 <style>
     .application--light .stepper {

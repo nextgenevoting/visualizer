@@ -51,55 +51,52 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import { mapGetters } from 'vuex'
-    import joinRoomMixin from '../../mixins/joinRoomMixin.js'
+import { mapGetters } from 'vuex'
+import joinRoomMixin from '../../mixins/joinRoomMixin.js'
 
-    export default {
-        mixins: [joinRoomMixin],
-        data: () => ({
-            valid: true,
-            candidates: '["Yes", "No", "Maybe"]',
-            numberOfVoters: '5',
-            numberOfSelections: '[1]',
-            numberOfCandidates: '[3]',
-            countingCircles: '[1,1,1,1,1]'
-        }),
-        computed: {
-            ...mapGetters({
-                electionId: "electionId",
-                status: "status",
-            }),
-        },
-        methods: {
+export default {
+  mixins: [joinRoomMixin],
+  data: () => ({
+    valid: true,
+    candidates: '["Yes", "No", "Maybe"]',
+    numberOfVoters: '5',
+    numberOfSelections: '[1]',
+    numberOfCandidates: '[3]',
+    countingCircles: '[1,1,1,1,1]'
+  }),
+  computed: {
+    ...mapGetters({
+      electionId: 'electionId',
+      status: 'status'
+    })
+  },
+  methods: {
 
-            setUpElection: function (event) {
-                var self = this;
-                if (this.$refs.form.validate()) {
-
-                    //this.$socket.emit('setUpElection', {'election': this.$route.params["id"]});
-                    this.$http.post('setUpElection',
-                        {
-                            'election': this.$route.params["id"],
-                            'numberOfVoters': this.numberOfVoters,
-                            'candidates': this.candidates,
-                            'numberOfCandidates': this.numberOfCandidates,
-                            'numberOfSelections': this.numberOfSelections,
-                            'countingCircles': this.countingCircles,
-                        }
-                    ).then(response => {
-                        response.json().then((data) => {
-                            // success callback
-                            this.$toasted.success("Successfully set up election");
-                        });
-                    }).catch(e => {
-                        this.$toasted.error(e.body.message);
-                    })
-                }
-            },
-            clear() {
-                this.$refs.form.reset()
-            }
-        }
-    };
+    setUpElection (event) {
+      if (this.$refs.form.validate()) {
+        // this.$socket.emit('setUpElection', {'election': this.$route.params["id"]});
+        this.$http.post('setUpElection',
+          {
+            'election': this.$route.params['id'],
+            'numberOfVoters': this.numberOfVoters,
+            'candidates': this.candidates,
+            'numberOfCandidates': this.numberOfCandidates,
+            'numberOfSelections': this.numberOfSelections,
+            'countingCircles': this.countingCircles
+          }
+        ).then(response => {
+          response.json().then((data) => {
+            // success callback
+            this.$toasted.success('Successfully set up election')
+          })
+        }).catch(e => {
+          this.$toasted.error(e.body.message)
+        })
+      }
+    },
+    clear () {
+      this.$refs.form.reset()
+    }
+  }
+}
 </script>

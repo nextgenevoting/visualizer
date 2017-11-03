@@ -27,29 +27,29 @@ de:
 
 <script>
     export default {
-        data() {
-            return {
-                title: ''
-            }
-        },
-        methods: {
-            createElection() {
-                //this.$socket.emit('createElection', { title: this.title});
-                this.$http.post('createElection', {title: this.title}).then(response => {
-                    response.json().then((data) => {
-                        this.$router.push({name: 'electionoverview', params: {id: data.id}});
-                    })
-                }).catch(e => {
-                    this.$toasted.error(e.body.message);
-                })
-            }
-        },
-        created() {
-            this.unsub = this.$store.subscribe((mutation, state) => console.log(mutation));
-        },
-        beforeDestroy() {
-            console.log("before destroy");
-            this.unsub();
+      data () {
+        return {
+          title: ''
         }
+      },
+      methods: {
+        createElection () {
+          // this.$socket.emit('createElection', { title: this.title});
+          this.$http.post('createElection', {title: this.title}).then(response => {
+            response.json().then((data) => {
+              this.$router.push({name: 'electionoverview', params: {id: data.id}})
+            })
+          }).catch(e => {
+            this.$toasted.error(e.body.message)
+          })
+        }
+      },
+      created () {
+        this.unsub = this.$store.subscribe((mutation, state) => console.log(mutation))
+      },
+      beforeDestroy () {
+        console.log('before destroy')
+        this.unsub()
+      }
     }
 </script>

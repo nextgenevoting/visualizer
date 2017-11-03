@@ -66,32 +66,27 @@
 </template>
 
 <script>
-    import { mapState } from 'vuex'
-    import { mapGetters } from 'vuex'
-    import joinRoomMixin from '../../mixins/joinRoomMixin.js'
+import { mapState, mapGetters } from 'vuex'
+import joinRoomMixin from '../../mixins/joinRoomMixin.js'
 
-    export default {
-        mixins: [joinRoomMixin],
-        data: () => ({
-            showCredentials: false
-        }),
-        computed: {
-            ...mapState({
-                voters: state => state.BulletinBoard.voters,
-                countingCircles: state => state.BulletinBoard.countingCircles,
-                publicVotingCredentials: state => state.BulletinBoard.publicVotingCredentials,
-                numberOfSelections: state => state.BulletinBoard.numberOfSelections,
-                candidates: state => state.BulletinBoard.candidates,
-                publicKey: state => state.BulletinBoard.publicKey
-            }),
-            ...mapGetters({
-                electionId: "electionId",
-                status: "statusText",
-            })
-        },
-        created() {
-            if (this.$store.getters.joinedElectionId !== this.$route.params['id'])
-                this.$socket.emit('join', {election: this.$route.params['id']});
-        }
-    };
+export default {
+  mixins: [joinRoomMixin],
+  data: () => ({
+    showCredentials: false
+  }),
+  computed: {
+    ...mapState({
+      voters: state => state.BulletinBoard.voters,
+      countingCircles: state => state.BulletinBoard.countingCircles,
+      publicVotingCredentials: state => state.BulletinBoard.publicVotingCredentials,
+      numberOfSelections: state => state.BulletinBoard.numberOfSelections,
+      candidates: state => state.BulletinBoard.candidates,
+      publicKey: state => state.BulletinBoard.publicKey
+    }),
+    ...mapGetters({
+      electionId: 'electionId',
+      status: 'statusText'
+    })
+  }
+}
 </script>

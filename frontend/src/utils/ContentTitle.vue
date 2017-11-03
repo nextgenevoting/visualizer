@@ -8,21 +8,21 @@
 </template>
 <script>
     export default {
-        props: {
-            title: {
-                type: String,
-                required: true,
-                default: "NoTitle"
-            },
-            icon: {
-                type: String,
-                required: true,
-                default: ""
-            },
+      props: {
+        title: {
+          type: String,
+          required: true,
+          default: 'NoTitle'
         },
-        mounted() {
-        },
-    };
+        icon: {
+          type: String,
+          required: true,
+          default: ''
+        }
+      },
+      mounted () {
+      }
+    }
 </script>
 
 <style>

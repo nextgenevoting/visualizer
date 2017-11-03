@@ -20,31 +20,31 @@
     import { mapGetters } from 'vuex'
     import joinRoomMixin from '../../mixins/joinRoomMixin.js'
     export default {
-        mixins: [joinRoomMixin],
-        computed: {
-            ...mapGetters({
-                electionId: "electionId",
-                statusText: "statusText",
-            }),
-        },
-        methods: {
-            debugVotingSim: function (event) {
-                this.$http.post('debugVotingSim', {
-                    'election': this.$route.params['id']
-                }).then(response => {
-                    response.json().then((data) => {
-                        // success callback
-                    })
-                }, response => {
-                    // error callback
-                })
-            }
-        },
-        watch: {
-            // whenever question changes, this function will run
-            status: function (newStatus) {
-                console.log("Status Watcher:" + newStatus);
-            }
-        },
+      mixins: [joinRoomMixin],
+      computed: {
+        ...mapGetters({
+          electionId: 'electionId',
+          statusText: 'statusText'
+        })
+      },
+      methods: {
+        debugVotingSim: function (event) {
+          this.$http.post('debugVotingSim', {
+            'election': this.$route.params['id']
+          }).then(response => {
+            response.json().then((data) => {
+              // success callback
+            })
+          }, response => {
+            // error callback
+          })
+        }
+      },
+      watch: {
+        // whenever question changes, this function will run
+        status: function (newStatus) {
+          console.log('Status Watcher:' + newStatus)
+        }
+      }
     }
 </script>

@@ -44,7 +44,7 @@ def createElection():
         syncElections(SyncType.BROADCAST)
         # return the new elections id to the client so it can load the overview directly
     except Exception as ex:
-        return make_error(400, str(ex))
+        return make_error(500, str(ex))
 
     return json.dumps({'id': str(id)})
 
@@ -83,7 +83,7 @@ def setUpElection():
         # update election status
         sim.updateStatus(1)
     except Exception as ex:
-        return make_error(400, str(ex))
+        return make_error(500, str(ex))
 
     return json.dumps({'result': 'success'})
 
@@ -104,7 +104,7 @@ def printVotingCards():
         sim.updateStatus(2)
 
     except Exception as ex:
-        return make_error(400, str(ex))
+        return make_error(500, str(ex))
 
     return json.dumps({'result': 'success'})
 
@@ -125,7 +125,7 @@ def sendVotingCards():
         sim.updateStatus(3)
 
     except Exception as ex:
-        return make_error(400, str(ex))
+        return make_error(500, str(ex))
 
     return json.dumps({'result': 'success'})
 
@@ -141,6 +141,6 @@ def debugVotingSim():
         syncElectionAuthorities(electionId, SyncType.ROOM)
         print(sim)
     except Exception as ex:
-        return make_error(400, str(ex))
+        return make_error(500, str(ex))
 
     return json.dumps({'result': 'success'})

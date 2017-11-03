@@ -104,7 +104,7 @@
                 <v-flex xy12 md4 v-if="expertMode">
                     <DataCard title="Points" :expandable=true confidentiality="secret">
                         Points of all voters
-                        <ul id="subList" slot="expandContent">
+                        <ul id="list" slot="expandContent">
                             <li v-for="(voter, index) in electionAuthority.points">
                                 Voter {{ index}}
                                 <ul id="subList">
@@ -129,116 +129,115 @@
 </template>
 
 <script>
-    import {mapState} from 'vuex'
-    import {mapGetters} from 'vuex'
+    import { mapState, mapGetters } from 'vuex'
     import joinRoomMixin from '../../mixins/joinRoomMixin.js'
 
     export default {
-        mixins: [joinRoomMixin],
-        data: () => ({
-            currentAuthority: 0,
-            show: false,
-            ballotTransition: false,
-            checkTransition: false,
-            ballotTransitionClass: 'highlight',
-            checkTransitionClass: 'bounce'
+      mixins: [joinRoomMixin],
+      data: () => ({
+        currentAuthority: 0,
+        show: false,
+        ballotTransition: false,
+        checkTransition: false,
+        ballotTransitionClass: 'highlight',
+        checkTransitionClass: 'bounce'
+      }),
+      mounted () {
+        this.ballotTransition = false
+        this.checkTransition = false
+      },
+      computed: {
+        ...mapState({
+          electionAuthorities: state => state.ElectionAuthority.electionAuthorities,
+          expertMode: state => state.BulletinBoard.expertMode
         }),
-        mounted() {
-            this.ballotTransition = false
-            this.checkTransition = false
+        ...mapGetters({
+          electionId: 'electionId'
+        }),
+        electionAuthority: {
+          get: function () {
+            return this.$store.getters.getElectionAuthority(this.currentAuthority)
+          }
         },
-        computed: {
-            ...mapState({
-                electionAuthorities: state => state.ElectionAuthority.electionAuthorities,
-                expertMode: state => state.BulletinBoard.expertMode
-            }),
-            ...mapGetters({
-                electionId: "electionId",
-            }),
-            electionAuthority: {
-                get: function () {
-                    return this.$store.getters.getElectionAuthority(this.currentAuthority);
-                }
-            },
-            voterBallots: {
-                get: function () {
-                    return this.$store.getters.getVoterBallots(this.currentAuthority);
-                }
-            },
-            ballots: {
-                get: function () {
-                    return this.$store.getters.getBallots(this.currentAuthority);
-                }
-            },
-            autoMode: {
-                get: function () {
-                    return this.electionAuthority.autoCheck;
-                },
-                set: function(value){
-                    this.$store.dispatch('setAutoMode', { electionId: this.$route.params["id"], electionAuthorityId: this.currentAuthority, newValue: value});
-                }
-            },
+        voterBallots: {
+          get: function () {
+            return this.$store.getters.getVoterBallots(this.currentAuthority)
+          }
         },
-        methods: {
-            checkBallot: function (voterId) {
-                this.$http.post('checkVote', {
-                    'election': this.$route.params["id"],
-                    'authorityId': this.currentAuthority,
-                    'voterId': voterId,
-                }).then(response => {
-                    response.json().then((data) => {
-                        // success callback
-                        this.$toasted.success("Successfully checked vote");
-                    });
-                }).catch(e => {
-                    this.$toasted.error(e.body.message);
-                })
-            },
-            respond: function (voterId) {
-                this.$http.post('respond', {
-                    'election': this.$route.params["id"],
-                    'authorityId': this.currentAuthority,
-                    'voterId': voterId,
-                }).then(response => {
-                    response.json().then((data) => {
-                        // success callback
-                        this.$toasted.success("Successfully replied to vote");
-                    });
-                }).catch(e => {
-                    this.$toasted.error(e.body.message);
-                })
-            },
-            discardBallot: function (voterId) {
-                this.$http.post('discardBallot', {
-                    'election': this.$route.params["id"],
-                    'authorityId': this.currentAuthority,
-                    'voterId': voterId,
-                }).then(response => {
-                    response.json().then((data) => {
-                        // success callback
-                        this.$toasted.success("Successfully replied to vote");
-                    });
-                }).catch(e => {
-                    this.$toasted.error(e.body.message);
-                })
-            },
+        ballots: {
+          get: function () {
+            return this.$store.getters.getBallots(this.currentAuthority)
+          }
         },
-        watch: {
-            currentAuthority: function (newAuthority) {
-                // Transition animation is also shown when the selected authority has changed. As a workaround, temporarily remove the CSS transition class and re-assign it after some delay
-                let self = this;
-                let savedTransitionClass = this.ballotTransitionClass;
-                let savedCheckTransitionClass = this.checkTransitionClass;
-                this.ballotTransitionClass = "";
-                this.checkTransitionClass = "";
-                setTimeout(function () {
-                    self.ballotTransitionClass = savedTransitionClass;
-                    self.checkTransitionClass = savedCheckTransitionClass
-                }, 1000);
-            }
+        autoMode: {
+          get: function () {
+            return this.electionAuthority.autoCheck
+          },
+          set: function (value) {
+            this.$store.dispatch('setAutoMode', {electionId: this.$route.params['id'], electionAuthorityId: this.currentAuthority, newValue: value})
+          }
+        }
+      },
+      methods: {
+        checkBallot: function (voterId) {
+          this.$http.post('checkVote', {
+            'election': this.$route.params['id'],
+            'authorityId': this.currentAuthority,
+            'voterId': voterId
+          }).then(response => {
+            response.json().then((data) => {
+              // success callback
+              this.$toasted.success('Successfully checked vote')
+            })
+          }).catch(e => {
+            this.$toasted.error(e.body.message)
+          })
         },
+        respond: function (voterId) {
+          this.$http.post('respond', {
+            'election': this.$route.params['id'],
+            'authorityId': this.currentAuthority,
+            'voterId': voterId
+          }).then(response => {
+            response.json().then((data) => {
+              // success callback
+              this.$toasted.success('Successfully replied to vote')
+            })
+          }).catch(e => {
+            this.$toasted.error(e.body.message)
+          })
+        },
+        discardBallot: function (voterId) {
+          this.$http.post('discardBallot', {
+            'election': this.$route.params['id'],
+            'authorityId': this.currentAuthority,
+            'voterId': voterId
+          }).then(response => {
+            response.json().then((data) => {
+              // success callback
+              this.$toasted.success('Successfully replied to vote')
+            })
+          }).catch(e => {
+            this.$toasted.error(e.body.message)
+          })
+        }
+      },
+      watch: {
+        currentAuthority: function (newAuthority) {
+          // Transition animation is also shown when the selected authority has changed. As a workaround, temporarily remove the CSS transition class and re-assign it after some delay
+          let self = this
+          let savedTransitionClass = this.ballotTransitionClass
+          let savedCheckTransitionClass = this.checkTransitionClass
+          this.ballotTransitionClass = ''
+          this.checkTransitionClass = ''
+          setTimeout(function () {
+            self.ballotTransitionClass = savedTransitionClass
+            self.checkTransitionClass = savedCheckTransitionClass
+          }, 1000)
+        }
+      }
 
-    };
+    }
 </script>
 
 <style>

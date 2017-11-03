@@ -26,32 +26,29 @@
 
 <script>
     export default {
-        data: () => ({
-            menu: false
-        }),
+      data: () => ({
+        menu: false
+      }),
       computed: {
-          data() {
-            var self = this;
-              return {
-                  truncatedValue: function(){
-                    if(self.mpzValue !== undefined && self.mpzValue !== null)
-                        return self.mpzValue.toString().substring(0,10);
-                    else
-                        return "";
-                    }
-                  }
-              }
-      },
-        props:{
-            mpzValue: {
-                type: String,
-                required: true
+        data () {
+          var self = this
+          return {
+            truncatedValue: function () {
+              if (self.mpzValue !== undefined && self.mpzValue !== null) { return self.mpzValue.toString().substring(0, 10) } else { return '' }
             }
-        },
+          }
+        }
+      },
+      props: {
+        mpzValue: {
+          type: String,
+          required: true
+        }
+      },
 
-        mounted() {
-        },
-    };
+      mounted () {
+      }
+    }
 </script>
 
 <style>

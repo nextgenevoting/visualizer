@@ -32,45 +32,45 @@
 
 <script>
     export default {
-        data: function () {
-            return {
-                showExpander: false
-            }
+      data: function () {
+        return {
+          showExpander: false
+        }
+      },
+      computed: {
+        data () {
+          return {
+            showConfidentiality: this.$store.state.showConfidentiality
+          }
+        }
+      },
+      props: {
+        title: {
+          type: String,
+          required: true,
+          default: 'Title'
         },
-        computed: {
-            data() {
-                return{
-                    showConfidentiality: this.$store.state.showConfidentiality
-                }
-            }
+        expandable: {
+          type: Boolean,
+          required: true,
+          default: false
         },
-        props: {
-            title: {
-                type: String,
-                required: true,
-                default: "Title"
-            },
-            expandable: {
-                type: Boolean,
-                required: true,
-                default: false
-            },
-            confidentiality: {
-                type: String,
-                required: true,
-                default: 'public'
-            },
-            disableTooltip: {
-                type: Boolean,
-                required: false,
-                default: false
-            },
+        confidentiality: {
+          type: String,
+          required: true,
+          default: 'public'
+        },
+        disableTooltip: {
+          type: Boolean,
+          required: false,
+          default: false
+        }
 
-        },
+      },
 
-        mounted() {
-        },
-    };
+      mounted () {
+      }
+    }
 </script>
 
 <style>

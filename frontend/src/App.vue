@@ -172,82 +172,81 @@ de:
 </i18n>
 
 <script type="text/babel">
-    export default {
-        data() {
-            return {
-                drawer: false,
-                items: [{
-                    href: 'home',
-                    router: true,
-                    title: 'menu.home',
-                    icon: 'home',
-                }, {
-                    href: 'elections',
-                    router: true,
-                    title: 'menu.elections',
-                    icon: 'extension',
-                }, {
-                    href: 'about',
-                    router: true,
-                    title: 'menu.about',
-                    icon: 'domain',
-                }],
-                menu: false,
-                languages: {
-                    'en': 'English',
-                    'de': 'Deutsch',
-                },
-            };
-        },
-        computed: {
+export default {
+  data () {
+    return {
+      drawer: false,
+      items: [{
+        href: 'home',
+        router: true,
+        title: 'menu.home',
+        icon: 'home'
+      }, {
+        href: 'elections',
+        router: true,
+        title: 'menu.elections',
+        icon: 'extension'
+      }, {
+        href: 'about',
+        router: true,
+        title: 'menu.about',
+        icon: 'domain'
+      }],
+      menu: false,
+      languages: {
+        en: 'English',
+        de: 'Deutsch'
+      }
+    }
+  },
+  computed: {
 
-            onlineNotification: {
-                get() {
-                    return this.$store.state.connected
-                },
-                set(value) {
-                }
-            },
-            offlineNotification: {
-                get() {
-                    return !this.$store.state.connected
-                },
-                set(value) {
-                }
-            },
-            status: {
-                get() {
-                    return this.$store.state.Election.status
-                },
-                set(value) {
-                }
-            },
+    onlineNotification: {
+      get () {
+        return this.$store.state.connected
+      },
+      set (value) {
+      }
+    },
+    offlineNotification: {
+      get () {
+        return !this.$store.state.connected
+      },
+      set (value) {
+      }
+    },
+    status: {
+      get () {
+        return this.$store.state.Election.status
+      },
+      set (value) {
+      }
+    },
 
-            showConfidentiality: {
-                get() {
-                    return this.$store.state.showConfidentiality;
-                },
-                set(value) {
-                    this.$store.commit("showConfidentiality", value);
-                }
-            },
-            expertMode: {
-                get() {
-                    return this.$store.state.expertMode;
-                },
-                set(value) {
-                    this.$store.commit("expertMode", value);
-                }
-            },
-        },
-        methods: {
-            changeLanguage(lang) {
-                this.$root.$i18n.locale = lang
-                this.$store.commit('language', lang);
-            }
-        },
-    };
-
+    showConfidentiality: {
+      get: function () {
+        return this.$store.state.showConfidentiality
+      },
+      set (value) {
+        this.$store.commit('showConfidentiality', value)
+      }
+    },
+    expertMode: {
+      get () {
+        return this.$store.state.expertMode
+      },
+      set (value) {
+        this.$store.commit('expertMode', value)
+      }
+    }
+  },
+  methods: {
+    changeLanguage (lang) {
+      this.$root.$i18n.locale = lang
+      this.$store.commit('language', lang)
+    }
+  }
+}
 </script>
 
 <style type="text/css">
