@@ -61,8 +61,8 @@ Vue.component('LoadingOverlay', LoadingOverlay)
 Vue.component('ContentTitle', ContentTitle)
 Vue.component('SelectVoterDialog', SelectVoterDialog);
 
-Vue.url.options.root = process.env.SOCKETIO_BASE_URL
-Vue.use(VueSocketio, Vue.url.options.root, store)
+Vue.url.options.root = process.env.URL_ROOT
+Vue.use(VueSocketio, process.env.SOCKETIO_BASE_URL, store)
 
 NProgress.configure({ showSpinner: false })
 
