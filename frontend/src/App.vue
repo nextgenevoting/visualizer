@@ -82,39 +82,39 @@
       <v-tabs dark grow icons centered :scrollable="false">
         <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
           <v-tabs-slider color="white"></v-tabs-slider>
-          <v-tabs-item ripple :to="{ name: 'electionoverview', params: {id: $route.params['id'] }}">
+          <v-tabs-item ripple :to="{ name: 'electionoverview', params: {electionId: electionId}}">
             <v-icon>mdi-view-dashboard</v-icon>
             Overview
           </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'electionadmin', params: {id: $route.params['id'] }}">
+          <v-tabs-item ripple :to="{ name: 'electionadmin', params: {electionId: electionId }}">
             <v-badge color="">
               <v-icon slot="badge" dark v-if="status == 0">mdi-alert-decagram</v-icon>
               <v-icon>mdi-account-key</v-icon>
             </v-badge>
             Election Admin
           </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'printingauth', params: {id: $route.params['id'] }}">
+          <v-tabs-item ripple :to="{ name: 'printingauth', params: {electionId: electionId }}">
             <v-badge color="">
               <v-icon slot="badge" dark v-if="status == 1">mdi-alert-decagram</v-icon>
               <v-icon>mdi-printer</v-icon>
             </v-badge>
             Printing Auth.
           </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'voter', params: {id: $route.params['id'] }}" :disabled="this.$store.getters.status < 1">
+          <v-tabs-item ripple :to="{ name: 'voter', params: {electionId: electionId }}" :disabled="this.$store.getters.status < 1">
             <v-badge color="">
               <v-icon slot="badge" dark v-if="status == 3">mdi-alert-decagram</v-icon>
               <v-icon>mdi-account</v-icon>
             </v-badge>
             Voter
           </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'electionauthority', params: {id: $route.params['id'] }}">
+          <v-tabs-item ripple :to="{ name: 'electionauthority', params: {electionId: electionId, authid: authorityId}}">
             <v-badge class="">
               <v-icon slot="badge" dark v-if="status == 5">mdi-alert-decagram</v-icon>
               <v-icon>mdi-settings-box</v-icon>
             </v-badge>
             Election Authorities
           </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'bulletinboard', params: {id: $route.params['id'] }}">
+          <v-tabs-item ripple :to="{ name: 'bulletinboard', params: {electionId: electionId }}">
             <v-icon>mdi-bulletin-board</v-icon>
             Bulletin Board
           </v-tabs-item>
@@ -124,7 +124,7 @@
 
     <main>
       <v-fade-transition mode="out-in">
-        <router-view></router-view>
+        <router-view :key="$route.params['electionId'] + $route.params['authid']"></router-view>
       </v-fade-transition>
     </main>
 
@@ -200,7 +200,16 @@ export default {
     }
   },
   computed: {
-
+    electionId: {
+      get () {
+        return this.$route.params['electionId']
+      }
+    },
+    authorityId: {
+      get () {
+        return this.$store.state.selectedAuthority
+      }
+    },
     onlineNotification: {
       get () {
         return this.$store.state.connected

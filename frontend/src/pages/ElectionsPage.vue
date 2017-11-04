@@ -5,7 +5,7 @@
 
     <v-list two-line subheader>
       <v-list-tile v-for="item in getElections" v-bind:key="item.title" avatar
-          :to="{ name: 'electionoverview', params: { id: item.id } }">
+          :to="{ name: 'electionoverview', params: { electionId: item.id } }">
         <v-list-tile-avatar>
           <v-icon :class="[item.iconClass]">{{ item.icon }}</v-icon>
         </v-list-tile-avatar>

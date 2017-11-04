@@ -16,6 +16,7 @@ export const store = new Vuex.Store({
     showConfidentiality: true,
     expertMode: false,
     selectedVoter: null,
+    selectedAuthority: 0,
     voterDialog: false,
     language: 'en',
     loaded: false
@@ -36,6 +37,9 @@ export const store = new Vuex.Store({
     },
     selectedVoter: (state, selectedVoter) => {
       state.selectedVoter = selectedVoter
+    },
+    selectedAuthority: (state, selectedAuthority) => {
+      state.selectedAuthority = selectedAuthority
     },
     voterDialog: (state, value) => {
       state.voterDialog = value

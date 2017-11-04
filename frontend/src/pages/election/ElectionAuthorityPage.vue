@@ -6,7 +6,7 @@
 
                 <v-flex xs12 sm12>
                     <v-btn-toggle v-model="selectedAuthorityIndex">
-                        <v-btn flat v-for="auth in electionAuthorities">
+                        <v-btn flat v-for="auth in electionAuthorities" :key="auth.id">
                             <v-badge color="blue" right>
                                 <span slot="badge" v-if="auth.checkBallotTasks.length > 0">{{ auth.checkBallotTasks.length
                                     }}</span>
@@ -182,10 +182,10 @@
                     <DataCard title="Points" :expandable=true confidentiality="secret">
                         Points of all voters
                         <ul id="list" slot="expandContent">
-                            <li v-for="(voter, index) in electionAuthority.points">
+                            <li v-for="(voter, index) in electionAuthority.points" :key="voter.id">
                                 Voter {{ index}}
                                 <ul id="subList">
-                                    <li v-for="point in voter">
+                                    <li v-for="(point, index) in voter" :key="index">
                                         x:
                                         <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
                                         y:
@@ -212,17 +212,19 @@
     export default {
       mixins: [joinRoomMixin],
       data: () => ({
-        selectedAuthorityIndex: 0,
         show: false,
         ballotTransition: false,
         checkTransition: false,
         ballotTransitionClass: 'highlight',
-        checkTransitionClass: 'bounce'
+        checkTransitionClass: 'bounce',
+        tempHideBallots: false
       }),
       mounted () {
         this.ballotTransition = false
         this.checkTransition = false
+        this.$store.commit('selectedAuthority', this.$route.params['authid'])
       },
+      props: ['authId'],
       computed: {
         ...mapState({
           electionAuthorities: state => state.ElectionAuthority.electionAuthorities,
@@ -231,6 +233,15 @@
         ...mapGetters({
           electionId: 'electionId'
         }),
+        selectedAuthorityIndex: {
+          get: function () {
+            return parseInt(this.$route.params['authid'])
+          },
+          set: function (newAuthId) {
+            this.$store.commit('selectedAuthority', newAuthId)
+            this.$router.push({name: 'electionauthority', params: {electionId: this.$route.params['electionId'], authid: newAuthId}})
+          }
+        },
         electionAuthority: {
           get: function () {
             return this.$store.getters.getElectionAuthority(this.selectedAuthorityIndex)
@@ -261,14 +272,14 @@
             return this.electionAuthority.autoCheck
           },
           set: function (value) {
-            this.$store.dispatch('setAutoMode', {electionId: this.$route.params['id'], electionAuthorityId: this.selectedAuthorityIndex, newValue: value})
+            this.$store.dispatch('setAutoMode', {electionId: this.$route.params['electionId'], electionAuthorityId: this.selectedAuthorityIndex, newValue: value})
           }
         }
       },
       methods: {
         checkBallot: function (voterId) {
           this.$http.post('checkVote', {
-            'election': this.$route.params['id'],
+            'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
             'voterId': voterId
           }).then(response => {
@@ -282,7 +293,7 @@
         },
         respond: function (voterId) {
           this.$http.post('respond', {
-            'election': this.$route.params['id'],
+            'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
             'voterId': voterId
           }).then(response => {
@@ -296,7 +307,7 @@
         },
         discardBallot: function (voterId) {
           this.$http.post('discardBallot', {
-            'election': this.$route.params['id'],
+            'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
             'voterId': voterId
           }).then(response => {
@@ -310,7 +321,7 @@
         },
         checkConfirmation: function (voterId) {
           this.$http.post('checkConfirmation', {
-            'election': this.$route.params['id'],
+            'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
             'voterId': voterId
           }).then(response => {
@@ -324,7 +335,7 @@
         },
         finalize: function (voterId) {
           this.$http.post('finalize', {
-            'election': this.$route.params['id'],
+            'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
             'voterId': voterId
           }).then(response => {
@@ -338,7 +349,7 @@
         },
         discardConfirmation: function (voterId) {
           this.$http.post('discardConfirmation', {
-            'election': this.$route.params['id'],
+            'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
             'voterId': voterId
           }).then(response => {
@@ -362,7 +373,7 @@
           setTimeout(function () {
             self.ballotTransitionClass = savedTransitionClass
             self.checkTransitionClass = savedCheckTransitionClass
-          }, 2000)
+          }, 300)
         }
       }
 

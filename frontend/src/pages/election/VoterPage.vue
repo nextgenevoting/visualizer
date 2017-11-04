@@ -205,7 +205,7 @@
       },
       methods: {
         generateVotingSheets: function (event) {
-          this.$socket.emit('generateVotingSheets', {'election': this.$route.params['id']})
+          this.$socket.emit('generateVotingSheets', {'election': this.$route.params['electionId']})
         },
         changeVoter: function () {
           this.$store.commit('voterDialog', true)
@@ -213,7 +213,7 @@
         castVote: function () {
           this.$http.post('castVote',
             {
-              'election': this.$route.params['id'],
+              'election': this.$route.params['electionId'],
               'selection': this.selection.sort(),
               'voterId': this.selectedVoter,
               'votingCode': this.votingCode
@@ -230,7 +230,7 @@
         confirmVote: function () {
           this.$http.post('confirmVote',
             {
-              'election': this.$route.params['id'],
+              'election': this.$route.params['electionId'],
               'voterId': this.selectedVoter,
               'confirmationCode': this.confirmationCode
             }

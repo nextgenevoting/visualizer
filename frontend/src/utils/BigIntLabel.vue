@@ -6,7 +6,7 @@
             :nudge-width="200"
             v-model="menu"
     >
-        <v-btn flat icon  slot="activator"> <v-icon>mdi-dots-horizontal</v-icon></v-btn>
+        <v-btn small flat icon slot="activator" style="margin-left:0px;"> <v-icon>mdi-dots-horizontal</v-icon></v-btn>
         <v-card>
             <v-divider></v-divider>
             <v-card-text>

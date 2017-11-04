@@ -30,7 +30,7 @@
       methods: {
         debugVotingSim: function (event) {
           this.$http.post('debugVotingSim', {
-            'election': this.$route.params['id']
+            'election': this.$route.params['electionId']
           }).then(response => {
             response.json().then((data) => {
               // success callback

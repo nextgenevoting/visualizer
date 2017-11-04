@@ -106,7 +106,7 @@
       methods: {
         printVotingCards: function (event) {
           this.$http.post('printVotingCards', {
-            'election': this.$route.params['id']
+            'election': this.$route.params['electionId']
           }
           ).then(response => {
             response.json().then((data) => {
@@ -119,7 +119,7 @@
         },
         sendVotingCards: function (event) {
           this.$http.post('sendVotingCards', {
-            'election': this.$route.params['id']
+            'election': this.$route.params['electionId']
           }
           ).then(response => {
             response.json().then((data) => {

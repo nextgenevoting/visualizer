@@ -77,7 +77,7 @@ export default {
         // this.$socket.emit('setUpElection', {'election': this.$route.params["id"]});
         this.$http.post('setUpElection',
           {
-            'election': this.$route.params['id'],
+            'election': this.$route.params['electionId'],
             'numberOfVoters': this.numberOfVoters,
             'candidates': this.candidates,
             'numberOfCandidates': this.numberOfCandidates,

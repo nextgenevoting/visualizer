@@ -32,12 +32,12 @@ const routes = [
   { path: '/about', name: 'about', component: AboutPage },
   { path: '/elections', name: 'elections', component: ElectionsPage },
   { path: '/newelection', name: 'newelection', component: NewElectionPage },
-  { path: '/election/:id', name: 'electionoverview', component: ElectionOverviewPage },
-  { path: '/election/:id/admin', name: 'electionadmin', component: ElectionAdminPage },
-  { path: '/election/:id/printing', name: 'printingauth', component: PrintingAuthPage },
-  { path: '/election/:id/voter', name: 'voter', component: VoterPage },
-  { path: '/election/:id/bulletinBoard', name: 'bulletinboard', component: BulletinBoardPage },
-  { path: '/election/:id/electionAuthority', name: 'electionauthority', component: ElectionAuthorityPage },
+  { path: '/election/:electionId', name: 'electionoverview', component: ElectionOverviewPage },
+  { path: '/election/:electionId/admin', name: 'electionadmin', component: ElectionAdminPage },
+  { path: '/election/:electionId/printing', name: 'printingauth', component: PrintingAuthPage },
+  { path: '/election/:electionId/voter', name: 'voter', component: VoterPage },
+  { path: '/election/:electionId/bulletinBoard', name: 'bulletinboard', component: BulletinBoardPage },
+  { path: '/election/:electionId/electionAuthority/:authid', name: 'electionauthority', component: ElectionAuthorityPage },
   { path: '/login', name: '/login', component: LoginPage },
   { path: '*', redirect: { name: 'home' } }
 ]
