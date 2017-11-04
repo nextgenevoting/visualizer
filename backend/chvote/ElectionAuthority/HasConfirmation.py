@@ -25,9 +25,8 @@ def HasConfirmation(v, C, secparams):
     AssertList(C)
     AssertClass(secparams, SecurityParams)
 
-    for j in range(len(C)):
-        (v_j, epsilon_j) = C[j]
-        if v == v_j:
+    for voterConfirmation in C:
+        if v == voterConfirmation.voterId:
             return True
 
     return False

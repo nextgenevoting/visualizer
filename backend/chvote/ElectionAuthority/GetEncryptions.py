@@ -43,7 +43,10 @@ def GetEncryptions(B, C, n_bold, w_bold, secparams):
 
     e_bold = []
     for j in range(len(B)):
-        (v, alpha, z) = B[j]
+        #(v, alpha, z) = B[j]
+        v = B[j].voterId
+        alpha = B[j].ballot
+        z = B[j].randomizations
 
         a_1 = mpz(1)
         a_2 = mpz(1)

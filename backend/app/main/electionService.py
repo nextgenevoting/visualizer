@@ -119,6 +119,85 @@ def discardBallot():
 
     return json.dumps({'result': 'success'})
 
+
+
+@main.route('/confirmVote', methods=['POST'])
+@cross_origin(origin='*')
+def confirmVote():
+    data = request.json
+    electionId = data["election"]
+    voterId = data["voterId"]
+    confirmationCode = data["confirmationCode"]
+
+    try:
+        # prepare voteSimulator
+        sim = VoteSimulator(electionId)
+
+        # perform action
+        sim.confirmVote(voterId, confirmationCode)
+
+        # retrieve and persist modified state
+        sim.persist()
+
+        syncElectionAuthorities(electionId, SyncType.ROOM)
+        syncVoters(electionId, SyncType.ROOM)
+    except Exception as ex:
+        return json.dumps({'result': 'error', 'message': str(ex)})
+
+    return json.dumps({'result': 'success'})
+
+
+
+@main.route('/checkConfirmation', methods=['POST'])
+@cross_origin(origin='*')
+def checkConfirmation():
+    data = request.json
+    electionId = data["election"]
+    voterId = data["voterId"]
+    authorityId = data["authorityId"]
+
+    try:
+        # prepare voteSimulator
+        sim = VoteSimulator(electionId)
+
+        # perform action
+        sim.checkConfirmation(voterId, authorityId)
+
+        # retrieve and persist modified state
+        sim.persist()
+
+        syncElectionAuthorities(electionId, SyncType.ROOM)
+        syncVoters(electionId, SyncType.ROOM)
+    except Exception as ex:
+        return json.dumps({'result': 'error', 'message': str(ex)})
+
+    return json.dumps({'result': 'success'})
+
+@main.route('/finalize', methods=['POST'])
+@cross_origin(origin='*')
+def finalize():
+    data = request.json
+    electionId = data["election"]
+    voterId = data["voterId"]
+    authorityId = data["authorityId"]
+
+    try:
+        # prepare voteSimulator
+        sim = VoteSimulator(electionId)
+
+        # perform action
+        sim.finalize(voterId, authorityId)
+
+        # retrieve and persist modified state
+        sim.persist()
+
+        syncElectionAuthorities(electionId, SyncType.ROOM)
+        syncVoters(electionId, SyncType.ROOM)
+    except Exception as ex:
+        return json.dumps({'result': 'error', 'message': str(ex)})
+
+    return json.dumps({'result': 'success'})
+
 @main.route('/setAutoMode', methods=['POST'])
 @cross_origin(origin='*')
 def setAutoMode():

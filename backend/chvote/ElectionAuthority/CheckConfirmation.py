@@ -35,10 +35,10 @@ def CheckConfirmation(v, gamma, y_hat_bold, B, C, secparams):
     AssertList(C)
     AssertClass(secparams, SecurityParams)
 
-    (y_hat_, pi) = gamma
+    #(y_hat_, pi) = gamma
 
-    if HasBallot(v, B, secparams) and not HasConfirmation(v, C, secparams) and y_hat_ == y_hat_bold[v]:
-        if CheckConfirmationProof(pi, y_hat_, secparams):
+    if HasBallot(v, B, secparams) and not HasConfirmation(v, C, secparams) and gamma.y_hat == y_hat_bold[v]:
+        if CheckConfirmationProof(gamma.pi, gamma.y_hat, secparams):
             return True
 
     return False

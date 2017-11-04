@@ -1,7 +1,8 @@
 <template>
     <v-card class="dataCard">
 
-        <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4" v-bind:class="confidentiality == 'secret' ? 'red' : (confidentiality == 'encrypted' ? 'yellow' : 'green')">{{confidentiality}}</span>
+        <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4 confidentiallyChip" v-bind:class="confidentiality == 'secret' ? 'red' : (confidentiality == 'encrypted' ? 'yellow' : 'green')">{{confidentiality}}</span>
+
 
         <v-card-title primary-title class="dataCardTitle">
             <div><span class="label grey--text">{{title}}
@@ -87,7 +88,7 @@
         font-size: 22px;
     }
 
-    .dataCard .chip {
+    .confidentiallyChip {
         position: absolute;
         top: 7px;
         right: 7px;

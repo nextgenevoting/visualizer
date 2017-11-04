@@ -6,7 +6,9 @@ from chvote.Utils.Utils import AssertList, AssertInt, AssertMpz, AssertTuple
 from chvote.ElectionAuthority.CheckBallot import CheckBallot
 from chvote.ElectionAuthority.GetPublicCredentials import GetPublicCredentials
 from chvote.ElectionAuthority.GenResponse import GenResponse
-from chvote.Types import BallotWithRandomizations
+from chvote.Types import *
+from chvote.ElectionAuthority.CheckConfirmation import CheckConfirmation
+from chvote.ElectionAuthority.GetFinalization import GetFinalization
 
 class ElectionAuthority(Party):
     """
@@ -98,13 +100,13 @@ class ElectionAuthority(Party):
         self.state.publicKey = value
 
     @property
-    def voterBallots(self):
-        return self.state.voterBallots
+    def checkBallotTasks(self):
+        return self.state.checkBallotTasks
 
-    @voterBallots.setter
-    def voterBallots(self, value):
+    @checkBallotTasks.setter
+    def checkBallotTasks(self, value):
         AssertList(value)
-        self.state.voterBallots = value
+        self.state.checkBallotTasks = value
 
     @property
     def ballots(self):
@@ -115,6 +117,24 @@ class ElectionAuthority(Party):
         AssertList(value)
         self.state.ballots = value
 
+
+    @property
+    def checkConfirmationTasks(self):
+        return self.state.checkConfirmationTasks
+
+    @checkConfirmationTasks.setter
+    def checkConfirmationTasks(self, value):
+        AssertList(value)
+        self.state.checkConfirmationTasks = value
+
+    @property
+    def confirmations(self):
+        return self.state.confirmations
+
+    @confirmations.setter
+    def confirmations(self, value):
+        AssertList(value)
+        self.state.confirmations = value
 
 
     def GenElectionData(self, bulletinBoard, secparams):
@@ -135,7 +155,7 @@ class ElectionAuthority(Party):
 
 
 
-    def GenKey(self, bulletinBoard, secparams):
+    def genKey(self, bulletinBoard, secparams):
         """
         (Protocol 6.3) Every authority j ∈ {1,...,s} calls GenKeyPair() in order to (independently) generate
         a key pair
@@ -146,7 +166,7 @@ class ElectionAuthority(Party):
 
         return self.publicKeyShare
 
-    def GetPublicKey(self, bulletinBoard, secparams):
+    def getPublicKey(self, bulletinBoard, secparams):
         """
         (Protocol 6.3) Every authority j ∈ {1,...,s} calls GetPublicKey() to combine the s public key shares into one public key
 
@@ -159,46 +179,81 @@ class ElectionAuthority(Party):
         (Protocol 6.4) Every authority j ∈ {1,...,s} checks the ballot and responds to it
         """
 
-        voterBallot = None
-        for v in self.voterBallots:
+        checkBallotTask = None
+        for v in self.checkBallotTasks:
             if v.voterId == voterId:
-                voterBallot = v
+                checkBallotTask = v
 
-        if voterBallot == None:
-            raise RuntimeError("voterBallot not found on election authority")
+        if checkBallotTask == None:
+            raise RuntimeError("checkBallotTask not found on election authority")
 
-        checkResult = CheckBallot(voterId, voterBallot.ballot, self.publicKey, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.publicVotingCredentials[0], self.ballots, secparams)
-        voterBallot.checkResults[self.id] = checkResult;
+        checkResult = CheckBallot(voterId, checkBallotTask.ballot, self.publicKey, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.publicVotingCredentials[0], self.ballots, secparams)
+        checkBallotTask.checkResults[self.id] = checkResult
 
         return checkResult
 
     def respond(self, voterId, bulletinBoard, secparams):
-        voterBallot = None
-        for v in self.voterBallots:
+        checkBallotTask = None
+        for v in self.checkBallotTasks:
             if v.voterId == voterId:
-                voterBallot = v
+                checkBallotTask = v
 
-        if voterBallot == None:
-            raise RuntimeError("voterBallot not found on election authority")
+        if checkBallotTask == None:
+            raise RuntimeError("checkBallotTask not found on election authority")
 
-        (beta_j, z) = GenResponse(voterId, voterBallot.ballot.a_bold, self.publicKey, bulletinBoard.numberOfCandidates,
+        (beta_j, z) = GenResponse(voterId, checkBallotTask.ballot.a_bold, self.publicKey, bulletinBoard.numberOfCandidates,
                                   bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.points,
                                   secparams)
-        self.ballots.append(BallotWithRandomizations(voterId, voterBallot.ballot, z))
+        self.ballots.append(VoterBallot(voterId, checkBallotTask.ballot, z))
 
-        # remove the voterBallot from this elections voterBallot list (it will be moved to the next authority that's why we have to return the voterBallot)
-        self.voterBallots.remove(voterBallot)
+        # remove the checkBallotTask from this elections checkBallotTask list (it will be moved to the next authority that's why we have to return the voterBallot)
+        self.checkBallotTasks.remove(checkBallotTask)
 
-        return (voterBallot, beta_j)
+        return (checkBallotTask, beta_j)
 
     def discardBallot(self, voterId, bulletinBoard, secparams):
-        voterBallot = None
-        for v in self.voterBallots:
+        checkBallotTask = None
+        for v in self.checkBallotTasks:
             if v.voterId == voterId:
-                voterBallot = v
+                checkBallotTask = v
 
-        if voterBallot == None:
-            raise RuntimeError("voterBallot not found on election authority")
+        if checkBallotTask == None:
+            raise RuntimeError("checkBallotTask not found on election authority")
 
-        self.voterBallots.remove(voterBallot)
+        self.checkBallotTasks.remove(checkBallotTask)
         return
+
+    def checkConfirmation(self, voterId, bulletinBoard, secparams):
+        """
+        (Protocol 6.6) Every authority j ∈ {1,...,s} checks the confirmation
+        """
+
+        checkConfirmationTask = None
+        for v in self.checkConfirmationTasks:
+            if v.voterId == voterId:
+                checkConfirmationTask = v
+
+        if checkConfirmationTask == None:
+            raise RuntimeError("checkConfirmationTask not found on election authority")
+
+        checkResult = CheckConfirmation(voterId, checkConfirmationTask.confirmation, self.publicVotingCredentials[1], self.ballots, self.confirmations, secparams)
+        checkConfirmationTask.checkResults[self.id] = checkResult
+
+        return checkResult
+
+    def finalize(self, voterId, bulletinBoard, secparams):
+        checkConfirmationTask = None
+        for v in self.checkConfirmationTasks:
+            if v.voterId == voterId:
+                checkConfirmationTask = v
+
+        if checkConfirmationTask == None:
+            raise RuntimeError("checkConfirmationTask not found on election authority")
+
+        delta_j = GetFinalization(voterId, self.points, self.ballots, secparams)
+        self.confirmations.append(VoterConfirmation(voterId, checkConfirmationTask.confirmation))
+
+        # remove the voterBallot from this elections voterBallot list (it will be moved to the next authority that's why we have to return the voterBallot)
+        self.checkConfirmationTasks.remove(checkConfirmationTask)
+
+        return (checkConfirmationTask, delta_j)

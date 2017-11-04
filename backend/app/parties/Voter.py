@@ -80,6 +80,15 @@ class Voter(Party):
         self.state.responses = value
 
     @property
+    def points(self):
+        return self.state.points
+
+    @points.setter
+    def points(self, value):
+        AssertList(value)
+        self.state.points = value
+
+    @property
     def verificationCodes(self):
         return self.state.verificationCodes
 
@@ -88,6 +97,24 @@ class Voter(Party):
         AssertList(value)
         self.state.verificationCodes = value
 
+    @property
+    def finalizations(self):
+        return self.state.finalizations
+
+    @finalizations.setter
+    def finalizations(self, value):
+        AssertList(value)
+        self.state.finalizations = value
+
+
+    @property
+    def finalizationCode(self):
+        return self.state.finalizationCode
+
+    @finalizationCode.setter
+    def finalizationCode(self, value):
+        AssertString(value)
+        self.state.finalizationCode = value
 
     @property
     def status(self):

@@ -36,8 +36,8 @@ def GetFinalization(v, P_bold, B, secparams):
     F = Truncate(RecHash(p_bold_v, secparams), secparams.L_F)
 
     for i in range(len(B)):
-        if (B[i][0] == v):
-            z_i = B[i][2]
+        if (B[i].voterId == v):
+            z_i = B[i].randomizations
 
     delta = (F, z_i)
     return delta

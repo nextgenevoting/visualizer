@@ -14,6 +14,7 @@ from chvote.ElectionAuthority.GetPartialDecryptions import GetPartialDecryptions
 from chvote.ElectionAuthority.CheckShuffleProofs    import CheckShuffleProofs
 from chvote.ElectionAuthority.GenDecryptionProof    import GenDecryptionProof
 from chvote.ElectionAuthority.GetFinalization       import GetFinalization
+from chvote.Types                                   import *
 
 class Authority(object):
     """
@@ -124,7 +125,7 @@ class Authority(object):
             tuple:              (v, beta_j)
         """
         (beta_j, r_bold) = GenResponse(v, a_bold, self.pk, self.n_bold, self.bulletinBoard.k_bold, self.bulletinBoard.E_bold, self.P_bold_j, secparams)
-        self.B_j.append((v, alpha, r_bold))
+        self.B_j.append(VoterBallot(v, alpha, r_bold))
         return (beta_j, r_bold)
 
     def printPoints(self):
@@ -144,7 +145,7 @@ class Authority(object):
            bool
         """
         if CheckConfirmation(v, gamma, self.y_hat, self.B_j, self.C_j, secparams):
-            self.C_j.append((v, gamma))
+            self.C_j.append(VoterConfirmation(v, gamma))
 
             self.bulletinBoard.delta_bold[v][self.j] = GetFinalization(v, self.P_bold_j, self.B_j, secparams)
 

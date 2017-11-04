@@ -18,5 +18,8 @@ class ElectionAuthorityState(State):
         self.publicKey = None           # pk
 
         # 6.4
-        self.voterBallots = []           # temporary store for ballots that need to be verified / responded to
+        self.checkBallotTasks = []           # temporary store for ballots that need to be verified / responded to
         self.ballots = []                # ballot list
+        self.checkConfirmationTasks = []     # temporary store for confirmations that need to be checked
+        self.confirmations = []          # confirmation list
+

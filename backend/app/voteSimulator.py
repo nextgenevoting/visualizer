@@ -12,6 +12,8 @@ from chvote.VotingClient.GenBallot import GenBallot
 from chvote.Types import *
 from chvote.VotingClient.GetPointMatrix import GetPointMatrix
 from chvote.VotingClient.GetReturnCodes import GetReturnCodes
+from chvote.VotingClient.GetFinalizationCode import GetFinalizationCode
+from chvote.VotingClient.GenConfirmation import GenConfirmation
 
 class VoteSimulator(object):
 
@@ -90,10 +92,10 @@ class VoteSimulator(object):
         self.bulletinBoard.publicKeyShares = []
 
         for authority in self.authorities:
-            publicKeyShare = authority.GenKey(self.bulletinBoard, self.secparams)
+            publicKeyShare = authority.genKey(self.bulletinBoard, self.secparams)
             self.bulletinBoard.publicKeyShares.append(publicKeyShare)
         for authority in self.authorities:
-            pk = authority.GetPublicKey(self.bulletinBoard, self.secparams)
+            pk = authority.getPublicKey(self.bulletinBoard, self.secparams)
         self.bulletinBoard.publicKey = pk
 
         # 6.2 Send secret voter data to the printing authority (this is typically done in the printVotingCards(), but since we want to show the secret voter data before printing the cards, we do it here)
@@ -118,13 +120,15 @@ class VoteSimulator(object):
         # reset previous votecasting data
         voter.responses = []
         voter.checkResults = []
+        voter.points = []
+        voter.responses = []
 
-        # create a new VoterBallot (a temporary ballot that will be passed to the authorities for checking)
+        # create a new checkBallotTask (a temporary ballot that will be passed to the authorities for checking)
         (alpha, r) = GenBallot(votingCode, selection, self.bulletinBoard.publicKey, self.secparams)
         # pass it to the first authority
-        voterBallot = VoterBallot(voterId, alpha)
-        voterBallot.checkResults = [None] * self.secparams.s
-        self.authorities[0].voterBallots.append(voterBallot)
+        checkBallotTask = CheckBallotTask(voterId, alpha)
+        checkBallotTask.checkResults = [None] * self.secparams.s
+        self.authorities[0].checkBallotTasks.append(checkBallotTask)
 
         voter.selection = selection
         voter.randomizations = r
@@ -132,9 +136,27 @@ class VoteSimulator(object):
         # if the first authority is set to autoCheck = true, check ballot and reply automatically, otherwise checkVote will be called by the user through the webapp later
         if(self.authorities[0].autoCheck): self.checkVote(voterId, 0)
 
+
+
+    def confirmVote(self, voterId, confirmationCode):
+        # 6.6 Vote Confirmation
+        voter = self.voters[voterId]
+
+        # reset previous confirmation data
+        # TODO
+
+        # create a new checkConfirmationTask (a temporary confirmation that will be passed to the authorities for checking)
+        gamma = GenConfirmation(confirmationCode, voter.points, self.secparams)
+        # pass it to the first authority
+        checkConfirmationTask = CheckConfirmationTask(voterId, gamma)
+        checkConfirmationTask.checkResults = [None] * self.secparams.s
+        self.authorities[0].checkConfirmationTasks.append(checkConfirmationTask)
+
+        # if the first authority is set to autoCheck = true, check ballot and reply automatically, otherwise checkVote will be called by the user through the webapp later
+        if(self.authorities[0].autoCheck): self.checkConfirmation(voterId, 0)
+
     def checkVote(self, voterId, authorityId):
         # 6.5 Vote Casting
-        #for j in range(authorityId, self.secparams.s):
         authority = self.authorities[authorityId]
         voter = self.voters[voterId]
 
@@ -147,18 +169,18 @@ class VoteSimulator(object):
         authority = self.authorities[authorityId]
         voter = self.voters[voterId]
 
-        (voterBallot, response) = authority.respond(voterId, self.bulletinBoard, self.secparams)
+        (checkBallotTask, response) = authority.respond(voterId, self.bulletinBoard, self.secparams)
         voter.responses.append(response)
 
-        # pass voterBallot to the next authority
+        # pass checkBallotTask to the next authority
         if authorityId < self.secparams.s - 1:
-            self.authorities[authorityId + 1].voterBallots.append(voterBallot)
+            self.authorities[authorityId + 1].checkBallotTasks.append(checkBallotTask)
             if (self.authorities[authorityId + 1].autoCheck):
                 self.checkVote(voterId, authorityId + 1)
         else:
             # this was the last authority to check the ballot
             # Generate return codes
-            if all(checkResult for checkResult in voterBallot.checkResults):
+            if all(checkResult for checkResult in checkBallotTask.checkResults):
                 self.getReturnCodes(voter)
 
     def discardBallot(self, voterId, authorityId):
@@ -168,8 +190,41 @@ class VoteSimulator(object):
 
         authority.discardBallot(voterId, self.bulletinBoard, self.secparams)
 
-
     def getReturnCodes(self, voter):
         P_s = GetPointMatrix(voter.responses, voter.selection, voter.randomizations, self.secparams)
+        voter.points = P_s
         voter.verificationCodes = GetReturnCodes(voter.selection, P_s, self.secparams)
         voter.status = 1
+
+    def checkConfirmation(self, voterId, authorityId):
+        # 6.6 Vote Confirmation
+        authority = self.authorities[authorityId]
+        voter = self.voters[voterId]
+
+        authority.checkConfirmation(voterId, self.bulletinBoard, self.secparams)
+
+        if authority.autoCheck: self.finalize(voterId, authorityId)
+
+
+    def finalize(self, voterId, authorityId):
+        # 6.6 Vote Confirmation
+        authority = self.authorities[authorityId]
+        voter = self.voters[voterId]
+
+        (checkConfirmationTask, finalization) = authority.finalize(voterId, self.bulletinBoard, self.secparams)
+        voter.finalizations.append(finalization)
+
+        # pass checkConfirmationTask to the next authority
+        if authorityId < self.secparams.s - 1:
+            self.authorities[authorityId + 1].checkConfirmationTasks.append(checkConfirmationTask)
+            if (self.authorities[authorityId + 1].autoCheck):
+                self.checkConfirmation(voterId, authorityId + 1)
+        else:
+            # this was the last authority to check the confirmation
+            # Generate finalizationCode codes
+            if all(checkResult for checkResult in checkConfirmationTask.checkResults):
+                self.getFinalizationCode(voter)
+
+    def getFinalizationCode(self, voter):
+        voter.finalizationCode = GetFinalizationCode(voter.finalizations, self.secparams)
+        voter.status = 2

@@ -23,12 +23,12 @@
                     <div class="layout row wrap">
                         <!-- 1. Vote Cast -->
                         <v-flex v-if="voter.status == 0" x12 md6>
-                            <v-card v-if="hasVoterBallot > -1">
+                            <v-card v-if="hasCheckBallotTask > -1">
                                 <v-card-title primary-title>
-                                    <div class="headline">Waiting for authority response</div>
+                                    <div class="headline">Waiting for election-authority</div>
                                 </v-card-title>
                                 <v-card-text>
-                                    Authority {{ hasVoterBallot + 1 }} is checking the ballot
+                                    Authority {{ hasCheckBallotTask + 1 }} is processing your vote
                                     <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
                                 </v-card-text>
                             </v-card>
@@ -61,7 +61,16 @@
                         </v-flex>
                         <!-- 2. Vote Confirmation -->
                         <v-flex v-if="voter.status == 1" x12 md6>
-                            <v-card>
+                            <v-card v-if="hasCheckConfirmationTask > -1">
+                                <v-card-title primary-title>
+                                    <div class="headline">Waiting for election-authority</div>
+                                </v-card-title>
+                                <v-card-text>
+                                    Authority {{ hasCheckConfirmationTask + 1 }} is processing your confirmation
+                                    <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
+                                </v-card-text>
+                            </v-card>
+                            <v-card v-else>
                                 <v-card-title primary-title>
                                     <div class="headline">Vote Confirmation</div>
                                 </v-card-title>
@@ -80,13 +89,25 @@
 
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn flat color="blue" @click="castVote()">Confirm vote</v-btn><v-btn flat>Abort</v-btn>
+                                    <v-btn flat color="blue" @click="confirmVote()">Confirm vote</v-btn><v-btn flat>Abort</v-btn>
                                 </v-card-actions>
                             </v-card>
 
                         </v-flex>
                         <!-- 3. Vote Finalization -->
-
+                        <v-flex v-if="voter.status == 2" x12 md6>
+                            <v-card>
+                                <v-card-title primary-title>
+                                    <div class="headline">Vote Confirmation</div>
+                                </v-card-title>
+                                <v-card-text>
+                                    You have confirmed your vote. Please check if the displayed finalization code matches the finalization code on your voting card:<br><br>
+                                    <v-form ref="form" class="finalizationForm">
+                                        Finalization Code: <b>{{ voter.finalizationCode }}</b>
+                                    </v-form>
+                                </v-card-text>
+                            </v-card>
+                        </v-flex>
                         <v-flex x12 md6>{{ votingCard }}</v-flex>
                     </div>
                     <v-tooltip left>
@@ -171,9 +192,14 @@
             return candidatesForElections
           }
         },
-        hasVoterBallot: {
+        hasCheckBallotTask: {
           get: function () {
-            return this.$store.getters.hasVoterBallot(this.$store.state.selectedVoter)
+            return this.$store.getters.hasCheckBallotTask(this.$store.state.selectedVoter)
+          }
+        },
+        hasCheckConfirmationTask: {
+          get: function () {
+            return this.$store.getters.hasCheckConfirmationTask(this.$store.state.selectedVoter)
           }
         }
       },
@@ -195,10 +221,25 @@
           ).then(response => {
             response.json().then((data) => {
               // success callback
-              if (data.result === 'success') { this.$toasted.success('Successfully cast vote') } else { this.$toasted.error(data.message) }
+              this.$toasted.success('Successfully cast vote')
             })
-          }, response => {
-            // error callback
+          }).catch(e => {
+            this.$toasted.error(e.body.message)
+          })
+        },
+        confirmVote: function () {
+          this.$http.post('confirmVote',
+            {
+              'election': this.$route.params['id'],
+              'voterId': this.selectedVoter,
+              'confirmationCode': this.confirmationCode
+            }
+          ).then(response => {
+            response.json().then((data) => {
+              this.$toasted.success('Successfully confirmed vote')
+            })
+          }).catch(e => {
+            this.$toasted.error(e.body.message)
           })
         }
       },
