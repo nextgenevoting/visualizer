@@ -40,7 +40,7 @@
       </v-card>
     </v-dialog>
 
-    <v-btn to="newElection" v-t="'create'" class="newElectionButton" />
+    <v-btn to="newElection">{{ $t('create') }}</v-btn>
   </v-container>
 </template>
 
@@ -105,9 +105,3 @@ export default {
   }
 }
 </script>
-
-<style>
-  .newElectionButton{
-    width: 200px;
-  }
-</style>
