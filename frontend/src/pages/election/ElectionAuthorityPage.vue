@@ -24,7 +24,7 @@
                     <v-switch label="Automatic processing" v-model="autoMode"></v-switch>
                 </v-flex>
             </v-layout>
-            <transition-group tag="div" :name="checkTransitionClass" :appear="checkTransition">
+            <transition-group tag="div" name="bounce" :appear="checkTransition">
                 <v-layout row v-for="checkBallotTask in checkBallotTasks" :key="checkBallotTask.voterId">
                     <v-flex xs12 sm12>
                         <v-card>
@@ -70,7 +70,7 @@
                 </v-layout>
             </transition-group>
 
-            <transition-group tag="div" :name="checkTransitionClass" :appear="checkTransition">
+            <transition-group tag="div" name="bounce" :appear="checkTransition">
                 <v-layout row v-for="checkConfirmationTask in checkConfirmationTasks" :key="checkConfirmationTask.voterId">
                     <v-flex xs12 sm12>
                         <v-card>
@@ -122,10 +122,10 @@
                 <v-flex xy12 md12>
                     <DataCard title="Ballots" :isMpz=true :expandable=false confidentiality="encrypted">
 
-                        <transition-group tag="v-expansion-panel" :name="ballotTransitionClass" class="expansion-panel--popout" :appear="ballotTransition">
+                        <transition-group tag="v-expansion-panel" name="highlight" class="expansion-panel--popout" :appear="ballotTransition">
                             <v-expansion-panel-content v-for="ballot in ballots" :key="ballot.ballot.x_hat">
                                 <div slot="header">Ballot of voter {{ballot.voterId}}
-                                    <transition :name="ballotTransitionClass">
+                                    <transition name="highlight">
                                         <v-chip left label outline color="green" v-if="ballot.confirmation !== null">Confirmed</v-chip>
                                     </transition>
                                 </div>
@@ -214,10 +214,7 @@
       data: () => ({
         show: false,
         ballotTransition: false,
-        checkTransition: false,
-        ballotTransitionClass: 'highlight',
-        checkTransitionClass: 'bounce',
-        tempHideBallots: false
+        checkTransition: false
       }),
       mounted () {
         this.ballotTransition = false
@@ -361,22 +358,7 @@
             this.$toasted.error(e.body.message)
           })
         }
-      },
-      watch: {
-        selectedAuthorityIndex: function (newAuthority) {
-          // Transition animation is also shown when the selected authority has changed. As a workaround, temporarily remove the CSS transition class and re-assign it after some delay
-          let self = this
-          let savedTransitionClass = this.ballotTransitionClass
-          let savedCheckTransitionClass = this.checkTransitionClass
-          this.ballotTransitionClass = ''
-          this.checkTransitionClass = ''
-          setTimeout(function () {
-            self.ballotTransitionClass = savedTransitionClass
-            self.checkTransitionClass = savedCheckTransitionClass
-          }, 300)
-        }
       }
-
     }
 </script>
 
