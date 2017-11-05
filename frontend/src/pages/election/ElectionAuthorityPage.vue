@@ -24,96 +24,9 @@
                     <v-switch label="Automatic processing" v-model="autoMode"></v-switch>
                 </v-flex>
             </v-layout>
-            <transition-group tag="div" name="bounce" :appear="checkTransition">
-                <v-layout row v-for="checkBallotTask in checkBallotTasks" :key="checkBallotTask.voterId">
-                    <v-flex xs12 sm12>
-                        <v-card>
-                            <v-card-title primary-title>
-                                <div>
-                                    <div class="headline">Ballot check for voter {{checkBallotTask.voterId + 1}}</div>
-                                </div>
-                            </v-card-title>
-                            <v-card-text>
-                                <p>Please check the ballot and respond to the query</p>
-                            </v-card-text>
-                            <v-card-text v-if="checkBallotTask.checkResults[selectedAuthorityIndex] != null">
-                                Result of Check: {{ checkBallotTask.checkResults[selectedAuthorityIndex] }}
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-btn flat color="blue" @click="checkBallot(checkBallotTask.voterId)">
-                                    <v-icon left>mdi-approval</v-icon>
-                                    Check Validity
-                                </v-btn>
-                                <v-btn flat color="blue" @click="respond(checkBallotTask.voterId)"
-                                       :disabled="!checkBallotTask.checkResults[selectedAuthorityIndex]">
-                                    <v-icon left>mdi-reply</v-icon>
-                                    Respond to query
-                                </v-btn>
-                                <v-btn flat color="red" @click="discardBallot(checkBallotTask.voterId)"
-                                       :disabled="checkBallotTask.checkResults[selectedAuthorityIndex] || checkBallotTask.checkResults[selectedAuthorityIndex] == null">
-                                    <v-icon left>mdi-cancel</v-icon>
-                                    Discard ballot
-                                </v-btn>
-                                <v-spacer></v-spacer>
-                                <v-btn icon @click.native="show = !show">
-                                    <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                                </v-btn>
-                            </v-card-actions>
-                            <v-slide-y-transition>
-                                <v-card-text v-show="show">
-                                    a_bold: {{ checkBallotTask.ballot.a_bold }}<br>
-                                    x_hat: {{ checkBallotTask.ballot.x_hat }}
-                                </v-card-text>
-                            </v-slide-y-transition>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-            </transition-group>
-
-            <transition-group tag="div" name="bounce" :appear="checkTransition">
-                <v-layout row v-for="checkConfirmationTask in checkConfirmationTasks" :key="checkConfirmationTask.voterId">
-                    <v-flex xs12 sm12>
-                        <v-card>
-                            <v-card-title primary-title>
-                                <div>
-                                    <div class="headline">Confirmation for voter {{checkConfirmationTask.voterId + 1}}</div>
-                                </div>
-                            </v-card-title>
-                            <v-card-text>
-                                <p>Please check the confirmation and finalize the vote</p>
-                            </v-card-text>
-                            <v-card-text v-if="checkConfirmationTask.checkResults[selectedAuthorityIndex] != null">
-                                Result of Check: {{ checkConfirmationTask.checkResults[selectedAuthorityIndex] }}
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-btn flat color="blue" @click="checkConfirmation(checkConfirmationTask.voterId)">
-                                    <v-icon left>mdi-approval</v-icon>
-                                    Check Validity
-                                </v-btn>
-                                <v-btn flat color="blue" @click="finalize(checkConfirmationTask.voterId)"
-                                       :disabled="!checkConfirmationTask.checkResults[selectedAuthorityIndex]">
-                                    <v-icon left>mdi-reply</v-icon>
-                                    Finalize
-                                </v-btn>
-                                <v-btn flat color="red" @click="discardConfirmation(checkConfirmationTask.voterId)"
-                                       :disabled="checkConfirmationTask.checkResults[selectedAuthorityIndex] || checkConfirmationTask.checkResults[selectedAuthorityIndex] == null">
-                                    <v-icon left>mdi-cancel</v-icon>
-                                    Discard confirmation
-                                </v-btn>
-                                <v-spacer></v-spacer>
-                                <v-btn icon @click.native="show = !show">
-                                    <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                                </v-btn>
-                            </v-card-actions>
-                            <v-slide-y-transition>
-                                <v-card-text v-show="show">
-                                    todo: infos about the confirmation
-                                </v-card-text>
-                            </v-slide-y-transition>
-                        </v-card>
-                    </v-flex>
-                </v-layout>
-            </transition-group>
+            <CheckBallotTaskPage></CheckBallotTaskPage>
+            <ConfirmationTaskPage></ConfirmationTaskPage>
+            <MixingPage></MixingPage>
 
             <h5 class="">Data</h5>
 
@@ -132,7 +45,7 @@
                                 <v-card>
                                     <v-card-text class="grey lighten-3">
                                         <v-layout row>
-                                            <v-flex xy4 md4>Encrypted selections / queries:</v-flex>
+                                            <v-flex xy4 md4>Encrypted selections:</v-flex>
                                             <v-flex xy8 md8>
                                                 <span v-for="elgamalEncryption in ballot.ballot.a_bold">
                                                 (<BigIntLabel :mpzValue="elgamalEncryption[0]"></BigIntLabel>,
@@ -213,12 +126,10 @@
       mixins: [joinRoomMixin],
       data: () => ({
         show: false,
-        ballotTransition: false,
-        checkTransition: false
+        ballotTransition: false
       }),
       mounted () {
         this.ballotTransition = false
-        this.checkTransition = false
         this.$store.commit('selectedAuthority', this.$route.params['authid'])
       },
       props: ['authId'],
@@ -244,19 +155,9 @@
             return this.$store.getters.getElectionAuthority(this.selectedAuthorityIndex)
           }
         },
-        checkBallotTasks: {
-          get: function () {
-            return this.$store.getters.getCheckBallotTasks(this.selectedAuthorityIndex)
-          }
-        },
         ballots: {
           get: function () {
             return this.$store.getters.getBallotsAndConfirmations(this.selectedAuthorityIndex)
-          }
-        },
-        checkConfirmationTasks: {
-          get: function () {
-            return this.$store.getters.getCheckConfirmationTasks(this.selectedAuthorityIndex)
           }
         },
         confirmations: {
@@ -274,90 +175,6 @@
         }
       },
       methods: {
-        checkBallot: function (voterId) {
-          this.$http.post('checkVote', {
-            'election': this.$route.params['electionId'],
-            'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
-          }).then(response => {
-            response.json().then((data) => {
-              // success callback
-              this.$toasted.success('Successfully checked vote')
-            })
-          }).catch(e => {
-            this.$toasted.error(e.body.message)
-          })
-        },
-        respond: function (voterId) {
-          this.$http.post('respond', {
-            'election': this.$route.params['electionId'],
-            'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
-          }).then(response => {
-            response.json().then((data) => {
-              // success callback
-              this.$toasted.success('Successfully replied to vote')
-            })
-          }).catch(e => {
-            this.$toasted.error(e.body.message)
-          })
-        },
-        discardBallot: function (voterId) {
-          this.$http.post('discardBallot', {
-            'election': this.$route.params['electionId'],
-            'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
-          }).then(response => {
-            response.json().then((data) => {
-              // success callback
-              this.$toasted.success('Successfully replied to vote')
-            })
-          }).catch(e => {
-            this.$toasted.error(e.body.message)
-          })
-        },
-        checkConfirmation: function (voterId) {
-          this.$http.post('checkConfirmation', {
-            'election': this.$route.params['electionId'],
-            'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
-          }).then(response => {
-            response.json().then((data) => {
-              // success callback
-              this.$toasted.success('Successfully checked confirmation')
-            })
-          }).catch(e => {
-            this.$toasted.error(e.body.message)
-          })
-        },
-        finalize: function (voterId) {
-          this.$http.post('finalize', {
-            'election': this.$route.params['electionId'],
-            'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
-          }).then(response => {
-            response.json().then((data) => {
-              // success callback
-              this.$toasted.success('Successfully finalized ballot')
-            })
-          }).catch(e => {
-            this.$toasted.error(e.body.message)
-          })
-        },
-        discardConfirmation: function (voterId) {
-          this.$http.post('discardConfirmation', {
-            'election': this.$route.params['electionId'],
-            'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
-          }).then(response => {
-            response.json().then((data) => {
-              // success callback
-              this.$toasted.success('Successfully discarded confirmation')
-            })
-          }).catch(e => {
-            this.$toasted.error(e.body.message)
-          })
-        }
       }
     }
 </script>
@@ -380,7 +197,7 @@
     }
 
     .highlight-enter-active {
-        animation: highlight 2.0s;
+        animation: highlight 2.5s;
     }
 
     @keyframes highlight {
@@ -392,25 +209,6 @@
         }
         100% {
             background: inherit;
-        }
-    }
-
-    .bounce-enter-active {
-        animation: bounce-in .5s;
-    }
-
-    .bounce-leave-active {
-        animation: bounce-in .4s reverse;
-    }
-
-    @keyframes bounce-in {
-        0% {
-            transform: scale(0);
-            opacity: 0;
-        }
-        100% {
-            transform: scale(1);
-            opacity: 1;
         }
     }
 </style>

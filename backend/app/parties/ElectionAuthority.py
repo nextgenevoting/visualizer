@@ -9,6 +9,9 @@ from chvote.ElectionAuthority.GenResponse import GenResponse
 from chvote.Types import *
 from chvote.ElectionAuthority.CheckConfirmation import CheckConfirmation
 from chvote.ElectionAuthority.GetFinalization import GetFinalization
+from chvote.ElectionAuthority.GetEncryptions import GetEncryptions
+from chvote.ElectionAuthority.GenShuffle import GenShuffle
+from chvote.ElectionAuthority.GenShuffleProof import GenShuffleProof
 
 class ElectionAuthority(Party):
     """
@@ -137,6 +140,37 @@ class ElectionAuthority(Party):
         self.state.confirmations = value
 
 
+    @property
+    def encryptions(self):
+        return self.state.encryptions
+
+    @encryptions.setter
+    def encryptions(self, value):
+        AssertList(value)
+        self.state.encryptions = value
+
+
+    @property
+    def encryptionsShuffled(self):
+        return self.state.encryptionsShuffled
+
+    @encryptionsShuffled.setter
+    def encryptionsShuffled(self, value):
+        AssertList(value)
+        self.state.encryptionsShuffled = value
+
+
+    @property
+    def permutation(self):
+        return self.state.permutation
+
+    @permutation.setter
+    def permutation(self, value):
+        AssertList(value)
+        self.state.permutation = value
+
+
+
     def GenElectionData(self, bulletinBoard, secparams):
         """
         (Protocol 6.1) Every authority j ∈ {1,...,s} calls GenElectorateData with n, k, E in order to (independently) generate
@@ -257,3 +291,29 @@ class ElectionAuthority(Party):
         self.checkConfirmationTasks.remove(checkConfirmationTask)
 
         return (checkConfirmationTask, delta_j)
+
+    # *********************************
+    #  POST ELECTION PHASE
+    # *********************************
+
+    def getEncryptions(self, bulletinBoard, secparams):
+        encryptions = GetEncryptions(self.ballots, self.confirmations, bulletinBoard.numberOfCandidates, bulletinBoard.countingCircles, secparams)
+        self.encryptions = encryptions
+        self.permutation = []
+        i = 0
+        for enc in encryptions:
+            self.permutation.append(i)
+            i += 1
+        bulletinBoard.encryptions.append(encryptions)
+
+
+
+    def mix(self, bulletinBoard, secparams):
+        e_orig = self.encryptions
+        (e_shuffled, r, psi) = GenShuffle(e_orig, self.publicKey, secparams)
+        pi = GenShuffleProof(e_orig, e_shuffled, r, psi, self.publicKey, secparams)
+        self.encryptionsShuffled = e_shuffled
+        self.permutation = psi
+        bulletinBoard.encryptions.append(e_shuffled)
+        return e_shuffled
+

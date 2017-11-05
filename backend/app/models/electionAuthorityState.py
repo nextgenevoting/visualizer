@@ -17,9 +17,13 @@ class ElectionAuthorityState(State):
         self.publicKeyShare = None      # pk_j
         self.publicKey = None           # pk
 
-        # 6.4
-        self.checkBallotTasks = []           # temporary store for ballots that need to be verified / responded to
+        # 6.4 & 6.5
+        self.checkBallotTasks = []       # temporary store for ballots that need to be verified / responded to
         self.ballots = []                # ballot list
-        self.checkConfirmationTasks = []     # temporary store for confirmations that need to be checked
+        self.checkConfirmationTasks = [] # temporary store for confirmations that need to be checked
         self.confirmations = []          # confirmation list
 
+        # 6.7 Mixing
+        self.encryptions = []
+        self.permutation = []
+        self.encryptionsShuffled = []

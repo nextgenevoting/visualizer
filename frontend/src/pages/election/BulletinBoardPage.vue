@@ -2,16 +2,19 @@
     <v-container grid-list-md>
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-bulletin-board" title="Bulletin Board"></ContentTitle>
+            <h5 v-if="status >= 4">Post-Election data</h5>
+            <v-layout v-if="status >= 4" row wrap>
+            </v-layout>
 
+            <h5>Pre-Election data</h5>
             <v-layout row wrap>
-
                 <v-flex xy12 md4>
                     <DataCard title="Unique Election Identifier" :expandable=false confidentiality="public">{{electionId}}
                     </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard title="Status" :expandable=false confidentiality="public">{{status}}</DataCard>
+                    <DataCard title="Status" :expandable=false confidentiality="public">{{statusText}}</DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
@@ -85,7 +88,8 @@ export default {
     }),
     ...mapGetters({
       electionId: 'electionId',
-      status: 'statusText'
+      status: 'status',
+      statusText: 'statusText'
     })
   }
 }

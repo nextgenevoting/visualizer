@@ -36,7 +36,13 @@ const getters = {
       case 2:
         return 'Voting Cards Printed'
       case 3:
-        return 'Voting Cards Delivered'
+        return 'Election Phase'
+      case 4:
+        return 'Mixing Phase'
+      case 5:
+        return 'Decryption Phase'
+      case 6:
+        return 'Tallying Phase'
       default:
         return 'Unknown status'
     }

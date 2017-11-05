@@ -37,7 +37,7 @@ de:
           // this.$socket.emit('createElection', { title: this.title});
           this.$http.post('createElection', {title: this.title}).then(response => {
             response.json().then((data) => {
-              this.$router.push({name: 'electionoverview', params: {id: data.id}})
+              this.$router.push({name: 'electionoverview', params: {electionId: data.id}})
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)

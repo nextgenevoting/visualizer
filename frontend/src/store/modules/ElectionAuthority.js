@@ -32,7 +32,6 @@ const mutations = {
 
 const actions = {
   setAutoMode ({ commit }, data) {
-    debugger
     // this.electionAuthorities[data.electionAuthorityId].autoMode = data.newValue;
     Vue.http.post('setAutoMode', {
       'election': data.electionId,
@@ -77,7 +76,6 @@ const getters = {
   },
   getBallotsAndConfirmations: (state, getters) => (electionAuthorityId) => {
     let results = []
-    debugger
     for (let ballot of getters.getBallots(electionAuthorityId)) {
       let confirmation = getters.getConfirmationForVoter(ballot.voterId, electionAuthorityId)
       results.push({voterId: ballot.voterId, ballot: ballot.ballot, confirmation: confirmation})
@@ -111,6 +109,21 @@ const getters = {
       }
     }
     return -1
+  },
+  getEncryptionsForAuthority: (state, getters) => (authorityId) => {
+    let electionAuthority = getters.getElectionAuthority(authorityId)
+    let encSource = null
+    if (electionAuthority.encryptionsShuffled.length > 0) {
+      encSource = electionAuthority.encryptionsShuffled
+    } else {
+      encSource = electionAuthority.encryptions
+    }
+    let encryptions = []
+    let i = 0
+    for (let enc of encSource) {
+      encryptions.push({a: enc[0], b: enc[1], key: electionAuthority.permutation[i++]})
+    }
+    return encryptions
   }
 }
 

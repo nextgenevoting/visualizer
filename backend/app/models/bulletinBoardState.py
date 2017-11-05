@@ -16,6 +16,9 @@ class BulletinBoardState(State):
         self.ballots = []
         self.confirmations = []
 
-        # 7.3
+        # 6.3
         self.publicKeyShares = []
         self.publicKey = None
+
+        # 6.7 Mixing
+        self.encryptions = []

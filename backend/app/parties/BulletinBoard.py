@@ -112,3 +112,14 @@ class BulletinBoard(Party):
     def publicKey(self, value):
         AssertMpz(value)
         self.state.publicKey = value
+
+        self.state.publicKeyShares = value
+
+    @property
+    def encryptions(self):
+        return self.state.encryptions
+
+    @encryptions.setter
+    def encryptions(self, value):
+        AssertList(value)
+        self.state.encryptions = value

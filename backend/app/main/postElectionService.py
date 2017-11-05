@@ -1,0 +1,60 @@
+from flask import session, redirect, url_for, render_template, request
+from . import main
+from .. import socketio
+from app.voteSimulator import VoteSimulator
+from flask.ext.cors import CORS, cross_origin
+from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus, syncVoters, syncElectionAuthorities, fullSync
+from app.utils.errorhandling import make_error
+
+import json
+
+# LISTENERS
+
+@main.route('/startMixingPhase', methods=['POST'])
+@cross_origin(origin='*')
+def startMixingPhase():
+    data = request.json
+    electionId = data["election"]
+    try:
+        # prepare voteSimulator
+        sim = VoteSimulator(electionId)
+
+        # perform action
+        sim.startMixing()
+
+        # retrieve and persist modified state
+        sim.persist()
+
+        syncElectionAuthorities(electionId, SyncType.ROOM)
+        syncBulletinBoard(electionId, SyncType.ROOM)
+
+        sim.updateStatus(4)
+    except Exception as ex:
+        return make_error(500, str(ex))
+
+    return json.dumps({'id': str(id)})
+
+
+
+@main.route('/mix', methods=['POST'])
+@cross_origin(origin='*')
+def mix():
+    data = request.json
+    electionId = data["election"]
+    authorityId = data["authorityId"]
+    try:
+        # prepare voteSimulator
+        sim = VoteSimulator(electionId)
+
+        # perform action
+        sim.mix(authorityId)
+
+        # retrieve and persist modified state
+        sim.persist()
+
+        syncElectionAuthorities(electionId, SyncType.ROOM)
+        syncBulletinBoard(electionId, SyncType.ROOM)
+    except Exception as ex:
+        return make_error(500, str(ex))
+
+    return json.dumps({'id': str(id)})

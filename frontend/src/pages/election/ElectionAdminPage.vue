@@ -41,7 +41,7 @@
             </div>
 
             <div v-if="status == 3">
-                <v-btn>Decrypt & Tally</v-btn>
+                <v-btn @click="startMixingPhase()">End Election-Phase & start mixing process</v-btn>
             </div>
         </div>
         <div v-else>
@@ -71,7 +71,6 @@ export default {
     })
   },
   methods: {
-
     setUpElection (event) {
       if (this.$refs.form.validate()) {
         // this.$socket.emit('setUpElection', {'election': this.$route.params["id"]});
@@ -93,6 +92,19 @@ export default {
           this.$toasted.error(e.body.message)
         })
       }
+    },
+    startMixingPhase (newStatus) {
+      this.$http.post('startMixingPhase',
+        {
+          'election': this.$route.params['electionId']
+        }
+      ).then(response => {
+        response.json().then((data) => {
+          this.$toasted.success('Successfully set election status to "Mixing Phase"')
+        })
+      }).catch(e => {
+        this.$toasted.error(e.body.message)
+      })
     },
     clear () {
       this.$refs.form.reset()

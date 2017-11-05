@@ -228,3 +228,25 @@ class VoteSimulator(object):
     def getFinalizationCode(self, voter):
         voter.finalizationCode = GetFinalizationCode(voter.finalizations, self.secparams)
         voter.status = 2
+
+# *********************************
+#  POST ELECTION PHASE
+# *********************************
+    def startMixing(self):
+        # the first election authority must extract the encryptions from the ballot-list
+        self.authorities[0].getEncryptions(self.bulletinBoard, self.secparams)
+
+    def mix(self, authorityId):
+        if self.bulletinBoard.encryptions[authorityId] == None:
+            raise RuntimeError("This authority requires the encryptions of the previous authority!")
+
+        e_shuffled = self.authorities[authorityId].mix(self.bulletinBoard, self.secparams)
+
+        # pass e_shuffled to the next authority
+        if authorityId < self.secparams.s - 1:
+            self.authorities[authorityId + 1].encryptions = e_shuffled
+            if (self.authorities[authorityId + 1].autoCheck):
+                self.mix(authorityId + 1)
+        else:
+            # this was the last authority to mix
+            pass

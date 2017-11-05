@@ -8,7 +8,8 @@ const state = {
   publicKey: null,
   countingCircles: null,
   eligibilityMatrix: null,
-  numberOfParallelElections: null
+  numberOfParallelElections: null,
+  encryptions: null
 
 }
 
@@ -27,6 +28,7 @@ const mutations = {
     state.countingCircles = bb.countingCircles
     state.eligibilityMatrix = bb.eligibilityMatrix
     state.numberOfParallelElections = bb.numberOfParallelElections
+    state.encryptions = bb.encryptions
   }
 }
 
