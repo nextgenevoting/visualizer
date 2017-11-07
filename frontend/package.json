@@ -4,7 +4,7 @@
   "author": "Kevin Häni, Yanick Denzer",
   "private": true,
   "scripts": {
-    "dev": "cross-env NODE_ENV=development webpack-dev-server --public localhost:8080 --open --inline --hot --host=0.0.0.0 --port=8080",
+    "dev": "cross-env NODE_ENV=development webpack-dev-server --public localhost:8080 --inline --hot --host=0.0.0.0 --port=8080",
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "eslint": "eslint --ext .js,.vue src",
     "eslint fix": "eslint --fix --ext .js,.vue src"
@@ -20,6 +20,7 @@
     "eslint-plugin-node": "^5.2.1",
     "eslint-plugin-promise": "^3.6.0",
     "eslint-plugin-standard": "^3.0.1",
+    "js-yaml-loader": "^0.1.0",
     "mdi": "^2.0.46",
     "normalizr": "^3.2.4",
     "nprogress": "^0.2.0",

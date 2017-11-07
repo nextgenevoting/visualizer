@@ -39,9 +39,13 @@ module.exports = {
         }
       },
       {
+        test: /\.ya?ml$/,
+        loader: 'js-yaml-loader'
+      },
+      {
         test: /\.js$/,
         loader: 'babel-loader',
-        exclude: /node_modules/,
+        exclude: /node_modules/
       },
       {
         test: /\.styl$/,
@@ -63,7 +67,7 @@ module.exports = {
   plugins: [
     new webpack.EnvironmentPlugin({
       'URL_ROOT': process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5000',
-      'SOCKETIO_BASE_URL': process.env.NODE_ENV === 'production' ? '/': 'http://localhost:5000'
+      'SOCKETIO_BASE_URL': process.env.NODE_ENV === 'production' ? '/' : 'http://localhost:5000'
     })
   ]
 }
