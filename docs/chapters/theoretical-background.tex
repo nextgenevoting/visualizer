@@ -1,0 +1,37 @@
+\chapter{CHVote Protocol}
+\section{Protocol}
+The protocol our solution is based on, does not originate from us! The concept and specification has been created by Rolf Haenni and his team at Institute for Security in the Information Society (RISIS) of the Bern University of Applied Sciences. For this project, we have implemented the protocol according to their specification. In this chapter we summarize the most important aspects of the protocol for better understanding.
+
+\section{Goals}
+As pointed out earlier, one of the big challenges an E-Voting protocol has to solve is the verifiability of the voting result while still ensuring the privacy of all voters. Another big problem e-voting systems are facing is the risk of a voting client being infected by malware which manipulates casting of a vote without the voters notice. Both of these issues are addressed by the use of modern cryptography.
+
+\section{Protocol Participants}
+\subsection{Voter}
+A voter is a person who is eligible to vote in his state. Every voter must possess a voting card that has been sent to him prior to an election event and that contains several codes such as the voting code and the confirmation code, which are used to identify the voter during the vote casting process.
+
+A voter uses a voting client (website) to form a ballot according to the protocol, by entering his selection, a voting code to cast, and later in the process, his confirmation code to confirm his vote. Verification codes and a finalization code are displayed by the voting client to ensure the voter that his vote has been cast as intended and hasn't been manipulated by a third party.
+\subsection{Election Administrator}
+The election administrator, typically a person of the government, sets up the election by providing the necessary information such as the candidates and the voters. He is also responsible for determining and publishing the final results of the election.
+\subsection{Election Authorities}
+\subsection{Bulletin Board}
+\subsection{Printing Authority}
+
+\section{The basic idea of the CHVote protocol}
+Before the actual election, voting sheets are generated and printed for the whole electorate and delivered to the voters by a trusted mailing service. The voting sheets contain several codes, namely:
+
+\begin{itemize}
+	\item voting code
+	\item confirmation code
+	\item finalization code
+	\item one verification code for every candidate
+\end{itemize}
+
+The voting and confirmation code are authentication codes used to authenticate the voter.
+
+The voter first selects candidates by entering their indices. The voting client then forms a ballot containing the voters selection encrypted with the authorities public key and authenticated with the voters personal voting code. Additionally, the ballot contains a query that queries the authorities for the corresponding verification codes of the selected candidates, without the server knowing which candidates the voter has selected. The voter then checks if the returned verification codes match the codes of the candidates he has chosen on the printed voting sheet. If the selection was somehow manipulated by malware, the returned verification codes would not match the printed ones and the voter would have to abort the vote casting process. This way the integrity of the vote casting can be assured even in the presence of malware. Privacy on the other hand cannot be protected since the malware will learn the plaintext of the voter's selection.
+
+In order to verify that a voter has formed the ballot correctly by choosing exactly the number of candidates he is supposed to choose, the following trick is being used: the verification codes are derived from $n = \sum_{n=1}^{t} n_j$ random points on $t$ polynomials (one for every election event $j$) of degree $k_j - 1$, that each election authority has chosen randomly prior to the election. By learning exactly $k = \sum_{n=1}^{t} k_j$ points on these polynomials, the voting client is able to reproduce these polynomials and therefore is able to calculate a particular point with $x=0$ on these polynomials. The corresponding $y$ values are incorporated into the second voting credential from which the confirmation code is derived. Only if the voter knows these values (by submitting a valid candidate selection), he will be able to confirm the vote that he casted.
+
+Since there is still a connection between the encrypted ballot and the voter at this point, the encrypted candidate selection is extracted from the ballots before tallying. After that, every authority is shuffling/mixing these encryptions in order to make it impossible to find out which voter has submitted which encrypted ballot. This mixing of the encrypted votes is done by using the homomorphic property of the ElGamal encryption scheme. Re-encryption of the ballots multiplied with the neutral element $1$ yields a new ciphertext for the same plaintext.
+
+The public key that is used for encryption has been generated jointly by all authorities. Therefore in order to decrypt the result, all authorities must provide their share of the private key. The measure of multiple authorities participating in the whole e-voting process ensures the security of the whole election even if only one authority can be trusted.

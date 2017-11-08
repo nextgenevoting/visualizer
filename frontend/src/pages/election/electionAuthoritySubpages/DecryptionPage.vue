@@ -5,7 +5,7 @@
                 <v-card>
                     <v-card-title primary-title>
                         <div>
-                            <div class="headline">Decryption</div>
+                            <div class="headline">Decryption Task</div>
                         </div>
                     </v-card-title>
                     <v-card-text>

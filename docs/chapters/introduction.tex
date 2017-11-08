@@ -1,33 +1,13 @@
 \chapter{Introduction}
 \section{Electronic voting}
-Since 2015 it has been possible for Swiss citizens registered in the cantons Geneva and Neuchâtel and living abroad, to vote electronically. However, these systems have not yet met the requirements in terms of security and transparency to be accepted as a secure electronic voting platform on a nationwide scale.
+Since 2015, it is possible for Swiss citizens registered in the cantons Geneva and Neuchâtel and living abroad, to vote electronically. However, these systems did not yet meet the requirements in terms of security and transparency, to be accepted as a secure E-Voting platform on a nationwide scale.
 
-One of the requirements which is particularly difficult to achieve is that the system must protect voter's privacy while at the same time it must be verifiable that only votes have been counted.
+One of the requirements that is hardest to achieve, is that the system must ensure the voters privacy while at the same time, it must be verifiable that only valid votes have been counted.
 
-A contract was formed between the state of Geneva and the Bern University of Applied Sciences (BFH) to work out a new protocol which does meet the complex requirements set up by the government. Some of the concepts behind this protocol are based on a Norwegian e-voting system. In 2017, the resulting specification document was officially published and the protocol proved to be working correctly by the proof of concept implementation developed by the state of Geneva.
+A contract was formed between the state of Geneva and the Bern University of Applied Sciences to work out a new protocol which does meet the complex requirements set up by the government. In 2017, the resulting specification document written by Haenni Rolf, Philipp Locher and Reto E. Koenig has been officially published and a proof-of-concept / prototype has been successfully implemented by the State of Geneva. 
 
 \section{Project task}
 
-\chapter{Introduction to CHVote}
-\section{Protocol}
-As pointed out earlier, one of the big challenges the protocol is trying to solve is the verifiability of the voting result while still ensuring the privacy of all voters. Another big problem e-voting systems are facing is the risk of a voting client being infected by malware which manipulates casting of a vote without the voters notice. Both of these issues are addressed by the use of modern cryptography.
+Understanding such a complex protocol isn't easy and might be the reason why many people still do not trust electronic e-voting systems. In close consultation with the authors of the CHVote specification, we agreed to develop an application that allows users to get a hands-on experience with the CHVote e-voting system and makes it possible to show to an audience how the future of voting in Switzerland might possibly look like.
 
-\section{The basic idea of the CHVote protocol}
-Before the actual election, voting sheets are generated and printed for the whole electorate and delivered to the voters by a trusted mailing service. The voting sheets contain several codes, namely:
-
-\begin{itemize}
-	\item voting code
-	\item confirmation code
-	\item finalization code
-	\item one verification code for every candidate
-\end{itemize}
-
-The voting and confirmation code are authentication codes used to authenticate the voter.
-
-The voter first selects candidates by entering their indices. The voting client then forms a ballot containing the voters selection encrypted with the authorities public key and authenticated with the voters personal voting code. Additionally, the ballot contains a query that queries the authorities for the corresponding verification codes of the selected candidates, without the server knowing which candidates the voter has selected. The voter then checks if the returned verification codes match the codes of the candidates he has chosen on the printed voting sheet. If the selection was somehow manipulated by malware, the returned verification codes would not match the printed ones and the voter would have to abort the vote casting process. This way the integrity of the vote casting can be assured even in the presence of malware. Privacy on the other hand cannot be protected since the malware will learn the plaintext of the voter's selection.
-
-In order to verify that a voter has formed the ballot correctly by choosing exactly the number of candidates he is supposed to choose, the following trick is being used: the verification codes are derived from $n = \sum_{n=1}^{t} n_j$ random points on $t$ polynomials (one for every election event $j$) of degree $k_j - 1$, that each election authority has chosen randomly prior to the election. By learning exactly $k = \sum_{n=1}^{t} k_j$ points on these polynomials, the voting client is able to reproduce these polynomials and therefore is able to calculate a particular point with $x=0$ on these polynomials. The corresponding $y$ values are incorporated into the second voting credential from which the confirmation code is derived. Only if the voter knows these values (by submitting a valid candidate selection), he will be able to confirm the vote that he casted.
-
-Since there is still a connection between the encrypted ballot and the voter at this point, the encrypted candidate selection is extracted from the ballots before tallying. After that, every authority is shuffling/mixing these encryptions in order to make it impossible to find out which voter has submitted which encrypted ballot. This mixing of the encrypted votes is done by using the homomorphic property of the ElGamal encryption scheme. Re-encryption of the ballots multiplied with the neutral element $1$ yields a new ciphertext for the same plaintext.
-
-The public key that is used for encryption has been generated jointly by all authorities. Therefore in order to decrypt the result, all authorities must provide their share of the private key. The measure of multiple authorities participating in the whole e-voting process ensures the security of the whole election even if only one authority can be trusted.
+For this reason, we have implemented the protocol according to the specification and developed a web-based application on top of it, which allows to perform every step of an election, from generating the electorate data, to casting and confirming ballots from a voters point of view, to the post-election processes like mixing, decryption and tallying.

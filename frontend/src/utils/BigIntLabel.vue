@@ -11,6 +11,7 @@
             <v-divider></v-divider>
             <v-card-text>
                 <v-list>
+                    <v-list-tile-title style="text-transform:uppercase"><b>{{ data.bitLength() }}-Bit number</b></v-list-tile-title>
                     <v-list-tile-title style=" overflow-wrap: break-word; word-wrap: break-word; white-space: pre-wrap; height: auto;">{{ mpzValue }}</v-list-tile-title>
                 </v-list>
             </v-card-text>
@@ -33,6 +34,9 @@
           return {
             truncatedValue: function () {
               if (self.mpzValue !== undefined && self.mpzValue !== null) { return self.mpzValue.toString().substring(0, 10) } else { return '' }
+            },
+            bitLength: function () {
+              return Math.ceil(Math.log(self.mpzValue) / Math.log(2))
             }
           }
         }
