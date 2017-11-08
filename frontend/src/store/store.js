@@ -5,6 +5,7 @@ import BulletinBoard from './modules/BulletinBoard'
 import PrintingAuthority from './modules/PrintingAuthority'
 import Voter from './modules/Voter'
 import ElectionAuthority from './modules/ElectionAuthority'
+import ElectionAdministrator from './modules/ElectionAdministrator'
 
 Vue.use(Vuex)
 
@@ -70,6 +71,7 @@ export const store = new Vuex.Store({
     BulletinBoard,
     PrintingAuthority,
     Voter,
-    ElectionAuthority
+    ElectionAuthority,
+    ElectionAdministrator
   }
 })

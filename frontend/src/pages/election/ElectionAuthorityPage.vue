@@ -26,8 +26,8 @@
             </v-layout>
             <CheckBallotTaskPage></CheckBallotTaskPage>
             <ConfirmationTaskPage></ConfirmationTaskPage>
-            <MixingPage></MixingPage>
-
+            <MixingPage v-if="status == 4"></MixingPage>
+            <DecryptionPage v-if="status == 5"></DecryptionPage>
             <h5 class="">Data</h5>
 
             <v-layout row wrap>
@@ -130,16 +130,16 @@
       }),
       mounted () {
         this.ballotTransition = false
-        this.$store.commit('selectedAuthority', this.$route.params['authid'])
+        this.$store.commit('selectedAuthority', this.$route.params.authid)
       },
-      props: ['authId'],
       computed: {
         ...mapState({
           electionAuthorities: state => state.ElectionAuthority.electionAuthorities,
           expertMode: state => state.BulletinBoard.expertMode
         }),
         ...mapGetters({
-          electionId: 'electionId'
+          electionId: 'electionId',
+          status: 'status'
         }),
         selectedAuthorityIndex: {
           get: function () {

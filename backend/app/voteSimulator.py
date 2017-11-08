@@ -6,6 +6,7 @@ from app.database import db, serializeState
 from app.parties.BulletinBoard import BulletinBoard
 from app.parties.PrintingAuthority import PrintingAuthority
 from app.parties.Voter import Voter
+from app.parties.ElectionAdministrator import ElectionAdministrator
 from bson.objectid import ObjectId
 from app.main.syncService import syncElectionStatus, SyncType
 from chvote.VotingClient.GenBallot import GenBallot
@@ -33,6 +34,10 @@ class VoteSimulator(object):
         # load printing authority
         self.printingAuthority = PrintingAuthority(db.printingAuthorityStates, electionID)
 
+        # load election administrator
+        self.electionAdministrator = ElectionAdministrator(db.electionAdministratorStates, electionID)
+
+
         # load election authorities
         self.authorities = [None] * self.secparams.s
         for j in range(self.secparams.s):
@@ -48,6 +53,7 @@ class VoteSimulator(object):
     def persist(self):
         self.bulletinBoard.persist()
         self.printingAuthority.persist()
+        self.electionAdministrator.persist()
         for authority in self.authorities: authority.persist()
         for voter in self.voters: voter.persist()
 
@@ -160,9 +166,13 @@ class VoteSimulator(object):
         authority = self.authorities[authorityId]
         voter = self.voters[voterId]
 
-        authority.checkBallot(voterId, self.bulletinBoard, self.secparams)
+        checkResult = authority.checkBallot(voterId, self.bulletinBoard, self.secparams)
 
-        if authority.autoCheck: self.respond(voterId, authorityId)
+        if authority.autoCheck:
+            if checkResult:
+                self.respond(voterId, authorityId)
+            else:
+                self.discardBallot(voterId, authorityId)
 
     def respond(self, voterId, authorityId):
         # 6.5 Vote Casting
@@ -234,10 +244,19 @@ class VoteSimulator(object):
 # *********************************
     def startMixing(self):
         # the first election authority must extract the encryptions from the ballot-list
-        self.authorities[0].getEncryptions(self.bulletinBoard, self.secparams)
+        numOfEncryptions = self.authorities[0].getEncryptions(self.bulletinBoard, self.secparams)
+
+        # set the permutation to 1,2,3,...,len(encryptions) inititially for the shuffle transition / animation
+        permutation = [i for i in range(numOfEncryptions)]
+
+        for electionAuthority in self.authorities:
+            electionAuthority.permutation = permutation
+
+        if (self.authorities[0].autoCheck):
+                self.mix(0)
 
     def mix(self, authorityId):
-        if self.bulletinBoard.encryptions[authorityId] == None:
+        if len(self.authorities[authorityId].encryptions) == 0:
             raise RuntimeError("This authority requires the encryptions of the previous authority!")
 
         e_shuffled = self.authorities[authorityId].mix(self.bulletinBoard, self.secparams)
@@ -250,3 +269,21 @@ class VoteSimulator(object):
         else:
             # this was the last authority to mix
             pass
+
+
+    def decrypt(self, authorityId):
+        authority = self.authorities[authorityId]
+
+        shuffleProofCheck = authority.decrypt(self.bulletinBoard, self.secparams)
+        if not shuffleProofCheck:
+            raise RuntimeError("Shuffle proof check failed!")
+
+        if authorityId < self.secparams.s - 1:
+            if (self.authorities[authorityId + 1].autoCheck):
+                self.authorities[authorityId + 1].decrypt(self.bulletinBoard, self.secparams)
+        else:
+            # this was the last authority to decrypt
+            self.updateStatus(6)
+
+    def tally(self):
+        self.electionAdministrator.tally(self.bulletinBoard, self.secparams)

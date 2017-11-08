@@ -6,6 +6,7 @@ from app.database import db, serializeState, deserializeState
 from app.models.bulletinBoardState import BulletinBoardState
 from app.models.electionAuthorityState import ElectionAuthorityState
 from app.models.printingAuthorityState import PrintingAuthorityState
+from app.models.electionAdministratorState import ElectionAdministratorState
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
@@ -35,10 +36,13 @@ def createElection():
             newAuthState = ElectionAuthorityState(j)
             db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j, 'state': serializeState(newAuthState)})
 
-
-        printingAuthState =  PrintingAuthorityState()
         # create new printing authority state
+        printingAuthState =  PrintingAuthorityState()
         db.printingAuthorityStates.insert({'election':str(id), 'state' : serializeState(printingAuthState)})
+
+        # create new election administrator state
+        electionAdminState =  ElectionAdministratorState()
+        db.electionAdministratorStates.insert({'election':str(id), 'state' : serializeState(electionAdminState)})
 
         # update the election list on all clients
         syncElections(SyncType.BROADCAST)

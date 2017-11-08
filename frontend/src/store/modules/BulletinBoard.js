@@ -9,7 +9,8 @@ const state = {
   countingCircles: null,
   eligibilityMatrix: null,
   numberOfParallelElections: null,
-  encryptions: null
+  encryptions: null,
+  decryptions: null
 
 }
 
@@ -29,11 +30,15 @@ const mutations = {
     state.eligibilityMatrix = bb.eligibilityMatrix
     state.numberOfParallelElections = bb.numberOfParallelElections
     state.encryptions = bb.encryptions
+    state.decryptions = bb.decryptions
   }
 }
 
 const getters = {
-
+  getDecryptionsForAuthority: (state, getters) => (authorityId) => {
+    if (state.decryptions.length < authorityId + 1) { return null }
+    return state.decryptions[authorityId]
+  }
 }
 
 export default {

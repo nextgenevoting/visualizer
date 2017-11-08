@@ -22,3 +22,8 @@ class BulletinBoardState(State):
 
         # 6.7 Mixing
         self.encryptions = []
+        self.shuffleProofs = []
+
+        # 6.8
+        self.decryptions = []
+        self.decryptionProofs = []

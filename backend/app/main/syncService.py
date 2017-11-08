@@ -36,6 +36,7 @@ def fullSync(electionID, syncType):
     syncPrintingAuthority(electionID, syncType)
     syncVoters(electionID, syncType)
     syncElectionAuthorities(electionID, syncType)
+    syncElectionAdministrator(electionID, syncType)
     syncElectionStatus(electionID, syncType)
 
 def syncElectionStatus(electionID, syncType):
@@ -65,6 +66,15 @@ def syncPrintingAuthority(electionID, syncType):
         emitToClient('syncPrintingAuthority', paState.toJSON(), syncType, electionID)
     else:
         raise RuntimeError("No PrintingAuthorityState for election {}!".format(electionID))
+
+
+def syncElectionAdministrator(electionID, syncType):
+    eaState = db.electionAdministratorStates.find_one({'election':electionID})
+    if eaState != None:
+        eaState = deserializeState(eaState["state"])
+        emitToClient('syncElectionAdministrator', eaState.toJSON(), syncType, electionID)
+    else:
+        raise RuntimeError("No ElectionAdministrator.py for election {}!".format(electionID))
 
 def syncVoters(electionID, syncType):
     voters = []

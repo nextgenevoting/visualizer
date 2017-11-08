@@ -125,6 +125,7 @@ const getters = {
     }
     return encryptions
   }
+
 }
 
 export default {

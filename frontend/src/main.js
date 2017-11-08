@@ -23,6 +23,7 @@ import ElectionAuthorityPage from './pages/election/ElectionAuthorityPage.vue'
 import ConfirmationTaskPage from './pages/election/electionAuthoritySubpages/ConfirmationTaskPage.vue'
 import CheckBallotTaskPage from './pages/election/electionAuthoritySubpages/CheckBallotTaskPage.vue'
 import MixingPage from './pages/election/electionAuthoritySubpages/MixingPage.vue'
+import DecryptionPage from './pages/election/electionAuthoritySubpages/DecryptionPage.vue'
 import SelectVoterDialog from './utils/SelectVoterDialog.vue'
 import LoadingOverlay from './utils/LoadingOverlay.vue'
 import BigIntLabel from './utils/BigIntLabel.vue'
@@ -66,6 +67,7 @@ Vue.component('SelectVoterDialog', SelectVoterDialog)
 Vue.component('ConfirmationTaskPage', ConfirmationTaskPage)
 Vue.component('CheckBallotTaskPage', CheckBallotTaskPage)
 Vue.component('MixingPage', MixingPage)
+Vue.component('DecryptionPage', DecryptionPage)
 
 Vue.url.options.root = process.env.URL_ROOT
 Vue.use(VueSocketio, process.env.SOCKETIO_BASE_URL, store)

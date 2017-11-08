@@ -88,7 +88,7 @@
           </v-tabs-item>
           <v-tabs-item ripple :to="{ name: 'electionadmin', params: {electionId: electionId }}">
             <v-badge color="">
-              <v-icon slot="badge" dark v-if="status == 0">mdi-alert-decagram</v-icon>
+              <v-icon slot="badge" dark v-if="status == 0 || status == 6">mdi-alert-decagram</v-icon>
               <v-icon>mdi-account-key</v-icon>
             </v-badge>
             Election Admin
@@ -108,7 +108,7 @@
             Voter
           </v-tabs-item>
           <v-tabs-item ripple :to="{ name: 'electionauthority', params: {electionId: electionId, authid: authorityId}}">
-            <v-badge class="">
+            <v-badge color="">
               <v-icon slot="badge" dark v-if="status == 5">mdi-alert-decagram</v-icon>
               <v-icon>mdi-settings-box</v-icon>
             </v-badge>

@@ -1,27 +1,24 @@
 <template>
-    <transition-group tag="div" name="" :appear="mixingTransition">
-        <v-layout row  v-if="encryptions.length > 0" :key="selectedAuthorityIndex">
+    <transition-group tag="div" name="" :appear="decryptionTransition">
+        <v-layout row   :key="selectedAuthorityIndex">
             <v-flex xs12 sm12>
                 <v-card>
                     <v-card-title primary-title>
                         <div>
-                            <div class="headline">Mixing</div>
+                            <div class="headline">Decryption</div>
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        <p>Every election authority must now shuffle the list of encryptions</p>
-                        <transition-group name="flip-list" tag="ul">
-                            <li v-for="(encryption, index) in encryptions" v-bind:key="encryption.key">
-                                <BigIntLabel :mpzValue="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>
-
-                            </li>
-                        </transition-group>
+                        <p></p>
+                        <li v-for="(decryption, index) in decryptions">
+                            <BigIntLabel :mpzValue="decryption"></BigIntLabel>
+                        </li>
                     </v-card-text>
 
                     <v-card-actions>
-                        <v-btn flat color="blue" @click="mix()" :disabled="electionAuthority.encryptionsShuffled.length > 0">
-                            <v-icon left>mdi-shuffle-variant</v-icon>
-                            Shuffle encryptions
+                        <v-btn flat color="blue" :disabled="decryptions !== null" @click="decrypt()" >
+                            <v-icon left>mdi-key-variant</v-icon>
+                            Decrypt
                         </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn icon @click.native="show = !show">
@@ -30,7 +27,7 @@
                     </v-card-actions>
                     <v-slide-y-transition>
                         <v-card-text v-show="show">
-                            todo: infos about the mixing process
+                            todo: infos about the decryption process
                         </v-card-text>
                     </v-slide-y-transition>
                 </v-card>
@@ -43,10 +40,10 @@
     export default {
       data: () => ({
         show: false,
-        mixingTransition: false
+        decryptionTransition: false
       }),
       mounted () {
-        this.mixingTransition = false
+        this.decryptionTransition = false
       },
       computed: {
         selectedAuthorityIndex: {
@@ -63,15 +60,15 @@
             return this.$store.getters.getElectionAuthority(this.selectedAuthorityIndex)
           }
         },
-        encryptions: {
+        decryptions: {
           get: function () {
-            return this.$store.getters.getEncryptionsForAuthority(this.selectedAuthorityIndex)
+            return this.$store.getters.getDecryptionsForAuthority(this.selectedAuthorityIndex)
           }
         }
       },
       methods: {
-        mix: function () {
-          this.$http.post('mix', {
+        decrypt: function () {
+          this.$http.post('decrypt', {
             'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex
           }).then(response => {

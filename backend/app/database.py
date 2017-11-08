@@ -46,4 +46,8 @@ class database(object):
     def voterStates(self):
         return self._db.voterStates
 
+    @property
+    def electionAdministratorStates(self):
+        return self._db.electionAdministratorStates
+
 db = database()

@@ -43,6 +43,26 @@
             <div v-if="status == 3">
                 <v-btn @click="startMixingPhase()">End Election-Phase & start mixing process</v-btn>
             </div>
+
+            <div v-if="status == 4">
+                <v-btn @click="startDecryptionPhase()">Start decryption process</v-btn>
+            </div>
+
+            <div v-if="status == 6">
+                <v-btn @click="tally()">Tally</v-btn>
+
+                <h5>Post-Election data</h5>
+                <v-layout row wrap>
+                    <v-flex xy12 md4>
+                        <DataCard title="Votes" :expandable=false confidentiality="public">{{votes}}
+                        </DataCard>
+                    </v-flex>
+                    <v-flex xy12 md4>
+                        <DataCard title="Final Results" :expandable=false confidentiality="public">{{finalResults}}
+                        </DataCard>
+                    </v-flex>
+                </v-layout>
+            </div>
         </div>
         <div v-else>
             <LoadingOverlay></LoadingOverlay>
@@ -51,7 +71,7 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 import joinRoomMixin from '../../mixins/joinRoomMixin.js'
 
 export default {
@@ -68,6 +88,11 @@ export default {
     ...mapGetters({
       electionId: 'electionId',
       status: 'status'
+    }),
+    ...mapState({
+      votes: state => state.ElectionAdministrator.votes,
+      w_bold: state => state.ElectionAdministrator.w_bold,
+      finalResults: state => state.ElectionAdministrator.finalResults
     })
   },
   methods: {
@@ -108,6 +133,33 @@ export default {
     },
     clear () {
       this.$refs.form.reset()
+    },
+    startDecryptionPhase (newStatus) {
+      this.$http.post('startDecryptionPhase',
+        {
+          'election': this.$route.params['electionId']
+        }
+      ).then(response => {
+        response.json().then((data) => {
+          this.$toasted.success('Successfully set election status to "Mixing Phase"')
+        })
+      }).catch(e => {
+        this.$toasted.error(e.body.message)
+      })
+    },
+
+    tally () {
+      this.$http.post('tally',
+        {
+          'election': this.$route.params['electionId']
+        }
+      ).then(response => {
+        response.json().then((data) => {
+          this.$toasted.success('Successfully tallied election"')
+        })
+      }).catch(e => {
+        this.$toasted.error(e.body.message)
+      })
     }
   }
 }

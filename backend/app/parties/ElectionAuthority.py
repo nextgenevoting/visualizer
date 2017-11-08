@@ -12,6 +12,9 @@ from chvote.ElectionAuthority.GetFinalization import GetFinalization
 from chvote.ElectionAuthority.GetEncryptions import GetEncryptions
 from chvote.ElectionAuthority.GenShuffle import GenShuffle
 from chvote.ElectionAuthority.GenShuffleProof import GenShuffleProof
+from chvote.ElectionAuthority.CheckShuffleProofs import CheckShuffleProofs
+from chvote.ElectionAuthority.GetPartialDecryptions import GetPartialDecryptions
+from chvote.ElectionAuthority.GenDecryptionProof import GenDecryptionProof
 
 class ElectionAuthority(Party):
     """
@@ -169,8 +172,6 @@ class ElectionAuthority(Party):
         AssertList(value)
         self.state.permutation = value
 
-
-
     def GenElectionData(self, bulletinBoard, secparams):
         """
         (Protocol 6.1) Every authority j ∈ {1,...,s} calls GenElectorateData with n, k, E in order to (independently) generate
@@ -299,13 +300,7 @@ class ElectionAuthority(Party):
     def getEncryptions(self, bulletinBoard, secparams):
         encryptions = GetEncryptions(self.ballots, self.confirmations, bulletinBoard.numberOfCandidates, bulletinBoard.countingCircles, secparams)
         self.encryptions = encryptions
-        self.permutation = []
-        i = 0
-        for enc in encryptions:
-            self.permutation.append(i)
-            i += 1
-        bulletinBoard.encryptions.append(encryptions)
-
+        return len(encryptions)
 
 
     def mix(self, bulletinBoard, secparams):
@@ -315,5 +310,18 @@ class ElectionAuthority(Party):
         self.encryptionsShuffled = e_shuffled
         self.permutation = psi
         bulletinBoard.encryptions.append(e_shuffled)
+        bulletinBoard.shuffleProofs.append(pi)
         return e_shuffled
 
+    def decrypt(self, bulletinBoard, secparams):
+
+        e_0 = GetEncryptions(self.ballots, self.confirmations, bulletinBoard.numberOfCandidates, bulletinBoard.countingCircles, secparams)
+        if not CheckShuffleProofs(bulletinBoard.shuffleProofs, e_0, bulletinBoard.encryptions, self.publicKey, self.id, secparams):
+            return False
+        partialDecryptions = GetPartialDecryptions(bulletinBoard.encryptions[-1], self.secretKeyShare, secparams)
+        decryptionProofs = GenDecryptionProof(self.secretKeyShare, self.publicKeyShare, bulletinBoard.encryptions[-1], partialDecryptions, secparams)
+
+        bulletinBoard.decryptions.append(partialDecryptions)
+        bulletinBoard.decryptionProofs.append(decryptionProofs)
+
+        return True

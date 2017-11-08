@@ -113,8 +113,6 @@ class BulletinBoard(Party):
         AssertMpz(value)
         self.state.publicKey = value
 
-        self.state.publicKeyShares = value
-
     @property
     def encryptions(self):
         return self.state.encryptions
@@ -123,3 +121,31 @@ class BulletinBoard(Party):
     def encryptions(self, value):
         AssertList(value)
         self.state.encryptions = value
+
+    @property
+    def shuffleProofs(self):
+        return self.state.shuffleProofs
+
+    @shuffleProofs.setter
+    def shuffleProofs(self, value):
+        AssertList(value)
+        self.state.shuffleProofs = value
+
+    @property
+    def decryptions(self):
+        return self.state.decryptions
+
+    @decryptions.setter
+    def decryptions(self, value):
+        AssertList(value)
+        self.state.decryptions = value
+
+
+    @property
+    def decryptionProofs(self):
+        return self.state.decryptionProofs
+
+    @decryptionProofs.setter
+    def decryptionProofs(self, value):
+        AssertList(value)
+        self.state.decryptionProofs = value

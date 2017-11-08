@@ -11,8 +11,6 @@
             <v-divider></v-divider>
             <v-card-text>
                 <v-list>
-                    <v-list-tile-title style=" overflow-wrap: break-word; word-wrap: break-word; white-space: pre-wrap; height: auto;">Size:</v-list-tile-title>
-
                     <v-list-tile-title style=" overflow-wrap: break-word; word-wrap: break-word; white-space: pre-wrap; height: auto;">{{ mpzValue }}</v-list-tile-title>
                 </v-list>
             </v-card-text>
