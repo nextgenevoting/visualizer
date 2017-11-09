@@ -7,6 +7,7 @@ from gmpy2 import mpz
 from pymongo.son_manipulator import SONManipulator
 import pickle
 from app.models.bulletinBoardState import BulletinBoardState
+import unittest
 
 # use the following function to convert an arbitrary complex data structure into a binary string
 def serializeState(obj):
@@ -50,4 +51,28 @@ class database(object):
     def electionAdministratorStates(self):
         return self._db.electionAdministratorStates
 
+    @property
+    def testSchema(self):
+        return self._db.testSchema
+
 db = database()
+
+class Testobj():
+    def __init__(self, a, b, c):
+        self.a = a
+        self.b = b
+        self.c = mpz(c)
+
+class databaseTest(unittest.TestCase):
+    def testSerialization(self):
+        testObj = Testobj(1,2,5)
+        id = db.testSchema.insert({'test': 'test','state' : serializeState(testObj)})
+        recoveredRecord = db.testSchema.find_one({"_id": id})
+        recoveredState = deserializeState(recoveredRecord["state"])
+
+        self.assertTrue(recoveredState.a==1)
+        self.assertTrue(recoveredState.b == 2)
+        self.assertTrue(recoveredState.c == mpz(5))
+
+if __name__ == '__main__':
+    unittest.main()

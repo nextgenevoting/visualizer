@@ -146,7 +146,7 @@
             return parseInt(this.$route.params['authid'])
           },
           set: function (newAuthId) {
-            if(newAuthId !== null){
+            if (newAuthId !== null) {
               this.$store.commit('selectedAuthority', newAuthId)
               this.$router.push({name: 'electionauthority', params: {electionId: this.$route.params['electionId'], authid: newAuthId}})
             }

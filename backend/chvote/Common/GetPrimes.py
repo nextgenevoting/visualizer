@@ -55,13 +55,12 @@ class GetPrimesTest(unittest.TestCase):
         # specification document.
 
         primes = GetPrimes(50, secparams_l0)
-
-        for i, p in enumerate([   3,   7,  11,  13,  17,  19,  23,  47,  59,  61
-                              ,  67,  71, 101, 103, 107, 113, 127, 137, 149, 179
-                              , 181, 191, 193, 197, 211, 223, 241, 251, 257, 269
-                              , 271, 277, 281, 337, 347, 349, 379, 383, 401, 409
-                              , 421, 439, 449, 461, 467, 491, 503, 509, 521, 541
-                              ]):
+        for i, p in enumerate([mpz(3), mpz(13), mpz(19), mpz(23), mpz(29), mpz(37), mpz(43), mpz(59), mpz(71), mpz(83),
+                          mpz(97), mpz(107), mpz(109), mpz(113), mpz(149), mpz(163), mpz(173), mpz(179), mpz(181),
+                          mpz(229), mpz(233), mpz(239), mpz(251), mpz(257), mpz(269), mpz(271), mpz(277), mpz(281),
+                          mpz(283), mpz(293), mpz(307), mpz(311), mpz(317), mpz(331), mpz(347), mpz(349), mpz(367),
+                          mpz(373), mpz(383), mpz(401), mpz(409), mpz(419), mpz(421), mpz(431), mpz(433), mpz(439),
+                          mpz(443), mpz(449), mpz(499), mpz(509)]):
             self.assertEqual(primes[i], p)
 
     def testPrimesForSecurityLevel1(self):
@@ -70,41 +69,9 @@ class GetPrimesTest(unittest.TestCase):
 
         primes = GetPrimes(50, secparams_l1)
 
-        for i, p in enumerate([   2,   3,  11,  23,  29,  47,  53,  67,  71,  83
-                              ,  89,  97, 101, 113, 127, 151, 163, 173, 191, 193
-                              , 197, 199, 211, 227, 229, 239, 251, 263, 269, 277
-                              , 281, 307, 311, 313, 331, 367, 379, 389, 409, 433
-                              , 439, 457, 479, 491, 509, 521, 523, 541, 547, 577
-                              ]):
+        for i, p in enumerate( [mpz(3), mpz(5), mpz(7), mpz(11), mpz(13), mpz(23), mpz(29), mpz(41), mpz(43), mpz(47), mpz(59), mpz(79), mpz(83), mpz(89), mpz(101), mpz(103), mpz(109), mpz(131), mpz(137), mpz(149), mpz(151), mpz(157), mpz(179), mpz(181), mpz(199), mpz(227), mpz(229), mpz(239), mpz(241), mpz(251), mpz(263), mpz(269), mpz(271), mpz(277), mpz(281), mpz(283), mpz(293), mpz(317), mpz(337), mpz(347), mpz(353), mpz(367), mpz(373), mpz(379), mpz(383), mpz(409), mpz(419), mpz(431), mpz(443), mpz(449)]):
             self.assertEqual(primes[i], p)
 
-    def testPrimesForSecurityLevel2(self):
-        # Test whether the 50 first primes of group G_p for security level 2
-        # are correct according to table 8.8 in the specification document.
-
-        primes = GetPrimes(50, secparams_l2)
-
-        for i, p in enumerate([   2,   3,   5,   7,  13,  19,  29,  31,  41,  47
-                              ,  53,  59,  61,  79,  89,  97, 113, 127, 131, 137
-                              , 139, 149, 151, 191, 193, 199, 211, 229, 263, 283
-                              , 293, 307, 311, 317, 331, 337, 359, 373, 383, 397
-                              , 401, 409, 419, 421, 431, 439, 443, 449, 467, 479
-                              ]):
-                self.assertEqual(primes[i], p)
-
-    def testPrimesForSecurityLevel3(self):
-        # Test whether the 50 first primes of group G_p for security level 3
-        # are correct according to table 8.12 in the specification document.
-
-        primes = GetPrimes(50, secparams_l3)
-
-        for i, p in enumerate([   2,   3,   7,  11,  31,  43,  47,  59,  67,  71
-                              ,  79,  83, 101, 103, 107, 109, 127, 151, 157, 197
-                              , 211, 223, 227, 229, 233, 251, 271, 283, 293, 307
-                              , 367, 373, 383, 419, 421, 431, 443, 449, 461, 463
-                              , 467, 491, 499, 503, 521, 523, 547, 563, 577, 601
-                              ]):
-                self.assertEqual(primes[i], p)
 
 if __name__ == '__main__':
     unittest.main()

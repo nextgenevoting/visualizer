@@ -22,13 +22,13 @@ class Party(object):
             raise RuntimeError("Failed to load state in {}".format(self.__class__.__name__))
 
     def persist(self):
-        saveCondition = {"election": self.electionID}
+        whereCondition = {"election": self.electionID}
         replaceCondition = {"election": self.electionID, "state": serializeState (self.state)}
         if self.additionalConditions != None:
-            saveCondition.update(self.additionalConditions)
+            whereCondition.update(self.additionalConditions)
             replaceCondition.update(self.additionalConditions)
         try:
-            self.collection.replace_one(saveCondition, replaceCondition)
+            self.collection.replace_one(whereCondition, replaceCondition)
         except Exception as e:
             raise RuntimeError("Failed to persist state: {}".format(repr(e)))
 

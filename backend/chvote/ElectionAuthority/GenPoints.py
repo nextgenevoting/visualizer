@@ -56,13 +56,11 @@ def GenPoints(n, k, secparams):
 class GenPointsTest(unittest.TestCase):
     def testGenPoints(self):
         # generate dummy points
-        points, y = GenPoints(unittestparams.n, 2, secparams_l3)
+        points, y = GenPoints(2, 2, secparams_l3)
 
         # check if the number of points returned matches the total number of candidates
-        self.assertTrue(len(points) == unittestparams.n_total)
+        self.assertTrue(len(points) == 2)
 
-        # check if the number of y values for x=0 matches the number of simult. elections (= the number of polynoms)
-        self.assertTrue(len(y) == unittestparams.t)
 
         for point in points:
             # check if each point consists of 2 mpz values
@@ -79,7 +77,7 @@ class GenPointsTest(unittest.TestCase):
         secparams = secparams_l0
         # make sure determnistic random gen is enabled!
         assert(secparams.deterministicRandomGen == True)
-        points, y = GenPoints([1], 1, secparams)
+        points, y = GenPoints(2, 1, secparams)
         i = 1
 
 if __name__ == '__main__':

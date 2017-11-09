@@ -1,5 +1,38 @@
 \chapter{Implementation Details}
-\section{Project structure}
+\section{Components}
+From a highlevel perspective, our application consists of two components which themselve may consist of multiple sub components:
+\begin{itemize}
+	\item Webapplication
+	\item Backend
+	\begin{itemize}
+		\item REST Service
+		\item Datasync Service
+		\item VoteSimulation (based on our CHVote crypto-library)
+	\end{itemize}
+\end{itemize}
+
+\section{Architecture}
+Each visitor of our app is served a singlepage-webapplication (SPA) that runs in the webbrowser. The app consists of webcomponents that are bound to a local datastore that reflects the current state of the election which the user has previously selected.
+
+When the user triggers some action that results in a mutation on the backend, a HTTP call to our REST backend service is created. 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.65]{assets/architecture.pdf}\\
+\caption{Architecture}
+\end{center}
+\end{figure}
+
+
+\section{Frontend}
+\section{Backend}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=0.65]{assets/votecastingDiagram.pdf}\\
+\caption{Vote casting sequence diagram}
+\end{center}
+\end{figure}
+
+\subsection{Project structure}
 We decided to put every algorithm of the specification in its own file together with related unit tests. The files are structured according to the actors of the protocol, for example:
 
 \begin{itemize}
@@ -13,7 +46,7 @@ We decided to put every algorithm of the specification in its own file together 
 	\item \textbf{profiles}: contains JSON files that are used to define election parameters
 \end{itemize}
 
-\section{Public parameters}
+\subsection{Public parameters}
 There exist two types of public parameters:
 
 The \textbf{security relevant parameters}, e.g:
@@ -68,7 +101,7 @@ The following is a exmaple for the contents of a JSON file containing all the pa
 }
 \end{minted}
 
-\section{Coding style}
+\subsection{Coding style}
 The following source code sample shows a typical implemation of an algorithm (in this exmaple, algorithm 7.18 according to the CHVote specification).
 
 \begin{minted}[linenos,tabsize=2,breaklines]{python}
@@ -214,7 +247,7 @@ def main():
 
 By following this approach we can avoid having hundreds of classes only used to pass data structures between the algorithms.
 
-\section{Protocol}
+\subsection{Protocol}
 Upon completion of the algorithm implmentation we have built a protocol layer according to the specification. For that purpose we created a seperate entity for every protocol participant, namely the following ones:
 
 \begin{itemize}

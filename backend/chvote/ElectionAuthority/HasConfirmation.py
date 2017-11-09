@@ -35,10 +35,10 @@ class HasConfirmationTest(unittest.TestCase):
     def testHasConfirmation(self):
         C = [(0, 123), (1, 123), (2, 123)]
 
-        self.assertTrue(HasConfirmation(0, C))
-        self.assertTrue(HasConfirmation(1, C))
-        self.assertTrue(HasConfirmation(2, C))
-        self.assertFalse(HasConfirmation(3, C))
+        self.assertTrue(HasConfirmation(0, C, secparams_l0))
+        self.assertTrue(HasConfirmation(1, C, secparams_l0))
+        self.assertTrue(HasConfirmation(2, C, secparams_l0))
+        self.assertFalse(HasConfirmation(3, C, secparams_l0))
 
 if __name__ == '__main__':
     unittest.main()
