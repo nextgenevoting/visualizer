@@ -5,7 +5,14 @@
 
 \newcommand{\zs}[0]{\cellcolor{zscol}}				% soll
 \newcommand{\zi}[0]{\cellcolor{zicol}}				% ist
-\newcommand{\ms}[0]{\makebox[.613cm][r]{$\blacklozenge$}}	% Meilenstein
+%\newcommand{\ms}[0]{\makebox[.613cm][r]{$\blacklozenge$}}	% Meilenstein
+\newcommand{\ms}[1]{
+	\makebox[.7cm][r]{
+		\tikz[baseline=(char.base)]{
+			\node[shape=circle,draw,inner sep=.02cm,fill=black,text=white] (char) { #1 };
+		}
+	}
+}
 
 \newcommand{\sq}[1]{\textcolor{#1}{\rule{.3cm}{.3cm}}}
 
@@ -21,7 +28,7 @@
 \centering
 \renewcommand{\arraystretch}{1.2}
 \fontsize{2mm}{2mm}\selectfont
-\begin{tabular}{
+\begin{tabular}[c]{
 	|m{7cm}|l
 	*{10}{
 		|>{\centering\arraybackslash}m{.3cm}
@@ -35,7 +42,7 @@
 
 \phase{Documentation}
 \multirow{2}{*}{Update documentation and journal}
-& soll & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs \ms \\ \hhline{~*{21}{-}}
+& soll & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs \ms{5} \\ \hhline{~*{21}{-}}
 & ist  & \zi & \zi & \zi & & & \zi & & & & & & & & & & & \\ \hline
 
 \phase{Concept}
@@ -48,10 +55,10 @@
 
 \phase{Implementation}
 \multirow{2}{*}{Update CHVote cryptolibrary to the lastest specification}
-& soll & \zs & \zs\ms & & & & & & & & & & & & & & & \\ \hhline{~*{21}{-}}
+& soll & \zs & \zs\ms{1} & & & & & & & & & & & & & & & \\ \hhline{~*{21}{-}}
 & ist  & \zi & \zi & & & & & & & & & & & & & & & \\ \hline
 \multirow{2}{*}{Prototyping (proof of concept)}
-& soll & & & \zs & \zs\ms & & & & & & & & & & & & & \\ \hhline{~*{21}{-}}
+& soll & & & \zs & \zs\ms{2} & & & & & & & & & & & & & \\ \hhline{~*{21}{-}}
 & ist  & & & \zi & \zi & & & & & & & & & & & & & \\ \hline
 
 \phase{Iteration 1}
@@ -65,7 +72,7 @@
 & soll & & & & & & & & \zs & \zs & & & & & & & & \\ \hhline{~*{21}{-}}
 & ist  & & & & & & & & \zi & \zi & & & & & & & & \\ \hline
 \multirow{2}{*}{Implement frontend: Post-election}
-& soll & & & & & & & & & \zs & \zs\ms & & & & & & & \\ \hhline{~*{21}{-}}
+& soll & & & & & & & & & \zs & \zs\ms{3} & & & & & & & \\ \hhline{~*{21}{-}}
 & ist  & & & & & & & & & & & & & & & & & \\ \hline
 
 \phase{Iteration 2}
@@ -79,7 +86,7 @@
 & soll & & & & & & & & & & & & & \zs & \zs & & & \\ \hhline{~*{21}{-}}
 & ist  & & & & & & & & & & & & & & & & & \\ \hline
 \multirow{2}{*}{Improve frontend and implement can-criteria: Post-election}
-& soll & & & & & & & & & & & & & & & \zs & \zs\ms & \\ \hhline{~*{21}{-}}
+& soll & & & & & & & & & & & & & & & \zs & \zs\ms{4} & \\ \hhline{~*{21}{-}}
 & ist  & & & & & & & & & & & & & & & & & \\ \hline
 
 \phase{Project completion}
