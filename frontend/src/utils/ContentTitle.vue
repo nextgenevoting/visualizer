@@ -1,9 +1,14 @@
 <template>
     <div class="layout row wrap">
-        <div class="contentHeader">
-            <v-icon>{{ icon }}</v-icon>
-        </div>
-        <h3 class="my-3">{{ title}}</h3>
+        <v-flex xy6 md6>
+            <div class="contentHeader">
+                <v-icon>{{ icon }}</v-icon>
+            </div>
+            <h3 class="my-3">{{ title}}</h3>
+        </v-flex>
+        <v-flex xy6 md6>
+            <slot></slot>
+        </v-flex>
     </div>
 </template>
 <script>

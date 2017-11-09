@@ -1,14 +1,17 @@
 <template>
     <v-container grid-list-md>
         <div v-if="this.$store.state.loaded">
-            <ContentTitle icon="mdi-account" :title="selectedVoterName || 'Voter View'"></ContentTitle>
+            <ContentTitle icon="mdi-account" :title="selectedVoterName || 'Voter View'">
+                <v-btn flat color="blue" @click="changeVoter" class="changeVoterBtn"><v-icon>mdi-account-multiple</v-icon> Select voter</v-btn>
+            </ContentTitle>
+
+
             <!--<v-btn flat color="blue" v-if="this.$store.state.selectedVoter != null" @click="changeVoter()" class="changeVoterButton">Change Voter</v-btn>-->
             <div v-if="status < 1">
                 Before you can vote, the election must be set up
             </div>
             <div v-else>
                 <v-flex xy12 md6 v-if="selectedVoter == null">Please choose a voter first<br>
-                    <v-btn flat color="blue" @click="changeVoter">Select voter</v-btn>
                 </v-flex>
                 <v-flex xy12 md12 v-else>
                     <v-stepper color="blue" alt-labels :value="voter.status + 1">
@@ -110,10 +113,6 @@
                         </v-flex>
                         <v-flex x12 md6>{{ votingCard }}</v-flex>
                     </div>
-                    <v-tooltip left>
-                        <v-btn slot="activator"  color="blue" fab fixed top right dark style="top: 150px;"  v-if="this.$store.state.selectedVoter != null" @click="changeVoter()"><v-icon>mdi-account-multiple</v-icon></v-btn>
-                        <span>Change voter</span>
-                    </v-tooltip>
                 </v-flex>
             </div>
         </div>
@@ -278,4 +277,7 @@
         margin-bottom: 20px;
     }
 
+    .changeVoterBtn{
+        position: absolute !important;right: 35px;margin-top: 25px;
+    }
 </style>

@@ -7,11 +7,11 @@
                 <v-flex xs12 sm12>
                     <v-btn-toggle v-model="selectedAuthorityIndex">
                         <v-btn flat v-for="auth in electionAuthorities" :key="auth.id">
-                            <v-badge color="blue" right>
+                            <v-badge color="red" right>
                                 <span slot="badge" v-if="auth.checkBallotTasks.length > 0">{{ auth.checkBallotTasks.length
                                     }}</span>
-                                <v-icon>mdi-settings-box</v-icon>
-                                Authority {{auth.id + 1}}
+                                Authority {{auth.id + 1}}  <v-chip v-if="auth.autoCheck" small outline color="secondary">auto</v-chip>
+
                             </v-badge>
                         </v-btn>
                     </v-btn-toggle>
@@ -146,8 +146,10 @@
             return parseInt(this.$route.params['authid'])
           },
           set: function (newAuthId) {
-            this.$store.commit('selectedAuthority', newAuthId)
-            this.$router.push({name: 'electionauthority', params: {electionId: this.$route.params['electionId'], authid: newAuthId}})
+            if(newAuthId !== null){
+              this.$store.commit('selectedAuthority', newAuthId)
+              this.$router.push({name: 'electionauthority', params: {electionId: this.$route.params['electionId'], authid: newAuthId}})
+            }
           }
         },
         electionAuthority: {
@@ -184,12 +186,13 @@
         width: 100%;
         background-color: transparent !important;
         margin-top: -5px !important;
+        opacity: 1;
     }
 
     .btn-toggle .btn {
         width: 33%;
         border-radius: 4px !important;
-
+        opacity: 1;
     }
 
     .btn-toggle--selected {
@@ -198,6 +201,14 @@
 
     .highlight-enter-active {
         animation: highlight 2.5s;
+    }
+
+    .btn-toggle .badge{
+        font-weight: 300;
+    }
+
+    .btn--active .badge{
+        font-weight: 600;
     }
 
     @keyframes highlight {

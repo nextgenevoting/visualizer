@@ -5,7 +5,7 @@
                 <v-card>
                     <v-card-title primary-title>
                         <div>
-                            <div class="headline">Ballot check for voter {{checkBallotTask.voterId + 1}}</div>
+                            <div class="headline">Ballot check for Voter {{checkBallotTask.voterId + 1}}</div>
                         </div>
                     </v-card-title>
                     <v-card-text>
