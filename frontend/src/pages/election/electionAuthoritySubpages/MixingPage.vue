@@ -1,6 +1,6 @@
 <template>
-    <transition-group tag="div" name="" :appear="mixingTransition">
-        <v-layout row  v-if="encryptions.length > 0" :key="selectedAuthorityIndex">
+    <transition-group tag="div" name="bounce" :appear="mixingTransition">
+        <v-layout row  v-if="status == 4 && encryptions.length > 0" :key="selectedAuthorityIndex">
             <v-flex xs12 sm12>
                 <v-card>
                     <v-card-title primary-title>
@@ -19,7 +19,7 @@
                     </v-card-text>
 
                     <v-card-actions>
-                        <v-btn flat color="blue" @click="mix()" :disabled="electionAuthority.encryptionsShuffled.length > 0">
+                        <v-btn flat color="blue" @click="mix()" :disabled="hasAuthorityShuffled">
                             <v-icon left>mdi-shuffle-variant</v-icon>
                             Shuffle encryptions
                         </v-btn>
@@ -40,6 +40,8 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     export default {
       data: () => ({
         show: false,
@@ -49,6 +51,9 @@
         this.mixingTransition = false
       },
       computed: {
+        ...mapGetters({
+          status: 'status'
+        }),
         selectedAuthorityIndex: {
           get: function () {
             return parseInt(this.$route.params.authid)
@@ -66,6 +71,11 @@
         encryptions: {
           get: function () {
             return this.$store.getters.getEncryptionsForAuthority(this.selectedAuthorityIndex)
+          }
+        },
+        hasAuthorityShuffled: {
+          get: function () {
+            return this.$store.getters.hasAuthorityShuffled(this.selectedAuthorityIndex)
           }
         }
       },
@@ -95,11 +105,11 @@
     }
 
     .bounce-enter-active {
-        animation: bounce-in .5s;
+        animation: bounce-in .8s;
     }
 
     .bounce-leave-active {
-        animation: bounce-in .4s reverse;
+        animation: bounce-in .8s reverse;
     }
 
     @keyframes bounce-in {

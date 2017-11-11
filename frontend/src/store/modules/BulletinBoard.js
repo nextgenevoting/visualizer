@@ -10,7 +10,9 @@ const state = {
   eligibilityMatrix: null,
   numberOfParallelElections: null,
   encryptions: null,
-  decryptions: null
+  decryptions: null,
+  shuffleProofs: null,
+  decryptionProofs: null
 
 }
 
@@ -31,6 +33,8 @@ const mutations = {
     state.numberOfParallelElections = bb.numberOfParallelElections
     state.encryptions = bb.encryptions
     state.decryptions = bb.decryptions
+    state.shuffleProofs = bb.shuffleProofs
+    state.decryptionProofs = bb.decryptionProofs
   }
 }
 

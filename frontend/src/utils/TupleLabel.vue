@@ -1,5 +1,5 @@
 <template>
-    <p>{{ data.truncatedValue() }}
+    <p>{{ tupleValue.length }}-Tuple
     <v-menu
             offset-x
             :close-on-content-click="false"
@@ -11,8 +11,8 @@
             <v-divider></v-divider>
             <v-card-text>
                 <v-list>
-                    <v-list-tile-title class="datacardTitle" v-if="isString(mpzValue)"><b>{{ data.bitLength() }}-Bit number</b></v-list-tile-title>
-                    <v-list-tile-title class="datacardValue">{{ mpzValue }}</v-list-tile-title>
+                    <v-list-tile-title class="datacardTitle" v-if="tupleValue instanceof Array"><b>{{tupleValue.length}}-Tuple</b></v-list-tile-title>
+                    <v-list-tile-title class="datacardValue">{{ tupleValue }}</v-list-tile-title>
                 </v-list>
             </v-card-text>
 
@@ -33,17 +33,14 @@
           var self = this
           return {
             truncatedValue: function () {
-              if (self.mpzValue !== undefined && self.mpzValue !== null) { return self.mpzValue.toString().substring(0, 10) } else { return '' }
-            },
-            bitLength: function () {
-              return Math.ceil(Math.log(self.mpzValue) / Math.log(2))
+              if (self.tupleValue !== undefined && self.tupleValue !== null) { return self.tupleValue.toString().substring(0, 10) } else { return '' }
             }
           }
         }
       },
       props: {
-        mpzValue: {
-          type: String,
+        tupleValue: {
+          type: Array,
           required: true
         }
       },
@@ -67,7 +64,10 @@ p{
 }
 
 .datacardValue{
-    overflow-wrap: break-word; word-wrap: break-word; white-space: pre-wrap; height: auto;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    height: auto;
 }
 
 </style>

@@ -280,7 +280,7 @@ class VoteSimulator(object):
 
         if authorityId < self.secparams.s - 1:
             if (self.authorities[authorityId + 1].autoCheck):
-                self.authorities[authorityId + 1].decrypt(self.bulletinBoard, self.secparams)
+                self.decrypt(authorityId+1)
         else:
             # this was the last authority to decrypt
             self.updateStatus(6)

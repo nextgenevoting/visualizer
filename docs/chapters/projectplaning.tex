@@ -1,0 +1,79 @@
+\chapter{Project Plan}
+\section{Project Method}
+\section{Requirements}
+\subsection{General Requirements}
+\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\hline
+ & Description & Must & Priority & Iteration & Status\\
+\hline
+R1 & The CHVote protocol is implemented as specified in the latest specification document. The only exclusion are the algorithms for channel security. & Must & High & 1 & Done\\
+R2 & The application is web-based shows updates within the same demo-election in real-time. & Must & High & 1 & Done\\
+R3 & The system supports 1-out-of-3 type of elections (e.g. elect 1 of 3 possible candidates) & Must & High & 1 & Done\\
+R4 & The system supports internationalization. Providing more than one language is not required. & Must & High & 1 & Done\\
+R5 & Users can create new elections & Must & High & 1 & Done \\
+R6 & The system can handle k-out-of-n type of elections & Must & Medium & 1 & Pending\\
+\end{longtable}
+
+
+\subsection{Election-Overview}
+\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\hline
+ & Description & Must & Priority & Iteration & Status\\
+\hline
+R6 & The overview shows which phase the election is currently in & Must & Medium & Iteration 2 & \\
+R7 & A graphical scheme of the chVote protocol gives an overview of all participating parties & Must & Medium & Iteration 2 & \\
+\end{longtable}
+
+\subsection{Election Administrator}
+\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\hline
+ & Description & Must & Priority & Iteration & Status\\
+\hline
+R8 & An election can be set up by providing all required information such as the candidates, number of parallel voters, the number of voters and the number of selections (simplified JSON input) & Must & High & Iteration 1 & Done\\
+R8 & The election can be set up without entering the parameters in JSON format and allows easier set up of elections with multiple parallel election events & Low & Iteration 2 & \\
+R9 & The election administrator view allows to perform the tallying and displays the final result of an election in numbers and a pie chart & Must & High & Iteration 1 & \\
+R10 &  During election setup, the security parameters can be chosen from a set of predefined parameters & Can & Low & Iteration 2 & \\
+\end{longtable}
+
+\subsection{Printing Authority}
+\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\hline
+ & Description & Must & Priority & Iteration & Status\\
+\hline
+R8 & Users can generate and display voting cards for an election. & Must & High & Iteration 1 & Done\\
+R8 & Voting cards hide sensitive information behind a scratch card & Can & High & Iteration 2 & \\
+\end{longtable}
+
+\subsection{Election Authority}
+\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\hline
+ & Description & Must & Priority & Iteration & Status\\
+\hline
+R8 & The election authority view shows all information known to an election authority & Must & High & Iteration 1 & Done\\
+R8 & After a voter has submitted a ballot, all election authorities can check and respond to the voters submission & Must & High & Iteration 1 & Done\\
+R8 & In the post-election phase, all election authorities can perform the mixing and decryption tasks & Must & High & Iteration 2 & \\
+R9 & Each authority has a setting such that it automatically processes all tasks & Can & High & Iteration 2 & Partially done\\
+\end{longtable}
+
+
+\subsection{Voter}
+\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\hline
+ & Description & Must & Priority & Iteration & Status\\
+\hline
+R8 & Users are able to go through the whole vote-casting process for every voter & Must & High & Iteration 1 & Done\\
+R8 & The voting card of a voter is displayed on screen. The voting and confirmation codes can be copied into the input textfields by double clicking & Must & Medium & Iteration 1 & Partially done \\
+\end{longtable}
+
+
+\subsection{Bulletin Board}
+\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\hline
+ & Description & Must & Priority & Iteration & Status\\
+\hline
+R8 & The bulletin board view shows what information is publicly available & Must & High & Iteration 1 & Done\\
+R8 & The bulletin board view is extended with verification-functionality & Can & Low & Iteration 2 & \\
+\end{longtable}
+
+
+\section{Timeplan}

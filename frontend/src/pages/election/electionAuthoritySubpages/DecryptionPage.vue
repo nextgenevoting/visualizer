@@ -1,6 +1,6 @@
 <template>
-    <transition-group tag="div" name="" :appear="decryptionTransition">
-        <v-layout row   :key="selectedAuthorityIndex">
+    <transition-group tag="div" name="bounce" :appear="decryptionTransition">
+        <v-layout row  :key="selectedAuthorityIndex" v-if="status == 5 && decryptions === null">
             <v-flex xs12 sm12>
                 <v-card>
                     <v-card-title primary-title>
@@ -37,6 +37,8 @@
 </template>
 
 <script>
+    import { mapGetters } from 'vuex'
+
     export default {
       data: () => ({
         show: false,
@@ -46,6 +48,9 @@
         this.decryptionTransition = false
       },
       computed: {
+        ...mapGetters({
+          status: 'status'
+        }),
         selectedAuthorityIndex: {
           get: function () {
             return parseInt(this.$route.params.authid)
@@ -92,11 +97,11 @@
     }
 
     .bounce-enter-active {
-        animation: bounce-in .5s;
+        animation: bounce-in .8s;
     }
 
     .bounce-leave-active {
-        animation: bounce-in .4s reverse;
+        animation: bounce-in .8s reverse;
     }
 
     @keyframes bounce-in {

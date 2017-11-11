@@ -27,6 +27,7 @@ import DecryptionPage from './pages/election/electionAuthoritySubpages/Decryptio
 import SelectVoterDialog from './utils/SelectVoterDialog.vue'
 import LoadingOverlay from './utils/LoadingOverlay.vue'
 import BigIntLabel from './utils/BigIntLabel.vue'
+import TupleLabel from './utils/TupleLabel.vue'
 import DataCard from './utils/DataCard.vue'
 import ContentTitle from './utils/ContentTitle.vue'
 import Toasted from 'vue-toasted'
@@ -60,6 +61,7 @@ Vue.use(VueI18n)
 Vue.use(VueI18nDirectives)
 Vue.use(Toasted, { position: 'top-right', duration: '4000' })
 Vue.component('BigIntLabel', BigIntLabel)
+Vue.component('TupleLabel', TupleLabel)
 Vue.component('DataCard', DataCard)
 Vue.component('LoadingOverlay', LoadingOverlay)
 Vue.component('ContentTitle', ContentTitle)

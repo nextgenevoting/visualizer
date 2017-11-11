@@ -8,10 +8,8 @@
                     <v-btn-toggle v-model="selectedAuthorityIndex">
                         <v-btn flat v-for="auth in electionAuthorities" :key="auth.id">
                             <v-badge color="red" right>
-                                <span slot="badge" v-if="auth.checkBallotTasks.length > 0">{{ auth.checkBallotTasks.length
-                                    }}</span>
+                                <span slot="badge" v-if="auth.checkBallotTasks.length > 0">{{ auth.checkBallotTasks.length }}</span>
                                 Authority {{auth.id + 1}}  <v-chip v-if="auth.autoCheck" small outline color="secondary">auto</v-chip>
-
                             </v-badge>
                         </v-btn>
                     </v-btn-toggle>
@@ -21,18 +19,36 @@
             <v-layout row>
                 <v-flex xs12 sm1><h5 class="">Tasks</h5></v-flex>
                 <v-flex sm12 sm11>
-                    <v-switch label="Automatic processing" v-model="autoMode"></v-switch>
+                    <v-switch label="Automatic process tasks" v-model="autoMode"></v-switch>
                 </v-flex>
             </v-layout>
             <CheckBallotTaskPage></CheckBallotTaskPage>
             <ConfirmationTaskPage></ConfirmationTaskPage>
-            <MixingPage v-if="status == 4"></MixingPage>
-            <DecryptionPage v-if="status == 5"></DecryptionPage>
+            <MixingPage></MixingPage>
+            <DecryptionPage></DecryptionPage>
             <h5 class="">Data</h5>
+            <transition-group tag="v-layout" name="highlight" :appear="dataTransition" class="row wrap">
+                <v-flex xy12 md6 v-if="status >= 5 && decryptions !== null" key="dec">
+                    <DataCard title="Partial Decryptions" :isMpz=true :expandable=false confidentiality="public">
+                        <v-layout row v-for="(decryption, index) in decryptions">
+                            <v-flex xy6 md6>Partial Decryption {{index+1}}</v-flex>
+                            <v-flex xy6 md6><BigIntLabel :mpzValue="decryption"></BigIntLabel></v-flex>
+                        </v-layout>
+                    </DataCard>
+                </v-flex>
 
-            <v-layout row wrap>
+                <v-flex xy12 md6 v-if="status >= 4 && hasAuthorityShuffled" key="enc">
+                    <DataCard title="Encryptions" :isMpz=true :expandable=false confidentiality="public">
+                        <v-layout row v-for="(encryption, index) in encryptions">
+                            <v-flex xy4 md6>Encryption {{index+1}}</v-flex>
+                            <v-flex xy4 md6><BigIntLabel :mpzValue="encryption.a"></BigIntLabel></v-flex>
+                            <v-flex xy4 md6><BigIntLabel :mpzValue="encryption.b"></BigIntLabel></v-flex>
+                        </v-layout>
+                    </DataCard>
+                </v-flex>
 
-                <v-flex xy12 md12>
+
+                <v-flex xy12 md12 key="ballots">
                     <DataCard title="Ballots" :isMpz=true :expandable=false confidentiality="encrypted">
 
                         <transition-group tag="v-expansion-panel" name="highlight" class="expansion-panel--popout" :appear="ballotTransition">
@@ -45,8 +61,8 @@
                                 <v-card>
                                     <v-card-text class="grey lighten-3">
                                         <v-layout row>
-                                            <v-flex xy4 md4>Encrypted selections:</v-flex>
-                                            <v-flex xy8 md8>
+                                            <v-flex xy2 md2>Encrypted selections:</v-flex>
+                                            <v-flex x10 md10>
                                                 <span v-for="elgamalEncryption in ballot.ballot.a_bold">
                                                 (<BigIntLabel :mpzValue="elgamalEncryption[0]"></BigIntLabel>,
                                                 <BigIntLabel :mpzValue="elgamalEncryption[1]"></BigIntLabel>)
@@ -54,12 +70,12 @@
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row>
-                                            <v-flex xy4 md4>Public voter credential:</v-flex>
-                                            <v-flex x8 md8><BigIntLabel :mpzValue="ballot.ballot.x_hat"></BigIntLabel></v-flex>
+                                            <v-flex xy2 md2>Public voter credential:</v-flex>
+                                            <v-flex xy10 md10><BigIntLabel :mpzValue="ballot.ballot.x_hat"></BigIntLabel></v-flex>
                                         </v-layout>
                                         <v-layout row>
-                                            <v-flex xy4 md4>Ballot-Proof:</v-flex>
-                                            <v-flex xy8 md8>
+                                            <v-flex xy2 md2>Ballot-Proof:</v-flex>
+                                            <v-flex x10 md10>
                                                 <span v-for="a in ballot.ballot.pi">
                                                 <p v-for="i in a"><BigIntLabel :mpzValue="i"></BigIntLabel></p>
                                                 </span>
@@ -73,25 +89,25 @@
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md4>
+                <v-flex xy12 md4 key="pk">
                     <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKey"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md4>
+                <v-flex xy12 md4 key="pkshares">
                     <DataCard title="Public Key Share" :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md4>
+                <v-flex xy12 md4 key="skshares">
                     <DataCard title="Secret Key Share" :isMpz=true :expandable=false confidentiality="secret">
                         <BigIntLabel :mpzValue="electionAuthority.secretKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md4 v-if="expertMode">
+                <v-flex xy12 md4 v-if="expertMode" key="points">
                     <DataCard title="Points" :expandable=true confidentiality="secret">
                         Points of all voters
                         <ul id="list" slot="expandContent">
@@ -110,7 +126,7 @@
                         </ul>
                     </DataCard>
                 </v-flex>
-            </v-layout>
+            </transition-group>
         </div>
         <div v-else>
             <LoadingOverlay></LoadingOverlay>
@@ -126,9 +142,11 @@
       mixins: [joinRoomMixin],
       data: () => ({
         show: false,
-        ballotTransition: false
+        ballotTransition: false,
+        dataTransition: false
       }),
       mounted () {
+        this.dataTransition = false
         this.ballotTransition = false
         this.$store.commit('selectedAuthority', this.$route.params.authid)
       },
@@ -173,6 +191,21 @@
           },
           set: function (value) {
             this.$store.dispatch('setAutoMode', {electionId: this.$route.params['electionId'], electionAuthorityId: this.selectedAuthorityIndex, newValue: value})
+          }
+        },
+        hasAuthorityShuffled: {
+          get: function () {
+            return this.$store.getters.hasAuthorityShuffled(this.selectedAuthorityIndex)
+          }
+        },
+        decryptions: {
+          get: function () {
+            return this.$store.getters.getDecryptionsForAuthority(this.selectedAuthorityIndex)
+          }
+        },
+        encryptions: {
+          get: function () {
+            return this.$store.getters.getEncryptionsForAuthority(this.selectedAuthorityIndex)
           }
         }
       },

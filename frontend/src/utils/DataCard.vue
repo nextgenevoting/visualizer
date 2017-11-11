@@ -85,7 +85,7 @@
 
     .dataCard .dataCardContent{
         padding: 2px 16px 10px 16px !important;
-        font-size: 22px;
+        font-size: 22px !important;
         min-height: 52px;
     }
 

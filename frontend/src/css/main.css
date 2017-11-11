@@ -155,3 +155,17 @@ font-size: 14px;
   left: 45%;
   position: absolute;
 }
+
+.expansion-panel__header{
+  font-size: 16px !important;
+}
+
+.card__text{
+  font-size: 16px !important;
+}
+
+/* custom icons in buttons */
+.btn img{
+  width: 20px;
+  margin-right: 5px;
+}

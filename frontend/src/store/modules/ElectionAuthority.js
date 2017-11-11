@@ -110,6 +110,10 @@ const getters = {
     }
     return -1
   },
+  hasAuthorityShuffled: (state, getters) => (authorityId) => {
+    let electionAuthority = getters.getElectionAuthority(authorityId)
+    return electionAuthority.encryptionsShuffled.length > 0
+  },
   getEncryptionsForAuthority: (state, getters) => (authorityId) => {
     let electionAuthority = getters.getElectionAuthority(authorityId)
     let encSource = null
@@ -121,6 +125,7 @@ const getters = {
     let encryptions = []
     let i = 0
     for (let enc of encSource) {
+      // combine the encryptions with the permutation. The permutation is required as a key for the shuffle transition animation
       encryptions.push({a: enc[0], b: enc[1], key: electionAuthority.permutation[i++]})
     }
     return encryptions

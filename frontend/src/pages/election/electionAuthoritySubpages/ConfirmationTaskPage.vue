@@ -125,11 +125,11 @@
 <style>
 
     .bounce-enter-active {
-        animation: bounce-in .5s;
+        animation: bounce-in .8s;
     }
 
     .bounce-leave-active {
-        animation: bounce-in .4s reverse;
+        animation: bounce-in .8s reverse;
     }
 
     @keyframes bounce-in {

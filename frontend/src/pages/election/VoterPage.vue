@@ -57,7 +57,8 @@
 
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn flat color="blue" @click="castVote()">Cast vote</v-btn><v-btn flat>Abort</v-btn>
+                                    <v-btn flat color="blue" @click="castVote(false)">Cast vote</v-btn>
+                                    <v-btn flat @click="castVote(true)"><img src="/public/spy.png" />Manipulate selection</v-btn>
                                 </v-card-actions>
                             </v-card>
 
@@ -111,7 +112,15 @@
                                 </v-card-text>
                             </v-card>
                         </v-flex>
-                        <v-flex x12 md6>{{ votingCard }}</v-flex>
+                        <v-flex x12 md6>
+                            <ul>
+                                <li>Voting Code: <b>{{ votingCard["votingCode"]}}</b></li>
+                                <li>Confirmation Code: <b>{{ votingCard["confirmationCode"]}}</b></li>
+                                <li>Verification Codes: <b>{{ votingCard["verificationCodes"]}}</b></li>
+                                <li>Finaliazation Code: <b>{{ votingCard["finalizationCode"]}}</b></li>
+
+                            </ul>
+                        </v-flex>
                     </div>
                 </v-flex>
             </div>
@@ -203,13 +212,15 @@
         }
       },
       methods: {
-        generateVotingSheets: function (event) {
-          this.$socket.emit('generateVotingSheets', {'election': this.$route.params['electionId']})
-        },
         changeVoter: function () {
           this.$store.commit('voterDialog', true)
         },
-        castVote: function () {
+        castVote: function (manipulate) {
+          let selection = this.selection.sort()
+          if (manipulate) {
+            selection[0] = (selection[0] + 1) % this.numberOfCandidates[0]
+          }
+
           this.$http.post('castVote',
             {
               'election': this.$route.params['electionId'],
@@ -244,9 +255,9 @@
       },
       watch: {
         selectedVoter: function (newValue) {
-          console.log('voter changed')
           this.selection = []
           this.votingCode = ''
+          this.confirmationCode = ''
         }
       }
     }
