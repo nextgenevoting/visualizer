@@ -46,11 +46,11 @@ The backend mainly consists of the VoteSimulation which implements the CHVote pr
 \subsection{VoteSimulation}
 We have divided the state of a CHVote election into the following classes:
 \begin{itemize}
-	\item BulletinBoardState: Holds all data that is publicly available on the bulletin board (the number of candidates, the tallied result)
-	\item ElectionAuthorityState: Holds all data that an election authority knows (e.g. the list of ballots, the secret key of an election authority)
-	\item VoterState: Since there is no distinction made between a voter and a voting client in our application, the VoterState contains the data of both the voter (e.g. the voting card) and the data typically known to the voting client (e.g. the points returned by the oblivious transfer)
-	\item PrintingAuthorityState: Holds the data known to the printing authority (e.g. the list of all voters private credentials and the voting cards)
-	\item ElectionAdministratorState: Holds all data known to the election administrator 
+	\item \textbf{BulletinBoardState}: Holds all data that is publicly available on the bulletin board (the number of candidates, the tallied result)
+	\item \textbf{ElectionAuthorityState}: Holds all data that an election authority knows (e.g. the list of ballots, the secret key of an election authority)
+	\item \textbf{VoterState}: Since there is no distinction made between a voter and a voting client in our application, the VoterState contains the data of both the voter (e.g. the voting card) and the data typically known to the voting client (e.g. the points returned by the oblivious transfer)
+	\item \textbf{PrintingAuthorityState}: Holds the data known to the printing authority (e.g. the list of all voters private credentials and the voting cards)
+	\item \textbf{ElectionAdministratorState}: Holds all data known to the election administrator 
 \end{itemize}
 
 Since our application must handle multiple elections in parallel, the state cannot be kept in RAM, but needs to be persisted between every single request. For this reason we evaluated different database systems and concepts. We decided not to use a relational database system that requires us to define a database schema as we want our state objects to be the only place where the schema is defined. This makes it easier to apply changes to the protocol in future. 
@@ -61,7 +61,7 @@ An election contains multiple VoterStates and ElectionAuthorityStates. Therefore
 
 % TODO : Grafik der MongoDB collections / Struktur %
 
-The only common functionality between every state object, is the ability to serialize the object to a JSON string. For this reason we had to write a custom transformer which tells the JSON parser how to serialize datatypes such as mpz, bytearrays and custom classes. Luckily, python offers a way to easily serialize any custom object. By calling \begin{minted}[linenos,tabsize=2,breaklines]{python}object.__dict__\end{minted} we can convert an object into a dictionary, as long as transformer is able to serialize all properties of the object.
+The only common functionality between every state object, is the ability to serialize the object to a JSON string. For this reason we had to write a custom transformer which tells the JSON parser how to serialize datatypes such as mpz, bytearrays and custom classes. Luckily, python offers a way to easily serialize any custom object. By calling \mintinline{python}/object.__dict__/ we can convert an object into a dictionary, as long as transformer is able to serialize all properties of the object.
 
 \subsection{Actor/Party-classes}
 We described how the state classes are used to divide the data of the VoteSimulation into smaller units. Similarly, the functionality of the VoteSimulation class is separated into classes, one for every actor in the protocol.
@@ -82,6 +82,19 @@ The following sequence diagram shows how the vote casting use case is implemente
 \end{figure}
 
 \section{Crypto-library}
+\section{Language choice}
+As both team members are working in different fields of employment and are experienced in different programming languages, there wasn't an obvious choice as in what programming language we would implement this project. Also, as Java has already been used by the team in Geneva, Java was out of question. Different programming languages have been taken into consideration and in the end Python seemed like a rather suitable language due to the following reasons:
+
+\begin{itemize}
+	\item simple syntax and commonly known language features
+	\item mature language and standard libraries
+	\item python's syntax enables programs to be written in a compact and readable style
+	\item native support for large integers (\textit{BigInts}) and bindings for the GMP\footnote{GMP is a free library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers, see \url{https://gmplib.org/}.} library
+	\item supports a lot of platforms
+	\item many popular web development frameworks are implementated in Python
+\end{itemize}
+
+Throughout the project not all of the reason above turned out to be true or ideal. The drawbacks that we have experienced during the implementation of this project will be discussed at the end of this document.
 
 \subsection{Project structure}
 We decided to put every algorithm of the specification in its own file together with related unit tests. The files are structured according to the actors of the protocol, for example:
@@ -213,7 +226,7 @@ Each file also contains unit test relevant to the specific algorithm (if unit te
 The following example shows the similarities between the algorithm pseudo code and the actual implmentation in Python:
 
 \begin{multicols}{2}
-%\includegraphics[width=0.46\textwidth]{images/genballot.png}
+\includegraphics[width=0.46\textwidth]{assets/genballot.png}
 \columnbreak
 \begin{minted}[fontsize=\scriptsize]{python}
 x = mpz(StringToInteger(X_bold, secparams.A_X))
@@ -272,5 +285,11 @@ Our frontend is a singlepage application built with Javascript, VueJS, HTML5 and
 Every site of our applications consists of at least one VueJS component which is activated when the user visits the corresponding route in the URL.
 \subsection{Datastore}
 The web application's datastore is divided into multiple modules, one datastore module for each corresponding state of the backend.
+
+TODO: Grafik die zeigt, wie VueX Datastores mit Backend States zusammenhängen
  
-%TODO: Grafik die zeigt, wie VueX Datastores mit Backend States zusammenhängen %
+\subsection{Websocket room concept}
+TODO: Konzept mit den Rooms / Election IDs beschreiben
+
+\subsection{Development Environment}
+TODO: Webpack, ESlint etc. beschreiben

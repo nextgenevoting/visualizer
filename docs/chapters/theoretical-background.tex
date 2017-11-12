@@ -1,6 +1,6 @@
 \chapter{CHVote Protocol}
 \section{Protocol}
-The protocol our solution is based on, does not originate from us! The concept and specification has been created by Rolf Haenni and his team at Institute for Security in the Information Society (RISIS) of the Bern University of Applied Sciences. For this project, we have implemented the protocol according to their specification. In this chapter we summarize the most important aspects of the protocol for better understanding.
+The protocol our solution is based on, does not originate from us! The concept and specification has been created by Rolf Haenni and his team at Institute for Security in the Information Society (RISIS) of the Bern University of Applied Sciences. For this project, we have implemented the protocol according to their specification. In this chapter we summarize the most important aspects of the protocol for better understanding our application.
 
 \section{Goals}
 As pointed out earlier, one of the big challenges an E-Voting protocol has to solve is the verifiability of the voting result while still ensuring the privacy of all voters. Another big problem e-voting systems are facing is the risk of a voting client being infected by malware which manipulates casting of a vote without the voters notice. Both of these issues are addressed by the use of modern cryptography.
@@ -13,6 +13,7 @@ A voter uses a voting client (website) to form a ballot according to the protoco
 \subsection{Election Administrator}
 The election administrator, typically a person of the government, sets up the election by providing the necessary information such as the candidates and the voters. He is also responsible for determining and publishing the final results of the election.
 \subsection{Election Authorities}
+The election authorities can be seen as some kind of observer. 
 \subsection{Bulletin Board}
 \subsection{Printing Authority}
 
