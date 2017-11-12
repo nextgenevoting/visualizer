@@ -1,16 +1,16 @@
 import Vue from 'vue'
 
 /*
+ // if normalization is desired: Please remember that normalizr requires that every schema contains an id
+ // since our API doesn't provide ids for ballots, encryptions etc., we would have generate some random ID on the client:
 const processStrategy = value => {
     if (!Object.prototype.hasOwnProperty.call(value, 'uid')) value.uid = cuid();
     return {...value};
 };
-
 // Schema for normalization
 const ballotSchema = new schema.Entity('ballot', undefined, {
     idAttribute: 'uid', processStrategy
 });
-
 const electionAuthoritySchema = new schema.Entity('voter', {
     ballots: [ballotSchema],
 });

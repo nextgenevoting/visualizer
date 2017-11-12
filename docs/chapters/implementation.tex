@@ -1,36 +1,87 @@
 \chapter{Implementation Details}
-\section{Components}
-From a highlevel perspective, our application consists of two components which themselve may consist of multiple sub components:
+In this chapter, we will describe the details on how we implemented the application. We will start explaining the architecture from a high-level perspective with each component being a blackbox. Later sections of this chapter will then further describe the internals of each component of our system.
+\section{Component Overview}
+From a high-level perspective, our application consists of three components which themselves may consist of multiple sub components:
 \begin{itemize}
-	\item Webapplication
+	\item Web application
 	\item Backend
 	\begin{itemize}
 		\item REST Service
 		\item Datasync Service
-		\item VoteSimulation (based on our CHVote crypto-library)
+		\item VoteSimulation
 	\end{itemize}
+	\item CHVote crypto-library
 \end{itemize}
+%TODO: Component diagram %
+
+\subsection{Technologies and Frameworks}
+Since the CHVote crypto-library has been already implemented in python during project II, python was also the obvious choice for the backend. \textbf{Python} offers a wide variety of frameworks for building webservices. Since we planed on building a singlepage-application for the client, we chose the lightweight micro-framework flask for building a restful webservice. \textbf{Flask} also offers support for websockets and the popular websocket framework socket.io, which we used also in our frontend. \textbf{Socket.io} simplifies the usage of websockets and offers fallback technologies such as longpolling in case websocket is not supported by the browser or the webserver. For persisting the state of an election between the stateless API/webservice calls, we use mongoDB to store the states of all parties of an election.
+
+For our frontend (web application) we evaluated several singlepage application (SPA) frameworks. \textbf{VueJS} is a new, modern and lightweight SPA framework that in contrast to Angular has a much flatter learning curve but still offered all the functionality that we needed. The VueJS addon Vuex enabled us to establish a datastore pattern in our frontend, which makes it possible to have a copy of the backend datastore in our web application which is synchronized in real-time through socket.io.
+
+More about how these technologies and frameworks are used and the communication between these components is described in more details in the following sections.
 
 \section{Architecture}
-Each visitor of our app is served a singlepage-webapplication (SPA) that runs in the webbrowser. The app consists of webcomponents that are bound to a local datastore that reflects the current state of the election which the user has previously selected.
+The core of our application is the VoteSimulation component in our backend which implements the evoting protocol by utilizing all algorithms of the CHVote crypto-library according to the CHVote specification. The VoteSimulation component internally holds the state of a whole CHVote election and exposes functions to manipulate this state at a granularity required by our web application to implement all usecases. For example: The VotingSimulation contains a list of ballots and exposes functions to cast a new ballot, which will generate a new ballot according to the protocol, by calling the CHVote crypto-library, and adds the ballot to the ballotlist.
 
-When the user triggers some action that results in a mutation on the backend, a HTTP call to our REST backend service is created. 
+On top of the VoteSimulation we have implemented a REST service that acts a facade to the VoteSimulation component and makes it's functionality available as an API for our webclient. The REST service also has to initialize the VoteSimulation by loading and persisting it's state from and to the database between each API call.
+
+Since it's a requirement that all clients of a particular election must be notified of mutations of the state, we have implemented a data sync service which allows to push the state or parts of the state of the VoteSimulation to the webclients by using the websocket protocol. This service is utilized by the REST service after every API call that could have potentially manipulated the state.
+
+To establish a proper separation of concerns, the state of the VoteSimulation is always sent to the client via the data sync service. The REST service only returns success or error codes or information that is required in response to some particular API call, and never state objects. On the other hand, the data sync service does never manipulate the state of the VoteSimulation and is solely responsible for sending data to the client.
+
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.65]{assets/architecture.pdf}\\
+\includegraphics[scale=0.62]{assets/architecture.pdf}
 \caption{Architecture}
 \end{center}
 \end{figure}
 
+From the clients point of view, the webclient contains a copy of the whole VoteSimulation state in a local datastore. This store is initially populated when the web application is initialized with an election. Whenever the state of the VoteSimulation changes, the data sync service is is called to push the new data to the web application. A local mutation handler is called inside the web application which writes the new data into the local datastore.
 
-\section{Frontend}
+Since the components that the webpages of the web application are built of, are directly bound to the local datastore, all mutations automatically reflected to the user. From those pages, the REST API can be called to trigger some CHVote specific action on the backend. The resulting state change is again being pushed to all clients while the responsible client that performed the HTTPS request will additionally receive a success code, or an error message in case of an error.
+
 \section{Backend}
+The backend mainly consists of the VoteSimulation which implements the CHVote protocol by using the CHVote crypto-library. 
+\subsection{VoteSimulation}
+We have divided the state of a CHVote election into the following classes:
+\begin{itemize}
+	\item BulletinBoardState: Holds all data that is publicly available on the bulletin board (the number of candidates, the tallied result)
+	\item ElectionAuthorityState: Holds all data that an election authority knows (e.g. the list of ballots, the secret key of an election authority)
+	\item VoterState: Since there is no distinction made between a voter and a voting client in our application, the VoterState contains the data of both the voter (e.g. the voting card) and the data typically known to the voting client (e.g. the points returned by the oblivious transfer)
+	\item PrintingAuthorityState: Holds the data known to the printing authority (e.g. the list of all voters private credentials and the voting cards)
+	\item ElectionAdministratorState: Holds all data known to the election administrator 
+\end{itemize}
+
+Since our application must handle multiple elections in parallel, the state cannot be kept in RAM, but needs to be persisted between every single request. For this reason we evaluated different database systems and concepts. We decided not to use a relational database system that requires us to define a database schema as we want our state objects to be the only place where the schema is defined. This makes it easier to apply changes to the protocol in future. 
+
+For our purpose, mongoDB seemed like a good choice. Since we do not need the ability to access and filter our data with arbitrary queries, but only need to be able to save and load a state object of a particular election, we simply store the whole state as a binary string in a mongoDB collection. The only additional attribute that is saved to the database alongside with the serialized state is the electionId which denotes which election a particular state belongs to. 
+
+An election contains multiple VoterStates and ElectionAuthorityStates. Therefore, these two states additionally require an electionAuthorityId and a voterId.
+
+% TODO : Grafik der MongoDB collections / Struktur %
+
+The only common functionality between every state object, is the ability to serialize the object to a JSON string. For this reason we had to write a custom transformer which tells the JSON parser how to serialize datatypes such as mpz, bytearrays and custom classes. Luckily, python offers a way to easily serialize any custom object. By calling \begin{minted}[linenos,tabsize=2,breaklines]{python}object.__dict__\end{minted} we can convert an object into a dictionary, as long as transformer is able to serialize all properties of the object.
+
+\subsection{Actor/Party-classes}
+We described how the state classes are used to divide the data of the VoteSimulation into smaller units. Similarly, the functionality of the VoteSimulation class is separated into classes, one for every actor in the protocol.
+
+% TODO: Diagram %
+
+The common functionality, namely, a function for loading the corresponding state from the database and one for persisting the state to the database, are contained in an abstract base class.
+
+\subsection{REST Service}
+\subsection{Data-Sync Service}
+
+The following sequence diagram shows how the vote casting use case is implemented within the backend.
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.65]{assets/votecastingDiagram.pdf}\\
 \caption{Vote casting sequence diagram}
 \end{center}
 \end{figure}
+
+\section{Crypto-library}
 
 \subsection{Project structure}
 We decided to put every algorithm of the specification in its own file together with related unit tests. The files are structured according to the actors of the protocol, for example:
@@ -42,8 +93,6 @@ We decided to put every algorithm of the specification in its own file together 
 	\item \textbf{VotingClient}: contains all the algorithms used by the voting client
 	\item \textbf{ElectionAdministration}: contains all the algorithms used by the election administrator
 	\item \textbf{Utils}: contains helper classes and miscellaneous utility functions
-	\item \textbf{Protocol}: contains the protocol implementation
-	\item \textbf{profiles}: contains JSON files that are used to define election parameters
 \end{itemize}
 
 \subsection{Public parameters}
@@ -69,37 +118,7 @@ The security parameters are typically used within the algorithms and remain unch
 
 The object \texttt{SecurityParams} holds all security relevant parameters and is injected as an additional function argument to all algorithms. Several different \texttt{SecurityParams} objects are created initially, which contain all the parameters according to the recommendations in the CHVote specification document ("level 0" for testing purposes and "level 1" through "level 3" for actual use of the protocol). This approach allows us to use different levels of security during development of the algorithms and protocols. For simple unit testing we used "level 0" in order to inject the security parameters recommended for testing puposes. For actual test runs of the project the security parameters from "level 2" were used.
 
-The public election parameters are defined in a JSON file and simply read as an object which is directly accessed by the protocol. If an algorithm needs to know certain election parameters (like the size of the electorate $N_E$), these values are typically derived from vectors that they have access to, so they do not require specific knowledge of these parameters.
-
-The following is a exmaple for the contents of a JSON file containing all the parameters:
-
-\begin{minted}[linenos,tabsize=2,breaklines]{json}
-{
-  "autoGenerateVoters" : true,
-  "numberOfVotersToGenerate" : 50,
-  "voters" : [
-    {
-      "name" : "Voter1",
-      "selection" : "1,5"
-    },
-    {
-      "name" : "Voter2",
-      "selection" : "0,5"
-    },
-    {
-      "name": "Voter3",
-      "selection": "0,5"
-    }
-  ],
-  "t" : 2,
-  "n" : [5, 3],
-  "c" : ["Hillary Clinton", "Donald Trump", "Vladimir Putin", "Marine Le Pen", "May", "Yes", "No", "Empty"],
-  "k" : [1, 1],
-  "E" : [[1, 1], [1, 1], [1, 1]],
-  "securityLevel" : 2,
-  "deterministicRandomGeneration" : false
-}
-\end{minted}
+The public election parameters on the other hand are directly passed to the algorithms by the calling party. If an algorithm needs to know certain election parameters (like the size of the electorate $N_E$), these values are typically derived from vectors that they have access to, so they do not require specific knowledge of these parameters.
 
 \subsection{Coding style}
 The following source code sample shows a typical implemation of an algorithm (in this exmaple, algorithm 7.18 according to the CHVote specification).
@@ -245,42 +264,13 @@ def main():
    x_hat = b.x_hat
 \end{minted}
 
-By following this approach we can avoid having hundreds of classes only used to pass data structures between the algorithms.
+By following this approach we can avoid having lots of container classes only used to pass data structures between the algorithms.
 
-\subsection{Protocol}
-Upon completion of the algorithm implmentation we have built a protocol layer according to the specification. For that purpose we created a seperate entity for every protocol participant, namely the following ones:
+\section{Frontend}
+Our frontend is a singlepage application built with Javascript, VueJS, HTML5 and CSS3. We tried to follow the design patterns and best practices proposed by the VueJS framework wherever possible.
 
-\begin{itemize}
-	\item \textbf{VotingClient}
-	\item \textbf{ElectionAuthority}
-	\item \textbf{BulletinBoard}
-	\item \textbf{PrintingAuthority}
-\end{itemize}
-
-The following example shows the first step of protocol 6.5:
-
-\begin{minted}[linenos,tabsize=2,breaklines]{python}
-def castVote(self, s, autoInput, secparams):
-		self.pk = GetPublicKey(self.bulletinBoard.pk_bold,secparams)
-
-		X = input('Enter your voting code: ')
-		(self.alpha, self.r) = GenBallot(X, s, self.pk, secparams)
-
-		return (self.alpha, self.r)
-\end{minted}
-
-Finally, within a \textbf{VoteSimulation}, all these entities are instantiated and perform their protocol steps in order. The following example illustrates the vote casting phase:
-
-\begin{minted}[linenos,tabsize=2,breaklines]{python}
-votingClients = [VotingClient(i, self.voters[i], self.rawSheetData[i], self.bulletinBoard) for i in range(len(self.voters))]
-for votingClient in votingClients:
-		# Get selection (protocol 6.4)
-		s = votingClient.candidateSelection(autoInput, self.secparams)
-
-		# Generate ballot & send oblivious transfer query (protocol 6.5)
-		(ballot, r) = votingClient.castVote(s, autoInput, self.secparams)
-
-		# Generate oblivious transfer response & check ballot (protocol 6.5)
-		responses = [(authority.name, authority.runCheckBallot(votingClient.i, ballot, self.secparams)) for authority in self.authorities]
-		for res in responses: print("Ballot validity checked by authority %s: %r" % (res[0], res[1]))
-\end{minted}
+Every site of our applications consists of at least one VueJS component which is activated when the user visits the corresponding route in the URL.
+\subsection{Datastore}
+The web application's datastore is divided into multiple modules, one datastore module for each corresponding state of the backend.
+ 
+%TODO: Grafik die zeigt, wie VueX Datastores mit Backend States zusammenhängen %
