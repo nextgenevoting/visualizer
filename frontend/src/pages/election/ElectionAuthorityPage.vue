@@ -30,7 +30,7 @@
             <transition-group tag="v-layout" name="highlight" :appear="dataTransition" class="row wrap">
                 <v-flex xy12 md6 v-if="status >= 5 && decryptions !== null" key="dec">
                     <DataCard title="Partial Decryptions" :isMpz=true :expandable=false confidentiality="public">
-                        <v-layout row v-for="(decryption, index) in decryptions">
+                        <v-layout row v-for="(decryption, index) in decryptions" :key="index">
                             <v-flex xy6 md6>Partial Decryption {{index+1}}</v-flex>
                             <v-flex xy6 md6><BigIntLabel :mpzValue="decryption"></BigIntLabel></v-flex>
                         </v-layout>
@@ -39,7 +39,7 @@
 
                 <v-flex xy12 md6 v-if="status >= 4 && hasAuthorityShuffled" key="enc">
                     <DataCard title="Encryptions" :isMpz=true :expandable=false confidentiality="public">
-                        <v-layout row v-for="(encryption, index) in encryptions">
+                        <v-layout row v-for="(encryption, index) in encryptions" :key="index">
                             <v-flex xy4 md6>Encryption {{index+1}}</v-flex>
                             <v-flex xy4 md6><BigIntLabel :mpzValue="encryption.a"></BigIntLabel></v-flex>
                             <v-flex xy4 md6><BigIntLabel :mpzValue="encryption.b"></BigIntLabel></v-flex>
