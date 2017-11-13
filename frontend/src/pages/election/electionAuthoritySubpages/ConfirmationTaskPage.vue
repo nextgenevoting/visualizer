@@ -5,29 +5,29 @@
                 <v-card>
                     <v-card-title primary-title>
                         <div>
-                            <div class="headline">Confirmation for voter {{checkConfirmationTask.voterId + 1}}</div>
+                            <div class="headline">{{ $t('ConfirmationTask.confirmation_for_voter_n', { n: checkConfirmationTask.voterId + 1 }) }}</div>
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        <p>Please check the confirmation and finalize the vote</p>
+                        <p v-t="'ConfirmationTask.check_confirmation_and_finalize'"></p>
                     </v-card-text>
                     <v-card-text v-if="checkConfirmationTask.checkResults[selectedAuthorityIndex] != null">
-                        Result of Check: {{ checkConfirmationTask.checkResults[selectedAuthorityIndex] }}
+                        {{ $t('result_of_check') }}: {{ checkConfirmationTask.checkResults[selectedAuthorityIndex] }}
                     </v-card-text>
                     <v-card-actions>
                         <v-btn flat color="blue" @click="checkConfirmation(checkConfirmationTask.voterId)">
                             <v-icon left>mdi-approval</v-icon>
-                            Check Validity
+                            {{ $t('check_validity') }}
                         </v-btn>
                         <v-btn flat color="blue" @click="finalize(checkConfirmationTask.voterId)"
                                :disabled="!checkConfirmationTask.checkResults[selectedAuthorityIndex]">
                             <v-icon left>mdi-reply</v-icon>
-                            Finalize
+                            {{ $t('finalize') }}
                         </v-btn>
                         <v-btn flat color="red" @click="discardConfirmation(checkConfirmationTask.voterId)"
                                :disabled="checkConfirmationTask.checkResults[selectedAuthorityIndex] || checkConfirmationTask.checkResults[selectedAuthorityIndex] == null">
                             <v-icon left>mdi-cancel</v-icon>
-                            Discard confirmation
+                            {{ $t('ConfirmationTask.discard_confirmation') }}
                         </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn icon @click.native="show = !show">
@@ -84,7 +84,7 @@
           }).then(response => {
             response.json().then((data) => {
               // success callback
-              this.$toasted.success('Successfully checked confirmation')
+              this.$toasted.success(this.$i18n.t('ConfirmationTask.successfully_checked_confirmation'))
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)
@@ -98,7 +98,7 @@
           }).then(response => {
             response.json().then((data) => {
               // success callback
-              this.$toasted.success('Successfully finalized ballot')
+              this.$toasted.success(this.$i18n.t('ConfirmationTask.successfully_finalized_ballot'))
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)
@@ -112,7 +112,7 @@
           }).then(response => {
             response.json().then((data) => {
               // success callback
-              this.$toasted.success('Successfully discarded confirmation')
+              this.$toasted.success(this.$i18n.t('ConfirmationTask.successfully_discarded_confirmation'))
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)

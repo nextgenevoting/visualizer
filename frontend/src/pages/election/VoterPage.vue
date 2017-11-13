@@ -1,26 +1,26 @@
 <template>
     <v-container grid-list-md>
         <div v-if="this.$store.state.loaded">
-            <ContentTitle icon="mdi-account" :title="selectedVoterName || 'Voter View'">
-                <v-btn flat color="blue" @click="changeVoter" class="changeVoterBtn"><v-icon>mdi-account-multiple</v-icon> Select voter</v-btn>
+            <ContentTitle icon="mdi-account" :title="selectedVoterName || $t('Voter.title')">
+                <v-btn flat color="blue" @click="changeVoter" class="changeVoterBtn">
+                  <v-icon>mdi-account-multiple</v-icon>
+                  {{ $t('Voter.select_voter') }}
+                </v-btn>
             </ContentTitle>
 
 
             <!--<v-btn flat color="blue" v-if="this.$store.state.selectedVoter != null" @click="changeVoter()" class="changeVoterButton">Change Voter</v-btn>-->
-            <div v-if="status < 1">
-                Before you can vote, the election must be set up
-            </div>
+            <div v-if="status < 1" v-t="'Voter.before_vote'"></div>
             <div v-else>
-                <v-flex xy12 md6 v-if="selectedVoter == null">Please choose a voter first<br>
-                </v-flex>
+                <v-flex xy12 md6 v-if="selectedVoter == null" v-t="'Voter.choose_voter_first'"></v-flex>
                 <v-flex xy12 md12 v-else>
                     <v-stepper color="blue" alt-labels :value="voter.status + 1">
                         <v-stepper-header>
-                            <v-stepper-step step="1" :complete="voter.status >= 1">Vote Casting</v-stepper-step>
+                            <v-stepper-step step="1" :complete="voter.status >= 1" v-t="'vote_casting'"></v-stepper-step>
                             <v-divider></v-divider>
-                            <v-stepper-step step="2" :complete="voter.status >= 2">Confirmation</v-stepper-step>
+                            <v-stepper-step step="2" :complete="voter.status >= 2" v-t="'confirmation'"></v-stepper-step>
                             <v-divider></v-divider>
-                            <v-stepper-step step="3" :complete="voter.status >= 3">Finalization</v-stepper-step>
+                            <v-stepper-step step="3" :complete="voter.status >= 3" v-t="'finalization'"></v-stepper-step>
                         </v-stepper-header>
                     </v-stepper>
                     <div class="layout row wrap">
@@ -28,37 +28,36 @@
                         <v-flex v-if="voter.status == 0" x12 md6>
                             <v-card v-if="hasCheckBallotTask > -1">
                                 <v-card-title primary-title>
-                                    <div class="headline">Waiting for election-authority</div>
+                                    <div class="headline" v-t="'Voter.waiting_for_election_authority'"></div>
                                 </v-card-title>
                                 <v-card-text>
-                                    Authority {{ hasCheckBallotTask + 1 }} is processing your vote
+                                    {{ $t('Voter.authority_n_processing_vote', { n: hasCheckBallotTask + 1 }) }}
                                     <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
                                 </v-card-text>
                             </v-card>
                             <v-card v-else>
                                 <v-card-title primary-title>
-                                    <div class="headline">Vote Casting</div>
+                                    <div class="headline" v-t="'vote_casting'"></div>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-form ref="form" class="votingForm" lazy-validation>
 
-                                    <ul v-for="(i,index) in numberOfParallelElections" class="electionForm">
-                                        Your selection for election {{index + 1}}
+                                    <ul v-for="(i, index) in numberOfParallelElections" class="electionForm">
+                                        {{ $t('Voter.your_selection_for_election_n', { n: index + 1 }) }}
                                         <li v-for="candidate in candidatesForElection[index]">
-                                            <v-checkbox :label="candidate.name"
-                                                        v-model="selection"
-                                                        :value="candidate.index"
-                                                        color="blue"
-                                                        hide-details></v-checkbox>
+                                            <v-checkbox :label="candidate.name" v-model="selection" :value="candidate.index" color="blue" hide-details></v-checkbox>
                                         </li>
                                     </ul>
-                                        <v-text-field label="Voting Code" v-model="votingCode" required></v-text-field>
+                                        <v-text-field :label="$t('voting_code')" v-model="votingCode" required></v-text-field>
                                     </v-form>
 
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn flat color="blue" @click="castVote(false)">Cast vote</v-btn>
-                                    <v-btn flat @click="castVote(true)"><img src="/public/spy.png" />Manipulate selection</v-btn>
+                                    <v-btn flat color="blue" @click="castVote(false)">{{ $t('cast_vote') }}</v-btn>
+                                    <v-btn flat @click="castVote(true)">
+                                      <img src="/public/spy.png" />
+                                      {{ $t('Voter.manipulate_selection') }}
+                                    </v-btn>
                                 </v-card-actions>
                             </v-card>
 
@@ -67,33 +66,40 @@
                         <v-flex v-if="voter.status == 1" x12 md6>
                             <v-card v-if="hasCheckConfirmationTask > -1">
                                 <v-card-title primary-title>
-                                    <div class="headline">Waiting for election-authority</div>
+                                    <div class="headline" v-t="'Voter.waiting_for_election_authority'"></div>
                                 </v-card-title>
                                 <v-card-text>
-                                    Authority {{ hasCheckConfirmationTask + 1 }} is processing your confirmation
+                                    {{ $t('Voter.authority_n_processing_vote', { n: hasCheckConfirmationTask + 1 }) }}
                                     <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
                                 </v-card-text>
                             </v-card>
                             <v-card v-else>
                                 <v-card-title primary-title>
-                                    <div class="headline">Vote Confirmation</div>
+                                    <div class="headline" v-t="'Voter.vote_confirmation'"></div>
                                 </v-card-title>
                                 <v-card-text>
                                     <v-form ref="form" class="confirmationForm" lazy-validation>
-                                        <p>Please check if the displayed codes match the verification codes of the selected candidates on your voting card:<br><br></p>
+                                        <p v-t="'Voter.check_displayed_codes'"></p><br><br>
                                         <div>
                                         <ul>
                                             <li v-for="(verificationCode, index) in voter.verificationCodes">
-                                                Verification Code {{index + 1}}: <b>{{ verificationCode }}</b>
+                                                {{ $t('Voter.verification_code_n', { n: index + 1 }) }}
+                                                <b>{{ verificationCode }}</b>
                                             </li>
-                                        </ul><br></div>
-                                        <p>Please confirm your vote with your confirmation code:</p>
-                                        <v-text-field label="Confirmation Code" v-model="confirmationCode" required></v-text-field>
+                                        </ul><br>
+                                        </div>
+                                        <p v-t="'Voter.confirm_vote_with_code'"></p>
+                                        <v-text-field :label="$t('Voter.confirmation_code')" v-model="confirmationCode" required></v-text-field>
                                     </v-form>
 
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn flat color="blue" @click="confirmVote()">Confirm vote</v-btn><v-btn flat>Abort</v-btn>
+                                    <v-btn flat color="blue" @click="confirmVote()">
+                                      {{ $t('Voter.confirm_vote') }}
+                                    </v-btn>
+                                    <v-btn flat>
+                                      {{ $t('cancel') }}
+                                    </v-btn>
                                 </v-card-actions>
                             </v-card>
 
@@ -102,22 +108,22 @@
                         <v-flex v-if="voter.status == 2" x12 md6>
                             <v-card>
                                 <v-card-title primary-title>
-                                    <div class="headline">Vote Confirmation</div>
+                                    <div class="headline" v-t="'Voter.vote_confirmation'"></div>
                                 </v-card-title>
                                 <v-card-text>
-                                    You have confirmed your vote. Please check if the displayed finalization code matches the finalization code on your voting card:<br><br>
+                                    {{ $t('Voter.you_have_confirmed_your_vote') }}:<br><br>
                                     <v-form ref="form" class="finalizationForm">
-                                        Finalization Code: <b>{{ voter.finalizationCode }}</b>
+                                        {{ $t('Voter.finalization_code') }}: <b>{{ voter.finalizationCode }}</b>
                                     </v-form>
                                 </v-card-text>
                             </v-card>
                         </v-flex>
                         <v-flex x12 md6>
                             <ul>
-                                <li>Voting Code: <b>{{ votingCard["votingCode"]}}</b></li>
-                                <li>Confirmation Code: <b>{{ votingCard["confirmationCode"]}}</b></li>
-                                <li>Verification Codes: <b>{{ votingCard["verificationCodes"]}}</b></li>
-                                <li>Finaliazation Code: <b>{{ votingCard["finalizationCode"]}}</b></li>
+                                <li>{{ $t('voting_code') }}: <b>{{ votingCard["votingCode"]}}</b></li>
+                                <li>{{ $t('Voter.confirmation_code') }}: <b>{{ votingCard["confirmationCode"]}}</b></li>
+                                <li>{{ $t('Voter.verification_codes') }}: <b>{{ votingCard["verificationCodes"]}}</b></li>
+                                <li>{{ $t('Voter.finalization_code') }}: <b>{{ votingCard["finalizationCode"]}}</b></li>
 
                             </ul>
                         </v-flex>
@@ -246,7 +252,7 @@
             }
           ).then(response => {
             response.json().then((data) => {
-              this.$toasted.success('Successfully confirmed vote')
+              this.$toasted.success(this.$i18n.t('Voter.successfully_confirmed_vote'))
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)

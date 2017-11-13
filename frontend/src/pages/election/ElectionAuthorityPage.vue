@@ -1,7 +1,7 @@
 <template>
     <v-container grid-list-md>
         <div v-if="this.$store.state.loaded">
-            <ContentTitle icon="mdi-settings-box" title="Election Authorities"></ContentTitle>
+            <ContentTitle icon="mdi-settings-box" :title="$t('ElectionAuthority.title')"></ContentTitle>
             <v-layout row>
 
                 <v-flex xs12 sm12>
@@ -9,7 +9,8 @@
                         <v-btn flat v-for="auth in electionAuthorities" :key="auth.id">
                             <v-badge color="red" right>
                                 <span slot="badge" v-if="auth.checkBallotTasks.length > 0">{{ auth.checkBallotTasks.length }}</span>
-                                Authority {{auth.id + 1}}  <v-chip v-if="auth.autoCheck" small outline color="secondary">auto</v-chip>
+                                {{ $t('authority') }} {{auth.id + 1}}
+                                <v-chip v-if="auth.autoCheck" small outline color="secondary" v-t="'auto'"></v-chip>
                             </v-badge>
                         </v-btn>
                     </v-btn-toggle>
@@ -17,30 +18,30 @@
             </v-layout>
             <br>
             <v-layout row>
-                <v-flex xs12 sm1><h5 class="">Tasks</h5></v-flex>
+                <v-flex xs12 sm1><h5 v-t="'tasks'"></h5></v-flex>
                 <v-flex sm12 sm11>
-                    <v-switch label="Automatic process tasks" v-model="autoMode"></v-switch>
+                    <v-switch :label="$t('ElectionAuthority.auto_process_tasks')" v-model="autoMode"></v-switch>
                 </v-flex>
             </v-layout>
             <CheckBallotTaskPage></CheckBallotTaskPage>
             <ConfirmationTaskPage></ConfirmationTaskPage>
             <MixingPage></MixingPage>
             <DecryptionPage></DecryptionPage>
-            <h5 class="">Data</h5>
+            <h5 v-t="'data'"></h5>
             <transition-group tag="v-layout" name="highlight" :appear="dataTransition" class="row wrap">
                 <v-flex xy12 md6 v-if="status >= 5 && decryptions !== null" key="dec">
-                    <DataCard title="Partial Decryptions" :isMpz=true :expandable=false confidentiality="public">
+                    <DataCard :title="$t('ElectionAuthority.partial_decryptions')" :isMpz=true :expandable=false confidentiality="public">
                         <v-layout row v-for="(decryption, index) in decryptions" :key="index">
-                            <v-flex xy6 md6>Partial Decryption {{index+1}}</v-flex>
+                            <v-flex xy6 md6>{{ $t('ElectionAuthority.partial_decryption_n', { n: index + 1 }) }}</v-flex>
                             <v-flex xy6 md6><BigIntLabel :mpzValue="decryption"></BigIntLabel></v-flex>
                         </v-layout>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md6 v-if="status >= 4 && hasAuthorityShuffled" key="enc">
-                    <DataCard title="Encryptions" :isMpz=true :expandable=false confidentiality="public">
+                    <DataCard :title="$t('encryptions')" :isMpz=true :expandable=false confidentiality="public">
                         <v-layout row v-for="(encryption, index) in encryptions" :key="index">
-                            <v-flex xy4 md6>Encryption {{index+1}}</v-flex>
+                            <v-flex xy4 md6>{{ $t('ElectionAuthority.encryption_n', { n: index + 1 }) }}</v-flex>
                             <v-flex xy4 md6><BigIntLabel :mpzValue="encryption.a"></BigIntLabel></v-flex>
                             <v-flex xy4 md6><BigIntLabel :mpzValue="encryption.b"></BigIntLabel></v-flex>
                         </v-layout>
@@ -49,19 +50,19 @@
 
 
                 <v-flex xy12 md12 key="ballots">
-                    <DataCard title="Ballots" :isMpz=true :expandable=false confidentiality="encrypted">
+                    <DataCard :title="$t('ballots')" :isMpz=true :expandable=false confidentiality="encrypted">
 
                         <transition-group tag="v-expansion-panel" name="highlight" class="expansion-panel--popout" :appear="ballotTransition">
                             <v-expansion-panel-content v-for="ballot in ballots" :key="ballot.ballot.x_hat">
-                                <div slot="header">Ballot of voter {{ballot.voterId}}
+                                <div slot="header">{{ $t('ElectionAuthority.ballot_of_voter_n', { n: ballot.voterId }) }}
                                     <transition name="highlight">
-                                        <v-chip left label outline color="green" v-if="ballot.confirmation !== null">Confirmed</v-chip>
+                                        <v-chip left label outline color="green" v-if="ballot.confirmation !== null" v-t="'confirmed'"></v-chip>
                                     </transition>
                                 </div>
                                 <v-card>
                                     <v-card-text class="grey lighten-3">
                                         <v-layout row>
-                                            <v-flex xy2 md2>Encrypted selections:</v-flex>
+                                            <v-flex xy2 md2 v-t="'ElectionAuthority.encrypted_selections'"></v-flex>
                                             <v-flex x10 md10>
                                                 <span v-for="elgamalEncryption in ballot.ballot.a_bold">
                                                 (<BigIntLabel :mpzValue="elgamalEncryption[0]"></BigIntLabel>,
@@ -70,11 +71,11 @@
                                             </v-flex>
                                         </v-layout>
                                         <v-layout row>
-                                            <v-flex xy2 md2>Public voter credential:</v-flex>
+                                            <v-flex xy2 md2 v-t="'ElectionAuthority.public_voter_credential'"></v-flex>
                                             <v-flex xy10 md10><BigIntLabel :mpzValue="ballot.ballot.x_hat"></BigIntLabel></v-flex>
                                         </v-layout>
                                         <v-layout row>
-                                            <v-flex xy2 md2>Ballot-Proof:</v-flex>
+                                            <v-flex xy2 md2 v-t="'ElectionAuthority.ballot_proof'"></v-flex>
                                             <v-flex x10 md10>
                                                 <span v-for="a in ballot.ballot.pi">
                                                 <p v-for="i in a"><BigIntLabel :mpzValue="i"></BigIntLabel></p>
@@ -90,38 +91,35 @@
                 </v-flex>
 
                 <v-flex xy12 md4 key="pk">
-                    <DataCard title="Public Key" :isMpz=true :expandable=false confidentiality="public">
+                    <DataCard :title="$t('public_key')" :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKey"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4 key="pkshares">
-                    <DataCard title="Public Key Share" :isMpz=true :expandable=false confidentiality="public">
+                    <DataCard :title="$t('public_key_share')" :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4 key="skshares">
-                    <DataCard title="Secret Key Share" :isMpz=true :expandable=false confidentiality="secret">
+                    <DataCard :title="$t('secret_key_share')" :isMpz=true :expandable=false confidentiality="secret">
                         <BigIntLabel :mpzValue="electionAuthority.secretKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4 v-if="expertMode" key="points">
-                    <DataCard title="Points" :expandable=true confidentiality="secret">
-                        Points of all voters
+                    <DataCard :title="$t('points')" :expandable=true confidentiality="secret">
+                        {{ $t('ElectionAuthority.points_of_all_voters') }}
                         <ul id="list" slot="expandContent">
                             <li v-for="(voter, index) in electionAuthority.points" :key="voter.id">
-                                Voter {{ index}}
+                                {{ $t('voter_n', { n: index }) }}
                                 <ul id="subList">
                                     <li v-for="(point, index) in voter" :key="index">
-                                        x:
-                                        <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
-                                        y:
-                                        <BigIntLabel :mpzValue="point[1]"></BigIntLabel>
+                                        x: <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
+                                        y: <BigIntLabel :mpzValue="point[1]"></BigIntLabel>
                                     </li>
                                 </ul>
-
                             </li>
                         </ul>
                     </DataCard>

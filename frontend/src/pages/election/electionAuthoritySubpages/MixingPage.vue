@@ -5,23 +5,21 @@
                 <v-card>
                     <v-card-title primary-title>
                         <div>
-                            <div class="headline">Mixing Task</div>
+                            <div class="headline" v-t="'Mixing.title'"></div>
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        <p>Every election authority must now shuffle the list of encryptions</p>
+                        <p v-t="'Mixing.every_election_authority'"></p>
                         <transition-group name="flip-list" tag="ul">
                             <li v-for="(encryption, index) in encryptions" v-bind:key="encryption.key">
                                 <BigIntLabel :mpzValue="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>
-
                             </li>
                         </transition-group>
                     </v-card-text>
-
                     <v-card-actions>
                         <v-btn flat color="blue" @click="mix()" :disabled="hasAuthorityShuffled">
                             <v-icon left>mdi-shuffle-variant</v-icon>
-                            Shuffle encryptions
+                            {{ $t('Mixing.shuffle_encryptions') }}
                         </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn icon @click.native="show = !show">

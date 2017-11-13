@@ -4,7 +4,7 @@
       <v-list>
         <v-list-tile>
           <v-list-tile-content>
-            <v-list-tile-title v-t="'menu.title'" />
+            <v-list-tile-title v-t="'settings'" />
           </v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
@@ -27,7 +27,7 @@
         <v-toolbar-title><img src="/public/logo.png" style="height:22px"></v-toolbar-title>
         <v-spacer></v-spacer>
         <v-menu offset-y flat>
-          <v-btn icon slot="activator" :title="$t('change_language')">
+          <v-btn icon slot="activator" :title="$t('main.change_language')">
             <v-icon>mdi-translate</v-icon>
           </v-btn>
           <v-list>
@@ -63,18 +63,18 @@
                 <v-list-tile-action>
                   <v-switch color="green" v-model="expertMode" />
                 </v-list-tile-action>
-                <v-list-tile-title v-t="'settings.expert'" />
+                <v-list-tile-title v-t="'main.settings.expert'" />
               </v-list-tile>
               <v-list-tile>
                 <v-list-tile-action>
                   <v-switch color="green" v-model="showConfidentiality" />
                 </v-list-tile-action>
-                <v-list-tile-title v-t="'settings.confidentiality'" />
+                <v-list-tile-title v-t="'main.settings.confidentiality'" />
               </v-list-tile>
             </v-list>
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn flat @click="menu = false" v-t="'settings.ok'" />
+                <v-btn flat @click="menu = false" v-t="'ok'" />
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -84,39 +84,39 @@
           <v-tabs-slider color="white"></v-tabs-slider>
           <v-tabs-item ripple :to="{ name: 'electionoverview', params: {electionId: electionId}}">
             <v-icon>mdi-view-dashboard</v-icon>
-            Overview
+            {{ $t('main.overview') }}
           </v-tabs-item>
           <v-tabs-item ripple :to="{ name: 'electionadmin', params: {electionId: electionId }}">
             <v-badge color="">
               <v-icon slot="badge" dark v-if="status == 0 || status == 6">mdi-alert-decagram</v-icon>
               <v-icon>mdi-account-key</v-icon>
             </v-badge>
-            Election Admin
+            {{ $t('main.election_admin') }}
           </v-tabs-item>
           <v-tabs-item ripple :to="{ name: 'printingauth', params: {electionId: electionId }}">
             <v-badge color="">
               <v-icon slot="badge" dark v-if="status == 1">mdi-alert-decagram</v-icon>
               <v-icon>mdi-printer</v-icon>
             </v-badge>
-            Printing Auth.
+            {{ $t('main.printing_authority') }}
           </v-tabs-item>
           <v-tabs-item ripple :to="{ name: 'voter', params: {electionId: electionId }}" :disabled="this.$store.getters.status < 1">
             <v-badge color="">
               <v-icon slot="badge" dark v-if="status == 3">mdi-alert-decagram</v-icon>
               <v-icon>mdi-account</v-icon>
             </v-badge>
-            Voter
+            {{ $t('main.voter') }}
           </v-tabs-item>
           <v-tabs-item ripple :to="{ name: 'electionauthority', params: {electionId: electionId, authid: authorityId}}">
             <v-badge color="">
               <v-icon slot="badge" dark v-if="status == 5">mdi-alert-decagram</v-icon>
               <v-icon>mdi-settings-box</v-icon>
             </v-badge>
-            Election Authorities
+            {{ $t('main.election_authorities') }}
           </v-tabs-item>
           <v-tabs-item ripple :to="{ name: 'bulletinboard', params: {electionId: electionId }}">
             <v-icon>mdi-bulletin-board</v-icon>
-            Bulletin Board
+            {{ $t('main.bulletin_board') }}
           </v-tabs-item>
         </v-tabs-bar>
       </v-tabs>
@@ -148,17 +148,17 @@ export default {
       items: [{
         href: 'home',
         router: true,
-        title: 'menu.home',
+        title: 'home',
         icon: 'home'
       }, {
         href: 'elections',
         router: true,
-        title: 'menu.elections',
+        title: 'elections',
         icon: 'extension'
       }, {
         href: 'about',
         router: true,
-        title: 'menu.about',
+        title: 'main.about',
         icon: 'domain'
       }],
       menu: false,

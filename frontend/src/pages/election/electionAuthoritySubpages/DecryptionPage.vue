@@ -5,7 +5,7 @@
                 <v-card>
                     <v-card-title primary-title>
                         <div>
-                            <div class="headline">Decryption Task</div>
+                            <div class="headline" v-t="'Decryption.title'"></div>
                         </div>
                     </v-card-title>
                     <v-card-text>
@@ -18,7 +18,7 @@
                     <v-card-actions>
                         <v-btn flat color="blue" :disabled="decryptions !== null" @click="decrypt()" >
                             <v-icon left>mdi-key-variant</v-icon>
-                            Decrypt
+                            {{ $t('Decryption.decrypt') }}
                         </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn icon @click.native="show = !show">

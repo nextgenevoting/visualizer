@@ -5,29 +5,29 @@
                 <v-card>
                     <v-card-title primary-title>
                         <div>
-                            <div class="headline">Ballot check for Voter {{checkBallotTask.voterId + 1}}</div>
+                            <div class="headline">{{ $t('CheckBallotTask.ballot_check_for_voter_n', { n: checkBallotTask.voterId + 1 }) }}</div>
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        <p>Please check the ballot and respond to the query</p>
+                        <p v-t="'CheckBallotTask.check_ballot_and_respond'"></p>
                     </v-card-text>
                     <v-card-text v-if="checkBallotTask.checkResults[selectedAuthorityIndex] != null">
-                        Result of Check: {{ checkBallotTask.checkResults[selectedAuthorityIndex] }}
+                        {{ $t('result_of_check') }}: {{ checkBallotTask.checkResults[selectedAuthorityIndex] }}
                     </v-card-text>
                     <v-card-actions>
                         <v-btn flat color="blue" @click="checkBallot(checkBallotTask.voterId)">
                             <v-icon left>mdi-approval</v-icon>
-                            Check Validity
+                            {{ $t('check_validity') }}
                         </v-btn>
                         <v-btn flat color="blue" @click="respond(checkBallotTask.voterId)"
                                :disabled="!checkBallotTask.checkResults[selectedAuthorityIndex]">
                             <v-icon left>mdi-reply</v-icon>
-                            Respond to query
+                            {{ $t('CheckBallotTask.respond_to_query') }}
                         </v-btn>
                         <v-btn flat color="red" @click="discardBallot(checkBallotTask.voterId)"
                                :disabled="checkBallotTask.checkResults[selectedAuthorityIndex] || checkBallotTask.checkResults[selectedAuthorityIndex] == null">
                             <v-icon left>mdi-cancel</v-icon>
-                            Discard ballot
+                            {{ $t('CheckBallotTask.discard_ballot') }}
                         </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn icon @click.native="show = !show">
@@ -85,7 +85,7 @@
           }).then(response => {
             response.json().then((data) => {
               // success callback
-              this.$toasted.success('Successfully checked vote')
+              this.$toasted.success(this.$i18n.t('CheckBallotTask.successfully_checked_vote'))
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)
@@ -99,7 +99,7 @@
           }).then(response => {
             response.json().then((data) => {
               // success callback
-              this.$toasted.success('Successfully replied to vote')
+              this.$toasted.success(this.$i18n.t('CheckBallotTask.successfully_replied_to_vote'))
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)
@@ -113,7 +113,7 @@
           }).then(response => {
             response.json().then((data) => {
               // success callback
-              this.$toasted.success('Successfully replied to vote')
+              this.$toasted.success(this.$i18n.t('CheckBallotTask.successfully_replied_to_vote'))
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)

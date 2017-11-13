@@ -1,36 +1,424 @@
 ---
-change_language:
-  en: Change language
-  de: Sprache ändern
-menu:
-  title:
-    en: Menu
-    de: Menü
-  home:
-    en: Home
-    de: Homepage
-  elections:
-    en: Elections
-    de: Wahlen
-  about:
-    en: About
-    de: Über
+# Common translations
 close:
   en: Close
   de: Schliessen
+ok:
+  en: OK
+  de: OK
+delete:
+  en: Delete
+  de: Löschen
+cancel:
+  en: Cancel
+  de: Abbrechen
+create:
+  en: Create
+  de: Erstellen
+clear:
+  en: Clear
+  de: Eingabe löschen
+title:
+  en: Title
+  de: Titel
 settings:
+  en: Settings
+  de: Einstellungen
+login:
+  en: Login
+  de: Anmelden
+elections:
+  en: Elections
+  de: Wahlen
+home:
+  en: Home
+  de: Homepage
+menu:
+  en: Menu
+  de: Menü
+status:
+  en: Status
+  de: Status
+data:
+  en: Data
+  de: Daten
+public_key:
+  en: Public key
+  de: Öffentlicher Schlüssel
+public_key_share:
+  en: Public key share
+  de: Anteil des öffentlichen Schlüssels
+secret_key_share:
+  en: Secret key share
+  de: Anteil des geheimen Schlüssels
+candidates:
+  en: Candidates
+  de: Kandidaten
+voters:
+  en: Voters
+  de: Wähler
+number_of_voters:
+  en: Number of voters
+  de: Anzahl Wähler
+number_of_candidates:
+  en: Number of candidates
+  de: Anzahl Kandidaten
+number_of_selections:
+  en: Number of selections
+  de: Anzahl Selektionen
+counting_circles:
+  en: Counting Circles
+  de: Wahlkreise
+tally:
+  en: Tally
+  de: Abzählen
+post_election_data:
+  en: Post-election data
+  de: Daten nach den Wahlen
+final_results:
+  en: Final results
+  de: Abschliessendes Ergebnis
+authority:
+  en: Authority
+  de: Authorität
+auto:
+  en: auto
+  de: auto
+tasks:
+  en: Tasks
+  de: Aufgaben
+encryptions:
+  en: Encryptions
+  de: Verschlüsselungen
+ballots:
+  en: Ballots
+  de: Stimmzettel
+confirmed:
+  en: Confirmed
+  de: Bestätigt
+points:
+  en: Points
+  de: Punkte
+voter_n:
+  en: Voter {n}
+  de: Wähler {n}
+overview:
+  en: Overview
+  de: Überblick
+id:
+  en: ID
+  de: ID
+voting_cards:
+  en: Voting cards
+  de: Stimmkarten
+vote_casting:
+  en: Vote casting
+  de: Stimmabgabe
+confirmation:
+  en: Confirmation
+  de: Bestätigung
+finalization:
+  en: Finalization
+  de: Abschluss
+cast_vote:
+  en: Cast vote
+  de: Stimme abgeben
+result_of_check:
+  en: Result of check
+  de: Resultat des Checks
+check_validity:
+  en: Check validity
+  de: Gültigkeit überprüfen
+finalize:
+  en: Finalize
+  de: Finalisieren
+voting_code:
+  en: Voting code
+  de: Wahl-Code
+
+main:
+  change_language:
+    en: Change language
+    de: Sprache ändern
+  about:
+    en: About CHVote
+    de: Über CHVote
+  settings:
+    expert:
+      en: Expert mode
+      de: Experten-Modus
+    confidentiality:
+      en: Show confidentiality
+      de: Vertraulichkeit anzeigen
+  open_repo:
+    en: Open BFH Gitlab repository
+    de: BFH Gitlab Repository öffnen
+  overview:
+    en: Overview
+    de: Überblick
+  election_admin:
+    en: Election Admin
+    de: Wahladministrator
+  printing_authority:
+    en: Printing Authority
+    de: Druckauthorität
+  voter:
+    en: Voter
+    de: Wähler
+  election_authorities:
+    en: Election Authorities
+    de: Wahlauthoritäten
+  bulletin_board:
+    en: Bulletin Board
+    de: Bulletin-Board
+
+homePage:
+  welcome:
+    title:
+      en: Welcome
+      de: Willkommen
+    text:
+      en: Welcome to the CHVote demonstrator
+      de: Willkommen beim CHVote-Demonstrator
+
+electionsPage:
   title:
-    en: Settings
-    de: Einstellungen
-  expert:
-    en: Expert mode
-    de: Experten-Modus
-  confidentiality:
-    en: Show confidentiality
-    de: Vertraulichkeit anzeigen
-  ok:
-    en: OK
-    de: OK
-open_repo:
-  en: Open BFH Gitlab repository
-  de: BFH Gitlab Repository öffnen
+    en: Available election events
+    de: Verfügbare Wahlereignisse
+  choose:
+    en: Please choose an election event.
+    de: Bitte wählen Sie ein Wahlereignis aus.
+  create:
+    en: Create new election
+    de: Neue Wahl erstellen
+  info:
+    en: Show information on this election
+    de: Informationen üver diese Wahl anzeigen
+  remove:
+    question:
+      en: Would you like to delete this election?
+      de: Wollen Sie diese Wahl löschen?
+    title:
+      en: Delete election
+      de: Wahl löschen
+
+BulletinBoard:
+  title:
+    en: Bulletin Board
+    de: Bulletin-Board
+  shuffle_proofs_of_election_authority:
+    en: Shuffle proofs of Election Authority {a}
+    de: Misch-Beweis der Wahlen-Authorität {a}
+  commitments_c:
+    en: 'Commitments c:'
+    de: 'Verpflichtungen c:'
+  commitments_c_hat:
+    en: 'Commitments c^:'
+    de: 'Verpflichtungen c^:'
+  pre_election_data:
+    en: Pre-election data
+    de: Daten vor den Wahlen
+  unique_election_identifier:
+    en: Unique Election Identifier
+    de: Eindeutige Wahl-Bezeichnung
+  parallel_elections:
+    en: Parallel elections
+    de: Parallele Wahlen
+
+ElectionAdmin:
+  title:
+    en: Election Administration
+    de: Wahladministration
+  set_up_election:
+    en: Set up election
+    de: Wahl aufsetzen
+  submitted_to_printing_authority:
+    en: The electorate data has been submitted to the printing authority.
+    de: The Wähler-Daten wurden an die Druck-Authorität gesendet.
+  end_election_phase:
+    en: End Election-Phase and start mixing process
+    de: Ende der Wahl-Phase and start des Mischungsprozesses
+  start_decryption_process:
+    en: Start decryption process
+    de: Start der Entschlüsslungsphase
+  successfully_set_up_election:
+    en: Successfully set up election.
+  successfully_set_mixing_phase:
+    en: Successfully set election status to "Mixing Phase".
+    de: Der Wahl-Status wurde erfolgreich auf "Mischphase" gesetzt.
+  successfully_tallied_election:
+    en: Successfully tallied election.
+    de: Die Wahl wurde erfolgreich abgezählt.
+
+ElectionAuthority:
+  title:
+    en: Election Authorities
+    de: Wahl-Authoritäten
+  auto_process_tasks:
+    en: Automatically process tasks
+    de: Aufgaben automatisch abarbeiten
+  partial_decryptions:
+    en: Partial decryptions
+    de: Partielle Entschlüsselungen
+  partial_decryption_n:
+    en: Partial decryption {n}
+    de: Partielle Entschlüsselung {n}
+  encryptions_n:
+    en: Encryption {n}
+    de: Verschlüsselung {n}
+  ballot_of_voter_n:
+    en: Ballot of voter {n}
+    de: Stimmzettel von Wähler {n}
+  encrypted_selections:
+    en: 'Encrypted selections:'
+    de: 'Verschlüsselte Selektionen:'
+  public_voter_credential:
+    en: 'Public voter credential:'
+    de: 'Öffentlicher Wähler-Berechtigungsnachweis:'
+  ballot_proof:
+    en: 'Ballot proof:'
+    de: 'Stimmzettel-Beweis:'
+  points_of_all_voters:
+    en: Points of all voters
+    de: Punkte sämtlicher Wähler
+
+PrintingAuth:
+  title:
+    en: Printing Authority
+    de: Druckauthorität
+  voting_cards_delivered:
+    en: Voting cards have been delivered to the voters!
+    de: Die Stimmkarten wurden den Wählern zugesendet!
+  before_voting_cards_print:
+    en: Before voting cards can be printed, the election administrator must set up the election.
+    de: Befor die Stimmkarten gedruckt werden können, muss der Wahladministration die Wahl aufsetzten.
+  print_voting_cards:
+    en: Print voting cards
+    de: Stimmkarten ausdrucken
+  send_voting_cards:
+    en: Send voting cards to voters
+    de: Stimmkarten den Wählern zusenden
+  private_voter_data:
+    en: Private voter data
+    de: Private Wähler-Daten
+  successfully_sent_voting_cards:
+    en: Successfully sent the voting cards to the voters.
+    de: Die Stimmkarten wurden erfolgreich an die Wähler übermittelt.
+  successfully_printed_voting_sheets:
+    en: Successfully printed voting sheets
+    de: Die Wählerzettel wurden erfolgreich ausgedruckt.
+
+Voter:
+  title:
+    en: Voter view
+    de: Wähler-View
+  select_voter:
+    en: Select voter
+    de: Wähler auswählen
+  before_vote:
+    en: Before you can vote, the election must be set up.
+    de: Bevor abgestimmt werden kann, muss die Wähl aufgesetzt werden.
+  choose_voter_first:
+    en: Please choose a voter first.
+    de: Bitte wählen Sie erst einen Wähler aus.
+  waiting_for_election_authority:
+    en: Waiting for election authority.
+    de: Es wird auf die Wahlauthorität gewartet.
+  authority_n_processing_vote:
+    en: Authority {n} is processing your vote.
+    de: Authorität {n} verarbeitet Ihre Stimme.
+  your_selection_for_election_n:
+    en: Your selection for election {n}
+    de: Ihre Selektion for die Wahl {n}
+  manipulate_selection:
+    en: Manipulate selection
+    de: Selektion manipulieren
+  check_displayed_codes:
+    en: Please check whether the displayed codes match the verification codes of the selected candidates on your voting card.
+    de: Überprüfen Sie, ob die dargestellten Codes mit den Prüfcodes der selektierten Kandidaten auf Ihrer Wahlkarte übereinstimmen.
+  verification_code_n:
+    en: 'Verification code {n}:'
+    de: 'Prüfcode {n}:'
+  confirm_vote_with_code:
+    en: Please confirm your vote with your confirmation code.
+    de: Bestätigen Sie Ihre Wahl mit dem Bestätigungscode.
+  confirm_vote:
+    en: Confirm vote
+    de: Wahl bestätigen
+  vote_confirmation:
+    en: Vote confirmation
+    de: Wahlbestätigung
+  successfully_confirmed_vote:
+    en: Successfully confirmed vote.
+    de: Die Wahl wurde erfolgreich bestätigt.
+  you_have_confirmed_your_vote:
+    en: You have confirmed your vote. Please check whether the displayed finalization code matches the finalization code on your voting card.
+    de: Sie haben Ihre Wahl bestätigt. Überprüfen Sie, dass der dargestellte Finalisations-Code mit dem Finalisations-Code auf Ihrer Wahlkarte übereinstimmt.
+  finalization_code:
+    en: Finalization code
+    de: Finalisations-Code
+  confirmation_code:
+    en: Confirmation code
+    de: Bestätigungs-Code
+  verification_codes:
+    en: Verification codes
+    de: Prüfcodes
+
+CheckBallotTask:
+  ballot_check_for_voter_n:
+    en: Ballot check for Voter {n}
+    de: Stimmzettel-Check für Wähler {n}
+  check_ballot_and_respond:
+    en: Please check the ballot and respond to the query.
+    de: Überprüfen Sie den Stimmzettel und antworten Sie der Abfrage.
+  respond_to_query:
+    en: Respond to query
+    de: Der Abfrage antworten
+  discard_ballot:
+    en: Discard ballot
+    de: Stimmzettel verwerfen
+  successfully_replied_to_vote:
+    en: Successfully replied to vote.
+    de: Der Wahl wurde erfolgreich geantwortet.
+  successfully_checked_vote:
+    en: Successfully checked vote.
+    de: Die Wahl wurde erfolgreich überprüft.
+
+ConfirmationTask:
+  confirmation_for_voter_n:
+    en: Confirmation for voter {n}
+    de: Bestätigung für Wähler {n}
+  check_confirmation_and_finalize:
+    en: Please check the confirmation and finalize the vote.
+    de: Überprüfen Sie die Bestätigung und finalisieren Sie die Wahl.
+  discard_confirmation:
+    en: Discard confirmation
+    de: Bestätigung verwerfen
+  successfully_checked_confirmation:
+    en: Successfully checked confirmation.
+    de: Bestätigung wurde erfolgreich überprüft.
+  successfully_finalized_ballot:
+    en: Successfully finalized ballot.
+    de: Stimmzettel wurde erfolgreich finalisiert.
+  successfully_discarded_confirmation:
+    en: Successfully discarded confirmation.
+    de: Bestätigung wurde erfolgreich verworfen.
+
+Decryption:
+  title:
+    en: Decryption Task
+    de: Entschlüsselungsaufgabe
+  decrypt:
+    en: Decrypt
+    de: Entschlüsseln
+
+Mixing:
+  title:
+    en: Mixing Task
+    de: Mischaufgabe
+  every_election_authority:
+    en: Every election authority must now shuffle the list of encryptions.
+    de: Jede Wahl-Authorität muss jetzt die Liste der Verschlüsselungen mischen.
+  shuffle_encryptions:
+    en: Shuffle encryptions
+    de: Verschlüsselungen mischen

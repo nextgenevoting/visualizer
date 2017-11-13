@@ -1,7 +1,7 @@
 <template>
   <v-container>
-    <h3 class="my-3" v-t="'title'"></h3>
-    <p v-t="'choose'"></p>
+    <h3 class="my-3" v-t="'electionsPage.title'"></h3>
+    <p v-t="'electionsPage.choose'"></p>
 
     <v-list two-line subheader>
       <v-list-tile v-for="item in getElections" v-bind:key="item.title" avatar
@@ -17,13 +17,13 @@
 
         <v-list-tile-action>
           <v-btn icon @click.prevent="info">
-            <v-icon class="grey--text text--lighten-1" :title="$t('info')">info</v-icon>
+            <v-icon class="grey--text text--lighten-1" :title="$t('electionsPage.info')">info</v-icon>
           </v-btn>
         </v-list-tile-action>
 
         <v-list-tile-action>
           <v-btn icon @click.prevent="dialog.election = item.id; dialog.visible = true">
-            <v-icon class="grey--text text--lighten-1" :title="$t('remove.title')">delete</v-icon>
+            <v-icon class="grey--text text--lighten-1" :title="$t('electionsPage.remove.title')">delete</v-icon>
           </v-btn>
         </v-list-tile-action>
       </v-list-tile>
@@ -31,41 +31,18 @@
 
     <v-dialog v-model="dialog.visible">
       <v-card>
-        <v-card-title class="headline" v-t="'remove.question'" />
+        <v-card-title class="headline" v-t="'electionsPage.remove.question'" />
         <v-card-actions>
           <v-spacer />
-          <v-btn flat color="darken-1" @click.native="dialog.visible = false" v-t="'remove.cancel'" />
-          <v-btn flat color="red darken-1" @click.native="remove" v-t="'remove.action'" />
+          <v-btn flat color="darken-1" @click.native="dialog.visible = false">{{ $t('remove.cancel') }}</v-btn>
+          <v-btn flat color="red darken-1" @click.native="remove">{{ $t('delete') }}</v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-btn to="newElection">{{ $t('create') }}</v-btn>
+    <v-btn to="newElection">{{ $t('electionsPage.create') }}</v-btn>
   </v-container>
 </template>
-
-<i18n>
-en:
-  title: Available election events
-  choose: Please choose an election event.
-  create: Create new election
-  info: Show information on this election
-  remove:
-    question: Would you like to delete this election?
-    title: Delete election
-    action: Delete
-    cancel: Cancel
-de:
-  title: Verfügbare Wahlereignisse
-  choose: Bitte wählen Sie ein Wahlereignis aus.
-  create: Neue Wahl erstellen
-  info: Informationen üver diese Wahl anzeigen
-  remove:
-    question: Wollen Sie diese Wahl löschen?
-    title: Wahl löschen
-    action: Löschen
-    cancel: Abbrechen
-</i18n>
 
 <script>
 export default {
