@@ -1,34 +1,52 @@
+\newcommand\tabularhead[1]{
+\begin{table}[h]
+  \caption{Use Case <<#1>>}
+  \begin{tabular}{|p{0.3\linewidth}|p{0.7\linewidth}|}
+    \hline
+    \textbf{Use Case} & \textbf{#1} \\
+    \hline}
+
+  \newcommand\addrow[2]{#1 &#2\\ \hline}
+
+  \newcommand\addmulrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}% 
+     &\begin{minipage}[t][][t]{8cm}
+      \begin{enumerate} #2   \end{enumerate}
+      \end{minipage}\\ }
+
+  \newenvironment{usecase}{\tabularhead}
+{\hline\end{tabular}\end{table}}
+
 \chapter{Project Plan}
 \section{Project Method}
 \section{Requirements}
 \subsection{General Requirements}
-\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
- & Description & Must & Priority & Iteration & Status\\
+ & Description & Type & Prio. & Phase & Status\\
 \hline
 R1 & The CHVote protocol is implemented as specified in the latest specification document. The only exclusion are the algorithms for channel security. & Must & High & 1 & Done\\
 R2 & The application is web-based shows updates within the same demo-election in real-time. & Must & High & 1 & Done\\
 R3 & The system supports 1-out-of-3 type of elections (e.g. elect 1 of 3 possible candidates) & Must & High & 1 & Done\\
 R4 & The system supports multiple parallel elections & Must & High & 1 & \\
-R5 & The system supports internationalization. Providing more than one language is not required. & Must & High & 1 & Part. done\\
-R6 & Users can create new elections & Must & High & 1 & Done \\
-R7 & The system can handle k-out-of-n type of elections & Can & Medium & 1 & \\
+R5 & Users can create new elections & Must & High & 1 & Done \\
+R6 & The system supports internationalization. Providing more than one language is not required. & Must & Med. & 1 & \\
+R7 & The system can handle k-out-of-n type of elections & Can & Med. & 1 & \\
 \end{longtable}
 
 
 \subsection{Election-Overview}
-\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
- & Description & Must & Priority & Iteration & Status\\
+ & Description & Type & Prio. & Phase & Status\\
 \hline
 R8 & The overview shows which phase the election is currently in & Must & High & 2 & \\
-R9 & A graphical scheme of the chVote protocol gives an overview of all participating parties & Must & Medium & 2 & \\
+R9 & A graphical scheme of the chVote protocol gives an overview of all participating parties & Must & Med. & 2 & \\
 \end{longtable}
 
 \subsection{Election Administrator}
-\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
- & Description & Must & Priority & Iteration & Status\\
+ & Description & Type & Prio. & Phase & Status\\
 \hline
 R10 & An election can be set up by providing all required information such as the candidates, number of parallel voters, the number of voters and the number of selections (simplified JSON input) & Must & High & 1 & Done\\
 R11 & The election can be set up without entering the parameters in JSON format and allows easier set up of elections with multiple parallel election events & Must & Low & 2 & \\
@@ -37,18 +55,18 @@ R13 &  During election setup, the security parameters can be chosen from a set o
 \end{longtable}
 
 \subsection{Printing Authority}
-\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
- & Description & Must & Priority & Iteration & Status\\
+ & Description & Type & Prio. & Phase & Status\\
 \hline
 R14 & Users can generate and display voting cards for an election. & Must & High & 1 & Done\\
-R15 & Voting cards hide sensitive information behind a scratch card & Can & Medium & 2 & \\
+R15 & Voting cards hide sensitive information behind a scratch card & Can & Med. & 2 & \\
 \end{longtable}
 
 \subsection{Election Authority}
-\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
- & Description & Must & Priority & Iteration & Status\\
+ & Description & Type & Prio. & Phase & Status\\
 \hline
 R16 & The election authority view shows all information known to an election authority & Must & High & 1 & Done\\
 R17 & After a voter has submitted a ballot, all election authorities can check and respond to the voters submission & Must & High & 1 & Done\\
@@ -58,19 +76,19 @@ R19 & Each authority can optionally processes all tasks automatically & Can & Hi
 
 
 \subsection{Voter}
-\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
- & Description & Must & Priority & Iteration & Status\\
+ & Description & Type & Prio. & Phase & Status\\
 \hline
 R20 & Users are able to go through the whole vote-casting process for every voter & Must & High & 1 & Done\\
-R21 & The voting card of a voter is displayed on screen. The voting and confirmation codes can be copied into the input textfields by double clicking & Must & Medium & 1 & \\
+R21 & The voting card of a voter is displayed on screen. The voting and confirmation codes can be copied into the input textfields by double clicking & Must & Med. & 1 & \\
 \end{longtable}
 
 
 \subsection{Bulletin Board}
-\begin{longtable}{p{0.4cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
+\begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
- & Description & Must & Priority & Iteration & Status\\
+ & Description & Type & Prio. & Phase & Status\\
 \hline
 R22 & The bulletin board view shows what information is publicly available & Must & High & 1 & Done\\
 R23 & The bulletin board view is extended with verification-functionality & Can & Low & 2 & \\
@@ -78,6 +96,217 @@ R23 & The bulletin board view is extended with verification-functionality & Can 
 
 
 \section{Timeplan}
+We divided 
+
+\section{Use Cases}
+\begin{usecase}{Create new election}
+  \addrow{Primary Actor}{User}
+  \addrow{Description}{The system allows to create new elections}
+    \addrow{Precondition}{The system shows the available elections in a list}
+
+    \addmulrow{Main path (M)}{
+        \item User clicks on "`create election"' 
+        \item System demands a name for the election 
+				\item User is redirected to the election overview page
+				}				
+\end{usecase}
+
+\begin{usecase}{Set up election}
+  \addrow{Primary Actor}{Election Administrator}
+  \addrow{Description}{The election administrator can set up the election. This involves the generation of the cryptographic electorate data in the backend}
+    \addrow{Precondition}{An new election has been created}
+    \addrow{Postcondition}{The election has the status "`Printing"'}		
+    \addmulrow{Main path (M)}{
+        \item Election Administrator visits the "`Election Administrator"'-view of a new election. 
+        \item The system demands the following information: 
+				
+				\begin{itemize}					
+					\item Number of parallel elections
+					\item Candidates per election
+					\item Number of possible selections per election event
+					\item Number of voters
+					\item Counting circles of the voters
+				\end{itemize}	
+				\item User clicks on "`Generate"' \\
+				}							
+\end{usecase}
+
+\begin{usecase}{Printing of voting cards}
+  \addrow{Primary Actor}{Printing Authority}
+  \addrow{Description}{The printing authority generates voting cards}
+    \addrow{Precondition}{The election has the status "`Printing"'}
+    \addrow{Postcondition}{The election has the status "`Delivery"'}		
+    \addmulrow{Main path (M)}{
+        \item The election administrator visits the "`Printing Authority"'-view of an election. 
+        \item The election administrator clicks on "`Print Voting Cards"' 
+				\item A list of all voters is displayed 
+			  \item The election administrator can select a voter to see his voting card
+				}							
+\end{usecase}
+
+
+\begin{usecase}{Delivery of voting cards}
+  \addrow{Primary Actor}{Printing Authority}
+  \addrow{Description}{The printing authority can send the voting cards to the voters}
+    \addrow{Precondition}{The election has the status "`Delivery"'}
+    \addrow{Postcondition}{The election has the status "`Election Phase"'}		
+    \addmulrow{Main path (M)}{
+        \item The election administrator visits the "`Printing Authority"'-view of an election. 
+        \item The election administrator clicks on "`Deliver Voting Cards"' 
+				\item Within the voters-view, the voting card shows up for every voter
+				}							
+\end{usecase}
+
+\begin{usecase}{Casting of a vote}
+  \addrow{Primary Actor}{Voter}
+  \addrow{Description}{The voter can cast a vote by selecting his favored candidate(s) and his voting code}
+    \addrow{Precondition}{
+		
+		\begin{itemize}
+			\item The election has the status "`Election Phase"'
+			\item A voter is selected in the "`Voter"'-view
+			\item The voter has the status "`Vote Casting Phase"'
+		\end{itemize}		}
+    \addrow{Postcondition}{The first election authority receives a "`Ballot-check task"'}		
+    \addmulrow{Main path (M)}{
+        \item The voter visits the "`Voter"'-view and select his voter object
+				\item The system demands a selection of the candidates and the voter's voting code
+				\item The voter clicks on "`Cast ballot"'
+
+				}							
+\end{usecase}
+
+\begin{usecase}{Confirmation of a vote}
+  \addrow{Primary Actor}{Voter}
+  \addrow{Description}{The voter can confirm his vote by verifying the verification codes and entering his confirmation code}
+    \addrow{Precondition}{
+		
+		\begin{itemize}
+			\item The election has the status "`Election Phase"'
+			\item A voter is selected in the "`Voter"'-view
+			\item The voter has the status "`Confirmation Phase"'
+		\end{itemize}		}
+    \addrow{Postcondition}{	
+			The first election authority receives a "`Check-confirmation task"'	
+		}		
+    \addmulrow{Main path (M)}{
+        \item The voter visits the "`Voter"'-view and select his voter object
+				\item The system displays the verification codes of the selected candidates
+				\item The voter must manually verify that the displayed codes match the verification codes of the selected candidates on his voting card
+				\item The system demands the confirmation code
+				\item The voter clicks on "`Confirm vote"'
+
+				}							
+\end{usecase}
+
+\begin{usecase}{Checking a ballot}
+  \addrow{Primary Actor}{Election Authority}
+  \addrow{Description}{The election authority can verify the validity of a ballot and respond to the voters query}
+    \addrow{Precondition}{
+		\begin{itemize}
+			\item The election has the status "`Election Phase"'
+			\item The currently selected election authority has a new "`Check ballot task"'
+		\end{itemize}		}
+    \addrow{Postcondition}{
+		
+		\begin{itemize}
+			\item The next election authority receives a "`Check ballot task"'
+			\item If this election authority was the last one, and the ballot was valid, the voter now has the status "`Confirmation Phase"'
+		\end{itemize}
+		}		
+    \addmulrow{Main path (M)}{
+        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that has new "`Check ballot task"'
+				\item The system displays the query, the ballot proof and the voting credential of the voter
+				\item The user click on "`Check validity"'
+				\item The system displays the result of the validity check
+				\item The user clicks on "`Respond"'
+				}							
+\end{usecase}
+
+\begin{usecase}{Checking a confirmation}
+  \addrow{Primary Actor}{Election Authority}
+  \addrow{Description}{The election authority can verify the validity of a confirmation and respond to the voters query}
+    \addrow{Precondition}{
+		\begin{itemize}
+			\item The election has the status "`Election Phase"'
+			\item The currently selected election authority has a new "`Check ballot task"'
+		\end{itemize}		}
+    \addrow{Postcondition}{
+		
+		\begin{itemize}
+			\item The next election authority receives a "`Check confirmation task"'
+			\item If this election authority was the last one, and the confirmation was valid, the voter now has the status "`Finalization Phase"'
+		\end{itemize}
+		}		
+    \addmulrow{Main path (M)}{
+        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that has new "`Check confirmation task"'
+				\item The system displays information about the confirmation
+				\item The user click on "`Check validity"'
+				\item The system displays the result of the validity check
+				\item The user clicks on "`Finalize"'
+				}							
+\end{usecase}
+
+\begin{usecase}{Mixing}
+  \addrow{Primary Actor}{Election Authority}
+  \addrow{Description}{Every election authority can perform the mixing on the extracted list of encryptions}
+    \addrow{Precondition}{
+		\begin{itemize}
+			\item The election has the status "`Mixing"'
+			\item The previous election authority has already performed the mixing
+		\end{itemize}		}
+    \addrow{Postcondition}{
+		
+		\begin{itemize}
+			\item The next election authority is able to mix
+		\end{itemize}
+		}		
+    \addmulrow{Main path (M)}{
+        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that hasn't mixed before
+				\item The system displays the list of encryptions of the previous election authority (or the first one in case the first election authority is selected)
+				\item The user clicks on "`Mix"'
+				\item The new, mixed list of encryptions is added to the known data of this election authority
+				}							
+\end{usecase}
+
+
+\begin{usecase}{Decryption}
+  \addrow{Primary Actor}{Election Authority}
+  \addrow{Description}{Every election authority can perform the (partial) decryption}
+    \addrow{Precondition}{
+		\begin{itemize}
+			\item The election has the status "`Decryption"'
+			\item The previous election authority has already performed the decryption
+		\end{itemize}		}
+    \addrow{Postcondition}{
+		\begin{itemize}
+			\item The next election authority is able to decrypt
+		\end{itemize}
+		}		
+    \addmulrow{Main path (M)}{
+        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that hasn't decrypted before
+				\item The system displays the list of encryptions
+				\item The user clicks on "`Decrypt"'
+				\item The list of partial decryptions is added to the known data of this election authority
+				}							
+\end{usecase}
+
+
+\begin{usecase}{Tallying}
+  \addrow{Primary Actor}{Election Administrator}
+  \addrow{Description}{The election administrator can perform the tallying and view the final result}
+    \addrow{Precondition}{
+		The election has the status "`Tallying"'
+		}
+    \addrow{Postcondition}{
+		The has the status "`Finished"'
+		}		
+    \addmulrow{Main path (M)}{
+        \item The user visits the "`Election Administrator"'-view
+				\item The user clicks on "`Tally"'
+				\item The final result is added to the known data of the election administrator
+				}							
+\end{usecase}
 
 \section{Concept}
 TODO: Beschreiben, wie wir die Anwendung aus fachlicher Sicht aufteilen wollen (Unterteilung in eine View per Actor etc.)
