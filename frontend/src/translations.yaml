@@ -150,9 +150,6 @@ main:
     confidentiality:
       en: Show confidentiality
       de: Vertraulichkeit anzeigen
-  open_repo:
-    en: Open BFH Gitlab repository
-    de: BFH Gitlab Repository öffnen
   overview:
     en: Overview
     de: Überblick
@@ -171,6 +168,9 @@ main:
   bulletin_board:
     en: Bulletin Board
     de: Bulletin-Board
+  view_source_code:
+    en: View application source code at the BFH Gitlab
+    de: Quellcode der Applikation im BFH-Gitlab ansehen
 
 homePage:
   welcome:

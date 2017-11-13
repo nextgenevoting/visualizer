@@ -37,7 +37,7 @@
           </v-list>
         </v-menu>
         <v-menu offset-x :close-on-content-click="false" :nudge-width="200" v-model="menu">
-          <v-btn icon slot="activator">
+          <v-btn icon slot="activator" :title="$t('settings')">
             <v-icon>settings</v-icon>
           </v-btn>
           <v-card>
@@ -78,6 +78,9 @@
             </v-card-actions>
           </v-card>
         </v-menu>
+        <v-btn icon @click="openRepo()" :title="$t('main.view_source_code')">
+          <v-icon>code</v-icon>
+        </v-btn>
       </v-toolbar>
       <v-tabs dark grow icons centered :scrollable="false">
         <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
@@ -222,6 +225,9 @@ export default {
     changeLanguage (lang) {
       this.$root.$i18n.locale = lang
       this.$store.commit('language', lang)
+    },
+    openRepo () {
+      window.open('https://gitlab.ti.bfh.ch/chvote/demonstrator')
     }
   }
 }
