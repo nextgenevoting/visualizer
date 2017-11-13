@@ -1,0 +1,36 @@
+---
+change_language:
+  en: Change language
+  de: Sprache ändern
+menu:
+  title:
+    en: Menu
+    de: Menü
+  home:
+    en: Home
+    de: Homepage
+  elections:
+    en: Elections
+    de: Wahlen
+  about:
+    en: About
+    de: Über
+close:
+  en: Close
+  de: Schliessen
+settings:
+  title:
+    en: Settings
+    de: Einstellungen
+  expert:
+    en: Expert mode
+    de: Experten-Modus
+  confidentiality:
+    en: Show confidentiality
+    de: Vertraulichkeit anzeigen
+  ok:
+    en: OK
+    de: OK
+open_repo:
+  en: Open BFH Gitlab repository
+  de: BFH Gitlab Repository öffnen

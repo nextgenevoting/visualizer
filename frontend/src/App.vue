@@ -140,37 +140,6 @@
   </v-app>
 </template>
 
-<i18n>
-en:
-  change_language: Change language
-  menu:
-    title: Menu
-    home: Home
-    elections: Elections
-    about: About
-  close: Close
-  settings:
-    title: Settings
-    expert: Expert mode
-    confidentiality: Show confidentiality
-    ok: OK
-  open_repo: Open BFH Gitlab repository
-de:
-  change_language: Sprache ändern
-  menu:
-    title: Menü
-    home: Homepage
-    elections: Wahlen
-    about: Über
-  close: Schliessen
-  settings:
-    title: Einstellungen
-    expert: Experten-Modus
-    confidentiality: Vertraulichkeit anzeigen
-    ok: OK
-  open_repo: BFH Gitlab Repository öffnen
-</i18n>
-
 <script type="text/babel">
 export default {
   data () {
