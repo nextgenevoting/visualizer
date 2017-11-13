@@ -263,7 +263,7 @@ ElectionAuthority:
   partial_decryption_n:
     en: Partial decryption {n}
     de: Partielle Entschlüsselung {n}
-  encryptions_n:
+  encryption_n:
     en: Encryption {n}
     de: Verschlüsselung {n}
   ballot_of_voter_n:

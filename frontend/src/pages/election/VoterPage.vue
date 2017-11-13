@@ -16,11 +16,11 @@
                 <v-flex xy12 md12 v-else>
                     <v-stepper color="blue" alt-labels :value="voter.status + 1">
                         <v-stepper-header>
-                            <v-stepper-step step="1" :complete="voter.status >= 1" v-t="'vote_casting'"></v-stepper-step>
+                            <v-stepper-step step="1" :complete="voter.status >= 1">{{$t('vote_casting')}}</v-stepper-step>
                             <v-divider></v-divider>
-                            <v-stepper-step step="2" :complete="voter.status >= 2" v-t="'confirmation'"></v-stepper-step>
+                            <v-stepper-step step="2" :complete="voter.status >= 2">{{$t('confirmation')}}</v-stepper-step>
                             <v-divider></v-divider>
-                            <v-stepper-step step="3" :complete="voter.status >= 3" v-t="'finalization'"></v-stepper-step>
+                            <v-stepper-step step="3" :complete="voter.status >= 3">{{$t('finalization')}}</v-stepper-step>
                         </v-stepper-header>
                     </v-stepper>
                     <div class="layout row wrap">

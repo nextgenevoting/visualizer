@@ -140,10 +140,9 @@ def debugVotingSim():
     from gmpy2 import mpz
     try:
         sim = VoteSimulator(electionId)             # prepare voteSimulator
-        sim.authorities[0].publicKey = mpz(1111)
+        #sim.authorities[0].publicKey = mpz(1111)
+        sim.updateStatus(4)
         sim.persist()
-        syncElectionAuthorities(electionId, SyncType.ROOM)
-        print(sim)
     except Exception as ex:
         return make_error(500, str(ex))
 
