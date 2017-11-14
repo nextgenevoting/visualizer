@@ -71,7 +71,7 @@ counting_circles:
   de: Wahlkreise
 tally:
   en: Tally
-  de: Abzählen
+  de: Auszählen
 post_election_data:
   en: Post-election data
   de: Daten nach den Wahlen
@@ -158,7 +158,7 @@ main:
     de: Wahladministrator
   printing_authority:
     en: Printing Authority
-    de: Druckauthorität
+    de: Druckerei
   voter:
     en: Voter
     de: Wähler
@@ -207,14 +207,14 @@ BulletinBoard:
     en: Bulletin Board
     de: Bulletin-Board
   shuffle_proofs_of_election_authority:
-    en: Shuffle proofs of Election Authority {a}
+    en: Shuffle proof of Election Authority {a}
     de: Misch-Beweis der Wahlen-Authorität {a}
   commitments_c:
     en: 'Commitments c:'
-    de: 'Verpflichtungen c:'
+    de: 'Commitments c:'
   commitments_c_hat:
     en: 'Commitments c^:'
-    de: 'Verpflichtungen c^:'
+    de: 'Commitments c^:'
   pre_election_data:
     en: Pre-election data
     de: Daten vor den Wahlen
@@ -234,7 +234,7 @@ ElectionAdmin:
     de: Wahl aufsetzen
   submitted_to_printing_authority:
     en: The electorate data has been submitted to the printing authority.
-    de: The Wähler-Daten wurden an die Druck-Authorität gesendet.
+    de: The Wähler-Daten wurden an die Druckerei gesendet.
   end_election_phase:
     en: End Election-Phase and start mixing process
     de: Ende der Wahl-Phase and start des Mischungsprozesses
