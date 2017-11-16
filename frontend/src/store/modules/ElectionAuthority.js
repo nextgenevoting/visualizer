@@ -25,22 +25,18 @@ const state = {
 // mutations
 const mutations = {
   SOCKET_SYNCELECTIONAUTHORITIES: (state, data) => {
-    console.log('SOCKET_SYNCELECTIONAUTHORITIES called')
-    console.log(data)
     state.electionAuthorities = JSON.parse(data)
   }
 }
 
 const actions = {
   setAutoMode ({ commit }, data) {
-    // this.electionAuthorities[data.electionAuthorityId].autoMode = data.newValue;
     Vue.http.post('setAutoMode', {
       'election': data.electionId,
       'authorityId': data.electionAuthorityId,
       'value': data.newValue
     }).then(response => {
       response.json().then((data) => {
-        // success callback
       })
     }).catch(e => {
       this.$toasted.error(e.body.message)
@@ -55,31 +51,46 @@ const getters = {
     }
     return null
   },
-  getBallots: (state, getters) => (id) => {
+  getBallotsOfAuthority: (state, getters) => (authorityId) => {
     // Returns the BallotList of an authority with authorityId == id
-    let electionAuthority = getters.getElectionAuthority(id)
-    if (electionAuthority !== null) { return electionAuthority.ballots } else { return [] }
+    if (authorityId === null) { return getters.getBallotsOfBulletinBoard } else {
+      let electionAuthority = getters.getElectionAuthority(authorityId)
+      if (electionAuthority !== null) { return electionAuthority.ballots } else { return [] }
+    }
   },
   getConfirmations: (state, getters) => (id) => {
     // Returns the ConfirmationList of an authority with authorityId == id
     let electionAuthority = getters.getElectionAuthority(id)
     if (electionAuthority !== null) { return electionAuthority.confirmations } else { return [] }
   },
-  getConfirmationForVoter: (state, getters) => (voterId, electionId) => {
-    // Returns the ConfirmationList of an authority with authorityId == id
-    let electionAuthority = getters.getElectionAuthority(electionId)
-    if (electionAuthority !== null) {
-      for (let confirmation of electionAuthority.confirmations) {
-        if (confirmation.voterId === voterId) { return confirmation }
+  getConfirmationForVoter: (state, getters) => (voterId, electionAuthorityId) => {
+    // Returns the ConfirmationList of an authority with electionAuthorityId
+    let confirmations = getters.getConfirmations(electionAuthorityId)
+    for (let confirmation of confirmations) {
+      if (confirmation.voterId === voterId) { return confirmation }
+    }
+
+    return null
+  },
+  getConfirmationsByBallot: (state, getters) => (ballotId, electionAuthorityId) => {
+    // Returns the ConfirmationList corresponding to some ballotId
+    let confirmations = []
+    if (electionAuthorityId === null) { confirmations = getters.getConfirmationsOfBulletinBoard } else { confirmations = getters.getConfirmations(electionAuthorityId) }
+
+    let result = []
+    for (let confirmation of confirmations) {
+      if (confirmation.ballotId === ballotId) {
+        result.push(confirmation)
       }
     }
-    return null
+    return result
   },
   getBallotsAndConfirmations: (state, getters) => (electionAuthorityId) => {
     let results = []
-    for (let ballot of getters.getBallots(electionAuthorityId)) {
-      let confirmation = getters.getConfirmationForVoter(ballot.voterId, electionAuthorityId)
-      results.push({voterId: ballot.voterId, ballot: ballot.ballot, confirmation: confirmation})
+    for (let ballot of getters.getBallotsOfAuthority(electionAuthorityId)) {
+      let confirmations = getters.getConfirmationsByBallot(ballot.id, electionAuthorityId)
+      ballot.confirmations = confirmations
+      results.push(ballot)
     }
     return results
   },
@@ -130,8 +141,14 @@ const getters = {
       encryptions.push({a: enc[0], b: enc[1], key: electionAuthority.permutation[i++]})
     }
     return encryptions
+  },
+  numberOfElectionAuthorities: (state, getters) => {
+    return state.electionAuthorities.length
+  },
+  haveAllAuthoritiesMixed: (state, getters) => {
+    if (getters.numberOfElectionAuthorities === 0) return null
+    return getters.hasAuthorityShuffled(getters.numberOfElectionAuthorities - 1)
   }
-
 }
 
 export default {

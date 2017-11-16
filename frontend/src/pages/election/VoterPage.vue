@@ -248,6 +248,7 @@
             {
               'election': this.$route.params['electionId'],
               'voterId': this.selectedVoter,
+              'ballotId': this.voter.validBallot,
               'confirmationCode': this.confirmationCode
             }
           ).then(response => {

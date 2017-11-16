@@ -12,7 +12,7 @@ class VoterState(State):
         # voting client data
         self.selection = []
         self.randomizations = []
-        self.responses = []
+        self.validBallot = None
         self.points = []
         self.verificationCodes = []
         self.finalizations = []

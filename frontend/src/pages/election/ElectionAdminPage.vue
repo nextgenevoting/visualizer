@@ -27,9 +27,12 @@
             </div>
 
             <div v-if="status == 4">
-                <v-btn @click="startDecryptionPhase()">{{ $t('ElectionAdmin.start_decryption_process') }}</v-btn>
+                <p v-t="'ElectionAdmin.waitForMixing'"></p><br>
+                <v-btn :disabled="!allAuthoritiesHaveMixed" @click="startDecryptionPhase()">{{ $t('ElectionAdmin.start_decryption_process') }}</v-btn>
             </div>
-
+            <div v-if="status == 5">
+                <p v-t="'ElectionAdmin.waitForDecryption'"></p>
+            </div>
             <div v-if="status == 6">
                 <v-btn @click="tally()">{{ $t('tally') }}</v-btn>
 
@@ -40,6 +43,21 @@
                     </v-flex>
                     <v-flex xy12 md4>
                         <DataCard :title="$t('final_results')" :expandable=false confidentiality="public">{{ finalResults }}</DataCard>
+                    </v-flex>
+                    <v-flex xy12 md12>
+                        <DataCard :title="$t('final_results')" :expandable=false confidentiality="public">
+                        <v-layout row wrap >
+                            <v-flex xy12 md6 v-for="(results, index) in finalResults">
+                            <donut-chart
+                                    :id="`donut${index}`"
+                                    :data="donutData[index]"
+                                    colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]'
+                                    resize="false">
+                            </donut-chart>
+                            </v-flex>
+                        </v-layout>
+
+                        </DataCard>
                     </v-flex>
                 </v-layout>
             </div>
@@ -67,13 +85,34 @@ export default {
   computed: {
     ...mapGetters({
       electionId: 'electionId',
-      status: 'status'
+      status: 'status',
+      allAuthoritiesHaveMixed: 'haveAllAuthoritiesMixed'
     }),
     ...mapState({
       votes: state => state.ElectionAdministrator.votes,
       w_bold: state => state.ElectionAdministrator.w_bold,
-      finalResults: state => state.ElectionAdministrator.finalResults
-    })
+      finalResults: state => state.ElectionAdministrator.finalResults,
+      electionCandidates: state => state.BulletinBoard.candidates,
+      calcNumberOfCandidates: state => state.BulletinBoard.numberOfCandidates
+    }),
+    donutData: {
+      get: function () {
+        let donutData = []
+        let candidateOffset = 0
+        // loop over all parallel election events
+        for (let i in this.finalResults) {
+          let electionChartData = []
+          for (let resIndex in this.finalResults[i]) {
+            electionChartData.push({
+              label: this.electionCandidates[Number(resIndex) + candidateOffset], value: this.finalResults[i][Number(resIndex)]
+            })
+          }
+          candidateOffset = candidateOffset + this.calcNumberOfCandidates[i]
+          donutData.push(electionChartData)
+        }
+        return donutData
+      }
+    }
   },
   methods: {
     setUpElection (event) {

@@ -1,6 +1,7 @@
 from chvote.Types import VotingCard, Ballot, VoterBallot, CheckBallotTask, Confirmation, CheckConfirmationTask, VoterConfirmation
 import unittest
 from gmpy2 import mpz
+import uuid
 
 def mpzconverter(o):
     if o.__class__.__name__ == 'mpz':
@@ -10,6 +11,9 @@ def mpzconverter(o):
         return str(o)
 
     if isinstance(o, bytes):
+        return str(o)
+
+    if isinstance(o, uuid.UUID):
         return str(o)
 
     from app.models.voterState import VoterState

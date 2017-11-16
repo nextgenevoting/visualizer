@@ -71,13 +71,13 @@ class Voter(Party):
 
 
     @property
-    def responses(self):
-        return self.state.responses
+    def validBallot(self):
+        return self.state.validBallot
 
-    @responses.setter
-    def responses(self, value):
-        AssertList(value)
-        self.state.responses = value
+    @validBallot.setter
+    def validBallot(self, value):
+        AssertString(value)
+        self.state.validBallot = value
 
     @property
     def points(self):

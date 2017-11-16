@@ -125,26 +125,27 @@ class VoteSimulator(object):
 
         # reset previous votecasting data
         voter.responses = []
-        voter.checkResults = []
         voter.points = []
-        voter.responses = []
 
         # create a new checkBallotTask (a temporary ballot that will be passed to the authorities for checking)
-        (alpha, r) = GenBallot(votingCode, selection, self.bulletinBoard.publicKey, self.secparams)
+        (ballot, r) = GenBallot(votingCode, selection, self.bulletinBoard.publicKey, self.secparams)
+
+        voterBallot = VoterBallot(voterId, ballot, None)
+
         # pass it to the first authority
-        checkBallotTask = CheckBallotTask(voterId, alpha)
+        checkBallotTask = CheckBallotTask(voterId, voterBallot.id)
         checkBallotTask.checkResults = [None] * self.secparams.s
         self.authorities[0].checkBallotTasks.append(checkBallotTask)
+        #self.authorities[0].ballots.append(ballot)
+        self.bulletinBoard.ballots.append(voterBallot)
 
         voter.selection = selection
         voter.randomizations = r
 
         # if the first authority is set to autoCheck = true, check ballot and reply automatically, otherwise checkVote will be called by the user through the webapp later
-        if(self.authorities[0].autoCheck): self.checkVote(voterId, 0)
+        if(self.authorities[0].autoCheck): self.checkVote(checkBallotTask.ballotId, 0)
 
-
-
-    def confirmVote(self, voterId, confirmationCode):
+    def confirmVote(self, voterId, ballotId, confirmationCode):
         # 6.6 Vote Confirmation
         voter = self.voters[voterId]
 
@@ -152,92 +153,108 @@ class VoteSimulator(object):
         # TODO
 
         # create a new checkConfirmationTask (a temporary confirmation that will be passed to the authorities for checking)
-        gamma = GenConfirmation(confirmationCode, voter.points, self.secparams)
+        confirmation = GenConfirmation(confirmationCode, voter.points, self.secparams)
+        voterConfirmation = VoterConfirmation(voterId, ballotId, confirmation)
         # pass it to the first authority
-        checkConfirmationTask = CheckConfirmationTask(voterId, gamma)
+        checkConfirmationTask = CheckConfirmationTask(voterId, ballotId, voterConfirmation.id )
         checkConfirmationTask.checkResults = [None] * self.secparams.s
         self.authorities[0].checkConfirmationTasks.append(checkConfirmationTask)
 
-        # if the first authority is set to autoCheck = true, check ballot and reply automatically, otherwise checkVote will be called by the user through the webapp later
-        if(self.authorities[0].autoCheck): self.checkConfirmation(voterId, 0)
+        self.bulletinBoard.confirmations.append(voterConfirmation)
 
-    def checkVote(self, voterId, authorityId):
+        # if the first authority is set to autoCheck = true, check ballot and reply automatically, otherwise checkVote will be called by the user through the webapp later
+        if(self.authorities[0].autoCheck): self.checkConfirmation(checkConfirmationTask.confirmationId, 0)
+
+    def checkVote(self, ballotId, authorityId):
         # 6.5 Vote Casting
         authority = self.authorities[authorityId]
-        voter = self.voters[voterId]
 
-        checkResult = authority.checkBallot(voterId, self.bulletinBoard, self.secparams)
+        checkResult = authority.checkBallot(ballotId, self.bulletinBoard, self.secparams)
 
         if authority.autoCheck:
             if checkResult:
-                self.respond(voterId, authorityId)
+                self.respond(ballotId, authorityId)
             else:
-                self.discardBallot(voterId, authorityId)
+                self.discardBallot(ballotId, authorityId)
 
-    def respond(self, voterId, authorityId):
+    def respond(self, ballotId, authorityId):
         # 6.5 Vote Casting
         authority = self.authorities[authorityId]
-        voter = self.voters[voterId]
 
-        (checkBallotTask, response) = authority.respond(voterId, self.bulletinBoard, self.secparams)
-        voter.responses.append(response)
+        (checkBallotTask, response) = authority.respond(ballotId, self.bulletinBoard, self.secparams)
+        #voter.responses.append(response)
+        ballot = self.bulletinBoard.getBallotById(ballotId)
 
         # pass checkBallotTask to the next authority
         if authorityId < self.secparams.s - 1:
             self.authorities[authorityId + 1].checkBallotTasks.append(checkBallotTask)
             if (self.authorities[authorityId + 1].autoCheck):
-                self.checkVote(voterId, authorityId + 1)
+                self.checkVote(ballotId, authorityId + 1)
         else:
             # this was the last authority to check the ballot
             # Generate return codes
             if all(checkResult for checkResult in checkBallotTask.checkResults):
-                self.getReturnCodes(voter)
+                voter = self.voters[ballot.voterId]
+                voter.validBallot = ballot.id
+                self.getReturnCodes(ballot.voterId, ballot.responses)
 
-    def discardBallot(self, voterId, authorityId):
+
+    def discardBallot(self, ballotId, authorityId):
         # 6.5 Vote Casting
         authority = self.authorities[authorityId]
+
+        authority.discardBallot(ballotId, self.bulletinBoard, self.secparams)
+
+    def getReturnCodes(self, voterId, responses):
         voter = self.voters[voterId]
 
-        authority.discardBallot(voterId, self.bulletinBoard, self.secparams)
-
-    def getReturnCodes(self, voter):
-        P_s = GetPointMatrix(voter.responses, voter.selection, voter.randomizations, self.secparams)
+        P_s = GetPointMatrix(responses, voter.selection, voter.randomizations, self.secparams)
         voter.points = P_s
         voter.verificationCodes = GetReturnCodes(voter.selection, P_s, self.secparams)
         voter.status = 1
 
-    def checkConfirmation(self, voterId, authorityId):
+    def checkConfirmation(self, confirmationId, authorityId):
         # 6.6 Vote Confirmation
         authority = self.authorities[authorityId]
-        voter = self.voters[voterId]
+        #voter = self.voters[voterId]
 
-        authority.checkConfirmation(voterId, self.bulletinBoard, self.secparams)
+        authority.checkConfirmation(confirmationId, self.bulletinBoard, self.secparams)
 
-        if authority.autoCheck: self.finalize(voterId, authorityId)
+        if authority.autoCheck: self.finalize(confirmationId, authorityId)
 
 
-    def finalize(self, voterId, authorityId):
+    def finalize(self, confirmationId, authorityId):
         # 6.6 Vote Confirmation
         authority = self.authorities[authorityId]
-        voter = self.voters[voterId]
 
-        (checkConfirmationTask, finalization) = authority.finalize(voterId, self.bulletinBoard, self.secparams)
-        voter.finalizations.append(finalization)
+        (checkConfirmationTask, finalizations) = authority.finalize(confirmationId, self.bulletinBoard, self.secparams)
+        confirmation = self.bulletinBoard.getConfirmationById(confirmationId)
 
         # pass checkConfirmationTask to the next authority
         if authorityId < self.secparams.s - 1:
             self.authorities[authorityId + 1].checkConfirmationTasks.append(checkConfirmationTask)
             if (self.authorities[authorityId + 1].autoCheck):
-                self.checkConfirmation(voterId, authorityId + 1)
+                self.checkConfirmation(confirmationId, authorityId + 1)
         else:
             # this was the last authority to check the confirmation
             # Generate finalizationCode codes
             if all(checkResult for checkResult in checkConfirmationTask.checkResults):
-                self.getFinalizationCode(voter)
 
-    def getFinalizationCode(self, voter):
-        voter.finalizationCode = GetFinalizationCode(voter.finalizations, self.secparams)
+                voter = self.voters[checkConfirmationTask.voterId]
+                voter.validConfirmation = checkConfirmationTask.confirmationId
+                self.getFinalizationCode(checkConfirmationTask.voterId, confirmation.finalizations)
+
+    def getFinalizationCode(self, voterId, finalizations):
+        voter = self.voters[voterId]
+        voter.finalizationCode = GetFinalizationCode(finalizations, self.secparams)
         voter.status = 2
+
+    def discardConfirmation(self, confirmationId, authorityId):
+        # 6.5 Vote Casting
+        authority = self.authorities[authorityId]
+
+        authority.discardConfirmation(confirmationId, self.bulletinBoard, self.secparams)
+
 
 # *********************************
 #  POST ELECTION PHASE

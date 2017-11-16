@@ -68,7 +68,11 @@ module.exports = {
     new webpack.EnvironmentPlugin({
       'URL_ROOT': process.env.NODE_ENV === 'production' ? '/api' : 'http://localhost:5000',
       'SOCKETIO_BASE_URL': process.env.NODE_ENV === 'production' ? '/' : 'http://localhost:5000'
-    })
+    }),
+      new webpack.ProvidePlugin({
+          $: "jquery",
+          jQuery: "jquery"
+      })
   ]
 }
 

@@ -37,11 +37,15 @@ def CheckConfirmation(v, gamma, y_hat_bold, B, C, secparams):
 
     #(y_hat_, pi) = gamma
 
-    if HasBallot(v, B, secparams) and not HasConfirmation(v, C, secparams) and gamma.y_hat == y_hat_bold[v]:
-        if CheckConfirmationProof(gamma.pi, gamma.y_hat, secparams):
-            return True
+    hasBallot = HasBallot(v, B, secparams)
+    hasConfirmation = HasConfirmation(v, C, secparams)
+    credentialCheck = gamma.y_hat == y_hat_bold[v]
+    if hasBallot and not hasConfirmation and credentialCheck:
+        confirmationProofCheck = CheckConfirmationProof(gamma.pi, gamma.y_hat, secparams)
+        if confirmationProofCheck:
+            return (True, [])
 
-    return False
+    return (False, [False, hasBallot, hasConfirmation, credentialCheck])
 
 class CheckConfirmationTest(unittest.TestCase):
     def testCheckConfirmation(self):

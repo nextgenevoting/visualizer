@@ -26,11 +26,16 @@ import MixingPage from './pages/election/electionAuthoritySubpages/MixingPage.vu
 import DecryptionPage from './pages/election/electionAuthoritySubpages/DecryptionPage.vue'
 import SelectVoterDialog from './utils/SelectVoterDialog.vue'
 import LoadingOverlay from './utils/LoadingOverlay.vue'
+import BallotList from './utils/BallotList.vue'
 import BigIntLabel from './utils/BigIntLabel.vue'
 import TupleLabel from './utils/TupleLabel.vue'
 import DataCard from './utils/DataCard.vue'
 import ContentTitle from './utils/ContentTitle.vue'
 import Toasted from 'vue-toasted'
+import Raphael from 'raphael/raphael'
+import { DonutChart } from 'vue-morris'
+import Popover from 'vue-js-popover'
+global.Raphael = Raphael
 
 const routes = [
   { path: '/home', name: 'home', component: HomePage },
@@ -59,7 +64,9 @@ Vue.use(Vuex)
 Vue.use(VueResource)
 Vue.use(VueI18n)
 Vue.use(VueI18nDirectives)
+Vue.use(Popover)
 Vue.use(Toasted, { position: 'top-right', duration: '4000' })
+
 Vue.component('BigIntLabel', BigIntLabel)
 Vue.component('TupleLabel', TupleLabel)
 Vue.component('DataCard', DataCard)
@@ -70,6 +77,8 @@ Vue.component('ConfirmationTaskPage', ConfirmationTaskPage)
 Vue.component('CheckBallotTaskPage', CheckBallotTaskPage)
 Vue.component('MixingPage', MixingPage)
 Vue.component('DecryptionPage', DecryptionPage)
+Vue.component('DonutChart', DonutChart)
+Vue.component('BallotList', BallotList)
 
 Vue.url.options.root = process.env.URL_ROOT
 Vue.use(VueSocketio, process.env.SOCKETIO_BASE_URL, store)

@@ -49,6 +49,15 @@
                     </DataCard>
                 </v-flex>
             </v-layout>
+            <h5 v-if="status >= 3" v-t="'election_data'"></h5>
+            <v-layout row wrap>
+                <v-flex xy12 md12>
+                    <DataCard :title="$t('ballots')" :expandable=false confidentiality="public">
+                        <BallotList :ballots="ballots"></BallotList>
+                    </DataCard>
+                </v-flex>
+
+            </v-layout>
             <h5 v-t="'BulletinBoard.pre_election_data'"></h5>
             <v-layout row wrap>
                 <v-flex xy12 md4>
@@ -117,13 +126,19 @@ export default {
       candidates: state => state.BulletinBoard.candidates,
       publicKey: state => state.BulletinBoard.publicKey,
       shuffleProofs: state => state.BulletinBoard.shuffleProofs,
-      decryptionProofs: state => state.BulletinBoard.decryptionProofs
+      decryptionProofs: state => state.BulletinBoard.decryptionProofs,
+      confirmations: state => state.BulletinBoard.confirmations
     }),
     ...mapGetters({
       electionId: 'electionId',
       status: 'status',
       statusText: 'statusText'
-    })
+    }),
+    ballots: {
+      get: function () {
+        return this.$store.getters.getBallotsAndConfirmations(null)
+      }
+    }
   }
 }
 </script>

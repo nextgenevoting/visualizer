@@ -1,6 +1,6 @@
 <template>
     <transition-group tag="div" name="bounce" :appear="checkTransition">
-        <v-layout row v-for="checkConfirmationTask in checkConfirmationTasks" :key="checkConfirmationTask.voterId">
+        <v-layout row v-for="checkConfirmationTask in checkConfirmationTasks" :key="checkConfirmationTask.confirmationId">
             <v-flex xs12 sm12>
                 <v-card>
                     <v-card-title primary-title>
@@ -15,17 +15,17 @@
                         {{ $t('result_of_check') }}: {{ checkConfirmationTask.checkResults[selectedAuthorityIndex] }}
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn flat color="blue" @click="checkConfirmation(checkConfirmationTask.voterId)">
+                        <v-btn flat color="blue" @click="checkConfirmation(checkConfirmationTask.confirmationId)">
                             <v-icon left>mdi-approval</v-icon>
                             {{ $t('check_validity') }}
                         </v-btn>
-                        <v-btn flat color="blue" @click="finalize(checkConfirmationTask.voterId)"
-                               :disabled="!checkConfirmationTask.checkResults[selectedAuthorityIndex]">
+                        <v-btn flat color="blue" @click="finalize(checkConfirmationTask.confirmationId)"
+                               :disabled="checkConfirmationTask.checkResults[selectedAuthorityIndex] !== 1">
                             <v-icon left>mdi-reply</v-icon>
                             {{ $t('finalize') }}
                         </v-btn>
-                        <v-btn flat color="red" @click="discardConfirmation(checkConfirmationTask.voterId)"
-                               :disabled="checkConfirmationTask.checkResults[selectedAuthorityIndex] || checkConfirmationTask.checkResults[selectedAuthorityIndex] == null">
+                        <v-btn flat color="red" @click="discardConfirmation(checkConfirmationTask.confirmationId)"
+                               :disabled="checkConfirmationTask.checkResults[selectedAuthorityIndex] == 1 || checkConfirmationTask.checkResults[selectedAuthorityIndex] == null">
                             <v-icon left>mdi-cancel</v-icon>
                             {{ $t('ConfirmationTask.discard_confirmation') }}
                         </v-btn>
@@ -76,11 +76,11 @@
         }
       },
       methods: {
-        checkConfirmation: function (voterId) {
+        checkConfirmation: function (confirmationId) {
           this.$http.post('checkConfirmation', {
             'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
+            'confirmationId': confirmationId
           }).then(response => {
             response.json().then((data) => {
               // success callback
@@ -90,11 +90,11 @@
             this.$toasted.error(e.body.message)
           })
         },
-        finalize: function (voterId) {
+        finalize: function (confirmationId) {
           this.$http.post('finalize', {
             'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
+            'confirmationId': confirmationId
           }).then(response => {
             response.json().then((data) => {
               // success callback
@@ -104,11 +104,11 @@
             this.$toasted.error(e.body.message)
           })
         },
-        discardConfirmation: function (voterId) {
+        discardConfirmation: function (confirmationId) {
           this.$http.post('discardConfirmation', {
             'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
+            'confirmationId': confirmationId
           }).then(response => {
             response.json().then((data) => {
               // success callback

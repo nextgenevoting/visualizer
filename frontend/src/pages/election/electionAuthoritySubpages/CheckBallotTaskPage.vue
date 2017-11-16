@@ -1,6 +1,6 @@
 <template>
     <transition-group tag="div" name="bounce" :appear="checkTransition">
-        <v-layout row v-for="checkBallotTask in checkBallotTasks" :key="checkBallotTask.voterId">
+        <v-layout row v-for="checkBallotTask in checkBallotTasks" :key="checkBallotTask.ballotId">
             <v-flex xs12 sm12>
                 <v-card>
                     <v-card-title primary-title>
@@ -15,17 +15,17 @@
                         {{ $t('result_of_check') }}: {{ checkBallotTask.checkResults[selectedAuthorityIndex] }}
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn flat color="blue" @click="checkBallot(checkBallotTask.voterId)">
+                        <v-btn flat color="blue" @click="checkBallot(checkBallotTask.ballotId)">
                             <v-icon left>mdi-approval</v-icon>
                             {{ $t('check_validity') }}
                         </v-btn>
-                        <v-btn flat color="blue" @click="respond(checkBallotTask.voterId)"
-                               :disabled="!checkBallotTask.checkResults[selectedAuthorityIndex]">
+                        <v-btn flat color="blue" @click="respond(checkBallotTask.ballotId)"
+                               :disabled="checkBallotTask.checkResults[selectedAuthorityIndex] !== 1">
                             <v-icon left>mdi-reply</v-icon>
                             {{ $t('CheckBallotTask.respond_to_query') }}
                         </v-btn>
-                        <v-btn flat color="red" @click="discardBallot(checkBallotTask.voterId)"
-                               :disabled="checkBallotTask.checkResults[selectedAuthorityIndex] || checkBallotTask.checkResults[selectedAuthorityIndex] == null">
+                        <v-btn flat color="red" @click="discardBallot(checkBallotTask.ballotId)"
+                               :disabled="checkBallotTask.checkResults[selectedAuthorityIndex] == 1 || checkBallotTask.checkResults[selectedAuthorityIndex] == null">
                             <v-icon left>mdi-cancel</v-icon>
                             {{ $t('CheckBallotTask.discard_ballot') }}
                         </v-btn>
@@ -36,8 +36,8 @@
                     </v-card-actions>
                     <v-slide-y-transition>
                         <v-card-text v-show="show">
-                            a_bold: {{ checkBallotTask.ballot.a_bold }}<br>
-                            x_hat: {{ checkBallotTask.ballot.x_hat }}
+                            <!--a_bold: {{ checkBallotTask.ballot.a_bold }}<br>
+                            x_hat: {{ checkBallotTask.ballot.x_hat }}-->
                         </v-card-text>
                     </v-slide-y-transition>
                 </v-card>
@@ -77,11 +77,11 @@
         }
       },
       methods: {
-        checkBallot: function (voterId) {
+        checkBallot: function (ballotId) {
           this.$http.post('checkVote', {
             'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
+            'ballotId': ballotId
           }).then(response => {
             response.json().then((data) => {
               // success callback
@@ -91,11 +91,11 @@
             this.$toasted.error(e.body.message)
           })
         },
-        respond: function (voterId) {
+        respond: function (ballotId) {
           this.$http.post('respond', {
             'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
+            'ballotId': ballotId
           }).then(response => {
             response.json().then((data) => {
               // success callback
@@ -105,15 +105,15 @@
             this.$toasted.error(e.body.message)
           })
         },
-        discardBallot: function (voterId) {
+        discardBallot: function (ballotId) {
           this.$http.post('discardBallot', {
             'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex,
-            'voterId': voterId
+            'ballotId': ballotId
           }).then(response => {
             response.json().then((data) => {
               // success callback
-              this.$toasted.success(this.$i18n.t('CheckBallotTask.successfully_replied_to_vote'))
+              // this.$toasted.success(this.$i18n.t('CheckBallotTask.successfully_replied_to_vote'))
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)

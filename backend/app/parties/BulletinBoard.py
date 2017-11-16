@@ -149,3 +149,17 @@ class BulletinBoard(Party):
     def decryptionProofs(self, value):
         AssertList(value)
         self.state.decryptionProofs = value
+
+
+    def getBallotById(self, ballotId):
+        for ballot in self.ballots:
+            if ballot.id == ballotId:
+                return ballot
+        return None
+
+
+    def getConfirmationById(self, confirmationId):
+        for confirmation in self.confirmations:
+            if confirmation.id == confirmationId:
+                return confirmation
+        return None

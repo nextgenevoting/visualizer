@@ -72,6 +72,9 @@ counting_circles:
 tally:
   en: Tally
   de: Auszählen
+election_data:
+  en: Election data
+  de: Wahldaten
 post_election_data:
   en: Post-election data
   de: Daten nach den Wahlen
@@ -249,6 +252,12 @@ ElectionAdmin:
   successfully_tallied_election:
     en: Successfully tallied election.
     de: Die Wahl wurde erfolgreich abgezählt.
+  waitForMixing:
+    en: All authorities must mix before you can proceed
+    de: Alle Authoritäten müssen den Mischungsprozess abschliessen
+  waitForDecryption:
+    en: All authorities must decrypt before you can proceed
+    de: Alle Authoritäten müssen den Entschlüsselungsprozess abschliessen
 
 ElectionAuthority:
   title:
@@ -267,11 +276,11 @@ ElectionAuthority:
     en: Encryption {n}
     de: Verschlüsselung {n}
   ballot_of_voter_n:
-    en: Ballot of voter {n}
+    en: Voter {n}
     de: Stimmzettel von Wähler {n}
   encrypted_selections:
-    en: 'Encrypted selections:'
-    de: 'Verschlüsselte Selektionen:'
+    en: 'Encrypted selection:'
+    de: 'Verschlüsselte Selektion:'
   public_voter_credential:
     en: 'Public voter credential:'
     de: 'Öffentlicher Wähler-Berechtigungsnachweis:'
@@ -422,3 +431,29 @@ Mixing:
   shuffle_encryptions:
     en: Shuffle encryptions
     de: Verschlüsselungen mischen
+
+BallotList:
+  valid:
+    en: Valid
+    de: Gültig
+  unchecked:
+    en: Unchecked
+    de: Ungeprüft
+  ballotProofInvalid:
+    en: Invalid proof
+    de: Beweis ungültig
+  queryInvalid:
+    en: Invalid query
+    de: Ungültiges Query
+  credentialInvalid:
+    en: Invalid credential
+    de: Ungültiges Credential
+  unconfirmed:
+    en: Unconfirmed
+    de: Unbestätigt
+  confirmed:
+    en: Confirmed
+    de: Bestätigt
+  hasInvalidConfirmations:
+    en: Invalid confirmation
+    de: Ungültig Confirmation

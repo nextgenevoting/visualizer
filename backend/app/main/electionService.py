@@ -19,6 +19,9 @@ def castVote():
     voterId = data["voterId"]
     votingCode = data["votingCode"]
 
+    if len(selection) == 0:
+        return make_error(400, "Empty selection")
+
     try:
         # prepare voteSimulator
         sim = VoteSimulator(electionId)
@@ -30,6 +33,7 @@ def castVote():
         sim.persist()
 
         syncElectionAuthorities(electionId, SyncType.ROOM)
+        syncBulletinBoard(electionId, SyncType.ROOM)
         syncVoters(electionId, SyncType.ROOM)
 
     except Exception as ex:
@@ -43,20 +47,21 @@ def castVote():
 def checkVote():
     data = request.json
     electionId = data["election"]
-    voterId = data["voterId"]
     authorityId = data["authorityId"]
+    ballotId = data["ballotId"]
 
     try:
         # prepare voteSimulator
         sim = VoteSimulator(electionId)
 
         # perform action
-        sim.checkVote(voterId, authorityId)
+        sim.checkVote(ballotId, authorityId)
 
         # retrieve and persist modified state
         sim.persist()
 
         syncElectionAuthorities(electionId, SyncType.ROOM)
+        syncBulletinBoard(electionId, SyncType.ROOM)
         syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
@@ -68,7 +73,7 @@ def checkVote():
 def respond():
     data = request.json
     electionId = data["election"]
-    voterId = data["voterId"]
+    ballotId = data["ballotId"]
     authorityId = data["authorityId"]
 
     try:
@@ -76,11 +81,12 @@ def respond():
         sim = VoteSimulator(electionId)
 
         # perform action
-        sim.respond(voterId, authorityId)
+        sim.respond(ballotId, authorityId)
 
         # retrieve and persist modified state
         sim.persist()
 
+        syncBulletinBoard(electionId, SyncType.ROOM)
         syncElectionAuthorities(electionId, SyncType.ROOM)
         syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
@@ -93,7 +99,7 @@ def respond():
 def discardBallot():
     data = request.json
     electionId = data["election"]
-    voterId = data["voterId"]
+    ballotId = data["ballotId"]
     authorityId = data["authorityId"]
 
     try:
@@ -101,13 +107,12 @@ def discardBallot():
         sim = VoteSimulator(electionId)
 
         # perform action
-        sim.discardBallot(voterId, authorityId)
+        sim.discardBallot(ballotId, authorityId)
 
         # retrieve and persist modified state
         sim.persist()
 
         syncElectionAuthorities(electionId, SyncType.ROOM)
-        syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
 
@@ -121,6 +126,7 @@ def confirmVote():
     data = request.json
     electionId = data["election"]
     voterId = data["voterId"]
+    ballotId = data["ballotId"]
     confirmationCode = data["confirmationCode"]
 
     try:
@@ -128,11 +134,12 @@ def confirmVote():
         sim = VoteSimulator(electionId)
 
         # perform action
-        sim.confirmVote(voterId, confirmationCode)
+        sim.confirmVote(voterId, ballotId, confirmationCode)
 
         # retrieve and persist modified state
         sim.persist()
 
+        syncBulletinBoard(electionId, SyncType.ROOM)
         syncElectionAuthorities(electionId, SyncType.ROOM)
         syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
@@ -147,7 +154,7 @@ def confirmVote():
 def checkConfirmation():
     data = request.json
     electionId = data["election"]
-    voterId = data["voterId"]
+    confirmationId = data["confirmationId"]
     authorityId = data["authorityId"]
 
     try:
@@ -155,11 +162,12 @@ def checkConfirmation():
         sim = VoteSimulator(electionId)
 
         # perform action
-        sim.checkConfirmation(voterId, authorityId)
+        sim.checkConfirmation(confirmationId, authorityId)
 
         # retrieve and persist modified state
         sim.persist()
 
+        syncBulletinBoard(electionId, SyncType.ROOM)
         syncElectionAuthorities(electionId, SyncType.ROOM)
         syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
@@ -172,7 +180,7 @@ def checkConfirmation():
 def finalize():
     data = request.json
     electionId = data["election"]
-    voterId = data["voterId"]
+    confirmationId = data["confirmationId"]
     authorityId = data["authorityId"]
 
     try:
@@ -180,17 +188,44 @@ def finalize():
         sim = VoteSimulator(electionId)
 
         # perform action
-        sim.finalize(voterId, authorityId)
+        sim.finalize(confirmationId, authorityId)
 
         # retrieve and persist modified state
         sim.persist()
 
+        syncBulletinBoard(electionId, SyncType.ROOM)
         syncElectionAuthorities(electionId, SyncType.ROOM)
         syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
 
     return json.dumps({'id': str(id)})
+
+@main.route('/discardConfirmation', methods=['POST'])
+@cross_origin(origin='*')
+def discardConfirmation():
+    data = request.json
+    electionId = data["election"]
+    confirmationId = data["confirmationId"]
+    authorityId = data["authorityId"]
+
+    try:
+        # prepare voteSimulator
+        sim = VoteSimulator(electionId)
+
+        # perform action
+        sim.discardConfirmation(confirmationId, authorityId)
+
+        # retrieve and persist modified state
+        sim.persist()
+
+        syncElectionAuthorities(electionId, SyncType.ROOM)
+    except Exception as ex:
+        return make_error(500, str(ex))
+
+    return json.dumps({'id': str(id)})
+
+
 
 @main.route('/setAutoMode', methods=['POST'])
 @cross_origin(origin='*')

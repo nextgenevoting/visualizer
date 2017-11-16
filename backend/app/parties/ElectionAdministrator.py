@@ -59,4 +59,13 @@ class ElectionAdministrator(Party):
                 if votes[c] == 1:
                     candidateVotes[c] += 1
 
-        self.finalResults = candidateVotes
+        j = 0
+        finalVotes = []
+        for c in bulletinBoard.numberOfCandidates:
+            electionEventResults = []
+            for i in range(c):
+                electionEventResults.append(candidateVotes[j])
+                j = j+1
+            finalVotes.append(electionEventResults)
+
+        self.finalResults = finalVotes

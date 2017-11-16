@@ -1,6 +1,6 @@
 <template>
     <transition-group tag="div" name="bounce" :appear="decryptionTransition">
-        <v-layout row  :key="selectedAuthorityIndex" v-if="status == 5 && decryptions === null">
+        <v-layout row  :key="selectedAuthorityIndex" v-if="status == 5 && hasDecryptionTask">
             <v-flex xs12 sm12>
                 <v-card>
                     <v-card-title primary-title>
@@ -16,7 +16,7 @@
                     </v-card-text>
 
                     <v-card-actions>
-                        <v-btn flat color="blue" :disabled="decryptions !== null" @click="decrypt()" >
+                        <v-btn flat color="blue" @click="decrypt()" >
                             <v-icon left>mdi-key-variant</v-icon>
                             {{ $t('Decryption.decrypt') }}
                         </v-btn>
@@ -68,6 +68,11 @@
         decryptions: {
           get: function () {
             return this.$store.getters.getDecryptionsForAuthority(this.selectedAuthorityIndex)
+          }
+        },
+        hasDecryptionTask: {
+          get: function () {
+            return this.$store.getters.hasDecryptionTask(this.selectedAuthorityIndex)
           }
         }
       },

@@ -209,47 +209,67 @@ class ElectionAuthority(Party):
         self.publicKey = GetPublicKey(bulletinBoard.publicKeyShares, secparams)
         return self.publicKey
 
-    def checkBallot(self, voterId, bulletinBoard, secparams):
+    def checkBallot(self, ballotId, bulletinBoard, secparams):
         """
         (Protocol 6.4) Every authority j ∈ {1,...,s} checks the ballot and responds to it
         """
 
         checkBallotTask = None
         for v in self.checkBallotTasks:
-            if v.voterId == voterId:
+            if v.ballotId == ballotId:
                 checkBallotTask = v
 
         if checkBallotTask == None:
             raise RuntimeError("checkBallotTask not found on election authority")
 
-        checkResult = CheckBallot(voterId, checkBallotTask.ballot, self.publicKey, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.publicVotingCredentials[0], self.ballots, secparams)
-        checkBallotTask.checkResults[self.id] = checkResult
+        # find ballot
+        ballot = bulletinBoard.getBallotById(ballotId)
+
+        (checkResult, checks) = CheckBallot(ballot.voterId, ballot.ballot, self.publicKey, bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.publicVotingCredentials[0], self.ballots, secparams)
+
+        if(checkResult):
+            ballot.validity = 1
+        else:
+            if checks[0] == False:
+                ballot.validity = 2 # ballot proof failed
+            if checks[1] == True:
+                ballot.validity = 3  # alreadyHasBallot
+            if checks[2] == False:
+                ballot.validity = 4  # credential check failed
+            if checks[3] == False:
+                ballot.validity = 5  # query length failed
+
+        checkBallotTask.checkResults[self.id] = ballot.validity
 
         return checkResult
 
-    def respond(self, voterId, bulletinBoard, secparams):
+    def respond(self, ballotId, bulletinBoard, secparams):
         checkBallotTask = None
         for v in self.checkBallotTasks:
-            if v.voterId == voterId:
+            if v.ballotId == ballotId:
                 checkBallotTask = v
 
         if checkBallotTask == None:
             raise RuntimeError("checkBallotTask not found on election authority")
 
-        (beta_j, z) = GenResponse(voterId, checkBallotTask.ballot.a_bold, self.publicKey, bulletinBoard.numberOfCandidates,
+        ballot = bulletinBoard.getBallotById(ballotId)
+
+        (beta_j, z) = GenResponse(ballot.voterId, ballot.ballot.a_bold, self.publicKey, bulletinBoard.numberOfCandidates,
                                   bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.points,
                                   secparams)
-        self.ballots.append(VoterBallot(voterId, checkBallotTask.ballot, z))
+        ballot.responses.append(beta_j)
+        ballot.randomizations = z
+        self.ballots.append(ballot)
 
         # remove the checkBallotTask from this elections checkBallotTask list (it will be moved to the next authority that's why we have to return the voterBallot)
         self.checkBallotTasks.remove(checkBallotTask)
 
         return (checkBallotTask, beta_j)
 
-    def discardBallot(self, voterId, bulletinBoard, secparams):
+    def discardBallot(self, ballotId, bulletinBoard, secparams):
         checkBallotTask = None
         for v in self.checkBallotTasks:
-            if v.voterId == voterId:
+            if v.ballotId == ballotId:
                 checkBallotTask = v
 
         if checkBallotTask == None:
@@ -258,35 +278,68 @@ class ElectionAuthority(Party):
         self.checkBallotTasks.remove(checkBallotTask)
         return
 
-    def checkConfirmation(self, voterId, bulletinBoard, secparams):
+    def checkConfirmation(self, confirmationId, bulletinBoard, secparams):
         """
         (Protocol 6.6) Every authority j ∈ {1,...,s} checks the confirmation
         """
 
         checkConfirmationTask = None
         for v in self.checkConfirmationTasks:
-            if v.voterId == voterId:
+            if v.confirmationId == confirmationId:
                 checkConfirmationTask = v
 
         if checkConfirmationTask == None:
             raise RuntimeError("checkConfirmationTask not found on election authority")
 
-        checkResult = CheckConfirmation(voterId, checkConfirmationTask.confirmation, self.publicVotingCredentials[1], self.ballots, self.confirmations, secparams)
-        checkConfirmationTask.checkResults[self.id] = checkResult
+        # find confirmation
+        confirmation = bulletinBoard.getConfirmationById(confirmationId)
+
+        (checkResult, checks) = CheckConfirmation(checkConfirmationTask.voterId, confirmation.confirmation, self.publicVotingCredentials[1], self.ballots, self.confirmations, secparams)
+
+        if (checkResult):
+            confirmation.validity = 1
+        else:
+            if checks[0] == False:
+                confirmation.validity = 2  # confirmation proof failed
+            if checks[1] == False:
+                confirmation.validity = 3  # hasBallot
+            if checks[2] == True:
+                confirmation.validity = 4  # already has confirmation
+            if checks[3] == False:
+                confirmation.validity = 5  # credential check failed
+
+        checkConfirmationTask.checkResults[self.id] = confirmation.validity
 
         return checkResult
 
-    def finalize(self, voterId, bulletinBoard, secparams):
+    def discardConfirmation(self, confirmationId, bulletinBoard, secparams):
         checkConfirmationTask = None
         for v in self.checkConfirmationTasks:
-            if v.voterId == voterId:
+            if v.confirmationId == confirmationId:
                 checkConfirmationTask = v
 
         if checkConfirmationTask == None:
             raise RuntimeError("checkConfirmationTask not found on election authority")
 
-        delta_j = GetFinalization(voterId, self.points, self.ballots, secparams)
-        self.confirmations.append(VoterConfirmation(voterId, checkConfirmationTask.confirmation))
+        self.checkConfirmationTasks.remove(checkConfirmationTask)
+        return
+
+    def finalize(self, confirmationId, bulletinBoard, secparams):
+        checkConfirmationTask = None
+        for v in self.checkConfirmationTasks:
+            if v.confirmationId == confirmationId:
+                checkConfirmationTask = v
+
+        if checkConfirmationTask == None:
+            raise RuntimeError("checkConfirmationTask not found on election authority")
+
+        confirmation = bulletinBoard.getConfirmationById(confirmationId)
+
+        delta_j = GetFinalization(checkConfirmationTask.voterId, self.points, self.ballots, secparams)
+
+        confirmation.finalizations.append(delta_j)
+
+        self.confirmations.append(confirmation)
 
         # remove the voterBallot from this elections voterBallot list (it will be moved to the next authority that's why we have to return the voterBallot)
         self.checkConfirmationTasks.remove(checkConfirmationTask)

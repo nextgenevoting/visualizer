@@ -48,7 +48,10 @@ def CheckBallot(v, alpha, pk, k_bold, E_bold, x_hat_bold, B, secparams):
     for j in range(len(k_bold)):
         k_prime = k_prime + E_bold[v][j] * k_bold[j]  # if voter i is eligible to cast a vote in election j, multiply 1 * the number of selections in j
 
-    if not HasBallot(v,B, secparams) and x_hat_bold[v] == alpha.x_hat and len(alpha.a_bold) == k_prime:
+    hasBallot = HasBallot(v,B, secparams)
+    credentialCheck = x_hat_bold[v] == alpha.x_hat
+    queryLength = len(alpha.a_bold) == k_prime
+    if not hasBallot and credentialCheck and queryLength:
         a = mpz(1)
         for j in range(len(alpha.a_bold)):        # for j = 0 to k_i
             a = (a * alpha.a_bold[j][0]) % secparams.p
@@ -59,9 +62,12 @@ def CheckBallot(v, alpha, pk, k_bold, E_bold, x_hat_bold, B, secparams):
 
         e = (a, b)
 
-        if CheckBallotProof(alpha.pi, alpha.x_hat, e, pk, secparams):
-            return True
-    return False
+        ballotProofCheck = CheckBallotProof(alpha.pi, alpha.x_hat, e, pk, secparams)
+        if ballotProofCheck:
+            return True, []
+
+
+    return (False, [False, hasBallot, credentialCheck, queryLength])
 
 class CheckBallotTest(unittest.TestCase):
     def testCheckBallot(self):

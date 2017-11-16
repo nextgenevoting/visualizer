@@ -51,42 +51,7 @@
 
                 <v-flex xy12 md12 key="ballots">
                     <DataCard :title="$t('ballots')" :isMpz=true :expandable=false confidentiality="encrypted">
-
-                        <transition-group tag="v-expansion-panel" name="highlight" class="expansion-panel--popout" :appear="ballotTransition">
-                            <v-expansion-panel-content v-for="ballot in ballots" :key="ballot.ballot.x_hat">
-                                <div slot="header">{{ $t('ElectionAuthority.ballot_of_voter_n', { n: ballot.voterId }) }}
-                                    <transition name="highlight">
-                                        <v-chip left label outline color="green" v-if="ballot.confirmation !== null" v-t="'confirmed'"></v-chip>
-                                    </transition>
-                                </div>
-                                <v-card>
-                                    <v-card-text class="grey lighten-3">
-                                        <v-layout row>
-                                            <v-flex xy2 md2 v-t="'ElectionAuthority.encrypted_selections'"></v-flex>
-                                            <v-flex x10 md10>
-                                                <span v-for="elgamalEncryption in ballot.ballot.a_bold">
-                                                (<BigIntLabel :mpzValue="elgamalEncryption[0]"></BigIntLabel>,
-                                                <BigIntLabel :mpzValue="elgamalEncryption[1]"></BigIntLabel>)
-                                                </span>
-                                            </v-flex>
-                                        </v-layout>
-                                        <v-layout row>
-                                            <v-flex xy2 md2 v-t="'ElectionAuthority.public_voter_credential'"></v-flex>
-                                            <v-flex xy10 md10><BigIntLabel :mpzValue="ballot.ballot.x_hat"></BigIntLabel></v-flex>
-                                        </v-layout>
-                                        <v-layout row>
-                                            <v-flex xy2 md2 v-t="'ElectionAuthority.ballot_proof'"></v-flex>
-                                            <v-flex x10 md10>
-                                                <span v-for="a in ballot.ballot.pi">
-                                                <p v-for="i in a"><BigIntLabel :mpzValue="i"></BigIntLabel></p>
-                                                </span>
-                                            </v-flex>
-                                        </v-layout>
-                                    </v-card-text>
-                                </v-card>
-                            </v-expansion-panel-content>
-                        </transition-group>
-
+                        <BallotList :ballots="ballots" :authorityFilter="selectedAuthorityIndex"></BallotList>
                     </DataCard>
                 </v-flex>
 
@@ -140,12 +105,10 @@
       mixins: [joinRoomMixin],
       data: () => ({
         show: false,
-        ballotTransition: false,
         dataTransition: false
       }),
       mounted () {
         this.dataTransition = false
-        this.ballotTransition = false
         this.$store.commit('selectedAuthority', this.$route.params.authid)
       },
       computed: {
