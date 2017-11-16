@@ -73,7 +73,7 @@
 
     .vue-popover .datacardTitle {
         text-transform: uppercase;
-        font-size: 16px;
+        font-size: 15px;
     }
 
     .vue-popover .datacardValue {

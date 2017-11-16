@@ -6,7 +6,7 @@
             <v-layout row wrap v-if="status >= 4">
                 <v-flex xy12 md12>
                     <DataCard title="Shuffle proofs" :expandable=false confidentiality="public">
-                        <v-expansion-panel>
+                        <v-expansion-panel class="expansion-panel--popout">
                             <v-expansion-panel-content v-for="(shuffleProof, index) in shuffleProofs" :key="index">
                                 <div slot="header">{{ $t('BulletinBoard.shuffle_proofs_of_election_authority', { a: index + 1 }) }}</div>
                                 <v-card>

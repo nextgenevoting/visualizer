@@ -14,7 +14,7 @@ export const store = new Vuex.Store({
   state: {
     connected: false,
     joinedElectionId: null,
-    showConfidentiality: true,
+    showConfidentiality: false,
     expertMode: false,
     selectedVoter: null,
     selectedAuthority: 0,

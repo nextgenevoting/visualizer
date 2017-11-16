@@ -1,18 +1,18 @@
 <template>
     <transition-group tag="v-expansion-panel" name="highlight" class="expansion-panel--popout"
                       :appear="ballotTransition">
-        <v-expansion-panel-content v-for="ballot in ballots" :key="ballot.id">
+        <v-expansion-panel-content v-for="ballot in ballots" :key="ballot.id" ripple>
             <div slot="header">
                 <v-layout row>
-                    <v-flex xy1 md1>
+                    <v-flex xs2 sm2 md1 class="ballotTitle">
                         {{ $t('ElectionAuthority.ballot_of_voter_n', {n: ballot.voterId + 1}) }}
                     </v-flex>
-                    <v-flex xy2 md2>
+                    <v-flex xs4 sm4 md2>
                         <transition name="highlight">
                             <v-chip left label outline v-if="ballot.validity === 0"
                                     v-t="'BallotList.unchecked'"></v-chip>
                             <v-chip left label outline color="green" v-if="ballot.validity === 1"
-                                    v-t="'BallotList.valid'"></v-chip>
+                                    v-t="'BallotList.validBallot'"></v-chip>
                             <v-chip left label outline color="red" v-if="ballot.validity === 2"
                                     v-t="'BallotList.ballotProofInvalid'"></v-chip>
                             <v-chip left label outline color="red" v-if="ballot.validity === 4"
@@ -21,25 +21,24 @@
                                     v-t="'BallotList.queryInvalid'"></v-chip>
                         </transition>
                     </v-flex>
-                    <v-flex xy3 md3>
+                    <v-flex xs12 sm12 md3>
 
                         <span v-if="ballot.responses.length > 0 && authorityFilter === undefined">
                             Responses:
                             <transition-group name="highlight">
                                 <TupleLabel v-for="(r, index) in ballot.responses" :tupleValue="r" title=""
-                                            :icon="tupleLabelIcon(index+1)" :name="r[0][0]" :key="index"></TupleLabel>
+                                            :icon="tupleLabelIcon(index+1)" :key="index"></TupleLabel>
                             </transition-group>
                         </span>
                         <span v-if="ballot.responses.length > 0 && authorityFilter !== undefined">
                             Response:
                             <transition name="highlight">
                                 <TupleLabel :tupleValue="ballot.responses[authorityFilter]" title=""
-                                            :icon="tupleLabelIcon(authorityFilter+1)"
-                                            :name="ballot.responses[authorityFilter][0][0]"></TupleLabel>
+                                            :icon="tupleLabelIcon(authorityFilter+1)"></TupleLabel>
                             </transition>
                         </span>
                     </v-flex>
-                    <v-flex xy2 md2>
+                    <v-flex xs4 sm4 md2>
                         <transition name="highlight">
                             <v-chip left label outline color="green" v-if="hasValidConfirmation(ballot.confirmations)"
                                     v-t="'BallotList.confirmed'"></v-chip>
@@ -49,14 +48,14 @@
                             <v-chip left label outline v-else v-t="'BallotList.unconfirmed'"></v-chip>
                         </transition>
                     </v-flex>
-                    <v-flex xy3 md3>
+                    <v-flex xs8 sm8 md3>
                         <span v-if="getValidConfirmation(ballot.confirmations) !== null && authorityFilter === undefined">
                             Finalizations:
                             <transition-group name="highlight">
                                 <TupleLabel
                                         v-for="(f,index) in getValidConfirmation(ballot.confirmations).finalizations"
                                         :tupleValue="f" title="" :icon="tupleLabelIcon(index+1)"
-                                        :name="f[0]" :key="index"></TupleLabel>
+                                        :key="index"></TupleLabel>
                             </transition-group>
                         </span>
                         <span v-if="getValidConfirmation(ballot.confirmations) !== null && authorityFilter !== undefined">
@@ -64,8 +63,7 @@
                             <transition name="highlight">
                                 <TupleLabel
                                         :tupleValue="getValidConfirmation(ballot.confirmations).finalizations[authorityFilter]"
-                                        title="" :icon="tupleLabelIcon(authorityFilter+1)"
-                                        :name="getValidConfirmation(ballot.confirmations).finalizations[authorityFilter][0]"></TupleLabel>
+                                        title="" :icon="tupleLabelIcon(authorityFilter+1)"></TupleLabel>
                             </transition>
                         </span>
                     </v-flex>
@@ -96,45 +94,44 @@
                             </span>
                         </v-flex>
                     </v-layout>
-
-                                    <v-layout row  v-for="c in ballot.confirmations" v-bind:key="c.confirmationId">
-                                        Confirmation: {{c.validity}}
-                                        <v-flex xy2 md2>
-                                            <transition name="highlight">
-                                                <v-chip left label outline v-if="c.validity === 0"
-                                                        v-t="'BallotList.unchecked'"></v-chip>
-                                                <v-chip left label outline color="green" v-if="c.validity === 1"
-                                                        v-t="'BallotList.valid'"></v-chip>
-                                                <v-chip left label outline color="red" v-if="c.validity === 2"
-                                                        v-t="'BallotList.ballotProofInvalid'"></v-chip>
-                                                <v-chip left label outline color="red" v-if="c.validity === 4"
-                                                        v-t="'BallotList.credentialInvalid'"></v-chip>
-                                                <v-chip left label outline color="red" v-if="c.validity === 5"
-                                                        v-t="'BallotList.queryInvalid'"></v-chip>
-                                            </transition>
-                                        </v-flex>
-                                        <v-flex xy3 md3>
-                                    <span v-if="c.finalizations.length > 0 && authorityFilter === undefined">
-                                        Finalizations:
-                                        <transition-group name="highlight">
-                                            <TupleLabel
+                    <b>Confirmation history:</b>
+                    <v-layout row v-for="(c,index) in ballot.confirmations" v-bind:key="c.confirmationId">
+                        <v-flex xy1 md1></v-flex>
+                        <v-flex xy2 md2 class="ballotTitle">Confirmation {{index+1}}</v-flex>
+                        <v-flex xy2 md2>
+                            <transition name="highlight">
+                                <v-chip left label outline v-if="c.validity === 0"
+                                        v-t="'BallotList.unchecked'"></v-chip>
+                                <v-chip left label outline color="green" v-if="c.validity === 1"
+                                        v-t="'BallotList.valid'"></v-chip>
+                                <v-chip left label outline color="red" v-if="c.validity === 2"
+                                        v-t="'BallotList.ballotProofInvalid'"></v-chip>
+                                <v-chip left label outline color="red" v-if="c.validity === 4"
+                                        v-t="'BallotList.credentialInvalid'"></v-chip>
+                                <v-chip left label outline color="red" v-if="c.validity === 5"
+                                        v-t="'BallotList.queryInvalid'"></v-chip>
+                            </transition>
+                        </v-flex>
+                        <v-flex xy3 md3>
+                            <span v-if="c.finalizations.length > 0 && authorityFilter === undefined">
+                                Finalizations:
+                                <transition-group name="highlight">
+                                    <TupleLabel
                                                     v-for="(f,index) in c.finalizations"
                                                     :tupleValue="f" title="" :icon="tupleLabelIcon(index+1)"
-                                                    :name="f[0]" :key="index"></TupleLabel>
-                                        </transition-group>
-                                    </span>
-                                            <span v-if="c.finalizations.length > 0 && authorityFilter !== undefined">
+                                                    :key="index"></TupleLabel>
+                                </transition-group>
+                            </span>
+                            <span v-if="c.finalizations.length > 0 && authorityFilter !== undefined">
                                         Finalization:
-                                        <transition name="highlight">
-                                            <TupleLabel
+                                <transition name="highlight">
+                                    <TupleLabel
                                                     :tupleValue="c.finalizations[authorityFilter]"
-                                                    title="" :icon="tupleLabelIcon(authorityFilter+1)"
-                                                    :name="c.finalizations[authorityFilter][0]"></TupleLabel>
-                                        </transition>
-                                    </span>
-                                        </v-flex>
-                                    </v-layout>
-
+                                                    title="" :icon="tupleLabelIcon(authorityFilter+1)"></TupleLabel>
+                                </transition>
+                            </span>
+                        </v-flex>
+                    </v-layout>
                 </v-card-text>
             </v-card>
         </v-expansion-panel-content>
@@ -193,5 +190,7 @@
 </script>
 
 <style>
-
+    .ballotTitle {
+        margin-top: 7px;
+    }
 </style>

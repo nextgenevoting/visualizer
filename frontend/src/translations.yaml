@@ -436,6 +436,9 @@ BallotList:
   valid:
     en: Valid
     de: Gültig
+  validBallot:
+    en: Valid ballot
+    de: Gültige Stimme
   unchecked:
     en: Unchecked
     de: Ungeprüft
@@ -453,7 +456,7 @@ BallotList:
     de: Unbestätigt
   confirmed:
     en: Confirmed
-    de: Bestätigt
+    de: Besätigt
   hasInvalidConfirmations:
     en: Invalid confirmation
     de: Ungültig Confirmation

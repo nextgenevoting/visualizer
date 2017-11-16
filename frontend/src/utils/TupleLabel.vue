@@ -3,11 +3,11 @@
         <span v-if="title === undefined">{{ tupleValue.length }}-Tuple</span>
         <span v-else>{{title}}</span>
 
-    <v-btn v-popover="{ name: name }" small flat icon style="margin-left:0px;">
+    <v-btn v-popover="{ name: data.name }" small flat icon style="margin-left:0px;">
         <v-icon v-if="icon === undefined">mdi-dots-horizontal</v-icon>
         <v-icon v-else>{{icon}}</v-icon>
     </v-btn>
-    <popover :name="name">
+    <popover :name="data.name">
 
         <v-list>
             <v-list-tile-title class="datacardTitle" v-if="tupleValue instanceof Array">
@@ -38,7 +38,10 @@
               } else {
                 return ''
               }
-            }
+            },
+            name: (function () {
+              return String(Math.random())
+            }())
           }
         }
       },
@@ -47,10 +50,7 @@
           type: Array,
           required: true
         },
-        name: {
-          type: String,
-          requried: true
-        },
+
         title: {
           type: String,
           requried: false
@@ -65,8 +65,6 @@
         isString: function (s) {
           return typeof (s) === 'string' || s instanceof String
         }
-      },
-      mounted () {
       }
     }
 </script>

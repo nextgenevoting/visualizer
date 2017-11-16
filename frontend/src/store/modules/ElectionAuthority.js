@@ -45,6 +45,9 @@ const actions = {
 }
 
 const getters = {
+  numberOfElectionAuthorities: (state, getters) => {
+    return state.electionAuthorities.length
+  },
   getElectionAuthority: (state, getters) => (id) => {
     for (let electionAuthority of state.electionAuthorities) {
       if (electionAuthority.id === id) { return electionAuthority }
@@ -72,7 +75,7 @@ const getters = {
 
     return null
   },
-  getConfirmationsByBallot: (state, getters) => (ballotId, electionAuthorityId) => {
+  getConfirmationsOfBallot: (state, getters) => (ballotId, electionAuthorityId) => {
     // Returns the ConfirmationList corresponding to some ballotId
     let confirmations = []
     if (electionAuthorityId === null) { confirmations = getters.getConfirmationsOfBulletinBoard } else { confirmations = getters.getConfirmations(electionAuthorityId) }
@@ -88,7 +91,7 @@ const getters = {
   getBallotsAndConfirmations: (state, getters) => (electionAuthorityId) => {
     let results = []
     for (let ballot of getters.getBallotsOfAuthority(electionAuthorityId)) {
-      let confirmations = getters.getConfirmationsByBallot(ballot.id, electionAuthorityId)
+      let confirmations = getters.getConfirmationsOfBallot(ballot.id, electionAuthorityId)
       ballot.confirmations = confirmations
       results.push(ballot)
     }
@@ -142,9 +145,7 @@ const getters = {
     }
     return encryptions
   },
-  numberOfElectionAuthorities: (state, getters) => {
-    return state.electionAuthorities.length
-  },
+
   haveAllAuthoritiesMixed: (state, getters) => {
     if (getters.numberOfElectionAuthorities === 0) return null
     return getters.hasAuthorityShuffled(getters.numberOfElectionAuthorities - 1)
