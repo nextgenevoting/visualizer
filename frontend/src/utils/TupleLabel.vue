@@ -10,8 +10,10 @@
     <popover :name="data.name">
 
         <v-list>
-            <v-list-tile-title class="datacardTitle" v-if="tupleValue instanceof Array">
-                <b>{{tupleValue.length}}-Tuple</b></v-list-tile-title>
+            <v-list-tile-title class="datacardTitle">
+                <b v-if="popupTitle === undefined">{{tupleValue.length}}-Tuple</b>
+                <b v-else>{{popupTitle}}</b>
+            </v-list-tile-title>
             <v-list-tile-title class="datacardValue">
                 <div v-for="(v, index) in tupleValue">
                     <p><b>{{index+1}}:</b>{{ v }}</p>
@@ -52,6 +54,10 @@
         },
 
         title: {
+          type: String,
+          requried: false
+        },
+        popupTitle: {
           type: String,
           requried: false
         },

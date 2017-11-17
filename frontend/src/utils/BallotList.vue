@@ -1,7 +1,6 @@
 <template>
-    <transition-group tag="v-expansion-panel" name="highlight" class="expansion-panel--popout"
-                      :appear="ballotTransition">
-        <v-expansion-panel-content v-for="ballot in ballots" :key="ballot.id" ripple>
+    <transition-group tag="v-expansion-panel" name="highlight" class="expansion-panel--popout" :appear="ballotTransition">
+        <v-expansion-panel-content v-for="ballot in ballots" :key="ballot.id">
             <div slot="header">
                 <v-layout row>
                     <v-flex xs2 sm2 md1 class="ballotTitle">
@@ -15,32 +14,33 @@
                                     v-t="'BallotList.validBallot'"></v-chip>
                             <v-chip left label outline color="red" v-if="ballot.validity === 2"
                                     v-t="'BallotList.ballotProofInvalid'"></v-chip>
+                            <v-chip left label outline color="red" v-if="ballot.validity === 3"
+                                    v-t="'BallotList.alreadyHasBallot'"></v-chip>
                             <v-chip left label outline color="red" v-if="ballot.validity === 4"
                                     v-t="'BallotList.credentialInvalid'"></v-chip>
                             <v-chip left label outline color="red" v-if="ballot.validity === 5"
                                     v-t="'BallotList.queryInvalid'"></v-chip>
                         </transition>
                     </v-flex>
-                    <v-flex xs12 sm12 md3>
-
-                        <span v-if="ballot.responses.length > 0 && authorityFilter === undefined">
+                    <v-flex xs12 sm12 md3 style="padding-top: 9px;">
+                        <span v-if="hasResponses(ballot) && authorityFilter === undefined">
                             Responses:
                             <transition-group name="highlight">
-                                <TupleLabel v-for="(r, index) in ballot.responses" :tupleValue="r" title=""
-                                            :icon="tupleLabelIcon(index+1)" :key="index"></TupleLabel>
+                                <TupleLabel v-for="(r, index) in ballot.responses" :tupleValue="r" :popupTitle="responseTitleString(index+1)" title=""
+                                            :icon="tupleLabelIconString(index+1)" :key="index"></TupleLabel>
                             </transition-group>
                         </span>
-                        <span v-if="ballot.responses.length > 0 && authorityFilter !== undefined">
+                        <span v-if="hasResponses(ballot) && authorityFilter !== undefined">
                             Response:
                             <transition name="highlight">
-                                <TupleLabel :tupleValue="ballot.responses[authorityFilter]" title=""
-                                            :icon="tupleLabelIcon(authorityFilter+1)"></TupleLabel>
+                                <TupleLabel :tupleValue="ballot.responses[authorityFilter]" :popupTitle="responseTitleString(authorityFilter+1)" title=""
+                                            :icon="tupleLabelIconString(authorityFilter+1)"></TupleLabel>
                             </transition>
                         </span>
                     </v-flex>
-                    <v-flex xs4 sm4 md2>
+                    <v-flex xs4 sm4 md3>
                         <transition name="highlight">
-                            <v-chip left label outline color="green" v-if="hasValidConfirmation(ballot.confirmations)"
+                            <v-chip left label outline color="green" v-if="hasValidConfirmation(ballot)"
                                     v-t="'BallotList.confirmed'"></v-chip>
                             <v-chip left label outline color="red"
                                     v-else-if="hasInvalidConfirmations(ballot.confirmations)"
@@ -48,22 +48,22 @@
                             <v-chip left label outline v-else v-t="'BallotList.unconfirmed'"></v-chip>
                         </transition>
                     </v-flex>
-                    <v-flex xs8 sm8 md3>
-                        <span v-if="getValidConfirmation(ballot.confirmations) !== null && authorityFilter === undefined">
+                    <v-flex xs8 sm8 md3 style="padding-top: 9px;">
+                        <span v-if="getValidConfirmation(ballot) !== null && authorityFilter === undefined">
                             Finalizations:
                             <transition-group name="highlight">
                                 <TupleLabel
-                                        v-for="(f,index) in getValidConfirmation(ballot.confirmations).finalizations"
-                                        :tupleValue="f" title="" :icon="tupleLabelIcon(index+1)"
-                                        :key="index"></TupleLabel>
+                                        v-for="(f,index) in getValidConfirmation(ballot).finalizations"
+                                        :tupleValue="f" title="" :icon="tupleLabelIconString(index+1)"
+                                        :key="index" :popupTitle="finalizationTitleString(index+1)"></TupleLabel>
                             </transition-group>
                         </span>
-                        <span v-if="getValidConfirmation(ballot.confirmations) !== null && authorityFilter !== undefined">
+                        <span v-if="getValidConfirmation(ballot) !== null && authorityFilter !== undefined">
                             Finalization:
                             <transition name="highlight">
                                 <TupleLabel
-                                        :tupleValue="getValidConfirmation(ballot.confirmations).finalizations[authorityFilter]"
-                                        title="" :icon="tupleLabelIcon(authorityFilter+1)"></TupleLabel>
+                                        :tupleValue="getValidConfirmation(ballot).finalizations[authorityFilter]"
+                                        title="" :icon="tupleLabelIconString(authorityFilter+1)" :popupTitle="finalizationTitleString(authorityFilter+1)"></TupleLabel>
                             </transition>
                         </span>
                     </v-flex>
@@ -106,19 +106,21 @@
                                         v-t="'BallotList.valid'"></v-chip>
                                 <v-chip left label outline color="red" v-if="c.validity === 2"
                                         v-t="'BallotList.ballotProofInvalid'"></v-chip>
+                                <v-chip left label outline color="red" v-if="c.validity === 3"
+                                        v-t="'BallotList.confirmationHasNoBallot'"></v-chip>
                                 <v-chip left label outline color="red" v-if="c.validity === 4"
-                                        v-t="'BallotList.credentialInvalid'"></v-chip>
+                                        v-t="'BallotList.alreadyHasConfirmation'"></v-chip>
                                 <v-chip left label outline color="red" v-if="c.validity === 5"
-                                        v-t="'BallotList.queryInvalid'"></v-chip>
+                                        v-t="'BallotList.credentialInvalid'"></v-chip>
                             </transition>
                         </v-flex>
-                        <v-flex xy3 md3>
+                        <v-flex xy3 md3 style="padding-top: 9px;">
                             <span v-if="c.finalizations.length > 0 && authorityFilter === undefined">
                                 Finalizations:
                                 <transition-group name="highlight">
                                     <TupleLabel
                                                     v-for="(f,index) in c.finalizations"
-                                                    :tupleValue="f" title="" :icon="tupleLabelIcon(index+1)"
+                                                    :tupleValue="f" title="" :icon="tupleLabelIconString(index+1)"
                                                     :key="index"></TupleLabel>
                                 </transition-group>
                             </span>
@@ -127,7 +129,7 @@
                                 <transition name="highlight">
                                     <TupleLabel
                                                     :tupleValue="c.finalizations[authorityFilter]"
-                                                    title="" :icon="tupleLabelIcon(authorityFilter+1)"></TupleLabel>
+                                                    title="" :icon="tupleLabelIconString(authorityFilter+1)"></TupleLabel>
                                 </transition>
                             </span>
                         </v-flex>
@@ -157,16 +159,19 @@
         this.ballotTransition = false
       },
       methods: {
-        hasValidConfirmation: function (confirmations) {
-          for (let confirmation of confirmations) {
+        hasResponses: function (ballot) {
+          return ballot.responses.length > 0
+        },
+        hasValidConfirmation: function (ballot) {
+          for (let confirmation of ballot.confirmations) {
             if (confirmation.validity === 1) {
               return true
             }
           }
           return false
         },
-        getValidConfirmation: function (confirmations) {
-          for (let confirmation of confirmations) {
+        getValidConfirmation: function (ballot) {
+          for (let confirmation of ballot.confirmations) {
             if (confirmation.validity === 1) {
               return confirmation
             }
@@ -181,8 +186,14 @@
           }
           return false
         },
-        tupleLabelIcon: function (number) {
+        tupleLabelIconString: function (number) {
           return `mdi-numeric-${number}-box`
+        },
+        responseTitleString: function (number) {
+          return `Response of authority ${number}`
+        },
+        finalizationTitleString: function (number) {
+          return `Finalization of authority ${number}`
         }
       }
 
@@ -192,5 +203,13 @@
 <style>
     .ballotTitle {
         margin-top: 7px;
+    }
+
+    .btn{
+        margin: 0;
+    }
+
+    .expansion-panel--popout .expansion-panel__container, .expansion-panel--inset .expansion-panel__container {
+        max-width: 100% !important;
     }
 </style>

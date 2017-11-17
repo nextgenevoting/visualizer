@@ -9,8 +9,10 @@
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        <p v-t="'Mixing.every_election_authority'"></p>
-                        <transition-group name="flip-list" tag="ul">
+                        <p v-if="!hasAuthorityShuffled" v-t="'Mixing.every_election_authority'"></p>
+                        <p v-else>{{ $t('Mixing.permutation')}} {{electionAuthority.permutation}}</p>
+
+                        <transition-group name="flip-list" tag="ul" style="margin-top: 10px;">
                             <li v-for="(encryption, index) in encryptions" v-bind:key="encryption.key">
                                 <BigIntLabel :mpzValue="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>
                             </li>

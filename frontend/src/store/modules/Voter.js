@@ -16,9 +16,7 @@ const state = {
 // mutations
 const mutations = {
   SOCKET_SYNCVOTERS: (state, data) => {
-    console.log('SOCKET_SYNCVOTERS called')
     var json = JSON.parse(data)
-    console.log(json)
     const normalizedData = normalize(json, votersSchema)
     state.voters = normalizedData.entities.voter
     // Vue.set(state, voters, normalizedData.entities.voter);

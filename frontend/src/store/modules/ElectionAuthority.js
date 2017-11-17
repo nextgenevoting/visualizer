@@ -54,9 +54,9 @@ const getters = {
     }
     return null
   },
-  getBallotsOfAuthority: (state, getters) => (authorityId) => {
+  getBallots: (state, getters) => (authorityId) => {
     // Returns the BallotList of an authority with authorityId == id
-    if (authorityId === null) { return getters.getBallotsOfBulletinBoard } else {
+    if (authorityId === null || authorityId === undefined) { return getters.getBallotsOfBulletinBoard } else {
       let electionAuthority = getters.getElectionAuthority(authorityId)
       if (electionAuthority !== null) { return electionAuthority.ballots } else { return [] }
     }
@@ -90,9 +90,8 @@ const getters = {
   },
   getBallotsAndConfirmations: (state, getters) => (electionAuthorityId) => {
     let results = []
-    for (let ballot of getters.getBallotsOfAuthority(electionAuthorityId)) {
-      let confirmations = getters.getConfirmationsOfBallot(ballot.id, electionAuthorityId)
-      ballot.confirmations = confirmations
+    for (let ballot of getters.getBallots(electionAuthorityId)) {
+      ballot.confirmations = getters.getConfirmationsOfBallot(ballot.id, electionAuthorityId)
       results.push(ballot)
     }
     return results

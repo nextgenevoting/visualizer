@@ -12,10 +12,17 @@
                         <p v-t="'ConfirmationTask.check_confirmation_and_finalize'"></p>
                     </v-card-text>
                     <v-card-text v-if="checkConfirmationTask.checkResults[selectedAuthorityIndex] != null">
-                        {{ $t('result_of_check') }}: {{ checkConfirmationTask.checkResults[selectedAuthorityIndex] }}
+                        <p>{{ $t('result_of_check') }}</p>:<b>
+                        <p v-if="checkConfirmationTask.checkResults[selectedAuthorityIndex] === 0" v-t="'BallotList.unchecked'"></p>
+                        <p v-if="checkConfirmationTask.checkResults[selectedAuthorityIndex] === 1" v-t="'BallotList.valid'"></p>
+                        <p v-if="checkConfirmationTask.checkResults[selectedAuthorityIndex] === 2" v-t="'BallotList.ballotProofInvalid'"></p>
+                        <p v-if="checkConfirmationTask.checkResults[selectedAuthorityIndex] === 3" v-t="'BallotList.confirmationHasNoBallot'"></p>
+                        <p v-if="checkConfirmationTask.checkResults[selectedAuthorityIndex] === 4" v-t="'BallotList.alreadyHasConfirmation'"></p>
+                        <p v-if="checkConfirmationTask.checkResults[selectedAuthorityIndex] === 5" v-t="'BallotList.credentialInvalid'"></p>
+                    </b>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn flat color="blue" @click="checkConfirmation(checkConfirmationTask.confirmationId)">
+                        <v-btn flat color="blue" @click="checkConfirmation(checkConfirmationTask.confirmationId)" :disabled="checkConfirmationTask.checkResults[selectedAuthorityIndex] != null">
                             <v-icon left>mdi-approval</v-icon>
                             {{ $t('check_validity') }}
                         </v-btn>

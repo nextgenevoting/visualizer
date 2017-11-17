@@ -11,8 +11,6 @@ const mutations = {
     state.elections = JSON.parse(data)
   },
   SOCKET_SYNCELECTION: (state, data) => {
-    console.log('SOCKET_SYNCELECTION called')
-    console.log(data)
     state.electionId = data.electionID
     state.status = data.status
   }

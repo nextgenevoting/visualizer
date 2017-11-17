@@ -12,10 +12,18 @@
                         <p v-t="'CheckBallotTask.check_ballot_and_respond'"></p>
                     </v-card-text>
                     <v-card-text v-if="checkBallotTask.checkResults[selectedAuthorityIndex] != null">
-                        {{ $t('result_of_check') }}: {{ checkBallotTask.checkResults[selectedAuthorityIndex] }}
+                        <p>{{ $t('result_of_check') }}</p>:<b>
+                            <p v-if="checkBallotTask.checkResults[selectedAuthorityIndex] === 0" v-t="'BallotList.unchecked'"></p>
+                            <p v-if="checkBallotTask.checkResults[selectedAuthorityIndex] === 1" v-t="'BallotList.validBallot'"></p>
+                            <p v-if="checkBallotTask.checkResults[selectedAuthorityIndex] === 2" v-t="'BallotList.ballotProofInvalid'"></p>
+                            <p v-if="checkBallotTask.checkResults[selectedAuthorityIndex] === 3" v-t="'BallotList.alreadyHasBallot'"></p>
+                            <p v-if="checkBallotTask.checkResults[selectedAuthorityIndex] === 4" v-t="'BallotList.credentialInvalid'"></p>
+                            <p v-if="checkBallotTask.checkResults[selectedAuthorityIndex] === 5" v-t="'BallotList.queryInvalid'"></p>
+                        </b>
+
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn flat color="blue" @click="checkBallot(checkBallotTask.ballotId)">
+                        <v-btn flat color="blue" @click="checkBallot(checkBallotTask.ballotId)" :disabled="checkBallotTask.checkResults[selectedAuthorityIndex] != null">
                             <v-icon left>mdi-approval</v-icon>
                             {{ $t('check_validity') }}
                         </v-btn>
