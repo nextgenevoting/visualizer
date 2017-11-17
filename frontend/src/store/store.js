@@ -6,6 +6,7 @@ import PrintingAuthority from './modules/PrintingAuthority'
 import Voter from './modules/Voter'
 import ElectionAuthority from './modules/ElectionAuthority'
 import ElectionAdministrator from './modules/ElectionAdministrator'
+import * as jsonpatch from 'fast-json-patch'
 
 Vue.use(Vuex)
 
@@ -23,6 +24,14 @@ export const store = new Vuex.Store({
     loaded: false
   },
   mutations: {
+    SOCKET_PATCHSTATE: (state, data) => {
+      const patches = JSON.parse(data)
+      jsonpatch.applyPatch(state.BulletinBoard, patches['bulletin_board'])
+      jsonpatch.applyPatch(state.PrintingAuthority, patches['printing_authority'])
+      jsonpatch.applyPatch(state.ElectionAdministrator, patches['election_administrator'])
+      jsonpatch.applyPatch(state.ElectionAuthority.electionAuthorities, patches['election_authorities'])
+      jsonpatch.applyPatch(state.Voter.voters, patches['voters'])
+    },
     SOCKET_CONNECT: (state, data) => {
       state.connected = true
     },

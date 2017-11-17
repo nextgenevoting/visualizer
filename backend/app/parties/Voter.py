@@ -9,8 +9,8 @@ class Voter(Party):
     """
     The Voter class represents a single voter participating in the CHVote protocol
     """
-    def __init__(self, collection, electionID, voterID):
-        Party.__init__(self, collection, electionID, {'voterID' : voterID})
+    def __init__(self, collection, electionID, voterID, state=None):
+        Party.__init__(self, collection, electionID, {'voterID' : voterID}, state)
 
     @property
     def id(self):

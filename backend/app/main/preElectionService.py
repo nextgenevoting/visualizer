@@ -10,10 +10,11 @@ from app.models.electionAdministratorState import ElectionAdministratorState
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
-from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus, syncVoters, syncElectionAuthorities, fullSync
+from app.main.syncService import *
 from bson.objectid import ObjectId
 from app.utils.errorhandling import make_error
 import json
+import pprint
 
 
 # LISTENERS
@@ -79,14 +80,19 @@ def setUpElection():
         # perform action
         sim.setupElection(numberOfVoters, countingCircles, candidates, numberOfCandidates, numberOfSelections)
 
+        patches = sim.getJSONPatches()
+
         # retrieve and persist modified state
         sim.persist()
 
-        fullSync(electionId, SyncType.ROOM)
+        syncPatches(electionId, SyncType.ROOM, patches)
+
+        # TODO fullSync(electionId, SyncType.ROOM)
 
         # update election status
         sim.updateStatus(1)
     except Exception as ex:
+        raise ex
         return make_error(500, str(ex))
 
     return json.dumps({'result': 'success'})

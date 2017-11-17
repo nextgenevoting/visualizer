@@ -15,6 +15,9 @@ from chvote.VotingClient.GetPointMatrix import GetPointMatrix
 from chvote.VotingClient.GetReturnCodes import GetReturnCodes
 from chvote.VotingClient.GetFinalizationCode import GetFinalizationCode
 from chvote.VotingClient.GenConfirmation import GenConfirmation
+from app.utils.JsonParser import mpzconverter
+import jsonpatch
+import json
 
 class VoteSimulator(object):
 
@@ -47,6 +50,18 @@ class VoteSimulator(object):
         self.voters = []
         for i in range(len(self.bulletinBoard.voters)):
             self.voters.append(Voter(db.voterStates, electionID, i))
+
+    def getJSONPatches(self):
+        print('----------------')
+        print(self.voters)
+        print('----------------')
+        return {
+            'bulletin_board':         self.bulletinBoard.getJSONPatch(),
+            'printing_authority':     self.printingAuthority.getJSONPatch(),
+            'election_administrator': self.electionAdministrator.getJSONPatch(),
+            'election_authorities':   jsonpatch.make_patch(json.loads(json.dumps([ authority.originalState.__dict__ for authority in self.authorities ], default=mpzconverter)), json.loads(json.dumps([ authority.state.__dict__ for authority in self.authorities ], default=mpzconverter))).patch,
+            'voters':                 jsonpatch.make_patch(json.loads(json.dumps([ voter.originalState.__dict__ for voter in self.voters ], default=mpzconverter)), json.loads(json.dumps([ voter.state.__dict__ for voter in self.voters ], default=mpzconverter))).patch
+        }
 
     # persist()
     # Save the state of all parties to the database
@@ -84,6 +99,8 @@ class VoteSimulator(object):
             newVoter.countingCircle = w_bold[v]
             db.voterStates.insert({'election': self.electionID, 'voterID': v, 'state': serializeState(newVoter)})
             voters.append(newVoter.name)
+            self.voters.append(Voter(db.voterStates, self.electionID, v, newVoter))
+
         self.bulletinBoard.voters = voters
 
         self.bulletinBoard.generateEligibilityMatrix()
@@ -103,8 +120,8 @@ class VoteSimulator(object):
         for authority in self.authorities:
             pk = authority.getPublicKey(self.bulletinBoard, self.secparams)
         self.bulletinBoard.publicKey = pk
-
         # 6.2 Send secret voter data to the printing authority (this is typically done in the printVotingCards(), but since we want to show the secret voter data before printing the cards, we do it here)
+
         secretCredentials = [auth.partialSecretVotingCredentials for auth in self.authorities]
         self.printingAuthority.privateCredentials = secretCredentials
 

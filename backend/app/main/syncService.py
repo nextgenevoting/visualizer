@@ -31,6 +31,9 @@ def syncElections(syncType):
     elections = dumps(res)
     emitToClient('syncElections', elections, syncType)
 
+def syncPatches(electionID, syncType, patches):
+    emitToClient('patchState', json.dumps(patches, default=mpzconverter), syncType, electionID)
+
 def fullSync(electionID, syncType):
     syncBulletinBoard(electionID, syncType)
     syncPrintingAuthority(electionID, syncType)

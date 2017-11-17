@@ -1,4 +1,3 @@
-from chvote.Types import VotingCard, Ballot, VoterBallot, CheckBallotTask, Confirmation, CheckConfirmationTask, VoterConfirmation
 import unittest
 from gmpy2 import mpz
 import uuid
@@ -16,14 +15,8 @@ def mpzconverter(o):
     if isinstance(o, uuid.UUID):
         return str(o)
 
-    from app.models.voterState import VoterState
-    from app.models.electionAuthorityState import ElectionAuthorityState
-    from app.database import Testobj
-
-    if isinstance(o, VoterState) or isinstance(o, ElectionAuthorityState) or isinstance(o, VotingCard) or isinstance(o, Ballot) or isinstance(o, VoterBallot) or isinstance(o, CheckBallotTask) or isinstance(o, VoterConfirmation) or isinstance(o, Confirmation) or isinstance(o, CheckConfirmationTask) or isinstance(o, Testobj):
+    if hasattr(o, '__dict__'):
         return o.__dict__
-
-
 
 class mpzconverterTest(unittest.TestCase):
     def testMpzConversion(self):
