@@ -3,7 +3,7 @@ from . import main
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
-from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus, syncVoters, syncElectionAuthorities, fullSync, syncElectionAdministrator
+from app.main.syncService import syncPatches, SyncType
 from app.utils.errorhandling import make_error
 
 import json
@@ -23,10 +23,8 @@ def startMixingPhase():
         sim.startMixing()
 
         # retrieve and persist modified state
-        sim.persist()
-
-        syncElectionAuthorities(electionId, SyncType.ROOM)
-        syncBulletinBoard(electionId, SyncType.ROOM)
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
         sim.updateStatus(4)
     except Exception as ex:
@@ -50,10 +48,8 @@ def mix():
         sim.mix(authorityId)
 
         # retrieve and persist modified state
-        sim.persist()
-
-        syncElectionAuthorities(electionId, SyncType.ROOM)
-        syncBulletinBoard(electionId, SyncType.ROOM)
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
     except Exception as ex:
         return make_error(500, str(ex))
 
@@ -90,10 +86,8 @@ def decrypt():
         sim.decrypt(authorityId)
 
         # retrieve and persist modified state
-        sim.persist()
-
-        syncElectionAuthorities(electionId, SyncType.ROOM)
-        syncBulletinBoard(electionId, SyncType.ROOM)
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
     except Exception as ex:
         return make_error(500, str(ex))
 
@@ -113,10 +107,8 @@ def tally():
         sim.tally()
 
         # retrieve and persist modified state
-        sim.persist()
-
-        syncElectionAdministrator(electionId, SyncType.ROOM)
-        syncBulletinBoard(electionId, SyncType.ROOM)
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
     except Exception as ex:
         return make_error(500, str(ex))
 

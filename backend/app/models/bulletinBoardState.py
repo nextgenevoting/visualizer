@@ -27,3 +27,5 @@ class BulletinBoardState(State):
         # 6.8
         self.decryptions = []
         self.decryptionProofs = []
+
+        self.test = [[[1],[2]]]

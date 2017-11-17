@@ -80,14 +80,10 @@ def setUpElection():
         # perform action
         sim.setupElection(numberOfVoters, countingCircles, candidates, numberOfCandidates, numberOfSelections)
 
-        patches = sim.getJSONPatches()
-
+        #patches = sim.getJSONPatches()
         # retrieve and persist modified state
-        sim.persist()
-
+        patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
-
-        # TODO fullSync(electionId, SyncType.ROOM)
 
         # update election status
         sim.updateStatus(1)
@@ -106,9 +102,9 @@ def printVotingCards():
     try:
         sim = VoteSimulator(electionId)             # prepare voteSimulator
         sim.printVotingCards()
-        sim.persist()                               # persist the modified state
 
-        syncPrintingAuthority(electionId, SyncType.ROOM)
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
         # update election status
         sim.updateStatus(2)
@@ -127,9 +123,8 @@ def sendVotingCards():
     try:
         sim = VoteSimulator(electionId)             # prepare voteSimulator
         sim.sendVotingCards()
-        sim.persist()                               # persist the modified state
-
-        syncVoters(electionId, SyncType.ROOM)
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
         # update election status
         sim.updateStatus(3)
@@ -147,8 +142,10 @@ def debugVotingSim():
     try:
         sim = VoteSimulator(electionId)             # prepare voteSimulator
         #sim.authorities[0].publicKey = mpz(1111)
-        sim.updateStatus(4)
-        sim.persist()
+        from chvote.Types import Ballot
+        sim.voters[0].status = 4
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
     except Exception as ex:
         return make_error(500, str(ex))
 

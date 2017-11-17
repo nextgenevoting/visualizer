@@ -11,21 +11,16 @@ const votersSchema = new schema.Array(voter)
 
 // initial state
 const state = {
-  voters: [],
-  votingCards: []
+  voters: []
 }
 
 // mutations
 const mutations = {
   SOCKET_SYNCVOTERS: (state, data) => {
-    /*
-    var json = JSON.parse(data)
-    const normalizedData = normalize(json, votersSchema)
-    state.voters = normalizedData.entities.voter
-    // Vue.set(state, voters, normalizedData.entities.voter);
-    state.votingCards = normalizedData.entities.votingCard
-    // Vue.set(state, votingCards, normalizedData.entities.votingCards);
-    */
+    console.log('SOCKET_SYNCVOTERS')
+    let json = JSON.parse(data)
+    console.log(json)
+    state.voters = json
   }
 }
 
@@ -37,7 +32,7 @@ const getters = {
     return state.voters[id]
   },
   getVotingCard: (state, getters) => (id) => {
-    if (state.voters[id].votingCard !== null) { return state.votingCards[state.voters[id].votingCard] } else { return null }
+    if (state.voters[id].votingCard !== null) { return state.voters[id].votingCard } else { return null }
   }
 
 }

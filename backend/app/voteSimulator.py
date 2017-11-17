@@ -59,18 +59,26 @@ class VoteSimulator(object):
             'bulletin_board':         self.bulletinBoard.getJSONPatch(),
             'printing_authority':     self.printingAuthority.getJSONPatch(),
             'election_administrator': self.electionAdministrator.getJSONPatch(),
-            'election_authorities':   jsonpatch.make_patch(json.loads(json.dumps([ authority.originalState.__dict__ for authority in self.authorities ], default=mpzconverter)), json.loads(json.dumps([ authority.state.__dict__ for authority in self.authorities ], default=mpzconverter))).patch,
+            'election_authority_0':   self.authorities[0].getJSONPatch(),
+            'election_authority_1': self.authorities[1].getJSONPatch(),
+            'election_authority_2': self.authorities[2].getJSONPatch(),
             'voters':                 jsonpatch.make_patch(json.loads(json.dumps([ voter.originalState.__dict__ for voter in self.voters ], default=mpzconverter)), json.loads(json.dumps([ voter.state.__dict__ for voter in self.voters ], default=mpzconverter))).patch
         }
+
+        # election_authorities':   jsonpatch.make_patch(json.loads(json.dumps([ authority.originalState.__dict__ for authority in self.authorities ], default=mpzconverter)), json.loads(json.dumps([ authority.state.__dict__ for authority in self.authorities ], default=mpzconverter))).patch,
 
     # persist()
     # Save the state of all parties to the database
     def persist(self):
+        patches = self.getJSONPatches()
+
         self.bulletinBoard.persist()
         self.printingAuthority.persist()
         self.electionAdministrator.persist()
         for authority in self.authorities: authority.persist()
         for voter in self.voters: voter.persist()
+
+        return patches
 
     # updateStatus()
     # Helper function to update the status of an election

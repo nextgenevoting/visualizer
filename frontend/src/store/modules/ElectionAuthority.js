@@ -25,6 +25,7 @@ const state = {
 // mutations
 const mutations = {
   SOCKET_SYNCELECTIONAUTHORITIES: (state, data) => {
+    console.log('SOCKET_SYNCELECTIONAUTHORITIES')
     state.electionAuthorities = JSON.parse(data)
   }
 }
@@ -106,7 +107,7 @@ const getters = {
     let electionAuthority = getters.getElectionAuthority(id)
     if (electionAuthority !== null) { return electionAuthority.checkConfirmationTasks } else { return [] }
   },
-  hasCheckBallotTask: (state, getters) => (voterId) => {
+  ballotCheckAuthorityIndex: (state, getters) => (voterId) => {
     // checks if a given voter has a CheckBallotTask, returns the id of the election authority that has the check pending
     for (let auth of state.electionAuthorities) {
       for (let checkBallotTask of getters.getCheckBallotTasks(auth.id)) {
@@ -115,7 +116,7 @@ const getters = {
     }
     return -1
   },
-  hasCheckConfirmationTask: (state, getters) => (voterId) => {
+  confirmationCheckAuthorityIndex: (state, getters) => (voterId) => {
     // checks if a given voter has a CheckConfirmationTask, returns the id of the election authority that has the check pending
     for (let auth of state.electionAuthorities) {
       for (let checkConfirmationTask of getters.getCheckConfirmationTasks(auth.id)) {
@@ -124,9 +125,13 @@ const getters = {
     }
     return -1
   },
-  hasAuthorityShuffled: (state, getters) => (authorityId) => {
+  hasAuthorityMixed: (state, getters) => (authorityId) => {
     let electionAuthority = getters.getElectionAuthority(authorityId)
     return electionAuthority.encryptionsShuffled.length > 0
+  },
+  haveAllAuthoritiesMixed: (state, getters) => {
+    if (getters.numberOfElectionAuthorities === 0) return null
+    return getters.hasAuthorityMixed(getters.numberOfElectionAuthorities - 1)
   },
   getEncryptionsForAuthority: (state, getters) => (authorityId) => {
     let electionAuthority = getters.getElectionAuthority(authorityId)
@@ -143,11 +148,6 @@ const getters = {
       encryptions.push({a: enc[0], b: enc[1], key: electionAuthority.permutation[i++]})
     }
     return encryptions
-  },
-
-  haveAllAuthoritiesMixed: (state, getters) => {
-    if (getters.numberOfElectionAuthorities === 0) return null
-    return getters.hasAuthorityShuffled(getters.numberOfElectionAuthorities - 1)
   }
 }
 

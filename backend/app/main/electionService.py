@@ -3,7 +3,7 @@ from . import main
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
-from app.main.syncService import syncElections, syncBulletinBoard, SyncType, syncPrintingAuthority, syncElectionStatus, syncVoters, syncElectionAuthorities, fullSync
+from app.main.syncService import syncPatches, SyncType
 from app.utils.errorhandling import make_error
 
 import json
@@ -30,11 +30,8 @@ def castVote():
         sim.castVote(voterId, selection, votingCode)
 
         # retrieve and persist modified state
-        sim.persist()
-
-        syncElectionAuthorities(electionId, SyncType.ROOM)
-        syncBulletinBoard(electionId, SyncType.ROOM)
-        syncVoters(electionId, SyncType.ROOM)
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
     except Exception as ex:
         return make_error(500, str(ex))
@@ -58,11 +55,9 @@ def checkVote():
         sim.checkVote(ballotId, authorityId)
 
         # retrieve and persist modified state
-        sim.persist()
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
-        syncElectionAuthorities(electionId, SyncType.ROOM)
-        syncBulletinBoard(electionId, SyncType.ROOM)
-        syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
 
@@ -84,11 +79,9 @@ def respond():
         sim.respond(ballotId, authorityId)
 
         # retrieve and persist modified state
-        sim.persist()
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
-        syncBulletinBoard(electionId, SyncType.ROOM)
-        syncElectionAuthorities(electionId, SyncType.ROOM)
-        syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
 
@@ -110,9 +103,9 @@ def discardBallot():
         sim.discardBallot(ballotId, authorityId)
 
         # retrieve and persist modified state
-        sim.persist()
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
-        syncElectionAuthorities(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
 
@@ -137,11 +130,9 @@ def confirmVote():
         sim.confirmVote(voterId, ballotId, confirmationCode)
 
         # retrieve and persist modified state
-        sim.persist()
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
-        syncBulletinBoard(electionId, SyncType.ROOM)
-        syncElectionAuthorities(electionId, SyncType.ROOM)
-        syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
 
@@ -165,11 +156,9 @@ def checkConfirmation():
         sim.checkConfirmation(confirmationId, authorityId)
 
         # retrieve and persist modified state
-        sim.persist()
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
-        syncBulletinBoard(electionId, SyncType.ROOM)
-        syncElectionAuthorities(electionId, SyncType.ROOM)
-        syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
 
@@ -191,11 +180,9 @@ def finalize():
         sim.finalize(confirmationId, authorityId)
 
         # retrieve and persist modified state
-        sim.persist()
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
-        syncBulletinBoard(electionId, SyncType.ROOM)
-        syncElectionAuthorities(electionId, SyncType.ROOM)
-        syncVoters(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
 
@@ -217,9 +204,9 @@ def discardConfirmation():
         sim.discardConfirmation(confirmationId, authorityId)
 
         # retrieve and persist modified state
-        sim.persist()
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
-        syncElectionAuthorities(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
 
@@ -243,9 +230,9 @@ def setAutoMode():
         sim.authorities[authorityId].autoCheck = value
 
         # retrieve and persist modified state
-        sim.persist()
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
 
-        syncElectionAuthorities(electionId, SyncType.ROOM)
     except Exception as ex:
         return make_error(500, str(ex))
 

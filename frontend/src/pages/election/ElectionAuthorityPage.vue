@@ -38,7 +38,7 @@
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md6 v-if="status >= 4 && hasAuthorityShuffled" key="enc">
+                <v-flex xy12 md6 v-if="status >= 4 && hasAuthorityMixed" key="enc">
                     <DataCard :title="$t('encryptions')" :isMpz=true :expandable=false confidentiality="encrypted">
                         <v-layout row v-for="(encryption, index) in encryptions" :key="index"  style="font-size:16px;">
                             <v-flex xy4 md6>{{ $t('ElectionAuthority.encryption_n', { n: index + 1 }) }}</v-flex>
@@ -156,7 +156,7 @@
         },
         hasAuthorityShuffled: {
           get: function () {
-            return this.$store.getters.hasAuthorityShuffled(this.selectedAuthorityIndex)
+            return this.$store.getters.hasAuthorityMixed(this.selectedAuthorityIndex)
           }
         },
         decryptions: {

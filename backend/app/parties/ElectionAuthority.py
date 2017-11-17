@@ -257,7 +257,7 @@ class ElectionAuthority(Party):
         (beta_j, z) = GenResponse(ballot.voterId, ballot.ballot.a_bold, self.publicKey, bulletinBoard.numberOfCandidates,
                                   bulletinBoard.numberOfSelections, bulletinBoard.eligibilityMatrix, self.points,
                                   secparams)
-        ballot.responses.append(beta_j)
+        ballot.responses[self.id] = beta_j
         ballot.randomizations = z
         self.ballots.append(ballot)
 
@@ -337,7 +337,7 @@ class ElectionAuthority(Party):
 
         delta_j = GetFinalization(checkConfirmationTask.voterId, self.points, self.ballots, secparams)
 
-        confirmation.finalizations.append(delta_j)
+        confirmation.finalizations[self.id] = delta_j
 
         self.confirmations.append(confirmation)
 

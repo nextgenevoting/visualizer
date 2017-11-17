@@ -31,7 +31,7 @@ class CheckBallotTask(object):
     def __init__(self, voterId, ballotId):
         self.voterId = voterId
         self.ballotId = ballotId
-        self.checkResults = []
+        self.checkResults = [None] * 3
 
 # Ballot List entry: Ballot with Randomizations and voterID
 class VoterBallot(object):
@@ -41,7 +41,7 @@ class VoterBallot(object):
         self.ballot = ballot
         self.randomizations = randomizations
         self.validity = 0   # 0 = unchecked, 1 = valid, 2 = ballot proof failed, 3 = credential failed, 4 = voter already has a ballot
-        self.responses = []
+        self.responses = [None] * 3
 
 # Confirmation List entry: Confirmation
 class Confirmation(object):
@@ -55,7 +55,7 @@ class CheckConfirmationTask(object):
         self.voterId = voterId
         self.ballotId = ballotId
         self.confirmationId = confirmationId
-        self.checkResults = []
+        self.checkResults = [None] * 3
 
 class VoterConfirmation(object):
     def __init__(self, voterId, ballotId, confirmation):
@@ -64,4 +64,4 @@ class VoterConfirmation(object):
         self.ballotId = ballotId
         self.confirmation = confirmation
         self.validity = 0
-        self.finalizations = []
+        self.finalizations = [None] * 3

@@ -26,12 +26,12 @@
                     <div class="layout row wrap">
                         <!-- 1. Vote Cast -->
                         <v-flex v-if="voter.status == 0" x12 md6>
-                            <v-card v-if="hasCheckBallotTask > -1">
+                            <v-card v-if="ballotCheckAuthorityIndex > -1">
                                 <v-card-title primary-title>
                                     <div class="headline" v-t="'Voter.waiting_for_election_authority'"></div>
                                 </v-card-title>
                                 <v-card-text>
-                                    {{ $t('Voter.authority_n_processing_vote', { n: hasCheckBallotTask + 1 }) }}
+                                    {{ $t('Voter.authority_n_processing_vote', { n: ballotCheckAuthorityIndex + 1 }) }}
                                     <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
                                 </v-card-text>
                             </v-card>
@@ -141,6 +141,7 @@
 <script>
     import { mapState, mapGetters } from 'vuex'
     import joinRoomMixin from '../../mixins/joinRoomMixin.js'
+    import * as _ from 'lodash'
 
     export default {
       mixins: [joinRoomMixin],
@@ -148,7 +149,6 @@
         selection: [],
         votingCode: '',
         confirmationCode: ''
-
       }),
       computed: {
         ...mapState({
@@ -162,7 +162,6 @@
           electionId: 'electionId',
           status: 'status'
         }),
-
         voter: {
           get: function () {
             return this.$store.getters.getVoter(this.selectedVoter)
@@ -170,14 +169,14 @@
         },
         votingCard: {
           get: function () {
-            if (this.selectedVoter != null) {
+            if (this.selectedVoter !== null) {
               return this.$store.getters.getVotingCard(this.selectedVoter)
             }
           }
         },
         selectedVoterName: {
           get () {
-            if (this.$store.state.selectedVoter != null) {
+            if (this.$store.state.selectedVoter !== null) {
               return this.$store.getters.getVoter(this.$store.state.selectedVoter).name
             } else {
               return ''
@@ -206,14 +205,14 @@
             return candidatesForElections
           }
         },
-        hasCheckBallotTask: {
+        ballotCheckAuthorityIndex: {
           get: function () {
-            return this.$store.getters.hasCheckBallotTask(this.$store.state.selectedVoter)
+            return this.$store.getters.ballotCheckAuthorityIndex(this.$store.state.selectedVoter)
           }
         },
-        hasCheckConfirmationTask: {
+        confirmationCheckAuthorityIndex: {
           get: function () {
-            return this.$store.getters.hasCheckConfirmationTask(this.$store.state.selectedVoter)
+            return this.$store.getters.confirmationCheckAuthorityIndex(this.$store.state.selectedVoter)
           }
         }
       },
@@ -221,12 +220,11 @@
         changeVoter: function () {
           this.$store.commit('voterDialog', true)
         },
-        castVote: function (manipulate) {
+        castVote: _.debounce(function (manipulate) {
           let selection = this.selection.sort()
           if (manipulate) {
             selection[0] = (selection[0] + 1) % this.numberOfCandidates[0]
           }
-
           this.$http.post('castVote',
             {
               'election': this.$route.params['electionId'],
@@ -236,14 +234,12 @@
             }
           ).then(response => {
             response.json().then((data) => {
-              // success callback
-              this.$toasted.success('Successfully cast vote')
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)
           })
-        },
-        confirmVote: function () {
+        }, 200),
+        confirmVote: _.debounce(function () {
           this.$http.post('confirmVote',
             {
               'election': this.$route.params['electionId'],
@@ -253,12 +249,11 @@
             }
           ).then(response => {
             response.json().then((data) => {
-              this.$toasted.success(this.$i18n.t('Voter.successfully_confirmed_vote'))
             })
           }).catch(e => {
             this.$toasted.error(e.body.message)
           })
-        }
+        }, 200)
       },
       watch: {
         selectedVoter: function (newValue) {

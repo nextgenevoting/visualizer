@@ -26,14 +26,14 @@
                         <span v-if="hasResponses(ballot) && authorityFilter === undefined">
                             Responses:
                             <transition-group name="highlight">
-                                <TupleLabel v-for="(r, index) in ballot.responses" :tupleValue="r" :popupTitle="responseTitleString(index+1)" title=""
+                                <TupleLabel v-for="(r, index) in ballot.responses" v-if="r !== null" :tupleValue="r" :popupTitle="responseTitleString(index+1)" title=""
                                             :icon="tupleLabelIconString(index+1)" :key="index"></TupleLabel>
                             </transition-group>
                         </span>
                         <span v-if="hasResponses(ballot) && authorityFilter !== undefined">
                             Response:
                             <transition name="highlight">
-                                <TupleLabel :tupleValue="ballot.responses[authorityFilter]" :popupTitle="responseTitleString(authorityFilter+1)" title=""
+                                <TupleLabel  v-if="ballot.responses[authorityFilter] !== null" :tupleValue="ballot.responses[authorityFilter]" :popupTitle="responseTitleString(authorityFilter+1)" title=""
                                             :icon="tupleLabelIconString(authorityFilter+1)"></TupleLabel>
                             </transition>
                         </span>
@@ -62,7 +62,7 @@
                             Finalization:
                             <transition name="highlight">
                                 <TupleLabel
-                                        :tupleValue="getValidConfirmation(ballot).finalizations[authorityFilter]"
+                                        :tupleValue="getValidConfirmation(ballot).finalizations[authorityFilter]" v-if="getValidConfirmation(ballot).finalizations[authorityFilter] !== null"
                                         title="" :icon="tupleLabelIconString(authorityFilter+1)" :popupTitle="finalizationTitleString(authorityFilter+1)"></TupleLabel>
                             </transition>
                         </span>
@@ -119,7 +119,7 @@
                                 Finalizations:
                                 <transition-group name="highlight">
                                     <TupleLabel
-                                                    v-for="(f,index) in c.finalizations"
+                                                    v-for="(f,index) in c.finalizations" v-if="f !== null"
                                                     :tupleValue="f" title="" :icon="tupleLabelIconString(index+1)"
                                                     :key="index"></TupleLabel>
                                 </transition-group>
@@ -128,7 +128,7 @@
                                         Finalization:
                                 <transition name="highlight">
                                     <TupleLabel
-                                                    :tupleValue="c.finalizations[authorityFilter]"
+                                                    :tupleValue="c.finalizations[authorityFilter]" v-if="c.finalizations[authorityFilter] !== null"
                                                     title="" :icon="tupleLabelIconString(authorityFilter+1)"></TupleLabel>
                                 </transition>
                             </span>

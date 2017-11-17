@@ -25,12 +25,33 @@ export const store = new Vuex.Store({
   },
   mutations: {
     SOCKET_PATCHSTATE: (state, data) => {
+      // It seems that applying patches to the data store directly causes the reactivity to fail.
+      // Vue.set seems to fix the problem; however, applying the patches to a lodash deepcopy and Vue.set'ting the copied object might be better
+      console.log('SOCKET_PATCHSTATE')
       const patches = JSON.parse(data)
-      jsonpatch.applyPatch(state.BulletinBoard, patches['bulletin_board'])
-      jsonpatch.applyPatch(state.PrintingAuthority, patches['printing_authority'])
-      jsonpatch.applyPatch(state.ElectionAdministrator, patches['election_administrator'])
-      jsonpatch.applyPatch(state.ElectionAuthority.electionAuthorities, patches['election_authorities'])
-      jsonpatch.applyPatch(state.Voter.voters, patches['voters'])
+      console.log(patches)
+
+      let deepCopy = Vue._.clone(state.BulletinBoard)
+      jsonpatch.applyPatch(deepCopy, patches['bulletin_board'])
+      Vue.set(state, 'BulletinBoard', deepCopy)
+
+      deepCopy = Vue._.clone(state.PrintingAuthority)
+      jsonpatch.applyPatch(deepCopy, patches['printing_authority'])
+      Vue.set(state, 'PrintingAuthority', deepCopy)
+
+      deepCopy = Vue._.clone(state.ElectionAdministrator)
+      jsonpatch.applyPatch(deepCopy, patches['election_administrator'])
+      Vue.set(state, 'ElectionAdministrator', deepCopy)
+
+      for (let i = 0; i < 3; i++) {
+        let deepCopy = Vue._.clone(state.ElectionAuthority.electionAuthorities[i])
+        jsonpatch.applyPatch(deepCopy, patches[`election_authority_${i}`])
+        Vue.set(state.ElectionAuthority.electionAuthorities, i, deepCopy)
+      }
+
+      deepCopy = Vue._.clone(state.Voter.voters)
+      jsonpatch.applyPatch(deepCopy, patches['voters'])
+      Vue.set(state.Voter, 'voters', deepCopy)
     },
     SOCKET_CONNECT: (state, data) => {
       state.connected = true

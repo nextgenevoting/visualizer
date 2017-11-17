@@ -35,6 +35,8 @@ import Toasted from 'vue-toasted'
 import Raphael from 'raphael/raphael'
 import { DonutChart } from 'vue-morris'
 import Popover from 'vue-js-popover'
+import lodash from 'lodash'
+import VueLodash from 'vue-lodash'
 global.Raphael = Raphael
 
 const routes = [
@@ -58,6 +60,7 @@ const router = new VueRouter({
   mode: 'history'
 })
 
+Vue.use(VueLodash, lodash)
 Vue.use(Vuetify)
 Vue.use(VueRouter)
 Vue.use(Vuex)

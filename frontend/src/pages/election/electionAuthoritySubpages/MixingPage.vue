@@ -9,7 +9,7 @@
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        <p v-if="!hasAuthorityShuffled" v-t="'Mixing.every_election_authority'"></p>
+                        <p v-if="!hasAuthorityMixed" v-t="'Mixing.every_election_authority'"></p>
                         <p v-else>{{ $t('Mixing.permutation')}} {{electionAuthority.permutation}}</p>
 
                         <transition-group name="flip-list" tag="ul" style="margin-top: 10px;">
@@ -19,7 +19,7 @@
                         </transition-group>
                     </v-card-text>
                     <v-card-actions>
-                        <v-btn flat color="blue" @click="mix()" :disabled="hasAuthorityShuffled">
+                        <v-btn flat color="blue" @click="mix()" :disabled="hasAuthorityMixed">
                             <v-icon left>mdi-shuffle-variant</v-icon>
                             {{ $t('Mixing.shuffle_encryptions') }}
                         </v-btn>
@@ -75,7 +75,7 @@
         },
         hasAuthorityShuffled: {
           get: function () {
-            return this.$store.getters.hasAuthorityShuffled(this.selectedAuthorityIndex)
+            return this.$store.getters.hasAuthorityMixed(this.selectedAuthorityIndex)
           }
         }
       },
