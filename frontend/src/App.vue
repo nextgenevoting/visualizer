@@ -112,7 +112,7 @@
           </v-tabs-item>
           <v-tabs-item ripple :to="{ name: 'electionauthority', params: {electionId: electionId, authid: authorityId}}">
             <v-badge color="">
-              <v-icon slot="badge" dark v-if="status == 5">mdi-alert-decagram</v-icon>
+              <v-icon slot="badge" dark v-if="getNumberOfTasksForAllAuthorities > 0">mdi-alert-decagram</v-icon>
               <v-icon>mdi-settings-box</v-icon>
             </v-badge>
             {{ $t('main.election_authorities') }}
@@ -144,91 +144,96 @@
 </template>
 
 <script type="text/babel">
-export default {
+  import { mapGetters } from 'vuex'
+
+  export default {
   data () {
-    return {
-      drawer: false,
-      items: [{
-        href: 'home',
-        router: true,
-        title: 'home',
-        icon: 'home'
-      }, {
-        href: 'elections',
-        router: true,
-        title: 'elections',
-        icon: 'extension'
-      }, {
-        href: 'about',
-        router: true,
-        title: 'main.about',
-        icon: 'domain'
-      }],
-      menu: false,
-      languages: {
-        en: 'English',
-        de: 'Deutsch'
+      return {
+        drawer: false,
+        items: [{
+          href: 'home',
+          router: true,
+          title: 'home',
+          icon: 'home'
+        }, {
+          href: 'elections',
+          router: true,
+          title: 'elections',
+          icon: 'extension'
+        }, {
+          href: 'about',
+          router: true,
+          title: 'main.about',
+          icon: 'domain'
+        }],
+        menu: false,
+        languages: {
+          en: 'English',
+          de: 'Deutsch'
+        }
       }
-    }
   },
   computed: {
-    electionId: {
-      get () {
-        return this.$route.params['electionId']
-      }
-    },
-    authorityId: {
-      get () {
-        return this.$store.state.selectedAuthority
-      }
-    },
-    onlineNotification: {
-      get () {
-        return this.$store.state.connected
+      ...mapGetters({
+        getNumberOfTasksForAllAuthorities: 'getNumberOfTasksForAllAuthorities'
+      }),
+      electionId: {
+        get () {
+          return this.$route.params['electionId']
+        }
       },
-      set (value) {
-      }
-    },
-    offlineNotification: {
-      get () {
-        return !this.$store.state.connected
+      authorityId: {
+        get () {
+          return this.$store.state.selectedAuthority
+        }
       },
-      set (value) {
-      }
-    },
-    status: {
-      get () {
-        return this.$store.state.Election.status
+      onlineNotification: {
+        get () {
+          return this.$store.state.connected
+        },
+        set (value) {
+        }
       },
-      set (value) {
-      }
-    },
+      offlineNotification: {
+        get () {
+          return !this.$store.state.connected
+        },
+        set (value) {
+        }
+      },
+      status: {
+        get () {
+          return this.$store.state.Election.status
+        },
+        set (value) {
+        }
+      },
 
-    showConfidentiality: {
-      get: function () {
-        return this.$store.state.showConfidentiality
+      showConfidentiality: {
+        get: function () {
+          return this.$store.state.showConfidentiality
+        },
+        set (value) {
+          this.$store.commit('showConfidentiality', value)
+        }
       },
-      set (value) {
-        this.$store.commit('showConfidentiality', value)
+      expertMode: {
+        get () {
+          return this.$store.state.expertMode
+        },
+        set (value) {
+          this.$store.commit('expertMode', value)
+        }
       }
-    },
-    expertMode: {
-      get () {
-        return this.$store.state.expertMode
-      },
-      set (value) {
-        this.$store.commit('expertMode', value)
-      }
-    }
   },
   methods: {
-    changeLanguage (lang) {
-      this.$root.$i18n.locale = lang
-      this.$store.commit('language', lang)
-    },
-    openRepo () {
-      window.open('https://gitlab.ti.bfh.ch/chvote/demonstrator')
-    }
+      changeLanguage (lang) {
+        this.$root.$i18n.locale = lang
+        this.$store.commit('language', lang)
+      },
+      openRepo () {
+        window.open('https://gitlab.ti.bfh.ch/chvote/demonstrator')
+      }
   }
 }
 </script>

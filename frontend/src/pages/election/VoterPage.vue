@@ -11,6 +11,7 @@
 
             <!--<v-btn flat color="blue" v-if="this.$store.state.selectedVoter != null" @click="changeVoter()" class="changeVoterButton">Change Voter</v-btn>-->
             <div v-if="status < 1" v-t="'Voter.before_vote'"></div>
+            <div v-if="status >= 4" v-t="'Voter.voting_closed'"></div>
             <div v-else>
                 <v-flex xy12 md6 v-if="selectedVoter == null" v-t="'Voter.choose_voter_first'"></v-flex>
                 <v-flex xy12 md12 v-else>
@@ -64,12 +65,12 @@
                         </v-flex>
                         <!-- 2. Vote Confirmation -->
                         <v-flex v-if="voter.status == 1" x12 md6>
-                            <v-card v-if="hasCheckConfirmationTask > -1">
+                            <v-card v-if="confirmationCheckAuthorityIndex > -1">
                                 <v-card-title primary-title>
                                     <div class="headline" v-t="'Voter.waiting_for_election_authority'"></div>
                                 </v-card-title>
                                 <v-card-text>
-                                    {{ $t('Voter.authority_n_processing_vote', { n: hasCheckConfirmationTask + 1 }) }}
+                                    {{ $t('Voter.authority_n_processing_vote', { n: confirmationCheckAuthorityIndex + 1 }) }}
                                     <v-progress-linear v-bind:indeterminate="true"></v-progress-linear>
                                 </v-card-text>
                             </v-card>
@@ -108,7 +109,7 @@
                         <v-flex v-if="voter.status == 2" x12 md6>
                             <v-card>
                                 <v-card-title primary-title>
-                                    <div class="headline" v-t="'Voter.vote_confirmation'"></div>
+                                    <div class="headline" v-t="'Voter.vote_finalization'"></div>
                                 </v-card-title>
                                 <v-card-text>
                                     {{ $t('Voter.you_have_confirmed_your_vote') }}:<br><br>
@@ -175,7 +176,7 @@
           }
         },
         selectedVoterName: {
-          get () {
+          get: function () {
             if (this.$store.state.selectedVoter !== null) {
               return this.$store.getters.getVoter(this.$store.state.selectedVoter).name
             } else {
@@ -265,25 +266,6 @@
     }
 </script>
 <style>
-    .application--light .stepper {
-        background: transparent !important;
-    }
-
-    .stepper {
-        box-shadow: none !important;
-        margin-top: -20px;
-    }
-    .application--light .stepper .stepper__step__step{
-        box-shadow: 0 0 2px 2px rgba(0,0,0,.2), 0px 0px 0px 0px rgba(0,0,0,.14), 0 1px 10px rgba(0,0,0,.12);
-
-    }
-
-    .stepper__step--active .stepper__step__step, .stepper__step--complete .stepper__step__step {
-        background: #696969 ;
-    }
-    .application--light .stepper .stepper__step:not(.stepper__step--active):not(.stepper__step--complete):not(.stepper__step--error) .stepper__step__step {
-        background: rgba(0, 0, 0, 0.2) !important;
-    }
 
     .electionForm{
         width:100%;

@@ -8,7 +8,7 @@
                     <v-btn-toggle v-model="selectedAuthorityIndex">
                         <v-btn flat v-for="auth in electionAuthorities" :key="auth.id">
                             <v-badge color="red" right>
-                                <span slot="badge" v-if="auth.checkBallotTasks.length > 0">{{ auth.checkBallotTasks.length }}</span>
+                                <span slot="badge" v-if="getNumberOfTasks(auth.id) > 0">{{ getNumberOfTasks(auth.id) }}</span>
                                 {{ $t('authority') }} {{auth.id + 1}}
                                 <v-chip v-if="auth.autoCheck" small outline color="secondary" v-t="'auto'"></v-chip>
                             </v-badge>
@@ -154,7 +154,7 @@
             this.$store.dispatch('setAutoMode', {electionId: this.$route.params['electionId'], electionAuthorityId: this.selectedAuthorityIndex, newValue: value})
           }
         },
-        hasAuthorityShuffled: {
+        hasAuthorityMixed: {
           get: function () {
             return this.$store.getters.hasAuthorityMixed(this.selectedAuthorityIndex)
           }
@@ -168,9 +168,17 @@
           get: function () {
             return this.$store.getters.getEncryptionsForAuthority(this.selectedAuthorityIndex)
           }
+        },
+        numberOfTasks: {
+          get: function () {
+            return this.$store.getters.getNumberOfTasks(this.selectedAuthorityIndex)
+          }
         }
       },
       methods: {
+        getNumberOfTasks: function (authority) {
+          return this.$store.getters.getNumberOfTasks(authority)
+        }
       }
     }
 </script>

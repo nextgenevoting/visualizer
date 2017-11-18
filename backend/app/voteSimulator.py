@@ -294,6 +294,12 @@ class VoteSimulator(object):
         for electionAuthority in self.authorities:
             electionAuthority.permutation = permutation
 
+            # remove all checkBallot- and checkConfirmation tasks
+            for checkBallotTask in electionAuthority.checkBallotTasks:
+                electionAuthority.checkBallotTasks.remove(checkBallotTask)
+            for checkConfirmationTask in electionAuthority.checkConfirmationTasks:
+                electionAuthority.checkConfirmationTasks.remove(checkConfirmationTask)
+
         if (self.authorities[0].autoCheck):
                 self.mix(0)
 

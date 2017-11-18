@@ -56,6 +56,7 @@ const getters = {
     return state.decryptions[authorityId]
   },
   hasDecryptionTask: (state, getters) => (authorityId) => {
+    if (getters.status !== 5) return 0
     if (authorityId === 0) { return getters.getDecryptionsForAuthority(authorityId) === null } else {
       return getters.getDecryptionsForAuthority(authorityId) === null && getters.getDecryptionsForAuthority(authorityId - 1) !== null
     }

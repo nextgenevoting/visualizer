@@ -107,6 +107,21 @@ const getters = {
     let electionAuthority = getters.getElectionAuthority(id)
     if (electionAuthority !== null) { return electionAuthority.checkConfirmationTasks } else { return [] }
   },
+  hasMixingTask: (state, getters) => (id) => {
+    let electionAuthority = getters.getElectionAuthority(id)
+    if (getters.status === 4 && electionAuthority.encryptions.length > 0 && !getters.hasAuthorityMixed(id)) { return 1 } else { return 0 }
+  },
+  getNumberOfTasks: (state, getters) => (id) => {
+    // returns the number of tasks for an authority
+    return getters.getCheckBallotTasks(id).length + getters.getCheckConfirmationTasks(id).length + getters.hasMixingTask(id) + getters.hasDecryptionTask(id)
+  },
+  getNumberOfTasksForAllAuthorities: (state, getters) => {
+    let count = 0
+    for (let i = 0; i < 3; i++) {
+      count += (getters.getCheckBallotTasks(i).length + getters.getCheckConfirmationTasks(i).length + getters.hasMixingTask(i) + getters.hasDecryptionTask(i))
+    }
+    return count
+  },
   ballotCheckAuthorityIndex: (state, getters) => (voterId) => {
     // checks if a given voter has a CheckBallotTask, returns the id of the election authority that has the check pending
     for (let auth of state.electionAuthorities) {

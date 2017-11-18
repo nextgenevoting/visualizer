@@ -205,6 +205,32 @@ electionsPage:
       en: Delete election
       de: Wahl löschen
 
+ElectionStatus:
+  status_0:
+    en: New
+    de: Neu
+  status_1:
+    en: Election Set-Up
+    de: Datengenerierung
+  status_2:
+    en: Printing
+    de: Drucken
+  status_3:
+    en: Votingcard Delivery
+    de: Lieferung der Votingcards
+  status_4:
+    en: Election Phase
+    de: Stimmphase
+  status_5:
+    en: Mixing Phase
+    de: Mischphase
+  status_6:
+    en: Decryption Phase
+    de: Entschlüsselungsphase
+  status_7:
+    en: Tallying Phase
+    de: Auszählung
+
 BulletinBoard:
   title:
     en: Bulletin Board
@@ -277,7 +303,7 @@ ElectionAuthority:
     de: Verschlüsselung {n}
   ballot_of_voter_n:
     en: Voter {n}
-    de: Stimmzettel von Wähler {n}
+    de: Wähler {n}
   encrypted_selections:
     en: 'Encrypted selection:'
     de: 'Verschlüsselte Selektion:'
@@ -363,6 +389,9 @@ Voter:
   you_have_confirmed_your_vote:
     en: You have confirmed your vote. Please check whether the displayed finalization code matches the finalization code on your voting card.
     de: Sie haben Ihre Wahl bestätigt. Überprüfen Sie, dass der dargestellte Finalisations-Code mit dem Finalisations-Code auf Ihrer Wahlkarte übereinstimmt.
+  vote_finalization:
+    en: Vote finalization
+    de: Wahlfinalisierung
   finalization_code:
     en: Finalization code
     de: Finalisations-Code
@@ -372,7 +401,9 @@ Voter:
   verification_codes:
     en: Verification codes
     de: Prüfcodes
-
+  voting_closed:
+    en: Voting is closed
+    de: Stimmabgabe nicht mehr möglich
 CheckBallotTask:
   ballot_check_for_voter_n:
     en: Ballot check for Voter {n}

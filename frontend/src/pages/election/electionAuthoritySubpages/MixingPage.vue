@@ -73,7 +73,7 @@
             return this.$store.getters.getEncryptionsForAuthority(this.selectedAuthorityIndex)
           }
         },
-        hasAuthorityShuffled: {
+        hasAuthorityMixed: {
           get: function () {
             return this.$store.getters.hasAuthorityMixed(this.selectedAuthorityIndex)
           }
