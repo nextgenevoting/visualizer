@@ -141,9 +141,10 @@ def debugVotingSim():
     from gmpy2 import mpz
     try:
         sim = VoteSimulator(electionId)             # prepare voteSimulator
-        #sim.authorities[0].publicKey = mpz(1111)
         from chvote.Types import Ballot
-        sim.voters[0].status = 4
+        sim.bulletinBoard.confirmations[0].finalizations.append(1)
+
+
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
     except Exception as ex:

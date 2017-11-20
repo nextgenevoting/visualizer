@@ -22,7 +22,7 @@
         </v-stepper>
       </v-flex>
       <br>
-      <v-btn v-if="1==2" color="primary" v-on:click="debugVotingSim">Debug VoteSim trigger</v-btn>
+      <v-btn v-if="1==1" color="primary" v-on:click="debugVotingSim">Debug</v-btn>
     </div>
     <div v-else>
       <LoadingOverlay></LoadingOverlay>
@@ -49,10 +49,10 @@ export default {
         'election': this.$route.params['electionId']
       }).then(response => {
         response.json().then((data) => {
-          // success callback
+            this.$toasted.success("success")
         })
-      }, response => {
-        // error callback
+      }).catch(e => {
+          this.$toasted.error(e.body.message)
       })
     }
   },
