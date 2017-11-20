@@ -6,7 +6,7 @@ import gmpy2
 from gmpy2 import mpz
 from pymongo.son_manipulator import SONManipulator
 import pickle
-from app.models.bulletinBoardState import BulletinBoardState
+from app.states.bulletinBoardState import BulletinBoardState
 import unittest
 
 # use the following function to convert an arbitrary complex data structure into a binary string

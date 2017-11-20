@@ -2,17 +2,17 @@ from chvote.ElectionAuthority.GenElectorateData import GenElectorateData
 from chvote.PrintingAuthority.GetVotingCards import GetVotingCards
 from chvote.Utils.Utils import AssertList, AssertInt, AssertMpz
 
-from app.parties.Party import Party
+from app.actors.Actor import Actor
 from chvote.ElectionAdministrator.GetVotes import GetVotes
 from chvote.ElectionAuthority.GetDecryptions import GetDecryptions
 from chvote.ElectionAuthority.CheckDecryptionProofs import CheckDecryptionProofs
 
-class ElectionAdministrator(Party):
+class ElectionAdministrator(Actor):
     """
     The Election Administrator class represents the election Admin in the CHVote protocol
     """
     def __init__(self, collection, electionID):
-        Party.__init__(self, collection, electionID)
+        Actor.__init__(self, collection, electionID)
 
     @property
     def votes(self):

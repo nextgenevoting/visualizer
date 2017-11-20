@@ -1,11 +1,11 @@
 from chvote.ElectionAuthority.GenElectorateData import GenElectorateData
-from app.parties.Party import Party
+from app.actors.Actor import Actor
 from chvote.Utils.Utils import AssertList, AssertInt, AssertMpz
 
-class BulletinBoard(Party):
+class BulletinBoard(Actor):
 
     def __init__(self, collection, electionID):
-        Party.__init__(self, collection, electionID)
+        Actor.__init__(self, collection, electionID)
 
     @property
     def voters(self):

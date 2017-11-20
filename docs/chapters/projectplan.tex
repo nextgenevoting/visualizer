@@ -1,24 +1,37 @@
-\newcommand\tabularhead[1]{
-\begin{table}[h]
-  \caption{Use Case <<#1>>}
-  \begin{tabular}{|p{0.3\linewidth}|p{0.7\linewidth}|}
-    \hline
-    \textbf{Use Case} & \textbf{#1} \\
-    \hline}
+\definecolor{vmcol}{RGB}{150,150,150}
+\definecolor{nmcol}{RGB}{200,200,200}
+\definecolor{zscol}{RGB}{83,142,213} % red: 217,151,149
+\definecolor{zicol}{RGB}{194,214,154}
 
-  \newcommand\addrow[2]{#1 &#2\\ \hline}
+\newcommand{\zs}[0]{\cellcolor{zscol}}				% soll
+\newcommand{\zi}[0]{\cellcolor{zicol}}				% ist
+%\newcommand{\ms}[0]{\makebox[.613cm][r]{$\blacklozenge$}}	% Meilenstein
+\newcommand{\ms}[1]{
+	\makebox[.7cm][r]{
+		\tikz[baseline=(char.base)]{
+			\node[shape=circle,draw,inner sep=.02cm,fill=black,text=white] (char) { #1 };
+		}
+	}
+}
 
-  \newcommand\addmulrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}% 
-     &\begin{minipage}[t][][t]{8cm}
-      \begin{enumerate} #2   \end{enumerate}
-      \end{minipage}\\ }
+\newcommand{\sq}[1]{\textcolor{#1}{\rule{.3cm}{.3cm}}}
 
-  \newenvironment{usecase}{\tabularhead}
-{\hline\end{tabular}\end{table}}
+\newcommand{\phase}[1]{
+	\multicolumn{22}{l}{} \\
+	\multicolumn{22}{l}{\cellcolor{gray!20}\textbf{#1}} \\ \hline
+}
 
 \chapter{Project Plan}
+In this chapter we are going to describe the several aspects regarding the planing of our project. 
 \section{Project Method}
+Since this wasn't a project where the project scope and goals were strictly defined and clear from the beginning, it was very important to elaborate the requirements in close collaboration with our supervisors early on and work. This is why we decided our project would be very suitable for an agile kind of project method. 
+
+We have therefore set up regular meetings (usually once every 2 weeks) to discuss our ideas and get feedback about the current progress.
+
 \section{Requirements}
+As the first step, we have though about the goals and requirements for our application. We have structured the requirements into groups that mostly correspond to the "`modules"' / views that our application is going to consist of.
+
+Some requirements affect multiple or all modules and are therefore listed as "`General Requirements"'.
 \subsection{General Requirements}
 \begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
@@ -94,69 +107,119 @@ R22 & The bulletin board view shows what information is publicly available & Mus
 R23 & The bulletin board view is extended with verification-functionality & Can & Low & 2 & \\
 \end{longtable}
 
+\section{Time schedule \& Implementation phases}
+As the next step we created a time schedule and structured our project into smaller units.
 
-\section{Timeplan}
-We divided 
+The last step before starting the actual implementation was to develop a proof-of-concept / prototype of our application, by implementing one usecase in a reduced extent with the envisaged frameworks to evaluate the technical feasibility.
+
+The actual implementation phase has been broken down into two phases. 
+
+Phase 1 involves the implementation of all high priority must-requirements, so, basically bringing the application into a state that allows to visualize the whole CHVote election process. We have agreed that after phase 1, some areas of the user interface would still be in a rather primitive state (eg. user inputs are not validated and require a more technical type of input). 
+
+For phase 2 we planned on implementing the can-requirements and the must-requirements with lower priority.
+
+This approach reduced the risk of technical limitations of our architecture not being revealed until later that would have resulted in time consuming architectural changes.
+
+
+\begin{landscape}
+\section{Time schedule}
+
+\begin{table}[h]
+\centering
+\renewcommand{\arraystretch}{1.2}
+\fontsize{2mm}{2mm}\selectfont
+\begin{tabular}[c]{
+	|m{7cm}|l
+	*{10}{
+		|>{\centering\arraybackslash}m{.3cm}
+		|>{\centering\arraybackslash}m{.3cm}
+	}
+	|}
+
+\hline
+
+\textbf{Project tasks} & & 38 & 39 & 40 & 41 & 42 & 43 & 44 & 45 & 46 & 47 & 48 & 49 & 50 & 51 & 52 & 53 & 54 \\ \hline
+
+\phase{Documentation}
+\multirow{2}{*}{Update documentation and journal}
+& soll & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs \ms{5} \\ \hhline{~*{21}{-}}
+& ist  & \zi & \zi & \zi & & & \zi & & \zi & \zi & & & & & & & & \\ \hline
+
+\phase{Concept}
+\multirow{2}{*}{Working out goals / requirements}
+& soll & \zs & \zs & \zs & & & & & & & & & & & & & & \\ \hhline{~*{21}{-}}
+& ist  & \zi & \zi & \zi & \zi & \zi & & & & & & & & & & & & \\ \hline
+\multirow{2}{*}{Concept}
+& soll & & \zs & \zs & & & & & & & & & & & & & & \\ \hhline{~*{21}{-}}
+& ist  & & \zi & \zi & \zi & & & & & & & & & & & & & \\ \hline
+
+\phase{Implementation}
+\multirow{2}{*}{Update CHVote cryptolibrary to the lastest specification}
+& soll & \zs & \zs\ms{1} & & & & & & & & & & & & & & & \\ \hhline{~*{21}{-}}
+& ist  & \zi & \zi & & & & & & & & & & & & & & & \\ \hline
+\multirow{2}{*}{Prototyping (proof of concept)}
+& soll & & & \zs & \zs\ms{2} & & & & & & & & & & & & & \\ \hhline{~*{21}{-}}
+& ist  & & & \zi & \zi & & & & & & & & & & & & & \\ \hline
+
+\phase{Iteration 1}
+\multirow{2}{*}{Implement backend API}
+& soll & & & & & \zs & \zs & \zs & \zs & \zs & \zs & & & & & & & \\ \hhline{~*{21}{-}}
+& ist  & & & & & \zi & \zi & \zi & \zi & \zi & & & & & & & & \\ \hline
+\multirow{2}{*}{Implement frontend: Pre-election}
+& soll & & & & & & & \zs & \zs & & & & & & & & & \\ \hhline{~*{21}{-}}
+& ist  & & & & & & & \zi & \zi & & & & & & & & & \\ \hline
+\multirow{2}{*}{Implement frontend: Election}
+& soll & & & & & & & & \zs & \zs & & & & & & & & \\ \hhline{~*{21}{-}}
+& ist  & & & & & & & & \zi & \zi & & & & & & & & \\ \hline
+\multirow{2}{*}{Implement frontend: Post-election}
+& soll & & & & & & & & & \zs & \zs\ms{3} & & & & & & & \\ \hhline{~*{21}{-}}
+& ist  & & & & & & & & & \zi & & & & & & & & \\ \hline
+
+\phase{Iteration 2}
+\multirow{2}{*}{Automation of election authority (R19)}
+& soll & & & & & & & & & & & \zs & & & & & & \\ \hhline{~*{21}{-}}
+& ist  & & & & & & & & & & & & & & & & & \\ \hline
+\multirow{2}{*}{Voting Card layout, Scratchcard (R15)}
+& soll & & & & & & & & & & & \zs & \zs & & & & & \\ \hhline{~*{21}{-}}
+& ist  & & & & & & & & & & & & & & & & & \\ \hline
+\multirow{2}{*}{Election Overview (R8, R9)}
+& soll & & & & & & & & & & & & \zs & \zs & & & & \\ \hhline{~*{21}{-}}
+& ist  & & & & & & & & & & & & & & & & & \\ \hline
+\multirow{2}{*}{k-out-of-n election types (R7)}
+& soll & & & & & & & & & & & & & \zs & & & & \\ \hhline{~*{21}{-}}
+& ist  & & & & & & & & & & & & & & & & & \\ \hline
+\multirow{2}{*}{Improving the input forms and layout (R11)}
+& soll & & & & & & & & & & & & & & \zs & & & \\ \hhline{~*{21}{-}}
+& ist  & & & & & & & & & & & & & & & & & \\ \hline
+\multirow{2}{*}{Flexible security level (R13)}
+& soll & & & & & & & & & & & & & & & \zs & & \\ \hhline{~*{21}{-}}
+& ist  & & & & & & & & & & & & & & & & & \\ \hline
+\multirow{2}{*}{Verifier functionality (R23) and reserve}
+& soll & & & & & & & & & & & & & & & \zs & \zs\ms{4} &\\ \hhline{~*{21}{-}}
+& ist  & & & & & & & & & & & & & & & & & \\ \hline
+\phase{Project completion}
+\multirow{2}{*}{Poster, Final Day, Presentation}
+& soll & & & & & & & & & & & & & & & & \zs & \zs \\ \hhline{~*{21}{-}}
+& ist  & & & & & & & & & & & & & & & & & \\ \hline
+
+\end{tabular}
+\caption{Project time schedule}
+\end{table}
+
+\end{landscape}
+
+From our requirements we have defined the following mile-stones:
+
+\begin{itemize}
+	\item M1: Finishing the implementation of the CHVote cryptolibrary
+	\item M2: Upon successful creation of a proof-of-concept / prototype for our application
+	\item M3: After finishing implementation phase 1
+	\item M4: Finishing implementation phase 2 including the can-requirements
+	\item M5: After finishing our documentation
+\end{itemize}
 
 \section{Use Cases}
-\begin{usecase}{Create new election}
-  \addrow{Primary Actor}{User}
-  \addrow{Description}{The system allows to create new elections}
-    \addrow{Precondition}{The system shows the available elections in a list}
-
-    \addmulrow{Main path (M)}{
-        \item User clicks on "`create election"' 
-        \item System demands a name for the election 
-				\item User is redirected to the election overview page
-				}				
-\end{usecase}
-
-\begin{usecase}{Set up election}
-  \addrow{Primary Actor}{Election Administrator}
-  \addrow{Description}{The election administrator can set up the election. This involves the generation of the cryptographic electorate data in the backend}
-    \addrow{Precondition}{An new election has been created}
-    \addrow{Postcondition}{The election has the status "`Printing"'}		
-    \addmulrow{Main path (M)}{
-        \item Election Administrator visits the "`Election Administrator"'-view of a new election. 
-        \item The system demands the following information: 
-				
-				\begin{itemize}					
-					\item Number of parallel elections
-					\item Candidates per election
-					\item Number of possible selections per election event
-					\item Number of voters
-					\item Counting circles of the voters
-				\end{itemize}	
-				\item User clicks on "`Generate"' \\
-				}							
-\end{usecase}
-
-\begin{usecase}{Printing of voting cards}
-  \addrow{Primary Actor}{Printing Authority}
-  \addrow{Description}{The printing authority generates voting cards}
-    \addrow{Precondition}{The election has the status "`Printing"'}
-    \addrow{Postcondition}{The election has the status "`Delivery"'}		
-    \addmulrow{Main path (M)}{
-        \item The election administrator visits the "`Printing Authority"'-view of an election. 
-        \item The election administrator clicks on "`Print Voting Cards"' 
-				\item A list of all voters is displayed 
-			  \item The election administrator can select a voter to see his voting card
-				}							
-\end{usecase}
-
-
-\begin{usecase}{Delivery of voting cards}
-  \addrow{Primary Actor}{Printing Authority}
-  \addrow{Description}{The printing authority can send the voting cards to the voters}
-    \addrow{Precondition}{The election has the status "`Delivery"'}
-    \addrow{Postcondition}{The election has the status "`Election Phase"'}		
-    \addmulrow{Main path (M)}{
-        \item The election administrator visits the "`Printing Authority"'-view of an election. 
-        \item The election administrator clicks on "`Deliver Voting Cards"' 
-				\item Within the voters-view, the voting card shows up for every voter
-				}							
-\end{usecase}
-
+The next step was to create use cases. As an example we show one of the use cases, for the complete list of use cases we refer to the appendix.
 \begin{usecase}{Casting of a vote}
   \addrow{Primary Actor}{Voter}
   \addrow{Description}{The voter can cast a vote by selecting his favored candidate(s) and his voting code}
@@ -171,142 +234,16 @@ We divided
     \addmulrow{Main path (M)}{
         \item The voter visits the "`Voter"'-view and select his voter object
 				\item The system demands a selection of the candidates and the voter's voting code
-				\item The voter clicks on "`Cast ballot"'
+				\item The voter clicks on "`Cast ballot"'\\
 
-				}							
+				}	
+										
 \end{usecase}
 
-\begin{usecase}{Confirmation of a vote}
-  \addrow{Primary Actor}{Voter}
-  \addrow{Description}{The voter can confirm his vote by verifying the verification codes and entering his confirmation code}
-    \addrow{Precondition}{
-		
-		\begin{itemize}
-			\item The election has the status "`Election Phase"'
-			\item A voter is selected in the "`Voter"'-view
-			\item The voter has the status "`Confirmation Phase"'
-		\end{itemize}		}
-    \addrow{Postcondition}{	
-			The first election authority receives a "`Check-confirmation task"'	
-		}		
-    \addmulrow{Main path (M)}{
-        \item The voter visits the "`Voter"'-view and select his voter object
-				\item The system displays the verification codes of the selected candidates
-				\item The voter must manually verify that the displayed codes match the verification codes of the selected candidates on his voting card
-				\item The system demands the confirmation code
-				\item The voter clicks on "`Confirm vote"'
+\section{Mockups}
+After the requirements have been more or less clear, we have started working on creating mockups in which we tried to visualize how we understood the task and how we could imagine the resulting application to look like. 
 
-				}							
-\end{usecase}
-
-\begin{usecase}{Checking a ballot}
-  \addrow{Primary Actor}{Election Authority}
-  \addrow{Description}{The election authority can verify the validity of a ballot and respond to the voters query}
-    \addrow{Precondition}{
-		\begin{itemize}
-			\item The election has the status "`Election Phase"'
-			\item The currently selected election authority has a new "`Check ballot task"'
-		\end{itemize}		}
-    \addrow{Postcondition}{
-		
-		\begin{itemize}
-			\item The next election authority receives a "`Check ballot task"'
-			\item If this election authority was the last one, and the ballot was valid, the voter now has the status "`Confirmation Phase"'
-		\end{itemize}
-		}		
-    \addmulrow{Main path (M)}{
-        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that has new "`Check ballot task"'
-				\item The system displays the query, the ballot proof and the voting credential of the voter
-				\item The user click on "`Check validity"'
-				\item The system displays the result of the validity check
-				\item The user clicks on "`Respond"'
-				}							
-\end{usecase}
-
-\begin{usecase}{Checking a confirmation}
-  \addrow{Primary Actor}{Election Authority}
-  \addrow{Description}{The election authority can verify the validity of a confirmation and respond to the voters query}
-    \addrow{Precondition}{
-		\begin{itemize}
-			\item The election has the status "`Election Phase"'
-			\item The currently selected election authority has a new "`Check ballot task"'
-		\end{itemize}		}
-    \addrow{Postcondition}{
-		
-		\begin{itemize}
-			\item The next election authority receives a "`Check confirmation task"'
-			\item If this election authority was the last one, and the confirmation was valid, the voter now has the status "`Finalization Phase"'
-		\end{itemize}
-		}		
-    \addmulrow{Main path (M)}{
-        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that has new "`Check confirmation task"'
-				\item The system displays information about the confirmation
-				\item The user click on "`Check validity"'
-				\item The system displays the result of the validity check
-				\item The user clicks on "`Finalize"'
-				}							
-\end{usecase}
-
-\begin{usecase}{Mixing}
-  \addrow{Primary Actor}{Election Authority}
-  \addrow{Description}{Every election authority can perform the mixing on the extracted list of encryptions}
-    \addrow{Precondition}{
-		\begin{itemize}
-			\item The election has the status "`Mixing"'
-			\item The previous election authority has already performed the mixing
-		\end{itemize}		}
-    \addrow{Postcondition}{
-		
-		\begin{itemize}
-			\item The next election authority is able to mix
-		\end{itemize}
-		}		
-    \addmulrow{Main path (M)}{
-        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that hasn't mixed before
-				\item The system displays the list of encryptions of the previous election authority (or the first one in case the first election authority is selected)
-				\item The user clicks on "`Mix"'
-				\item The new, mixed list of encryptions is added to the known data of this election authority
-				}							
-\end{usecase}
-
-
-\begin{usecase}{Decryption}
-  \addrow{Primary Actor}{Election Authority}
-  \addrow{Description}{Every election authority can perform the (partial) decryption}
-    \addrow{Precondition}{
-		\begin{itemize}
-			\item The election has the status "`Decryption"'
-			\item The previous election authority has already performed the decryption
-		\end{itemize}		}
-    \addrow{Postcondition}{
-		\begin{itemize}
-			\item The next election authority is able to decrypt
-		\end{itemize}
-		}		
-    \addmulrow{Main path (M)}{
-        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that hasn't decrypted before
-				\item The system displays the list of encryptions
-				\item The user clicks on "`Decrypt"'
-				\item The list of partial decryptions is added to the known data of this election authority
-				}							
-\end{usecase}
-
-
-\begin{usecase}{Tallying}
-  \addrow{Primary Actor}{Election Administrator}
-  \addrow{Description}{The election administrator can perform the tallying and view the final result}
-    \addrow{Precondition}{
-		The election has the status "`Tallying"'
-		}
-    \addrow{Postcondition}{
-		The has the status "`Finished"'
-		}		
-    \addmulrow{Main path (M)}{
-        \item The user visits the "`Election Administrator"'-view
-				\item The user clicks on "`Tally"'
-				\item The final result is added to the known data of the election administrator
-				}							
-\end{usecase}
+% Todo: Beispiel-Bild der Mockups %
 
 \section{Concept}
 TODO: Beschreiben, wie wir die Anwendung aus fachlicher Sicht aufteilen wollen (Unterteilung in eine View per Actor etc.)

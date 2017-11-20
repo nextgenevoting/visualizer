@@ -1,16 +1,16 @@
 from chvote.ElectionAuthority.GenElectorateData import GenElectorateData
 from chvote.ElectionAuthority.GenKeyPair import GenKeyPair
 from chvote.ElectionAuthority.GetPublicKey import GetPublicKey
-from app.parties.Party import Party
+from app.actors.Actor import Actor
 from chvote.Utils.Utils import AssertList, AssertInt, AssertMpz, AssertClass, AssertString
 from chvote.Types import VotingCard
 
-class Voter(Party):
+class Voter(Actor):
     """
     The Voter class represents a single voter participating in the CHVote protocol
     """
     def __init__(self, collection, electionID, voterID, state=None):
-        Party.__init__(self, collection, electionID, {'voterID' : voterID}, state)
+        Actor.__init__(self, collection, electionID, {'voterID' : voterID}, state)
 
     @property
     def id(self):

@@ -1,0 +1,231 @@
+\chapter{Appendix}
+
+\section{Use Cases}
+\begin{usecase}{Create new election}
+  \addrow{Primary Actor}{User}
+  \addrow{Description}{The system allows to create new elections}
+    \addrow{Precondition}{The system shows the available elections in a list}
+
+    \addmulrow{Main path (M)}{
+        \item User clicks on "`create election"' 
+        \item System demands a name for the election 
+				\item User is redirected to the election overview page
+				}				
+\end{usecase}
+
+\begin{usecase}{Set up election}
+  \addrow{Primary Actor}{Election Administrator}
+  \addrow{Description}{The election administrator can set up the election. This involves the generation of the cryptographic electorate data in the backend}
+    \addrow{Precondition}{An new election has been created}
+    \addrow{Postcondition}{The election has the status "`Printing"'}		
+    \addmulrow{Main path (M)}{
+        \item Election Administrator visits the "`Election Administrator"'-view of a new election. 
+        \item The system demands the following information: 
+				
+				\begin{itemize}					
+					\item Number of parallel elections
+					\item Candidates per election
+					\item Number of possible selections per election event
+					\item Number of voters
+					\item Counting circles of the voters
+				\end{itemize}	
+				\item User clicks on "`Generate"' \\
+				}							
+\end{usecase}
+
+\begin{usecase}{Printing of voting cards}
+  \addrow{Primary Actor}{Printing Authority}
+  \addrow{Description}{The printing authority generates voting cards}
+    \addrow{Precondition}{The election has the status "`Printing"'}
+    \addrow{Postcondition}{The election has the status "`Delivery"'}		
+    \addmulrow{Main path (M)}{
+        \item The election administrator visits the "`Printing Authority"'-view of an election. 
+        \item The election administrator clicks on "`Print Voting Cards"' 
+				\item A list of all voters is displayed 
+			  \item The election administrator can select a voter to see his voting card
+				}							
+\end{usecase}
+
+
+\begin{usecase}{Delivery of voting cards}
+  \addrow{Primary Actor}{Printing Authority}
+  \addrow{Description}{The printing authority can send the voting cards to the voters}
+    \addrow{Precondition}{The election has the status "`Delivery"'}
+    \addrow{Postcondition}{The election has the status "`Election Phase"'}		
+    \addmulrow{Main path (M)}{
+        \item The election administrator visits the "`Printing Authority"'-view of an election. 
+        \item The election administrator clicks on "`Deliver Voting Cards"' 
+				\item Within the voters-view, the voting card shows up for every voter
+				}							
+\end{usecase}
+
+\begin{usecase}{Confirmation of a vote}
+  \addrow{Primary Actor}{Voter}
+  \addrow{Description}{The voter can confirm his vote by verifying the verification codes and entering his confirmation code}
+    \addrow{Precondition}{
+		
+		\begin{itemize}
+			\item The election has the status "`Election Phase"'
+			\item A voter is selected in the "`Voter"'-view
+			\item The voter has the status "`Confirmation Phase"'
+		\end{itemize}		}
+    \addrow{Postcondition}{	
+			The first election authority receives a "`Check-confirmation task"'	
+		}		
+    \addmulrow{Main path (M)}{
+        \item The voter visits the "`Voter"'-view and select his voter object
+				\item The system displays the verification codes of the selected candidates
+				\item The voter must manually verify that the displayed codes match the verification codes of the selected candidates on his voting card
+				\item The system demands the confirmation code
+				\item The voter clicks on "`Confirm vote"'
+
+				}							
+\end{usecase}
+
+\begin{usecase}{Checking a ballot}
+  \addrow{Primary Actor}{Election Authority}
+  \addrow{Description}{The election authority can verify the validity of a ballot and respond to the voters query}
+    \addrow{Precondition}{
+		\begin{itemize}
+			\item The election has the status "`Election Phase"'
+			\item The currently selected election authority has a new "`Check ballot task"'
+		\end{itemize}		}
+    \addrow{Postcondition}{
+		
+		\begin{itemize}
+			\item The next election authority receives a "`Check ballot task"'
+			\item If this election authority was the last one, and the ballot was valid, the voter now has the status "`Confirmation Phase"'
+		\end{itemize}
+		}		
+    \addmulrow{Main path (M)}{
+        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that has new "`Check ballot task"'
+				\item The system displays the query, the ballot proof and the voting credential of the voter
+				\item The user click on "`Check validity"'
+				\item The system displays the result of the validity check
+				\item The user clicks on "`Respond"'
+				}							
+\end{usecase}
+
+\begin{usecase}{Checking a confirmation}
+  \addrow{Primary Actor}{Election Authority}
+  \addrow{Description}{The election authority can verify the validity of a confirmation and respond to the voters query}
+    \addrow{Precondition}{
+		\begin{itemize}
+			\item The election has the status "`Election Phase"'
+			\item The currently selected election authority has a new "`Check ballot task"'
+		\end{itemize}		}
+    \addrow{Postcondition}{
+		
+		\begin{itemize}
+			\item The next election authority receives a "`Check confirmation task"'
+			\item If this election authority was the last one, and the confirmation was valid, the voter now has the status "`Finalization Phase"'
+		\end{itemize}
+		}		
+    \addmulrow{Main path (M)}{
+        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that has new "`Check confirmation task"'
+				\item The system displays information about the confirmation
+				\item The user click on "`Check validity"'
+				\item The system displays the result of the validity check
+				\item The user clicks on "`Finalize"'
+				}							
+\end{usecase}
+
+\begin{usecase}{Mixing}
+  \addrow{Primary Actor}{Election Authority}
+  \addrow{Description}{Every election authority can perform the mixing on the extracted list of encryptions}
+    \addrow{Precondition}{
+		\begin{itemize}
+			\item The election has the status "`Mixing"'
+			\item The previous election authority has already performed the mixing
+		\end{itemize}		}
+    \addrow{Postcondition}{
+		
+		\begin{itemize}
+			\item The next election authority is able to mix
+		\end{itemize}
+		}		
+    \addmulrow{Main path (M)}{
+        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that hasn't mixed before
+				\item The system displays the list of encryptions of the previous election authority (or the first one in case the first election authority is selected)
+				\item The user clicks on "`Mix"'
+				\item The new, mixed list of encryptions is added to the known data of this election authority
+				}							
+\end{usecase}
+
+
+\begin{usecase}{Decryption}
+  \addrow{Primary Actor}{Election Authority}
+  \addrow{Description}{Every election authority can perform the (partial) decryption}
+    \addrow{Precondition}{
+		\begin{itemize}
+			\item The election has the status "`Decryption"'
+			\item The previous election authority has already performed the decryption
+		\end{itemize}		}
+    \addrow{Postcondition}{
+		\begin{itemize}
+			\item The next election authority is able to decrypt
+		\end{itemize}
+		}		
+    \addmulrow{Main path (M)}{
+        \item The user visits the "`Election Authority"'-view and select one of the available election authorities that hasn't decrypted before
+				\item The system displays the list of encryptions
+				\item The user clicks on "`Decrypt"'
+				\item The list of partial decryptions is added to the known data of this election authority
+				}							
+\end{usecase}
+
+
+\begin{usecase}{Tallying}
+  \addrow{Primary Actor}{Election Administrator}
+  \addrow{Description}{The election administrator can perform the tallying and view the final result}
+    \addrow{Precondition}{
+		The election has the status "`Tallying"'
+		}
+    \addrow{Postcondition}{
+		The has the status "`Finished"'
+		}		
+    \addmulrow{Main path (M)}{
+        \item The user visits the "`Election Administrator"'-view
+				\item The user clicks on "`Tally"'
+				\item The final result is added to the known data of the election administrator
+				}							
+\end{usecase}
+
+\section{Journal}
+\subsection{Week 1}
+\subsection{Kickoff Meeting}
+During our kickoff meeting we discussed the possibilities of our bachelor thesis based on the spadework of the previous "project 2" module and broke them down into two options: A realistic prototype of the whole CHVote system which includes everything a real implementation would need, like signatures, channel security, distributed election authorities with docker etc., or to build a demonstrator tool (an application that allows to demonstrate the functionality of the chVote protocol in a more visual manner).
+
+\subsection{Week 2}
+In week 2 we have made the decision to build the demonstrator mainly because the final product would potentially be more attractive visually than a prototype where the main work lies in the background which is not visible to an outsider. We have also started thinking about what technologies and frameworks to use and to build a few sketches and mockups to have some basis for discussion for our next meeting.
+
+We have also started updating our implementation of the CHVote crypto-library to the latest specification. Since we ran into a few problems, this took us almost the whole week.
+
+\subsection{Reflexion}
+At this stage we have yet been very unsure about how the application should look like, what audience we should have as our main target and what functionality the application should offer.
+
+\subsection{Week 3}
+During our second meeting we discussed the further elaborated the goals, the structure of our project and talked about the audience.
+\begin{itemize}
+\item In essence, the application should allow to demonstrate a chVote election from the view of every party participating in the election process.
+\item The application should be a real-time webapp that updates the views automatically as soon as something changes and without having to reload the page
+\end{itemize}
+
+\subsection{Week 4}
+In the fourth week we continued describing the goals and further worked on the system architecture. We also made some first experiences with the envisaged frameworks and technologies (VueJS, socket.io, Flask, MongoDB).
+\subsection{Reflexion}
+\begin{itemize}
+\item working with socket.io and VueJS has been very intuitive and looked very promising and suitable for our project
+\item We were not yet sure whether or not mongoDB is the right technology for our needs.
+\end{itemize}
+During prototyping, we observed that our first architecture approach of doing everything over websockets, turned out to be a bad decision. 
+
+\subsection{Week 5}
+In the fifth week we started with the real implementation.
+\subsection{Reflexion}
+\begin{itemize}
+\item working with socket.io and VueJS has been very intuitive and looked very promising and suitable for our project
+\item We were not yet sure whether or not mongoDB is the right technology for our needs.
+\end{itemize}
+During prototyping, we observed that our first architecture approach of doing everything over websockets, turned out to be a bad decision. 
+

@@ -1,7 +1,7 @@
 from chvote.ElectionAuthority.GenElectorateData import GenElectorateData
 from chvote.ElectionAuthority.GenKeyPair import GenKeyPair
 from chvote.ElectionAuthority.GetPublicKey import GetPublicKey
-from app.parties.Party import Party
+from app.actors.Actor import Actor
 from chvote.Utils.Utils import AssertList, AssertInt, AssertMpz, AssertTuple
 from chvote.ElectionAuthority.CheckBallot import CheckBallot
 from chvote.ElectionAuthority.GetPublicCredentials import GetPublicCredentials
@@ -16,13 +16,13 @@ from chvote.ElectionAuthority.CheckShuffleProofs import CheckShuffleProofs
 from chvote.ElectionAuthority.GetPartialDecryptions import GetPartialDecryptions
 from chvote.ElectionAuthority.GenDecryptionProof import GenDecryptionProof
 
-class ElectionAuthority(Party):
+class ElectionAuthority(Actor):
     """
     The Authority class represents a single election authority which performs several algorithms according
     to the protocol diagrams in chapter 6 of the specification document
     """
     def __init__(self, collection, electionID, authorityID):
-        Party.__init__(self, collection, electionID, {'authorityID' : authorityID})
+        Actor.__init__(self, collection, electionID, {'authorityID' : authorityID})
 
     @property
     def id(self):

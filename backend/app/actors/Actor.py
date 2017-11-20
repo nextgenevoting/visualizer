@@ -1,11 +1,11 @@
 from app.database import deserializeState, serializeState
 from app.utils.JsonParser import mpzconverter
-from app.models.state import State
+from app.states.state import State
 import jsonpatch
 import json
 import copy
 
-class Party(object):
+class Actor(object):
 
     def __init__(self, collection, electionID, additionalConditions=None, state=None):
         self.collection = collection # db table

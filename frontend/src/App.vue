@@ -147,7 +147,7 @@
   import { mapGetters } from 'vuex'
 
   export default {
-  data () {
+    data () {
       return {
         drawer: false,
         items: [{
@@ -172,8 +172,8 @@
           de: 'Deutsch'
         }
       }
-  },
-  computed: {
+    },
+    computed: {
       ...mapGetters({
         getNumberOfTasksForAllAuthorities: 'getNumberOfTasksForAllAuthorities'
       }),
@@ -225,8 +225,8 @@
           this.$store.commit('expertMode', value)
         }
       }
-  },
-  methods: {
+    },
+    methods: {
       changeLanguage (lang) {
         this.$root.$i18n.locale = lang
         this.$store.commit('language', lang)
@@ -234,7 +234,7 @@
       openRepo () {
         window.open('https://gitlab.ti.bfh.ch/chvote/demonstrator')
       }
-  }
+    }
 }
 </script>
 

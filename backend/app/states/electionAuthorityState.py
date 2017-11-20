@@ -1,4 +1,4 @@
-from app.models.state import State
+from app.states.state import State
 
 class ElectionAuthorityState(State):
 

@@ -1,14 +1,14 @@
 from chvote.Common.SecurityParams import secparams_l1
-from app.models.electionAuthorityState import ElectionAuthorityState
-from app.models.voterState import VoterState
-from app.parties.ElectionAuthority import ElectionAuthority
+from app.states.electionAuthorityState import ElectionAuthorityState
+from app.states.voterState import VoterState
+from app.actors.ElectionAuthority import ElectionAuthority
 from app.database import db, serializeState
-from app.parties.BulletinBoard import BulletinBoard
-from app.parties.PrintingAuthority import PrintingAuthority
-from app.parties.Voter import Voter
-from app.parties.ElectionAdministrator import ElectionAdministrator
+from app.actors.BulletinBoard import BulletinBoard
+from app.actors.PrintingAuthority import PrintingAuthority
+from app.actors.Voter import Voter
+from app.actors.ElectionAdministrator import ElectionAdministrator
 from bson.objectid import ObjectId
-from app.main.syncService import syncElectionStatus, SyncType
+from app.api.syncService import syncElectionStatus, SyncType
 from chvote.VotingClient.GenBallot import GenBallot
 from chvote.Types import *
 from chvote.VotingClient.GetPointMatrix import GetPointMatrix
@@ -26,7 +26,7 @@ class VoteSimulator(object):
     # *************************************************************************************
 
     # Constructor:
-    # Set up the voteSim instance by instantiating all parties and loading the corresponding states from the database
+    # Set up the voteSim instance by instantiating all actors and loading the corresponding states from the database
     def __init__(self, electionID):
         self.electionID = electionID
         self.secparams = secparams_l1
@@ -68,7 +68,7 @@ class VoteSimulator(object):
         # election_authorities':   jsonpatch.make_patch(json.loads(json.dumps([ authority.originalState.__dict__ for authority in self.authorities ], default=mpzconverter)), json.loads(json.dumps([ authority.state.__dict__ for authority in self.authorities ], default=mpzconverter))).patch,
 
     # persist()
-    # Save the state of all parties to the database
+    # Save the state of all actors to the database
     def persist(self):
         patches = self.getJSONPatches()
 

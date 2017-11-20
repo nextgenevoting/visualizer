@@ -3,7 +3,7 @@ from . import main
 from .. import socketio
 from app.voteSimulator import VoteSimulator
 from flask.ext.cors import CORS, cross_origin
-from app.main.syncService import syncPatches, SyncType
+from app.api.syncService import syncPatches, SyncType
 from app.utils.errorhandling import make_error
 
 import json

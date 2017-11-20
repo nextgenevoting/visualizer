@@ -67,6 +67,27 @@
 \setlength{\parindent}{1em}
 \setlength{\parskip}{1em}
 
+
+\newcommand\tabularhead[1]{
+\begin{table}[h]
+  \caption{Use Case <<#1>>}
+  \begin{tabular}{|p{0.3\linewidth}|p{0.7\linewidth}|}
+    \hline
+    \textbf{Use Case} & \textbf{#1} \\
+    \hline}
+
+  \newcommand\addrow[2]{#1 &#2\\ \hline}
+
+  \newcommand\addmulrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}% 
+     &\begin{minipage}[t][][t]{8cm}
+      \begin{enumerate} #2   \end{enumerate}
+      \end{minipage}\\ }
+
+  \newenvironment{usecase}{\tabularhead}
+{\hline\end{tabular}\end{table}}
+
+
+
 % Quotes
 %\usepackage[autostyle, english = american]{csquotes}
 %\MakeOuterQuote{"}
@@ -114,10 +135,9 @@
 \include{chapters/introduction}
 %\include{chapters/theoretical-background}
 \include{chapters/projectplan}
-\include{chapters/time-schedule}
 \include{chapters/implementation}
 \include{chapters/discussion}
 \include{chapters/bibliography}
-\include{chapters/journal}
+\include{chapters/appendix}
 
 \end{document}

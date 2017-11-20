@@ -2,14 +2,14 @@ from chvote.ElectionAuthority.GenElectorateData import GenElectorateData
 from chvote.PrintingAuthority.GetVotingCards import GetVotingCards
 from chvote.Utils.Utils import AssertList, AssertInt, AssertMpz
 
-from app.parties.Party import Party
+from app.actors.Actor import Actor
 
-class PrintingAuthority(Party):
+class PrintingAuthority(Actor):
     """
     The Printing Authority class represents the printing authority in the CHVote protocol
     """
     def __init__(self, collection, electionID):
-        Party.__init__(self, collection, electionID)
+        Actor.__init__(self, collection, electionID)
 
     @property
     def privateCredentials(self):
