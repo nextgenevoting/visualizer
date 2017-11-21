@@ -53,7 +53,7 @@
                             Finalizations:
                             <transition-group name="highlight">
                                 <TupleLabel
-                                        v-for="(f,index) in getValidConfirmation(ballot).finalizations"
+                                        v-for="(f,index) in getValidConfirmation(ballot).finalizations" v-if="f !== null"
                                         :tupleValue="f" title="" :icon="tupleLabelIconString(index+1)"
                                         :key="index" :popupTitle="finalizationTitleString(index+1)"></TupleLabel>
                             </transition-group>
