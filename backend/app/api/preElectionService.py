@@ -145,7 +145,7 @@ def debugVotingSim():
         #sim.bulletinBoard.confirmations[0].finalizations.append(1)
         #patches = sim.persist()
         #syncPatches(electionId, SyncType.ROOM, patches)
-        import jsonpatch
+        import app.utils.jsonpatch as jsonpatch
         import copy
         from chvote.Types import VoterConfirmation
         from app.utils.JsonParser import mpzconverter

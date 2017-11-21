@@ -1,7 +1,7 @@
 from app.database import deserializeState, serializeState
 from app.utils.JsonParser import mpzconverter
 from app.states.state import State
-import jsonpatch
+import app.utils.jsonpatch as jsonpatch
 import json
 import copy
 

@@ -16,7 +16,7 @@ from chvote.VotingClient.GetReturnCodes import GetReturnCodes
 from chvote.VotingClient.GetFinalizationCode import GetFinalizationCode
 from chvote.VotingClient.GenConfirmation import GenConfirmation
 from app.utils.JsonParser import mpzconverter
-import jsonpatch
+import app.utils.jsonpatch as jsonpatch
 import json
 
 class VoteSimulator(object):
