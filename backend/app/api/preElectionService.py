@@ -140,13 +140,35 @@ def debugVotingSim():
     electionId = request.json["election"]
     from gmpy2 import mpz
     try:
-        sim = VoteSimulator(electionId)             # prepare voteSimulator
-        from chvote.Types import Ballot
-        sim.bulletinBoard.confirmations[0].finalizations.append(1)
+        #sim = VoteSimulator(electionId)             # prepare voteSimulator
+        #from chvote.Types import Ballot
+        #sim.bulletinBoard.confirmations[0].finalizations.append(1)
+        #patches = sim.persist()
+        #syncPatches(electionId, SyncType.ROOM, patches)
+        import jsonpatch
+        import copy
+        from chvote.Types import VoterConfirmation
+        from app.utils.JsonParser import mpzconverter
+
+        #class MyObject(object):
+        #    def __init__(self):
+        #       self.someList = [VoterConfirmation(1,2,3)]
 
 
-        patches = sim.persist()
-        syncPatches(electionId, SyncType.ROOM, patches)
+        #new = MyObject()
+        #old = copy.deepcopy(new)
+
+        #new.someList[0].finalizations.append(1)
+        #oldNormalized = json.loads(json.dumps(old, default=mpzconverter))
+        #newNormalized = json.loads(json.dumps(new, default=mpzconverter))
+        #patches = jsonpatch.make_patch(json.loads(json.dumps(old, default=mpzconverter)), json.loads(json.dumps(new, default=mpzconverter))).patch
+
+        old = {'someDict': [{'someNumber': 0, 'someArray': [1, 2, 3]}]}
+
+        new = {'someDict': [{'someNumber': 0, 'someArray': [1, 2, 3, 4]}]}
+
+        patches = jsonpatch.make_patch(old,new)
+
     except Exception as ex:
         return make_error(500, str(ex))
 
