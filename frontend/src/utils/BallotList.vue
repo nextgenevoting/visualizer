@@ -94,10 +94,19 @@
                             </span>
                         </v-flex>
                     </v-layout>
+                    <v-layout row>
+                        <v-flex xy2 md2 v-t="'timestamp'"></v-flex>
+                        <v-flex x10 md10>
+                            {{ ballot.timestamp }}
+                        </v-flex>
+                    </v-layout>
                     <b>Confirmation history:</b>
                     <v-layout row v-for="(c,index) in ballot.confirmations" v-bind:key="c.confirmationId">
                         <v-flex xy1 md1></v-flex>
                         <v-flex xy2 md2 class="ballotTitle">Confirmation {{index+1}}</v-flex>
+                        <v-flex xy4 md4 style="padding-top: 9px;">
+                            {{ c.timestamp }}
+                        </v-flex>
                         <v-flex xy2 md2>
                             <transition name="highlight">
                                 <v-chip left label outline v-if="c.validity === 0"

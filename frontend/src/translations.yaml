@@ -138,6 +138,10 @@ finalize:
 voting_code:
   en: Voting code
   de: Wahl-Code
+timestamp:
+  en: Timestamp
+  de: Zeitstempel
+
 
 main:
   change_language:

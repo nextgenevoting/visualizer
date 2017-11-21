@@ -243,9 +243,13 @@ class VoteSimulator(object):
         authority = self.authorities[authorityId]
         #voter = self.voters[voterId]
 
-        authority.checkConfirmation(confirmationId, self.bulletinBoard, self.secparams)
+        checkResult = authority.checkConfirmation(confirmationId, self.bulletinBoard, self.secparams)
 
-        if authority.autoCheck: self.finalize(confirmationId, authorityId)
+        if authority.autoCheck:
+            if checkResult:
+                self.finalize(confirmationId, authorityId)
+            else:
+                self.discardConfirmation(confirmationId, authorityId)
 
 
     def finalize(self, confirmationId, authorityId):

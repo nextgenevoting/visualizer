@@ -49,10 +49,10 @@ export default {
         'election': this.$route.params['electionId']
       }).then(response => {
         response.json().then((data) => {
-            this.$toasted.success("success")
+          this.$toasted.success('success')
         })
       }).catch(e => {
-          this.$toasted.error(e.body.message)
+        this.$toasted.error(e.body.message)
       })
     }
   },

@@ -10,6 +10,7 @@ ElGamalEncryption = namedtuple("ElGamalEncryption", "a, b")
 TConfirmation = namedtuple("Confirmation", "y_hat, pi")
 ShuffleProof = namedtuple("ShuffleProof", "t, s, c_bold, c_hat_bold")
 DecryptionProof = namedtuple("DecryptionProof", "t, s")
+from datetime import datetime
 
 class VotingCard(object):
         def __init__(self, id, X, Y, FC, rc):
@@ -42,6 +43,7 @@ class VoterBallot(object):
         self.randomizations = randomizations
         self.validity = 0   # 0 = unchecked, 1 = valid, 2 = ballot proof failed, 3 = credential failed, 4 = voter already has a ballot
         self.responses = [None] * 3
+        self.timestamp = datetime.now().strftime("%d. %b %Y %H:%M:%S")
 
 # Confirmation List entry: Confirmation
 class Confirmation(object):
@@ -65,3 +67,5 @@ class VoterConfirmation(object):
         self.confirmation = confirmation
         self.validity = 0
         self.finalizations = [None] * 3
+        self.timestamp = datetime.now().strftime("%d. %b %Y %H:%M:%S"
+)
