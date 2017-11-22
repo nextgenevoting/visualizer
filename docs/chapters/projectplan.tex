@@ -107,6 +107,14 @@ R22 & The bulletin board view shows what information is publicly available & Mus
 R23 & The bulletin board view is extended with verification-functionality & Can & Low & 2 & \\
 \end{longtable}
 
+\subsection{Out-of-scope}
+The following topics are considered out-of-scope for the duration of our project:
+\begin{itemize}
+	\item The goal of our project isn't to build a realistic prototype. Therefore, the whole back-end will run on a single server while in reality, there would be components running on distributed servers. Another difference between our implementation and a real implementation is that we generate the ballots on the server. In reality, the ballots would have to be generated on the client for security reasons. This however would require us to rewrite many of the already implemented algorithms in JavaScript.
+	\item Message level encryption and signature based integrity protection are very important in a real implementation of a evoting-system and are also described in the CHVote specification. However, as our system is only used for demonstration purposes and as we do not have a distributed infrastructure, there is no real need for channel security in our project.	
+	\item Providing more one language is also out-of-scope. If there is enough time, a second language might be provided optionally.
+\end{itemize}
+
 \section{Time schedule \& Implementation phases}
 As the next step we created a time schedule and structured our project into smaller units.
 
@@ -120,9 +128,7 @@ For phase 2 we planned on implementing the can-requirements and the must-require
 
 This approach reduced the risk of technical limitations of our architecture not being revealed until later that would have resulted in time consuming architectural changes.
 
-
 \begin{landscape}
-\section{Time schedule}
 
 \begin{table}[h]
 \centering

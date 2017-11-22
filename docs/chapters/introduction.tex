@@ -39,7 +39,7 @@ A voting card contains several codes, namely:
 	\item one verification code for every candidate
 \end{itemize}
 
-The voting and confirmation codes are authentication codes and used to authenticate the voter twice during the vote casting process; the first time with the voting code when he casts his vote, and a second time for confirming his vote. This kind of authentication is required because otherwise an attacker who infected a voters computer with malware could easily cast or confirm a vote on behalf of the voter. 
+The voting and confirmation codes are authentication codes and used to authenticate the voter twice during the vote casting process; the first time with the voting code when he casts his vote, and a second time for confirming his vote. A second authentication code is required because otherwise an attacker who infected a voters computer with malware could just confirm a vote on behalf of the voter after he manipulated the candidate selection. 
 
 \subsection{Cast-as-intended verification with oblivious transfer}
 

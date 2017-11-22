@@ -10,7 +10,7 @@
                             <v-badge color="red" right>
                                 <span slot="badge" v-if="getNumberOfTasks(auth.id) > 0">{{ getNumberOfTasks(auth.id) }}</span>
                                 {{ $t('authority') }} {{auth.id + 1}}
-                                <v-chip v-if="auth.autoCheck" small color="secondary" text-color="white" v-t="'auto'"></v-chip>
+                                <v-chip v-if="auth.autoCheck" small color="grey darken-1" text-color="white" v-t="'auto'"></v-chip>
                             </v-badge>
                         </v-btn>
                     </v-btn-toggle>

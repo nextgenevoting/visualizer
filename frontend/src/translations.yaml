@@ -54,6 +54,9 @@ secret_key_share:
 candidates:
   en: Candidates
   de: Kandidaten
+electionTitle:
+  en: Election title
+  de: Name des Wahlereignisses
 voters:
   en: Voters
   de: Wähler

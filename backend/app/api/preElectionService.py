@@ -60,10 +60,10 @@ def setUpElection():
     data = request.json
     electionId = data["election"]
     numberOfVoters = json.loads(data["numberOfVoters"])
-    candidates = json.loads(data["candidates"])
+    candidates = data["candidates"]
     countingCircles = json.loads(data["countingCircles"])
-    numberOfSelections = json.loads(data["numberOfSelections"])
-    numberOfCandidates = json.loads(data["numberOfCandidates"])
+    numberOfSelections = data["numberOfSelections"]
+    numberOfCandidates = data["numberOfCandidates"]
 
     try:
         # validate vote parameters
@@ -140,7 +140,7 @@ def debugVotingSim():
     electionId = request.json["election"]
     from gmpy2 import mpz
     try:
-        #sim = VoteSimulator(electionId)             # prepare voteSimulator
+        sim = VoteSimulator(electionId)             # prepare voteSimulator
         #from chvote.Types import Ballot
         #sim.bulletinBoard.confirmations[0].finalizations.append(1)
         #patches = sim.persist()

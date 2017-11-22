@@ -60,8 +60,8 @@ class VoteSimulator(object):
             'printing_authority':     self.printingAuthority.getJSONPatch(),
             'election_administrator': self.electionAdministrator.getJSONPatch(),
             'election_authority_0':   self.authorities[0].getJSONPatch(),
-            'election_authority_1': self.authorities[1].getJSONPatch(),
-            'election_authority_2': self.authorities[2].getJSONPatch(),
+            'election_authority_1':   self.authorities[1].getJSONPatch(),
+            'election_authority_2':   self.authorities[2].getJSONPatch(),
             'voters':                 jsonpatch.make_patch(json.loads(json.dumps([ voter.originalState.__dict__ for voter in self.voters ], default=mpzconverter)), json.loads(json.dumps([ voter.state.__dict__ for voter in self.voters ], default=mpzconverter))).patch
         }
 

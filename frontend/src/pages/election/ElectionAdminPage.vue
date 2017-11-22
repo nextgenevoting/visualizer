@@ -4,12 +4,30 @@
             <ContentTitle icon="mdi-account-key" :title="$t('ElectionAdmin.title')"></ContentTitle>
 
             <div v-if="status == 0">
-                <v-form v-model="valid" ref="form" lazy-validation>
-                    <v-text-field :label="$t('candidates')" v-model="candidates" required></v-text-field>
+                <v-form v-model="valid" ref="form" lazy-validation >
+                    <h5>Voters</h5>
                     <v-text-field :label="$t('number_of_voters')" v-model="numberOfVoters" required></v-text-field>
-                    <v-text-field :label="$t('number_of_candidates')" v-model="numberOfCandidates" required></v-text-field>
-                    <v-text-field :label="$t('number_of_selections')" v-model="numberOfSelections" required></v-text-field>
                     <v-text-field :label="$t('counting_circles')" v-model="countingCircles" required></v-text-field>
+                    <div v-for="(election, index) in this.elections">
+                        <h5>Election {{index+1}}</h5>
+                        <v-text-field :label="$t('electionTitle')" v-model="election.title" required></v-text-field>
+                        <v-text-field :label="$t('number_of_selections')" v-model="election.numberOfSelections" required></v-text-field>
+                        <p>Candidates:</p>
+                        <ul>
+                            <li v-for="(c, ci) in election.candidates">
+                                {{ci+1 }}. {{c}} <v-btn icon flat color="red" @click="election.candidates.splice(ci,1)"><v-icon>mdi-minus</v-icon></v-btn>
+                            </li>
+                        </ul>
+                        <v-layout row wrap>
+                            <v-flex xs6>
+                            <v-text-field label="Candidate Name" v-model="election.newCandidateName"></v-text-field>
+                            </v-flex>
+                            <v-flex xs6>
+                                <v-btn flat @click="election.candidates.push(election.newCandidateName); election.newCandidateName = ''"><v-icon>mdi-account-plus</v-icon> Add candidate</v-btn>
+                            </v-flex>
+                        </v-layout>
+                    </div>
+                    <v-btn @click="addElection()">Add election</v-btn>
 
                     <v-btn color="primary" v-on:click="setUpElection" :disabled="!valid">
                       {{ $t('ElectionAdmin.set_up_election') }}
@@ -71,16 +89,22 @@
 <script>
 import { mapGetters, mapState } from 'vuex'
 import joinRoomMixin from '../../mixins/joinRoomMixin.js'
+import Election from '../../models/election.js'
+import VTextField from 'vuetify/es5/components/VTextField/VTextField'
+import Vue from 'vue'
 
 export default {
+  components: {VTextField},
   mixins: [joinRoomMixin],
   data: () => ({
     valid: true,
-    candidates: '["Yes", "No", "Maybe"]',
+    // candidates: '["Yes", "No", "Maybe"]',
     numberOfVoters: '5',
-    numberOfSelections: '[1]',
-    numberOfCandidates: '[3]',
-    countingCircles: '[1,1,1,1,1]'
+    newCandidateName: '',
+    // numberOfSelections: '[1]',
+    // numberOfCandidates: '[3]',
+    countingCircles: '[1,1,1,1,1]',
+    elections: [new Election()]
   }),
   computed: {
     ...mapGetters({
@@ -115,16 +139,28 @@ export default {
     }
   },
   methods: {
+    addElection () {
+      this.elections.push(new Election())
+    },
     setUpElection (event) {
       if (this.$refs.form.validate()) {
-        // this.$socket.emit('setUpElection', {'election': this.$route.params["id"]});
+        let candidates = Vue._.flatMap(this.elections, (election) => {
+          return election.candidates
+        })
+        let numberOfCandidates = Vue._.flatMap(this.elections, (election) => {
+          return election.candidates.length
+        })
+        let numberOfSelections = Vue._.flatMap(this.elections, (election) => {
+          return election.numberOfSelections
+        })
+
         this.$http.post('setUpElection',
           {
             'election': this.$route.params['electionId'],
             'numberOfVoters': this.numberOfVoters,
-            'candidates': this.candidates,
-            'numberOfCandidates': this.numberOfCandidates,
-            'numberOfSelections': this.numberOfSelections,
+            'candidates': candidates,
+            'numberOfCandidates': numberOfCandidates,
+            'numberOfSelections': numberOfSelections,
             'countingCircles': this.countingCircles
           }
         ).then(response => {
@@ -152,6 +188,7 @@ export default {
     },
     clear () {
       this.$refs.form.reset()
+      this.elections = [new Election()]
     },
     startDecryptionPhase (newStatus) {
       this.$http.post('startDecryptionPhase',

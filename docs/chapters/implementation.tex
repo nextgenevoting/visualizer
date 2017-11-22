@@ -390,16 +390,62 @@ def main():
 By following this approach we can avoid having lots of container classes only used to pass data structures between the algorithms.
 
 \section{Frontend}
-Our frontend is a singlepage application built with Javascript, VueJS, HTML5 and CSS3. We tried to follow the design patterns and best practices proposed by the VueJS framework wherever possible.
+Most of the work during our project had to be done for the frontend. Displaying the rather large amount of voting specific data and large numbers required a clean and well structured layout and a modular component design. Luckily, the framework we had choosen, VueJS, did very well in supporting exactly those requirements. We tried to follow the design patterns and best practices proposed by the makers of VueJS wherever possible.
 
-Every site of our applications consists of at least one VueJS component which is activated when the user visits the corresponding route in the URL.
-\subsection{Datastore}
-The web application's datastore is divided into multiple modules, one datastore module for each corresponding state of the backend.
+In this section we will explain what concepts of VueJS we used and how we adapted them to our needs.
 
-TODO: Grafik die zeigt, wie VueX Datastores mit Backend States zusammenhängen
+\subsection{Components}
+Components are the basic building blocks of the VueJS framework. Every page of our web application consists of at least one VueJS component which is activated when the user visits the corresponding route in the URL. The concept of components encourages to create reusable components and provides a way to structure the application and divide it into smaller units.
+
+We have created components not only for every page, but also for all custom controls that we used more than once within our pages. For example the ballot list that is shown both on the bulletin board as well as in the election authority view, the labels for displaying truncated large numbers or the cards used as our standard mean for displaying data.
+
+\subsection{Centralized Data-store \& Flux pattern}
+One of the big challenges regarding the architecture of our front-end, was about how and where we would store all the data of an election. Clearly, since we have already divided the elections data into one state for every actor and given that every actor also has it's corresponding view in our front-end, simply storing the data to the respective component has been our first thought. Although a voter mainly needs to access his own data contained in the voters state, some data is to be shared between components, for example the information on the bulletin board.
+
+Since we wanted to avoid having to keep data redundant in multiple components, we have decided to use the Flux design pattern for our front-end. The basic idea of the flux pattern is to have a single, central data source where all the data is stored and which all components have access to. This single data source is called a "`store"' by Flux terminology. VueJS has it's own implementation of the Flux pattern called Vuex. Another important concept is that components can freely access the data in the store, however, they are not allowed to change data, at least not directly. Instead, if a component wants to change data in the store, this has to be done by calling a predefined mutation function. Not allowing direct manipulation of the store makes it much easier to keep track of where mutations came from.
+
+Our web applications data store is divided into multiple modules, one data store module for each corresponding state of the back-end. In reality, all these data stores are part of one single data store, but having multiple modules allows us to structure the mutation and getter functions and help to avoid naming conflicts by having separate namespaces for every module.
  
-\subsection{Websocket room concept}
-TODO: Konzept mit den Rooms / Election IDs beschreiben
+\section{Challenges}
+In this section we describe some of the challenges that we encountered while developing our application. 
+\subsection{Websocket subscription concept}
+Since our application allows that multiple elections exist at the same time, the question has arised how we could handle that only those clients who are actually observing a particular election receive web-socket messages when an action has been triggered in the respective election.
+
+We have seen similarities between our problem and the one a typical chat has that consists of mutliple chat-rooms in which only those users should be notified of new posts that have actually joined the room. We have adapted this "`chat-room"' concept to our problem by defining a room to be equal to an election.
+
+We can assume that all the pages that actually show data of an election require the elections id to be passed as part of the URL. For example: /BulletinBoard/1 is the route to reach the BulletinBoard view of the election with id 1.
+
+Whenever a route is called that contains the argument `electionId`, we need to make sure that the client has joined this elections room. We therefore set a global variable called \mintinlin{python{/joinedElectionId/ to match the id of the election a user has joined. We created a mixin that can be added to every election page, which makes sure that if the client hasn't yet joined the corresponding election, it emits a "`join"' request to the socket.io server, passing along the electionId:
+
+\begin{minted}[linenos,tabsize=2,breaklines]{javascript}
+export default {
+  created () {
+    if (this.$store.getters.joinedElectionId !== this.$route.params.electionId) { 
+		  this.$socket.emit('join', {election: this.$route.params['electionId']}) 
+		}
+  },
+}
+\end{minted}
+On the server side, we have defined a socket.io listener. As the first thing, the handler will remove the calling client from every room before joining the room of the requested election. There is only exception: The client cannot leave the room that corresponds to the `sid` of the request, since this is basically the channel over which the `join` request is handled.
+\begin{minted}[linenos,tabsize=2,breaklines]{python}
+@socketio.on('join')
+def on_join(data):
+    from app.api.syncService import SyncType, fullSync
+
+    electionID = data['election']
+    for room in rooms():
+        if room != request.sid:
+            leave_room(room)
+    join_room(electionID)
+
+    from app.api.syncService import emitToClient, SyncType
+
+    fullSync(electionID, SyncType.SENDER_ONLY)
+
+    emitToClient('joinAck', electionID, SyncType.SENDER_ONLY)
+\end{minted}
+
+The \mintinline{javascript}/joinAck/ handler in the web application will then set the \mintinline{javascript}/joinedElectionId/ variable to the just joined election id, such that the join will only be called once or until the user chooses a different election.
 
 \subsection{Development Environment}
 TODO: Webpack, ESlint etc. beschreiben
