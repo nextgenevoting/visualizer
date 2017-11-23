@@ -2,10 +2,10 @@
     <span>
    <template  v-for="(element, index) in tupleElement">
      <p v-if="element instanceof Array">
-         <TupleElement :tupleElement="element"></TupleElement>
+         {{index+1}} : <TupleElement :tupleElement="element"></TupleElement>
      </p>
      <p v-else>
-         {{index+1}}: {{ element }}
+         <span v-if="tupleElement.length > 1">{{index+1}}:</span> {{ element }}
      </p>
    </template>
     </span>

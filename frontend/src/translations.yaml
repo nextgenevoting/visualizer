@@ -312,11 +312,11 @@ ElectionAuthority:
     en: Voter {n}
     de: Wähler {n}
   encrypted_selections:
-    en: 'Encrypted selection:'
-    de: 'Verschlüsselte Selektion:'
+    en: 'Encrypted selection(s):'
+    de: 'Verschlüsselte Selektion(en):'
   public_voter_credential:
     en: 'Public voter credential:'
-    de: 'Öffentlicher Wähler-Berechtigungsnachweis:'
+    de: 'Öffentliches Wählercredential:'
   ballot_proof:
     en: 'Ballot proof:'
     de: 'Stimmzettel-Beweis:'
