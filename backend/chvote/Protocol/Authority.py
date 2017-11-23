@@ -145,7 +145,7 @@ class Authority(object):
            bool
         """
         if CheckConfirmation(v, gamma, self.y_hat, self.B_j, self.C_j, secparams):
-            self.C_j.append(VoterConfirmation(v, gamma))
+            self.C_j.append(VoterConfirmation(v, gamma, 1))
 
             self.bulletinBoard.delta_bold[v][self.j] = GetFinalization(v, self.P_bold_j, self.B_j, secparams)
 

@@ -89,9 +89,11 @@
                     <v-layout row>
                         <v-flex xy2 md2 v-t="'ElectionAuthority.ballot_proof'"></v-flex>
                         <v-flex x10 md10>
-                            <span v-for="a in ballot.ballot.pi">
+                            <!--<span v-for="a in ballot.ballot.pi">
                             <p v-for="i in a"><BigIntLabel :mpzValue="i"></BigIntLabel></p>
-                            </span>
+                            </span>-->
+                            (<BigIntLabel :mpzValue="ballot.ballot.pi[0][0]"></BigIntLabel>, <BigIntLabel :mpzValue="ballot.ballot.pi[0][1]"></BigIntLabel>, <BigIntLabel :mpzValue="ballot.ballot.pi[0][2]"></BigIntLabel>),
+                            (<BigIntLabel :mpzValue="ballot.ballot.pi[1][0]"></BigIntLabel>, <BigIntLabel :mpzValue="ballot.ballot.pi[1][1]"></BigIntLabel>, <BigIntLabel :mpzValue="ballot.ballot.pi[1][2]"></BigIntLabel>)
                         </v-flex>
                     </v-layout>
                     <v-layout row>

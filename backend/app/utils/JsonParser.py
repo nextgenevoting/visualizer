@@ -1,16 +1,17 @@
 import unittest
 from gmpy2 import mpz
 import uuid
+import binascii
 
 def mpzconverter(o):
     if o.__class__.__name__ == 'mpz':
         return str(o)
 
     if isinstance(o, bytearray):
-        return str(o)
+        return "".join("%02x" % b for b in o)
 
     if isinstance(o, bytes):
-        return str(o)
+        return "".join("%02x" % b for b in o)
 
     if isinstance(o, uuid.UUID):
         return str(o)

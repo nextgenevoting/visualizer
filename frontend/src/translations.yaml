@@ -249,8 +249,8 @@ BulletinBoard:
     en: 'Commitments c:'
     de: 'Commitments c:'
   commitments_c_hat:
-    en: 'Commitments c^:'
-    de: 'Commitments c^:'
+    en: 'Commitments c_hat:'
+    de: 'Commitments c_hat:'
   pre_election_data:
     en: Pre-election data
     de: Daten vor den Wahlen

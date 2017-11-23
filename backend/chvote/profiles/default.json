@@ -13,10 +13,10 @@
   ],
   "t" : 2,
   "n" : [4,3],
-  "c" : ["Hillary Clinton", "Donald Trump", "Vladimir Putin", "Marine Le Pen", "Yes", "No", "Empty"],
+  "c" : ["Cand 1", "Cand 2", "Cand 3", "Cand 4", "Yes", "No", "Empty"],
   "k" : [1,1],
   "w" : [1,1],
   "E" : [[1,1], [1,1]],
-  "securityLevel" : 1,
+  "securityLevel" : 0,
   "deterministicRandomGeneration" : false
 }

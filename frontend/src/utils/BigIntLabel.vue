@@ -29,13 +29,15 @@
           return {
             truncatedValue: function () {
               if (self.mpzValue !== undefined && self.mpzValue !== null) {
-                return self.mpzValue.toString().substring(0, 10)
+                return self.mpzValue.toString().substring(0, 6)
               } else {
                 return ''
               }
             },
             bitLength: function () {
-              return Math.ceil(Math.log(self.mpzValue) / Math.log(2))
+              let digits = 0
+              while (self.mpzValue > 2 ** digits) { digits++ }
+              return digits
             }
           }
         }

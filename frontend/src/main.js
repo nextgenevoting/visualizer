@@ -29,6 +29,7 @@ import LoadingOverlay from './utils/LoadingOverlay.vue'
 import BallotList from './utils/BallotList.vue'
 import BigIntLabel from './utils/BigIntLabel.vue'
 import TupleLabel from './utils/TupleLabel.vue'
+import TupleElement from './utils/TupleElement.vue'
 import DataCard from './utils/DataCard.vue'
 import ContentTitle from './utils/ContentTitle.vue'
 import Toasted from 'vue-toasted'
@@ -72,6 +73,8 @@ Vue.use(Toasted, { position: 'top-right', duration: '4000' })
 
 Vue.component('BigIntLabel', BigIntLabel)
 Vue.component('TupleLabel', TupleLabel)
+Vue.component('TupleElement', TupleElement)
+
 Vue.component('DataCard', DataCard)
 Vue.component('LoadingOverlay', LoadingOverlay)
 Vue.component('ContentTitle', ContentTitle)
