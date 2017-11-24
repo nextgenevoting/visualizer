@@ -8,7 +8,7 @@
     </v-card-text>
     <v-list>
       <v-divider/>
-      <v-list-tile :class="{ 'blue lighten-4': state == 0 }" title="Click to insert voting code">
+      <v-list-tile :class="{ 'active': state == 0 }" title="Click to insert voting code">
         <v-list-tile-title v-t="'voting_code'"></v-list-tile-title>
         <v-list-tile-sub-title>
           <confidentialityChip type="secret" />
@@ -20,13 +20,13 @@
 
       <v-divider/>
 
-      <v-list-tile :class="{ 'blue lighten-4': state == 1 }" title="Click to insert confirmation code" @click="insertConfirmationCode">
+      <v-list-tile :class="{ 'blue lighten-4': state == 1 }" title="Click to insert confirmation code">
         <v-list-tile-title v-t="'Voter.confirmation_code'"></v-list-tile-title>
         <v-list-tile-sub-title>
           <confidentialityChip type="secret" />
         </v-list-tile-sub-title>
         <ScratchCard ref="confirmationCodeScratchCard">
-          <div class="code">{{ card['confirmationCode'] }}</div>
+          <div class="code" @click="insertConfirmationCode">{{ card['confirmationCode'] }}</div>
         </ScratchCard>
       </v-list-tile>
 
@@ -39,22 +39,31 @@
         </v-list-tile-sub-title>
         <div class="code">{{ card['finalizationCode'] }}</div>
       </v-list-tile>
+
+      <v-divider/>
     </v-list>
 
-    <v-layout v-for="(candidates, index) in candidateVerificationCodes" :class="{ 'blue lighten-4': state == 2 }" title="Make sure the verification on the left matches the corresponding code">
-      <v-flex>
-          <v-card-text>Election {{ index + 1 }}</v-card-text>
-          <v-card-text v-t="'Voter.verification_codes'"></v-card-text>
-          <confidentialityChip type="public" />
+    <div :class="{ 'blue lighten-4': state == 2 }" v-for="(candidates, index) in candidateVerificationCodes">
+      <v-divider v-if="index > 0" />
+      <v-toolbar flat dense>
+        <v-list>
+          <v-list-tile>
+            <v-list-tile-title class="title">
+              {{ $t('Voter.verification_codes_election_n', { n: index + 1 }) }}
+              <confidentialityChip type="public" />
+            </v-list-tile-title>
+          </v-list-tile>
+        </v-list>
+      </v-toolbar>
+      <v-flex title="Make sure the verification on the left matches the corresponding code">
+        <v-list dense>
+          <v-list-tile v-for="candidate in candidates" :key="candidate.index">
+            <v-list-tile-title>{{ candidate.name }}</v-list-tile-title>
+            <div class="code">{{ candidate.verificationCode }}</div>
+          </v-list-tile>
+        </v-list>
       </v-flex>
-      <v-flex>
-        <v-layout v-for="candidate in candidates">
-          <v-flex>{{ candidate.name }}</v-flex>
-          <v-flex class="code">{{ candidate.verificationCode }}</v-flex>
-        </v-layout>
-      </v-flex>
-    </v-layout>
-
+    </div>
   </v-card>
 </template>
 
@@ -113,6 +122,9 @@ export default {
 </script>
 
 <style scoped>
+.active {
+  background: #f0f0f0;
+}
 .code {
   margin: 5px 10px 5px 10px;
   font-family: monospace;
