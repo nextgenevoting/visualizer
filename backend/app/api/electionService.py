@@ -14,10 +14,13 @@ import json
 @cross_origin(origin='*')
 def castVote():
     data = request.json
+    print(data)
     electionId = data["election"]
     selection = data["selection"]
     voterId = data["voterId"]
     votingCode = data["votingCode"]
+    manipulatedPublicCredential = data["manipulatedPublicCredential"]
+
 
     if len(selection) == 0:
         return make_error(400, "Empty selection")
@@ -27,7 +30,7 @@ def castVote():
         sim = VoteSimulator(electionId)
 
         # perform action
-        sim.castVote(voterId, selection, votingCode)
+        sim.castVote(voterId, selection, votingCode, manipulatedPublicCredential)
 
         # retrieve and persist modified state
         patches = sim.persist()

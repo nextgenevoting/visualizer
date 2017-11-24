@@ -9,7 +9,11 @@
             </ContentTitle>
 
             <div v-if="status < 1" v-t="'Voter.before_vote'"></div><!-- TODO when a voter is first selected, this text is still shown (bug?) -->
-            <div v-else-if="status >= 4" v-t="'Voter.voting_closed'"></div>
+            <div v-else-if="status >= 4">
+                <v-alert color="grey lighten-3" icon="info" value="true">
+                    {{ $t('Voter.voting_closed') }}
+                </v-alert>
+            </div>
             <div v-else>
                 <v-flex xy12 md6 v-if="selectedVoter == null" v-t="'Voter.choose_voter_first'"></v-flex>
                 <v-flex xy12 md12 v-else>
@@ -53,10 +57,18 @@
                                 </v-card-text>
                                 <v-card-actions>
                                     <v-btn flat color="blue" @click="castVote(false)">{{ $t('cast_vote') }}</v-btn>
-                                    <v-btn flat @click="castVote(true)">
-                                      <img src="/public/spy.png" />
-                                      {{ $t('Voter.manipulate_selection') }}
-                                    </v-btn>
+                                    <v-menu offset-y>
+                                        <v-btn flat slot="activator"><img src="/public/spy.png" />
+                                            {{ $t('Voter.simulate_attack') }}</v-btn>
+                                        <v-list>
+                                            <v-list-tile @click="castVote(true)">
+                                                <v-list-tile-title>{{ $t('Voter.manipulate_selection') }}</v-list-tile-title>
+                                            </v-list-tile>
+                                            <v-list-tile @click="attackCredentialDialog = true">
+                                                <v-list-tile-title>{{ $t('Voter.manipulate_credential') }}</v-list-tile-title>
+                                            </v-list-tile>
+                                        </v-list>
+                                    </v-menu>
                                 </v-card-actions>
                             </v-card>
 
@@ -128,10 +140,33 @@
             <LoadingOverlay></LoadingOverlay>
         </div>
         <SelectVoterDialog></SelectVoterDialog>
+        <v-layout row justify-center>
+            <v-dialog v-model="attackCredentialDialog" persistent max-width="290">
+                <v-card>
+                    <v-card-title class="headline">Manipulate credential</v-card-title>
+                    <v-card-text>Please enter a public voting credential:</v-card-text>
+                    <v-card-text>
+                        <v-form>
+                        <v-text-field
+                                label="Manipulate public credential"
+                                v-model="manipulatedCredentialInput"
+                                required
+                        ></v-text-field>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="green darken-1" flat @click.native="castVote(false, true)">Cast Vote</v-btn>
+                        <v-btn color="green darken-1" flat @click.native="attackCredentialDialog = false">Cancel</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+        </v-layout>
     </v-container>
 </template>
 
 <script>
+    import Vue from 'vue'
     import { mapState, mapGetters } from 'vuex'
     import joinRoomMixin from '../../mixins/joinRoomMixin.js'
     import * as _ from 'lodash'
@@ -140,6 +175,8 @@
       mixins: [joinRoomMixin],
       data: () => ({
         selection: [],
+        attackCredentialDialog: false,
+        manipulatedCredentialInput: '',
         codes: {
           voting: '',
           confirmation: ''
@@ -215,17 +252,23 @@
         changeVoter: function () {
           this.$store.commit('voterDialog', true)
         },
-        castVote: _.debounce(function (manipulate) {
-          let selection = this.selection.sort()
-          if (manipulate) {
-            selection[0] = (selection[0] + 1) % this.numberOfCandidates[0]
+        castVote: _.debounce(function (manipulateSelection, manipulateCredential) {
+          let candidateSelection = Vue._.clone(this.selection).sort()
+          if (manipulateSelection) {
+            candidateSelection[0] = (candidateSelection[0] + 1) % this.numberOfCandidates[0]
+          }
+          let manipulatedPublicCredential = null
+          if (manipulateCredential) {
+            manipulatedPublicCredential = this.manipulatedCredentialInput
+            this.attackCredentialDialog = false
           }
           this.$http.post('castVote',
             {
               'election': this.$route.params['electionId'],
-              'selection': this.selection.sort(),
+              'selection': candidateSelection,
               'voterId': this.selectedVoter,
-              'votingCode': this.codes.voting
+              'votingCode': this.codes.voting,
+              'manipulatedPublicCredential': manipulatedPublicCredential
             }
           ).then(response => {
             response.json().then((data) => {

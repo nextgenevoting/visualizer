@@ -118,5 +118,4 @@
 </script>
 
 <style>
-.alert.grey.lighten-3 { background-color: #fff !important; }
 </style>
