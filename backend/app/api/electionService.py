@@ -1,3 +1,4 @@
+import sys, os, traceback
 from flask import session, redirect, url_for, render_template, request
 from . import main
 from .. import socketio
@@ -33,8 +34,10 @@ def castVote():
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s. %s' % (fname, exc_tb.tb_lineno, e, traceback.format_exc()))
 
     return json.dumps({'result': 'success'})
 
@@ -58,8 +61,10 @@ def checkVote():
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
 
@@ -82,8 +87,10 @@ def respond():
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
 
@@ -106,12 +113,12 @@ def discardBallot():
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
-
-
 
 @main.route('/confirmVote', methods=['POST'])
 @cross_origin(origin='*')
@@ -133,12 +140,12 @@ def confirmVote():
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
-
-
 
 @main.route('/checkConfirmation', methods=['POST'])
 @cross_origin(origin='*')
@@ -159,8 +166,10 @@ def checkConfirmation():
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
 
@@ -183,8 +192,10 @@ def finalize():
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
 
@@ -207,12 +218,12 @@ def discardConfirmation():
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
-
-
 
 @main.route('/setAutoMode', methods=['POST'])
 @cross_origin(origin='*')
@@ -233,7 +244,9 @@ def setAutoMode():
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
