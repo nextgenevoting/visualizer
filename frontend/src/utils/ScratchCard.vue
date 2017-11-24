@@ -22,7 +22,6 @@ export default {
 function scratchCard (container, reveal) {
   var isDrawing, lastPoint
   var canvas = container.querySelector('canvas')
-  console.log()
   var ctx = canvas.getContext('2d')
   var brush = new Image()
   var dim = canvas.parentNode.getBoundingClientRect()
@@ -136,12 +135,12 @@ function scratchCard (container, reveal) {
 .scratch-card {
   position: relative;
   user-select: none;
-  cursor: no-drop;
 }
 canvas {
   position: absolute;
   top: 0;
   z-index: 1000;
   border-radius: 10px;
+  cursor: no-drop;
 }
 </style>

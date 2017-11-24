@@ -8,13 +8,13 @@
     </v-card-text>
     <v-list>
       <v-divider/>
-      <v-list-tile :class="{ 'blue lighten-4': state == 0 }" title="Click to insert voting code" @click="insertVotingCode">
+      <v-list-tile :class="{ 'blue lighten-4': state == 0 }" title="Click to insert voting code">
         <v-list-tile-title v-t="'voting_code'"></v-list-tile-title>
         <v-list-tile-sub-title>
           <confidentialityChip type="secret" />
         </v-list-tile-sub-title>
         <ScratchCard ref="votingCodeScratchCard">
-          <div class="code">{{ card['votingCode'] }}</div>
+          <div class="code" @click="insertVotingCode">{{ card['votingCode'] }}</div>
         </ScratchCard>
       </v-list-tile>
 
@@ -32,8 +32,6 @@
 
       <v-divider/>
 
-      <v-divider/>
-
       <v-list-tile :class="{ 'blue lighten-4': state == 2 }" title="Make sure the finalization code on the left matches this code">
         <v-list-tile-title v-t="'Voter.finalization_code'"></v-list-tile-title>
         <v-list-tile-sub-title>
@@ -43,21 +41,19 @@
       </v-list-tile>
     </v-list>
 
-      <!-- TODO card['verificationCodes'] should be a list of lists of verfication codes -->
-      <v-layout v-for="(codes, codesIndex) in [card['verificationCodes']]" :class="{ 'blue lighten-4': state == 2 }" title="Make sure the verification on the left matches the corresponding code">
-        <v-flex>
-          <v-card flat>
-            <v-card-text v-t="'Voter.verification_codes'"></v-card-text>
-            <confidentialityChip type="public" />
-          </v-card>
-        </v-flex>
-        <v-flex>
-          <v-layout v-for="(code, i) in codes">
-            <v-flex>{{ candidates[codesIndex][i].name }}</v-flex>
-            <v-flex class="code">{{ code }}</v-flex>
-          </v-layout>
-        </v-flex>
-      </v-layout>
+    <v-layout v-for="(candidates, index) in candidateVerificationCodes" :class="{ 'blue lighten-4': state == 2 }" title="Make sure the verification on the left matches the corresponding code">
+      <v-flex>
+          <v-card-text>Election {{ index + 1 }}</v-card-text>
+          <v-card-text v-t="'Voter.verification_codes'"></v-card-text>
+          <confidentialityChip type="public" />
+      </v-flex>
+      <v-flex>
+        <v-layout v-for="candidate in candidates">
+          <v-flex>{{ candidate.name }}</v-flex>
+          <v-flex class="code">{{ candidate.verificationCode }}</v-flex>
+        </v-layout>
+      </v-flex>
+    </v-layout>
 
   </v-card>
 </template>
@@ -88,6 +84,19 @@ export default {
       required: false
     }
   },
+  computed: {
+    candidateVerificationCodes () {
+      var list = []
+      var i = 0
+      this.candidates.forEach((candidates) => {
+        candidates.forEach((candidate) => {
+          candidate.verificationCode = this.card['verificationCodes'][i++]
+        })
+        list.push(candidates)
+      })
+      return list
+    }
+  },
   methods: {
     insertVotingCode () {
       if (this.$refs.votingCodeScratchCard.revealed && 'voting' in this.codes) {
@@ -104,12 +113,11 @@ export default {
 </script>
 
 <style scoped>
-.votingCard {
-  user-select: none;
-}
 .code {
   margin: 5px 10px 5px 10px;
   font-family: monospace;
   white-space: nowrap;
+  user-select: none;
+  cursor: pointer;
 }
 </style>
