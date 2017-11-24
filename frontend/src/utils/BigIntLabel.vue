@@ -14,8 +14,6 @@
 
         </popover>
     </p>
-
-
 </template>
 
 <script>
@@ -28,16 +26,26 @@
           var self = this
           return {
             truncatedValue: function () {
+              // truncate the bigInt string
               if (self.mpzValue !== undefined && self.mpzValue !== null) {
                 return self.mpzValue.toString().substring(0, 6)
               } else {
-                return ''
+                return 'Invalid BigInt'
               }
             },
             bitLength: function () {
-              let digits = 0
-              while (self.mpzValue > 2 ** digits) { digits++ }
-              return digits
+              // Calculating the exact bitlength only works up to ~1024 bit; numbers larger than that will simply be "infinity"
+              // Math.ceil(Math.log(bigIntString) / Math.log(2))
+              // alternative: Use an estimate, or use a bigint library
+
+              const expectedBitLengths = [160, 224, 256, 1024, 2048, 3072]
+              let estimate = Math.round(self.mpzValue.length * Math.log2(10))
+              // check if the estimated bitlength is in +- 10 range of an expected bitlength
+              for (let e of expectedBitLengths) {
+                if (estimate >= e - 10 && estimate <= e + 10) {
+                  return e
+                }
+              }
             }
           }
         }
@@ -54,6 +62,7 @@
         },
         clickHeader: function (event) {
           this.menu = !this.menu
+          // stop event propagation to prevent expansion panels from opening when a bigInt Label is clicked
           event.stopPropagation()
         }
       },

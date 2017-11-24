@@ -23,6 +23,7 @@ import pprint
 @cross_origin(origin='*')
 def createElection():
     data = request.json
+    securityLevel = data["securityLevel"]
 
     try:
         # Create a new election
@@ -30,6 +31,7 @@ def createElection():
 
         # create a new (empty) BulletinBoardState
         newBBState =  BulletinBoardState(str(id))
+        newBBState.securityLevel = securityLevel
         db.bulletinBoardStates.insert({'election':str(id), 'state' : serializeState(newBBState)})
 
         # create new electionAuthority states
