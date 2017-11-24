@@ -505,8 +505,8 @@ BallotList:
     en: Unconfirmed
     de: Unbestätigt
   confirmed:
-    en: Confirmation is valid
-    de: Gültige Bestätigung
+    en: Confirmed
+    de: Bestätigt
   hasInvalidConfirmations:
     en: Invalid confirmation
     de: Ungültig Confirmation
