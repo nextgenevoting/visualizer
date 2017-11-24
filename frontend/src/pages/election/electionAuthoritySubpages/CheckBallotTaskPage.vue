@@ -1,6 +1,6 @@
 <template>
     <transition-group tag="div" name="bounce" :appear="checkTransition">
-        <v-layout row v-for="checkBallotTask in checkBallotTasks" :key="checkBallotTask.ballotId">
+        <v-layout row wrap v-for="checkBallotTask in checkBallotTasks" :key="checkBallotTask.ballotId">
             <v-flex xs12 sm12>
                 <v-card>
                     <v-card-title primary-title>

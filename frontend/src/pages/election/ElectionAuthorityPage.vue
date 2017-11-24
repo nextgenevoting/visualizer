@@ -2,8 +2,7 @@
     <v-container grid-list-md>
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-settings-box" :title="$t('ElectionAuthority.title')"></ContentTitle>
-            <v-layout row>
-
+            <v-layout row wrap>
                 <v-flex xs12 sm12>
                     <v-btn-toggle v-model="selectedAuthorityIndex">
                         <v-btn flat v-for="auth in electionAuthorities" :key="auth.id">
@@ -17,7 +16,7 @@
                 </v-flex>
             </v-layout>
             <br>
-            <v-layout row>
+            <v-layout row wrap>
                 <v-flex xs12 sm1><h5 v-t="'tasks'"></h5></v-flex>
                 <v-flex sm12 sm11>
                     <v-switch :label="$t('ElectionAuthority.auto_process_tasks')" v-model="autoMode"></v-switch>
@@ -31,7 +30,7 @@
             <transition-group tag="v-layout" name="highlight" :appear="dataTransition" class="row wrap">
                 <v-flex xy12 md6 v-if="status >= 5 && decryptions !== null" key="dec">
                     <DataCard :title="$t('ElectionAuthority.partial_decryptions')" :isMpz=true :expandable=false confidentiality="encrypted">
-                        <v-layout row v-for="(decryption, index) in decryptions" :key="index" style="font-size:16px;">
+                        <v-layout row wrap v-for="(decryption, index) in decryptions" :key="index" style="font-size:16px;">
                             <v-flex xy6 md6>{{ $t('ElectionAuthority.partial_decryption_n', { n: index + 1 }) }}</v-flex>
                             <v-flex xy6 md6><BigIntLabel :mpzValue="decryption"></BigIntLabel></v-flex>
                         </v-layout>
@@ -40,7 +39,7 @@
 
                 <v-flex xy12 md6 v-if="status >= 4 && hasAuthorityMixed" key="enc">
                     <DataCard :title="$t('encryptions')" :isMpz=true :expandable=false confidentiality="encrypted">
-                        <v-layout row v-for="(encryption, index) in encryptions" :key="index"  style="font-size:16px;">
+                        <v-layout row wrap v-for="(encryption, index) in encryptions" :key="index"  style="font-size:16px;">
                             <v-flex xy4 md4>{{ $t('ElectionAuthority.encryption_n', { n: index + 1 }) }}</v-flex>
                             <v-flex xy4 md8>(<BigIntLabel :mpzValue="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>)</v-flex>
                         </v-layout>

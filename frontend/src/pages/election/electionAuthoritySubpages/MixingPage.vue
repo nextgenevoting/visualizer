@@ -1,6 +1,6 @@
 <template>
     <transition-group tag="div" name="bounce" :appear="mixingTransition">
-        <v-layout row  v-if="status == 4 && encryptions.length > 0" :key="selectedAuthorityIndex">
+        <v-layout row wrap v-if="status == 4 && encryptions.length > 0" :key="selectedAuthorityIndex">
             <v-flex xs12 sm12>
                 <v-card>
                     <v-card-title primary-title>

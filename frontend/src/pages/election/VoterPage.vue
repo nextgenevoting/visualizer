@@ -140,7 +140,7 @@
             <LoadingOverlay></LoadingOverlay>
         </div>
         <SelectVoterDialog></SelectVoterDialog>
-        <v-layout row justify-center>
+        <v-layout row wrap justify-center>
             <v-dialog v-model="attackCredentialDialog" persistent max-width="290">
                 <v-card>
                     <v-card-title class="headline">Manipulate credential</v-card-title>

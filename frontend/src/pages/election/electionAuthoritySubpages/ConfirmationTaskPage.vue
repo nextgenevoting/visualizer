@@ -1,6 +1,6 @@
 <template>
     <transition-group tag="div" name="bounce" :appear="checkTransition">
-        <v-layout row v-for="checkConfirmationTask in checkConfirmationTasks" :key="checkConfirmationTask.confirmationId">
+        <v-layout row wrap v-for="checkConfirmationTask in checkConfirmationTasks" :key="checkConfirmationTask.confirmationId">
             <v-flex xs12 sm12>
                 <v-card>
                     <v-card-title primary-title>
