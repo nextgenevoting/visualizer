@@ -1,3 +1,4 @@
+import sys, os, traceback
 from flask import session, redirect, url_for, render_template, request
 from . import main
 from flask_socketio import emit
@@ -48,11 +49,12 @@ def createElection():
         # update the election list on all clients
         syncElections(SyncType.BROADCAST)
         # return the new elections id to the client so it can load the overview directly
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
-
 
 @main.route('/setUpElection', methods=['POST'])
 @cross_origin(origin='*')
@@ -87,9 +89,10 @@ def setUpElection():
 
         # update election status
         sim.updateStatus(1)
-    except Exception as ex:
-        raise ex
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'result': 'success'})
 
@@ -108,12 +111,12 @@ def printVotingCards():
 
         # update election status
         sim.updateStatus(2)
-
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'result': 'success'})
-
 
 @main.route('/sendVotingCards', methods=['POST'])
 @cross_origin(origin='*')
@@ -128,9 +131,10 @@ def sendVotingCards():
 
         # update election status
         sim.updateStatus(3)
-
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'result': 'success'})
 
@@ -155,9 +159,9 @@ def debugVotingSim():
         new = {'key': [{'someNumber': 0, 'someArray': [1,2,3,4]}]}
 
         patches = jsonpatch.make_patch(old,new)
-        print(patches)
-
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'result': 'success'})

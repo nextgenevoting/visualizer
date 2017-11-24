@@ -1,3 +1,4 @@
+import sys, os, traceback
 from flask import session, redirect, url_for, render_template, request
 from . import main
 from .. import socketio
@@ -27,12 +28,12 @@ def startMixingPhase():
         syncPatches(electionId, SyncType.ROOM, patches)
 
         sim.updateStatus(4)
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
-
-
 
 @main.route('/mix', methods=['POST'])
 @cross_origin(origin='*')
@@ -50,8 +51,10 @@ def mix():
         # retrieve and persist modified state
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
 
@@ -69,12 +72,12 @@ def startDecryptionPhase():
         # retrieve and persist modified state
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
-
-
 
 @main.route('/decrypt', methods=['POST'])
 @cross_origin(origin='*')
@@ -92,8 +95,10 @@ def decrypt():
         # retrieve and persist modified state
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
 
@@ -113,7 +118,9 @@ def tally():
         # retrieve and persist modified state
         patches = sim.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
-    except Exception as ex:
-        return make_error(500, str(ex))
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
