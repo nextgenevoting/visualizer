@@ -4,8 +4,8 @@
       <v-flex xs10 offset-xs1>
         <v-card class="pa-5">
           <span class="headline" v-t="'electionsPage.create'" />
-          <v-form>
-            <v-text-field :label="$t('title')" v-model="title" required />
+          <v-form @submit.prevent="createElection">
+            <v-text-field :label="$t('title')" v-model="title" required autofocus />
             <v-select
                     v-bind:items="this.securityLevels"
                     v-model="securityLevel"
@@ -15,9 +15,6 @@
                     single-line
                     bottom
             ></v-select>
-            <v-btn @click="createElection">{{ $t('create') }}</v-btn>
-          <v-form @submit.prevent="createElection">
-            <v-text-field :label="$t('title')" v-model="title" required autofocus />
             <v-btn color="primary" @click="createElection">{{ $t('create') }}</v-btn>
           </v-form>
         </v-card>
