@@ -16,7 +16,11 @@
             </v-list-tile-title>
             <v-list-tile-title class="datacardValue">
                 <div v-for="(v, index) in tupleValue">
-                    <p><b>{{index+1}}:</b>{{ v }}</p>
+                    <p v-if="v instanceof Array">
+                        <b>{{index+1}}:</b><TupleElement :tupleElement="v"></TupleElement>
+                    </p>
+                    <p v-else>
+                    <b>{{index+1}}:</b>{{v}}</p>
                 </div>
             </v-list-tile-title>
         </v-list>

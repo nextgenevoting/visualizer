@@ -54,6 +54,9 @@ secret_key_share:
 candidates:
   en: Candidates
   de: Kandidaten
+electionTitle:
+  en: Election title
+  de: Name des Wahlereignisses
 voters:
   en: Voters
   de: Wähler
@@ -246,8 +249,8 @@ BulletinBoard:
     en: 'Commitments c:'
     de: 'Commitments c:'
   commitments_c_hat:
-    en: 'Commitments c^:'
-    de: 'Commitments c^:'
+    en: 'Commitments c_hat:'
+    de: 'Commitments c_hat:'
   pre_election_data:
     en: Pre-election data
     de: Daten vor den Wahlen
@@ -309,11 +312,11 @@ ElectionAuthority:
     en: Voter {n}
     de: Wähler {n}
   encrypted_selections:
-    en: 'Encrypted selection:'
-    de: 'Verschlüsselte Selektion:'
+    en: 'Encrypted selection(s):'
+    de: 'Verschlüsselte Selektion(en):'
   public_voter_credential:
     en: 'Public voter credential:'
-    de: 'Öffentlicher Wähler-Berechtigungsnachweis:'
+    de: 'Öffentliches Wählercredential:'
   ballot_proof:
     en: 'Ballot proof:'
     de: 'Stimmzettel-Beweis:'

@@ -10,7 +10,7 @@
                             <v-badge color="red" right>
                                 <span slot="badge" v-if="getNumberOfTasks(auth.id) > 0">{{ getNumberOfTasks(auth.id) }}</span>
                                 {{ $t('authority') }} {{auth.id + 1}}
-                                <v-chip v-if="auth.autoCheck" small color="secondary" text-color="white" v-t="'auto'"></v-chip>
+                                <v-chip v-if="auth.autoCheck" small color="grey darken-1" text-color="white" v-t="'auto'"></v-chip>
                             </v-badge>
                         </v-btn>
                     </v-btn-toggle>
@@ -41,9 +41,8 @@
                 <v-flex xy12 md6 v-if="status >= 4 && hasAuthorityMixed" key="enc">
                     <DataCard :title="$t('encryptions')" :isMpz=true :expandable=false confidentiality="encrypted">
                         <v-layout row v-for="(encryption, index) in encryptions" :key="index"  style="font-size:16px;">
-                            <v-flex xy4 md6>{{ $t('ElectionAuthority.encryption_n', { n: index + 1 }) }}</v-flex>
-                            <v-flex xy4 md6><BigIntLabel :mpzValue="encryption.a"></BigIntLabel></v-flex>
-                            <v-flex xy4 md6><BigIntLabel :mpzValue="encryption.b"></BigIntLabel></v-flex>
+                            <v-flex xy4 md4>{{ $t('ElectionAuthority.encryption_n', { n: index + 1 }) }}</v-flex>
+                            <v-flex xy4 md8>(<BigIntLabel :mpzValue="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>)</v-flex>
                         </v-layout>
                     </DataCard>
                 </v-flex>
