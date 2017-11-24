@@ -4,6 +4,7 @@ class BulletinBoardState(State):
 
     def __init__(self, electionID):
         self.electionID = electionID
+        self.securityLevel = 1
         self.voters = []
         self.countingCircles = []
         self.candidates = []

@@ -4,6 +4,18 @@
       <v-flex xs10 offset-xs1>
         <v-card class="pa-5">
           <span class="headline" v-t="'electionsPage.create'" />
+          <v-form>
+            <v-text-field :label="$t('title')" v-model="title" required />
+            <v-select
+                    v-bind:items="this.securityLevels"
+                    v-model="securityLevel"
+                    item-value="id"
+                    item-text="label"
+                    label="Security Level"
+                    single-line
+                    bottom
+            ></v-select>
+            <v-btn @click="createElection">{{ $t('create') }}</v-btn>
           <v-form @submit.prevent="createElection">
             <v-text-field :label="$t('title')" v-model="title" required autofocus />
             <v-btn color="primary" @click="createElection">{{ $t('create') }}</v-btn>
@@ -18,12 +30,15 @@
 export default {
   data () {
     return {
-      title: ''
+      title: '',
+      securityLevel: 1,
+      securityLevels: [{id: 1, label: 'Security Level 1 (1024 bit)'}, {id: 2, label: 'Security Level 2 (2048 bit)'}, {id: 3, label: 'Security Level 3 (3072 bit)'}]
     }
   },
   methods: {
     createElection () {
-      this.$http.post('createElection', { title: this.title }).then(response => {
+      // this.$socket.emit('createElection', { title: this.title});
+      this.$http.post('createElection', {title: this.title, securityLevel: this.securityLevel}).then(response => {
         response.json().then((data) => {
           this.$router.push({name: 'electionoverview', params: { electionId: data.id }})
         })

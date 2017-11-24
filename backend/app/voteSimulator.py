@@ -1,4 +1,4 @@
-from chvote.Common.SecurityParams import secparams_l1
+from chvote.Common.SecurityParams import secparams_l1, secparams_l2, secparams_l3
 from app.states.electionAuthorityState import ElectionAuthorityState
 from app.states.voterState import VoterState
 from app.actors.ElectionAuthority import ElectionAuthority
@@ -30,17 +30,22 @@ class VoteSimulator(object):
     # Set up the voteSim instance by instantiating all actors and loading the corresponding states from the database
     def __init__(self, electionID):
         self.electionID = electionID
-        self.secparams = secparams_l1
 
         # load bulletinBoard
         self.bulletinBoard = BulletinBoard(db.bulletinBoardStates, electionID)
+
+        if self.bulletinBoard.securityLevel == 2:
+            self.secparams = secparams_l2
+        elif self.bulletinBoard.securityLevel == 3:
+            self.secparams = secparams_l3
+        else:
+            self.secparams = secparams_l1
 
         # load printing authority
         self.printingAuthority = PrintingAuthority(db.printingAuthorityStates, electionID)
 
         # load election administrator
         self.electionAdministrator = ElectionAdministrator(db.electionAdministratorStates, electionID)
-
 
         # load election authorities
         self.authorities = [None] * self.secparams.s

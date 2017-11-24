@@ -8,6 +8,15 @@ class BulletinBoard(Actor):
         Actor.__init__(self, collection, electionID)
 
     @property
+    def securityLevel(self):
+        return self.state.securityLevel
+
+    @securityLevel.setter
+    def securityLevel(self, value):
+        AssertInt(value)
+        self.state.securityLevel = value
+
+    @property
     def voters(self):
         return self.state.voters
 
