@@ -5,7 +5,7 @@
         <v-card class="pa-5">
           <span class="headline" v-t="'electionsPage.create'" />
           <v-form @submit.prevent="createElection">
-            <v-text-field :label="$t('title')" v-model="title" required />
+            <v-text-field :label="$t('title')" v-model="title" required autofocus />
             <v-btn color="primary" @click="createElection">{{ $t('create') }}</v-btn>
           </v-form>
         </v-card>
