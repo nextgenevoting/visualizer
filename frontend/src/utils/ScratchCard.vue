@@ -141,6 +141,6 @@ canvas {
   top: 0;
   z-index: 1000;
   border-radius: 10px;
-  cursor: no-drop;
+  cursor: url('/public/coin.ico'), auto;
 }
 </style>

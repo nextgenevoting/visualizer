@@ -64,7 +64,11 @@ def startDecryptionPhase():
         # prepare voteSimulator
         sim = VoteSimulator(electionId)
 
-        sim.updateStatus(5)
+        sim.startDecryption()
+
+        # retrieve and persist modified state
+        patches = sim.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
     except Exception as ex:
         return make_error(500, str(ex))
 

@@ -369,9 +369,15 @@ Voter:
   your_selection_for_election_n:
     en: Your selection for election {n}
     de: Ihre Selektion for die Wahl {n}
+  simulate_attack:
+    en: Simulate attack
+    de: Angriff simulieren
   manipulate_selection:
     en: Manipulate selection
     de: Selektion manipulieren
+  manipulate_credential:
+    en: Manipulate credential
+    de: Credential manipulieren
   check_displayed_codes:
     en: Please check whether the displayed codes match the verification codes of the selected candidates on your voting card.
     de: Überprüfen Sie, ob die dargestellten Codes mit den Prüfcodes der selektierten Kandidaten auf Ihrer Wahlkarte übereinstimmen.
@@ -496,8 +502,8 @@ BallotList:
     en: Unconfirmed
     de: Unbestätigt
   confirmed:
-    en: Confirmation is valid
-    de: Gültige Bestätigung
+    en: Confirmed
+    de: Bestätigt
   hasInvalidConfirmations:
     en: Invalid confirmation
     de: Ungültig Confirmation

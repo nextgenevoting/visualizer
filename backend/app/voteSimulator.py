@@ -18,6 +18,7 @@ from chvote.VotingClient.GenConfirmation import GenConfirmation
 from app.utils.JsonParser import mpzconverter
 import app.utils.jsonpatch as jsonpatch
 import json
+from chvote.Common.IsMember                    import IsMember
 
 class VoteSimulator(object):
 
@@ -130,6 +131,9 @@ class VoteSimulator(object):
         self.bulletinBoard.publicKey = pk
         # 6.2 Send secret voter data to the printing authority (this is typically done in the printVotingCards(), but since we want to show the secret voter data before printing the cards, we do it here)
 
+        if not IsMember(pk, self.secparams):
+            raise RuntimeError("Generated PublicKey is not in group G_q!")
+
         secretCredentials = [auth.partialSecretVotingCredentials for auth in self.authorities]
         self.printingAuthority.privateCredentials = secretCredentials
 
@@ -144,7 +148,7 @@ class VoteSimulator(object):
             voter.votingCard = self.printingAuthority.votingCards[voter.id]   # id = index + 1  --> (1,2,3...)
 
 
-    def castVote(self, voterId, selection, votingCode):
+    def castVote(self, voterId, selection, votingCode, manipulatedPublicCredential):
         # 6.5 Vote Casting
         voter = self.voters[voterId]
 
@@ -153,7 +157,7 @@ class VoteSimulator(object):
         voter.points = []
 
         # create a new checkBallotTask (a temporary ballot that will be passed to the authorities for checking)
-        (ballot, r) = GenBallot(votingCode, selection, self.bulletinBoard.publicKey, self.secparams)
+        (ballot, r) = GenBallot(votingCode, selection, self.bulletinBoard.publicKey, self.secparams, manipulatedPublicCredential)
 
         voterBallot = VoterBallot(voterId, ballot, None)
 
@@ -322,6 +326,11 @@ class VoteSimulator(object):
             # this was the last authority to mix
             pass
 
+
+    def startDecryption(self):
+        self.updateStatus(5)
+        if (self.authorities[0].autoCheck):
+            self.decrypt(0)
 
     def decrypt(self, authorityId):
         authority = self.authorities[authorityId]
