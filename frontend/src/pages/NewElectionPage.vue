@@ -16,6 +16,9 @@
                     bottom
             ></v-select>
             <v-btn @click="createElection">{{ $t('create') }}</v-btn>
+          <v-form @submit.prevent="createElection">
+            <v-text-field :label="$t('title')" v-model="title" required autofocus />
+            <v-btn color="primary" @click="createElection">{{ $t('create') }}</v-btn>
           </v-form>
         </v-card>
       </v-flex>
@@ -37,7 +40,7 @@ export default {
       // this.$socket.emit('createElection', { title: this.title});
       this.$http.post('createElection', {title: this.title, securityLevel: this.securityLevel}).then(response => {
         response.json().then((data) => {
-          this.$router.push({name: 'electionoverview', params: {electionId: data.id}})
+          this.$router.push({name: 'electionoverview', params: { electionId: data.id }})
         })
       }).catch(e => {
         this.$toasted.error(e.body.message)

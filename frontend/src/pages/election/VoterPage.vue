@@ -302,14 +302,16 @@
       }
     }
 </script>
+
 <style>
+.electionForm {
+  width: 100%;
+  margin-bottom: 20px;
+}
 
-    .electionForm{
-        width:100%;
-        margin-bottom: 20px;
-    }
-
-    .changeVoterBtn{
-        position: absolute !important;right: 35px;margin-top: 25px;
-    }
+.changeVoterBtn {
+  position: absolute !important;
+  right: 35px;
+  margin-top: 25px;
+}
 </style>

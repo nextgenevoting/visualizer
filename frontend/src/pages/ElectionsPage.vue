@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <h3 class="my-3" v-t="'electionsPage.title'"></h3>
-    <p v-t="'electionsPage.choose'"></p>
+    <v-btn to="newElection">{{ $t('electionsPage.create') }}</v-btn>
 
     <v-list two-line subheader>
       <v-list-tile v-for="item in getElections" v-bind:key="item.title" avatar
@@ -40,7 +40,7 @@
       </v-card>
     </v-dialog>
 
-    <v-btn to="newElection">{{ $t('electionsPage.create') }}</v-btn>
+    <v-btn to="newElection" v-if="getElections.length > 0">{{ $t('electionsPage.create') }}</v-btn>
   </v-container>
 </template>
 

@@ -70,7 +70,7 @@ number_of_selections:
   en: Number of selections
   de: Anzahl Selektionen
 counting_circles:
-  en: Counting Circles
+  en: Counting circles
   de: Wahlkreise
 tally:
   en: Tally
@@ -195,9 +195,6 @@ electionsPage:
   title:
     en: Available election events
     de: Verfügbare Wahlereignisse
-  choose:
-    en: Please choose an election event.
-    de: Bitte wählen Sie ein Wahlereignis aus.
   create:
     en: Create new election
     de: Neue Wahl erstellen
@@ -411,9 +408,9 @@ Voter:
   confirmation_code:
     en: Confirmation code
     de: Bestätigungs-Code
-  verification_codes:
-    en: Verification codes
-    de: Prüfcodes
+  verification_codes_election_n:
+    en: Verification codes for election {n}
+    de: Prüfcodes für Wahl {n}
   voting_closed:
     en: Voting is closed
     de: Stimmabgabe nicht mehr möglich

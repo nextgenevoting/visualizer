@@ -91,7 +91,7 @@ function scratchCard (container, reveal) {
 
   function handlePercentage (filledInPixels) {
     filledInPixels = filledInPixels || 0
-    if (filledInPixels > 50) {
+    if (filledInPixels > 80) {
       canvas.parentNode.removeChild(canvas)
       reveal()
     }
