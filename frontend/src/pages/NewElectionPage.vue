@@ -4,9 +4,9 @@
       <v-flex xs10 offset-xs1>
         <v-card class="pa-5">
           <span class="headline" v-t="'electionsPage.create'" />
-          <v-form>
+          <v-form @submit.prevent="createElection">
             <v-text-field :label="$t('title')" v-model="title" required />
-            <v-btn @click="createElection">{{ $t('create') }}</v-btn>
+            <v-btn color="primary" @click="createElection">{{ $t('create') }}</v-btn>
           </v-form>
         </v-card>
       </v-flex>
@@ -23,10 +23,9 @@ export default {
   },
   methods: {
     createElection () {
-      // this.$socket.emit('createElection', { title: this.title});
-      this.$http.post('createElection', {title: this.title}).then(response => {
+      this.$http.post('createElection', { title: this.title }).then(response => {
         response.json().then((data) => {
-          this.$router.push({name: 'electionoverview', params: {electionId: data.id}})
+          this.$router.push({name: 'electionoverview', params: { electionId: data.id }})
         })
       }).catch(e => {
         this.$toasted.error(e.body.message)
