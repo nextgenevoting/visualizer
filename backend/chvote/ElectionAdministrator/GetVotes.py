@@ -53,7 +53,7 @@ def GetVotes(m_bold, n_bold, w_bold, secparams):
 
         w_bold_i = [None] * w
         for j in range(w):
-            if m_bold[i] % p_bold[n] == 0:
+            if m_bold[i] % p_bold[n+j] == 0:
                 w_bold_i[j] = 1
             else:
                 w_bold_i[j] = 0
