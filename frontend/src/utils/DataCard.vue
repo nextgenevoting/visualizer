@@ -1,7 +1,6 @@
 <template>
     <v-card class="dataCard">
-
-        <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4 confidentiallyChip" v-bind:class="confidentiality == 'secret' ? 'red' : (confidentiality == 'encrypted' ? 'yellow' : 'green')">{{confidentiality}}</span>
+        <ConfidentialityChip :type="confidentiality" class="confidentialityChip" />
 
 
         <v-card-title primary-title class="dataCardTitle">
@@ -89,7 +88,7 @@
         min-height: 52px;
     }
 
-    .confidentiallyChip {
+    .confidentialityChip {
         position: absolute;
         top: 7px;
         right: 7px;

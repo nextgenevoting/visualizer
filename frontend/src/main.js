@@ -29,6 +29,9 @@ import LoadingOverlay from './utils/LoadingOverlay.vue'
 import BallotList from './utils/BallotList.vue'
 import BigIntLabel from './utils/BigIntLabel.vue'
 import TupleLabel from './utils/TupleLabel.vue'
+import VotingCard from './utils/VotingCard.vue'
+import ScratchCard from './utils/ScratchCard.vue'
+import ConfidentialityChip from './utils/ConfidentialityChip.vue'
 import DataCard from './utils/DataCard.vue'
 import ContentTitle from './utils/ContentTitle.vue'
 import Toasted from 'vue-toasted'
@@ -72,6 +75,9 @@ Vue.use(Toasted, { position: 'top-right', duration: '4000' })
 
 Vue.component('BigIntLabel', BigIntLabel)
 Vue.component('TupleLabel', TupleLabel)
+Vue.component('VotingCard', VotingCard)
+Vue.component('ScratchCard', ScratchCard)
+Vue.component('ConfidentialityChip', ConfidentialityChip)
 Vue.component('DataCard', DataCard)
 Vue.component('LoadingOverlay', LoadingOverlay)
 Vue.component('ContentTitle', ContentTitle)

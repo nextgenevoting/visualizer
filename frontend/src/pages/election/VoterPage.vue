@@ -3,15 +3,13 @@
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-account" :title="selectedVoterName || $t('Voter.title')">
                 <v-btn flat color="blue" @click="changeVoter" class="changeVoterBtn">
-                  <v-icon>mdi-account-multiple</v-icon>
+                  <v-icon left>mdi-account-multiple</v-icon>
                   {{ $t('Voter.select_voter') }}
                 </v-btn>
             </ContentTitle>
 
-
-            <!--<v-btn flat color="blue" v-if="this.$store.state.selectedVoter != null" @click="changeVoter()" class="changeVoterButton">Change Voter</v-btn>-->
-            <div v-if="status < 1" v-t="'Voter.before_vote'"></div>
-            <div v-if="status >= 4" v-t="'Voter.voting_closed'"></div>
+            <div v-if="status < 1" v-t="'Voter.before_vote'"></div><!-- TODO when a voter is first selected, this text is still shown (bug?) -->
+            <div v-else-if="status >= 4" v-t="'Voter.voting_closed'"></div>
             <div v-else>
                 <v-flex xy12 md6 v-if="selectedVoter == null" v-t="'Voter.choose_voter_first'"></v-flex>
                 <v-flex xy12 md12 v-else>
@@ -49,7 +47,7 @@
                                             <v-checkbox :label="candidate.name" v-model="selection" :value="candidate.index" color="blue" hide-details></v-checkbox>
                                         </li>
                                     </ul>
-                                        <v-text-field :label="$t('voting_code')" v-model="votingCode" required></v-text-field>
+                                        <v-text-field :label="$t('voting_code')" v-model="codes.voting" required></v-text-field>
                                     </v-form>
 
                                 </v-card-text>
@@ -90,7 +88,7 @@
                                         </ul><br>
                                         </div>
                                         <p v-t="'Voter.confirm_vote_with_code'"></p>
-                                        <v-text-field :label="$t('Voter.confirmation_code')" v-model="confirmationCode" required></v-text-field>
+                                        <v-text-field :label="$t('Voter.confirmation_code')" v-model="codes.confirmation" required></v-text-field>
                                     </v-form>
 
                                 </v-card-text>
@@ -120,13 +118,7 @@
                             </v-card>
                         </v-flex>
                         <v-flex x12 md6>
-                            <ul>
-                                <li>{{ $t('voting_code') }}: <b>{{ votingCard["votingCode"]}}</b></li>
-                                <li>{{ $t('Voter.confirmation_code') }}: <b>{{ votingCard["confirmationCode"]}}</b></li>
-                                <li>{{ $t('Voter.verification_codes') }}: <b>{{ votingCard["verificationCodes"]}}</b></li>
-                                <li>{{ $t('Voter.finalization_code') }}: <b>{{ votingCard["finalizationCode"]}}</b></li>
-
-                            </ul>
+                            <VotingCard :card="votingCard" :state="voter.status" :candidates="candidatesForElection" :codes="codes"></VotingCard>
                         </v-flex>
                     </div>
                 </v-flex>
@@ -148,8 +140,10 @@
       mixins: [joinRoomMixin],
       data: () => ({
         selection: [],
-        votingCode: '',
-        confirmationCode: ''
+        codes: {
+          voting: '',
+          confirmation: ''
+        }
       }),
       computed: {
         ...mapState({
@@ -231,7 +225,7 @@
               'election': this.$route.params['electionId'],
               'selection': this.selection.sort(),
               'voterId': this.selectedVoter,
-              'votingCode': this.votingCode
+              'votingCode': this.codes.voting
             }
           ).then(response => {
             response.json().then((data) => {
@@ -246,7 +240,7 @@
               'election': this.$route.params['electionId'],
               'voterId': this.selectedVoter,
               'ballotId': this.voter.validBallot,
-              'confirmationCode': this.confirmationCode
+              'confirmationCode': this.codes.confirmation
             }
           ).then(response => {
             response.json().then((data) => {
@@ -259,8 +253,8 @@
       watch: {
         selectedVoter: function (newValue) {
           this.selection = []
-          this.votingCode = ''
-          this.confirmationCode = ''
+          this.codes.voting = ''
+          this.codes.confirmation = ''
         }
       }
     }

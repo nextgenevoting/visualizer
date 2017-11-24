@@ -21,8 +21,8 @@
           </v-stepper-header>
         </v-stepper>
       </v-flex>
-      <br>
       <v-btn v-if="1==1" color="primary" v-on:click="debugVotingSim">Debug</v-btn>
+      <img src="/public/parties-overview.svg" class="svg">
     </div>
     <div v-else>
       <LoadingOverlay></LoadingOverlay>
@@ -64,3 +64,7 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.svg tspan { font-family: sans-serif !IMPORTANT; }
+</style>
