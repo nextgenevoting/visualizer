@@ -17,7 +17,7 @@ export const store = new Vuex.Store({
     joinedElectionId: null,
     showConfidentiality: false,
     expertMode: false,
-    selectedVoter: null,
+    selectedVoter: 0,
     selectedAuthority: 0,
     voterDialog: false,
     language: 'en',
@@ -60,7 +60,7 @@ export const store = new Vuex.Store({
     },
     SOCKET_JOINACK: (state, electionId) => {
       state.joinedElectionId = electionId
-      state.selectedVoter = null
+      state.selectedVoter = 0
       state.loaded = true
     },
     selectedVoter: (state, selectedVoter) => {

@@ -182,6 +182,9 @@
           confirmation: ''
         }
       }),
+      mounted () {
+        this.$store.commit('selectedVoter', this.$route.params.voterId)
+      },
       computed: {
         ...mapState({
           selectedVoter: state => state.selectedVoter,
@@ -204,6 +207,11 @@
             if (this.selectedVoter !== null) {
               return this.$store.getters.getVotingCard(this.selectedVoter)
             }
+          }
+        },
+        selectedVoter: {
+          get: function () {
+            return parseInt(this.$route.params['voterId'])
           }
         },
         selectedVoterName: {
@@ -295,9 +303,7 @@
       },
       watch: {
         selectedVoter: function (newValue) {
-          this.selection = []
-          this.codes.voting = ''
-          this.codes.confirmation = ''
+          this.$forceUpdate()
         }
       }
     }

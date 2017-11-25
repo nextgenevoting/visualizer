@@ -1,11 +1,10 @@
 <template>
     <p>{{ data.truncatedValue() }}
 
-        <v-btn v-popover="{ name: mpzValue }" small flat icon style="margin-left:0px;" @click="clickHeader($event)">
+        <v-btn v-popover="{ name: data.name }" small flat icon style="margin-left:0px;" @click="clickHeader($event)">
             <v-icon>mdi-dots-horizontal</v-icon>
         </v-btn>
-        <popover :name="mpzValue">
-
+        <popover :name="data.name">
             <v-list>
                 <v-list-tile-title class="datacardTitle" v-if="isString(mpzValue)"><b>{{ data.bitLength()
                     }}-Bit number</b></v-list-tile-title>
@@ -46,7 +45,10 @@
                   return e
                 }
               }
-            }
+            },
+            name: (function () {
+              return String(Math.random())
+            }())
           }
         }
       },

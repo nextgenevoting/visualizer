@@ -51,7 +51,7 @@ const routes = [
   { path: '/election/:electionId', name: 'electionoverview', component: ElectionOverviewPage },
   { path: '/election/:electionId/admin', name: 'electionadmin', component: ElectionAdminPage },
   { path: '/election/:electionId/printing', name: 'printingauth', component: PrintingAuthPage },
-  { path: '/election/:electionId/voter', name: 'voter', component: VoterPage },
+  { path: '/election/:electionId/voter/:voterId', name: 'voter', component: VoterPage },
   { path: '/election/:electionId/bulletinBoard', name: 'bulletinboard', component: BulletinBoardPage },
   { path: '/election/:electionId/electionAuthority/:authid', name: 'electionauthority', component: ElectionAuthorityPage },
   { path: '/login', name: '/login', component: LoginPage },

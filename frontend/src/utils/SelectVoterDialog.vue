@@ -50,8 +50,9 @@
       },
       methods: {
         selectVoter: function (id) {
-          this.$store.commit('selectedVoter', id)
           this.$store.commit('voterDialog', false)
+          this.$store.commit('selectedVoter', id)
+          this.$router.push({name: 'voter', params: {electionId: this.$route.params['electionId'], voterId: id}})
         }
       },
       created () {

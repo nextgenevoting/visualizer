@@ -103,7 +103,7 @@
             </v-badge>
             {{ $t('main.printing_authority') }}
           </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'voter', params: {electionId: electionId }}" :disabled="this.$store.getters.status < 1">
+          <v-tabs-item ripple :to="{ name: 'voter', params: {electionId: electionId, voterId: voterId }}" :disabled="this.$store.getters.status < 1">
             <v-badge color="">
               <v-icon slot="badge" dark v-if="status == 3">mdi-alert-decagram</v-icon>
               <v-icon>mdi-account</v-icon>
@@ -127,7 +127,7 @@
 
     <main>
       <v-fade-transition mode="out-in">
-        <router-view :key="$route.params['electionId'] + $route.params['authid']"></router-view>
+        <router-view :key="$route.fullPath"></router-view>
       </v-fade-transition>
     </main>
 
@@ -184,6 +184,11 @@
       authorityId: {
         get () {
           return this.$store.state.selectedAuthority
+        }
+      },
+      voterId: {
+        get () {
+          return this.$store.state.selectedVoter
         }
       },
       onlineNotification: {

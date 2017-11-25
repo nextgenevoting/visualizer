@@ -27,8 +27,7 @@ if (process.argv.length == 2) {
   delete data._keep
 
   const process = (obj, key, value) => {
-    if (key === '_languages')
-      return
+    if (key === '_languages') { return }
 
     if (typeof value === 'string' || value instanceof String) {
       if (key === referenceLanguage) {
