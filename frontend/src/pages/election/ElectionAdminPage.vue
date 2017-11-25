@@ -153,7 +153,7 @@ export default {
             election.candidates = [...new Array(rand(2, 5))].map(() => c.splice(c, 1)[0])
             return election
           })
-          console.log(this.countingCircles)
+
           return this
         }
       }

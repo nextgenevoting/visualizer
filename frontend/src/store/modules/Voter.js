@@ -17,9 +17,7 @@ const state = {
 // mutations
 const mutations = {
   SOCKET_SYNCVOTERS: (state, data) => {
-    console.log('SOCKET_SYNCVOTERS')
     let json = JSON.parse(data)
-    console.log(json)
     state.voters = json
   }
 }

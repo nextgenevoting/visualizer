@@ -7,7 +7,6 @@ const state = {
 // mutations
 const mutations = {
   SOCKET_SYNCPRINTINGAUTHORITY: (state, data) => {
-    console.log('SOCKET_SYNCPRINTINGAUTHORITY')
     const printingAuthorityState = JSON.parse(data)
     state.privateCredentials = printingAuthorityState.privateCredentials
     state.votingCards = printingAuthorityState.votingCards

@@ -27,9 +27,7 @@ export const store = new Vuex.Store({
     SOCKET_PATCHSTATE: (state, data) => {
       // It seems that applying patches to the data store directly causes the reactivity to fail.
       // Vue.set seems to fix the problem; however, applying the patches to a lodash deepcopy and Vue.set'ting the copied object might be better
-      console.log('SOCKET_PATCHSTATE')
       const patches = JSON.parse(data)
-      console.log(patches)
 
       let deepCopy = Vue._.clone(state.BulletinBoard)
       jsonpatch.applyPatch(deepCopy, patches['bulletin_board'])
@@ -61,7 +59,6 @@ export const store = new Vuex.Store({
       state.joinedElectionId = null
     },
     SOCKET_JOINACK: (state, electionId) => {
-      console.log('JOINACK')
       state.joinedElectionId = electionId
       state.selectedVoter = null
       state.loaded = true
@@ -84,12 +81,6 @@ export const store = new Vuex.Store({
     expertMode: (state, value) => {
       state.expertMode = value
     }
-  },
-  actions: {
-    /* socket_getdata: (context, message) => {
-            // console.log(message.data);
-            context.commit('updateData', message.data);
-        } */
   },
   getters: {
     joinedElectionId: (state, getters) => {

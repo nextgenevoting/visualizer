@@ -48,7 +48,6 @@ export default {
     this.unsub = this.$store.subscribe((mutation, state) => console.log(mutation))
   },
   beforeDestroy () {
-    console.log('before destroy')
     this.unsub()
   }
 }
