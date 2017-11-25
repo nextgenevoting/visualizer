@@ -43,7 +43,7 @@
                 <v-text-field :label="$t('electionTitle')" v-model="election.title" autofocus required></v-text-field>
               </v-flex>
               <v-flex xs3>
-                <v-text-field :label="$t('number_of_selections')" v-model="election.numberOfSelections" required></v-text-field>
+                <v-text-field type="number" :label="$t('number_of_selections')" v-model="election.numberOfSelections" required></v-text-field>
               </v-flex>
             </v-layout>
             <v-layout row wrap>
@@ -208,7 +208,7 @@ export default {
         let numberOfVoters = this.countingCircles.reduce((a, b) => parseInt(a) + parseInt(b), 0).toString()
         let candidates = Vue._.flatMap(this.elections, (election) => election.candidates)
         let numberOfCandidates = Vue._.flatMap(this.elections, (election) => election.candidates.length)
-        let numberOfSelections = Vue._.flatMap(this.elections, (election) => election.numberOfSelections)
+        let numberOfSelections = Vue._.flatMap(this.elections, (election) => parseInt(election.numberOfSelections))
         let countingCircles = (() => {
           var i = 1
           return JSON.stringify(Vue._.flatMap(this.countingCircles.map((n) => Array(parseInt(n)).fill(i++))))
