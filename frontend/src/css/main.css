@@ -186,7 +186,7 @@ font-size: 14px;
 }
 
 .stepper__step--active .stepper__step__step, .stepper__step--complete .stepper__step__step {
-  background: #696969 ;
+  background: #505050 !important;
 }
 .application--light .stepper .stepper__step:not(.stepper__step--active):not(.stepper__step--complete):not(.stepper__step--error) .stepper__step__step {
   background: rgba(0, 0, 0, 0.2) !important;

@@ -34,9 +34,9 @@ export default {
 <style scoped>
 .content-header {
   float: left;
-  font-size: 38px;
+  font-size: 32px;
   color: #505050;
-  width: 60px;
+  width: 45px;
 }
 
 .layout {
@@ -44,7 +44,7 @@ export default {
 
 .content-header .icon {
   margin-top: 18px;
-  font-size: 36px;
+  font-size: 28px;
   color: #505050 !important;
 }
 
@@ -54,7 +54,8 @@ export default {
 }
 
 .my-3 {
-  color: #505050;
-  font-size: 32px;
+  margin-top: 12px !important;
+  margin-bottom: 16px !important;
+  font-size:28px;
 }
 </style>
