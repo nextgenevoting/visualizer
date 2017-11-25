@@ -9,9 +9,15 @@ _keep:
 _languages:
   en: English
   de: Deutsch
-  nl: Nederlands
-  fr: Français
+  es: Español
   fi: Suomi
+  fr: Français
+  lt: Lietuvių
+  nl: Nederlands
+  no: Norsk
+  ru: Русский
+  sv: Svenska
+  zh-TW: 文言
 
 # Common translations (repeatedly used).
 close:

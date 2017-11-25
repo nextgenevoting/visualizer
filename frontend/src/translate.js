@@ -42,7 +42,6 @@ if (process.argv.length == 2) {
   }
 
   Object.entries(data).forEach(([key, value]) => process(data, key, value))
-  console.log(translations.length + ' translation to do')
 
   const getTranslation = (i) => {
     if (i === translations.length - 1) {
@@ -60,7 +59,7 @@ if (process.argv.length == 2) {
     let t = translations[i]
 
     translate(t.value, { from: referenceLanguage, to: t.lang }).then(res => {
-      console.log(`"${t.value}" in ${t.lang} is "${res.text}"`)
+      console.log(`(${i}/${translations.length}) "${t.value}" in ${t.lang} is "${res.text}"`)
       t.obj[t.lang] = res.text
       getTranslation(++i)
     }).catch(err => {
