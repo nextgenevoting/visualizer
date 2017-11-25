@@ -93,7 +93,7 @@
           <v-flex xy12 md12>
             <DataCard :title="$t('final_results')" :expandable=false confidentiality="public">
               <v-layout row wrap >
-                <v-flex xy12 md6 v-for="(results, index) in finalResults">
+                <v-flex xy12 md6 v-for="(results, index) in finalResults" :key="index">
                   <donut-chart :id="`donut${index}`" :data="donutData[index]" colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]' resize="false"></donut-chart>
                 </v-flex>
               </v-layout>

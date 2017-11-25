@@ -34,7 +34,7 @@
         <v-card-title class="headline" v-t="'electionsPage.remove.question'" />
         <v-card-actions>
           <v-spacer />
-          <v-btn flat color="darken-1" @click.native="dialog.visible = false">{{ $t('remove.cancel') }}</v-btn>
+          <v-btn flat color="darken-1" @click.native="dialog.visible = false">{{ $t('cancel') }}</v-btn>
           <v-btn flat color="red darken-1" @click.native="remove">{{ $t('delete') }}</v-btn>
         </v-card-actions>
       </v-card>
