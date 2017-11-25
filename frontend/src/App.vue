@@ -166,14 +166,13 @@
           title: 'main.about',
           icon: 'domain'
         }],
-        menu: false,
-        languages: {
-          en: 'English',
-          de: 'Deutsch'
-        }
+        menu: false
       }
     },
     computed: {
+      languages () {
+        return this.$root.$i18n._languages
+      },
       ...mapGetters({
         getNumberOfTasksForAllAuthorities: 'getNumberOfTasksForAllAuthorities'
       }),

@@ -104,12 +104,13 @@ Vue.http.interceptors.push((request, next) => {
 })
 
 const translations = require('./translations.yaml')
-const languages = [ 'en', 'de' ] // the first language in the list is considered the primary language
+const languages = translations['_languages']
+const languageCodes = Object.keys(languages)
 
-const i18n = new VueI18n({
+var i18n = new VueI18n({
   locale: store.state.language,
-  fallbackLocale: languages[0],
-  messages: Object.assign(...languages.map((lang) => {
+  fallbackLocale: languageCodes[0],
+  messages: Object.assign(...languageCodes.map((lang) => {
     return { [lang]: (function flatten (obj, lang) {
       if (Object.keys(obj).every((key) => obj[key].constructor === String)) {
         return lang in obj ? obj[lang] : undefined
@@ -119,6 +120,8 @@ const i18n = new VueI18n({
     })(translations, lang)}
   }))
 })
+
+i18n._languages = languages
 
 new Vue({ // eslint-disable-line no-new
   el: '#app',
