@@ -58,6 +58,24 @@ def createElection():
 
     return json.dumps({'id': str(id)})
 
+@main.route('/deleteElection/<string:id>', methods=['DELETE'])
+@cross_origin(origin='*')
+def deleteElection(id):
+    try:
+        result = db.elections.delete_one({ '_id': ObjectId(id) })
+
+        if result.deleted_count == 1:
+            # update the election list on all clients
+            syncElections(SyncType.BROADCAST)
+
+            return json.dumps({})
+        else:
+            return make_error(500, 'Election with ID "%s" was not found.' % id)
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
+
 @main.route('/setUpElection', methods=['POST'])
 @cross_origin(origin='*')
 def setUpElection():

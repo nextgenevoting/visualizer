@@ -34,7 +34,6 @@ export default {
   },
   methods: {
     createElection () {
-      // this.$socket.emit('createElection', { title: this.title});
       this.$http.post('createElection', {title: this.title, securityLevel: this.securityLevel}).then(response => {
         response.json().then((data) => {
           this.$router.push({name: 'electionoverview', params: { electionId: data.id }})

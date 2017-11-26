@@ -228,6 +228,9 @@ electionsPage:
     title:
       en: Delete election
       de: Wahl löschen
+    success:
+      en: Successfully deleted election.
+      de: Die Wahl wurde erfolgreich gelöscht.
 
 ElectionStatus:
   status_0:
