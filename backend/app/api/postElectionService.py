@@ -3,7 +3,7 @@ from flask import session, redirect, url_for, render_template, request
 from . import main
 from .. import socketio
 from app.voteSimulator import VoteSimulator
-from flask.ext.cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 from app.api.syncService import syncPatches, SyncType
 from app.utils.errorhandling import make_error
 

@@ -10,7 +10,7 @@ from app.states.printingAuthorityState import PrintingAuthorityState
 from app.states.electionAdministratorState import ElectionAdministratorState
 from .. import socketio
 from app.voteSimulator import VoteSimulator
-from flask.ext.cors import CORS, cross_origin
+from flask_cors import CORS, cross_origin
 from app.api.syncService import *
 from bson.objectid import ObjectId
 from app.utils.errorhandling import make_error
