@@ -5,8 +5,8 @@
       <v-btn to="newElection">{{ $t('electionsPage.create') }}</v-btn>
     </p>
 
-    <v-list two-line>
-      <div v-for="election in elections" :key="election.id">
+    <v-list two-line v-if="elections.length > 0">
+      <div v-for="(election, index) in elections" :key="election.id">
         <v-list-tile avatar :to="{ name: 'electionoverview', params: { electionId: election.id } }">
           <v-list-tile-avatar>
             <v-icon class="blue white--text">assignment</v-icon>
@@ -18,7 +18,7 @@
           </v-list-tile-content>
 
           <v-list-tile-action>
-            <v-btn icon @click.prevent="info(election)">
+            <v-btn icon @click.prevent="info(election, index)">
               <v-icon class="grey--text text--lighten-1" :title="$t('electionsPage.info')">info</v-icon>
             </v-btn>
           </v-list-tile-action>
@@ -30,8 +30,9 @@
           </v-list-tile-action>
         </v-list-tile>
 
-        <v-list-tile class="grey lighten-3" v-if="election.showInfo">
+        <v-list-tile class="grey lighten-3" v-if="showInfo[index]">
           <v-list-tile-content>
+            <!-- TODO for some reason, this tile is never shown -->
           </v-list-tile-content>
         </v-list-tile>
       </div>
@@ -65,7 +66,7 @@ export default {
     }
   },
   computed: {
-    elections: function () {
+    elections () {
       var elections = []
 
       this.$store.state.Election.elections.forEach((election) => {
@@ -76,11 +77,14 @@ export default {
       })
 
       return elections
+    },
+    showInfo () {
+      return [...new Array(this.elections.length)].map(() => false)
     }
   },
   methods: {
-    info (election) {
-      election.showInfo = !election.showInfo
+    info (election, index) {
+      this.showInfo[index] = true // !this.showInfo[index]
     },
     remove () {
       this.dialog.visible = false
