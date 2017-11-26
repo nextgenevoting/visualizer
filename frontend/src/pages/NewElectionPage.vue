@@ -7,7 +7,7 @@
           <v-form @submit.prevent="createElection">
             <v-text-field :label="$t('title')" v-model="title" required autofocus />
             <v-select
-                    v-bind:items="this.securityLevels"
+                    :items="this.securityLevels"
                     v-model="securityLevel"
                     item-value="id"
                     item-text="label"
@@ -15,7 +15,7 @@
                     single-line
                     bottom
             ></v-select>
-            <v-btn color="primary" @click="createElection">{{ $t('create') }}</v-btn>
+            <v-btn type="submit" color="primary">{{ $t('create') }}</v-btn>
           </v-form>
         </v-card>
       </v-flex>
