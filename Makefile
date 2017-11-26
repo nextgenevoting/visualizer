@@ -1,5 +1,5 @@
 dev:
-	docker-compose -f docker-compose.dev.yaml up
+	urxvtc -e sh -c 'tmuxp load tmuxp.yaml'
 
 up:
 	docker-compose up

@@ -1,0 +1,16 @@
+session_name: chvote-demonstraor
+tmux_options: -2
+
+windows:
+  - layout: main-horizontal
+    options:
+      main-pane-height: 50
+    panes:
+      - shell_command:
+          - cd frontend
+          - make dev
+        focus: true
+      - shell_command: docker-compose up mongodb
+      - shell_command:
+        - cd backend
+        - make dev

@@ -2,7 +2,7 @@ help:
 	@echo "USAGE: make testall | test | clean"
 
 dev:
-	python3 backend_service.py
+	source virtualenv/bin/activate; python backend_service.py
 
 test: ${FILE}
 	python3 -m unittest -v ${FILE}
