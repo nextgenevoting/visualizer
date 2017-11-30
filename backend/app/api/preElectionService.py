@@ -9,7 +9,7 @@ from app.states.electionAuthorityState import ElectionAuthorityState
 from app.states.printingAuthorityState import PrintingAuthorityState
 from app.states.electionAdministratorState import ElectionAdministratorState
 from .. import socketio
-from app.voteSimulator import VoteSimulator
+from app.voteService import VoteService
 from flask_cors import CORS, cross_origin
 from app.api.syncService import *
 from bson.objectid import ObjectId
@@ -96,19 +96,19 @@ def setUpElection():
         if len(numberOfSelections) != len(numberOfCandidates):
             raise RuntimeError("The length of numberOfSelections must match the length of numberOfCandidates")
 
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.setupElection(numberOfVoters, countingCircles, candidates, numberOfCandidates, numberOfSelections)
+        voteSvc.setupElection(numberOfVoters, countingCircles, candidates, numberOfCandidates, numberOfSelections)
 
-        #patches = sim.getJSONPatches()
+        #patches = voteSvc.getJSONPatches()
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
         # update election status
-        sim.updateStatus(1)
+        voteSvc.updateStatus(1)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -123,14 +123,14 @@ def printVotingCards():
     electionId = request.json["election"]
 
     try:
-        sim = VoteSimulator(electionId)             # prepare voteSimulator
-        sim.printVotingCards()
+        voteSvc = VoteService(electionId)             # prepare voteService
+        voteSvc.printVotingCards()
 
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
         # update election status
-        sim.updateStatus(2)
+        voteSvc.updateStatus(2)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -144,13 +144,13 @@ def sendVotingCards():
     electionId = request.json["election"]
 
     try:
-        sim = VoteSimulator(electionId)             # prepare voteSimulator
-        sim.sendVotingCards()
-        patches = sim.persist()
+        voteSvc = VoteService(electionId)             # prepare voteService
+        voteSvc.sendVotingCards()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
         # update election status
-        sim.updateStatus(3)
+        voteSvc.updateStatus(3)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -164,10 +164,10 @@ def debugVotingSim():
     electionId = request.json["election"]
     from gmpy2 import mpz
     try:
-        sim = VoteSimulator(electionId)             # prepare voteSimulator
+        voteSvc = VoteService(electionId)             # prepare voteService
         #from chvote.Types import Ballot
-        #sim.bulletinBoard.confirmations[0].finalizations.append(1)
-        #patches = sim.persist()
+        #voteSvc.bulletinBoard.confirmations[0].finalizations.append(1)
+        #patches = voteSvc.persist()
         #syncPatches(electionId, SyncType.ROOM, patches)
         import app.utils.jsonpatch as jsonpatch
         import copy

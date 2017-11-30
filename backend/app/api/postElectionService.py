@@ -2,7 +2,7 @@ import sys, os, traceback
 from flask import session, redirect, url_for, render_template, request
 from . import main
 from .. import socketio
-from app.voteSimulator import VoteSimulator
+from app.voteService import VoteService
 from flask_cors import CORS, cross_origin
 from app.api.syncService import syncPatches, SyncType
 from app.utils.errorhandling import make_error
@@ -17,17 +17,17 @@ def startMixingPhase():
     data = request.json
     electionId = data["election"]
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.startMixing()
+        voteSvc.startMixing()
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
-        sim.updateStatus(4)
+        voteSvc.updateStatus(4)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
         fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
@@ -42,14 +42,14 @@ def mix():
     electionId = data["election"]
     authorityId = data["authorityId"]
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.mix(authorityId)
+        voteSvc.mix(authorityId)
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -64,13 +64,13 @@ def startDecryptionPhase():
     data = request.json
     electionId = data["election"]
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
-        sim.startDecryption()
+        voteSvc.startDecryption()
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -86,14 +86,14 @@ def decrypt():
     electionId = data["election"]
     authorityId = data["authorityId"]
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.decrypt(authorityId)
+        voteSvc.decrypt(authorityId)
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()
@@ -109,14 +109,14 @@ def tally():
     electionId = data["election"]
 
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.tally()
+        voteSvc.tally()
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
     except Exception as e:
         exc_type, exc_obj, exc_tb = sys.exc_info()

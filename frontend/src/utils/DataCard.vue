@@ -31,6 +31,8 @@
 </template>
 
 <script>
+    import { mapState } from 'vuex'
+
     export default {
       data: function () {
         return {
@@ -38,11 +40,9 @@
         }
       },
       computed: {
-        data () {
-          return {
-            showConfidentiality: this.$store.state.showConfidentiality
-          }
-        }
+        ...mapState({
+          voters: state => state.BulletinBoard.voters
+        })
       },
       props: {
         title: {

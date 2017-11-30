@@ -90,6 +90,9 @@
           <v-flex xy12 md4>
             <DataCard :title="$t('final_results')" :expandable=false confidentiality="public">{{ finalResults }}</DataCard>
           </v-flex>
+          <v-flex xy12 md4>
+            <DataCard :title="$t('counting_circles')" :expandable=false confidentiality="public">{{ w_bold }}</DataCard>
+          </v-flex>
           <v-flex xy12 md12>
             <DataCard :title="$t('final_results')" :expandable=false confidentiality="public">
               <v-layout row wrap >

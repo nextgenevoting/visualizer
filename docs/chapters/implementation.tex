@@ -10,7 +10,7 @@ From a high-level perspective, our application consists of three components whic
 \end{figure}
 The \textbf{CHVote crypto-library} is the result of our "`Project 2"' course project which we have finished before our bachelor thesis. This library contains all the algorithms that we have implemented according to the specification. 
 
-The back-end consists of several services that are responsible for simulating a CHVote election, providing an API to manipulate this state and a data sync service to synchronize the data between the clients and the back-end. All the services of the backend run on a single server.
+The back-end consists of several components that make use of the CHVote crypto-library to build an actual e-voting ecosystem and providing an API to manipulate its state as well as a data sync service to synchronize data from the back-end to the web-clients. All the sub-components of the backend run on a single server.
 
 The front-end basically is the web-app where all the functionality of our back-end is consumed and the resulting election state is visualized.
 \section{Technology \& Language Decisions}
@@ -35,36 +35,34 @@ For our \textbf{front-end} (web application) we evaluated several single-page ap
 For persisting the state of an election, we decided to use mongoDB. The reason behind this choice will be described in more details later on.
 
 \section{Architecture}
-The core of our application is the VoteSimulation component in our backend which implements the e-voting protocol by utilizing all algorithms of the CHVote crypto-library according to the CHVote specification. The VoteSimulation component internally holds the state of a whole CHVote election and exposes functions to manipulate this state at a granularity required by our web application to implement all use cases. For example: The VotingSimulation contains a list of ballots and exposes functions to cast a new ballot, which will generate a new ballot according to the protocol, by calling the CHVote crypto-library, and adds the ballot to the list.
+The core of our application is the VoteService component in our backend which implements the e-voting protocol by utilizing all algorithms of the CHVote crypto-library according to the CHVote specification. The VoteService component internally holds the state of a whole CHVote election and exposes functions to manipulate this state at a granularity required by our web application to implement all use cases. For example: The VoteService contains a list of ballots and exposes functions to cast a new ballot, which will generate a new ballot according to the protocol, by calling the CHVote crypto-library, and adds the ballot to the list.
 
-On top of the VoteSimulation we have implemented a REST service that acts a facade to the VoteSimulation component and makes its functionality available as an API for our web-clients. The REST service also has to initialize the VoteSimulation by loading and persisting it's state from and to the database between each API call.
+On top of the VoteService we have implemented a REST service that acts a facade to the VoteService component and makes its functionality available as an API for our web-clients. The REST service also has to initialize the VoteService by loading and persisting it's state from and to the database between each API call.
 
-One of the requirements is that all clients must be informed in real-time about mutations of the election state made by other clients. To achieve this, we have implemented a data sync service which allows to push the state or parts of the state of the VoteSimulation to the web-clients by using the websocket protocol. This service is triggered by the REST service after every API call to push the delta between the old and the new state to the clients.
+One of the requirements is that all clients must be informed in real-time about mutations of the election state made by other participants. To achieve this, we have implemented a data sync service which allows to push the state or parts of the state of the VoteService to the web-clients by using the websocket protocol. This service is triggered by the REST service after every API call to push the delta between the old and the new state to the clients.
 
-To establish a proper separation of concerns, the state of the VoteSimulation is always sent to the client via the data sync service. The REST service only returns success or error codes or information that is required in response to some particular API call, and never state objects. On the other hand, the data sync service does never manipulate the state of the VoteSimulation and is solely responsible for sending data to the client.
+To establish a proper separation of concerns, the state of the VoteService is always sent to the client via the data sync service. The REST API only returns success or error codes or information that is required in response to some particular API call, and never state objects. On the other hand, the data sync service does never manipulate the state of the VoteService and is solely responsible for sending s to the client.
 
-\begin{figure}[h!]
+
 \begin{center}
 \includegraphics[scale=0.62]{assets/architecture.pdf}
-\caption{Architecture}
+\captionof{figure}{Architecture}\label{Architecture}%
 \end{center}
-\end{figure}
 
-From the clients point of view, the web-client contains a copy of the whole VoteSimulation state in a local datastore. This store is initially populated when the web application is initialized with an election. Whenever the state of the VoteSimulation changes, the data sync service is is called to push the new data to the web application. A local mutation handler is called inside the web application which writes the new data into the local datastore.
+From the clients point of view, the web-client contains a copy of the whole VoteService state in a local data-store. This store is initially populated when the web application is initialized with an election. Whenever the state of the VoteService changes, the data sync service pushes the new data to the web application. A local mutation handler within the web application handles those messages and writes the new data into the local data-store.
 
-Since the components that the web-pages of the web application are built of, are directly bound to the local data-store, all mutations automatically reflected to the user. From those pages, the REST API can be called to trigger some CHVote specific action on the back end. The resulting state change is again being pushed to all clients while the responsible client that performed the HTTPS request will additionally receive a success code, or an error message in case of an error.
+Since the components that the web-pages of the web application are built of, are directly bound to the local data-store, all mutations are automatically reflected to the user. From those pages, the REST API can again be called to trigger some CHVote specific action on the back end. The resulting state change is again being pushed to all clients while the responsible client that performed the HTTPS request will additionally receive a success code, or an error message in case of an error.
 
+We have decided on this VoteService centric architecture mainly because we wanted to keep all CHVote specific implementation details within a central module and avoid having protocol-specific logic both in the client as well as in the back-end. If the protocol is undergoing any changes or if the demonstrator application should be adapted to another protocol in future, only the VoteService component (and of course its dependencies) will be affected or must be replaced. It also allowed us to implement the CHVote protocol as similar to the specification as possible. Opposed to a real implementation, where all the protocol parties would be running a separate application, it was no problem for our use-cases to have the whole protocol running on one single server and within one process. Because of that, we had access to every actors state and functions from within our VoteService object and could pass data from one actor to another as simple as setting an object property to some value. 
 \section{Back-end}
 In this section we describe the internals of the back-end services. 
-\subsection{VoteSimulation}
-The VoteSimulation represents the state of a whole election and consists of instances of all the actors that participate in a CHVote election. We have divided the state and actors of a CHVote election into the following classes:
+\subsection{VoteService}
+The VoteService represents the state of a whole election and holds instances of all the actors that participate in a CHVote election. We have divided the state of a CHVote election into the following classes:
 
-\begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.75]{assets/stateClasses.png}
-\caption{State classes}
+\includegraphics[scale=0.62]{assets/stateClasses.png}
+\captionof{figure}{State classes}\label{State classes}%
 \end{center}
-\end{figure}
 
 \begin{itemize}
 	\item \textbf{BulletinBoardState}: Holds all data that is publicly available on the bulletin board (the number of candidates, the tallied result)
@@ -74,41 +72,31 @@ The VoteSimulation represents the state of a whole election and consists of inst
 	\item \textbf{ElectionAdministratorState}: Holds all data known to the election administrator 
 \end{itemize}
 
-Since our application must handle multiple elections in parallel, the state cannot be kept in RAM, but needs to be persisted between every single request. For this reason we evaluated different database systems and concepts. We decided not to use a relational database system that requires us to define a database schema as we want our state objects to be the only place where the schema is defined. This makes it easier to apply changes to the protocol in future. 
+Since our application supports that multiple users work on different election events concurrently, the state of an election event cannot be kept in RAM, but needs to be persisted between every single request . For this reason we evaluated different database systems and concepts. We decided not to use a relational database system that requires us to define a database schema as we want our state objects to be the only place where the schema is defined. This "`code-first"' approach makes it easier to apply changes to the protocol in future. 
 
-For our purpose, mongoDB seemed like a good choice. Since we do not need the ability to access and filter our data with arbitrary queries, but only need to be able to save and load a state object of a particular election, we simply store the whole state as a binary string in a mongoDB collection. The only additional attribute that is saved to the database alongside with the serialized state is the electionId which denotes which election a particular state belongs to. 
+For our purpose, mongoDB seemed like a good choice. Since we do not need the ability to access and filter our data with arbitrary queries, but only need to be able to save and load a state object of a particular election, we simply store the whole state as a binary string in a mongoDB collection. The only additional attribute that is saved to the database alongside with the serialized state is the electionId which denotes which election a particular state belongs to. An election contains multiple VoterStates and ElectionAuthorityStates. Therefore, these two states additionally require an electionAuthorityId and a voterId.
 
-An election contains multiple VoterStates and ElectionAuthorityStates. Therefore, these two states additionally require an electionAuthorityId and a voterId.
-
-\begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.62]{assets/db.png}
-\caption{Example: ElectionAuthority document collection}
+\captionof{figure}{Example: ElectionAuthority document collection}\label{Example: ElectionAuthority document collection}%
 \end{center}
-\end{figure}
 
 The only common functionality between every state object, is the ability to serialize the object to a JSON string. For this reason we had to write a custom transformer which tells the JSON parser how to serialize data-types such as mpz, bytearrays and custom classes. Luckily, python offers a way to easily serialize any custom object. By calling \mintinline{python}/object.__dict__/ we can convert an object into a dictionary, as long as the transformer is able to serialize all properties of the object.
 
-We described how the state classes are used to divide the data of the VoteSimulation into smaller units. Similarly, the functionality of the VoteSimulation class is separated into classes, one for every actor in the protocol.
+We described how the state classes are used to divide the data of the VoteService into smaller units. Similarly, the functionality of the VoteService class is separated into classes, one for every actor in the protocol.
 
-\begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.75]{assets/actorClasses.png}
-\caption{Actor classes}
+\includegraphics[scale=0.62]{assets/actorClasses.png}
+\captionof{figure}{Actor classes}\label{Actor classes}%
 \end{center}
-\end{figure}
-
 The common functionality, namely, a function for loading the corresponding state from the database and one for persisting the state to the database, are contained in an abstract base class.
 
 The distinction between the actors and their states allows us to easily serialize the state of every actor and provide methods for loading and persisting the state to the database.
 
-\begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.60]{assets/votesim.pdf}
-\caption{State classes}
+\includegraphics[scale=0.62]{assets/votesim.pdf}
+\captionof{figure}{State classes}\label{State classes}%
 \end{center}
-\end{figure}
-
 This approach was also necessary because we have implemented the data synchronization between the clients and the back-end using the JSON Patch approach, for which the delta between the original state and the modified state can be automatically determined and operations generated which will patch the state object on the client such that it equals the new, modified state of the back-end. The original state is simply attached as another property to the actor-object. 
 
 \subsection{Data-Sync Service}
@@ -116,20 +104,17 @@ One of the big challenges of our application has been the synchronization of the
 
 Additionally, we had to keep an eye on the performance of the data transfers since especially the bulletin board and the election authorities grow big in size when they contain a lot of ballots. We observed that the size of the whole state of an election with 6 candidates and 10 voters, of which each has submitted at least one ballot and a confirmation can easily reach 600 kilobytes already. Admittedly, we haven't noticed any performance issues even with rather large elections, however, transferring the whole state of an election after every single mutation didn't seem like a proper solution.
 
-Nevertheless, when a client connects to the data sync service for the first time, it needs to fetch the JSON representation of every state object of the VoteSimulation. For this purpose we have implemented a "`FullSync"' method which will populate the clients local data store with the full state of an election.
+Nevertheless, when a client connects to the data sync service for the first time, it needs to fetch the JSON representation of every state object of the VoteService. For this purpose we have implemented a "`FullSync"' method which will populate the clients local data store with the full state of an election.
 
-\begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.60]{assets/datastores.pdf}
-\caption{State classes}
+\includegraphics[scale=0.62]{assets/datastores.pdf}
+\captionof{figure}{Datastores}\label{Datastores}%
 \end{center}
-\end{figure}
-
 After a client has pupulated his local data store, future manipulations on the backend are synchronized using the so called JSON Patch operations, which only contain the delta between the previous and the current state.
 
 JSON Patch is a structure for describing how a JSON document can be modified / "`patched"'. The procedure is standardized and described in the RFC 6902 of the Internet Engineering Task Force (IETF). There exist JSON Patch implementations for many languages, including Python and JavaScript. We used JSON Patch to realize our incremental data synchronization as follows:
 
-When the VoteSimulation loads the state of its actor objects, it sets the \mintinline{python}/originalState/ property of the actor to a deep copy of the loaded state object. Mutations are always done only to the \mintinline{python}/state/ property. Before calling the \mintinline{python}/persist()/ method on an actor object, we use the Python JSON Patch library to create a set of JSON Patch operations that describes how to patch the \mintinline{python}/originalState/ such that it becomes identical to the manipulated \mintinline{python}/state/ object, by calling 
+When the VoteService loads the state of its actor objects, it sets the \mintinline{python}/originalState/ property of the actor to a deep copy of the loaded state object. Mutations are always done only to the \mintinline{python}/state/ property. Before calling the \mintinline{python}/persist()/ method on an actor object, we use the Python JSON Patch library to create a set of JSON Patch operations that describes how to patch the \mintinline{python}/originalState/ such that it becomes identical to the manipulated \mintinline{python}/state/ object, by calling 
 \mintinline{python}/make_patch(json.loads(self.originalState.toJSON()), json.loads(self.state.toJSON()))/
 
 The result is a JSON array of operations that contains:
@@ -141,26 +126,20 @@ The result is a JSON array of operations that contains:
 
 For example, after casting a ballot, we might receive the following JSON patch:
 
-\begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=1]{assets/jsonpatchexample.png}
-\caption{JSON Patch example}
+\includegraphics[scale=0.62]{assets/jsonpatchexample.png}
+\captionof{figure}{JSON Patch example}\label{JSON Patch example}%
 \end{center}
-\end{figure}
-
 These JSON patches are pushed to all the clients that need to receive the mutations and are applied to the local datastore which contains the original state. After applying the JSON patch, the data store of all clients contains the same state of an election as the backend.
 
-\begin{figure}[h!]
 \begin{center}
-\includegraphics[scale=0.60]{assets/datastores_jsonpatch.pdf}
-\caption{Data-Sync with JSON Patches}
+\includegraphics[scale=0.62]{assets/datastores_jsonpatch.pdf}
+\captionof{figure}{Data-Sync with JSON Patches}\label{Data-Sync with JSON Patches}%
 \end{center}
-\end{figure}
-
 We decided not to use JSON patches when populating the data store for the first time, since generating JSON patches to patch an empty object to the full state of an election could result in thousands of operations that would almost certainly perform worse than sending the whole object over a fast websocket connection.
 
 \subsection{REST API}
-The third component of the backend is the REST API. Its responsibility is to serve as an API and to provide all the functionality of the VotingSimulation to the webclients. Every function, such as the \mintinline{python}/castVote()/ has a corresponding endpoint in the REST API service. Since almost every API endpoint looks almost the same, we take a look at one of them:
+The third component of the backend is the REST API. Its responsibility is to serve as an API and to provide all the functionality of the VoteService to the webclients. Every function, such as the \mintinline{python}/castVote()/ has a corresponding endpoint in the REST API service. Since almost every API endpoint looks almost the same, we take a look at one of them:
 
 \begin{minted}[linenos,tabsize=2,breaklines]{python}
 @main.route('/castVote', methods=['POST'])
@@ -197,12 +176,11 @@ As a first step, parameters are extracted from the POST request and validated if
 Now the VoteSimulator can execute the function which the user intended to call, for example "`CastVote"'. By calling the function \mintinline{python}/persist()/, the new state is written to the database and the JSON Patches of all mutations are determined, returned and can be sent to all clients by calling the Data-Sync service.
 
 The following sequence diagram shows how the vote casting use case is implemented within the backend and how all the components work together.
-\begin{figure}[h!]
+
 \begin{center}
-\includegraphics[scale=0.65]{assets/votecastingDiagram.pdf}\\
-\caption{Vote casting sequence diagram}
+\includegraphics[scale=0.62]{assets/votecastingDiagram.pdf}
+\captionof{figure}{Vote casting sequence diagram}\label{Vote casting sequence diagram}%
 \end{center}
-\end{figure}
 
 \section{Crypto-library}
 
@@ -395,17 +373,121 @@ Most of the work during our project had to be done for the frontend. Displaying 
 In this section we will explain what concepts of VueJS we used and how we adapted them to our needs.
 
 \subsection{Components}
-Components are the basic building blocks of the VueJS framework. Every page of our web application consists of at least one VueJS component which is activated when the user visits the corresponding route in the URL. The concept of components encourages to create reusable components and provides a way to structure the application and divide it into smaller units.
+Components are the basic building blocks of the VueJS framework. The application itself is a component, every page of the application is a component and the pages typically contain lots of components, one for every control like form controls, buttons or custom controls such as the ballot-list etc., which themselves may again consist of multiple components. The concept of components encourages to create reusable modules, provides a way to structure the application and divide it into smaller units and makes the resulting HTML template more expressive and easier to read.
 
-We have created components not only for every page, but also for all custom controls that we used more than once within our pages. For example the ballot list that is shown both on the bulletin board as well as in the election authority view, the labels for displaying truncated large numbers or the cards used as our standard mean for displaying data.
+We have created our own VueJS components for every control that we used more than once. For example the ballot list that is shown both on the bulletin board as well as in the election authority view, the labels for displaying truncated large numbers or the cards used as our standard mean for displaying data have all been turned into a custom component. One of the beautiful features of VueJS components is the concept of slots. By defining one or multiple slots within a components template markup, it becomes possible from the parent of a component, to embed content into different locations (slots) within the components HTML template.
+
+We have been using slots to create our card component, which can display information either as the main content of the card, or within an expandable area on the bottom of the card:
+
+\begin{minted}[linenos,tabsize=2,breaklines]{javascript} 
+<DataCard title="Foo" :expandable=true>
+		Just some text
+		<p slot="expandContent">More complex content <BigIntLabel :mpzValue="publicKey"></BigIntLabel>
+		</p>
+</DataCard>
+\end{minted}
+The first line "`Just some text"', which gets inserted into the default unnamed slot, could as well be passed as a string parameter to the data card component. However, as things are getting more complicated, one might like to place arbitrary HTML or even another VueJS component inside the expandable content of our datacard. In such cases, component parameters wont work as they only accept primitive data types. Slots on the other hand allow arbitrary content.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[scale=1.0]{assets/datacardexample.PNG}\\
+\caption{Vote casting sequence diagram}
+\end{center}
+\end{figure}
+The following code shows how the data-card component is implemented:
+
+\begin{minted}[linenos,tabsize=2,breaklines]{html} 
+<template>
+    <v-card class="dataCard">
+        <ConfidentialityChip v-if=showConfidentiality"' :type="confidentiality" class="confidentialityChip" />
+        <v-card-title primary-title class="dataCardTitle">
+            <div><span class="label grey--text">{{title}}
+              <v-tooltip top>
+                <v-icon v-if="!disableTooltip" color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
+             </v-tooltip></span>
+            </div>
+        </v-card-title>
+        <v-card-text class="dataCardContent">
+                <slot></slot>
+        </v-card-text>
+        <v-card-actions v-show="expandable">
+            <v-btn icon @click.native="showExpander = !showExpander">
+                <v-icon>{{ !showExpander ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+            </v-btn>
+        </v-card-actions>
+        <v-slide-y-transition v-show="expandable">
+            <v-card-text v-show="showExpander">
+                <slot name="expandContent">
+                </slot>
+            </v-card-text>
+        </v-slide-y-transition>
+    </v-card>
+</template>
+<script>
+    import { mapState } from 'vuex'
+
+    export default {
+      data: function () {
+        return {
+          showExpander: false
+        }
+      },
+      computed: {
+        ...mapState({
+          showConfidentiality: state => state.showConfidentiality
+        })
+      },
+      props: {
+        title: {
+          type: String,
+          required: true,
+          default: 'Title'
+        },
+        expandable: {
+          type: Boolean,
+          required: true,
+          default: false
+        },
+        confidentiality: {
+          type: String,
+          required: true,
+          default: 'public'
+        },
+        disableTooltip: {
+          type: Boolean,
+          required: false,
+          default: false
+        }
+
+      },
+
+      mounted () {
+      }
+    }
+</script>
+\end{minted}
+The first part within the \mintinline{javascript}/<template>/ tag describes the HTML markup as well as the slots that we have just mentioned.
+
+The \mintinline{javascript}/<script>/ tag contains the actual logic of the component. The \mintinline{javascript}/data/ object contains variable which are defined and valid only locally within the component.  The \mintinline{javascript}/computed/ object maps variables from our central data-store to a local variable which is reactively bound to the data-store. Whenever the value of the given variable changes in the data-store, the computed property is automatically updated in this component. From the template, we can access both local data as well as computed properties. Computed properties can also be used whenever a local variable needs to be formatted, or in some way manipulated for displaying in the components template.
+
+The third source of data are `props`, which are passed as arguments from the parent component. They are typically used to defined options for a component.
+
+Additionally, components may contain \mintinline{javascript}/methods/, typically used for event-handlers like button clicks and event hooks like \mintinline{javascript}/mounted/, \mintinline{javascript}/beforeDestroy/, \mintinline{javascript}/beforeCreated/ to influence the components creation/destruction at different times during the components lifecycle
 
 \subsection{Centralized Data-store \& Flux pattern}
 One of the big challenges regarding the architecture of our front-end, was about how and where we would store all the data of an election. Clearly, since we have already divided the elections data into one state for every actor and given that every actor also has it's corresponding view in our front-end, simply storing the data to the respective component has been our first thought. Although a voter mainly needs to access his own data contained in the voters state, some data is to be shared between components, for example the information on the bulletin board.
 
-Since we wanted to avoid having to keep data redundant in multiple components, we have decided to use the Flux design pattern for our front-end. The basic idea of the flux pattern is to have a single, central data source where all the data is stored and which all components have access to. This single data source is called a "`store"' by Flux terminology. VueJS has it's own implementation of the Flux pattern called Vuex. Another important concept is that components can freely access the data in the store, however, they are not allowed to change data, at least not directly. Instead, if a component wants to change data in the store, this has to be done by calling a predefined mutation function. Not allowing direct manipulation of the store makes it much easier to keep track of where mutations came from.
+Since we wanted to avoid having to keep data redundant in multiple components, we have decided to use the Flux design pattern for our front-end. The basic idea of the flux pattern is to have a single, central data source where all the data is stored and which all components have access to. This single data source is called a "`store"' by Flux terminology. VueJS has it's own implementation of the Flux pattern called Vuex. Another important concept is that components can freely access the data in the store, however, they are not allowed to change data, at least not directly. Instead, if a component wants to change data in the store, this has to be done by calling \textbf{mutation functions}. Not allowing direct manipulation of the store makes it much easier to keep track of where mutations came from.
 
-Our web applications data store is divided into multiple modules, one data store module for each corresponding state of the back-end. In reality, all these data stores are part of one single data store, but having multiple modules allows us to structure the mutation and getter functions and help to avoid naming conflicts by having separate namespaces for every module.
+Our web applications data store is divided into multiple modules, one data store module for each corresponding state of the back-end. In reality, all these data stores are part of one single data store, but having multiple modules allows us to structure the mutation and getter functions and help to avoid naming conflicts by having separate namespaces for every module. 
+
+The state of a data-store can be accessed directly from any component by defining a computed property. If the computed properties have to do perform some formatting, aggregation, filtering etc. on the state variables, it is recommended to write getter-functions in the data-store to avoid writing mu
  
+\subsection{Internationalization (i18n)}
+TODO: I18n
+
+\subsection{Development Environment}
+TODO: Webpack, ESlint etc. beschreiben
+
 \section{Challenges}
 In this section we describe some of the challenges that we encountered while developing our application. 
 \subsection{Websocket subscription concept}
@@ -426,7 +508,7 @@ export default {
   },
 }
 \end{minted}
-On the server side, we have defined a socket.io listener. As the first thing, the handler will remove the calling client from every room before joining the room of the requested election. There is only exception: The client cannot leave the room that corresponds to the `sid` of the request, since this is basically the channel over which the `join` request is handled.
+On the server side, we have defined a socket.io listener called "`join"' which will remove the calling client from every room before joining the room of the requested election. There is only exception: The client cannot leave the room that corresponds to the `sid` of the request, since this is basically the channel over which the `join` request is handled.
 \begin{minted}[linenos,tabsize=2,breaklines]{python}
 @socketio.on('join')
 def on_join(data):
@@ -447,5 +529,11 @@ def on_join(data):
 
 The \mintinline{javascript}/joinAck/ handler in the web application will then set the \mintinline{javascript}/joinedElectionId/ variable to the just joined election id, such that the join will only be called once or until the user chooses a different election.
 
-\subsection{Development Environment}
-TODO: Webpack, ESlint etc. beschreiben
+\section{Automatic Task Processing for election authorities}
+In our application, every election authority normally has to manually process all incoming tasks such as ballot checking, confirmation checking, mixing and decrypting. As this can become cumbersome and it might be desirable to perform these tasks manually only for the first election authority, we have implementation an auto-mode in which an election authority automatically performs all tasks. 
+
+There were several different ways how to implement this feature. One possibility would have been building a service which regularly checks for new tasks and processes them. Since every task requires a preceding action (for example: A Ballot-Check-Task requires a voter casting a vote), and since it is reasonable for our use-cases to assume that the authorities perform the tasks sequentially, we have chosen the most simple approach:
+
+When a user casts a ballot and a ballot-check-task is created, we check if the first authority is set to automatic. If yes, the function for checking this ballot is automatically called. This function again checks, if the next election authority is set to automatic and recursively calls itself if that's the case, and so on until one authority has auto-mode disabled.
+
+This means that if the first authority is in manual mode and the other two are set to automatic, they both wait with their execution until the first election authority has manually started executing the task. This strict sequential order is only required for the mixing task, all other tasks could be called in any order. If desired, this behavior could also be implemented with our approach, however, for the moment this is not required.

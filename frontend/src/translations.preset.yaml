@@ -237,8 +237,8 @@ ElectionStatus:
     en: New
     de: Neu
   status_1:
-    en: Election Set-Up
-    de: Datengenerierung
+    en: Election Preparation
+    de: Vorbereitungsphase
   status_2:
     en: Printing
     de: Drucken

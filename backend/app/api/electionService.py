@@ -2,7 +2,7 @@ import sys, os, traceback
 from flask import session, redirect, url_for, render_template, request
 from . import main
 from .. import socketio
-from app.voteSimulator import VoteSimulator
+from app.voteService import VoteService
 from flask_cors import CORS, cross_origin
 from app.api.syncService import syncPatches, SyncType
 from app.utils.errorhandling import make_error
@@ -27,14 +27,14 @@ def castVote():
         return make_error(400, "Empty selection")
 
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.castVote(voterId, selection, votingCode, manipulatedPublicCredential)
+        voteSvc.castVote(voterId, selection, votingCode, manipulatedPublicCredential)
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
     except Exception as e:
@@ -54,14 +54,14 @@ def checkVote():
     ballotId = data["ballotId"]
 
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.checkVote(ballotId, authorityId)
+        voteSvc.checkVote(ballotId, authorityId)
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
     except Exception as e:
@@ -80,14 +80,14 @@ def respond():
     authorityId = data["authorityId"]
 
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.respond(ballotId, authorityId)
+        voteSvc.respond(ballotId, authorityId)
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
     except Exception as e:
@@ -106,14 +106,14 @@ def discardBallot():
     authorityId = data["authorityId"]
 
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.discardBallot(ballotId, authorityId)
+        voteSvc.discardBallot(ballotId, authorityId)
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
     except Exception as e:
@@ -133,14 +133,14 @@ def confirmVote():
     confirmationCode = data["confirmationCode"]
 
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.confirmVote(voterId, ballotId, confirmationCode)
+        voteSvc.confirmVote(voterId, ballotId, confirmationCode)
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
     except Exception as e:
@@ -159,14 +159,14 @@ def checkConfirmation():
     authorityId = data["authorityId"]
 
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.checkConfirmation(confirmationId, authorityId)
+        voteSvc.checkConfirmation(confirmationId, authorityId)
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
     except Exception as e:
@@ -185,14 +185,14 @@ def finalize():
     authorityId = data["authorityId"]
 
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.finalize(confirmationId, authorityId)
+        voteSvc.finalize(confirmationId, authorityId)
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
     except Exception as e:
@@ -211,14 +211,14 @@ def discardConfirmation():
     authorityId = data["authorityId"]
 
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.discardConfirmation(confirmationId, authorityId)
+        voteSvc.discardConfirmation(confirmationId, authorityId)
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
     except Exception as e:
@@ -237,14 +237,14 @@ def setAutoMode():
     value = data["value"]
 
     try:
-        # prepare voteSimulator
-        sim = VoteSimulator(electionId)
+        # prepare voteService
+        voteSvc = VoteService(electionId)
 
         # perform action
-        sim.authorities[authorityId].autoCheck = value
+        voteSvc.authorities[authorityId].autoCheck = value
 
         # retrieve and persist modified state
-        patches = sim.persist()
+        patches = voteSvc.persist()
         syncPatches(electionId, SyncType.ROOM, patches)
 
     except Exception as e:

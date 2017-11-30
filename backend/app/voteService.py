@@ -20,7 +20,7 @@ import app.utils.jsonpatch as jsonpatch
 import json
 from chvote.Common.IsMember                    import IsMember
 
-class VoteSimulator(object):
+class VoteService(object):
 
     # *************************************************************************************
     # *** Internal methods for loading/saving the states

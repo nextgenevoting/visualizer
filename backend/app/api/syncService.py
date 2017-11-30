@@ -50,7 +50,7 @@ def syncElectionStatus(electionID, syncType):
         raise RuntimeError("No Election entry for election {}!".format(electionID))
 
 # ************************
-# VoteSim State Syncs
+# VoteService State Syncs
 # ************************
 
 def syncBulletinBoard(electionID, syncType):
