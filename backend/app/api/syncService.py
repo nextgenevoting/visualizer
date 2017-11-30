@@ -57,7 +57,7 @@ def syncBulletinBoard(electionID, syncType):
     bbState = db.bulletinBoardStates.find_one({'election':electionID})
     if bbState != None:
         bbState = deserializeState(bbState["state"])
-        emitToClient('syncElectionData', bbState.toJSON(), syncType, electionID)
+        emitToClient('SyncBulletinBoard', bbState.toJSON(), syncType, electionID)
     else:
         raise RuntimeError("No BulletinBoardState for election {}!".format(electionID))
 

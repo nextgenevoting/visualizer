@@ -22,16 +22,16 @@
 }
 
 \chapter{Project Plan}
-In this chapter we are going to describe several aspects regarding the planing of our project, such as our project methods, the requirements and use cases for our project and the concept of our application. 
+In this chapter we are going to describe several aspects regarding the planing of our project, such as our project methods, the requirements and use cases as well as a short concept of our application. 
 \section{Project Method}
-Since this wasn't a project where the project scope and goals were strictly defined and clear from the beginning, it was very important to elaborate the requirements in close collaboration with our supervisors early on and work. This is why we decided our project would be very suitable for an agile kind of project method. 
+Since this wasn't a project where the project scope and goals were strictly defined and clear from the beginning, it was very important to elaborate the requirements in close collaboration with our supervisors early on. This is why we decided our project would be very suitable for an agile kind of project method. Because of the small team, consisting of only two members, we didn't chose a particular project method like SCRUM, as this would have probably caused more overhead than actual benefits.  
 
-We have therefore set up regular meetings (usually once every 2 weeks) to discuss our ideas and get feedback about the current progress.
+We have therefore set up regular meetings (usually once every 2 weeks) with our supervisors to discuss our ideas and get feedback about the current progress.
 
 \section{Requirements}
-As the first step, we have though about the goals and requirements for our application. We have structured the requirements into groups that correspond to the actors of the CHVote protocol and therefore the views our application is going to consist of.
+As the first step, we have elaborated the goals and requirements for our application. We have structured the requirements into groups that correspond to the actors of the CHVote protocol and therefore the views our application is going to consist of.
 
-Some requirements affect multiple or all actors and are therefore listed as "`General Requirements"'.
+Some requirements affect multiple or all actors and are therefore listed as "`General Requirements"'. We have also added a priority and requirement type to simplify the planing and time management.
 \subsection{General Requirements}
 \begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
@@ -119,15 +119,14 @@ The following topics are considered out-of-scope for the duration of our project
 \section{Time schedule \& Implementation phases}
 As the next step we created a time schedule and structured our project into smaller units.
 
-The last step before starting the actual implementation was to develop a proof-of-concept / prototype of our application, by implementing one usecase in a reduced extent with the envisaged frameworks to evaluate the technical feasibility.
+The actual implementation phase has been broken down into two phases: 
 
-The actual implementation phase has been broken down into two phases. 
+\begin{itemize}
+	\item Phase 1 involves the implementation of all high priority must-requirements, so, basically bringing the application into a state that allows to visualize the whole CHVote election process. We have agreed that after phase 1, some areas of the user interface would still be in a rather primitive state (eg. user inputs are not validated and require a more technical type of input). 
+	\item For phase 2 we planned on implementing the can-requirements and the must-requirements with lower priority.
+\end{itemize}
 
-Phase 1 involves the implementation of all high priority must-requirements, so, basically bringing the application into a state that allows to visualize the whole CHVote election process. We have agreed that after phase 1, some areas of the user interface would still be in a rather primitive state (eg. user inputs are not validated and require a more technical type of input). 
-
-For phase 2 we planned on implementing the can-requirements and the must-requirements with lower priority.
-
-This approach reduced the risk of technical limitations of our architecture not being revealed until later that would have resulted in time consuming architectural changes.
+This approach reduced the risk of technical limitations of our architecture to remain hidden until later that would have resulted in time consuming architectural changes.
 
 \begin{landscape}
 
@@ -287,6 +286,8 @@ Throughout our application we tried to establish common concepts regarding the l
 The following screenshots are an extract of the mockups in which we tried to visualize how we imagined the resulting application to look like during the conceptual phase. 
 
 % Todo: Beispiel-Bild der Mockups %
+
+Our conceptual work also involved the development of a small prototype / proof of concept, in which we have implemented one usecase in a reduced extent with the envisaged frameworks to evaluate the technical feasibility. For more information about the languages and frameworks we have decided on, we refer to the next chapter.
 
 \section{Organization}
 TODO: Github, Docker, etc.

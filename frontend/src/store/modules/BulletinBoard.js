@@ -21,7 +21,7 @@ const state = {
 
 // mutations
 const mutations = {
-  SOCKET_SYNCELECTIONDATA: (state, data) => {
+  SOCKET_SYNCBULLETINBOARD: (state, data) => {
     const bb = JSON.parse(data)
     state.voters = bb.voters
     state.candidates = bb.candidates
@@ -44,22 +44,27 @@ const mutations = {
 
 const getters = {
   getBallotsOfBulletinBoard: (state, getters) => {
+    // returns the ballotlist of the bulletin board
     return state.ballots
   },
   getConfirmationsOfBulletinBoard: (state, getters) => {
+    // returns the confirmation list of the bulletin board
     return state.confirmations
   },
   getDecryptionsForAuthority: (state, getters) => (authorityId) => {
+    // returns the list of decryptions of a given election authority
     if (state.decryptions.length < authorityId + 1) { return null }
     return state.decryptions[authorityId]
   },
   hasDecryptionTask: (state, getters) => (authorityId) => {
+    // returns true or false depending on whether the passed election authority has a pending decryption task
     if (getters.status !== 5) return 0
     if (authorityId === 0) { return getters.getDecryptionsForAuthority(authorityId) === null } else {
       return getters.getDecryptionsForAuthority(authorityId) === null && getters.getDecryptionsForAuthority(authorityId - 1) !== null
     }
   },
   haveAllAuthoritiesDecrypted: (state, getters) => {
+   // returns true or false depending on whether all authorities have finished decrypting
     return getters.getDecryptionsForAuthority(getters.numberOfElectionAuthorities) !== null
   }
 }

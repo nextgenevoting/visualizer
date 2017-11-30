@@ -31,6 +31,8 @@ const mutations = {
 
 const actions = {
   setAutoMode ({ commit }, data) {
+    // Sets the auto-mode of an election authority.
+    // Because of the asynchronous call, this cannot be done as a mutation, but an "action"
     Vue.http.post('setAutoMode', {
       'election': data.electionId,
       'authorityId': data.electionAuthorityId,
@@ -46,9 +48,11 @@ const actions = {
 
 const getters = {
   numberOfElectionAuthorities: (state, getters) => {
+    // returns the number of election authorities (basically always 3)
     return state.electionAuthorities.length
   },
   getElectionAuthority: (state, getters) => (id) => {
+    // returns the state of an election authority with given id (or null if it doesn't exist)
     for (let electionAuthority of state.electionAuthorities) {
       if (electionAuthority.id === id) { return electionAuthority }
     }
@@ -56,6 +60,7 @@ const getters = {
   },
   getBallots: (state, getters) => (authorityId) => {
     // Returns the BallotList of an authority with authorityId == id
+    // if no election authority id is passed, the ballot list of the bulletin board is returned
     if (authorityId === null || authorityId === undefined) { return getters.getBallotsOfBulletinBoard } else {
       let electionAuthority = getters.getElectionAuthority(authorityId)
       if (electionAuthority !== null) { return electionAuthority.ballots } else { return [] }
@@ -76,7 +81,7 @@ const getters = {
     return null
   },
   getConfirmationsOfBallot: (state, getters) => (ballotId, electionAuthorityId) => {
-    // Returns the ConfirmationList corresponding to some ballotId
+    // Returns all confirmations of an authority ID (or the bulletin Board if no ID is passed) that correspond to some ballot Id
     let confirmations = []
     if (electionAuthorityId === null) { confirmations = getters.getConfirmationsOfBulletinBoard } else { confirmations = getters.getConfirmations(electionAuthorityId) }
 
@@ -89,6 +94,8 @@ const getters = {
     return result
   },
   getBallotsAndConfirmations: (state, getters) => (electionAuthorityId) => {
+    // returns a new array containing all ballots (of either an election authority or the bulletin board if no param is passed)
+    // and adds the corresponding confirmations to every ballot
     let results = []
     for (let ballot of getters.getBallots(electionAuthorityId)) {
       ballot.confirmations = getters.getConfirmationsOfBallot(ballot.id, electionAuthorityId)
@@ -107,14 +114,18 @@ const getters = {
     if (electionAuthority !== null) { return electionAuthority.checkConfirmationTasks } else { return [] }
   },
   hasMixingTask: (state, getters) => (id) => {
+    // Returns the mixingTasks of an authority with authorityId == id
     let electionAuthority = getters.getElectionAuthority(id)
     if (getters.status === 4 && electionAuthority.encryptions.length > 0 && !getters.hasAuthorityMixed(id)) { return 1 } else { return 0 }
   },
   getNumberOfTasks: (state, getters) => (id) => {
     // returns the number of tasks for an authority
+    // this getter is used to display the red badge in the election authorities tab that displays the number of pending tasks
     return getters.getCheckBallotTasks(id).length + getters.getCheckConfirmationTasks(id).length + getters.hasMixingTask(id) + getters.hasDecryptionTask(id)
   },
   getNumberOfTasksForAllAuthorities: (state, getters) => {
+    // Sums all pending tasks by calling getNumberOfTasks for all authorities
+    // used to control the visibility of the red exclamation mark in the election authority tab
     let count = 0
     for (let i = 0; i < 3; i++) {
       count += (getters.getCheckBallotTasks(i).length + getters.getCheckConfirmationTasks(i).length + getters.hasMixingTask(i) + getters.hasDecryptionTask(i))
@@ -140,14 +151,19 @@ const getters = {
     return -1
   },
   hasAuthorityMixed: (state, getters) => (authorityId) => {
+    // returns true or false whether an authority has already mixed
     let electionAuthority = getters.getElectionAuthority(authorityId)
     return electionAuthority.encryptionsShuffled.length > 0
   },
   haveAllAuthoritiesMixed: (state, getters) => {
+    // returns true or false whether all authorities have already mixed
     if (getters.numberOfElectionAuthorities === 0) return null
     return getters.hasAuthorityMixed(getters.numberOfElectionAuthorities - 1)
   },
   getEncryptionsForAuthority: (state, getters) => (authorityId) => {
+    // returns a list of encryptions of an authority
+    // If the authority has already shuffled, returns the list of shuffled encryptions
+    // otherwise returns the list of unshuffled encryptions
     let electionAuthority = getters.getElectionAuthority(authorityId)
     let encSource = null
     if (electionAuthority.encryptionsShuffled.length > 0) {
@@ -157,6 +173,7 @@ const getters = {
     }
     let encryptions = []
     let i = 0
+    // create a new list with named properties .a and .b for easier lookup
     for (let enc of encSource) {
       // combine the encryptions with the permutation. The permutation is required as a key for the shuffle transition animation
       encryptions.push({a: enc[0], b: enc[1], key: electionAuthority.permutation[i++]})

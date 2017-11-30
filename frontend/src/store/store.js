@@ -52,38 +52,49 @@ export const store = new Vuex.Store({
       Vue.set(state.Voter, 'voters', deepCopy)
     },
     SOCKET_CONNECT: (state, data) => {
+      // Called whenever a websocket connection is established
       state.connected = true
     },
     SOCKET_DISCONNECT: (state, data) => {
+      // Called whenever a websocket connection is closed
       state.connected = false
+      // reset joinedElectionId such that the next call of some election route will use the joinMixin to subscribe
       state.joinedElectionId = null
     },
     SOCKET_JOINACK: (state, electionId) => {
+      // answer after join call. Remember joinedElectionId to prevent unnecessary join calls and initial data syncs
       state.joinedElectionId = electionId
       state.selectedVoter = 0
       state.loaded = true
     },
     selectedVoter: (state, selectedVoter) => {
+      // Called whenever the selected voter has changed in the voter view
       state.selectedVoter = selectedVoter
     },
     selectedAuthority: (state, selectedAuthority) => {
+      // Called whenever the selected election authority has changed in the election authorities view
       state.selectedAuthority = selectedAuthority
     },
     voterDialog: (state, value) => {
+      // sets the visibility of the changeVoter dialog
       state.voterDialog = value
     },
     language: (state, value) => {
+      // select language
       state.language = value
     },
     showConfidentiality: (state, value) => {
+      // sets the visibility of the confidentiality chip
       state.showConfidentiality = value
     },
     expertMode: (state, value) => {
+      // sets the expert mode setting (not used currently)
       state.expertMode = value
     }
   },
   getters: {
     joinedElectionId: (state, getters) => {
+      // returns the ID of the joined election.
       return state.joinedElectionId
     }
   },

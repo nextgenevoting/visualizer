@@ -36,7 +36,6 @@
               // Calculating the exact bitlength only works up to ~1024 bit; numbers larger than that will simply be "infinity"
               // Math.ceil(Math.log(bigIntString) / Math.log(2))
               // alternative: Use an estimate, or use a bigint library
-
               const expectedBitLengths = [160, 224, 256, 1024, 2048, 3072]
               let estimate = Math.round(self.mpzValue.length * Math.log2(10))
               // check if the estimated bitlength is in +- 10 range of an expected bitlength
