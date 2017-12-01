@@ -1,22 +1,30 @@
 \chapter{Implementation}
-In this chapter, we will describe how we implemented the application. We will start explaining the architecture from a high-level perspective with each component being a black-box. Later sections of this chapter will then further describe the internals of each component.
+In this chapter, we will describe how we implemented the application. We will start explaining the architecture from a high-level perspective with each component being a black-box. Later sections of this chapter will then further describe the internals of every component.
 
-From a high-level perspective, our application consists of three components which themselves may consist of multiple sub components:
-\begin{figure}[h!]
+We have implemented our application following the "`single page application (SPA)"' architecture. Some reasons that lead to this decision:
+\begin{itemize}	
+	\item Due to our personal interest in JavaScript and our intention of improving our knowledge in this language, we wanted a significant part of the development to be done client-side
+	\item We imagined the state handling to be easier with a SPA than having to pass around cookies, session data, local storage etc. between every request
+	\item A SPA seemed great for building modern looking, intuitive and responsive user interfaces
+\end{itemize}
+
+From a high level perspective and following the SPA approach, we have structured our application into 3 main components:
+
 \begin{center}
 \includegraphics[scale=0.95]{assets/componentdiagram.png}
-\caption{System components}
+\captionof{figure}{System components}\label{System components}%
 \end{center}
 \end{figure}
-The \textbf{CHVote crypto-library} is the result of our "`Project 2"' course project which we have finished before our bachelor thesis. This library contains all the algorithms that we have implemented according to the specification. 
 
-The back-end consists of several components that make use of the CHVote crypto-library to build an actual e-voting ecosystem and providing an API to manipulate its state as well as a data sync service to synchronize data from the back-end to the web-clients. All the sub-components of the backend run on a single server.
+	\item The front-end basically is the JavaScript based web-application where all the functionality of our back-end is consumed and where a typical CHVote election event is visualized.
+	\item The \textbf{CHVote crypto-library} is the result of our "`Project 2"' course project which we have finished before our bachelor thesis. This library contains all the algorithms that are specified as pseudocode in the specification document.
+	\item The \textbf{back-end} consists of several components that make use of the CHVote crypto-library to build an actual e-voting ecosystem and providing an API to manipulate the data as well as a data sync service to synchronize data from the back-end to the web-clients. All the sub-components of the backend run on a single server.
+\end{itemize}
 
-The front-end basically is the web-app where all the functionality of our back-end is consumed and the resulting election state is visualized.
 \section{Technology \& Language Decisions}
-When we implemented the CHVote crypto-library, we have evaluated and decided to use Python. Since Java has already been used by the team in Geneva, we wanted to use a different language as it was desirable to prove that the CHVote specification can be implemented in any language. Python seemed like a rather suitable language due to the following reasons:
+When we implemented the CHVote crypto-library, we have evaluated and decided to use Python. Since Java has already been used by the team in Geneva, we wanted to use a different language as it was desirable to prove that the CHVote specification can be implemented regardless the programming language. Python seemed like a rather suitable language due to the following reasons:
 \begin{itemize}	
-	\item mature language with lots of libraries
+	\item python is a mature language with lots of libraries
 	\item python's syntax enables programs to be written in a compact and readable style
 	\item as the protocol wasn't completely specified at that point and has still been undergoing some changes, we wanted to use a language in which we can adapt changes quickly and easily
 	\item native support for large integers (\textit{BigInts}) and bindings for the GMP\footnote{GMP is a free library for arbitrary precision arithmetic, operating on signed integers, rational numbers, and floating-point numbers, see \url{https://gmplib.org/}.} library
