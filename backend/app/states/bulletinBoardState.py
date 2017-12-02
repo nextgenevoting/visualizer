@@ -6,6 +6,7 @@ class BulletinBoardState(State):
         self.electionID = electionID
         self.securityLevel = 1
         self.voters = []
+        self.titles = []
         self.countingCircles = []
         self.candidates = []
         self.numberOfCandidates = []

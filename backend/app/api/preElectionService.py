@@ -86,6 +86,7 @@ def setUpElection():
     countingCircles = json.loads(data["countingCircles"])
     numberOfSelections = data["numberOfSelections"]
     numberOfCandidates = data["numberOfCandidates"]
+    titles = data["titles"]
 
     try:
         # validate vote parameters
@@ -100,7 +101,7 @@ def setUpElection():
         voteSvc = VoteService(electionId)
 
         # perform action
-        voteSvc.setupElection(numberOfVoters, countingCircles, candidates, numberOfCandidates, numberOfSelections)
+        voteSvc.setupElection(numberOfVoters, countingCircles, candidates, numberOfCandidates, numberOfSelections, titles)
 
         #patches = voteSvc.getJSONPatches()
         # retrieve and persist modified state

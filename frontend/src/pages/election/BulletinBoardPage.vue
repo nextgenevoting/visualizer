@@ -109,6 +109,36 @@
                         </v-expansion-panel>
                     </DataCard>
                 </v-flex>
+                <v-flex xy12 md12>
+                    <DataCard title="Decryption proofs" :expandable=false confidentiality="public">
+                        <v-expansion-panel class="expansion-panel--popout">
+                            <v-expansion-panel-content v-for="(decryptionProof, index) in decryptionProofs" :key="index">
+                                <div slot="header">{{ $t('BulletinBoard.decryption_proofs_of_election_authority', { a: index + 1 }) }}</div>
+                                <v-card>
+                                    <v-card-text class="grey lighten-3">
+                                        <v-layout row wrap>
+                                            <v-flex xy2 md2>t:</v-flex>
+                                            <v-flex xy10 md10>
+                                                (<BigIntLabel :mpzValue="decryptionProof[0][0]"></BigIntLabel>,
+                                                (
+                                                <template v-for="t in decryptionProof[0][1]">
+                                                    <BigIntLabel :mpzValue="t"></BigIntLabel>,
+                                                </template>
+                                                ))
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xy2 md2>s:</v-flex>
+                                            <v-flex xy10 md10>
+                                                <BigIntLabel :mpzValue="decryptionProof[1]"></BigIntLabel>
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-card-text>
+                                </v-card>
+                            </v-expansion-panel-content>
+                        </v-expansion-panel>
+                    </DataCard>
+                </v-flex>
             </v-layout>
         </div>
         <div v-else>

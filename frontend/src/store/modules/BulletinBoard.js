@@ -3,6 +3,7 @@ const state = {
   electionID: null,
   voters: null,
   candidates: null,
+  titles: null,
   partialPublicVotingCredentials: null,
   numberOfSelections: null,
   numberOfCandidates: null,
@@ -25,6 +26,7 @@ const mutations = {
     const bb = JSON.parse(data)
     state.voters = bb.voters
     state.candidates = bb.candidates
+    state.titles = bb.titles
     state.partialPublicVotingCredentials = bb.partialPublicVotingCredentials
     state.numberOfSelections = bb.numberOfSelections
     state.numberOfCandidates = bb.numberOfCandidates
@@ -64,7 +66,7 @@ const getters = {
     }
   },
   haveAllAuthoritiesDecrypted: (state, getters) => {
-   // returns true or false depending on whether all authorities have finished decrypting
+    // returns true or false depending on whether all authorities have finished decrypting
     return getters.getDecryptionsForAuthority(getters.numberOfElectionAuthorities) !== null
   }
 }

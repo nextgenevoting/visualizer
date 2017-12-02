@@ -17,7 +17,7 @@ const fs = require('fs')
 const translate = require('google-translate-api')
 const deepmerge = require('deepmerge')
 
-if (process.argv.length == 2) {
+if (process.argv.length === 2) {
   var data = yaml.safeLoad(fs.readFileSync(yamlPresetFile, 'utf8'))
 
   const translations = []
@@ -68,11 +68,11 @@ if (process.argv.length == 2) {
 
   var i = 0
   getTranslation(i)
-} else if (process.argv.length === 3 && process.argv[2] == '--copy-only') {
+} else if (process.argv.length === 3 && process.argv[2] === '--copy-only') {
   var presets = yaml.safeLoad(fs.readFileSync(yamlPresetFile, 'utf8'))
   var translated = yaml.safeLoad(fs.readFileSync(yamlOutFile, 'utf8'))
 
-  var data = deepmerge(translated, presets)
+  data = deepmerge(translated, presets)
   delete data._keep
 
   fs.writeFile(yamlOutFile, warningMessage + yaml.safeDump(data), (err) => {

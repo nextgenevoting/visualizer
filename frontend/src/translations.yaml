@@ -830,8 +830,8 @@ ElectionStatus:
     sv: Ny
     zh-TW: 新
   status_1:
-    en: Election Set-Up
-    de: Datengenerierung
+    en: Election Preparation
+    de: Vorbereitungsphase
     es: Configuración de elecciones
     fi: Valiokunnan asettaminen
     fr: Élection mise en place
@@ -1426,8 +1426,8 @@ Voter:
     sv: 'Myndighet {n} behandlar din röst.'
     zh-TW: 'Authority {n}正在處理您的投票。'
   your_selection_for_election_n:
-    en: 'Your selection for election {n}'
-    de: 'Ihre Selektion for die Wahl {n}'
+    en: 'You can choose {n} candidates'
+    de: 'Sie können {n} Kandidaten wählen'
     es: 'Su elección para elección {n}'
     fi: 'Valintasi {n}'
     fr: 'Votre sélection pour l''élection {n}'
@@ -2029,3 +2029,6 @@ BallotList:
     'no': Har allerede bekreftelse
     ru: Уже есть подтверждение
     sv: Har redan bekräftelse
+  noBallots:
+    en: No ballots yet
+    de: Noch keine Stimmen

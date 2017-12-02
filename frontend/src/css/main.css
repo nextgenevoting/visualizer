@@ -3,6 +3,10 @@ body{
   font-size: 16px;
   font-weight: 300;
 }
+.application > main{
+  background: url(/public/bg2.png)
+}
+
 ul, li{
   list-style-type:  none;
 }

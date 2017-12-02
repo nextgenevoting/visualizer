@@ -25,6 +25,17 @@ class BulletinBoard(Actor):
         AssertList(value)
         self.state.voters = value
 
+
+    @property
+    def titles(self):
+        return self.state.titles
+
+    @titles.setter
+    def titles(self, value):
+        AssertList(value)
+        self.state.titles = value
+
+
     @property
     def countingCircles(self):
         return self.state.countingCircles

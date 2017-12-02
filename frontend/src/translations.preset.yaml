@@ -265,6 +265,9 @@ BulletinBoard:
   shuffle_proofs_of_election_authority:
     en: Shuffle proof of Election Authority {a}
     de: Misch-Beweis der Wahlen-Authorität {a}
+  decryption_proofs_of_election_authority:
+    en: Decryption proof of Election Authority {a}
+    de: Entschlüsselungs-Beweis der Wahlen-Authorität {a}
   commitments_c:
     en: 'Commitments c:'
     de: 'Commitments c:'
@@ -390,8 +393,8 @@ Voter:
     en: Authority {n} is processing your vote.
     de: Authorität {n} verarbeitet Ihre Stimme.
   your_selection_for_election_n:
-    en: Your selection for election {n}
-    de: Ihre Selektion for die Wahl {n}
+    en: You can choose {n} candidates
+    de: Sie können {n} Kandidaten wählen
   simulate_attack:
     en: Simulate attack
     de: Angriff simulieren
@@ -500,6 +503,9 @@ Mixing:
     de: Die Authorität hat die Liste der Verschlüsselungen nach folgender Permutation gemischt
 
 BallotList:
+  noBallots:
+    en: No ballots yet
+    de: Noch keine Stimmen
   valid:
     en: Valid
     de: Gültig

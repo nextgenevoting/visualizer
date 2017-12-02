@@ -100,12 +100,13 @@ class VoteService(object):
 
     # setupElection()
     # Set the pre-election parameters and generate electorate data
-    def setupElection(self, numberOfVoters, w_bold, c_bold, n_bold, k_bold):
+    def setupElection(self, numberOfVoters, w_bold, c_bold, n_bold, k_bold, titles):
         self.bulletinBoard.countingCircles = w_bold
         self.bulletinBoard.candidates = c_bold
         self.bulletinBoard.numberOfCandidates = n_bold
         self.bulletinBoard.numberOfSelections = k_bold
         self.bulletinBoard.numberOfParallelElections = len(k_bold)
+        self.bulletinBoard.titles = titles
 
         voters = []
         for v in range(numberOfVoters):

@@ -212,6 +212,7 @@ export default {
         let candidates = Vue._.flatMap(this.elections, (election) => election.candidates)
         let numberOfCandidates = Vue._.flatMap(this.elections, (election) => election.candidates.length)
         let numberOfSelections = Vue._.flatMap(this.elections, (election) => parseInt(election.numberOfSelections))
+        let titles = Vue._.flatMap(this.elections, (election) => election.title)
         let countingCircles = (() => {
           var i = 1
           return JSON.stringify(Vue._.flatMap(this.countingCircles.map((n) => Array(parseInt(n)).fill(i++))))
@@ -223,7 +224,8 @@ export default {
           'candidates': candidates,
           'numberOfCandidates': numberOfCandidates,
           'numberOfSelections': numberOfSelections,
-          'countingCircles': countingCircles
+          'countingCircles': countingCircles,
+          'titles': titles
         }).then(response => {
           response.json().then((data) => {
             // success callback

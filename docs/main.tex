@@ -48,6 +48,11 @@
 	bottom	= 30mm
 }
 
+\makeatletter
+\AtBeginEnvironment{minted}{\dontdofcolorbox}
+\def\dontdofcolorbox{\renewcommand\fcolorbox[4][]{##4}}
+\makeatother
+
 % Header and footer
 % The use of "\chapter" forces "\pagestyle{plain}", therefore both page styles
 % "plain" and "fancy" have to be set
