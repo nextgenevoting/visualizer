@@ -98,3 +98,6 @@ def syncElectionAuthorities(electionID, syncType):
         emitToClient('syncElectionAuthorities', json.dumps(electionAuthorities, default=mpzconverter), syncType, electionID)
     except Exception as ex:
         raise RuntimeError("No ElectionAuthorityStates for election {}!".format(electionID))
+
+def pushVoterMessage(electionID, voterID, message):
+    emitToClient('voterMessage', { 'voterId': voterID, 'message': message}, SyncType.ROOM, electionID)

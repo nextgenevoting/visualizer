@@ -1,3 +1,6 @@
+import Vue from 'vue'
+import router from '../../main.js'
+
 /*
 import { normalize, schema } from 'normalizr'
 
@@ -19,6 +22,11 @@ const mutations = {
   SOCKET_SYNCVOTERS: (state, data) => {
     let json = JSON.parse(data)
     state.voters = json
+  },
+  SOCKET_VOTERMESSAGE: (state, data) => {
+    if (router.currentRoute.path.includes('/voter/') && parseInt(router.currentRoute.params.voterId) === data.voterId) {
+      Vue.toasted.error(data.message)
+    }
   }
 }
 

@@ -276,6 +276,10 @@ class ElectionAuthority(Actor):
             raise RuntimeError("checkBallotTask not found on election authority")
 
         self.checkBallotTasks.remove(checkBallotTask)
+
+        from app.api.syncService import pushVoterMessage
+        pushVoterMessage(bulletinBoard.electionID, checkBallotTask.voterId, "Ballot is not valid!")
+
         return
 
     def checkConfirmation(self, confirmationId, bulletinBoard, secparams):
@@ -322,6 +326,8 @@ class ElectionAuthority(Actor):
             raise RuntimeError("checkConfirmationTask not found on election authority")
 
         self.checkConfirmationTasks.remove(checkConfirmationTask)
+        from app.api.syncService import pushVoterMessage
+        pushVoterMessage(bulletinBoard.electionID, checkConfirmationTask.voterId, "Confirmation is not valid!")
         return
 
     def finalize(self, confirmationId, bulletinBoard, secparams):
