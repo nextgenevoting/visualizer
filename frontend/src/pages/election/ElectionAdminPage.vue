@@ -142,11 +142,19 @@ export default {
       },
       { title: 'Random election',
         generate: () => {
+          /*
           const candidates = [
             'Donald Trump', 'Vladimir Putin', 'George W Bush', 'Barack Obama', 'Hillary Clinton',
             'Vladimir Putin', 'Winston Churchill', 'Abraham Lincoln', 'Nelson Mandela', 'Otto von Bismarck',
             'Angela Merkel', 'Chuck Norris', 'David Hasselhoff', 'Helene Fischer', 'Michelle Obama',
             'Marine Le Pen', 'Tony Blair', 'Bill Clinton', 'Donald Rumsfeld', 'Condoleezza Rice'
+          ]
+          */
+          const candidates = [
+            'Soila', 'Sheryll', 'Shawnna', 'Regena', 'Lien', 'Wynell', 'Erna', 'Lesia', 'Cordia', 'Pattie',
+            'Susie', 'Annmarie', 'Argentina', 'Herminia', 'Leeanna', 'Audrey', 'Sherilyn', 'Verdell', 'Denita',
+            'Tara', 'Wilton', 'Thanh', 'Mitchel', 'Romeo', 'Vern', 'Thad', 'Willard', 'Bryon', 'Jacinto', 'Kelvin',
+            'Carmine', 'Mervin', 'Benjamin', 'Fidel', 'Isreal', 'Carmen', 'Ulysses', 'Fredric', 'Rob', 'Britt'
           ]
 
           this.countingCircles = [...new Array(rand(1, 5))].map(() => rand(2, 5))
