@@ -18,6 +18,8 @@ def castVote():
     print(data)
     electionId = data["election"]
     selection = data["selection"]
+    selection = [int(x) for x in selection]
+    selection.sort()
     voterId = data["voterId"]
     votingCode = data["votingCode"]
     manipulatedPublicCredential = data["manipulatedPublicCredential"]

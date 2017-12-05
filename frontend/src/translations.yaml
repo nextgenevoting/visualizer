@@ -998,6 +998,9 @@ BulletinBoard:
     ru: Параллельные выборы
     sv: Parallellt val
     zh-TW: 平行選舉
+  decryption_proofs_of_election_authority:
+    en: 'Decryption proof of Election Authority {a}'
+    de: 'Entschlüsselungs-Beweis der Wahlen-Authorität {a}'
 ElectionAdmin:
   title:
     en: Election Administration

@@ -239,7 +239,7 @@
               for (i = 0; i < this.numberOfCandidates[j]; i++) {
                 candidates.push({
                   name: this.candidates[startIndex + i],
-                  index: startIndex + i,
+                  index: Number(startIndex + i),
                   checked: false
                 })
               }
@@ -264,7 +264,8 @@
           this.$store.commit('voterDialog', true)
         },
         castVote: _.debounce(function (manipulateSelection, manipulateCredential) {
-          let candidateSelection = Vue._.clone(this.selection).sort()
+          let candidateSelection = Vue._.clone(this.selection).sort((a, b) => a - b)
+
           if (manipulateSelection) {
             candidateSelection[0] = (candidateSelection[0] + 1) % this.numberOfCandidates[0]
           }
