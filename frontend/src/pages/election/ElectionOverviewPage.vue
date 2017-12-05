@@ -22,7 +22,7 @@
         </v-stepper>
       </v-flex>
       <v-btn v-if="1==1" color="primary" v-on:click="debugVotingSim">Debug</v-btn>
-      <img src="/public/parties-overview.svg" class="svg">
+      <!-- img src="/public/parties-overview.svg" class="svg" -->
     </div>
     <div v-else>
       <LoadingOverlay></LoadingOverlay>
