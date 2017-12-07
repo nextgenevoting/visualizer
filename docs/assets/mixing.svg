@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<!-- Generiert durch Microsoft Visio, SVG Export mixing.svg Page-1 -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
+		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="11.6929in" height="8.26772in"
+		viewBox="0 0 841.89 595.276" xml:space="preserve" color-interpolation-filters="sRGB" class="st8">
+	<v:documentProperties v:langID="2055" v:metric="true" v:viewMarkup="false">
+		<v:userDefs>
+			<v:ud v:nameU="msvNoAutoConnect" v:val="VT0(1):26"/>
+		</v:userDefs>
+	</v:documentProperties>
+
+	<style type="text/css">
+	<![CDATA[
+		.st1 {fill:#ffffff;stroke:#000000;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st2 {fill:#ffffff;stroke:#ffffff;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st3 {fill:#000000;font-family:Calibri;font-size:0.916672em;font-weight:bold}
+		.st4 {font-size:1em;font-weight:normal}
+		.st5 {fill:#595959;stroke:none;stroke-linecap:butt;stroke-width:0.75}
+		.st6 {fill:none;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.75}
+		.st7 {fill:#000000;font-family:Calibri;font-size:1.00001em}
+		.st8 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+	]]>
+	</style>
+
+	<g v:mID="0" v:index="1" v:groupContext="foregroundPage">
+		<title>Zeichenblatt-1</title>
+		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
+				v:shadowOffsetY="-8.50394"/>
+		<v:layer v:name="Websiteübersicht-Shapes" v:index="0"/>
+		<v:layer v:name="Verbinder" v:index="1"/>
+		<g id="shape35-1" v:mID="35" v:groupContext="shape" transform="translate(47.8918,-415.644)">
+			<title>Entität.9</title>
+			<v:userDefs>
+				<v:ud v:nameU="msvShapeCategories" v:prompt="" v:val="VT4(Database;DbEntity)"/>
+				<v:ud v:nameU="EntityName" v:prompt="" v:val="VT4()"/>
+				<v:ud v:nameU="EntityNameSpace" v:prompt="" v:val="VT4()"/>
+				<v:ud v:nameU="Weak" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="Composite" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L116.81 595.28 L116.81 500.68 L0 500.68 L0 595.28 Z" class="st1"/>
+		</g>
+		<g id="shape38-3" v:mID="38" v:groupContext="shape" transform="translate(51.3208,-424.516)">
+			<title>Tabelle.38</title>
+			<desc>Voter Voter 1 Voter 2 Voter 3 Voter 4 Voter 5</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)"/>
+			<v:textRect cx="46.063" cy="554.542" width="92.13" height="81.4681"/>
+			<rect x="0" y="513.807" width="92.126" height="81.4681" class="st2"/>
+			<text x="4" y="524.84" class="st3" v:langID="1033"><v:paragraph v:bulletSize="0.166667"/><v:tabList/>Voter<v:newlineChar/><tspan
+						x="4" dy="1.2em" class="st4">Voter 1<v:newlineChar/></tspan><tspan x="4" dy="1.2em" class="st4">Voter 2<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4">Voter 3<v:newlineChar/></tspan><tspan x="4" dy="1.2em" class="st4">Voter 4<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4">Voter 5</tspan></text>		</g>
+		<g id="shape39-11" v:mID="39" v:groupContext="shape" transform="translate(97.7119,-428.059)">
+			<title>Tabelle.39</title>
+			<desc>Encryption 12345… 23456… 35453… 42342… 53234…</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)"/>
+			<v:textRect cx="31.7829" cy="558.085" width="63.57" height="74.3815"/>
+			<rect x="0" y="520.894" width="63.5657" height="74.3815" class="st2"/>
+			<text x="4" y="528.38" class="st3" v:langID="1033"><v:paragraph v:bulletSize="0.166667"/><v:tabList/>Encryption<v:newlineChar/><tspan
+						x="4" dy="1.2em" class="st4">12345…<v:newlineChar/></tspan><tspan x="4" dy="1.2em" class="st4">23456…<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4">35453…<v:newlineChar/></tspan><tspan x="4" dy="1.2em" class="st4">42342…<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4">53234…</tspan></text>		</g>
+		<g id="shape40-19" v:mID="40" v:groupContext="shape" transform="translate(203.797,-415.644)">
+			<title>Entität.40</title>
+			<v:userDefs>
+				<v:ud v:nameU="msvShapeCategories" v:prompt="" v:val="VT4(Database;DbEntity)"/>
+				<v:ud v:nameU="EntityName" v:prompt="" v:val="VT4()"/>
+				<v:ud v:nameU="EntityNameSpace" v:prompt="" v:val="VT4()"/>
+				<v:ud v:nameU="Weak" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="Composite" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L79.67 595.28 L79.67 500.68 L0 500.68 L0 595.28 Z" class="st1"/>
+		</g>
+		<g id="shape42-21" v:mID="42" v:groupContext="shape" transform="translate(215.516,-428.059)">
+			<title>Tabelle.42</title>
+			<desc>Encryption 12345… 23456… 35453… 42342… 53234…</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)"/>
+			<v:textRect cx="31.7829" cy="558.085" width="63.57" height="74.3815"/>
+			<rect x="0" y="520.894" width="63.5657" height="74.3815" class="st2"/>
+			<text x="4" y="528.38" class="st3" v:langID="1033"><v:paragraph v:bulletSize="0.166667"/><v:tabList/>Encryption<v:newlineChar/><tspan
+						x="4" dy="1.2em" class="st4">12345…<v:newlineChar/></tspan><tspan x="4" dy="1.2em" class="st4">23456…<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4">35453…<v:newlineChar/></tspan><tspan x="4" dy="1.2em" class="st4">42342…<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4">53234…</tspan></text>		</g>
+		<g id="shape44-29" v:mID="44" v:groupContext="shape" transform="translate(331.356,-415.644)">
+			<title>Entität.44</title>
+			<v:userDefs>
+				<v:ud v:nameU="msvShapeCategories" v:prompt="" v:val="VT4(Database;DbEntity)"/>
+				<v:ud v:nameU="EntityName" v:prompt="" v:val="VT4()"/>
+				<v:ud v:nameU="EntityNameSpace" v:prompt="" v:val="VT4()"/>
+				<v:ud v:nameU="Weak" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="Composite" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L79.67 595.28 L79.67 500.68 L0 500.68 L0 595.28 Z" class="st1"/>
+		</g>
+		<g id="shape45-31" v:mID="45" v:groupContext="shape" transform="translate(339.407,-427.879)">
+			<title>Tabelle.45</title>
+			<desc>Encryption 23456… 12345… 35453… 42342… 53234…</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)"/>
+			<v:textRect cx="31.7829" cy="558.085" width="63.57" height="74.3815"/>
+			<rect x="0" y="520.894" width="63.5657" height="74.3815" class="st2"/>
+			<text x="4" y="528.38" class="st3" v:langID="1033"><v:paragraph v:bulletSize="0.166667"/><v:tabList/>Encryption<v:newlineChar/><tspan
+						x="4" dy="1.2em" class="st4">23456…<v:newlineChar/></tspan><tspan x="4" dy="1.2em" class="st4">12345…<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4">35453…<v:newlineChar/></tspan><tspan x="4" dy="1.2em" class="st4">42342…<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4">53234…</tspan></text>		</g>
+		<g id="shape49-39" v:mID="49" v:groupContext="shape" transform="translate(170.079,-453.072)">
+			<title>Weiter</title>
+			<v:userDefs>
+				<v:ud v:nameU="msvShapeCategories" v:prompt="" v:val="VT4(Icon)"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 577.01 L0 589.19 L11.99 589.19 L11.99 595.28 L26.37 583.12 L11.99 570.92 L11.99 577.01 L0 577.01 Z"
+					class="st5"/>
+		</g>
+		<g id="shape50-41" v:mID="50" v:groupContext="shape" transform="translate(297.638,-453.072)">
+			<title>Weiter.50</title>
+			<v:userDefs>
+				<v:ud v:nameU="msvShapeCategories" v:prompt="" v:val="VT4(Icon)"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 577.01 L0 589.19 L11.99 589.19 L11.99 595.28 L26.37 583.12 L11.99 570.92 L11.99 577.01 L0 577.01 Z"
+					class="st5"/>
+		</g>
+		<g id="shape51-43" v:mID="51" v:groupContext="shape" transform="translate(103.118,-514.409)">
+			<title>Tabelle.51</title>
+			<desc>Extract encryptions</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st6"/>
+			<text x="28.91" y="588.88" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Extract encryptions</text>		</g>
+		<g id="shape52-46" v:mID="52" v:groupContext="shape" transform="translate(240.945,-514.409)">
+			<title>Tabelle.52</title>
+			<desc>Shuffle</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st6"/>
+			<text x="58.91" y="588.88" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Shuffle</text>		</g>
+		<g id="shape62-49" v:mID="62" v:groupContext="shape" transform="translate(458.915,-418.11)">
+			<title>Entität.62</title>
+			<v:userDefs>
+				<v:ud v:nameU="msvShapeCategories" v:prompt="" v:val="VT4(Database;DbEntity)"/>
+				<v:ud v:nameU="EntityName" v:prompt="" v:val="VT4()"/>
+				<v:ud v:nameU="EntityNameSpace" v:prompt="" v:val="VT4()"/>
+				<v:ud v:nameU="Weak" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="Composite" v:prompt="" v:val="VT0(0):26"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 595.28 L79.67 595.28 L79.67 500.68 L0 500.68 L0 595.28 Z" class="st1"/>
+		</g>
+		<g id="shape63-51" v:mID="63" v:groupContext="shape" transform="translate(466.966,-430.345)">
+			<title>Tabelle.63</title>
+			<desc>Encryption 75564… 65781… 61542… 12548… 35656…</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)"/>
+			<v:textRect cx="31.7829" cy="558.085" width="63.57" height="74.3815"/>
+			<rect x="0" y="520.894" width="63.5657" height="74.3815" class="st2"/>
+			<text x="4" y="528.38" class="st3" v:langID="1033"><v:paragraph v:bulletSize="0.166667"/><v:tabList/>Encryption<v:newlineChar/><tspan
+						x="4" dy="1.2em" class="st4" v:langID="2055">75564</tspan><tspan class="st4">…<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4" v:langID="2055">65781</tspan><tspan class="st4">…<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4" v:langID="2055">61542</tspan><tspan class="st4">…<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4" v:langID="2055">12548</tspan><tspan class="st4">…<v:newlineChar/></tspan><tspan
+						x="4" dy="1.2em" class="st4" v:langID="2055">35656</tspan><tspan class="st4">…</tspan></text>		</g>
+		<g id="shape64-64" v:mID="64" v:groupContext="shape" transform="translate(425.197,-455.539)">
+			<title>Weiter.64</title>
+			<v:userDefs>
+				<v:ud v:nameU="msvShapeCategories" v:prompt="" v:val="VT4(Icon)"/>
+				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
+			</v:userDefs>
+			<path d="M0 577.01 L0 589.19 L11.99 589.19 L11.99 595.28 L26.37 583.12 L11.99 570.92 L11.99 577.01 L0 577.01 Z"
+					class="st5"/>
+		</g>
+		<g id="shape65-66" v:mID="65" v:groupContext="shape" transform="translate(358.236,-514.409)">
+			<title>Tabelle.65</title>
+			<desc>Re-Encryption</desc>
+			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
+			<v:textRect cx="76" cy="585.276" width="152" height="20"/>
+			<rect x="0" y="575.276" width="152" height="20" class="st6"/>
+			<text x="41.64" y="588.88" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Re-Encryption</text>		</g>
+	</g>
+</svg>

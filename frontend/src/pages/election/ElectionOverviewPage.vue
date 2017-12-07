@@ -9,8 +9,8 @@
             <v-divider></v-divider>
             <v-stepper-step step="2" :complete="status >= 2">{{$t('ElectionStatus.status_2')}}</v-stepper-step>
             <v-divider></v-divider>
-            <!--<v-stepper-step step="3" :complete="status >= 3">{{$t('ElectionStatus.status_3')}}</v-stepper-step>
-            <v-divider></v-divider>-->
+            <v-stepper-step step="3" :complete="status >= 3">{{$t('ElectionStatus.status_3')}}</v-stepper-step>
+            <v-divider></v-divider>
             <v-stepper-step step="4" :complete="status >= 4">{{$t('ElectionStatus.status_4')}}</v-stepper-step>
             <v-divider></v-divider>
             <v-stepper-step step="5" :complete="status >= 5">{{$t('ElectionStatus.status_5')}}</v-stepper-step>

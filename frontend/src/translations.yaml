@@ -830,8 +830,8 @@ ElectionStatus:
     sv: Ny
     zh-TW: 新
   status_1:
-    en: Election Preparation
-    de: Vorbereitungsphase
+    en: Preparation
+    de: Vorbereitung
     es: Configuración de elecciones
     fi: Valiokunnan asettaminen
     fr: Élection mise en place
@@ -854,8 +854,8 @@ ElectionStatus:
     sv: Utskrift
     zh-TW: 印花
   status_3:
-    en: Votingcard Delivery
-    de: Lieferung der Votingcards
+    en: Delivery
+    de: Versand
     es: Entrega de tarjetas de votación
     fi: Äänestyskorttitoimitus
     fr: Livraison par carte de vote
