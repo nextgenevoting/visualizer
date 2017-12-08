@@ -198,6 +198,9 @@ main:
   bulletin_board:
     en: Bulletin Board
     de: Bulletin-Board
+  verifier:
+    en: Verifier
+    de: Verifier
   view_source_code:
     en: View application source code at the BFH Gitlab
     de: Quellcode der Applikation im BFH-Gitlab ansehen
@@ -283,6 +286,11 @@ BulletinBoard:
   parallel_elections:
     en: Parallel elections
     de: Parallele Wahlen
+
+Verifier:
+  title:
+    en: Verifier
+    de: Verifier
 
 ElectionAdmin:
   title:

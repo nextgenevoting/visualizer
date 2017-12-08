@@ -121,6 +121,10 @@
             <v-icon>mdi-bulletin-board</v-icon>
             {{ $t('main.bulletin_board') }}
           </v-tabs-item>
+          <v-tabs-item ripple :to="{ name: 'verifier', params: {electionId: electionId }}">
+            <v-icon>mdi-checkbox-marked-outline</v-icon>
+            {{ $t('main.verifier') }}
+          </v-tabs-item>
         </v-tabs-bar>
       </v-tabs>
     </header>

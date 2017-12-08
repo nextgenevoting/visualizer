@@ -179,6 +179,11 @@ const getters = {
       encryptions.push({a: enc[0], b: enc[1], key: electionAuthority.permutation[i++]})
     }
     return encryptions
+  },
+  getPublicVotingCredentials: (state, getters) => {
+    // Returns the publicVotingCredentials
+    let electionAuthority = getters.getElectionAuthority(0)
+    if (electionAuthority !== null) { return electionAuthority.publicVotingCredentials[0] } else { return [] }
   }
 }
 

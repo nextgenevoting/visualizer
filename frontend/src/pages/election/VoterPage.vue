@@ -142,17 +142,24 @@
         </div>
         <SelectVoterDialog></SelectVoterDialog>
         <v-layout row wrap justify-center>
-            <v-dialog v-model="attackCredentialDialog" persistent max-width="290">
+            <v-dialog v-model="attackCredentialDialog" persistent max-width="400">
                 <v-card>
                     <v-card-title class="headline">Manipulate credential</v-card-title>
                     <v-card-text>Please enter a public voting credential:</v-card-text>
                     <v-card-text>
                         <v-form>
-                        <v-text-field
-                                label="Manipulate public credential"
+                        <v-select
+                                v-bind:items="publicVotingCredentials"
                                 v-model="manipulatedCredentialInput"
-                                required
-                        ></v-text-field>
+                                label="Select"
+                                single-line
+                                bottom
+                        ></v-select>
+                        <v-text-field
+                                 label="Manipulate public credential"
+                                 v-model="manipulatedCredentialInput"
+                                 required
+                         ></v-text-field>
                         </v-form>
                     </v-card-text>
                     <v-card-actions>
@@ -224,6 +231,15 @@
             } else {
               return ''
             }
+          }
+        },
+        publicVotingCredentials: {
+          get: function () {
+            let res = []
+            for (const [index, cred] of this.$store.getters.getPublicVotingCredentials.entries()) {
+              res.push({ text: `Voter ${index + 1}`, value: cred })
+            }
+            return res
           }
         },
         candidatesForElection: {

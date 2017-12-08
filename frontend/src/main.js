@@ -19,6 +19,7 @@ import PrintingAuthPage from './pages/election/PrintingAuthPage.vue'
 import ElectionOverviewPage from './pages/election/ElectionOverviewPage.vue'
 import ElectionAdminPage from './pages/election/ElectionAdminPage.vue'
 import BulletinBoardPage from './pages/election/BulletinBoardPage.vue'
+import VerifierPage from './pages/election/VerifierPage.vue'
 import ElectionAuthorityPage from './pages/election/ElectionAuthorityPage.vue'
 import ConfirmationTaskPage from './pages/election/electionAuthoritySubpages/ConfirmationTaskPage.vue'
 import CheckBallotTaskPage from './pages/election/electionAuthoritySubpages/CheckBallotTaskPage.vue'
@@ -53,6 +54,7 @@ const routes = [
   { path: '/election/:electionId/printing', name: 'printingauth', component: PrintingAuthPage },
   { path: '/election/:electionId/voter/:voterId', name: 'voter', component: VoterPage },
   { path: '/election/:electionId/bulletinBoard', name: 'bulletinboard', component: BulletinBoardPage },
+  { path: '/election/:electionId/verifier', name: 'verifier', component: VerifierPage },
   { path: '/election/:electionId/electionAuthority/:authid', name: 'electionauthority', component: ElectionAuthorityPage },
   { path: '/login', name: '/login', component: LoginPage },
   { path: '*', redirect: { name: 'home' } }

@@ -725,6 +725,9 @@ main:
     ru: Просмотреть исходный код приложения в BFH Gitlab
     sv: Visa programkodskod på BFH Gitlab
     zh-TW: 查看BFH Gitlab的應用程序源代碼
+  verifier:
+    en: Verifier
+    de: Verifier
 homePage:
   welcome:
     title:
@@ -2035,3 +2038,7 @@ BallotList:
   noBallots:
     en: No ballots yet
     de: Noch keine Stimmen
+Verifier:
+  title:
+    en: Verifier
+    de: Verifier
