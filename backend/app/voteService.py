@@ -374,7 +374,7 @@ class VoteService(object):
         res.shuffleDimensionCheck = shuffleDimensionCheck
 
         # Decryption Proofs Check
-        self.decryptionProofCheck = CheckDecryptionProofs(self.bulletinBoard.decryptionProofs, self.bulletinBoard.publicKeyShares, self.bulletinBoard.encryptions[-1], self.bulletinBoard.decryptions, self.secparams )
+        res.decryptionProofsCheck = CheckDecryptionProofs(self.bulletinBoard.decryptionProofs, self.bulletinBoard.publicKeyShares, self.bulletinBoard.encryptions[-1], self.bulletinBoard.decryptions, self.secparams )
 
 
         self.bulletinBoard.verificationResult = res

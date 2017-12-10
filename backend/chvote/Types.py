@@ -74,4 +74,4 @@ class VerificationResult(object):
     def __init__(self):
         self.shuffleProofsCheck = None
         self.shuffleDimensionCheck = None
-        self.decryptionProofCheck = None
+        self.decryptionProofsCheck = None

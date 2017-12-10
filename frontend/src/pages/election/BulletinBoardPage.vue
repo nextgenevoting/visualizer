@@ -140,6 +140,8 @@
                     </DataCard>
                 </v-flex>
             </v-layout>
+            <ElectionResult v-if="status >= 7"></ElectionResult>
+
         </div>
         <div v-else>
             <LoadingOverlay></LoadingOverlay>

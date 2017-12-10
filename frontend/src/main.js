@@ -28,6 +28,7 @@ import DecryptionPage from './pages/election/electionAuthoritySubpages/Decryptio
 import SelectVoterDialog from './utils/SelectVoterDialog.vue'
 import LoadingOverlay from './utils/LoadingOverlay.vue'
 import BallotList from './utils/BallotList.vue'
+import ElectionResult from './utils/ElectionResult.vue'
 import BigIntLabel from './utils/BigIntLabel.vue'
 import TupleLabel from './utils/TupleLabel.vue'
 import VotingCard from './utils/VotingCard.vue'
@@ -92,6 +93,7 @@ Vue.component('MixingPage', MixingPage)
 Vue.component('DecryptionPage', DecryptionPage)
 Vue.component('DonutChart', DonutChart)
 Vue.component('BallotList', BallotList)
+Vue.component('ElectionResult', ElectionResult)
 
 Vue.url.options.root = process.env.URL_ROOT
 Vue.use(VueSocketio, process.env.SOCKETIO_BASE_URL, store)
