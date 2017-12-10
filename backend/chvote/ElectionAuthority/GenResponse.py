@@ -55,9 +55,6 @@ def GenResponse(v, a_bold, pk, n_bold, k_bold, E_bold, P_bold, secparams):
     t = len(n_bold)
     M = []
 
-    for j in range(n):
-        M.append(ToByteArrayN(P_bold[v][j].x, secparams.L_M//2) + ToByteArrayN(P_bold[v][j].y, secparams.L_M//2))
-
     z_1 = randomMpz(secparams.q, secparams)
     z_2 = randomMpz(secparams.q, secparams)
 
@@ -81,21 +78,23 @@ def GenResponse(v, a_bold, pk, n_bold, k_bold, E_bold, P_bold, secparams):
     C_bold = [[None for i in range(sum(k_bold))] for i in range(n)]
 
     for l in range(len(k_bold)):
-        for i in range(n_prime, n_prime + n_bold[l]):
-            p_prime_i = gmpy2.powmod(p_bold[i], z_1, secparams.p)
+        if E_bold[v][l] != 0:
+            for i in range(n_prime, n_prime + n_bold[l]):
+                p_prime_i = gmpy2.powmod(p_bold[i], z_1, secparams.p)
+                M.append(ToByteArrayN(P_bold[v][i].x, secparams.L_M // 2) + ToByteArrayN(P_bold[v][i].y, secparams.L_M // 2))
 
-            for j in range(k_prime, k_prime + E_bold[v][l] * k_bold[l]):
-                k_ij = p_prime_i * beta[j] % secparams.p
-                k_tmp = bytearray()
+                for j in range(k_prime, k_prime + E_bold[v][l] * k_bold[l]):
+                    k_ij = p_prime_i * beta[j] % secparams.p
+                    k_tmp = bytearray()
 
-                for c in range(l_M):
-                    k_tmp += RecHash([k_ij,c], secparams)
+                    for c in range(l_M):
+                        k_tmp += RecHash([k_ij,c], secparams)
 
-                K_ij = Truncate(k_tmp, secparams.L_M)
-                C_bold[i][j] = XorByteArray([M[i], K_ij])
+                    K_ij = Truncate(k_tmp, secparams.L_M)
+                    C_bold[i][j] = XorByteArray([M[i], K_ij])
 
+            k_prime = k_prime + E_bold[v][l]* k_bold[l]
         n_prime = n_prime + n_bold[l]
-        k_prime = k_prime + E_bold[v][l]* k_bold[l]
 
     d = (gmpy2.powmod(pk, z_1, secparams.p) * gmpy2.powmod(secparams.g, z_2, secparams.p)) % secparams.p
     beta = Response(b_bold, C_bold, d)

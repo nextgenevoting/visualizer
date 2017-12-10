@@ -1,6 +1,7 @@
 from chvote.ElectionAuthority.GenElectorateData import GenElectorateData
 from app.actors.Actor import Actor
-from chvote.Utils.Utils import AssertList, AssertInt, AssertMpz
+from chvote.Utils.Utils import AssertList, AssertInt, AssertMpz, AssertClass
+from chvote.Types import VerificationResult
 
 class BulletinBoard(Actor):
 
@@ -169,6 +170,15 @@ class BulletinBoard(Actor):
     def decryptionProofs(self, value):
         AssertList(value)
         self.state.decryptionProofs = value
+
+    @property
+    def verificationResult(self):
+        return self.state.verificationResult
+
+    @verificationResult.setter
+    def verificationResult(self, value):
+        AssertClass(value, VerificationResult)
+        self.state.verificationResult = value
 
 
     def getBallotById(self, ballotId):

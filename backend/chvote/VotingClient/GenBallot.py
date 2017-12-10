@@ -42,7 +42,8 @@ def GenBallot(X, s, pk, secparams, manipulatedPublicCredential = None):
         x_hat = mpz(manipulatedPublicCredential)
 
     q_bold = GetSelectedPrimes(s, secparams)                    # q = (q_1, ... , q_k)
-    
+    (a_bold, r_bold) = GenQuery(q_bold, pk, secparams)
+
     m = mpz(1)
     for j in range(len(q_bold)):
         m = m * q_bold[j]
@@ -50,18 +51,17 @@ def GenBallot(X, s, pk, secparams, manipulatedPublicCredential = None):
     if m >= secparams.p:
         return None
 
-    (a_bold, r_bold) = GenQuery(q_bold, pk, secparams)
-    a = mpz(1)
-    b = mpz(1)
+    #a = mpz(1)
+    #b = mpz(1)
     r = mpz(0)
 
     for j in range(len(q_bold)):
-        a = (a * a_bold[j][0]) % secparams.p
-        b = (b * a_bold[j][1]) % secparams.p
+        #a = (a * a_bold[j][0]) % secparams.p
+        #b = (b * a_bold[j][1]) % secparams.p
         r = (r + r_bold[j]) % secparams.q
 
-    e = (a, b)
-    pi = GenBallotProof(x,m,r,x_hat,e,pk, secparams)
+    #e = (a, b)
+    pi = GenBallotProof(x,m,r,x_hat,a_bold,pk, secparams)
     alpha = Ballot(x_hat,a_bold,pi)
 
     return (alpha, r_bold)

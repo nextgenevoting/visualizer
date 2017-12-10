@@ -15,6 +15,8 @@ from chvote.VotingClient.GetPointMatrix import GetPointMatrix
 from chvote.VotingClient.GetReturnCodes import GetReturnCodes
 from chvote.VotingClient.GetFinalizationCode import GetFinalizationCode
 from chvote.VotingClient.GenConfirmation import GenConfirmation
+from chvote.Verifier.CheckAllShuffleProofs import CheckAllShuffleProofs
+from chvote.ElectionAuthority.CheckDecryptionProofs import CheckDecryptionProofs
 from app.utils.JsonParser import mpzconverter
 import app.utils.jsonpatch as jsonpatch
 import json
@@ -354,3 +356,25 @@ class VoteService(object):
 
     def tally(self):
         self.electionAdministrator.tally(self.bulletinBoard, self.secparams)
+
+    def publishResult(self):
+        self.updateStatus(7)
+
+    def verifyElection(self):
+        res = VerificationResult()
+
+        # Shuffle Proofs Check
+        res.shuffleProofsCheck = CheckAllShuffleProofs(self.bulletinBoard.shuffleProofs, self.authorities[0].encryptions, self.bulletinBoard.encryptions, self.bulletinBoard.publicKey, self.secparams)
+
+        # Shuffle vector dimensions check
+        shuffleDimensionCheck = True
+        for auth in self.authorities:
+            if len(auth.encryptions) != len(auth.encryptionsShuffled):
+                shuffleDimensionCheck == False
+        res.shuffleDimensionCheck = shuffleDimensionCheck
+
+        # Decryption Proofs Check
+        self.decryptionProofCheck = CheckDecryptionProofs(self.bulletinBoard.decryptionProofs, self.bulletinBoard.publicKeyShares, self.bulletinBoard.encryptions[-1], self.bulletinBoard.decryptions, self.secparams )
+
+
+        self.bulletinBoard.verificationResult = res

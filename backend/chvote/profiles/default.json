@@ -17,6 +17,6 @@
   "k" : [1,1],
   "w" : [1,1],
   "E" : [[1,1], [1,1]],
-  "securityLevel" : 0,
+  "securityLevel" : 1,
   "deterministicRandomGeneration" : false
 }

@@ -41,6 +41,8 @@ const getters = {
         return 'Decryption Phase'
       case 6:
         return 'Tallying Phase'
+      case 7:
+        return 'Finished'
       default:
         return 'Unknown status'
     }

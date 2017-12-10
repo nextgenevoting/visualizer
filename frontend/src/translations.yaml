@@ -1124,6 +1124,9 @@ ElectionAdmin:
     ru: 'Все полномочия должны расшифровать, прежде чем вы сможете продолжить'
     sv: Alla myndigheter måste dekryptera innan du kan fortsätta
     zh-TW: 所有當局必須解密，然後才能繼續
+  publishResult:
+    en: Publish election result
+    de: Veröffentlichen
 ElectionAuthority:
   title:
     en: Election Authorities
@@ -2042,3 +2045,9 @@ Verifier:
   title:
     en: Verifier
     de: Verifier
+  task:
+    en: Election Verification
+    de: Wahl-Verifikation
+  verify:
+    en: Verify election
+    de: Verifiziere Wahl

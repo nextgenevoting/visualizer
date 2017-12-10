@@ -52,17 +52,7 @@ def CheckBallot(v, alpha, pk, k_bold, E_bold, x_hat_bold, B, secparams):
     credentialCheck = x_hat_bold[v] == alpha.x_hat
     queryLength = len(alpha.a_bold) == k_prime
     if not hasBallot and credentialCheck and queryLength:
-        a = mpz(1)
-        for j in range(len(alpha.a_bold)):        # for j = 0 to k_i
-            a = (a * alpha.a_bold[j][0]) % secparams.p
-
-        b = mpz(1)
-        for j in range(len(alpha.a_bold)):        # for j = 0 to k_i
-            b = (b * alpha.a_bold[j][1]) % secparams.p
-
-        e = (a, b)
-
-        ballotProofCheck = CheckBallotProof(alpha.pi, alpha.x_hat, e, pk, secparams)
+        ballotProofCheck = CheckBallotProof(alpha.pi, alpha.x_hat, alpha.a_bold, pk, secparams)
         if ballotProofCheck:
             return True, []
 

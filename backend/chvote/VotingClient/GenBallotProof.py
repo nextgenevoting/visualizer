@@ -6,14 +6,14 @@ from gmpy2 import mpz
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from chvote.Utils.Utils              import AssertMpz, AssertClass
+from chvote.Utils.Utils              import AssertMpz, AssertClass, AssertList
 from chvote.Utils.Random             import randomMpz, randomQuadResMpz
-from chvote.Common.SecurityParams import SecurityParams, secparams_l0
+from chvote.Common.SecurityParams    import SecurityParams, secparams_l0
 from chvote.Common.GetNIZKPChallenge import GetNIZKPChallenge
 from chvote.UnitTestParams           import unittestparams
 from chvote.Types                    import *
 
-def GenBallotProof(x, m, r, x_hat, e, pk, secparams):
+def GenBallotProof(x, m, r, x_hat, a_bold, pk, secparams):
     """
     Algorithm 7.21: Generates a NIZKP, which proves that the ballot has been formed properly.
     This proof includes a proof of knowledge of the secret voting credential x that matches with
@@ -23,7 +23,7 @@ def GenBallotProof(x, m, r, x_hat, e, pk, secparams):
         x (mpz):                            Voting credential ∈ Z_q_hat
         m (mpz):                            Product of selected primes m ∈ G_q
         r (mpz):                            Randomization r ∈ Z_q
-        e (tuple):                          ElGamal Encryption (a,b) ∈ G_q x G_q
+        a_bold (list):                      OT queries
         pk (mpz):                           Encryption key pk ∈ G_q
         secparams (SecurityParams):         Collection of public security parameters
 
@@ -35,12 +35,10 @@ def GenBallotProof(x, m, r, x_hat, e, pk, secparams):
     AssertMpz(m)
     AssertMpz(r)
     AssertMpz(x_hat)
-    AssertMpz(e[0])
-    AssertMpz(e[1])
+    AssertList(a_bold)
     AssertMpz(pk)
     AssertClass(secparams, SecurityParams)
 
-    (a, b) = e
     w_1 = randomMpz(secparams.q_hat, secparams)
     w_2 = randomQuadResMpz(secparams)
     w_3 = randomMpz(secparams.q, secparams)
@@ -48,7 +46,7 @@ def GenBallotProof(x, m, r, x_hat, e, pk, secparams):
     t_2 = (w_2 * gmpy2.powmod(pk, w_3, secparams.p)) % secparams.p
     t_3 = gmpy2.powmod(secparams.g, w_3, secparams.p)
 
-    y = (x_hat, a, b)
+    y = (x_hat, a_bold)
     t = (t_1, t_2, t_3)
     c = GetNIZKPChallenge(y, t, secparams.tau, secparams)
 

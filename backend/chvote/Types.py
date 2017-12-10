@@ -67,5 +67,11 @@ class VoterConfirmation(object):
         self.confirmation = confirmation
         self.validity = 0
         self.finalizations = [None] * 3
-        self.timestamp = datetime.now().strftime("%d. %b %Y %H:%M:%S"
-)
+        self.timestamp = datetime.now().strftime("%d. %b %Y %H:%M:%S")
+
+
+class VerificationResult(object):
+    def __init__(self):
+        self.shuffleProofsCheck = None
+        self.shuffleDimensionCheck = None
+        self.decryptionProofCheck = None

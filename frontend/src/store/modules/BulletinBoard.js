@@ -41,6 +41,7 @@ const mutations = {
     state.decryptions = bb.decryptions
     state.shuffleProofs = bb.shuffleProofs
     state.decryptionProofs = bb.decryptionProofs
+    state.verificationResult = bb.verificationResult
   }
 }
 

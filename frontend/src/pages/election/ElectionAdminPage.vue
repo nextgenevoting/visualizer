@@ -80,8 +80,9 @@
         <p v-t="'ElectionAdmin.waitForDecryption'"></p>
       </div>
 
-      <div v-if="status == 6">
-        <v-btn @click="tally()">{{ $t('tally') }}</v-btn>
+      <div v-if="status >= 6">
+        <v-btn v-if="finalResults.length === 0" @click="tally()">{{ $t('tally') }}</v-btn>
+        <v-btn v-else @click="publishResult()">{{ $t('ElectionAdmin.publishResult') }}</v-btn>
         <h5 v-t="'post_election_data'"></h5>
         <v-layout row wrap>
           <v-flex xy12 md4>
@@ -275,7 +276,6 @@ export default {
         this.$toasted.error(e.body.message)
       })
     },
-
     tally () {
       this.$http.post('tally',
         {
@@ -284,6 +284,19 @@ export default {
       ).then(response => {
         response.json().then((data) => {
           this.$toasted.success(this.$i18n.t('ElectionAdmin.successfully_tallied_election'))
+        })
+      }).catch(e => {
+        this.$toasted.error(e.body.message)
+      })
+    },
+    publishResult () {
+      this.$http.post('publishResult',
+        {
+          'election': this.$route.params['electionId']
+        }
+      ).then(response => {
+        response.json().then((data) => {
+          this.$toasted.success(this.$i18n.t('ElectionAdmin.successfully_published_result'))
         })
       }).catch(e => {
         this.$toasted.error(e.body.message)

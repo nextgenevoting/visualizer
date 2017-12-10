@@ -30,4 +30,4 @@ class BulletinBoardState(State):
         self.decryptions = []
         self.decryptionProofs = []
 
-        self.test = [[[1],[2]]]
+        self.verificationResult = None

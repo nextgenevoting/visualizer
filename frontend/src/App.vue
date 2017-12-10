@@ -121,7 +121,7 @@
             <v-icon>mdi-bulletin-board</v-icon>
             {{ $t('main.bulletin_board') }}
           </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'verifier', params: {electionId: electionId }}">
+          <v-tabs-item ripple :to="{ name: 'verifier', params: {electionId: electionId }}" v-if="status >= 7">
             <v-icon>mdi-checkbox-marked-outline</v-icon>
             {{ $t('main.verifier') }}
           </v-tabs-item>
@@ -148,7 +148,7 @@
 </template>
 
 <script type="text/babel">
-  import { mapGetters } from 'vuex'
+  import { mapGetters, mapState } from 'vuex'
 
   export default {
     data () {
@@ -177,6 +177,9 @@
       languages () {
         return this.$root.$i18n._languages
       },
+      ...mapState({
+        status: 'status'
+      }),
       ...mapGetters({
         getNumberOfTasksForAllAuthorities: 'getNumberOfTasksForAllAuthorities'
       }),

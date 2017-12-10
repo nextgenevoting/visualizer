@@ -291,7 +291,12 @@ Verifier:
   title:
     en: Verifier
     de: Verifier
-
+  task:
+    en: Election Verification
+    de: Wahl-Verifikation
+  verify:
+    en: Verify election
+    de: Verifiziere Wahl
 ElectionAdmin:
   title:
     en: Election Administration
@@ -316,12 +321,18 @@ ElectionAdmin:
   successfully_tallied_election:
     en: Successfully tallied election.
     de: Die Wahl wurde erfolgreich abgezählt.
+  successfully_published_result:
+    en: Successfully published election result.
+    de: Das Wahlresultat wurde veröffentlicht.
   waitForMixing:
     en: All authorities must mix before you can proceed
     de: Alle Authoritäten müssen den Mischungsprozess abschliessen
   waitForDecryption:
     en: All authorities must decrypt before you can proceed
     de: Alle Authoritäten müssen den Entschlüsselungsprozess abschliessen
+  publishResult:
+    en: Publish election result
+    de: Veröffentlichen
 
 ElectionAuthority:
   title:

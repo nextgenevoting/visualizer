@@ -3,10 +3,48 @@
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-checkbox-marked-outline" :title="$t('Verifier.title')"></ContentTitle>
 
-            <h5 v-t="'BulletinBoard.pre_election_data'"></h5>
+            <h5 v-t="'tasks'"></h5>
             <v-layout row wrap>
-                <v-flex xy12 md4>
-                    <DataCard :title="$t('BulletinBoard.unique_election_identifier')" :expandable=false confidentiality="public">{{ electionId }}</DataCard>
+                <v-flex xs12 sm12>
+                    <v-card>
+                        <v-card-title primary-title>
+                            <div>
+                                <div class="headline" v-t="'Verifier.task'"></div>
+                            </div>
+                        </v-card-title>
+                        <v-card-text v-if="verificationResult">
+                            <v-list two-line>
+                                <v-list-tile>
+                                    <v-list-tile-content>
+                                        <v-list-tile-title>Shuffle Proofs</v-list-tile-title>
+                                        <v-list-tile-sub-title>Check if the shuffle-proofs of all election authorities are valid</v-list-tile-sub-title>
+                                    </v-list-tile-content>
+                                    <v-list-tile-action>
+                                        <v-icon v-if="verificationResult.shuffleProofsCheck" color="green darken-2">mdi-check-circle-outline</v-icon>
+                                        <v-icon v-else color="red">mdi-close-circle-outline</v-icon>
+                                    </v-list-tile-action>
+                                </v-list-tile>
+                                <v-list-tile>
+                                    <v-list-tile-content>
+                                        <v-list-tile-title>Shuffle List Dimensions</v-list-tile-title>
+                                        <v-list-tile-sub-title>Check if the length of the list of unshuffled and shuffled encryptions are identical </v-list-tile-sub-title>
+                                    </v-list-tile-content>
+                                    <v-list-tile-action>
+                                        <v-icon v-if="verificationResult.shuffleDimensionCheck" color="green darken-2">mdi-check-circle-outline</v-icon>
+                                        <v-icon v-else color="red">mdi-close-circle-outline</v-icon>
+                                    </v-list-tile-action>
+                                </v-list-tile>
+                            </v-list>
+                        </v-card-text>
+                        <v-card-actions>
+                            <v-btn flat color="blue" @click="verify()">
+                                <v-icon left>mdi-checkbox-marked-outline</v-icon>
+                                {{ $t('Verifier.verify') }}
+                            </v-btn>
+
+                        </v-card-actions>
+
+                    </v-card>
                 </v-flex>
             </v-layout>
 
@@ -28,16 +66,26 @@ export default {
   }),
   computed: {
     ...mapState({
-      voters: state => state.BulletinBoard.voters
+      verificationResult: state => state.BulletinBoard.verificationResult
     }),
     ...mapGetters({
       electionId: 'electionId'
-    }),
-    ballots: {
-      get: function () {
-        return this.$store.getters.getBallotsAndConfirmations(null)
-      }
+    })
+  },
+  methods: {
+    verify: function () {
+      this.$http.post('verifyElection', {
+        'election': this.$route.params['electionId']
+      }).then(response => {
+        response.json().then((data) => {
+          // success callback
+          // this.$toasted.success('Successfully checked confirmation')
+        })
+      }).catch(e => {
+        this.$toasted.error(e.body.message)
+      })
     }
+
   }
 }
 </script>
