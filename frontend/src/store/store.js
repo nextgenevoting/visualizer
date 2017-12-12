@@ -7,6 +7,7 @@ import Voter from './modules/Voter'
 import ElectionAuthority from './modules/ElectionAuthority'
 import ElectionAdministrator from './modules/ElectionAdministrator'
 import * as jsonpatch from 'fast-json-patch'
+import vueInstance from '../main.js'
 
 Vue.use(Vuex)
 
@@ -27,7 +28,17 @@ export const store = new Vuex.Store({
     SOCKET_PATCHSTATE: (state, data) => {
       // It seems that applying patches to the data store directly causes the reactivity to fail.
       // Vue.set seems to fix the problem; however, applying the patches to a lodash deepcopy and Vue.set'ting the copied object might be better
-      const patches = JSON.parse(data)
+      const json = JSON.parse(data)
+      const patches = json.patches
+      const revision = json.revision
+
+      // check if the local data store is up to date (revision number is only 1 behind the servers data store)
+      if (revision !== state.Election.revision + 1) {
+        console.log('Datastore revision mismatch! Requesting full sync!')
+        vueInstance.$socket.emit('requestFullSync', {'election': state.joinedElectionId})
+      }
+
+      // patch local data stores
 
       let deepCopy = Vue._.clone(state.BulletinBoard)
       jsonpatch.applyPatch(deepCopy, patches['bulletin_board'])
@@ -50,6 +61,9 @@ export const store = new Vuex.Store({
       deepCopy = Vue._.clone(state.Voter.voters)
       jsonpatch.applyPatch(deepCopy, patches['voters'])
       Vue.set(state.Voter, 'voters', deepCopy)
+
+      // update local revision number
+      Vue.set(state.Election, 'revision', revision)
     },
     SOCKET_CONNECT: (state, data) => {
       // Called whenever a websocket connection is established

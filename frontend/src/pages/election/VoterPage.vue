@@ -110,7 +110,7 @@
                                       {{ $t('Voter.confirm_vote') }}
                                     </v-btn>
                                     <v-btn flat>
-                                      {{ $t('cancel') }}
+                                      {{ $t('abort') }}
                                     </v-btn>
                                 </v-card-actions>
                             </v-card>
@@ -338,6 +338,5 @@
 .changeVoterBtn {
   position: absolute !important;
   right: 35px;
-  margin-top: 25px;
 }
 </style>

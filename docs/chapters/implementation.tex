@@ -11,7 +11,7 @@ We have implemented our application following the "`single page application (SPA
 From a high level perspective and following the SPA approach, we have structured our application into 3 main components:
 
 \begin{center}
-\includegraphics[scale=0.95]{assets/componentdiagram.png}
+\includegraphics[scale=0.95]{assets/componentdiagram.pdf}
 \captionof{figure}{System components}\label{System components}%
 \end{center}
 
@@ -52,7 +52,7 @@ To establish a proper separation of concerns, the state of the VoteService is al
 
 
 \begin{center}
-\includegraphics[scale=0.62]{assets/architecture.pdf}
+\includegraphics[scale=0.7]{assets/chvoteArchitecture.pdf}
 \captionof{figure}{Architecture}\label{Architecture}%
 \end{center}
 
@@ -101,11 +101,12 @@ The common functionality, namely, a function for loading the corresponding state
 The distinction between the actors and their states allows us to easily serialize the state of every actor and provide methods for loading and persisting the state to the database.
 
 \begin{center}
-\includegraphics[scale=0.62]{assets/votesim.pdf}
-\captionof{figure}{State classes}\label{State classes}%
+\includegraphics[scale=0.68]{assets/voteservice.pdf}
+\captionof{figure}{VoteService}\label{VoteService}%
 \end{center}
 This approach was also necessary because we have implemented the data synchronization between the clients and the back-end using the JSON Patch approach, for which the delta between the original state and the modified state can be automatically determined and operations generated which will patch the state object on the client such that it equals the new, modified state of the back-end. The original state is simply attached as another property to the actor-object. 
 
+\newpage
 \subsection{Data-Sync Service}
 One of the big challenges of our application has been the synchronization of the election state from the back-end to the clients local data store. As mentioned earlier, we wanted to achieve real time data synchronization such that every web client observing a particular election, is informed of any change of this elections state. For this purpose we have used web-sockets.
 
@@ -134,13 +135,13 @@ The result is a JSON array of operations that contains:
 For example, after casting a ballot, we might receive the following JSON patch:
 
 \begin{center}
-\includegraphics[scale=0.62]{assets/jsonpatchexample.png}
+\includegraphics[scale=1]{assets/jsonpatchexample.png}
 \captionof{figure}{JSON Patch example}\label{JSON Patch example}%
 \end{center}
 These JSON patches are pushed to all the clients that need to receive the mutations and are applied to the local datastore which contains the original state. After applying the JSON patch, the data store of all clients contains the same state of an election as the backend.
 
 \begin{center}
-\includegraphics[scale=0.62]{assets/datastores_jsonpatch.pdf}
+\includegraphics[scale=0.62]{assets/DatastoresJsonPatch.pdf}
 \captionof{figure}{Data-Sync with JSON Patches}\label{Data-Sync with JSON Patches}%
 \end{center}
 We decided not to use JSON patches when populating the data store for the first time, since generating JSON patches to patch an empty object to the full state of an election could result in thousands of operations that would almost certainly perform worse than sending the whole object over a fast websocket connection.
@@ -504,7 +505,7 @@ We have seen similarities between our problem and the one a typical chat has tha
 
 We can assume that all the pages that actually show data of an election require the elections id to be passed as part of the URL. For example: /BulletinBoard/1 is the route to reach the BulletinBoard view of the election with id 1.
 
-Whenever a route is called that contains the argument `electionId`, we need to make sure that the client has joined this elections room. We therefore set a global variable called \mintinlin{python{/joinedElectionId/ to match the id of the election a user has joined. We created a mixin that can be added to every election page, which makes sure that if the client hasn't yet joined the corresponding election, it emits a "`join"' request to the socket.io server, passing along the electionId:
+Whenever a route is called that contains the argument `electionId`, we need to make sure that the client has joined this elections room. We therefore set a global variable called \mintinline{python{/joinedElectionId/ to match the id of the election a user has joined. We created a mixin that can be added to every election page, which makes sure that if the client hasn't yet joined the corresponding election, it emits a "`join"' request to the socket.io server, passing along the electionId:
 
 \begin{minted}[linenos,tabsize=2,breaklines]{javascript}
 export default {

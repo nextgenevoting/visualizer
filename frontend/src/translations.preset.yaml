@@ -32,6 +32,9 @@ delete:
 cancel:
   en: Cancel
   de: Abbrechen
+abort:
+  en: Abort
+  de: Abbrechen
 create:
   en: Create
   de: Erstellen

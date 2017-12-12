@@ -12,40 +12,52 @@ from .. import socketio
 
 
 class SyncType(Enum):
-   SENDER_ONLY = 1
-   ROOM = 2
-   BROADCAST = 3
+   SENDER_ONLY = 1      # emit to the sender only
+   ROOM = 2             # emit to all clients subscribed to a particular election
+   BROADCAST = 3        # emit to all connected clients
 
 def emitToClient(messageName, payload, syncType, room = None):
     if syncType == SyncType.ROOM:
-        socketio.emit(messageName, payload , room=room)
+        socketio.emit(messageName, payload, room=room)
     elif syncType == SyncType.BROADCAST:
         socketio.emit(messageName, payload, broadcast=True)
     else:
         socketio.emit(messageName, payload, room=request.sid)
 
+# LISTENERS
+@socketio.on('requestFullSync')
+def requestFullSync(data):
+    electionID = data['election']
+    fullSync(electionID, SyncType.SENDER_ONLY)
+
+
 # EMITTERS
 def syncElections(syncType):
+    # synchronizes the list of elections
     assert syncType != SyncType.ROOM, "SyncType of syncElections must be SENDER_ONLY or BROADCAST"
     res = db.elections.find()
     elections = dumps(res)
     emitToClient('syncElections', elections, syncType)
 
 def syncPatches(electionID, syncType, patches):
-    emitToClient('patchState', json.dumps(patches, default=mpzconverter), syncType, electionID)
+    emitToClient('patchState', json.dumps({'patches': patches[0], 'revision': patches[1]}, default=mpzconverter), syncType, electionID)
 
 def fullSync(electionID, syncType):
+    # sends all the states to the client(s)
+
     syncBulletinBoard(electionID, syncType)
     syncPrintingAuthority(electionID, syncType)
     syncVoters(electionID, syncType)
     syncElectionAuthorities(electionID, syncType)
     syncElectionAdministrator(electionID, syncType)
-    syncElectionStatus(electionID, syncType)
+    syncElection(electionID, syncType)
 
-def syncElectionStatus(electionID, syncType):
+
+def syncElection(electionID, syncType):
+    # synchronizes election specific information such as status and revision number of the data stores
     election = db.elections.find_one({'_id': ObjectId(electionID)})
     if election != None:
-        emitToClient('syncElection', {'electionID':electionID, 'status': election["status"]}, syncType, electionID)
+        emitToClient('syncElection', {'electionID':electionID, 'status': election["status"], 'revision': election["revision"]}, syncType, electionID)
     else:
         raise RuntimeError("No Election entry for election {}!".format(electionID))
 
@@ -99,5 +111,6 @@ def syncElectionAuthorities(electionID, syncType):
     except Exception as ex:
         raise RuntimeError("No ElectionAuthorityStates for election {}!".format(electionID))
 
+# pushVoterMessage is used to inform a voter about events (currently only used for failed vote castings)
 def pushVoterMessage(electionID, voterID, message):
     emitToClient('voterMessage', { 'voterId': voterID, 'message': message}, SyncType.ROOM, electionID)

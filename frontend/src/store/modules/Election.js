@@ -2,7 +2,9 @@
 const state = {
   elections: [],
   status: -1,
-  electionId: null
+  electionId: null,
+  revision: 0
+
 }
 
 // mutations
@@ -13,6 +15,7 @@ const mutations = {
   SOCKET_SYNCELECTION: (state, data) => {
     state.electionId = data.electionID
     state.status = data.status
+    state.revision = data.revision
   }
 
 }

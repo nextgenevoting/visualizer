@@ -1127,6 +1127,9 @@ ElectionAdmin:
   publishResult:
     en: Publish election result
     de: Veröffentlichen
+  successfully_published_result:
+    en: Successfully published election result.
+    de: Das Wahlresultat wurde veröffentlicht.
 ElectionAuthority:
   title:
     en: Election Authorities
@@ -2051,3 +2054,6 @@ Verifier:
   verify:
     en: Verify election
     de: Verifiziere Wahl
+abort:
+  en: Abort
+  de: Abbrechen

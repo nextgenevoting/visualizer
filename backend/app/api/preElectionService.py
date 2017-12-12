@@ -28,7 +28,7 @@ def createElection():
 
     try:
         # Create a new election
-        id = db.elections.insert({'title': data["title"], 'status': 0})
+        id = db.elections.insert({'title': data["title"], 'status': 0, 'revision': 0})
 
         # create a new (empty) BulletinBoardState
         newBBState =  BulletinBoardState(str(id))

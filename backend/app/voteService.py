@@ -8,7 +8,7 @@ from app.actors.PrintingAuthority import PrintingAuthority
 from app.actors.Voter import Voter
 from app.actors.ElectionAdministrator import ElectionAdministrator
 from bson.objectid import ObjectId
-from app.api.syncService import syncElectionStatus, SyncType
+from app.api.syncService import syncElection, SyncType
 from chvote.VotingClient.GenBallot import GenBallot
 from chvote.Types import *
 from chvote.VotingClient.GetPointMatrix import GetPointMatrix
@@ -60,9 +60,7 @@ class VoteService(object):
             self.voters.append(Voter(db.voterStates, electionID, i))
 
     def getJSONPatches(self):
-        print('----------------')
-        print(self.voters)
-        print('----------------')
+        # todo: JSONPatch creation for the voter states is currently very cumbersome
         return {
             'bulletin_board':         self.bulletinBoard.getJSONPatch(),
             'printing_authority':     self.printingAuthority.getJSONPatch(),
@@ -73,27 +71,41 @@ class VoteService(object):
             'voters':                 jsonpatch.make_patch(json.loads(json.dumps([ voter.originalState.__dict__ for voter in self.voters ], default=mpzconverter)), json.loads(json.dumps([ voter.state.__dict__ for voter in self.voters ], default=mpzconverter))).patch
         }
 
-        # election_authorities':   jsonpatch.make_patch(json.loads(json.dumps([ authority.originalState.__dict__ for authority in self.authorities ], default=mpzconverter)), json.loads(json.dumps([ authority.state.__dict__ for authority in self.authorities ], default=mpzconverter))).patch,
-
     # persist()
     # Save the state of all actors to the database
     def persist(self):
         patches = self.getJSONPatches()
 
-        self.bulletinBoard.persist()
-        self.printingAuthority.persist()
-        self.electionAdministrator.persist()
-        for authority in self.authorities: authority.persist()
-        for voter in self.voters: voter.persist()
+        if (len(patches['bulletin_board']) > 0): self.bulletinBoard.persist()
+        if (len(patches['printing_authority']) > 0): self.printingAuthority.persist()
+        if (len(patches['election_administrator']) > 0): self.electionAdministrator.persist()
+        if (len(patches['election_authority_0']) > 0): self.authorities[0].persist()
+        if (len(patches['election_authority_1']) > 0): self.authorities[1].persist()
+        if (len(patches['election_authority_2']) > 0): self.authorities[2].persist()
+        if (len(patches['voters']) > 0):
+            for voter in self.voters: voter.persist()
 
-        return patches
+        revision = self.incrementRevision()
+        return (patches, revision)
 
     # updateStatus()
     # Helper function to update the status of an election
     def updateStatus(self, newStatus):
         assert isinstance(newStatus, int), "status must be a number"
         db.elections.update_one({'_id': ObjectId(self.electionID)}, {"$set": {"status" : newStatus}}, upsert=False)
-        syncElectionStatus(self.electionID, SyncType.ROOM)
+        syncElection(self.electionID, SyncType.ROOM)
+
+    # incrementRevision()
+    # Helper function to update the revisionnumber of an election
+    def incrementRevision(self):
+        election = db.elections.find_one({'_id': ObjectId(self.electionID)})
+        if election != None:
+            revNumber = election["revision"]
+            newRevNumber = revNumber + 1
+            db.elections.update_one({'_id': ObjectId(self.electionID)}, {"$set": {"revision": newRevNumber}}, upsert=False)
+            return newRevNumber
+        else:
+            raise RuntimeError("Election not found")
 
 
     # *************************************************************************************

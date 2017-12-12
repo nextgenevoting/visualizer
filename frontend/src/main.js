@@ -127,7 +127,7 @@ var i18n = new VueI18n({
 
 i18n._languages = languages
 
-new Vue({ // eslint-disable-line no-new
+export default new Vue({ // eslint-disable-line no-new
   el: '#app',
   store,
   router,
@@ -135,5 +135,3 @@ new Vue({ // eslint-disable-line no-new
   render: h => h(App),
   components: { BigIntLabel }
 })
-
-export default router
