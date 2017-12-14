@@ -12,7 +12,14 @@
         </v-menu>
       </ContentTitle>
 
-      <div v-if="status == 0">
+        <v-flex  x12 md12 v-if="status == 0">
+          <v-card>
+            <v-card-title primary-title>
+              <div class="headline" v-t="'ElectionAdmin.set_up_election'"></div>
+            </v-card-title>
+            <v-card-text>
+
+
         <v-form v-model="valid" ref="form" lazy-validation>
           <h5 v-t="'counting_circles'"></h5>
           <div v-for="(voters, index) in countingCircles">
@@ -63,7 +70,9 @@
           <v-btn @click="setUpElection" color="primary" :disabled="!valid">{{ $t('ElectionAdmin.set_up_election') }}</v-btn>
           <v-btn @click="clear" color="error">{{ $t('clear') }}</v-btn>
         </v-form>
-      </div>
+            </v-card-text>
+          </v-card>
+        </v-flex>
 
       <div v-if="status == 1 || status == 2" v-t="'ElectionAdmin.submitted_to_printing_authority'"></div>
 

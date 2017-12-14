@@ -21,9 +21,10 @@
 	\multicolumn{22}{l}{\cellcolor{gray!20}\textbf{#1}} \\ \hline
 }
 
-\chapter{Project Plan}
+\chapter{Project Management}
 In this chapter we are going to describe several aspects regarding the planing of our project, such as our project methods, the requirements and use cases as well as a short concept of our application. 
-\section{Project Method}
+
+%\section{Project Method}%
 Since this wasn't a project where the project scope and goals were strictly defined and clear from the beginning, it was very important to elaborate the requirements in close collaboration with our supervisors early on. This is why we decided our project would be very suitable for an agile kind of project method. Because of the small team, consisting of only two members, we didn't chose a particular project method like SCRUM, as this would have probably caused more overhead than actual benefits.  
 
 We have therefore set up regular meetings (usually once every 2 weeks) with our supervisors to discuss our ideas and get feedback about the current progress.
@@ -245,49 +246,3 @@ The next step was to create use cases. As an example we show one of the use case
 				}	
 										
 \end{usecase}
-
-\section{Concept}
-In an essence, all the functionality of our applications revolves around visualizing all important steps and phases of a CHVote election event. We divided an election event into the following phases:
-
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[scale=0.95]{assets/electionStatediagram.pdf}
-\caption{System components}
-\end{center}
-\end{figure}
-
-Each of theses phases consist of one or multiple steps within the CHVote protocol. The election preparation for example, involves the generation of the electorate data based on the input of the election administrator, the public credentials and the public keys. In the specification, these steps are listed as separate actions, however, to reduce the complexity we treat them as one single step in our application. 
-
-As every actor involved in a CHVote election event has it's own set of data to be displayed and specific tasks it has to perform, we decided to create a separate view for every actor, accessible from a tab view displayed on the top of the page.
-
-From the use-cases, we tried to figure out all commonalities between the views:
-
-\begin{itemize}
-	\item The views typically display the information known by the respective actor. Especially the bulletin board and election authorities will have a lot of information to be displayed
-	\item Almost all views have distinct tasks to be executed by the respective actor, such as casting a ballot in the voters view or confirming ballots from an election authorities view.
-  \item The content within each view typically depends on the status an election event is currently in: During the pre-election phase, the vote administrator needs to able to set up the election while in the tallying phase, he must be able to tally and determine the final result.
-\end{itemize}
-The following matrix shows all the possible combinations:
-\begin{figure}[h!]
-\begin{center}
-\includegraphics[scale=0.95]{assets/stateactormatrix.png}
-\caption{System components}
-\end{center}
-\end{figure}
-Each of the cell values corresponding to one or multiple use-cases.
-
-\section{Design}
-Given the rather large amount of complex data to be displayed, the main challenge of the project is a well designed user interface that allows to display all important information while maintaining a clear overview.
-
-To achieve this goal we tried to keep our design very minimalistic and follow the Google material design guidelines as much as possible by choosing an appropriate UI component framework. Even though mobile compatibility hasn't been a requirement, it was nevertheless our goal to make the layout as responsive as possible.
-
-Throughout our application we tried to establish common concepts regarding the look and feel and on how to display our data. One popular layout-concept of the material guidelines is the card layout. Cards can be easily integrated in a responsive grid system, look quite modern and allow to visually group data. In addition, we used pushover menus, tooltips and popups a lot as they made it possible to hide lesser relevant information by default and display it only on demand of the user.
-
-The following screenshots are an extract of the mockups in which we tried to visualize how we imagined the resulting application to look like during the conceptual phase. 
-
-% Todo: Beispiel-Bild der Mockups %
-
-Our conceptual work also involved the development of a small prototype / proof of concept, in which we have implemented one usecase in a reduced extent with the envisaged frameworks to evaluate the technical feasibility. For more information about the languages and frameworks we have decided on, we refer to the next chapter.
-
-\section{Organization}
-TODO: Github, Docker, etc.

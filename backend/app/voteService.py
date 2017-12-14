@@ -194,6 +194,11 @@ class VoteService(object):
         # if the first authority is set to autoCheck = true, check ballot and reply automatically, otherwise checkVote will be called by the user through the webapp later
         if(self.authorities[0].autoCheck): self.checkVote(checkBallotTask.ballotId, 0)
 
+    def abortVote(self, voterId):
+        voter = self.voters[voterId]
+        voter.status = -1
+
+
     def confirmVote(self, voterId, ballotId, confirmationCode):
         # 6.6 Vote Confirmation
         voter = self.voters[voterId]

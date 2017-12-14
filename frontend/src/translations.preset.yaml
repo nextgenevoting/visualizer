@@ -462,6 +462,12 @@ Voter:
   voting_closed:
     en: Voting is closed
     de: Stimmabgabe nicht mehr möglich
+  aborted:
+    en: Aborted
+    de: Abgebrochen
+  aborted_text:
+    en: You have aborted the vote-casting process
+    de: Sie haben den Voting-Vorgang abgebrochen
 CheckBallotTask:
   ballot_check_for_voter_n:
     en: Ballot check for Voter {n}

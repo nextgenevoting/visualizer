@@ -47,6 +47,34 @@ def castVote():
     return json.dumps({'result': 'success'})
 
 
+
+@main.route('/abortVote', methods=['POST'])
+@cross_origin(origin='*')
+def abortVote():
+    data = request.json
+    electionId = data["election"]
+    voterId = data["voterId"]
+
+    try:
+        # prepare voteService
+        voteSvc = VoteService(electionId)
+
+        # perform action
+        voteSvc.abortVote(voterId)
+
+        # retrieve and persist modified state
+        patches = voteSvc.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
+
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s. %s' % (fname, exc_tb.tb_lineno, e, traceback.format_exc()))
+
+    return json.dumps({'result': 'success'})
+
+
+
 @main.route('/checkVote', methods=['POST'])
 @cross_origin(origin='*')
 def checkVote():

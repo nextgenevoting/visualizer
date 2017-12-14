@@ -27,6 +27,16 @@
                         </v-stepper-header>
                     </v-stepper>
                     <div class="layout row wrap">
+                        <v-flex v-if="voter.status == -1" x12 md6>
+                            <v-card>
+                                <v-card-title primary-title>
+                                    <div class="headline" v-t="'Voter.aborted'"></div>
+                                </v-card-title>
+                                <v-card-text>
+                                    {{ $t('Voter.aborted_text') }}
+                                </v-card-text>
+                            </v-card>
+                        </v-flex>
                         <!-- 1. Vote Cast -->
                         <v-flex v-if="voter.status == 0" x12 md6>
                             <v-card v-if="ballotCheckAuthorityIndex > -1">
@@ -109,7 +119,7 @@
                                     <v-btn flat color="blue" @click="confirmVote()">
                                       {{ $t('Voter.confirm_vote') }}
                                     </v-btn>
-                                    <v-btn flat>
+                                    <v-btn flat @click="abortVote()">
                                       {{ $t('abort') }}
                                     </v-btn>
                                 </v-card-actions>
@@ -312,6 +322,19 @@
               'voterId': this.selectedVoter,
               'ballotId': this.voter.validBallot,
               'confirmationCode': this.codes.confirmation
+            }
+          ).then(response => {
+            response.json().then((data) => {
+            })
+          }).catch(e => {
+            this.$toasted.error(e.body.message)
+          })
+        }, 200),
+        abortVote: _.debounce(function () {
+          this.$http.post('abortVote',
+            {
+              'election': this.$route.params['electionId'],
+              'voterId': this.selectedVoter
             }
           ).then(response => {
             response.json().then((data) => {
