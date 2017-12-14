@@ -3,7 +3,7 @@
     <div v-if="this.$store.state.loaded">
       <ContentTitle icon="mdi-account-key" :title="$t('ElectionAdmin.title')">
         <v-menu offset-y v-if="status == 0">
-          <v-btn color="primary" dark slot="activator">Election presets</v-btn>
+          <v-btn flat slot="activator">Election presets</v-btn>
           <v-list>
             <v-list-tile v-for="preset in electionPresets" :key="preset.title" @click="setElectionPreset(preset.generate())">
               <v-list-tile-title>{{ preset.title }}</v-list-tile-title>
@@ -28,10 +28,10 @@
                 <v-text-field label="Number of voters in this counting circle" type="number" v-model="countingCircles[index]" autofocus required></v-text-field>
               </v-flex>
               <v-flex xs6>
-                <v-btn fab icon small dark color="error" title="Remove counting circle" v-if="index <= countingCircles.length && countingCircles.length > 1" @click="countingCircles.splice(index, 1)">
-                  <v-icon>mdi-minus</v-icon>
+                <v-btn fab icon small title="Remove counting circle" v-if="index <= countingCircles.length && countingCircles.length > 1" @click="countingCircles.splice(index, 1)">
+                  <v-icon  color="error">mdi-minus</v-icon>
                 </v-btn>
-                <v-btn fab icon small dark color="primary" title="Add counting circle" v-if="index === countingCircles.length - 1" @click="countingCircles.push(null)">
+                <v-btn fab icon small  title="Add counting circle" v-if="index === countingCircles.length - 1" @click="countingCircles.push(null)">
                   <v-icon>mdi-plus</v-icon>
                 </v-btn>
               </v-flex>
@@ -41,7 +41,7 @@
           <div v-for="(election, index) in this.elections">
             <h5>
               Election {{ index + 1 }}
-              <v-btn icon small dark color="error" title="Remove this election" v-if="index > 0" @click="elections.splice(index, 1)">
+              <v-btn icon small flat  color="error" title="Remove this election" v-if="index > 0" @click="elections.splice(index, 1)">
                 <v-icon>mdi-minus</v-icon>
               </v-btn>
             </h5>
@@ -62,6 +62,16 @@
                     </v-chip>
                   </template>
                 </v-select>
+              </v-flex>
+              <v-flex xs2>
+                <v-menu offset-y v-if="status == 0">
+                  <v-btn flat  slot="activator">Candidate presets</v-btn>
+                  <v-list>
+                    <v-list-tile v-for="preset in candidatePresets" :key="preset.title" @click="setCandidatePreset(election, preset.generate())">
+                      <v-list-tile-title>{{ preset.title }}</v-list-tile-title>
+                    </v-list-tile>
+                  </v-list>
+                </v-menu>
               </v-flex>
             </v-layout>
           </div>
@@ -159,6 +169,13 @@ export default {
           return this
         }
       }
+    ],
+    candidatePresets: [
+      { title: 'Yes, No, Blank',
+        generate: () => {
+          return [ 'Yes', 'No', 'Blank' ]
+        }
+      }
     ]
   }),
   computed: {
@@ -175,6 +192,9 @@ export default {
     setElectionPreset (preset) {
       this.countingCircles = preset.countingCircles
       this.elections = preset.elections
+    },
+    setCandidatePreset (election, preset) {
+      election.candidates = preset
     },
     addElection () {
       this.elections.push(new Election())
