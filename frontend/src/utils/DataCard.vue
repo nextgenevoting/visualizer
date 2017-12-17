@@ -6,7 +6,7 @@
         <v-card-title primary-title class="dataCardTitle">
             <div><span class="label grey--text">{{title}}
               <v-tooltip top>
-                <v-icon v-if="!disableTooltip" color="grey lighten-1" slot="activator">info</v-icon><span>Programmatic tooltip</span>
+                <v-icon v-if="!disableTooltip" color="grey lighten-1" slot="activator">info</v-icon><span>{{tooltip}}</span>
              </v-tooltip></span>
             </div>
         </v-card-title>
@@ -64,8 +64,12 @@
           type: Boolean,
           required: false,
           default: false
+        },
+        tooltip: {
+          type: String,
+          required: false,
+          default: ''
         }
-
       },
 
       mounted () {

@@ -103,10 +103,7 @@ election_data:
   de: Wahldaten
 post_election_data:
   en: Post-election data
-  de: Daten nach den Wahlen
-final_results:
-  en: Final results
-  de: Abschliessendes Ergebnis
+  de: Post-Election Daten
 authority:
   en: Authority
   de: Authorität
@@ -282,7 +279,7 @@ BulletinBoard:
     de: 'Commitments c_hat:'
   pre_election_data:
     en: Pre-election data
-    de: Daten vor den Wahlen
+    de: Pre-Election Daten
   unique_election_identifier:
     en: Unique Election Identifier
     de: Eindeutige Wahl-Bezeichnung
@@ -365,9 +362,12 @@ ElectionAuthority:
   ballot_proof:
     en: 'Ballot proof:'
     de: 'Stimmzettel-Beweis:'
-  points_of_all_voters:
-    en: Points of all voters
-    de: Punkte sämtlicher Wähler
+  election_data:
+    en: 'Election data'
+    de: 'Wählerdaten'
+  election_data_content:
+    en: 'Election data of all voters'
+    de: 'Wählerdaten aller Voter'
 
 PrintingAuth:
   title:
@@ -570,3 +570,25 @@ BallotList:
   alreadyHasConfirmation:
     en: Already has confirmation
     de: Bereits bestätigt
+ElectionResult:
+  votes:
+    en: Votes
+    de: Stimmen
+  votes_tooltip:
+    en: Selected candidate indices of per vote
+    de: Indices der gewählten Kandidaten pro Stimme
+  final_results:
+    en: Final results
+    de: Wahlergebnis
+  final_results_tooltip:
+    en: Number of votes per candidate
+    de: Anzahl Stimmen pro Kandidat
+  counting_circles_tooltip:
+    en: Denotes the index if the corresponding counting circle of every vote
+    de: Der Index des Wahlkreise aller Stimmen
+  final_results_chart:
+    en: Final results (chart)
+    de: Wahlergebnis (grafisch)
+  final_results_chart_tooltip:
+    en: Final results in graphical representation
+    de: Wahlresultat in grafischer Repräsentation

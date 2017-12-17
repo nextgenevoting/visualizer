@@ -1,16 +1,26 @@
 <template>
     <v-layout row wrap>
         <v-flex xy12 md4>
-            <DataCard :title="$t('votes')" :expandable=false confidentiality="public">{{ votes }}</DataCard>
+            <DataCard :title="$t('ElectionResult.votes')" :tooltip="$t('ElectionResult.votes_tooltip')" :expandable=false confidentiality="public" v-if="votes.length > 0">
+                <template v-for="(vote,index) in votes">
+                    {{ vote }}<span v-if="index < votes.length-1">,</span>
+                </template>
+            </DataCard>
         </v-flex>
         <v-flex xy12 md4>
-            <DataCard :title="$t('final_results')" :expandable=false confidentiality="public">{{ finalResults }}</DataCard>
+            <DataCard :title="$t('ElectionResult.final_results')" :tooltip="$t('ElectionResult.final_results_tooltip')" :expandable=false confidentiality="public" v-if="finalResults.length > 0">
+                {{ finalResults[0] }}
+            </DataCard>
         </v-flex>
         <v-flex xy12 md4>
-            <DataCard :title="$t('counting_circles')" :expandable=false confidentiality="public">{{ w_bold }}</DataCard>
+            <DataCard :title="$t('counting_circles')" :tooltip="$t('ElectionResult.counting_circles_tooltip')" :expandable=false confidentiality="public" v-if="countingCircles.length > 0">
+                <template v-for="(c,index) in countingCircles">
+                    {{ c }}<span v-if="index < countingCircles.length-1">,</span>
+                </template>
+            </DataCard>
         </v-flex>
         <v-flex xy12 md12>
-            <DataCard :title="$t('final_results')" :expandable=false confidentiality="public">
+            <DataCard :title="$t('ElectionResult.final_results_chart')" :tooltip="$t('ElectionResult.final_results_chart_tooltip')" :expandable=false confidentiality="public" v-if="finalResults.length > 0">
                 <v-layout row wrap >
                     <v-flex xy12 md6 v-for="(results, index) in finalResults" :key="index">
                         <donut-chart :id="`donut${index}`" :data="donutData[index]" colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]' resize="false"></donut-chart>
@@ -36,7 +46,7 @@
         }),
         ...mapState({
           votes: state => state.ElectionAdministrator.votes,
-          w_bold: state => state.ElectionAdministrator.w_bold,
+          countingCircles: state => state.ElectionAdministrator.w_bold,
           finalResults: state => state.ElectionAdministrator.finalResults,
           electionCandidates: state => state.BulletinBoard.candidates,
           calcNumberOfCandidates: state => state.BulletinBoard.numberOfCandidates

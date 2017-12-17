@@ -73,18 +73,44 @@
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md4 v-if="expertMode" key="points">
-                    <DataCard :title="$t('points')" :expandable=true confidentiality="secret">
-                        {{ $t('ElectionAuthority.points_of_all_voters') }}
+                <v-flex xy12 md12 key="voterData">
+                    <DataCard :title="$t('ElectionAuthority.election_data')" :expandable=true confidentiality="secret">
+                        {{ $t('ElectionAuthority.election_data_content') }}
                         <ul id="list" slot="expandContent">
+                            <v-layout row wrap>
+                                <v-flex xy1 md1>
+                                    Voter
+                                </v-flex>
+                                <v-flex xy3 md3>
+                                    Points
+                                </v-flex>
+                                <v-flex xy4 md4>
+                                    Partial Public Voting Credentials
+                                </v-flex>
+                                <v-flex xy4 md4>
+                                    Partial Secret Voting Credentials
+                                </v-flex>
+                            </v-layout>
                             <li v-for="(voter, index) in electionAuthority.points" :key="voter.id">
-                                {{ $t('voter_n', { n: index }) }}
-                                <ul id="subList">
-                                    <li v-for="(point, index) in voter" :key="index">
-                                        x: <BigIntLabel :mpzValue="point[0]"></BigIntLabel>
-                                        y: <BigIntLabel :mpzValue="point[1]"></BigIntLabel>
-                                    </li>
-                                </ul>
+                                <v-layout row wrap>
+                                    <v-flex xy1 md1>
+                                {{ $t('voter_n', { n: index+1 }) }}
+                                    </v-flex>
+                                    <v-flex xy3 md3>
+                                        <ul id="subList">
+                                            <li v-for="(point, index) in voter" :key="index">
+                                                <BigIntLabel :mpzValue="point[0]"></BigIntLabel>,
+                                                <BigIntLabel :mpzValue="point[1]"></BigIntLabel>
+                                            </li>
+                                        </ul>
+                                    </v-flex>
+                                    <v-flex xy4 md4>
+                                        {{ electionAuthority.partialPublicVotingCredentials[index] }}
+                                    </v-flex>
+                                    <v-flex xy4 md4>
+                                        {{ electionAuthority.partialSecretVotingCredentials[index] }}
+                                    </v-flex>
+                                </v-layout>
                             </li>
                         </ul>
                     </DataCard>
@@ -114,7 +140,7 @@
       computed: {
         ...mapState({
           electionAuthorities: state => state.ElectionAuthority.electionAuthorities,
-          expertMode: state => state.BulletinBoard.expertMode
+          expertMode: state => state.expertMode
         }),
         ...mapGetters({
           electionId: 'electionId',

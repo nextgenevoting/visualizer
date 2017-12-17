@@ -127,8 +127,6 @@ export default {
   data: () => ({
     valid: false,
     candidates: [],
-    // numberOfSelections: '[1]',
-    // numberOfCandidates: '[3]',
     countingCircles: [ 3 ],
     elections: [new Election()],
     electionPresets: [
@@ -143,14 +141,6 @@ export default {
       },
       { title: 'Random election',
         generate: () => {
-          /*
-          const candidates = [
-            'Donald Trump', 'Vladimir Putin', 'George W Bush', 'Barack Obama', 'Hillary Clinton',
-            'Vladimir Putin', 'Winston Churchill', 'Abraham Lincoln', 'Nelson Mandela', 'Otto von Bismarck',
-            'Angela Merkel', 'Chuck Norris', 'David Hasselhoff', 'Helene Fischer', 'Michelle Obama',
-            'Marine Le Pen', 'Tony Blair', 'Bill Clinton', 'Donald Rumsfeld', 'Condoleezza Rice'
-          ]
-          */
           const candidates = [
             'Soila', 'Sheryll', 'Shawnna', 'Regena', 'Lien', 'Wynell', 'Erna', 'Lesia', 'Cordia', 'Pattie',
             'Susie', 'Annmarie', 'Argentina', 'Herminia', 'Leeanna', 'Audrey', 'Sherilyn', 'Verdell', 'Denita',

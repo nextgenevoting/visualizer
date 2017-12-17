@@ -24,23 +24,43 @@
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('candidates')" :expandable=false confidentiality="public">{{ candidates }}</DataCard>
+                    <DataCard :title="$t('candidates')" :expandable=false confidentiality="public">
+                        <template v-for="(candidate, index) in candidates">
+                            {{candidate}}<span v-if="index < candidates.length-1">, </span>
+                        </template>
+                    </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('number_of_candidates')" :expandable=false confidentiality="public">{{ numberOfCandidates }}</DataCard>
+                    <DataCard :title="$t('number_of_candidates')" :expandable=false confidentiality="public">
+                        <template v-for="(candidates, index) in numberOfCandidates">
+                            {{candidates}}<span v-if="index < numberOfCandidates.length-1">, </span>
+                        </template>
+                    </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('number_of_selections')" :expandable=false confidentiality="public">{{ numberOfSelections }}</DataCard>
+                    <DataCard :title="$t('number_of_selections')" :expandable=false confidentiality="public">
+                        <template v-for="(k, index) in numberOfSelections">
+                            {{k}}<span v-if="index < numberOfSelections.length-1">, </span>
+                        </template>
+                    </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('voters')" :expandable=false confidentiality="public">{{ voters }}</DataCard>
+                    <DataCard :title="$t('voters')" :expandable=false confidentiality="public">
+                        <template v-for="(v, index) in voters">
+                            {{v}}<span v-if="index < voters.length-1">, </span>
+                        </template>
+                    </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('counting_circles')" :expandable=false confidentiality="public">{{ countingCircles }}</DataCard>
+                    <DataCard :title="$t('counting_circles')" :expandable=false confidentiality="public">
+                        <template v-for="(c, index) in countingCircles">
+                            {{c}}<span v-if="index < countingCircles.length-1">, </span>
+                        </template>
+                    </DataCard>
                 </v-flex>
 
 

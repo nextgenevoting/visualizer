@@ -329,7 +329,7 @@ election_data:
   zh-TW: 選舉數據
 post_election_data:
   en: Post-election data
-  de: Daten nach den Wahlen
+  de: Post-Election Daten
   es: Datos postelectorales
   fi: Vaalien jälkeiset tiedot
   fr: Données post-électorales
@@ -967,7 +967,7 @@ BulletinBoard:
     zh-TW: 承諾c_hat：
   pre_election_data:
     en: Pre-election data
-    de: Daten vor den Wahlen
+    de: Pre-Election Daten
     es: Datos previos a las elecciones
     fi: Vaalien toimittajat
     fr: Données pré-électorales
@@ -1251,6 +1251,12 @@ ElectionAuthority:
     ru: Пункты всех избирателей
     sv: Poäng av alla väljarna
     zh-TW: 所有選民的點
+  election_data:
+    en: Election data
+    de: Wählerdaten
+  election_data_content:
+    en: Election data of all voters
+    de: Wählerdaten aller Voter
 PrintingAuth:
   title:
     en: Printing Authority
@@ -2063,3 +2069,33 @@ Verifier:
 abort:
   en: Abort
   de: Abbrechen
+ElectionResult:
+  votes:
+    en: Votes
+    de: Stimmen
+  votesTooltip:
+    en: Contains the decrypted votes of all voters who have casted a ballot
+    de: >-
+      Enthält die entschlüsselten Stimmen aller Voter die eine Stimme abgegeben
+      haben
+  final_results:
+    en: Final results
+    de: Wahlergebnis
+  votes_tooltip:
+    en: Selected candidate indices of per vote
+    de: Indices der gewählten Kandidaten pro Stimme
+  final_results_tooltip:
+    en: Number of votes per candidate
+    de: Anzahl Stimmen pro Kandidat
+  counting_circles_tooltip:
+    en: Denotes the index if the corresponding counting circle of every vote
+    de: Der Index des Wahlkreise aller Stimmen
+  final_results_chart:
+    en: Final results (chart)
+    de: Wahlergebnis (grafisch)
+  final_results_chart_tooltip:
+    en: Final results in graphical representation
+    de: Wahlresultat in grafischer Repräsentation
+final_results_tooltip:
+  en: Number of votes per candidate
+  de: Anzahl Stimmen pro Kandidat

@@ -1,18 +1,19 @@
 \chapter{Introduction}
+Our project is also based on the new CHVote specification by Rolf Haenni, Philipp Locher and Reto E. Koenig. In this section we summarize the most important aspects of the protocol and establish the terminology for better understanding our document and application.
 \section{Electronic voting}
 Since 2015, it is possible for Swiss citizens registered in the cantons Geneva and Neuchâtel and living abroad, to vote electronically. However, these systems did not yet meet the requirements in terms of security and transparency, to be accepted as a secure E-Voting platform on a nationwide scale.
 
-An e-voting system must satisfy a large variety of security requirements, including but not limited to:
+An e-voting system must satisfy a large variety of security requirements, including:
 
 \begin{itemize}
 	\item Fairness: It is not possible for any person (including the participating parties of an e-voting system) to learn the intermediate result or outcome of an election before the result has been officially tallied and published to a public board.  
-	\item Privacy: No one can find out information about a voters selection. This implies that a voters selection must be encrypted until the election is tallied.
+	\item Privacy: No one can find out information about a voters selection. This implies that a voters ballot must be encrypted before it leaves the voters client and until the election is tallied.
 	\item Authenticity: All voters must be authenticated as eligible voters in order to cast a vote
 	\item Soundness: Only valid votes are being tallied. If a voter selects more candidates than he is allowed or less than he is supposed to, the vote must not be counted.
  \item Robustness: An e-voting system detects cheating actors.
 \end{itemize}
 
-There are many different existing concepts and e-voting protocols that cover most of these requirements. However, most of the existing solutions can be seen as some kind of blackbox, which keep the internals remain hidden, such that a voter cannot be sure, whether his vote has been recorded correctly and counted in the result. 
+There exist many different concepts and e-voting protocols that cover most of these requirements. However, most of the existing solutions behave as some kind of black-box and keep the internals hidden, such that a voter cannot be sure, whether his vote has been recorded correctly and counted in the final result. 
 
 One of the requirements that is hardest to achieve is the \textbf{universal verification}: A good e-voting system must be transparent and allow an external person to verify, that every protocol participant has abided by the protocol and that all and only valid votes have been counted correctly.
 
@@ -20,7 +21,7 @@ Another common problem is the \textbf{insecure platform problem}: If a voters co
 
 \section{The CHVote protocol}
 %The protocol our project is based on, does not originate from us! The concept and specification has been created by  of the Institute for Security in the Information Society (RISIS) of the Bern University of Applied Sciences. For this project, we have implemented the protocol according to their specification. In this section we summarize the most important aspects of the protocol and establish the terminology for better understanding this document and our application.%
-Some of the presented requirements might sound as a paradoxon. However, they can be solved by modern cryptography. A contract was formed between the state of Geneva and the the Institute for Security in the Information Society (RISIS) of the Bern University of Applied Sciences to work out a new protocol which does meet the complex requirements set up by the government. In 2017, Rolf Haenni, Philipp Locher and Reto E. Koenig published the resulting specification document and a proof-of-concept has been successfully implemented by the State of Geneva. Our project is based on this specification. In this section we summarize the most important aspects of the protocol and establish the terminology for better understanding this document and our application. We would like to point out, that the following ideas do not originate from us!
+Some of the mentioned requirements might sound as a paradoxon at first. However, they can be solved by advanced cryptography. A contract was formed between the state of Geneva and the the Institute for Security in the Information Society (RISIS) of the Bern University of Applied Sciences to work out a new protocol which does meet the complex requirements set up by the swiss government. In 2017, Rolf Haenni, Philipp Locher and Reto E. Koenig published the resulting specification document and a proof-of-concept has been successfully implemented by the State of Geneva. Geneva is currently developing a new version of their e-voting system with the name "`CHVote"', based on this specification. Other cantons have announced their interest in cooperating with Geneva.
 
 \subsection{Actors}
 A \textbf{voter} is a person who is eligible to vote in his respective state. Every voter is assigned a \textbf{counting circle} which typically corresponds to the voters municipal and is required for statistical purposes. For authentication purposes, every voter must possess a voting card that has been sent to him prior to an election event that contains codes used to identify the voter during the vote casting process.
@@ -31,7 +32,7 @@ The \textbf{election authorities} can be seen as some kind of independent electi
 
 The measure of multiple authorities participating in the whole e-voting process establishes a \textbf{distribution of trust} and ensures security of the whole election process as long as at least one election authority can be trusted.
 
-The \textbf{Bulletin Board} acts as a central board over which most communication is done and where all the public data is stored. By publishing all non-secret data onto a public board, including the list of encrypted ballots, the protocol is making a big step towards the demanded transparency.
+The \textbf{Bulletin Board} acts as a central board over which most communication is done and where all the public data is stored. By publishing all data that is not secret onto a public board, including the list of encrypted ballots, and functionality to verify the correctness of these data, the protocol is making a big step towards the demanded transparency and the universal verification.
 
 The \textbf{Printing Authority} is responsible for printing the voting cards for all voters. Since the printing authority needs to be in possession of all the secret voting codes, it is a very sensitive point in the protocol. The printed voting cards are handled over to a trusted mailing service for delivery.
 
@@ -62,13 +63,17 @@ Another feature the protocol supports, is that an election event can consist of 
 
 The specification suggests the following trick: Assuming an election consists of two parallel elections ($t=2$) with 3 candidates each ($n_1 = 3, n_2 = 3$), of which a voter can select one candidate in each election ($k_1 = k_2 =1$). The verification codes are derived from $n = \sum_{j=1}^{t} n_j$ random points on $t$ polynomials (one for every election event $j$) of degree $k_j - 1$, that each election authority has chosen randomly prior to the election. By learning exactly $k = \sum_{n=1}^{t} k_j$ points on these polynomials, the voting client is able to reproduce these polynomials and therefore is able to calculate a particular point with $x=0$ on these polynomials. The corresponding $y$ values are incorporated into the second credential from which the confirmation code is derived. As a result, only if a voter has been able to reconstruct these polynomials with the returned points by submitting a valid candidate selection, he will be able to confirm the vote that he casted.
 
-\subsection{Anonymity with mixnets/cryptographic shuffles}
+\subsection{Anonymity with a re-encryption mix-net}
 
-Since there is still a connection between the encrypted ballot and the voter at this point, the encrypted selections are extracted from the ballots as the first step of the post-election phase. In order to anonymize the list of encryptions, every authority performs a cryptographic shuffle with a random permutation and re-encrypts all ciphertexts in order to make it impossible to find out which voter has submitted which encrypted ballot. This is done by using the multiplicative homomorphic property of the ElGamal encryption scheme. A \textbf{multiplicative homomorphic encryption} scheme allows to perform multiplications on the ciphertext such that:
+As mentioned earliert, both the election authorities as well as the bulletin board keep track of all the casted ballots, which contains the voters candidate selection encrypted under the public key that has been jointly generated by all election authorities. Up to this point, the ballots are still linked to the voters, since the voter identifier is required for the confirmation process and to avoid that a voter can cast multiple ballots. If the ballots were decrypted now, this would conflict with the anonymity and the privacy of the voters.
+
+As the first step of the post-election phase, the first election authority extracts the encrypted candidate selections from the ballots. In order to anonymize this list of encryptions, the protocol suggests a "`mixing-process"', in which every authority performs a cryptographic shuffle with a random permutation. Additionally, all the encryptions are re-encrypted such that they receive a new ciphertext. This re-encryption is done by using the multiplicative homomorphic property of the ElGamal encryption scheme that is used for encrypting the ballots. A \textbf{multiplicative homomorphic encryption} scheme allows to perform multiplications on the ciphertext such that:
 
 \begin{equation*}Enc(a) \cdot Enc(b) = Enc(a \cdot b)\end{equation*}
 
-The specification suggests multiplying the encryption with the encryption of the neutral element $1$ since this yields a new ciphertext for the exact same plaintext.
+The specification suggests multiplying the encrypted selection with the encryption of the neutral element $1$ since this yields a new ciphertext for the exact same plaintext.
+
+\begin{equation*}Enc(a) \cdot Enc(1) = Enc(a)\end{equation*}
 
 \begin{center}
 \includegraphics[scale=0.95]{assets/mixing.pdf}
@@ -77,7 +82,7 @@ The specification suggests multiplying the encryption with the encryption of the
 
 While the extraction only needs to done by the first election authority, every election authority is sequentially performing the shuffle and re-encryption on the mixed list of the previous election authority.
 
-To prevent election authorities from cheating and not performing the mixing the way it is supposed to, a zero-knowledge proof is calculated which will be verified by all election authorities before decryption. If one of these \textbf{shuffle-proofs} fails, the election process can not proceed.
+To prevent election authorities from cheating and not performing the mixing as specified, a proof (according to Wikström’s shuffle proof) is calculated which will be verified by all election authorities before decryption. If one of these \textbf{shuffle-proofs} fails, the election process can not proceed.
 
 \section{Project task}
 An additional problem e-voting is confronted, is that understanding such a complex protocol isn't easy without good knowledge in cryptography and group theory. This might be one of the reasons why many people still do not trust electronic voting systems. 
@@ -91,12 +96,16 @@ In close consultation with the authors of the CHVote specification, we were look
 
 Our project task required us to read and get a good understanding of the CHVote specification. As preparatory work during the course "`Project 2"', which we have finished just before the start of our bachelor thesis, we have implemented the approximately 65 algorithms which were defined as pseudo-code in the CHVote specification document. The resulting set of algorithms has been used as a library for implementing the protocol on which our application will be built on.
 
-Based on this rather general task description, there were several possibilities regarding the final product, such as a realistic prototype, a verifier software for the prototype which was implemented in Geneva, or a demonstrator-application that approaches the educational problem. 
+Based on this rather general task description, there were several possibilities regarding the final product, such as a realistic prototype, a verifier software for the implementation which is being developed in Geneva, or a demonstrator-application that targets the educational problem. 
 
-Ultimately we have decided to develop a web-based application which allows to visualize every step of a CHVote election event, from generating the electorate data, to casting and confirming ballots from a voters point of view, to the post-election processes like mixing, decryption and tallying. Opposed to a realistic prototype, the focus on our project is not to implement an e-voting-system that is totally realistic, but more on the visualization.  
+Ultimately we have decided for the last options: Our goal was to develop a web-based application that allows to visualize every step of a CHVote election event, from the pre-election tasks like generating the electorate data, to casting and confirming ballots from a voters point of view, to the post-election processes like mixing, decryption and tallying. Opposed to a realistic prototype, the focus on our project is not to implement an e-voting-system that is totally realistic and secure from an architectural perspective, but more on the visualization.  
 
-The authors of the specification have the intention of using our application for future demonstrations of their protocol to achieve a clearer understanding and better acceptance of e-voting.
+The authors of the specification have the intention of using our application for future demonstrations of their protocol to create a better understanding and acceptance for e-voting.
 
-In chapter 2, we will further discuss the goals and requirements that we have set for this project. Additionally, it covers the time planing and project methodology and a short (non-technical concept) of our product.
+In chapter 2, we will further discuss the goals and requirements that we have set for this project. Additionally, it covers the time planing and project methodology of our project.
 
-Chapter 3 explains the technical aspects regarding the implementation, such as the architecture, the language and technology decisions. Later sections contain detailed information about the internals of each component of our application and the challenges we were facing during the implementation phase. 
+Chapter 3 will describe the final product and the concepts behind our application
+
+Chapter 4 covers the technical aspects regarding the implementation, such as the architecture, the language and technology decisions. Later sections contain detailed information about the internals of each component of our application and the challenges we were facing during the implementation phase. 
+
+Chapter 5 will close this document with a short summary and a reflection about the project.
