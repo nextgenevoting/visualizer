@@ -32,7 +32,7 @@
             <h5 v-t="'data'"></h5>
             <transition-group tag="v-layout" name="highlight" :appear="dataTransition" class="row wrap">
                 <v-flex xy12 md6 v-if="status >= 4 && hasAuthorityMixed" key="enc">
-                    <DataCard :title="$t('encryptions')" :isMpz=true :expandable=false confidentiality="encrypted">
+                    <DataCard :title="$t('encryptions')" :tooltip="$t('encryptions_tooltip')" :isMpz=true :expandable=false confidentiality="encrypted">
                         <v-layout row wrap v-for="(encryption, index) in encryptions" :key="index"  style="font-size:16px;">
                             <v-flex xy4 md4>{{ $t('ElectionAuthority.encryption_n', { n: index + 1 }) }}</v-flex>
                             <v-flex xy4 md8>(<BigIntLabel :mpzValue="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>)</v-flex>
@@ -41,7 +41,7 @@
                 </v-flex>
 
                 <v-flex xy12 md6 v-if="status >= 5 && decryptions !== null" key="dec">
-                    <DataCard :title="$t('ElectionAuthority.partial_decryptions')" :isMpz=true :expandable=false confidentiality="encrypted">
+                    <DataCard :title="$t('ElectionAuthority.partial_decryptions')" :tooltip="$t('ElectionAuthority.partial_decryptions_tooltip')" :isMpz=true :expandable=false confidentiality="encrypted">
                         <v-layout row wrap v-for="(decryption, index) in decryptions" :key="index" style="font-size:16px;">
                             <v-flex xy6 md6>{{ $t('ElectionAuthority.partial_decryption_n', { n: index + 1 }) }}</v-flex>
                             <v-flex xy6 md6><BigIntLabel :mpzValue="decryption"></BigIntLabel></v-flex>
@@ -50,7 +50,7 @@
                 </v-flex>
 
                 <v-flex xy12 md12 key="ballots">
-                    <DataCard :title="$t('ballots')" :isMpz=true :expandable=false confidentiality="encrypted">
+                    <DataCard :title="$t('ballots')" :tooltip="$t('ElectionAuthority.ballots_tooltip')"  :isMpz=true :expandable=false confidentiality="encrypted">
                         <BallotList :ballots="ballots" :authorityFilter="selectedAuthorityIndex"></BallotList>
                     </DataCard>
                 </v-flex>

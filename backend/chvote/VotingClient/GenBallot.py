@@ -15,7 +15,7 @@ from chvote.UnitTestParams                 import unittestparams
 from chvote.Types                          import Ballot
 from chvote.Utils.StringToInteger          import StringToInteger
 
-def GenBallot(X, s, pk, secparams, manipulatedPublicCredential = None):
+def GenBallot(X, s, pk, secparams, manipulatedPublicCredential = None, manipulatedPublicKey = None):
     """
     Algorithm 7.18: Generates a ballot based on the selection s and the voting code X. The
     ballot includes an OT query a and a proof pi. The algorithm also returns the random
@@ -40,6 +40,8 @@ def GenBallot(X, s, pk, secparams, manipulatedPublicCredential = None):
     x_hat = gmpy2.powmod(secparams.g_hat, x, secparams.p_hat)
     if manipulatedPublicCredential != None:
         x_hat = mpz(manipulatedPublicCredential)
+    if manipulatedPublicKey != None:
+        pk = mpz(manipulatedPublicKey)
 
     q_bold = GetSelectedPrimes(s, secparams)                    # q = (q_1, ... , q_k)
     (a_bold, r_bold) = GenQuery(q_bold, pk, secparams)

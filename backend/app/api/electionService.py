@@ -23,6 +23,7 @@ def castVote():
     voterId = data["voterId"]
     votingCode = data["votingCode"]
     manipulatedPublicCredential = data["manipulatedPublicCredential"]
+    manipulatedPublicKey = data["manipulatedPublicKey"]
 
 
     if len(selection) == 0:
@@ -33,7 +34,7 @@ def castVote():
         voteSvc = VoteService(electionId)
 
         # perform action
-        voteSvc.castVote(voterId, selection, votingCode, manipulatedPublicCredential)
+        voteSvc.castVote(voterId, selection, votingCode, manipulatedPublicCredential, manipulatedPublicKey)
 
         # retrieve and persist modified state
         patches = voteSvc.persist()

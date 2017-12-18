@@ -6,25 +6,25 @@
             <h5 v-t="'BulletinBoard.pre_election_data'"></h5>
             <v-layout row wrap>
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('BulletinBoard.unique_election_identifier')" :expandable=false confidentiality="public">{{ electionId }}</DataCard>
+                    <DataCard :title="$t('BulletinBoard.unique_election_identifier')" :tooltip="$t('BulletinBoard.unique_election_identifier_tooltip')" :expandable=false confidentiality="public">{{ electionId }}</DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('status')" :expandable=false confidentiality="public">{{ statusText }}</DataCard>
+                    <DataCard :title="$t('status')" :tooltip="$t('status_tooltip')" :expandable=false confidentiality="public">{{ statusText }}</DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('public_key')" :isMpz=true :expandable=false confidentiality="public">
+                    <DataCard :title="$t('public_key')" :tooltip="$t('public_key_tooltip')" :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="publicKey"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('BulletinBoard.parallel_elections')" :expandable=false confidentiality="public">{{ numberOfParallelElections }}</DataCard>
+                    <DataCard :title="$t('BulletinBoard.parallel_elections')" :tooltip="$t('BulletinBoard.parallel_elections_tooltip')" :expandable=false confidentiality="public">{{ numberOfParallelElections }}</DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('candidates')" :expandable=false confidentiality="public">
+                    <DataCard :title="$t('candidates')" :tooltip="$t('candidates_tooltip')" :expandable=false confidentiality="public">
                         <template v-for="(candidate, index) in candidates">
                             {{candidate}}<span v-if="index < candidates.length-1">, </span>
                         </template>
@@ -32,7 +32,7 @@
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('number_of_candidates')" :expandable=false confidentiality="public">
+                    <DataCard :title="$t('number_of_candidates')" :tooltip="$t('number_of_candidates_tooltip')" :expandable=false confidentiality="public">
                         <template v-for="(candidates, index) in numberOfCandidates">
                             {{candidates}}<span v-if="index < numberOfCandidates.length-1">, </span>
                         </template>
@@ -40,7 +40,7 @@
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('number_of_selections')" :expandable=false confidentiality="public">
+                    <DataCard :title="$t('number_of_selections')" :tooltip="$t('number_of_selections_tooltip')" :expandable=false confidentiality="public">
                         <template v-for="(k, index) in numberOfSelections">
                             {{k}}<span v-if="index < numberOfSelections.length-1">, </span>
                         </template>
@@ -48,7 +48,7 @@
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('voters')" :expandable=false confidentiality="public">
+                    <DataCard :title="$t('voters')" :tooltip="$t('voters_tooltip')" :expandable=false confidentiality="public">
                         <template v-for="(v, index) in voters">
                             {{v}}<span v-if="index < voters.length-1">, </span>
                         </template>
@@ -56,7 +56,7 @@
                 </v-flex>
 
                 <v-flex xy12 md4>
-                    <DataCard :title="$t('counting_circles')" :expandable=false confidentiality="public">
+                    <DataCard :title="$t('counting_circles')" :tooltip="$t('counting_circles_tooltip')" :expandable=false confidentiality="public">
                         <template v-for="(c, index) in countingCircles">
                             {{c}}<span v-if="index < countingCircles.length-1">, </span>
                         </template>
@@ -69,7 +69,7 @@
             <h5 v-if="status >= 3" v-t="'election_data'"></h5>
             <v-layout row wrap>
                 <v-flex xy12 md12>
-                    <DataCard :title="$t('ballots')" :expandable=false confidentiality="encrypted">
+                    <DataCard :title="$t('ballots')" :tooltip="$t('BulletinBoard.ballots_tooltip')" :expandable=false confidentiality="encrypted">
                         <BallotList :ballots="ballots"></BallotList>
                     </DataCard>
                 </v-flex>
@@ -80,7 +80,7 @@
             <h5 v-if="status >= 4" v-t="'post_election_data'"></h5>
             <v-layout row wrap v-if="status >= 4">
                 <v-flex xy12 md12>
-                    <DataCard title="Shuffle proofs" :expandable=false confidentiality="public">
+                    <DataCard  :title="$t('shuffle_proofs')" :tooltip="$t('shuffle_proofs_tooltip')" :expandable=false confidentiality="public">
                         <v-expansion-panel class="expansion-panel--popout">
                             <v-expansion-panel-content v-for="(shuffleProof, index) in shuffleProofs" :key="index">
                                 <div slot="header">{{ $t('BulletinBoard.shuffle_proofs_of_election_authority', { a: index + 1 }) }}</div>
@@ -130,7 +130,7 @@
                     </DataCard>
                 </v-flex>
                 <v-flex xy12 md12>
-                    <DataCard title="Decryption proofs" :expandable=false confidentiality="public">
+                    <DataCard :title="$t('decryption_proofs')" :tooltip="$t('decryption_proofs_tooltip')" :expandable=false confidentiality="public">
                         <v-expansion-panel class="expansion-panel--popout">
                             <v-expansion-panel-content v-for="(decryptionProof, index) in decryptionProofs" :key="index">
                                 <div slot="header">{{ $t('BulletinBoard.decryption_proofs_of_election_authority', { a: index + 1 }) }}</div>

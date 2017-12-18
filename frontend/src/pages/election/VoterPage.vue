@@ -67,16 +67,19 @@
 
                                 </v-card-text>
                                 <v-card-actions>
-                                    <v-btn flat color="blue" @click="castVote(false)">{{ $t('cast_vote') }}</v-btn>
+                                    <v-btn flat color="blue" @click="castVote(false, false, false)">{{ $t('cast_vote') }}</v-btn>
                                     <v-menu offset-y>
                                         <v-btn flat slot="activator"><img src="/public/spy.png" />
                                             {{ $t('Voter.simulate_attack') }}</v-btn>
                                         <v-list>
-                                            <v-list-tile @click="castVote(true)">
+                                            <v-list-tile @click="castVote(true, false, false)">
                                                 <v-list-tile-title>{{ $t('Voter.manipulate_selection') }}</v-list-tile-title>
                                             </v-list-tile>
                                             <v-list-tile @click="attackCredentialDialog = true">
                                                 <v-list-tile-title>{{ $t('Voter.manipulate_credential') }}</v-list-tile-title>
+                                            </v-list-tile>
+                                            <v-list-tile @click="attackPublicKeyDialog = true">
+                                                <v-list-tile-title>{{ $t('Voter.manipulate_public_key') }}</v-list-tile-title>
                                             </v-list-tile>
                                         </v-list>
                                     </v-menu>
@@ -174,8 +177,28 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="green darken-1" flat @click.native="castVote(false, true)">Cast Vote</v-btn>
+                        <v-btn color="green darken-1" flat @click.native="castVote(false, true, false)">Cast Vote</v-btn>
                         <v-btn color="green darken-1" flat @click.native="attackCredentialDialog = false">Cancel</v-btn>
+                    </v-card-actions>
+                </v-card>
+            </v-dialog>
+            <v-dialog v-model="attackPublicKeyDialog" persistent max-width="400">
+                <v-card>
+                    <v-card-title class="headline">Manipulate public key</v-card-title>
+                    <v-card-text>Please enter a public key:</v-card-text>
+                    <v-card-text>
+                        <v-form>
+                            <v-text-field
+                                    label="Manipulate public key"
+                                    v-model="manipulatedPublicKeyInput"
+                                    required
+                            ></v-text-field>
+                        </v-form>
+                    </v-card-text>
+                    <v-card-actions>
+                        <v-spacer></v-spacer>
+                        <v-btn color="green darken-1" flat @click.native="castVote(false, false, true)">Cast Vote</v-btn>
+                        <v-btn color="green darken-1" flat @click.native="attackPublicKeyDialog = false">Cancel</v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -194,7 +217,9 @@
       data: () => ({
         selection: [],
         attackCredentialDialog: false,
+        attackPublicKeyDialog: false,
         manipulatedCredentialInput: '',
+        manipulatedPublicKeyInput: '',
         codes: {
           voting: '',
           confirmation: ''
@@ -289,7 +314,7 @@
         changeVoter: function () {
           this.$store.commit('voterDialog', true)
         },
-        castVote: _.debounce(function (manipulateSelection, manipulateCredential) {
+        castVote: _.debounce(function (manipulateSelection, manipulateCredential, manipulatePublicKey) {
           let candidateSelection = Vue._.clone(this.selection).sort((a, b) => a - b)
 
           if (manipulateSelection) {
@@ -300,13 +325,19 @@
             manipulatedPublicCredential = this.manipulatedCredentialInput
             this.attackCredentialDialog = false
           }
+          let manipulatedPublicKey = null
+          if (manipulatePublicKey) {
+            manipulatedPublicKey = this.manipulatedPublicKeyInput
+            this.attackPublicKeyDialog = false
+          }
           this.$http.post('castVote',
             {
               'election': this.$route.params['electionId'],
               'selection': candidateSelection,
               'voterId': this.selectedVoter,
               'votingCode': this.codes.voting,
-              'manipulatedPublicCredential': manipulatedPublicCredential
+              'manipulatedPublicCredential': manipulatedPublicCredential,
+              'manipulatedPublicKey': manipulatedPublicKey
             }
           ).then(response => {
             response.json().then((data) => {

@@ -62,12 +62,18 @@ menu:
 status:
   en: Status
   de: Status
+status_tooltip:
+  en: The phase this election event is currently in
+  de: Die aktuelle Phase dieses Wahlereignisses
 data:
   en: Data
   de: Daten
 public_key:
   en: Public key
   de: Öffentlicher Schlüssel
+public_key_tooltip:
+  en: The public key used for encrypting the ballots
+  de: Der öffentliche Schlüssel der genutzt wird, um die Stimme zu verschlüsseln
 public_key_share:
   en: Public key share
   de: Anteil des öffentlichen Schlüssels
@@ -77,24 +83,39 @@ secret_key_share:
 candidates:
   en: Candidates
   de: Kandidaten
+candidates_tooltip:
+  en: The candidates of all elections of this election event. The number_of_candidates information is used to link the candidates to their respective election
+  de: Die Kandidaten aller Wahlen dieses Wahlereignisses. Das anzahl_wähler Feld wird genutzt um die Kandidaten der jeweiligen Wahl zuzuordnen
 electionTitle:
   en: Election title
   de: Name des Wahlereignisses
 voters:
   en: Voters
   de: Wähler
+voters_tooltip:
+  en: All voters of this election event
+  de: Alle Wähler dieses Wahlereignisses
 number_of_voters:
   en: Number of voters
   de: Anzahl Wähler
 number_of_candidates:
   en: Number of candidates
   de: Anzahl Kandidaten
+number_of_candidates_tooltip:
+  en: Number of candidates per respective election
+  de: Anzahl Kandidaten in der jeweiligen Wahl
 number_of_selections:
   en: Number of selections
   de: Anzahl Selektionen
+number_of_selections_tooltip:
+  en: Number of candidates that can be selected in the respective election
+  de: Anzahl der Kandidaten, die in der jeweiligen Wahl selektiert werden können
 counting_circles:
   en: Counting circles
   de: Wahlkreise
+counting_circles_tooltip:
+  en: Indices of the corresponding counting circle for all voters. The counting circle typically corresponds to the voters canton/municipal and is used for statistical purposes.
+  de: Indices der Wahlkreise des jeweiligen Voters. Der Wahlkreis entspricht typischerweise dem Kanton oder der Gemeinde des Voters und wird für statistische Zwecke verwendet.
 tally:
   en: Tally
   de: Auszählen
@@ -116,6 +137,9 @@ tasks:
 encryptions:
   en: Encryptions
   de: Verschlüsselungen
+encryptions_tooltip:
+  en: Encrypted candidate selections, extracted from the valid ballots, shuffled and re-encrypted by the current election authorities
+  de: Verschlüsselte Kandidaten-Selektion, extrahiert von den gültigen Stimmen, gemischt und wieder-verschlüsselt durch die aktuelle Wahlauthorität
 ballots:
   en: Ballots
   de: Stimmzettel
@@ -164,6 +188,18 @@ voting_code:
 timestamp:
   en: Timestamp
   de: Zeitstempel
+shuffle_proofs:
+  en: Shuffle Proofs
+  de: Mixing-Beweise
+shuffle_proofs_tooltip:
+  en: A cryptographic proof calculated by every authority to prove that they have performed the mixing-proces correctly according to the protocol
+  de: Ein kryptographischer Beweis der jede Authorität erstellt um zu beweisen, dass sie den Mixing-Prozess korrekt und gemäss Protokoll ausgeführt hat
+decryption_proofs:
+  en: Decryption Proofs
+  de: Entschlüsselungs-Beweise
+decryption_proofs_tooltip:
+  en: A cryptographic proof calculated by every authority to prove that they have performed the decryption-proces correctly according to the protocol
+  de: Ein kryptographischer Beweis der jede Authorität erstellt um zu beweisen, dass sie den Entschlüsselungs-Prozess korrekt und gemäss Protokoll ausgeführt hat
 
 
 main:
@@ -283,9 +319,18 @@ BulletinBoard:
   unique_election_identifier:
     en: Unique Election Identifier
     de: Eindeutige Wahl-Bezeichnung
+  unique_election_identifier_tooltip:
+    en: The unique identifier of this election event
+    de: Die eindeutige Identifikationsnummer dieses Wahlereignisses
   parallel_elections:
     en: Parallel elections
     de: Parallele Wahlen
+  parallel_elections_tooltip:
+    en: How many parallel elections this election event consists of
+    de: Aus wie vielen parallelen Wahlen besteht dieses Wahlereignis
+  ballots_tooltip:
+    en: The bulletin board keeps track of every attempt of voters casting ballots and confirmations, even the invalid ones.
+    de: Das BulletinBoard führt eine Liste über alle versuchten Stimmabgaben und Bestätigungen, auch die ungültigen.
 
 Verifier:
   title:
@@ -344,6 +389,9 @@ ElectionAuthority:
   partial_decryptions:
     en: Partial decryptions
     de: Partielle Entschlüsselungen
+  partial_decryptions_tooltip:
+    en: The encryptions have been partially decrypted by this election authority, using its share of the private key
+    de: Die Verschlüsselungen wurden teilweise entschlüsselt durch diese Authorität, mit Hilfe ihres geheimen Teil-Schlüssels
   partial_decryption_n:
     en: Partial decryption {n}
     de: Partielle Entschlüsselung {n}
@@ -353,6 +401,9 @@ ElectionAuthority:
   ballot_of_voter_n:
     en: Voter {n}
     de: Wähler {n}
+  ballots_tooltip:
+    en: Every election authority keeps a list all valid ballots that it has verified
+    de: Jede Authorität führt eine Liste aller gültigen Stimmen, die sie geprüft hat
   encrypted_selections:
     en: 'Encrypted selection(s):'
     de: 'Verschlüsselte Selektion(en):'
@@ -426,6 +477,9 @@ Voter:
   manipulate_credential:
     en: Manipulate credential
     de: Credential manipulieren
+  manipulate_public_key:
+    en: Encrypt using different public key
+    de: Verschlüsseln mit anderem public key
   check_displayed_codes:
     en: Please check whether the displayed codes match the verification codes of the selected candidates on your voting card.
     de: Überprüfen Sie, ob die dargestellten Codes mit den Prüfcodes der selektierten Kandidaten auf Ihrer Wahlkarte übereinstimmen.
@@ -575,7 +629,7 @@ ElectionResult:
     en: Votes
     de: Stimmen
   votes_tooltip:
-    en: Selected candidate indices of per vote
+    en: Selected candidate indices per vote
     de: Indices der gewählten Kandidaten pro Stimme
   final_results:
     en: Final results
@@ -584,11 +638,11 @@ ElectionResult:
     en: Number of votes per candidate
     de: Anzahl Stimmen pro Kandidat
   counting_circles_tooltip:
-    en: Denotes the index if the corresponding counting circle of every vote
-    de: Der Index des Wahlkreise aller Stimmen
+    en: Indices of the counting circles of the respective voter
+    de: Indices des Wahlkreises des jeweiligen Voters
   final_results_chart:
-    en: Final results (chart)
-    de: Wahlergebnis (grafisch)
+    en: Final results as charts
+    de: Wahlergebnis grafisch
   final_results_chart_tooltip:
     en: Final results in graphical representation
     de: Wahlresultat in grafischer Repräsentation

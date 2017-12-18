@@ -168,7 +168,7 @@ class VoteService(object):
             voter.votingCard = self.printingAuthority.votingCards[voter.id]   # id = index + 1  --> (1,2,3...)
 
 
-    def castVote(self, voterId, selection, votingCode, manipulatedPublicCredential):
+    def castVote(self, voterId, selection, votingCode, manipulatedPublicCredential, manipulatedPublicKey):
         # 6.5 Vote Casting
         voter = self.voters[voterId]
 
@@ -177,7 +177,7 @@ class VoteService(object):
         voter.points = []
 
         # create a new checkBallotTask (a temporary ballot that will be passed to the authorities for checking)
-        (ballot, r) = GenBallot(votingCode, selection, self.bulletinBoard.publicKey, self.secparams, manipulatedPublicCredential)
+        (ballot, r) = GenBallot(votingCode, selection, self.bulletinBoard.publicKey, self.secparams, manipulatedPublicCredential, manipulatedPublicKey)
 
         voterBallot = VoterBallot(voterId, ballot, None)
 
