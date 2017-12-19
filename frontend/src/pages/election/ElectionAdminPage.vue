@@ -76,7 +76,7 @@
             </v-layout>
           </div>
 
-          <v-btn @click="addElection()" v-t="'ElectionAdmin.add_election'"></v-btn>
+          <v-btn @click="addElection()">{{ $('ElectionAdmin.add_election') }}</v-btn>
           <v-btn @click="setUpElection" color="primary" :disabled="!valid">{{ $t('ElectionAdmin.set_up_election') }}</v-btn>
           <v-btn @click="clear" color="error">{{ $t('clear') }}</v-btn>
         </v-form>
