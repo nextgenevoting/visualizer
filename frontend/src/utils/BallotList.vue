@@ -1,7 +1,7 @@
 <template>
     <div>
         <ResponsesTupleDialog
-                :tuple="selectedResponse" :visible="responseDialogVisible" :popupTitle="responseTitleString(1)" @close="responseDialogVisible = false"
+                :tuple="selectedResponse" v-if="selectedResponse !== null" :visible="responseDialogVisible" :popupTitle="responseTitleString(1)" @close="responseDialogVisible = false"
         />
         <transition-group tag="v-expansion-panel" name="highlight" class="expansion-panel--popout" :appear="ballotTransition">
             <p v-if="ballots.length === 0" v-bind:key="0" v-t="'BallotList.noBallots'"></p>
