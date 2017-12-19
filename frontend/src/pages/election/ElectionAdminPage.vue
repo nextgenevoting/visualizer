@@ -65,7 +65,7 @@
               </v-flex>
               <v-flex xs2>
                 <v-menu offset-y v-if="status == 0">
-                  <v-btn flat  slot="activator" v-t="'ElectionAdmin.candidate_presents'"></v-btn>
+                  <v-btn flat  slot="activator" v-t="'ElectionAdmin.candidate_presets'"></v-btn>
                   <v-list>
                     <v-list-tile v-for="preset in candidatePresets" :key="preset.title" @click="setCandidatePreset(election, preset.generate())">
                       <v-list-tile-title>{{ preset.title }}</v-list-tile-title>
