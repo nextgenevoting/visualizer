@@ -3,7 +3,7 @@
     <div v-if="this.$store.state.loaded">
       <ContentTitle icon="mdi-account-key" :title="$t('ElectionAdmin.title')">
         <v-menu offset-y v-if="status == 0">
-          <v-btn flat slot="activator" v-t="'election_presets'"></v-btn>
+          <v-btn flat slot="activator" v-t="'ElectionAdmin.election_presets'"></v-btn>
           <v-list>
             <v-list-tile v-for="preset in electionPresets" :key="preset.title" @click="setElectionPreset(preset.generate())">
               <v-list-tile-title>{{ preset.title }}</v-list-tile-title>
@@ -76,7 +76,7 @@
             </v-layout>
           </div>
 
-          <v-btn @click="addElection()" v-t="'add_election'"></v-btn>
+          <v-btn @click="addElection()" v-t="'ElectionAdmin.add_election'"></v-btn>
           <v-btn @click="setUpElection" color="primary" :disabled="!valid">{{ $t('ElectionAdmin.set_up_election') }}</v-btn>
           <v-btn @click="clear" color="error">{{ $t('clear') }}</v-btn>
         </v-form>
