@@ -1,9 +1,5 @@
 <template>
-  <v-dialog v-model="dialog" width="800px">
-    <v-btn slot="activator" small flat icon>
-      <v-icon v-if="icon === undefined">mdi-dots-horizontal</v-icon>
-      <v-icon v-else>{{ icon }}</v-icon>
-    </v-btn>
+  <v-dialog v-model="visible" width="800px" @close="this.$emit('close')">
     <v-card>
       <v-card-title>
         <span class="headline" v-if="popupTitle !== undefined">{{ popupTitle }}</span>
@@ -38,6 +34,11 @@
 <script>
 export default {
   props: {
+    visible: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     tuple: {
       type: Array,
       required: true
@@ -52,7 +53,6 @@ export default {
     }
   },
   data: () => ({
-    dialog: false
   }),
   computed: {
     data () {
@@ -73,6 +73,16 @@ export default {
   methods: {
     isString (s) {
       return typeof (s) === 'string' || s instanceof String
+    },
+    clickButton: function (event) {
+      this.dialog = !this.dialog
+    }
+  },
+  watch: {
+    visible: function (value) {
+      if (value === false) {
+        this.$emit('close')
+      }
     }
   }
 }

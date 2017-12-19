@@ -122,7 +122,10 @@
             {{ $t('main.bulletin_board') }}
           </v-tabs-item>
           <v-tabs-item ripple :to="{ name: 'verifier', params: {electionId: electionId }}" v-if="status >= 7">
-            <v-icon>mdi-checkbox-marked-outline</v-icon>
+            <v-badge color="">
+              <v-icon slot="badge" dark v-if="status == 7">mdi-alert-decagram</v-icon>
+              <v-icon>mdi-checkbox-marked-outline</v-icon>
+            </v-badge>
             {{ $t('main.verifier') }}
           </v-tabs-item>
         </v-tabs-bar>

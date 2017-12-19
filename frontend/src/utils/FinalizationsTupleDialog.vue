@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" width="800px">
-    <v-btn slot="activator" small flat icon>
+    <v-btn @click.stop="clickButton($event)" slot="activator" small flat icon>
       <v-icon v-if="icon === undefined">mdi-dots-horizontal</v-icon>
       <v-icon v-else>{{ icon }}</v-icon>
     </v-btn>
@@ -66,6 +66,9 @@ export default {
   methods: {
     isString (s) {
       return typeof (s) === 'string' || s instanceof String
+    },
+    clickButton: function (event) {
+      this.dialog = !this.dialog
     }
   }
 }
