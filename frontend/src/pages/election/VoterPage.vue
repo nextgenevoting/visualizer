@@ -157,8 +157,8 @@
         <v-layout row wrap justify-center>
             <v-dialog v-model="attackCredentialDialog" persistent max-width="400">
                 <v-card>
-                    <v-card-title class="headline">Manipulate credential</v-card-title>
-                    <v-card-text>Please enter a public voting credential:</v-card-text>
+                    <v-card-title class="headline" v-t="'manipulate_credential'"></v-card-title>
+                    <v-card-text v-t="'manipulate_credential_text'"></v-card-text>
                     <v-card-text>
                         <v-form>
                         <v-select
@@ -177,8 +177,8 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="green darken-1" flat @click.native="castVote(false, true, false)">Cast Vote</v-btn>
-                        <v-btn color="green darken-1" flat @click.native="attackCredentialDialog = false">Cancel</v-btn>
+                        <v-btn color="green darken-1" flat @click.native="castVote(false, true, false)" v-t="'cast_vote'"></v-btn>
+                        <v-btn color="green darken-1" flat @click.native="attackCredentialDialog = false" v-t="'cencel'"></v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -197,8 +197,8 @@
                     </v-card-text>
                     <v-card-actions>
                         <v-spacer></v-spacer>
-                        <v-btn color="green darken-1" flat @click.native="castVote(false, false, true)">Cast Vote</v-btn>
-                        <v-btn color="green darken-1" flat @click.native="attackPublicKeyDialog = false">Cancel</v-btn>
+                        <v-btn color="green darken-1" flat @click.native="castVote(false, false, true)" v-t="'cast_vote'"></v-btn>
+                        <v-btn color="green darken-1" flat @click.native="attackPublicKeyDialog = false" v-t="'cencel'"></v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
