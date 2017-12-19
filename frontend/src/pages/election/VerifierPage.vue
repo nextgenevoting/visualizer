@@ -16,8 +16,8 @@
                             <v-list two-line>
                                 <v-list-tile>
                                     <v-list-tile-content>
-                                        <v-list-tile-title>Shuffle Proofs</v-list-tile-title>
-                                        <v-list-tile-sub-title>Check if the shuffle-proofs of all election authorities are valid</v-list-tile-sub-title>
+                                        <v-list-tile-title v-t="'shuffle_proofs'"></v-list-tile-title>
+                                        <v-list-tile-sub-title v-t="'Verifier.shuffle_proofs_description'"></v-list-tile-sub-title>
                                     </v-list-tile-content>
                                     <v-list-tile-action>
                                         <v-icon v-if="verificationResult.shuffleProofsCheck" color="green darken-2">mdi-check-circle-outline</v-icon>
@@ -26,8 +26,8 @@
                                 </v-list-tile>
                                 <v-list-tile>
                                     <v-list-tile-content>
-                                        <v-list-tile-title>Shuffle List Dimensions</v-list-tile-title>
-                                        <v-list-tile-sub-title>Check if the length of the list of unshuffled and shuffled encryptions are identical </v-list-tile-sub-title>
+                                        <v-list-tile-title v-t="'shuffle_list_dimensions'"></v-list-tile-title>
+                                        <v-list-tile-sub-title v-t="'Verifier.shuffle_list_dimensions_description'"></v-list-tile-sub-title>
                                     </v-list-tile-content>
                                     <v-list-tile-action>
                                         <v-icon v-if="verificationResult.shuffleDimensionCheck" color="green darken-2">mdi-check-circle-outline</v-icon>
@@ -36,8 +36,8 @@
                                 </v-list-tile>
                                 <v-list-tile>
                                     <v-list-tile-content>
-                                        <v-list-tile-title>Decryption Proofs</v-list-tile-title>
-                                        <v-list-tile-sub-title>Check if the decryption-proofs of all election authorities are valid</v-list-tile-sub-title>
+                                        <v-list-tile-title v-t="'decryption_proofs'"></v-list-tile-title>
+                                        <v-list-tile-sub-title v-t="'Verifier.decryption_proofs_description'"></v-list-tile-sub-title>
                                     </v-list-tile-content>
                                     <v-list-tile-action>
                                         <v-icon v-if="verificationResult.decryptionProofsCheck" color="green darken-2">mdi-check-circle-outline</v-icon>

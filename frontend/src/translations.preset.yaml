@@ -190,17 +190,19 @@ timestamp:
   de: Zeitstempel
 shuffle_proofs:
   en: Shuffle Proofs
-  de: Mixing-Beweise
+  de: Mix-Beweise
 shuffle_proofs_tooltip:
   en: A cryptographic proof calculated by every authority to prove that they have performed the mixing-proces correctly according to the protocol
   de: Ein kryptographischer Beweis der jede Authorität erstellt um zu beweisen, dass sie den Mixing-Prozess korrekt und gemäss Protokoll ausgeführt hat
 decryption_proofs:
   en: Decryption Proofs
   de: Entschlüsselungs-Beweise
+shuffle_list_dimensions:
+  en: Shuffle List Dimensions
+  de: Dimensionen der Mix-Liste
 decryption_proofs_tooltip:
   en: A cryptographic proof calculated by every authority to prove that they have performed the decryption-proces correctly according to the protocol
   de: Ein kryptographischer Beweis der jede Authorität erstellt um zu beweisen, dass sie den Entschlüsselungs-Prozess korrekt und gemäss Protokoll ausgeführt hat
-
 
 main:
   change_language:
@@ -342,6 +344,16 @@ Verifier:
   verify:
     en: Verify election
     de: Verifiziere Wahl
+  shuffle_proofs_description:
+    en: Check if the shuffle-proofs of all election authorities are valid.
+    de: Überprüfen, ob alle Mix-Beweise der Wahl-Authoritäten gültig sind.
+  shuffle_list_dimensions_description:
+    en: Check if the length of the list of unshuffled and shuffled encryptions are identical.
+    de: Überprüfen, ob die länge der Liste mit den ungemixten und gemixten Verschlüsselungen identisch sind.
+  decryption_proofs_description:
+    en: Check if the decryption-proofs of all election authorities are valid.
+    de: Überprüfen, ob die Entschlüsselungsbeweise von allen Wahl-Authoritäten gültig sind.
+
 ElectionAdmin:
   title:
     en: Election Administration
@@ -378,6 +390,15 @@ ElectionAdmin:
   publishResult:
     en: Publish election result
     de: Veröffentlichen
+  candidate_presets:
+    en: Candidate presents
+    de: Vordefinierte Kandidaten
+  election_presets:
+    en: Election presents
+    de: Vordefinierte Wahlen
+  add_election:
+    en: Add election
+    de: Wahl hinzufügen
 
 ElectionAuthority:
   title:
@@ -477,6 +498,9 @@ Voter:
   manipulate_credential:
     en: Manipulate credential
     de: Credential manipulieren
+  manipulate_credential_text:
+    en: 'Please enter a public voting credential:'
+    de: 'Bitte geben Sie ein öffentliches Wahl-Credential ein:'
   manipulate_public_key:
     en: Encrypt using different public key
     de: Verschlüsseln mit anderem public key

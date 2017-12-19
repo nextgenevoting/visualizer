@@ -140,12 +140,12 @@
 
     <v-snackbar error top :timeout="0" v-model="offlineNotification">
       Websocket connection to server lost!
-      <v-btn dark flat @click.native="offlineNotification = false">Close</v-btn>
+      <v-btn dark flat @click.native="offlineNotification = false" v-t="'close'"></v-btn>
     </v-snackbar>
 
     <v-snackbar success top :timeout="4000" v-model="onlineNotification">
       Websocket connection established!
-      <v-btn dark flat @click.native="onlineNotification = false">Close</v-btn>
+      <v-btn dark flat @click.native="onlineNotification = false" v-t="'close'"></v-btn>
     </v-snackbar>
   </v-app>
 </template>

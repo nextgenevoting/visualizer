@@ -26,7 +26,7 @@
             </v-list>
         </v-card-text>
         <v-card-actions>
-            <v-btn color="primary" flat @click.stop="showDialog=false">Close</v-btn>
+            <v-btn color="primary" flat @click.stop="showDialog=false" v-t="'close'"></v-btn>
         </v-card-actions>
     </v-card>
 </v-dialog>
