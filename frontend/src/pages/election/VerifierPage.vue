@@ -17,7 +17,7 @@
                                 <v-list-tile>
                                     <v-list-tile-content>
                                         <v-list-tile-title v-t="'shuffle_proofs'"></v-list-tile-title>
-                                        <v-list-tile-sub-title v-t="'shuffle_proofs_description'"></v-list-tile-sub-title>
+                                        <v-list-tile-sub-title v-t="'Verifier.shuffle_proofs_description'"></v-list-tile-sub-title>
                                     </v-list-tile-content>
                                     <v-list-tile-action>
                                         <v-icon v-if="verificationResult.shuffleProofsCheck" color="green darken-2">mdi-check-circle-outline</v-icon>
@@ -27,7 +27,7 @@
                                 <v-list-tile>
                                     <v-list-tile-content>
                                         <v-list-tile-title v-t="'shuffle_list_dimensions'"></v-list-tile-title>
-                                        <v-list-tile-sub-title v-t="'shuffle_list_dimensions_description'"></v-list-tile-sub-title>
+                                        <v-list-tile-sub-title v-t="'Verifier.shuffle_list_dimensions_description'"></v-list-tile-sub-title>
                                     </v-list-tile-content>
                                     <v-list-tile-action>
                                         <v-icon v-if="verificationResult.shuffleDimensionCheck" color="green darken-2">mdi-check-circle-outline</v-icon>
@@ -37,7 +37,7 @@
                                 <v-list-tile>
                                     <v-list-tile-content>
                                         <v-list-tile-title v-t="'decryption_proofs'"></v-list-tile-title>
-                                        <v-list-tile-sub-title v-t="'decryption_proofs_description'"></v-list-tile-sub-title>
+                                        <v-list-tile-sub-title v-t="'Verifier.decryption_proofs_description'"></v-list-tile-sub-title>
                                     </v-list-tile-content>
                                     <v-list-tile-action>
                                         <v-icon v-if="verificationResult.decryptionProofsCheck" color="green darken-2">mdi-check-circle-outline</v-icon>
