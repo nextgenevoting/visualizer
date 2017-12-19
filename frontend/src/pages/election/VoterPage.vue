@@ -178,7 +178,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="green darken-1" flat @click.native="castVote(false, true, false)" v-t="'cast_vote'"></v-btn>
-                        <v-btn color="green darken-1" flat @click.native="attackCredentialDialog = false" v-t="'cencel'"></v-btn>
+                        <v-btn color="green darken-1" flat @click.native="attackCredentialDialog = false" v-t="'cancel'"></v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>
@@ -198,7 +198,7 @@
                     <v-card-actions>
                         <v-spacer></v-spacer>
                         <v-btn color="green darken-1" flat @click.native="castVote(false, false, true)" v-t="'cast_vote'"></v-btn>
-                        <v-btn color="green darken-1" flat @click.native="attackPublicKeyDialog = false" v-t="'cencel'"></v-btn>
+                        <v-btn color="green darken-1" flat @click.native="attackPublicKeyDialog = false" v-t="'cancel'"></v-btn>
                     </v-card-actions>
                 </v-card>
             </v-dialog>

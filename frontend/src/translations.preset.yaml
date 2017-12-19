@@ -391,10 +391,10 @@ ElectionAdmin:
     en: Publish election result
     de: Veröffentlichen
   candidate_presets:
-    en: Candidate presents
+    en: Candidate presets
     de: Vordefinierte Kandidaten
   election_presets:
-    en: Election presents
+    en: Election presets
     de: Vordefinierte Wahlen
   add_election:
     en: Add election

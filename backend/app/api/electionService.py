@@ -284,3 +284,32 @@ def setAutoMode():
         return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
 
     return json.dumps({'id': str(id)})
+
+
+@main.route('/revealCode', methods=['POST'])
+@cross_origin(origin='*')
+def revealCode():
+    data = request.json
+    electionId = data["election"]
+    voterId = int(data["voterId"])
+    codeIndex = int(data["codeIndex"])
+
+    try:
+        # prepare voteService
+        voteSvc = VoteService(electionId)
+
+        # perform action
+        voteSvc.revealCode(voterId, codeIndex)
+
+        # retrieve and persist modified state
+        patches = voteSvc.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
+
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
+
+    return json.dumps({'id': str(id)})
+
+

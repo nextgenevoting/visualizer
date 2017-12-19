@@ -1,6 +1,6 @@
 <template>
   <div class="scratch-card">
-    <canvas width="100" height="100" :style="scratchable ? 'cursor: url(/public/coin.ico), auto' : 'cursor: not-allowed'"></canvas>
+    <canvas v-if="!this.revealed" width="100" height="100" :style="scratchable ? 'cursor: url(/public/coin.ico), auto' : 'cursor: not-allowed'"></canvas>
     <div>
       <slot></slot>
     </div>
@@ -10,19 +10,26 @@
 <script scoped>
 export default {
   data: () => ({
-    revealed: false
   }),
   props: {
     scratchable: {
       type: Boolean,
       required: false,
       default: true
+    },
+    revealed: {
+      type: Boolean,
+      required: false,
+      default: false
     }
   },
   mounted () {
-    scratchCard(this.$el, this.scratchable, () => {
-      this.revealed = true
-    })
+    if (!this.revealed) {
+      scratchCard(this.$el, this.scratchable, () => {
+        // this.revealed = true
+        this.$emit('revealed')
+      })
+    }
   }
 }
 

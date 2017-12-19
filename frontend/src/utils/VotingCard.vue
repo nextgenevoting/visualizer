@@ -13,7 +13,7 @@
         <v-list-tile-sub-title>
           <confidentialityChip type="secret" />
         </v-list-tile-sub-title>
-        <ScratchCard :scratchable="active" ref="votingCodeScratchCard">
+        <ScratchCard :scratchable="active" ref="votingCodeScratchCard" :revealed="votingCodeRevealed" @revealed="revealCode(0)">
           <div class="code" :class="{ 'pointer': active }" @click="insertVotingCode">{{ card['votingCode'] }}</div>
         </ScratchCard>
       </v-list-tile>
@@ -25,7 +25,7 @@
         <v-list-tile-sub-title>
           <confidentialityChip type="secret" />
         </v-list-tile-sub-title>
-        <ScratchCard :scratchable="active" ref="confirmationCodeScratchCard">
+        <ScratchCard :scratchable="active" ref="confirmationCodeScratchCard" :revealed="confirmationCodeRevealed" @revealed="revealCode(1)">
           <div class="code" :class="{ 'pointer': active }" @click="insertConfirmationCode">{{ card['confirmationCode'] }}</div>
         </ScratchCard>
       </v-list-tile>
@@ -68,6 +68,8 @@
 </template>
 
 <script>
+import { mapState } from 'vuex'
+
 export default {
   props: {
     card: {
@@ -95,8 +97,19 @@ export default {
     }
   },
   computed: {
-    active () {
-      return this.codes !== undefined
+    ...mapState({
+      selectedVoter: state => state.selectedVoter
+    }),
+    voter: {
+      get: function () {
+        return this.$store.getters.getVoter(this.selectedVoter)
+      }
+    },
+    votingCodeRevealed () {
+      return this.voter.votingCodeRevealed
+    },
+    confirmationCodeRevealed () {
+      return this.voter.confirmationCodeRevealed
     },
     candidateVerificationCodes () {
       var list = []
@@ -112,15 +125,31 @@ export default {
   },
   methods: {
     insertVotingCode () {
-      if (this.active && this.$refs.votingCodeScratchCard.revealed && 'voting' in this.codes) {
+      if (this.votingCodeRevealed) {
         this.codes['voting'] = this.card['votingCode']
       }
     },
     insertConfirmationCode () {
-      if (this.active && this.$refs.confirmationCodeScratchCard.revealed && 'confirmation' in this.codes) {
+      if (this.confirmationCodeRevealed) {
         this.codes['confirmation'] = this.card['confirmationCode']
       }
+    },
+    revealCode (codeIndex) {
+      this.$http.post('revealCode',
+        {
+          'election': this.$route.params['electionId'],
+          'voterId': this.$route.params['voterId'],
+          'codeIndex': codeIndex
+
+        }
+      ).then(response => {
+        response.json().then((data) => {
+        })
+      }).catch(e => {
+        this.$toasted.error(e.body.message)
+      })
     }
+
   }
 }
 </script>

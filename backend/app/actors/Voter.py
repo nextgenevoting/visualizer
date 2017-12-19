@@ -124,3 +124,19 @@ class Voter(Actor):
     def status(self, value):
         AssertInt(value)
         self.state.status = value
+
+    @property
+    def votingCodeRevealed(self):
+        return self.state.votingCodeRevealed
+
+    @votingCodeRevealed.setter
+    def votingCodeRevealed(self, value):
+        self.state.votingCodeRevealed = value
+
+    @property
+    def confirmationCodeRevealed(self):
+        return self.state.confirmationCodeRevealed
+
+    @confirmationCodeRevealed.setter
+    def confirmationCodeRevealed(self, value):
+        self.state.confirmationCodeRevealed = value

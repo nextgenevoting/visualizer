@@ -395,3 +395,10 @@ class VoteService(object):
 
 
         self.bulletinBoard.verificationResult = res
+
+    def revealCode(self, voterId, codeIndex):
+        voter = self.voters[voterId]
+        if codeIndex == 0:
+            voter.votingCodeRevealed = True
+        if codeIndex == 1:
+            voter.confirmationCodeRevealed = True

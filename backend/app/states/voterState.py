@@ -17,3 +17,6 @@ class VoterState(State):
         self.verificationCodes = []
         self.finalizations = []
         self.finalizationCode = ''
+
+        self.votingCodeRevealed = None
+        self.confirmationCodeRevealed = None
