@@ -70,31 +70,28 @@
           required: false,
           default: ''
         }
-      },
-
-      mounted () {
       }
     }
 </script>
 
 <style>
-    p {
-        display: inline;
-    }
+p {
+    display: inline;
+}
 
-    .dataCard .dataCardTitle{
-        padding: 10px 16px 5px 16px !important;
-    }
+.dataCard .dataCardTitle{
+    padding: 10px 16px 5px 16px !important;
+}
 
-    .dataCard .dataCardContent{
-        padding: 2px 16px 10px 16px !important;
-        font-size: 22px !important;
-        min-height: 52px;
-    }
+.dataCard .dataCardContent{
+    padding: 2px 16px 10px 16px !important;
+    font-size: 22px !important;
+    min-height: 52px;
+}
 
-    .confidentialityChip {
-        position: absolute;
-        top: 7px;
-        right: 7px;
-    }
+.confidentialityChip {
+    position: absolute;
+    top: 7px;
+    right: 7px;
+}
 </style>

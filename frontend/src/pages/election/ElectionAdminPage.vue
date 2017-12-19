@@ -153,6 +153,7 @@ export default {
             let election = new Election()
             let c = candidates
             election.candidates = [...new Array(rand(2, 5))].map(() => c.splice(c, 1)[0])
+            election.numberOfSelections = Math.max(1, rand(1, election.candidates.length - 1))
             return election
           })
 
@@ -193,7 +194,7 @@ export default {
       this.elections[electionIndex].candidates.splice(this.elections[electionIndex].candidates.indexOf(candidate), 1)
       this.elections[electionIndex].candidates = [...this.elections[electionIndex].candidates]
     },
-    setUpElection (event) {
+    setUpElection () {
       if (this.$refs.form.validate()) {
         let numberOfVoters = this.countingCircles.reduce((a, b) => parseInt(a) + parseInt(b), 0).toString()
         let candidates = Vue._.flatMap(this.elections, (election) => election.candidates)
@@ -224,11 +225,7 @@ export default {
       }
     },
     startMixingPhase (newStatus) {
-      this.$http.post('startMixingPhase',
-        {
-          'election': this.$route.params['electionId']
-        }
-      ).then(response => {
+      this.$http.post('startMixingPhase', { 'election': this.$route.params['electionId'] }).then(response => {
         response.json().then((data) => {
           this.$toasted.success(this.$i18n.t('ElectionAdmin.seccessfully_set_mixing_phase'))
         })

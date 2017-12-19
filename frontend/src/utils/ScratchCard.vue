@@ -1,6 +1,6 @@
 <template>
   <div class="scratch-card">
-    <canvas width="100" height="100"></canvas>
+    <canvas width="100" height="100" :style="scratchable ? 'cursor: url(/public/coin.ico), auto' : 'cursor: not-allowed'"></canvas>
     <div>
       <slot></slot>
     </div>
@@ -12,14 +12,21 @@ export default {
   data: () => ({
     revealed: false
   }),
+  props: {
+    scratchable: {
+      type: Boolean,
+      required: false,
+      default: true
+    }
+  },
   mounted () {
-    scratchCard(this.$el, () => {
+    scratchCard(this.$el, this.scratchable, () => {
       this.revealed = true
     })
   }
 }
 
-function scratchCard (container, reveal) {
+function scratchCard (container, scratchable, reveal) {
   var isDrawing, lastPoint
   var canvas = container.querySelector('canvas')
   var ctx = canvas.getContext('2d')
@@ -33,12 +40,14 @@ function scratchCard (container, reveal) {
   ctx.fillStyle = '#c0c0c0'
   ctx.fillRect(0, 0, canvas.width, canvas.height)
 
-  canvas.addEventListener('mousedown', handleMouseDown, false)
-  canvas.addEventListener('touchstart', handleMouseDown, false)
-  canvas.addEventListener('mousemove', handleMouseMove, false)
-  canvas.addEventListener('touchmove', handleMouseMove, false)
-  canvas.addEventListener('mouseup', handleMouseUp, false)
-  canvas.addEventListener('touchend', handleMouseUp, false)
+  if (scratchable) {
+    canvas.addEventListener('mousedown', handleMouseDown, false)
+    canvas.addEventListener('touchstart', handleMouseDown, false)
+    canvas.addEventListener('mousemove', handleMouseMove, false)
+    canvas.addEventListener('touchmove', handleMouseMove, false)
+    canvas.addEventListener('mouseup', handleMouseUp, false)
+    canvas.addEventListener('touchend', handleMouseUp, false)
+  }
 
   function distanceBetween (point1, point2) {
     return Math.sqrt(Math.pow(point2.x - point1.x, 2) + Math.pow(point2.y - point1.y, 2))
@@ -139,8 +148,6 @@ function scratchCard (container, reveal) {
 canvas {
   position: absolute;
   top: 0;
-  z-index: 1000;
   border-radius: 10px;
-  cursor: url('/public/coin.ico'), auto;
 }
 </style>

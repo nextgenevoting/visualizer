@@ -8,31 +8,31 @@
     </v-card-text>
     <v-list>
       <v-divider/>
-      <v-list-tile :class="{ 'active': state == 0 }" title="Click to insert voting code">
+      <v-list-tile :class="{ 'blue lighten-3': active && state === 0 }" :title="active ? 'Click to insert voting code' : ''">
         <v-list-tile-title v-t="'voting_code'"></v-list-tile-title>
         <v-list-tile-sub-title>
           <confidentialityChip type="secret" />
         </v-list-tile-sub-title>
-        <ScratchCard ref="votingCodeScratchCard">
-          <div class="code" @click="insertVotingCode">{{ card['votingCode'] }}</div>
+        <ScratchCard :scratchable="active" ref="votingCodeScratchCard">
+          <div class="code" :class="{ 'pointer': active }" @click="insertVotingCode">{{ card['votingCode'] }}</div>
         </ScratchCard>
       </v-list-tile>
 
       <v-divider/>
 
-      <v-list-tile :class="{ 'blue lighten-4': state == 1 }" title="Click to insert confirmation code">
+      <v-list-tile :class="{ 'blue lighten-3': active && state === 1 }" :title="active ? 'Click to insert confirmation code' : ''">
         <v-list-tile-title v-t="'Voter.confirmation_code'"></v-list-tile-title>
         <v-list-tile-sub-title>
           <confidentialityChip type="secret" />
         </v-list-tile-sub-title>
-        <ScratchCard ref="confirmationCodeScratchCard">
-          <div class="code" @click="insertConfirmationCode">{{ card['confirmationCode'] }}</div>
+        <ScratchCard :scratchable="active" ref="confirmationCodeScratchCard">
+          <div class="code" :class="{ 'pointer': active }" @click="insertConfirmationCode">{{ card['confirmationCode'] }}</div>
         </ScratchCard>
       </v-list-tile>
 
       <v-divider/>
 
-      <v-list-tile :class="{ 'blue lighten-4': state == 2 }" title="Make sure the finalization code on the left matches this code">
+      <v-list-tile :class="{ 'blue lighten-3': active && state === 2 }" :title="active ? 'Make sure the finalization code on the left matches this code' : ''">
         <v-list-tile-title v-t="'Voter.finalization_code'"></v-list-tile-title>
         <v-list-tile-sub-title>
           <confidentialityChip type="public" />
@@ -43,7 +43,7 @@
       <v-divider/>
     </v-list>
 
-    <div :class="{ 'blue lighten-4': state == 2 }" v-for="(candidates, index) in candidateVerificationCodes">
+    <div v-for="(candidates, index) in candidateVerificationCodes">
       <v-divider v-if="index > 0" />
       <v-toolbar flat dense>
         <v-list>
@@ -90,10 +90,14 @@ export default {
     */
     codes: {
       type: Object,
-      required: false
+      required: false,
+      default: undefined
     }
   },
   computed: {
+    active () {
+      return this.codes !== undefined
+    },
     candidateVerificationCodes () {
       var list = []
       var i = 0
@@ -108,12 +112,12 @@ export default {
   },
   methods: {
     insertVotingCode () {
-      if (this.$refs.votingCodeScratchCard.revealed && 'voting' in this.codes) {
+      if (this.active && this.$refs.votingCodeScratchCard.revealed && 'voting' in this.codes) {
         this.codes['voting'] = this.card['votingCode']
       }
     },
     insertConfirmationCode () {
-      if (this.$refs.confirmationCodeScratchCard.revealed && 'confirmation' in this.codes) {
+      if (this.active && this.$refs.confirmationCodeScratchCard.revealed && 'confirmation' in this.codes) {
         this.codes['confirmation'] = this.card['confirmationCode']
       }
     }
@@ -122,14 +126,13 @@ export default {
 </script>
 
 <style scoped>
-.active {
-  background: #f0f0f0;
-}
 .code {
   margin: 5px 10px 5px 10px;
   font-family: monospace;
   white-space: nowrap;
   user-select: none;
+}
+.pointer {
   cursor: pointer;
 }
 </style>

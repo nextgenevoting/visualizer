@@ -1,5 +1,5 @@
 <template>
-    <p >
+    <p>
         <span v-if="title === undefined">{{ tupleValue.length }}-Tuple</span>
         <span v-else>{{title}}</span>
 
@@ -7,22 +7,24 @@
         <v-icon v-if="icon === undefined">mdi-dots-horizontal</v-icon>
         <v-icon v-else>{{icon}}</v-icon>
     </v-btn>
-    <popover :name="data.name">
 
-        <v-list>
-            <v-list-tile-title class="datacardTitle">
+    <popover :name="data.name">
+      <div>
                 <b v-if="popupTitle === undefined">{{tupleValue.length}}-Tuple</b>
                 <b v-else>{{popupTitle}}</b>
-            </v-list-tile-title>
-            <v-list-tile-title class="datacardValue">
-                <div v-for="(v, index) in tupleValue">
-                    <p v-if="v instanceof Array">
-                        <b>{{index+1}}:</b><TupleElement :tupleElement="v"></TupleElement>
-                    </p>
-                    <p v-else><b>{{index+1}}:</b>{{v}}</p>
-                </div>
-            </v-list-tile-title>
-        </v-list>
+      </div>
+      <TupleElement :tupleElement="tupleValue" />
+      <!--
+      <div v-for="(value, index) in tupleValue">
+          <div v-if="value instanceof Array">
+              <b>{{index+1}}:</b>
+              <div v-for="v in value">
+                <TupleElement :tupleElement="v"></TupleElement>
+              </div>
+          </div>
+          <div v-else><b>{{index+1}}:</b>{{v}}</div>
+      </div>
+      -->
     </popover>
 
     </p>
@@ -36,6 +38,7 @@
       computed: {
         data () {
           var self = this
+          console.log(this.tupleValue)
           return {
             truncatedValue: function () {
               if (self.tupleValue !== undefined && self.tupleValue !== null) {

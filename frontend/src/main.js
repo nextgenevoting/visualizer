@@ -30,7 +30,10 @@ import LoadingOverlay from './utils/LoadingOverlay.vue'
 import BallotList from './utils/BallotList.vue'
 import ElectionResult from './utils/ElectionResult.vue'
 import BigIntLabel from './utils/BigIntLabel.vue'
+import ByteArrayLabel from './utils/ByteArrayLabel.vue'
 import TupleLabel from './utils/TupleLabel.vue'
+import ResponsesTupleDialog from './utils/ResponsesTupleDialog.vue'
+import FinalizationsTupleDialog from './utils/FinalizationsTupleDialog.vue'
 import VotingCard from './utils/VotingCard.vue'
 import ScratchCard from './utils/ScratchCard.vue'
 import ConfidentialityChip from './utils/ConfidentialityChip.vue'
@@ -78,7 +81,10 @@ Vue.use(Popover)
 Vue.use(Toasted, { position: 'top-right', duration: '4000' })
 
 Vue.component('BigIntLabel', BigIntLabel)
+Vue.component('ByteArrayLabel', ByteArrayLabel)
 Vue.component('TupleLabel', TupleLabel)
+Vue.component('ResponsesTupleDialog', ResponsesTupleDialog)
+Vue.component('FinalizationsTupleDialog', FinalizationsTupleDialog)
 Vue.component('VotingCard', VotingCard)
 Vue.component('ScratchCard', ScratchCard)
 Vue.component('ConfidentialityChip', ConfidentialityChip)
