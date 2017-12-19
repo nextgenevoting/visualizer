@@ -36,7 +36,7 @@
                 </v-list>
               </v-flex>
               <v-flex xy12 md10>
-                <VotingCard :card="votingCard" :state="0" :candidates="candidatesForElection"></VotingCard>
+                <VotingCard :card="votingCard" :interactive="false" :scratchable="false" :state="-1" :candidates="candidatesForElection"></VotingCard>
               </v-flex>
               <v-flex xy12 md12 v-if="this.$store.state.expertMode">
                 <DataCard :title="$t('PrintingAuth.private_voter_data')" :expandable="false" confidentiality="secret">

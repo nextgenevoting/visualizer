@@ -144,7 +144,7 @@
                             </v-card>
                         </v-flex>
                         <v-flex x12 md6>
-                            <VotingCard :card="votingCard" :state="voter.status" :candidates="candidatesForElection" :codes="codes"></VotingCard>
+                            <VotingCard :card="votingCard" :interactive="true" :scratchable="true" :state="voter.status" :candidates="candidatesForElection" :codes="codes"></VotingCard>
                         </v-flex>
                     </div>
                 </v-flex>

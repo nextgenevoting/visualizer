@@ -8,31 +8,31 @@
     </v-card-text>
     <v-list>
       <v-divider/>
-      <v-list-tile :class="{ 'blue lighten-3': active && state === 0 }" :title="active ? 'Click to insert voting code' : ''">
+      <v-list-tile :class="{ 'blue lighten-3': state === 0 }" :title="interactive && votingCodeRevealed ? 'Click to insert voting code' : ''">
         <v-list-tile-title v-t="'voting_code'"></v-list-tile-title>
         <v-list-tile-sub-title>
           <confidentialityChip type="secret" />
         </v-list-tile-sub-title>
-        <ScratchCard :scratchable="active" ref="votingCodeScratchCard" :revealed="votingCodeRevealed" @revealed="revealCode(0)">
-          <div class="code" :class="{ 'pointer': active }" @click="insertVotingCode">{{ card['votingCode'] }}</div>
+        <ScratchCard :scratchable="this.scratchable" ref="votingCodeScratchCard" :revealed="votingCodeRevealed" @revealed="revealCode(0)">
+          <div class="code" :class="{ 'pointer': interactive && votingCodeRevealed }" @click="insertVotingCode">{{ card['votingCode'] }}</div>
         </ScratchCard>
       </v-list-tile>
 
       <v-divider/>
 
-      <v-list-tile :class="{ 'blue lighten-3': active && state === 1 }" :title="active ? 'Click to insert confirmation code' : ''">
+      <v-list-tile :class="{ 'blue lighten-3': state === 1  }" :title="interactive && confirmationCodeRevealed ? 'Click to insert confirmation code' : ''">
         <v-list-tile-title v-t="'Voter.confirmation_code'"></v-list-tile-title>
         <v-list-tile-sub-title>
           <confidentialityChip type="secret" />
         </v-list-tile-sub-title>
-        <ScratchCard :scratchable="active" ref="confirmationCodeScratchCard" :revealed="confirmationCodeRevealed" @revealed="revealCode(1)">
-          <div class="code" :class="{ 'pointer': active }" @click="insertConfirmationCode">{{ card['confirmationCode'] }}</div>
+        <ScratchCard :scratchable="this.scratchable" ref="confirmationCodeScratchCard" :revealed="confirmationCodeRevealed" @revealed="revealCode(1)">
+          <div class="code" :class="{ 'pointer': interactive && confirmationCodeRevealed }" @click="insertConfirmationCode">{{ card['confirmationCode'] }}</div>
         </ScratchCard>
       </v-list-tile>
 
       <v-divider/>
 
-      <v-list-tile :class="{ 'blue lighten-3': active && state === 2 }" :title="active ? 'Make sure the finalization code on the left matches this code' : ''">
+      <v-list-tile :class="{ 'blue lighten-3': state === 2 }" :title="interactive ? 'Make sure the finalization code on the left matches this code' : ''">
         <v-list-tile-title v-t="'Voter.finalization_code'"></v-list-tile-title>
         <v-list-tile-sub-title>
           <confidentialityChip type="public" />
@@ -76,6 +76,16 @@ export default {
       type: Object,
       required: true
     },
+    scratchable: {
+      type: Boolean,
+      required: true,
+      default: true
+    },
+    interactive: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     state: {
       type: Number,
       required: true
@@ -106,9 +116,11 @@ export default {
       }
     },
     votingCodeRevealed () {
+      if (this.interactive === false) { return false }
       return this.voter.votingCodeRevealed
     },
     confirmationCodeRevealed () {
+      if (this.interactive === false) { return false }
       return this.voter.confirmationCodeRevealed
     },
     candidateVerificationCodes () {
