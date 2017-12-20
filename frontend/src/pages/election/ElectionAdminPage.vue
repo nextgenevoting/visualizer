@@ -84,24 +84,24 @@
           </v-card>
         </v-flex>
 
-      <div v-if="status == 1 || status == 2" v-t="'ElectionAdmin.submitted_to_printing_authority'"></div>
+      <v-flex xs12 sm1><h5 v-t="'tasks'"></h5></v-flex>
+        <v-alert v-if="status == 1 || status == 2" color="grey lighten-3" icon="info" value="true">
+          {{$t('ElectionAdmin.submitted_to_printing_authority')}}
+        </v-alert>
+        <v-alert v-if="status == 4 && !allAuthoritiesHaveMixed" color="grey lighten-3" icon="info" value="true">
+          {{$t('ElectionAdmin.waitForMixing')}}
+        </v-alert>
+      <v-alert v-if="status == 5 && !haveAllAuthoritiesDecrypted" color="grey lighten-3" icon="info" value="true">
+        {{$t('ElectionAdmin.waitForDecryption')}}
+      </v-alert>
 
-      <div v-if="status == 3">
-        <v-btn @click="startMixingPhase()">{{ $t('ElectionAdmin.end_election_phase') }}</v-btn>
-      </div>
 
-      <div v-if="status == 4">
-        <p v-t="'ElectionAdmin.waitForMixing'"></p><br>
-        <v-btn :disabled="!allAuthoritiesHaveMixed" @click="startDecryptionPhase()">{{ $t('ElectionAdmin.start_decryption_process') }}</v-btn>
-      </div>
-
-      <div v-if="status == 5">
-        <p v-t="'ElectionAdmin.waitForDecryption'"></p>
-      </div>
+      <v-btn :disabled="status != 3" @click="startMixingPhase()">{{ $t('ElectionAdmin.end_election_phase') }}</v-btn>
+      <v-btn :disabled="!(allAuthoritiesHaveMixed && status == 4)" @click="startDecryptionPhase()">{{ $t('ElectionAdmin.start_decryption_process') }}</v-btn>
+      <v-btn :disabled="!(haveAllAuthoritiesDecrypted && finalResults.length === 0 && status === 6)" @click="tally()">{{ $t('tally') }}</v-btn>
+      <v-btn :disabled="!(status === 6 && finalResults.length > 0)" @click="publishResult()">{{ $t('ElectionAdmin.publishResult') }}</v-btn>
 
       <div v-if="status >= 6">
-        <v-btn v-if="finalResults.length === 0" @click="tally()">{{ $t('tally') }}</v-btn>
-        <v-btn v-else @click="publishResult()">{{ $t('ElectionAdmin.publishResult') }}</v-btn>
         <h5 v-t="'post_election_data'"></h5>
         <ElectionResult></ElectionResult>
       </div>
@@ -173,7 +173,8 @@ export default {
     ...mapGetters({
       electionId: 'electionId',
       status: 'status',
-      allAuthoritiesHaveMixed: 'haveAllAuthoritiesMixed'
+      allAuthoritiesHaveMixed: 'haveAllAuthoritiesMixed',
+      haveAllAuthoritiesDecrypted: 'haveAllAuthoritiesDecrypted'
     }),
     ...mapState({
       finalResults: state => state.ElectionAdministrator.finalResults

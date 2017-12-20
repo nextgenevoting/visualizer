@@ -23,7 +23,7 @@
 
 
       <v-layout row wrap>
-        <v-flex xy12 md12 v-if="status >=2">
+        <v-flex xy12 md12 v-if="status ==2">
           <h5 v-t="'voting_cards'"></h5>
             <v-layout row>
               <v-flex xy12 md2>

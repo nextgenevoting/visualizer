@@ -50,7 +50,7 @@
                 </v-flex>
 
                 <v-flex xy12 md12 key="ballots">
-                    <DataCard :title="$t('ballots')" :tooltip="$t('ElectionAuthority.ballots_tooltip')"  :isMpz=true :expandable=false confidentiality="encrypted">
+                    <DataCard :title="$t('ballots')"  :isMpz=true :expandable=false confidentiality="encrypted">
                         <BallotList :ballots="ballots" :authorityFilter="selectedAuthorityIndex"></BallotList>
                     </DataCard>
                 </v-flex>
