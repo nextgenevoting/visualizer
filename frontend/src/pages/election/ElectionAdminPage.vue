@@ -12,78 +12,6 @@
         </v-menu>
       </ContentTitle>
 
-        <v-flex  x12 md12 v-if="status == 0">
-          <v-card>
-            <v-card-title primary-title>
-              <div class="headline" v-t="'ElectionAdmin.set_up_election'"></div>
-            </v-card-title>
-            <v-card-text>
-
-
-        <v-form v-model="valid" ref="form" lazy-validation>
-          <h5 v-t="'counting_circles'"></h5>
-          <div v-for="(voters, index) in countingCircles">
-            <v-layout row wrap>
-              <v-flex xs6>
-                <v-text-field label="Number of voters in this counting circle" type="number" v-model="countingCircles[index]" autofocus required></v-text-field>
-              </v-flex>
-              <v-flex xs6>
-                <v-btn fab icon small title="Remove counting circle" v-if="index <= countingCircles.length && countingCircles.length > 1" @click="countingCircles.splice(index, 1)">
-                  <v-icon  color="error">mdi-minus</v-icon>
-                </v-btn>
-                <v-btn fab icon small  title="Add counting circle" v-if="index === countingCircles.length - 1" @click="countingCircles.push(null)">
-                  <v-icon>mdi-plus</v-icon>
-                </v-btn>
-              </v-flex>
-            </v-layout>
-          </div>
-
-          <div v-for="(election, index) in this.elections">
-            <h5>
-              Election {{ index + 1 }}
-              <v-btn icon small flat  color="error" title="Remove this election" v-if="index > 0" @click="elections.splice(index, 1)">
-                <v-icon>mdi-minus</v-icon>
-              </v-btn>
-            </h5>
-            <v-layout row wrap>
-              <v-flex xs3>
-                <v-text-field :label="$t('electionTitle')" v-model="election.title" autofocus required></v-text-field>
-              </v-flex>
-              <v-flex xs3>
-                <v-text-field type="number" :label="$t('number_of_selections')" v-model="election.numberOfSelections" required></v-text-field>
-              </v-flex>
-            </v-layout>
-            <v-layout row wrap>
-              <v-flex xs6>
-                <v-select flat chips tags required append-icon="" label="Candidates (hit TAB to add a candidate)" v-model="election.candidates">
-                  <template slot="selection" slot-scope="data">
-                    <v-chip close @input="removeCandidate(index, data.item)" :selected="data.selected">
-                      <b>{{ data.item }}</b>
-                    </v-chip>
-                  </template>
-                </v-select>
-              </v-flex>
-              <v-flex xs2>
-                <v-menu offset-y v-if="status == 0">
-                  <v-btn flat  slot="activator" v-t="'ElectionAdmin.candidate_presets'"></v-btn>
-                  <v-list>
-                    <v-list-tile v-for="preset in candidatePresets" :key="preset.title" @click="setCandidatePreset(election, preset.generate())">
-                      <v-list-tile-title>{{ preset.title }}</v-list-tile-title>
-                    </v-list-tile>
-                  </v-list>
-                </v-menu>
-              </v-flex>
-            </v-layout>
-          </div>
-
-          <v-btn @click="addElection()">{{ $t('ElectionAdmin.add_election') }}</v-btn>
-          <v-btn @click="setUpElection" color="primary" :disabled="!valid">{{ $t('ElectionAdmin.set_up_election') }}</v-btn>
-          <v-btn @click="clear" color="error">{{ $t('clear') }}</v-btn>
-        </v-form>
-            </v-card-text>
-          </v-card>
-        </v-flex>
-
       <v-flex xs12 sm1><h5 v-t="'tasks'"></h5></v-flex>
         <v-alert v-if="status == 1 || status == 2" color="grey lighten-3" icon="info" value="true">
           {{$t('ElectionAdmin.submitted_to_printing_authority')}}
@@ -94,6 +22,78 @@
       <v-alert v-if="status == 5 && !haveAllAuthoritiesDecrypted" color="grey lighten-3" icon="info" value="true">
         {{$t('ElectionAdmin.waitForDecryption')}}
       </v-alert>
+
+      <v-flex  x12 md12 v-if="status == 0">
+        <v-card style="margin-bottom:20px;">
+          <v-card-title primary-title>
+            <div class="headline" v-t="'ElectionAdmin.set_up_election'"></div>
+          </v-card-title>
+          <v-card-text>
+
+
+            <v-form v-model="valid" ref="form" lazy-validation>
+              <h5 v-t="'counting_circles'"></h5>
+              <div v-for="(voters, index) in countingCircles">
+                <v-layout row wrap>
+                  <v-flex xs6>
+                    <v-text-field label="Number of voters in this counting circle" type="number" v-model="countingCircles[index]" autofocus required></v-text-field>
+                  </v-flex>
+                  <v-flex xs6>
+                    <v-btn fab icon small title="Remove counting circle" v-if="index <= countingCircles.length && countingCircles.length > 1" @click="countingCircles.splice(index, 1)">
+                      <v-icon  color="error">mdi-close-circle</v-icon>
+                    </v-btn>
+                    <v-btn fab icon small  title="Add counting circle" v-if="index === countingCircles.length - 1" @click="countingCircles.push(null)">
+                      <v-icon>mdi-plus</v-icon>
+                    </v-btn>
+                  </v-flex>
+                </v-layout>
+              </div>
+
+              <div v-for="(election, index) in this.elections">
+                <h5>
+                  Election {{ index + 1 }}
+                  <v-btn icon small flat  color="error" title="Remove this election" v-if="index > 0" @click="elections.splice(index, 1)">
+                    <v-icon>mdi-close-circle</v-icon>
+                  </v-btn>
+                </h5>
+                <v-layout row wrap>
+                  <v-flex xs3>
+                    <v-text-field :label="$t('electionTitle')" v-model="election.title" autofocus required></v-text-field>
+                  </v-flex>
+                  <v-flex xs3>
+                    <v-text-field type="number" :label="$t('number_of_selections')" v-model="election.numberOfSelections" required></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout row wrap>
+                  <v-flex xs6>
+                    <v-select flat chips tags required append-icon="" label="Candidates (hit TAB to add a candidate)" v-model="election.candidates">
+                      <template slot="selection" slot-scope="data">
+                        <v-chip close @input="removeCandidate(index, data.item)" :selected="data.selected">
+                          <b>{{ data.item }}</b>
+                        </v-chip>
+                      </template>
+                    </v-select>
+                  </v-flex>
+                  <v-flex xs2>
+                    <v-menu offset-y v-if="status == 0">
+                      <v-btn flat  slot="activator" v-t="'ElectionAdmin.candidate_presets'"></v-btn>
+                      <v-list>
+                        <v-list-tile v-for="preset in candidatePresets" :key="preset.title" @click="setCandidatePreset(election, preset.generate())">
+                          <v-list-tile-title>{{ preset.title }}</v-list-tile-title>
+                        </v-list-tile>
+                      </v-list>
+                    </v-menu>
+                  </v-flex>
+                </v-layout>
+              </div>
+
+              <v-btn @click="addElection()">{{ $t('ElectionAdmin.add_election') }}</v-btn>
+              <v-btn @click="setUpElection" color="primary" :disabled="!valid">{{ $t('ElectionAdmin.set_up_election') }}</v-btn>
+              <v-btn @click="clear" color="error">{{ $t('clear') }}</v-btn>
+            </v-form>
+          </v-card-text>
+        </v-card>
+      </v-flex>
 
 
       <v-btn :disabled="status != 3" @click="startMixingPhase()">{{ $t('ElectionAdmin.end_election_phase') }}</v-btn>
