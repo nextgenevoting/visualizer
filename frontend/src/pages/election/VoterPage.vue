@@ -38,6 +38,11 @@
                             </v-card>
                         </v-flex>
                         <!-- 1. Vote Cast -->
+                        <v-flex xs12 md12>
+                        <v-alert v-if="voter.invalidBallot === true" color="grey lighten-3" icon="mdi-alert-outline" value="true" dismissible>Your vote casting attempt has failed</v-alert>
+                        <v-alert v-if="voter.invalidConfirmation === true" color="grey lighten-3" icon="mdi-alert-outline" value="true" dismissible>Your vote confirmation attempt has failed</v-alert>
+                        </v-flex>
+
                         <v-flex v-if="voter.status == 0" x12 md6>
                             <v-card v-if="ballotCheckAuthorityIndex > -1">
                                 <v-card-title primary-title>

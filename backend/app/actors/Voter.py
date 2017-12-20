@@ -80,6 +80,22 @@ class Voter(Actor):
         self.state.validBallot = value
 
     @property
+    def invalidBallot(self):
+        return self.state.invalidBallot
+
+    @invalidBallot.setter
+    def invalidBallot(self, value):
+        self.state.invalidBallot = value
+
+    @property
+    def invalidConfirmation(self):
+        return self.state.invalidConfirmation
+
+    @invalidConfirmation.setter
+    def invalidConfirmation(self, value):
+        self.state.invalidConfirmation = value
+
+    @property
     def points(self):
         return self.state.points
 
@@ -140,3 +156,4 @@ class Voter(Actor):
     @confirmationCodeRevealed.setter
     def confirmationCodeRevealed(self, value):
         self.state.confirmationCodeRevealed = value
+

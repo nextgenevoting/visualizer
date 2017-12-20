@@ -280,7 +280,7 @@ class ElectionAuthority(Actor):
         from app.api.syncService import pushVoterMessage
         pushVoterMessage(bulletinBoard.electionID, checkBallotTask.voterId, "Ballot is not valid!")
 
-        return
+        return checkBallotTask.voterId
 
     def checkConfirmation(self, confirmationId, bulletinBoard, secparams):
         """
@@ -328,7 +328,7 @@ class ElectionAuthority(Actor):
         self.checkConfirmationTasks.remove(checkConfirmationTask)
         from app.api.syncService import pushVoterMessage
         pushVoterMessage(bulletinBoard.electionID, checkConfirmationTask.voterId, "Confirmation is not valid!")
-        return
+        return checkConfirmationTask.voterId
 
     def finalize(self, confirmationId, bulletinBoard, secparams):
         checkConfirmationTask = None

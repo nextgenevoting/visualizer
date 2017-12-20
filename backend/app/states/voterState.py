@@ -13,6 +13,8 @@ class VoterState(State):
         self.selection = []
         self.randomizations = []
         self.validBallot = None
+        self.invalidBallot = None
+        self.invalidConfirmation = None
         self.points = []
         self.verificationCodes = []
         self.finalizations = []

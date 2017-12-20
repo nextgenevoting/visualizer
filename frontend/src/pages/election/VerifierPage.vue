@@ -6,7 +6,16 @@
             <h5 v-t="'tasks'"></h5>
             <v-layout row wrap>
                 <v-flex xs12 sm12>
-                    <v-card>
+                    <v-btn flat color="blue" @click="verify()">
+                        <v-icon left>mdi-checkbox-marked-outline</v-icon>
+                        {{ $t('Verifier.verify') }}
+                    </v-btn>
+                </v-flex>
+            </v-layout>
+            <h5 v-t="'data'"></h5>
+            <v-layout row wrap>
+                <v-flex xs12 sm12>
+                    <v-card v-if="verificationResult">
                         <v-card-title primary-title>
                             <div>
                                 <div class="headline" v-t="'Verifier.task'"></div>
@@ -46,13 +55,6 @@
                                 </v-list-tile>
                             </v-list>
                         </v-card-text>
-                        <v-card-actions>
-                            <v-btn flat color="blue" @click="verify()">
-                                <v-icon left>mdi-checkbox-marked-outline</v-icon>
-                                {{ $t('Verifier.verify') }}
-                            </v-btn>
-
-                        </v-card-actions>
 
                     </v-card>
                 </v-flex>

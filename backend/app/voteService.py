@@ -190,6 +190,7 @@ class VoteService(object):
 
         voter.selection = selection
         voter.randomizations = r
+        voter.invalidBallot = False # hide previous "cast failed" alert
 
         # if the first authority is set to autoCheck = true, check ballot and reply automatically, otherwise checkVote will be called by the user through the webapp later
         if(self.authorities[0].autoCheck): self.checkVote(checkBallotTask.ballotId, 0)
@@ -204,7 +205,7 @@ class VoteService(object):
         voter = self.voters[voterId]
 
         # reset previous confirmation data
-        # TODO
+        voter.invalidConfirmation = False # hide previous "cast failed" alert
 
         # create a new checkConfirmationTask (a temporary confirmation that will be passed to the authorities for checking)
         confirmation = GenConfirmation(confirmationCode, voter.points, self.secparams)
@@ -257,7 +258,8 @@ class VoteService(object):
         # 6.5 Vote Casting
         authority = self.authorities[authorityId]
 
-        authority.discardBallot(ballotId, self.bulletinBoard, self.secparams)
+        voterId = authority.discardBallot(ballotId, self.bulletinBoard, self.secparams)
+        self.voters[voterId].invalidBallot = True
 
     def getReturnCodes(self, voterId, responses):
         voter = self.voters[voterId]
@@ -311,8 +313,9 @@ class VoteService(object):
         # 6.5 Vote Casting
         authority = self.authorities[authorityId]
 
-        authority.discardConfirmation(confirmationId, self.bulletinBoard, self.secparams)
+        voterId = authority.discardConfirmation(confirmationId, self.bulletinBoard, self.secparams)
 
+        self.voters[voterId].invalidConfirmation = True
 
 # *********************************
 #  POST ELECTION PHASE
