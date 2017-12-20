@@ -25,7 +25,7 @@
                             <span v-if="hasResponses(ballot) && authorityFilter === undefined">
                                 Responses:
                                 <transition-group name="highlight">
-                                    <v-btn icon v-for="(r, index) in ballot.responses" @click.stop="showResponse(r)" :key="index"><v-icon>{{tupleLabelIconString(index+1)}}</v-icon></v-btn>
+                                    <v-btn icon v-for="(r, index) in ballot.responses" v-if="r !== null" @click.stop="showResponse(r)" :key="index"><v-icon>{{tupleLabelIconString(index+1)}}</v-icon></v-btn>
                                 </transition-group>
                             </span>
                             <span v-if="hasResponses(ballot) && authorityFilter !== undefined">
@@ -169,7 +169,7 @@ export default {
       this.selectedResponse = response
     },
     hasResponses: function (ballot) {
-      return ballot.responses.length > 0
+      return ballot.responses.length > 0 && ballot.responses.reduce((acc, val) => (val !== null) ? acc.concat(val) : acc, []).length > 0
     },
     hasValidConfirmation: function (ballot) {
       for (let confirmation of ballot.confirmations) {
