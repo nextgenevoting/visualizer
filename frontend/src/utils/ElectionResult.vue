@@ -1,10 +1,21 @@
 <template>
     <v-layout row wrap>
-        <v-flex xy12 md4>
+        <v-flex xy12 md8>
             <DataCard :title="$t('ElectionResult.votes')" :tooltip="$t('ElectionResult.votes_tooltip')" :expandable=false confidentiality="public" v-if="votes.length > 0">
-                <template v-for="(vote,index) in votes">
-                    {{ vote }}<span v-if="index < votes.length-1">,</span>
-                </template>
+                <v-data-table
+                        v-bind:headers="headers"
+                        :items="items"
+                        hide-actions
+                        class="elevation-0"
+                >
+                    {{items}}
+                    <template slot="items" slot-scope="props">
+                        <td>{{ props.item.name }}</td>
+                        <td class="text-xs-right">{{ props.item.candidate }}</td>
+                        <td class="text-xs-right">{{ props.item.countingCircle }}</td>
+                    </template>
+                </v-data-table>
+
             </DataCard>
         </v-flex>
         <v-flex xy12 md4>
@@ -12,13 +23,13 @@
                 {{ finalResults[0] }}
             </DataCard>
         </v-flex>
-        <v-flex xy12 md4>
+        <!--<v-flex xy12 md4>
             <DataCard :title="$t('counting_circles')" :tooltip="$t('ElectionResult.counting_circles_tooltip')" :expandable=false confidentiality="public" v-if="countingCircles.length > 0">
                 <template v-for="(c,index) in countingCircles">
                     {{ c }}<span v-if="index < countingCircles.length-1">,</span>
                 </template>
             </DataCard>
-        </v-flex>
+        </v-flex>-->
         <v-flex xy12 md12>
             <DataCard :title="$t('ElectionResult.final_results_chart')" :tooltip="$t('ElectionResult.final_results_chart_tooltip')" :expandable=false confidentiality="public" v-if="finalResults.length > 0">
                 <v-layout row wrap >
@@ -37,6 +48,16 @@
     export default {
       data: function () {
         return {
+          headers: [
+            {
+              text: 'Votes',
+              align: 'left',
+              sortable: true,
+              value: 'name'
+            },
+            { text: 'Candidate', value: 'candidate' },
+            { text: 'Counting Circle', value: 'countingCircle' }
+          ]
         }
       },
       computed: {
@@ -51,6 +72,19 @@
           electionCandidates: state => state.BulletinBoard.candidates,
           calcNumberOfCandidates: state => state.BulletinBoard.numberOfCandidates
         }),
+        items: {
+          get: function () {
+            let gridData = []
+            for (const [index, vote] of this.votes.entries()) {
+              gridData.push({
+                name: `Vote ${index + 1}`,
+                candidate: vote.reduce((a, e, i) => (e === 1) ? a.concat(this.electionCandidates[i]) : a, []).join(', '),
+                countingCircle: this.countingCircles[index].reduce((a, e, i) => (e === 1) ? a.concat(i) : a, []).join(', ')
+              })
+            }
+            return gridData
+          }
+        },
         donutData: {
           get: function () {
             let donutData = []

@@ -68,7 +68,7 @@ const getters = {
   },
   haveAllAuthoritiesDecrypted: (state, getters) => {
     // returns true or false depending on whether all authorities have finished decrypting
-    return getters.getDecryptionsForAuthority(getters.numberOfElectionAuthorities-1) !== null
+    return getters.getDecryptionsForAuthority(getters.numberOfElectionAuthorities - 1) !== null
   }
 }
 

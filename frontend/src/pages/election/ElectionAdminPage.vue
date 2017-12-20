@@ -32,7 +32,9 @@
 
 
             <v-form v-model="valid" ref="form" lazy-validation>
-              <h5 v-t="'counting_circles'"></h5>
+              <h5>{{$t('counting_circles')}} <v-tooltip top>
+                <v-icon  color="grey lighten-1" slot="activator">info</v-icon><span>Counting circles</span>
+              </v-tooltip></h5>
               <div v-for="(voters, index) in countingCircles">
                 <v-layout row wrap>
                   <v-flex xs6>
