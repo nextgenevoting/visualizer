@@ -656,8 +656,8 @@ ElectionResult:
     en: Selected candidate indices per vote
     de: Indices der gewählten Kandidaten pro Stimme
   final_results:
-    en: Final results
-    de: Wahlergebnis
+    en: Final result of election {n}
+    de: Ergbnis von Wahl {n}
   final_results_tooltip:
     en: Number of votes per candidate
     de: Anzahl Stimmen pro Kandidat

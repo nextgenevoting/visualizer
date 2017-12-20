@@ -2136,8 +2136,8 @@ ElectionResult:
       Enthält die entschlüsselten Stimmen aller Voter die eine Stimme abgegeben
       haben
   final_results:
-    en: Final results
-    de: Wahlergebnis
+    en: 'Final result of election {n}'
+    de: 'Ergbnis von Wahl {n}'
   votes_tooltip:
     en: Selected candidate indices per vote
     de: Indices der gewählten Kandidaten pro Stimme

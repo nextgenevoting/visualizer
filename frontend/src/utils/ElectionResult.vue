@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap>
-        <v-flex xy12 md8>
+        <v-flex xy12 md6>
             <DataCard :title="$t('ElectionResult.votes')" :tooltip="$t('ElectionResult.votes_tooltip')" :expandable=false confidentiality="public" v-if="votes.length > 0">
                 <v-data-table
                         v-bind:headers="headers"
@@ -18,9 +18,27 @@
 
             </DataCard>
         </v-flex>
-        <v-flex xy12 md4>
-            <DataCard :title="$t('ElectionResult.final_results')" :tooltip="$t('ElectionResult.final_results_tooltip')" :expandable=false confidentiality="public" v-if="finalResults.length > 0">
-                {{ finalResults[0] }}
+        <v-flex xy12 md6  v-for="(results, index) in finalResults" :key="index">
+            <DataCard :title="$t('ElectionResult.final_results', {n: index + 1})" :tooltip="$t('ElectionResult.final_results_tooltip')" :expandable=false confidentiality="public" v-if="finalResults.length > 0">
+            <v-layout row wrap>
+                <v-flex xy12 md12>
+                    <v-data-table
+                            v-bind:headers="resultHeaders"
+                            :items="electionResults[index]"
+                            hide-actions
+                            class="elevation-0"
+                    >
+                        {{items}}
+                        <template slot="items" slot-scope="props">
+                            <td>{{ props.item.label }}</td>
+                            <td class="text-xs-right">{{ props.item.value }}</td>
+                        </template>
+                    </v-data-table>
+                </v-flex>
+                <v-flex xy12 md12>
+                    <donut-chart :id="`donut${index}`" :data="electionResults[index]" colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]' resize="true"></donut-chart>
+                </v-flex>
+                </v-layout>
             </DataCard>
         </v-flex>
         <!--<v-flex xy12 md4>
@@ -30,15 +48,15 @@
                 </template>
             </DataCard>
         </v-flex>-->
-        <v-flex xy12 md12>
+       <!-- <v-flex xy12 md12>
             <DataCard :title="$t('ElectionResult.final_results_chart')" :tooltip="$t('ElectionResult.final_results_chart_tooltip')" :expandable=false confidentiality="public" v-if="finalResults.length > 0">
                 <v-layout row wrap >
                     <v-flex xy12 md6 v-for="(results, index) in finalResults" :key="index">
-                        <donut-chart :id="`donut${index}`" :data="donutData[index]" colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]' resize="false"></donut-chart>
+                        <donut-chart :id="`donut${index}`" :data="electionResults[index]" colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]' resize="false"></donut-chart>
                     </v-flex>
                 </v-layout>
             </DataCard>
-        </v-flex>
+        </v-flex>-->
     </v-layout>
 </template>
 
@@ -50,13 +68,22 @@
         return {
           headers: [
             {
-              text: 'Votes',
+              text: 'Vote',
               align: 'left',
               sortable: true,
               value: 'name'
             },
             { text: 'Candidate', value: 'candidate' },
             { text: 'Counting Circle', value: 'countingCircle' }
+          ],
+          resultHeaders: [
+            {
+              text: 'Candidate',
+              align: 'left',
+              sortable: true,
+              value: 'label'
+            },
+            { text: '# of votes', value: 'value' }
           ]
         }
       },
@@ -77,7 +104,7 @@
             let gridData = []
             for (const [index, vote] of this.votes.entries()) {
               gridData.push({
-                name: `Vote ${index + 1}`,
+                name: `${index + 1}`,
                 candidate: vote.reduce((a, e, i) => (e === 1) ? a.concat(this.electionCandidates[i]) : a, []).join(', '),
                 countingCircle: this.countingCircles[index].reduce((a, e, i) => (e === 1) ? a.concat(i) : a, []).join(', ')
               })
@@ -85,7 +112,7 @@
             return gridData
           }
         },
-        donutData: {
+        electionResults: {
           get: function () {
             let donutData = []
             let candidateOffset = 0
