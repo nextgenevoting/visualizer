@@ -34,7 +34,7 @@ When we implemented the CHVote crypto-library, we have evaluated and decided to 
 	\item many popular web development frameworks are available
 \end{itemize}
 
-Throughout the project not all of the reason above turned out to be true or ideal. The drawbacks that we have experienced during the implementation of this project will be discussed in the last chapter of this document.
+Throughout the project not all of the reason above turned out to be true or ideal. The drawbacks that we have experienced during the implementation of this project will be discussed in section \ref{ssec:PythonIssues}
 
 Since we used the crypto-library in our back-end, Python was also the obvious language for the whole back-end. Python offers a wide variety of frameworks for building web-services. Since we planed on building a single-page-application for the client, we chose the lightweight micro-framework flask for building a restful web-service and the data synchronization service. 
 
@@ -508,7 +508,7 @@ We have seen similarities between our problem and the one a typical chat has tha
 
 We can assume that all the pages that actually show data of an election require the elections id to be passed as part of the URL. For example: /BulletinBoard/1 is the route to reach the BulletinBoard view of the election with id 1.
 
-Whenever a route is called that contains the argument `electionId`, we need to make sure that the client has joined this elections room. We therefore set a global variable called \mintinline{python{/joinedElectionId/ to match the id of the election a user has joined. We created a mixin that can be added to every election page, which makes sure that if the client hasn't yet joined the corresponding election, it emits a "`join"' request to the socket.io server, passing along the electionId:
+Whenever a route is called that contains the argument `electionId`, we need to make sure that the client has joined this elections room. We therefore set a global variable called \mintinline{python}/joinedElectionId/ to match the id of the election a user has joined. We created a mixin that can be added to every election page, which makes sure that if the client hasn't yet joined the corresponding election, it emits a "`join"' request to the socket.io server, passing along the electionId:
 
 \begin{minted}[frame=single,framesep=10pt,tabsize=2,breaklines]{javascript}
 export default {
@@ -535,6 +535,27 @@ def on_join(data):
 \end{minted}
 
 The \mintinline{javascript}/joinAck/ handler in the web application will then set the \mintinline{javascript}/joinedElectionId/ variable to the just joined election id, such that the join will only be called once or until the user chooses a different election.
+
+\subsection{Python issues} \label{ssec:PythonIssues}
+
+During the project we have experienced a few issues with Python as the programming language that we used to implement the crypto-library and the back-end. In particular, we have observed the following issues:
+
+\begin{itemize}
+	\item Performance issues due to Python being an interpreted language
+	\item Function overhead: function calls in Python seem to be very slow, especially when using recursions (such as recHash)
+	\item Strongly dynamic typing vs. static typing: the Python interpreter needs to inspect every single object during run time (be it an integer or a more complex object)
+	\item The \textit{BigInteger} library surprisingly isn't as fast as using directly the GMP library, and using the GMP bindings also means that there is an overhead compared to a native BigIntegers.
+\end{itemize}
+As performance wasn't the main focus of our application, these issues were mostly ignored. 
+
+The following issues were more problematic for our project:
+\begin{itemize}
+  \item Because of the dynamic typing, the code becomes much more error-prone, as there is no standard checking of function argument types etc. We have tried to overcome this issue by using asserts to check the types of input parameters very often.
+	\item There are little to no standards regarding the project structure when using our "`crypto-library"' approach. Most solutions depend on pathes set as environment variables or absolute imports, which we wanted to avoid. We have chosen to use relative imports and define the crypto-library as a module, which explains why there are many empty "`\_\_init\_\_.py"' files in our solution, which are required for this module-approach.
+	\item 
+\end{itemize}
+
+For detailed information regarding the performance issues that we have experienced see \cite{slowpy} and \cite{slowpy2}. Based on the reasons above we would not recommend to use Python for the use in similar or larger project. Python is indeed a very handy language to write quick prototypes and proof of concepts, but issues become more frequent in larger projects.
 
 \section{Automatic Task Processing for Election Authorities}
 In our application, every election authority normally has to manually process all incoming tasks such as ballot checking, confirmation checking, mixing and decrypting. As it can become cumbersome to repeat the same steps multiple times during a short presentation, it might be desirable to perform these tasks manually only for the first election authority. Because of that we have implementation an automatic-mode in which an election authority automatically performs all tasks. 

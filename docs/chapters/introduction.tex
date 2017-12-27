@@ -22,10 +22,12 @@ Another common problem is the \textbf{insecure platform problem}: If a voters co
 
 If an e-voting system shall be available to more than 30\% or 50\% of the respective cantonal electorate, it must be both individually as well as universally verifiable.
 
-\section{CHVote}
-Some of the mentioned requirements might sound as a paradoxon at first. However, they can be solved by advanced cryptography. A contract was formed between the state of Geneva and the the Institute for Security in the Information Society (RISIS) of the Bern University of Applied Sciences to work out a new protocol which does meet the complex requirements set up by the swiss government. In 2017, Rolf Haenni, Philipp Locher and Reto E. Koenig published the resulting specification document and a proof-of-concept has been successfully implemented by the State of Geneva. Geneva is currently developing a new version of their e-voting system with the name "`CHVote"', based on this specification. Other cantons, currently St. Gallen, Aargau, Bern and Lucerne have announced their interest in cooperating with Geneva and might use their system in future.
+\section{CHVote Protocol}
+Some of the mentioned requirements might sound as a paradoxon at first. However, they can be solved by advanced cryptography. A contract was formed between the state of Geneva and the  Research Institute for Security in the Information Society (RISIS) of the Bern University of Applied Sciences to work out a new protocol which does meet the complex requirements set up by the swiss government. In 2017, Rolf Haenni, Philipp Locher and Reto E. Koenig published the resulting specification document and a proof-of-concept has been successfully implemented by the State of Geneva. Geneva is currently developing a new version of their e-voting system with the name "`CHVote"', based on this specification. Other cantons, currently St. Gallen, Aargau, Bern and Lucerne have announced their interest in cooperating with Geneva and might use their system in future.
 
 The CHVote specifications document is publicly available and describes not only the theoretical background and the algorithms, but also provides pseudo-code for the approximately 75 algorithms that are needed to implement their protocol.
+
+In chapter 3, we will summarize the most important aspects of the CHVote specifications that required for better understanding our work.
 
 \section{Project task}
 An additional problem e-voting is confronted, is that understanding such a complex protocol isn't easy without good knowledge in cryptography and mathematics. This might be one of the reasons why many people still do not trust electronic voting systems. 
