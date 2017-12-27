@@ -73,7 +73,7 @@
 			The first election authority receives a "`Check-confirmation task"'	
 		}		
     \addmulrow{Main path (M)}{
-        \item The voter visits the "`Voter"'-view and select his voter object
+        \item The voter visits the "`Voter"'-view and select the corresponding voter from a list
 				\item The system displays the verification codes of the selected candidates
 				\item The voter must manually verify that the displayed codes match the verification codes of the selected candidates on his voting card
 				\item The system demands the confirmation code
@@ -190,5 +190,101 @@
 				\item The final result is added to the known data of the election administrator
 				}							
 \end{usecase}
+
+\section{Test-Cases}
+\begin{testcase}{Pre-Election}
+  \addrow{Description}{This test covers all the pre-election steps, including the creation of a new election, setting it up from the election administration view and the printing- and delivery of the voting cards}
+    \addrow{Precondition}{	
+		}
+    \addrow{Postcondition}{	
+		\begin{itemize}
+			\item The election event is in the status "`Election"'
+			\item The voters have received a voting card
+		\end{itemize}
+		}		
+    \addstepsrow{Steps}{
+        \item Start our application
+				\item Choose \textbf{Election Events} from the main menu
+				\item Click on \textbf{\textit{Create new election event}}
+				\item Enter a name for the election event and choose a security level and click on \textbf{\textit{create}}
+				\item The \textbf{Election Admin} tab should now have an interaction notification
+				\item Visit the \textbf{Election Admin} view
+				\item Enter at least 3 for the number of voters, at least 3 different candidates and 1 for the number of selection and click on \textbf{\textit{Setup Election Event}} 
+				\item The \textbf{Printing Authority} tab should now have an interaction notification
+				\item Visit the \textbf{Printing Authority} view
+				\item Click on \textbf{Print Voting Cards}
+				\item The voting cards for all voters should now be displayed
+				\item Click on \textbf{Deliver Voting Cards To Voters}
+				\item The voting cards should now disappear and the \textbf{Voters} tab should now have an interaction notification
+				\item Visit the Voters view, select a voter and check that the voting card is displayed correctly
+				}							
+\end{testcase}
+
+\begin{testcase}{Election}
+  \addrow{Test-Case}{2. Election}
+  \addrow{Description}{This test covers the election phase in which a voter casts and confirms a ballot and the election authorities checks the ballots and confirmations and responds to the voter.}
+    \addrow{Precondition}{
+		\begin{itemize}
+			\item The election event has been set up appropriately as described in test-case 1.
+			\item The second and third election authorities should have automatic task processing enabled
+		\end{itemize}		}
+    \addrow{Postcondition}{
+		
+		\begin{itemize}
+			\item The election event is in the status "`Election"'
+			\item There are at least 3 confirmed ballots
+		\end{itemize}
+		}		
+    \addstepsrow{Steps}{     
+				\item Visit the \textbf{Voters} view and select voter 1
+				\item Check the box for candidate 1 in the vote casting form
+				\item Scratch open the voting code on your voting card and click on the revealed code. The code should be copied into the \textbf{voting code} input field
+				\item Click on \textbf{Cast vote}			
+				\item Visit the \textbf{Election Authority} view and click on the first election authority
+				\item There should be a check-ballot task for voter 1. Click on \textbf{Check Validity} to check the ballot. The ballot should be valid. Click on \textbf{Respond}. 
+				\item The ballot should be added to the ballot list of this election authority. Verify that the ballot is also contained in the bulletin boards ballot list!
+				\item Return to the voters view. The voter should be prompted to verify that the returned verification codes match. If so, reveal your confirmation code and click it to copy it to the input field. Click on "`Confirm Vote"'
+				\item Visit the \textbf{Election Authority} view and click on the first election authority
+				\item There should be a check-confirmation task for voter 1. Click on \textbf{Check Validity} to check the confirmation. The confirmation should be valid. Click on \textbf{Finalize}. 
+				\item The ballot list should now display the ballot as "`confirmed"'. The confirmation should also show up in the confirmation list if you expand the ballot.
+				\item Return to the voters view. The voter should now see the returned finalization code that should match the code on the voting card
+				\item Repeat this test-case for voter 2 and voter 3, choosing the second candidate for voter 2 and the third candidate for voter 3
+				}							
+\end{testcase}
+
+\begin{testcase}{Post-Election}
+  \addrow{Test-Case}{3. Post-Election}
+  \addrow{Description}{This test covers the post-election phases: mixing, decryption, tallying and verification}
+    \addrow{Precondition}{
+		\begin{itemize}
+			\item The election event has been set up appropriately as described in test-case 1.
+			\item 3 voters have casted their vote according to test-case 2.
+		\end{itemize}		}
+    \addrow{Postcondition}{	
+		\begin{itemize}
+			\item The election event is in the status "`Finished"'
+			\item The verification has succeed and the correct election result is published on the bulletin board
+		\end{itemize}
+		}		
+    \addstepsrow{Steps}{     
+				\item Visit the \textbf{Election Administrator} view
+				\item Click on \textbf{End Election Phase and Start Mixing}
+				\item Visit the \textbf{Election Authority} view and choose the election authority 1
+				\item Click on \textbf{Mix}			
+				\item You should see the list of encryptions being shuffled and re-encrypted. The result should be added to the data. The same should automatically have happened for the other election authorities.
+				\item Visit the \textbf{Election Administrator} view and click on \textbf{Start Decryption}
+				\item Visit the \textbf{Election Authority} view and choose the election authority 1
+				\item Click on \textbf{Decrypt}	
+				\item The partially decrypted data should appear in the election authority data. The same should have happened for the other election authorities.
+				\item Visit the \textbf{Election Administrator} view and click on \textbf{Tally}
+				\item Under data, you should see the decrypted votes and the final result in a text- and chart representation.
+				\item Click on \textbf{Publish Result} and visit the \textbf{Bulletin Board} view
+				\item The bulletin board should now also contain show the result of the election event.
+				\item Visit the \textbf{Verifier} view and click on \textbf{Verify Election}
+				\item All checks should show a green icon and succeed.
+				}							
+\end{testcase}
+
+
 
 

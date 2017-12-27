@@ -81,7 +81,7 @@
 
 		
 \newcommand\tabularhead[1]{
-\begin{table}[h]
+\begin{table}[!hp]
   \caption{Use Case <<#1>>}
   \begin{tabular}{|p{0.3\linewidth}|p{0.7\linewidth}|}
     \hline
@@ -98,6 +98,23 @@
   \newenvironment{usecase}{\tabularhead}
 {\hline\end{tabular}\end{table}}
 
+\newcommand\tabularhead[1]{
+\begin{table}[!hp]
+  \caption{Test Case <<#1>>}
+  \begin{tabular}{|p{0.2\linewidth}|p{0.8\linewidth}|}
+    \hline
+    \textbf{Test Case} & \textbf{#1} \\
+    \hline}
+
+  \newcommand\addrow[2]{#1 &#2\\ \hline}
+
+  \newcommand\addstepsrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}% 
+     &\begin{minipage}[t][][t]{11cm}
+      \begin{enumerate} #2   \end{enumerate}
+      \end{minipage}\\ }
+
+  \newenvironment{testcase}{\tabularhead}
+{\hline\end{tabular}\end{table}}
 
 
 % Quotes

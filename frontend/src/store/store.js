@@ -31,7 +31,6 @@ export const store = new Vuex.Store({
       const json = JSON.parse(data)
       const patches = json.patches
       const revision = json.revision
-
       // check if the local data store is up to date (revision number is only 1 behind the servers data store)
       if (revision !== state.Election.revision + 1) {
         console.log('Datastore revision mismatch! Requesting full sync!')
