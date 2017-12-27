@@ -73,7 +73,13 @@
 \setlength{\parindent}{1em}
 \setlength{\parskip}{1em}
 
+\usepackage{etoolbox}
+\AtBeginEnvironment{minted}{\singlespacing%
+    \fontsize{10}{10}\selectfont}
+		
+\newminted{python}{frame=lines,framerule=2pt}
 
+		
 \newcommand\tabularhead[1]{
 \begin{table}[h]
   \caption{Use Case <<#1>>}
@@ -141,6 +147,7 @@
 \include{chapters/introduction}
 %\include{chapters/theoretical-background}
 \include{chapters/projectmanagement}
+\include{chapters/chvoteprotocol}
 \include{chapters/productdescription}
 \include{chapters/implementation}
 \include{chapters/discussion}

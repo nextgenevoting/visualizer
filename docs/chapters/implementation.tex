@@ -8,15 +8,17 @@ We have implemented our application following a "`single page application (SPA)"
 	\item A SPA seemed great for building modern looking, intuitive and responsive user interfaces
 \end{itemize}
 
-From a high level perspective and following the SPA architecture, we have structured our application into 3 main components:
+From a high level perspective and following the SPA architecture, we have structured our application into 3 main components, as shown in figure \ref{System components}:
 
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.95]{assets/componentdiagram.pdf}
-\captionof{figure}{System components}\label{System components}%
+\captionof{figure}{From a high level perspective, оur application consists of 3 main components: The front-end (web-application), the back-end, and the crypto-library.}\label{System components}
 \end{center}
+\end{figure}
 
 \begin{itemize}
-	\item The front-end / web-application is where all the functionality of our back-end is consumed and where a typical CHVote election event is visualized for the users. It is therefore the most important component of our application. The backend is developed in response to what is needed by the frontend.
+	\item The \textbf{front-end} / web-application is where all the functionality of our back-end is consumed and where a typical CHVote election event is visualized for the users. It is therefore the most important component of our application. The backend is developed in response to what is needed by the frontend.
 	\item The \textbf{back-end} consists of several components that make use of the CHVote crypto-library to build an actual e-voting ecosystem and providing an API to manipulate the data as well as a data-synchronization service to push data from the back-end to the web-clients. All the sub-components of the backend run on a single server.
   \item The \textbf{CHVote crypto-library} is the result of our "`Project 2"' course project which we have finished before our bachelor thesis. This library contains all the algorithms that are specified as pseudocode in the specification document.
 \end{itemize}
@@ -51,35 +53,39 @@ One of the requirements is that all clients must be informed in real-time about 
 
 To establish a proper separation of concerns, the state of the VoteService is always sent to the client via the data sync service. The REST API only returns success or error codes or information that is required in response to some particular API call, and never state objects. On the other hand, the data sync service does never manipulate the state of the VoteService and is solely responsible for sending s to the client.
 
-
+\begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=0.7]{assets/chvoteArchitecture.pdf}
-\captionof{figure}{Architecture}\label{Architecture}%
+\captionof{figure}{Our architecture with the front- and the back-end. Both sides contain a data store or data base that stores the current state of an election event and that is directly bound to the user controls. Whenever some action is called on the server side by calling our REST API, the changes are written to the database and synchronized to all clients over web-sockets.}\label{Architecture}%
 \end{center}
+\end{figure}
 
 From the clients point of view, the web-client contains a copy of the whole VoteService state in a local data-store. This store is initially populated when the web application is initialized with an election. Whenever the state of the election event / VoteService changes, the data sync service pushes the new data to the web-client. A local mutation handler within the web application handles those messages and writes the new data into the local data-store.
 
 Since the components that the pages of the web application are built of, are bound to the local data-store, all mutations are automatically reflected to the user. From those pages, the REST API can again be called to trigger some election specific action on the back end. The resulting state change is again being pushed to all clients. The responsible client that performed the API request will additionally receive a success code, or an error message in case of an error over HTTPS.
 
-\section{Back-end}
+The architecture with all corresponding components is also shown in figure \ref{Architecture}
+\section{Back-End}
 In this section we describe the internals of the back-end services. 
 \subsection{VoteService}
 The VoteService builds a simplified e-voting ecosystem that provides functionality to conduct an election event by internally representing the state of a whole election event. In reality, an e-voting system based on the CHVote specificaiton would consist of multiple separate applications/services for every participant, such as a bulletin-board service for appending data to the public board, or services for every election authority which performing their tasks. Additionally, several steps of the protocol would have to be executed on the client-side, such as the generation of a voters ballots. In our application, it was reasonable to have the protocol functionality of all these parties combined within a single service. 
 
 We have decided on this VoteService centric approach mainly because we wanted to keep the whole protocol implementation within a central component and wanted to avoid having protocol logic both in the client as well as in the back-end. As an advantage, if the protocol is undergoing any changes or if our demonstrator application should be extended to support a different e-voting protocol in future, only the VoteService component (and of course its dependencies as the crypto-library) will be affected or must be replaced. It also allowed us to implement the CHVote protocol almost identically as described in the specification. Because we had access to every actors state and functions from within our VoteService object and could pass data from one actor to another as simple as setting an object property to some value. 
 
-Internally, we have divided the VoteService into actors and states: One actor for every protocol participant, providing the functionality a participant is responsible for, and a corresponding state-object for every actor, representing the participants current state within a given election event. 
+Internally, we have divided the VoteService into actors and states, as shown in figure {VoteService}: One actor for every protocol participant, providing the functionality a participant is responsible for, and a corresponding state-object for every actor, representing the participants current state within a given election event. 
 
+\begin{figure}[p]
 \begin{center}
 \includegraphics[scale=0.68]{assets/voteservice.pdf}
-\captionof{figure}{VoteService}\label{VoteService}%
+\captionof{figure}{The internals of our VoteService: The functionality is divided into actor- and state-classes. The actors provide the functionality as described in the specification and by utilizing our crypto-library. The state is contained within the state classes that allow easy serialization both for persisting them to the database as well as to a JSON representation for the data synchronization. }\label{VoteService}%
 \end{center}
+\end{figure}
 
 The distinction between the actors and their states allowed us to easily serialize the state objects to JSON (a format that can be easily interpreted by the front-end) and made it easy to load and persist the state from and to the database. This measure was also necessary because of the way how we implemented our data synchronization between the clients and the back-end: By comparing and determining the differences between the state object before and after some VoteService actions, we can automatically find out the mutations that has been done to the state objects using the JSON Patch standard and generate operations to patch the clients local datastore in the same way. More about this technology can be found in the data-sync section.
 
 The only common functionality between every state object, is the ability to serialize the object to a JSON string. For this reason we had to write a custom transformer which tells the JSON parser how to serialize data-types such as mpz, bytearrays and custom classes. Luckily, python offers a way to easily serialize any custom object. By calling \mintinline{python}/object.__dict__/ we can convert an object into a dictionary, as long as the transformer is able to serialize all properties of the object.
 \begin{center}
-\includegraphics[scale=0.70]{assets/stateClasses.png}
+\includegraphics[scale=0.60]{assets/uml_states.pdf}
 \captionof{figure}{State classes}\label{State classes}%
 \end{center}
 
@@ -103,7 +109,7 @@ For our purpose, mongoDB seemed like a good choice. Since we do not need the abi
 We described how the state classes are used to divide the data of the VoteService into smaller units. Similarly, the functionality of the VoteService is separated into classes, one for every actor of the protocol.
 
 \begin{center}
-\includegraphics[scale=0.70]{assets/actorClasses.png}
+\includegraphics[scale=0.60]{assets/uml_actors.pdf}
 \captionof{figure}{Actor classes}\label{Actor classes}%
 \end{center}
 The common functionality, namely, a function for loading the corresponding states from the database and one for persisting the states to the database, are contained in an abstract base class.
@@ -156,7 +162,7 @@ During development, we ran into an issue with the python JSON patch library "`py
 \subsection{REST API}
 The third component of the backend is the REST API. Its responsibilities are to provide all the functionality of the VoteService to the webclients and trigger the data synchronization of the DataSyncService. Every function required by the front-end, such as \mintinline{python}/castVote()/ has a corresponding endpoint in the REST API service.
 
-\begin{minted}[linenos,tabsize=2,breaklines]{python}
+\begin{minted}[frame=single,framesep=10pt,tabsize=2,breaklines]{python}
 @main.route('/castVote', methods=['POST'])
 @cross_origin(origin='*')
 def castVote():
@@ -197,7 +203,7 @@ The following sequence diagram shows how the vote casting use case is implemente
 \captionof{figure}{Vote casting sequence diagram}\label{Vote casting sequence diagram}%
 \end{center}
 
-\section{Crypto-library}
+\section{Crypto-Library}
 
 \subsection{File structure}
 We decided to put every algorithm of the specification in its own file together with related unit tests. The files are structured according to the actors of the protocol, for example:
@@ -211,7 +217,7 @@ We decided to put every algorithm of the specification in its own file together 
 	\item \textbf{Utils}: contains helper classes and miscellaneous utility functions
 \end{itemize}
 
-\subsection{Public parameters}
+\subsection{Public Parameters}
 There exist two types of public parameters:
 
 The \textbf{security relevant parameters}, e.g:
@@ -236,44 +242,34 @@ The object \texttt{SecurityParams} holds all security relevant parameters and is
 
 The public election parameters on the other hand are directly passed to the algorithms by the calling party. If an algorithm needs to know certain election parameters (like the size of the electorate $N_E$), these values are typically derived from vectors that they have access to, so they do not require specific knowledge of these parameters.
 
-\subsection{Coding style}
+\subsection{Coding Style}
 The following source code sample shows a typical implemation of an algorithm (in this exmaple, algorithm 7.18 according to the CHVote specification).
 
-\begin{minted}[linenos,tabsize=2,breaklines]{python}
-import unittest
-import os, sys
-from gmpy2 import mpz
+\begin{minted}[frame=single,framesep=10pt,tabsize=2,breaklines]{python}
 import gmpy2
-
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
-
-from Utils.Utils                    import AssertMpz, AssertList, AssertClass, AssertString
-from Crypto.SecurityParams          import SecurityParams, secparams_l0
-from Utils.ToInteger                import ToInteger
+from Utils.Utils                    import *
+from Crypto.SecurityParams          import *
 from VotingClient.GetSelectedPrimes import GetSelectedPrimes
 from VotingClient.GenQuery          import GenQuery
 from VotingClient.GenBallotProof    import GenBallotProof
-from UnitTestParams                 import unittestparams
 from Types                          import Ballot
-from Utils.StringToInteger          import StringToInteger
 
 def GenBallot(X_bold, s, pk, secparams):
     """
     Algorithm 7.18: Generates a ballot based on the selection s and the voting code X. The
     ballot includes an OT query a and a proof pi. The algorithm also returns the random
     values used to generate the OT query. These random values are required in Alg. 7.27
-    to derive the transferred messages from the OT response, which itself is generated by Alg. 7.25.
+    to derive the transferred messages from the OT response, generated by Alg. 7.25.
 
     Args:
-        X_bold (str):                       Voting Code X ∈ A_X^l_X
-        s (list of int):                    Selection s = (s_1, ... , s_k), 1 <= s_1 < ... < s_k
-        pk (mpz):                           ElGamal key pk ∈ G_p \ {1}
-        secparams (SecurityParams):         Collection of public security parameters
+        X_bold (str):                   Voting Code X ∈ A_X^l_X
+        s (list of int):                Selection s = (s_1, ... , s_k)
+        pk (mpz):                       ElGamal key pk ∈ G_p \ {1}
+        secparams (SecurityParams):     Collection of public security parameters
 
     Returns:
-        tuple:                              alpha = (r, Ballot) = (r, (x_hat, a, b, pi))
+        tuple:                          alpha = (r, Ballot) = (r, (x_hat, a, b, pi))
     """
-
     AssertMpz(pk)
     AssertList(s)
     AssertClass(secparams, SecurityParams)
@@ -359,10 +355,10 @@ return (alpha, r_bold)
 \end{minted}
 \end{multicols}
 
-\subsection{Return types}
+\subsection{Return Types}
 In most cases, when an algorithm returns more than a scalar datatype, tuples are used. Tuples allow to return multiple values from a function:
 
-\begin{minted}[linenos,tabsize=2,breaklines]{python}
+\begin{minted}[frame=single,framesep=10pt,tabsize=2,breaklines]{python}
 def foo():
    return (1, 2)
 
@@ -372,7 +368,7 @@ def main():
 
 This way large parts of the source code looked very similar to the pseudo code in the CHVote specification. For more complex data types or return values that are used more than once, named tuples were used. The data type "namedtuple" is like a lightweight class and allows access to named properties.
 
-\begin{minted}[linenos,tabsize=2,breaklines]{python}
+\begin{minted}[frame=single,framesep=10pt,tabsize=2,breaklines]{python}
 Ballot = namedtuple("Ballot", "x_hat, a_bold, b, pi")
 
 def main():
@@ -382,7 +378,7 @@ def main():
 
 By following this approach we could avoid having lots of container classes only used to pass data structures between the algorithms.
 
-\section{Frontend}
+\section{Front-End}
 The front-end was the most important component for our project, since we put focus mostly on the visualization and less on the actual e-voting system. Displaying the rather large amount of voting specific data and large numbers required a clean and well structured layout and a modular component design. Luckily, the framework we had choosen, VueJS, did very well in supporting us to meet exactly those requirements. We tried to follow the design patterns and best practices proposed by the makers of VueJS wherever possible.
 
 In this section we will explain what concepts of VueJS we used and how we adapted them to our needs.
@@ -394,7 +390,7 @@ We have created our own VueJS components for every control that we used more tha
 
 We have been using slots to create our card component, which can display information either as the main content of the card, or within an expandable area on the bottom of the card:
 
-\begin{minted}[linenos,tabsize=2,breaklines]{javascript} 
+\begin{minted}[frame=single,framesep=10pt,tabsize=2,breaklines]{javascript} 
 <DataCard title="Foo" :expandable=true>
 		Just some text
 		<p slot="expandContent">More complex content <BigIntLabel :mpzValue="publicKey"></BigIntLabel>
@@ -410,7 +406,7 @@ The first line "`Just some text"', which gets inserted into the default unnamed 
 \end{figure}
 The following code shows how the data-card component is implemented:
 
-\begin{minted}[linenos,tabsize=2,breaklines]{html} 
+\begin{minted}[frame=single,framesep=10pt,tabsize=2,breaklines]{html} 
 <template>
     <v-card class="dataCard">
         <ConfidentialityChip v-if=showConfidentiality"' :type="confidentiality" class="confidentialityChip" />
@@ -488,7 +484,7 @@ The third source of data are properties (`props`), which are passed as arguments
 
 Additionally, components may contain \mintinline{javascript}/methods/, typically used for event-handlers like button clicks and event hooks like \mintinline{javascript}/mounted/, \mintinline{javascript}/beforeDestroy/, \mintinline{javascript}/beforeCreated/ to influence the components creation/destruction at different times during a components lifecycle.
 
-\subsection{Centralized Data-store \& Flux pattern}
+\subsection{Centralized Data-Store \& Flux Pattern}
 One of the big challenges regarding the architecture of our front-end, was about how and where we would store all the data of an election. Clearly, since we already had divided an election events data into one state for every actor and given that every actor also has it's corresponding view in our front-end, simply storing the data to the respective component has been our first thought. Although a voter mainly needs to access his own data contained in the voters state, some data must be shared between multiple components, for example the information on the bulletin board.
 
 Since we wanted to avoid having to keep data redundant in multiple components, we have decided to use the Flux design pattern in our front-end. The basic idea of the flux pattern is to have a single, central data source where all the data is stored and which all components have access to. This single data source is called a "`store"' by Flux terminology. VueJS has it's own implementation of the Flux pattern called Vuex. Another important concept is that components can freely access the data in the store, however, they are not allowed to change data, at least not directly. Instead, if a component wants to manipulate data in the store, this has to be done by calling \textbf{mutation functions}. Not allowing direct manipulation of the store makes it much easier to keep track of where mutations came from.
@@ -514,7 +510,7 @@ We can assume that all the pages that actually show data of an election require 
 
 Whenever a route is called that contains the argument `electionId`, we need to make sure that the client has joined this elections room. We therefore set a global variable called \mintinline{python{/joinedElectionId/ to match the id of the election a user has joined. We created a mixin that can be added to every election page, which makes sure that if the client hasn't yet joined the corresponding election, it emits a "`join"' request to the socket.io server, passing along the electionId:
 
-\begin{minted}[linenos,tabsize=2,breaklines]{javascript}
+\begin{minted}[frame=single,framesep=10pt,tabsize=2,breaklines]{javascript}
 export default {
   created () {
     if (this.$store.getters.joinedElectionId !== this.$route.params.electionId) { 
@@ -524,7 +520,7 @@ export default {
 }
 \end{minted}
 On the server side, we have defined a socket.io listener called "`join"' which will remove the calling client from every room before joining the room of the requested election. There is only exception: The client cannot leave the room that corresponds to the `sid` of the request, since this is basically the channel over which the `join` request is handled.
-\begin{minted}[linenos,tabsize=2,breaklines]{python}
+\begin{minted}[frame=single,framesep=10pt,tabsize=2,breaklines]{python}
 @socketio.on('join')
 def on_join(data):
     electionID = data['election']
@@ -540,7 +536,7 @@ def on_join(data):
 
 The \mintinline{javascript}/joinAck/ handler in the web application will then set the \mintinline{javascript}/joinedElectionId/ variable to the just joined election id, such that the join will only be called once or until the user chooses a different election.
 
-\section{Automatic Task Processing for election authorities}
+\section{Automatic Task Processing for Election Authorities}
 In our application, every election authority normally has to manually process all incoming tasks such as ballot checking, confirmation checking, mixing and decrypting. As it can become cumbersome to repeat the same steps multiple times during a short presentation, it might be desirable to perform these tasks manually only for the first election authority. Because of that we have implementation an automatic-mode in which an election authority automatically performs all tasks. 
 
 There were several different ways how to implement this feature. One possibility would have been building a service which runs in the background and regularly checks for new tasks and processes them. Since every task requires a preceding action (for example: A Ballot-Check-Task requires a voter casting a vote), and since it is reasonable for our use-cases to assume that the authorities perform the tasks sequentially, we have chosen the most simple approach:
