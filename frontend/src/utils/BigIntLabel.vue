@@ -1,7 +1,7 @@
 <template>
   <p>
     {{ data.truncatedValue() }}
-    <v-btn small flat icon v-popover="{ name: data.name }" style="margin-left: 0px">
+    <v-btn small flat icon v-popover="{ name: data.name }" style="margin-left: 0px; color: rgba(0,0,0,.54)">
       <v-icon>mdi-dots-horizontal</v-icon>
     </v-btn>
     <popover :name="data.name">

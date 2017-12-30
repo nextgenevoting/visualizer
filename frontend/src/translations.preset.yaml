@@ -365,10 +365,10 @@ ElectionAdmin:
     en: The electorate data has been submitted to the printing authority.
     de: The Wähler-Daten wurden an die Druckerei gesendet.
   end_election_phase:
-    en: End Election-Phase and start mixing process
-    de: Ende der Wahl-Phase and start des Mischungsprozesses
+    en: Start mixing phase
+    de: Start des Mischungsprozesses
   start_decryption_process:
-    en: Start decryption process
+    en: Start decryption phase
     de: Start der Entschlüsslungsphase
   successfully_set_up_election:
     en: Successfully set up election.

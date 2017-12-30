@@ -29,7 +29,7 @@
             <ConfirmationTaskPage></ConfirmationTaskPage>
             <MixingPage></MixingPage>
             <DecryptionPage></DecryptionPage>
-            <h5 v-t="'data'"></h5>
+            <h5 v-t="'data'" style="margin-top: 14px;"></h5>
             <transition-group tag="v-layout" name="highlight" :appear="dataTransition" class="row wrap">
                 <v-flex xy12 md6 v-if="status >= 4 && hasAuthorityMixed" key="enc">
                     <DataCard :title="$t('encryptions')" :tooltip="$t('encryptions_tooltip')" :isMpz=true :expandable=false confidentiality="encrypted">

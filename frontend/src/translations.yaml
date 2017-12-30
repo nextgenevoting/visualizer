@@ -1055,8 +1055,8 @@ ElectionAdmin:
     sv: Valda uppgifter har lämnats till utskriftsmyndigheten.
     zh-TW: 選民資料已經提交給印刷部門。
   end_election_phase:
-    en: End Election-Phase and start mixing process
-    de: Ende der Wahl-Phase and start des Mischungsprozesses
+    en: Start mixing phase
+    de: Start des Mischungsprozesses
     es: Termine la fase de elección y comience el proceso de mezcla
     fi: Lopeta valintavaihe ja aloita sekoitusprosessi
     fr: Fin de la phase d'élection et début du processus de mélange
@@ -1067,7 +1067,7 @@ ElectionAdmin:
     sv: Slutval-fas och startblandningsprocessen
     zh-TW: 結束選擇階段並開始混合過程
   start_decryption_process:
-    en: Start decryption process
+    en: Start decryption phase
     de: Start der Entschlüsslungsphase
     es: Comience el proceso de descifrado
     fi: Aloita salauksen purku

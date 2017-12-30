@@ -21,7 +21,6 @@
           </v-stepper-header>
         </v-stepper>
       </v-flex>
-      <v-btn v-if="1==1" color="primary" v-on:click="debugVotingSim">Debug</v-btn>
       <!-- img src="/public/parties-overview.svg" class="svg" -->
     </div>
     <div v-else>
@@ -44,17 +43,6 @@ export default {
     })
   },
   methods: {
-    debugVotingSim: function (event) {
-      this.$http.post('debugVotingSim', {
-        'election': this.$route.params['electionId']
-      }).then(response => {
-        response.json().then((data) => {
-          this.$toasted.success('success')
-        })
-      }).catch(e => {
-        this.$toasted.error(e.body.message)
-      })
-    }
   },
   watch: {
     // whenever question changes, this function will run

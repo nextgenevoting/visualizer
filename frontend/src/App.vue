@@ -1,10 +1,10 @@
 ﻿<template>
   <v-app id="app">
-    <v-navigation-drawer temporary v-model="drawer">
+    <v-navigation-drawer temporary v-model="drawer" absolute>
       <v-list>
         <v-list-tile>
           <v-list-tile-content>
-            <v-list-tile-title v-t="'settings'" />
+            <v-list-tile-title v-t="'menu'" />
           </v-list-tile-content>
         </v-list-tile>
         <v-divider></v-divider>
@@ -24,7 +24,7 @@
     <header class="siteHeader">
       <v-toolbar class="blue" dark>
         <v-toolbar-side-icon @click.stop="drawer = !drawer"></v-toolbar-side-icon>
-        <v-toolbar-title><img src="/public/logo.png" style="height:22px"></v-toolbar-title>
+        <v-toolbar-title><img src="/public/nextgenvote2.png" style="width: 152px; height:37px"></v-toolbar-title>
         <v-spacer></v-spacer>
         <v-menu offset-y flat>
           <v-btn icon slot="activator" :title="$t('main.change_language')">
@@ -165,7 +165,7 @@
         }, {
           href: 'elections',
           router: true,
-          title: 'elections',
+          title: 'Elections events',
           icon: 'extension'
         }, {
           href: 'about',
@@ -259,7 +259,6 @@
 </style>
 
 <style lang="stylus">
-    @import '../node_modules/vuetify/src/stylus/main';
     @import 'css/main.css';
 </style>
 

@@ -1,6 +1,6 @@
 <template>
   <v-dialog v-model="dialog" width="800px">
-    <v-btn @click.stop="clickButton($event)" slot="activator" small flat icon>
+    <v-btn @click.stop="clickButton($event)" slot="activator" small flat icon style="color: rgba(0,0,0,.54)">
       <v-icon v-if="icon === undefined">mdi-dots-horizontal</v-icon>
       <v-icon v-else>{{ icon }}</v-icon>
     </v-btn>

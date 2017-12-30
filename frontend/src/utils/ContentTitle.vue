@@ -43,8 +43,8 @@ export default {
 }
 
 .content-header .icon {
-  margin-top: 18px;
-  font-size: 28px;
+  margin-top: 14px !important;
+  font-size: 32px !important;
   color: #505050 !important;
 }
 

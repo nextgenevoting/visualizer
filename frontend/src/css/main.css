@@ -3,8 +3,37 @@ body{
   font-size: 16px;
   font-weight: 300;
 }
-.application > main{
+.application--wrap{
   background: url(/public/bg2.png)
+}
+
+.application .theme--light.stepper, .theme--light .stepper {
+  background-color: transparent;
+}
+
+.blue{
+background-color: #2684c0 !important;
+  border-color: #2684c0 !important;
+}
+
+.blue--text {
+  color: #2684c0 !important;
+}
+
+.chip--active:not(.chip--disabled):after, .chip--selected:not(.chip--disabled):after, .chip:focus:not(.chip--disabled):after{
+  display: none;
+}
+
+.chip.chip--outline {
+  padding: 4px;
+}
+
+.application .theme--light.tabs__bar .tabs__li, .theme--light .tabs__bar .tabs__li {
+  color: white;
+}
+
+.tabs .icon {
+  color: white;
 }
 
 ul, li{
@@ -28,9 +57,6 @@ header.siteHeader{
   margin: 0 auto !important;
 }
 
-.application--light{
- /*background-color: white !important;*/
-}
 
 .intro {
   display: flex;
