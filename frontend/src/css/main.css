@@ -250,3 +250,7 @@ font-size: 14px;
   margin-bottom:40px;
   margin-top: -20px;
 }
+
+.toasted-container.bottom-right .toasted, .toasted-container.top-right .toasted {
+  font-family: Roboto, sans-serif;
+}
