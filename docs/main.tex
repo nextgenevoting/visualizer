@@ -10,11 +10,11 @@
 \usepackage[english]{babel}
 \usepackage{amsmath}
 \usepackage{latexsym}
- \usepackage{longtable}
+%\usepackage[mathletters]{ucs}
+\usepackage{longtable}
 \usepackage[T1]{fontenc}
 \usepackage[utf8x]{inputenc}
 \usepackage{graphicx}
-\usepackage[hidelinks]{hyperref}	% "hidelinks" removes the border around links
 \usepackage{tabularx}
 \usepackage{color}			% Colors
 \usepackage{colortbl}			% Table colors
@@ -34,11 +34,13 @@
 \usepackage{mathtools}
 \usepackage{tcolorbox}
 \usepackage{minted}
+\usepackage{csquotes}
 \usepackage{geometry}
 \usepackage[english]{babel}
 \usepackage{fancyhdr}
 \usepackage{parskip}
 \usepackage{booktabs}
+\usepackage[hidelinks]{hyperref}	% "hidelinks" removes the border around links
 
 \geometry{
 	a4paper,
@@ -59,7 +61,7 @@
 \newcommand{\mystyle}{
 	\fancyhf{}
 	\lhead{Bern University of Applied Sciences}
-	\rhead{CHVote Demonstrator}
+	\rhead{Visualizing Geneva's Next Generation E-Voting System}
 	\lfoot{}
 	\cfoot{Page \thepage\ of \pageref{LastPage}}
 	\rfoot{}
@@ -76,10 +78,10 @@
 \usepackage{etoolbox}
 \AtBeginEnvironment{minted}{\singlespacing%
     \fontsize{10}{10}\selectfont}
-		
+
 \newminted{python}{frame=lines,framerule=2pt}
 
-		
+
 \newcommand\tabularhead[1]{
 \begin{table}[!hp]
   \caption{Use Case <<#1>>}
@@ -90,7 +92,7 @@
 
   \newcommand\addrow[2]{#1 &#2\\ \hline}
 
-  \newcommand\addmulrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}% 
+  \newcommand\addmulrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}
      &\begin{minipage}[t][][t]{8cm}
       \begin{enumerate} #2   \end{enumerate}
       \end{minipage}\\ }
@@ -106,7 +108,7 @@
     \textbf{Test Case} & \textbf{#1} \\
     \hline}
 
-  \newcommand\addstepsrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}% 
+  \newcommand\addstepsrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}
      &\begin{minipage}[t][][t]{11cm}
       \begin{enumerate} #2   \end{enumerate}
       \end{minipage}\\ }

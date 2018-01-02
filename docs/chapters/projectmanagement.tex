@@ -22,10 +22,10 @@
 }
 
 \chapter{Project Management}
-In this chapter we are going to describe several aspects regarding the planing of our project, such as our project methods, the requirements and use cases as well as a short concept of our application. 
+In this chapter we are going to describe several aspects regarding the planing of our project, such as our project methods, the requirements and use cases as well as a short concept of our application.
 
 %\section{Project Method}%
-Since this wasn't a project where the project scope and goals were strictly defined and clear from the beginning, it was very important to elaborate the requirements in close collaboration with our supervisors early on. This is why we decided our project would be very suitable for an agile kind of project method. Because of the small team, consisting of only two members, we didn't chose a particular project method like SCRUM, as this would have probably caused more overhead than actual benefits.  
+Since this wasn't a project where the project scope and goals were strictly defined and clear from the beginning, it was very important to elaborate the requirements in close collaboration with our supervisors early on. This is why we decided our project would be very suitable for an agile kind of project method. Because of the small team, consisting of only two members, we didn't chose a particular project method like SCRUM, as this would have probably caused more overhead than actual benefits.
 
 We have therefore set up regular meetings (usually once every 2 weeks) with our supervisors to discuss our ideas and get feedback about the current progress.
 
@@ -113,17 +113,17 @@ The following topics are considered out-of-scope for the duration of our project
 \begin{itemize}
 	\item The goal of our project isn't to build a realistic prototype. Therefore, the whole back-end will run on a single server while in reality, there would be components running on distributed servers. Another difference between our implementation and a real implementation is that we generate the ballots on the server. In reality, the ballots would have to be generated on the client for security reasons. This however would require us to rewrite many of the already implemented algorithms in JavaScript.
 	\item The protocol takes into account that not all voters might be eligible to vote in all elections of a given election event (eligibility matrix). For simplicity, we assume that all voters are eligible to vote in every election for our application.
-	\item Message level encryption and signature based integrity protection are very important in a real implementation of a evoting-system and are also described in the CHVote specification. However, as our system is only used for demonstration purposes and as we do not have a distributed infrastructure, there is no real need for channel security in our project.	
+	\item Message level encryption and signature based integrity protection are very important in a real implementation of a evoting-system and are also described in the CHVote specification. However, as our system is only used for demonstration purposes and as we do not have a distributed infrastructure, there is no real need for channel security in our project.
 	\item Providing more one language is also out-of-scope. If there is enough time, a second language might be provided optionally.
 \end{itemize}
 
 \section{Time Schedule \& Implementation Phases}
 As the next step we created a time schedule and structured our project into smaller units.
 
-The actual implementation phase has been broken down into two phases: 
+The actual implementation phase has been broken down into two phases:
 
 \begin{itemize}
-	\item Phase 1 involves the implementation of all high priority must-requirements, so, basically bringing the application into a state that allows to visualize the whole CHVote election process. We have agreed that after phase 1, some areas of the user interface would still be in a rather primitive state (eg. user inputs are not validated and require a more technical type of input). 
+	\item Phase 1 involves the implementation of all high priority must-requirements, so, basically bringing the application into a state that allows to visualize the whole CHVote election process. We have agreed that after phase 1, some areas of the user interface would still be in a rather primitive state (eg. user inputs are not validated and require a more technical type of input).
 	\item For phase 2 we planned on implementing the can-requirements and the must-requirements with lower priority.
 \end{itemize}
 
@@ -228,21 +228,19 @@ From our requirements we have defined the following mile-stones:
 \section{Use Cases}
 The next step was to create use cases. As an example we show one of the use cases, for the complete list of use cases we refer to the appendix.
 \begin{usecase}{Casting of a vote}
-  \addrow{Primary Actor}{Voter}
-  \addrow{Description}{The voter can cast a vote by selecting his favored candidate(s) and his voting code}
-    \addrow{Precondition}{
-		
+	\addrow{Primary Actor}{Voter}
+	\addrow{Description}{The voter can cast a vote by selecting his favored candidate(s) and his voting code}
+	\addrow{Precondition}{
 		\begin{itemize}
 			\item The election has the status "`Election Phase"'
 			\item A voter is selected in the "`Voter"'-view
 			\item The voter has the status "`Vote Casting Phase"'
-		\end{itemize}		}
-    \addrow{Postcondition}{The first election authority receives a "`Ballot-check task"'}		
-    \addmulrow{Main path (M)}{
-        \item The voter visits the "`Voter"'-view and select his voter object
-				\item The system demands a selection of the candidates and the voter's voting code
-				\item The voter clicks on "`Cast ballot"'\\
-
-				}	
-										
+		\end{itemize}
+	}
+	\addrow{Postcondition}{The first election authority receives a "`Ballot-check task"'}
+	\addmulrow{Main path (M)}{
+		\item The voter visits the "`Voter"'-view and select his voter object
+		\item The system demands a selection of the candidates and the voter's voting code
+		\item The voter clicks on "`Cast ballot"'\\
+	}
 \end{usecase}
