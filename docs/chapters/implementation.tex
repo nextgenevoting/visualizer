@@ -85,10 +85,12 @@ Internally, we have divided the VoteService into actors and states, as shown in 
 The distinction between the actors and their states allowed us to easily serialize the state objects to JSON (a format that can be easily interpreted by the front-end) and made it easy to load and persist the state from and to the database. This measure was also necessary because of the way how we implemented our data synchronization between the clients and the back-end: By comparing and determining the differences between the state object before and after some VoteService actions, we can automatically find out the mutations that has been done to the state objects using the JSON Patch standard and generate operations to patch the clients local data store in the same way. More about this technology can be found in the data-sync section.
 
 The only common functionality between every state object, is the ability to serialize the object to a JSON string. For this reason we had to write a custom transformer which tells the JSON parser how to serialize data-types such as mpz, byte arrays and custom classes. Luckily, python offers a way to easily serialize any custom object. By calling \mintinline{python}/object.__dict__/ we can convert an object into a dictionary, as long as the transformer is able to serialize all properties of the object.
+\begin{figure}
 \begin{center}
 \includegraphics[scale=0.60]{assets/uml_states.pdf}
-\captionof{figure}{State classes}\label{State classes}%
+\captionof{figure}{The state of an election event is broken down into separate state classes for every participating actor. They all have in common that they are serializable to JSON}\label{State classes}%
 \end{center}
+\end{figure}
 
 \begin{itemize}
 	\item \textbf{BulletinBoardState}: Holds all data that is publicly available on the bulletin board (the number of candidates, the tallied result)
@@ -102,17 +104,21 @@ Since our application supports that multiple users work on different election ev
 
 For our purpose, MongoDB seemed like a good choice. Since we do not need the ability to access and filter our data by arbitrary queries, but only need to be able to save and load a state object of a particular election, we simply store the whole state as a binary string in a MongoDB collection. The only additional attribute that is saved to the database alongside with the serialized state is the electionId which denotes which election event a particular state belongs to. An election contains multiple VoterStates and ElectionAuthorityStates. Therefore, these two states additionally require an electionAuthorityId and a voterId.
 
+\begin{figure}
 \begin{center}
 \includegraphics[scale=0.75]{assets/db.png}
-\captionof{figure}{Example: ElectionAuthority document collection}\label{Example: ElectionAuthority document collection}%
+\captionof{figure}{Example of a MongoDB collection (the equivalence of tables in other database systems). All states are stored as binary strings, together with an identifier for the election-event as well as the election authority ID.}\label{dbexample}%
 \end{center}
+\end{figure}
 
 We described how the state classes are used to divide the data of the VoteService into smaller units. Similarly, the functionality of the VoteService is separated into classes, one for every actor of the protocol.
 
+\begin{figure}
 \begin{center}
 \includegraphics[scale=0.60]{assets/uml_actors.pdf}
-\captionof{figure}{Actor classes}\label{Actor classes}%
+\captionof{figure}{The functionality of the VoteService is divided into separate classes, one for every participating actor of the protocol.}\label{Actor classes}%
 \end{center}
+\end{figure}
 The common functionality, namely, a function for loading the corresponding states from the database and one for persisting the states to the database, are contained in an abstract base class.
 
 \newpage
@@ -123,11 +129,13 @@ For the data synchronization we had to keep an eye on the performance of the dat
 
 Nevertheless, when a client connects to the data sync service for the first time, it needs to fetch the JSON representation of every state object of the VoteService. For this purpose we have implemented a "`FullSync"' method which will populate the clients local data store with the full state of an election.
 
+\begin{figure}
 \begin{center}
 \includegraphics[scale=0.62]{assets/datastores.pdf}
-\captionof{figure}{Datastores}\label{Datastores}%
+\captionof{figure}{For every VoteService state, there is a corresponding datastore on the client side. The client side datastore are initially populated with the whole dataset during the initial loading procedure of an election event.}\label{Datastores}%
 \end{center}
-After a client has pupulated his local data store, future manipulations on the backend are synchronized using the so called JSON Patch operations, which only contain the delta between the previous and the current state.
+\end{figure}
+After a client has populated his local data store, future manipulations on the backend are synchronized using the so called JSON Patch operations, which only contain the delta between the previous and the current state.
 
 JSON Patch is a structure for describing how a JSON object can be modified / "`patched"'. The procedure is standardized and described in the RFC 6902 of the Internet Engineering Task Force (IETF). There exist JSON Patch implementations for many languages, including Python and JavaScript. We used JSON Patch to realize our incremental data synchronization as follows:
 
@@ -142,16 +150,20 @@ The result is an array of operations in JSON format that contains:
 
 As an example: After casting a ballot, we might receive the following JSON patch:
 
+\begin{figure}
 \begin{center}
 \includegraphics[scale=0.6]{assets/jsonpatchexample.png}
-\captionof{figure}{JSON Patch example}\label{JSON Patch example}%
+\captionof{figure}{JSON patch is an RFC standard that describes a procedure to incrementally patch a JSON object. By comparing two JSON objects JSON patch creates a set of operations that are needed to patch one objects to match the other. We used JSON patch to keep the client side datastores in sync with the central database.}\label{JSON Patch example}%
 \end{center}
+\end{figure}
 These JSON patches are pushed to all the clients that need to receive the mutations and are applied to the local data-store which (under normal circumstances) contains the original state. After applying the JSON patch, the data store of all clients contains the same state of an election event as the back-end.
 
+\begin{figure}
 \begin{center}
 \includegraphics[scale=0.62]{assets/DatastoresJsonPatch.pdf}
-\captionof{figure}{Data-Sync with JSON Patches}\label{Data-Sync with JSON Patches}%
+\captionof{figure}{After the client side datastores have been initially loaded, future mutations of the central database are synchronized to all clients by receiving and applying JSON patches, which contain operations to patch the local data stores to be in sync with the back-end.}\label{Data-Sync with JSON Patches}%
 \end{center}
+\end{figure}
 
 If for some reason, a web-client doesn't receive a JSON patch, it's local data-store will no longer be corresponding to the actual data-store of the server. This might happen because of network issues and an interrupted WebSocket connection or if applying the JSON patch operations failed.
 
@@ -401,7 +413,7 @@ The first line "`Just some text"', which gets inserted into the default unnamed 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[scale=1.0]{assets/datacardexample.PNG}\\
-\caption{Vote casting sequence diagram}
+\captionof{figure}{Our DataCard component that allows content to be injected in different places within its DOM by using the slot-concept of VueJS.}\label{DataCardXample}%
 \end{center}
 \end{figure}
 The following code shows how the data-card component is implemented:

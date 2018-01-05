@@ -1044,7 +1044,7 @@ ElectionAdmin:
     zh-TW: 設立選舉
   submitted_to_printing_authority:
     en: The electorate data has been submitted to the printing authority.
-    de: The Wähler-Daten wurden an die Druckerei gesendet.
+    de: Die Wähler-Daten wurden an die Druckerei gesendet.
     es: Los datos del electorado se han enviado a la autoridad de impresión.
     fi: Äänestäjätiedot on toimitettu painoviranomaiselle.
     fr: Les données de l'électorat ont été soumises à l'imprimerie.
@@ -1152,6 +1152,16 @@ ElectionAdmin:
   add_election:
     en: Add election
     de: Wahl hinzufügen
+  counting_circles_tooltip:
+    en: >-
+      Counting circles are used for statistic purposes and typically correspond
+      to a voters municipal
+    de: >-
+      Der Wahlkreis entspricht typischerweise dem Kanton oder der Gemeinde eines
+      Wählers und wird für statistische Zwecke benötigt.
+  number_of_voters:
+    en: Number of voters in this counting circle
+    de: Anzahl Wähler in diesem Wahlkreis
 ElectionAuthority:
   title:
     en: Election Authorities
@@ -1625,7 +1635,7 @@ Voter:
       finalization code matches the finalization code on your voting card.
     de: >-
       Sie haben Ihre Wahl bestätigt. Überprüfen Sie, dass der dargestellte
-      Finalisations-Code mit dem Finalisations-Code auf Ihrer Wahlkarte
+      Finalisierungs-Code mit dem Finalisierungs-Code auf Ihrer Wahlkarte
       übereinstimmt.
     es: >-
       Usted ha confirmado su voto. Verifique si el código de finalización que se
@@ -1667,7 +1677,7 @@ Voter:
     zh-TW: 投票結束
   finalization_code:
     en: Finalization code
-    de: Finalisations-Code
+    de: Finalisierungs-Code
     es: Código de finalización
     fi: Viimeistelykoodi
     fr: Code de finalisation
@@ -2123,6 +2133,9 @@ Verifier:
     de: >-
       Überprüfen, ob die Entschlüsselungsbeweise von allen Wahl-Authoritäten
       gültig sind.
+  other_checks:
+    en: Other checks
+    de: Andere Tests
 abort:
   en: Abort
   de: Abbrechen
@@ -2222,3 +2235,10 @@ encryptions_tooltip:
 shuffle_list_dimensions:
   en: Shuffle List Dimensions
   de: Dimensionen der Mix-Liste
+voting_card_text:
+  en: >-
+    The Voting Card is secret and only the intended voter must be able to see
+    the codes.
+  de: >-
+    Die Voting Card enthält sensitive Codes die zur Authentisierung genutzt
+    werden. Nur der Besitzer darf die Codes zu Gesicht bekommen.

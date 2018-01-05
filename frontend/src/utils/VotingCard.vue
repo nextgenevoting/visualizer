@@ -4,7 +4,7 @@
       <div class="headline">Voting Card</div>
     </v-card-title>
     <v-card-text>
-      The Voting Card is secret and only the intended voter must be able to see the codes.
+      {{$t('voting_card_text')}}
     </v-card-text>
     <v-list>
       <v-divider/>

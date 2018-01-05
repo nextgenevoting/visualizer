@@ -203,6 +203,9 @@ shuffle_list_dimensions:
 decryption_proofs_tooltip:
   en: A cryptographic proof calculated by every authority to prove that they have performed the decryption-proces correctly according to the protocol
   de: Ein kryptographischer Beweis der jede Authorität erstellt um zu beweisen, dass sie den Entschlüsselungs-Prozess korrekt und gemäss Protokoll ausgeführt hat
+voting_card_text:
+  en: 'The Voting Card is secret and only the intended voter must be able to see the codes.'
+  de: 'Die Voting Card enthält sensitive Codes die zur Authentisierung genutzt werden. Nur der Besitzer darf die Codes zu Gesicht bekommen.'
 
 main:
   change_language:
@@ -353,6 +356,9 @@ Verifier:
   decryption_proofs_description:
     en: Check if the decryption-proofs of all election authorities are valid.
     de: Überprüfen, ob die Entschlüsselungsbeweise von allen Wahl-Authoritäten gültig sind.
+  other_checks:
+    en: Other checks
+    de: Andere Tests
 
 ElectionAdmin:
   title:
@@ -363,7 +369,7 @@ ElectionAdmin:
     de: Wahl aufsetzen
   submitted_to_printing_authority:
     en: The electorate data has been submitted to the printing authority.
-    de: The Wähler-Daten wurden an die Druckerei gesendet.
+    de: Die Wähler-Daten wurden an die Druckerei gesendet.
   end_election_phase:
     en: Start mixing phase
     de: Start des Mischungsprozesses
@@ -399,7 +405,12 @@ ElectionAdmin:
   add_election:
     en: Add election
     de: Wahl hinzufügen
-
+  counting_circles_tooltip:
+    en: Counting circles are used for statistic purposes and typically correspond to a voters municipal
+    de: Der Wahlkreis entspricht typischerweise dem Kanton oder der Gemeinde eines Wählers und wird für statistische Zwecke benötigt.
+  number_of_voters:
+    en: Number of voters in this counting circle
+    de: Anzahl Wähler in diesem Wahlkreis
 ElectionAuthority:
   title:
     en: Election Authorities
@@ -444,7 +455,7 @@ ElectionAuthority:
 PrintingAuth:
   title:
     en: Printing Authority
-    de: Druckauthorität
+    de: Druckerei
   voting_cards_delivered:
     en: Voting cards have been delivered to the voters!
     de: Die Stimmkarten wurden den Wählern zugesendet!
@@ -524,13 +535,13 @@ Voter:
     de: Die Wahl wurde erfolgreich bestätigt.
   you_have_confirmed_your_vote:
     en: You have confirmed your vote. Please check whether the displayed finalization code matches the finalization code on your voting card.
-    de: Sie haben Ihre Wahl bestätigt. Überprüfen Sie, dass der dargestellte Finalisations-Code mit dem Finalisations-Code auf Ihrer Wahlkarte übereinstimmt.
+    de: Sie haben Ihre Wahl bestätigt. Überprüfen Sie, dass der dargestellte Finalisierungs-Code mit dem Finalisierungs-Code auf Ihrer Wahlkarte übereinstimmt.
   vote_finalization:
     en: Vote finalization
     de: Wahlfinalisierung
   finalization_code:
     en: Finalization code
-    de: Finalisations-Code
+    de: Finalisierungs-Code
   confirmation_code:
     en: Confirmation code
     de: Bestätigungs-Code
