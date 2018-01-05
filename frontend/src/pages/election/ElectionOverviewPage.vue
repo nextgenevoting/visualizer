@@ -86,12 +86,9 @@ export default {
     updateSVG () {
       if (this.svg !== null) {
         let active = this.svgStates.hasOwnProperty(this.status) ? this.svgStates[this.status] : []
-        console.log(active)
 
         Object.entries(this.svgElements).forEach(([name, elements]) => {
           let color = active.includes(name) ? 'rgb(38, 132, 192)' : '#000'
-
-          console.log(name, color)
 
           if (elements.hasOwnProperty('fill')) {
             elements.fill.forEach((id) => {
