@@ -1,6 +1,6 @@
 <template>
   <v-container>
-    <h3 class="my-3" v-t="'electionsPage.title'"></h3>
+    <h2 class="my-3" v-t="'electionsPage.title'"></h2>
     <p>
       <v-btn to="newElection">{{ $t('electionsPage.create') }}</v-btn>
     </p>

@@ -246,8 +246,8 @@ main:
 homePage:
   welcome:
     title:
-      en: Welcome
-      de: Willkommen
+      en: Welcome to the Next Generation E-Voting Visualizer
+      de: Willkommen beim Next Generation E-Voting Visualizer
     text:
       en: Welcome to the CHVote demonstrator
       de: Willkommen beim CHVote-Demonstrator

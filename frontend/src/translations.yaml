@@ -731,8 +731,8 @@ main:
 homePage:
   welcome:
     title:
-      en: Welcome
-      de: Willkommen
+      en: Welcome to the Next Generation E-Voting Visualizter
+      de: Willkommen beim Next Generation E-Voting Visualizer
       es: Bienvenido
       fi: Tervetuloa
       fr: Bienvenue

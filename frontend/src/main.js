@@ -23,7 +23,6 @@ import App from './App.vue'
 import HomePage from './pages/HomePage.vue'
 import AboutPage from './pages/AboutPage.vue'
 import ElectionsPage from './pages/ElectionsPage.vue'
-import LoginPage from './pages/auth/LoginPage.vue'
 import NewElectionPage from './pages/NewElectionPage.vue'
 import VoterPage from './pages/election/VoterPage.vue'
 import PrintingAuthPage from './pages/election/PrintingAuthPage.vue'
@@ -71,7 +70,6 @@ const routes = [
   { path: '/election/:electionId/bulletinBoard', name: 'bulletinboard', component: BulletinBoardPage },
   { path: '/election/:electionId/verifier', name: 'verifier', component: VerifierPage },
   { path: '/election/:electionId/electionAuthority/:authid', name: 'electionauthority', component: ElectionAuthorityPage },
-  { path: '/login', name: '/login', component: LoginPage },
   { path: '*', redirect: { name: 'home' } }
 ]
 
