@@ -78,7 +78,7 @@ Vue.use(VueResource)
 Vue.use(VueI18n)
 Vue.use(VueI18nDirectives)
 Vue.use(Popover)
-Vue.use(Toasted, { position: 'top-right', duration: '400000' })
+Vue.use(Toasted, { position: 'top-right', duration: '4000' })
 
 Vue.component('BigIntLabel', BigIntLabel)
 Vue.component('ByteArrayLabel', ByteArrayLabel)
