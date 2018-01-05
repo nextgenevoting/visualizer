@@ -4,7 +4,7 @@
       <ContentTitle icon="mdi-printer" :title="$t('PrintingAuth.title')"></ContentTitle>
       <v-layout>
         <v-flex>
-          <h5 class="">Tasks</h5>
+          <!-- h5 class="">Tasks</h5 -->
           <v-alert v-if="status >= 3" color="grey lighten-3" icon="check_circle" value="true" v-model="sentAlert" dismissible>{{$t('PrintingAuth.voting_cards_delivered')}}</v-alert>
           <!-- <v-alert v-if="status == 3" color="info" icon="info" value="true" v-model="sentAlert" v-t="'PrintingAuth.voting_cards_delivered'"></v-alert> -->
           <p v-if="status == 0">{{ $t('PrintingAuth.before_voting_cards_print') }}</p>
@@ -20,7 +20,6 @@
           </div>
         </v-flex>
       </v-layout>
-
 
       <v-layout row wrap>
         <v-flex xy12 md12 v-if="status ==2">

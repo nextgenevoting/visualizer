@@ -3,7 +3,7 @@
     <div v-if="this.$store.state.loaded">
       <ContentTitle icon="mdi-account-key" :title="$t('ElectionAdmin.title')">
         <v-menu offset-y v-if="status == 0">
-          <v-btn flat slot="activator" v-t="'ElectionAdmin.election_presets'"></v-btn>
+          <v-btn slot="activator">{{ $t('ElectionAdmin.election_presets') }}</v-btn>
           <v-list>
             <v-list-tile v-for="preset in electionPresets" :key="preset.title" @click="setElectionPreset(preset.generate())">
               <v-list-tile-title>{{ preset.title }}</v-list-tile-title>
@@ -12,29 +12,31 @@
         </v-menu>
       </ContentTitle>
 
-      <v-flex xs12 sm1><h5 v-t="'tasks'"></h5></v-flex>
-        <v-alert v-if="status == 1 || status == 2" color="grey lighten-3" icon="info" value="true">
-          {{$t('ElectionAdmin.submitted_to_printing_authority')}}
-        </v-alert>
-        <v-alert v-if="status == 4 && !allAuthoritiesHaveMixed" color="grey lighten-3" icon="info" value="true">
-          {{$t('ElectionAdmin.waitForMixing')}}
-        </v-alert>
+      <!--v-flex xs12 sm1>
+        <h5 v-t="'tasks'"></h5>
+      </v-flex-->
+
+      <v-alert v-if="status == 1 || status == 2" color="grey lighten-3" icon="info" value="true">
+        {{ $t('ElectionAdmin.submitted_to_printing_authority') }}
+      </v-alert>
+      <v-alert v-if="status == 4 && !allAuthoritiesHaveMixed" color="grey lighten-3" icon="info" value="true">
+        {{ $t('ElectionAdmin.waitForMixing') }}
+      </v-alert>
       <v-alert v-if="status == 5 && !haveAllAuthoritiesDecrypted" color="grey lighten-3" icon="info" value="true">
-        {{$t('ElectionAdmin.waitForDecryption')}}
+        {{ $t('ElectionAdmin.waitForDecryption') }}
       </v-alert>
 
-      <v-flex  x12 md12 v-if="status == 0">
-        <v-card style="margin-bottom:20px;">
+      <v-flex x12 md12 v-if="status == 0">
+        <v-card style="margin-bottom: 20px;">
           <v-card-title primary-title>
             <div class="headline" v-t="'ElectionAdmin.set_up_election'"></div>
           </v-card-title>
           <v-card-text>
-
-
             <v-form v-model="valid" ref="form" lazy-validation>
               <h5>{{$t('counting_circles')}} <v-tooltip top>
                 <v-icon  color="grey lighten-1" slot="activator">info</v-icon><span>{{$t('ElectionAdmin.counting_circles_tooltip')}}</span>
               </v-tooltip></h5>
+
               <div v-for="(voters, index) in countingCircles">
                 <v-layout row wrap>
                   <v-flex xs6>
@@ -42,7 +44,7 @@
                   </v-flex>
                   <v-flex xs6>
                     <v-btn fab icon small title="Remove counting circle" v-if="index <= countingCircles.length && countingCircles.length > 1" @click="countingCircles.splice(index, 1)">
-                      <v-icon  color="error">mdi-close-circle</v-icon>
+                      <v-icon color="error">mdi-close</v-icon>
                     </v-btn>
                     <v-btn fab icon small  title="Add counting circle" v-if="index === countingCircles.length - 1" @click="countingCircles.push(null)">
                       <v-icon>mdi-plus</v-icon>
@@ -54,10 +56,11 @@
               <div v-for="(election, index) in this.elections">
                 <h5>
                   Election {{ index + 1 }}
-                  <v-btn icon small flat  color="error" title="Remove this election" v-if="index > 0" @click="elections.splice(index, 1)">
+                  <v-btn icon small flat color="error" title="Remove this election" v-if="index > 0" @click="elections.splice(index, 1)">
                     <v-icon>mdi-close-circle</v-icon>
                   </v-btn>
                 </h5>
+
                 <v-layout row wrap>
                   <v-flex xs3>
                     <v-text-field :label="$t('electionTitle')" v-model="election.title" autofocus required></v-text-field>
@@ -78,7 +81,7 @@
                   </v-flex>
                   <v-flex xs2>
                     <v-menu offset-y v-if="status == 0">
-                      <v-btn flat  slot="activator" v-t="'ElectionAdmin.candidate_presets'"></v-btn>
+                      <v-btn slot="activator">{{ $t('ElectionAdmin.candidate_presets') }}</v-btn>
                       <v-list>
                         <v-list-tile v-for="preset in candidatePresets" :key="preset.title" @click="setCandidatePreset(election, preset.generate())">
                           <v-list-tile-title>{{ preset.title }}</v-list-tile-title>

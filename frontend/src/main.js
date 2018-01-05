@@ -1,3 +1,4 @@
+// libraries
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Vuetify from 'vuetify'
@@ -7,8 +8,18 @@ import VueI18nDirectives from 'vue-i18n-directives'
 import VueResource from 'vue-resource'
 import VueSocketio from 'vue-socket.io'
 import NProgress from 'nprogress/nprogress.js'
+import Toasted from 'vue-toasted'
+import Raphael from 'raphael/raphael'
+import { DonutChart } from 'vue-morris'
+import Popover from 'vue-js-popover'
+import lodash from 'lodash'
+import VueLodash from 'vue-lodash'
+
+// application
 import { store } from './store/store.js'
 import App from './App.vue'
+
+// views
 import HomePage from './pages/HomePage.vue'
 import AboutPage from './pages/AboutPage.vue'
 import ElectionsPage from './pages/ElectionsPage.vue'
@@ -25,6 +36,8 @@ import ConfirmationTaskPage from './pages/election/electionAuthoritySubpages/Con
 import CheckBallotTaskPage from './pages/election/electionAuthoritySubpages/CheckBallotTaskPage.vue'
 import MixingPage from './pages/election/electionAuthoritySubpages/MixingPage.vue'
 import DecryptionPage from './pages/election/electionAuthoritySubpages/DecryptionPage.vue'
+
+// custom components
 import SelectVoterDialog from './utils/SelectVoterDialog.vue'
 import LoadingOverlay from './utils/LoadingOverlay.vue'
 import BallotList from './utils/BallotList.vue'
@@ -40,12 +53,10 @@ import ConfidentialityChip from './utils/ConfidentialityChip.vue'
 import TupleElement from './utils/TupleElement.vue'
 import DataCard from './utils/DataCard.vue'
 import ContentTitle from './utils/ContentTitle.vue'
-import Toasted from 'vue-toasted'
-import Raphael from 'raphael/raphael'
-import { DonutChart } from 'vue-morris'
-import Popover from 'vue-js-popover'
-import lodash from 'lodash'
-import VueLodash from 'vue-lodash'
+
+// css
+import 'vuetify/dist/vuetify.min.css'
+
 global.Raphael = Raphael
 
 const routes = [

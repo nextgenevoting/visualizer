@@ -73,8 +73,8 @@
               </v-list-tile>
             </v-list>
             <v-card-actions>
-                <v-spacer></v-spacer>
-                <v-btn flat @click="menu = false" v-t="'ok'" />
+              <v-spacer />
+              <v-btn flat @click="menu = false" v-t="'ok'" />
             </v-card-actions>
           </v-card>
         </v-menu>
@@ -82,53 +82,51 @@
           <v-icon>code</v-icon>
         </v-btn>
       </v-toolbar>
-      <v-tabs dark grow icons centered :scrollable="false">
-        <v-tabs-bar class="blue" v-show="$route.path.includes('/election/') ? true : false">
-          <v-tabs-slider color="white"></v-tabs-slider>
-          <v-tabs-item ripple :to="{ name: 'electionoverview', params: {electionId: electionId}}">
-            <v-icon>mdi-view-dashboard</v-icon>
-            {{ $t('main.overview') }}
-          </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'electionadmin', params: {electionId: electionId }}">
-            <v-badge color="">
-              <v-icon slot="badge" dark v-if="status == 0 || status == 6">mdi-alert-decagram</v-icon>
-              <v-icon>mdi-account-key</v-icon>
-            </v-badge>
-            {{ $t('main.election_admin') }}
-          </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'printingauth', params: {electionId: electionId }}">
-            <v-badge color="">
-              <v-icon slot="badge" dark v-if="status == 1">mdi-alert-decagram</v-icon>
-              <v-icon>mdi-printer</v-icon>
-            </v-badge>
-            {{ $t('main.printing_authority') }}
-          </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'voter', params: {electionId: electionId, voterId: voterId }}" :disabled="this.$store.getters.status < 1">
-            <v-badge color="">
-              <v-icon slot="badge" dark v-if="status == 3">mdi-alert-decagram</v-icon>
-              <v-icon>mdi-account</v-icon>
-            </v-badge>
-            {{ $t('main.voter') }}
-          </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'electionauthority', params: {electionId: electionId, authid: authorityId}}">
-            <v-badge color="">
-              <v-icon slot="badge" dark v-if="getNumberOfTasksForAllAuthorities > 0">mdi-alert-decagram</v-icon>
-              <v-icon>mdi-settings-box</v-icon>
-            </v-badge>
-            {{ $t('main.election_authorities') }}
-          </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'bulletinboard', params: {electionId: electionId }}">
-            <v-icon>mdi-bulletin-board</v-icon>
-            {{ $t('main.bulletin_board') }}
-          </v-tabs-item>
-          <v-tabs-item ripple :to="{ name: 'verifier', params: {electionId: electionId }}" v-if="status >= 7">
-            <v-badge color="">
-              <v-icon slot="badge" dark v-if="status == 7">mdi-alert-decagram</v-icon>
-              <v-icon>mdi-checkbox-marked-outline</v-icon>
-            </v-badge>
-            {{ $t('main.verifier') }}
-          </v-tabs-item>
-        </v-tabs-bar>
+      <v-tabs icons-and-text grow dark color="blue" v-show="$route.path.includes('/election/')">
+        <v-tabs-slider color="white"></v-tabs-slider>
+        <v-tab ripple :to="{ name: 'electionoverview', params: { electionId: electionId }}">
+          {{ $t('main.overview') }}
+          <v-icon>mdi-view-dashboard</v-icon>
+        </v-tab>
+        <v-tab ripple :to="{ name: 'electionadmin', params: { electionId: electionId }}">
+          {{ $t('main.election_admin') }}
+          <v-badge color="">
+            <v-icon slot="badge" v-if="status == 0 || status == 6">mdi-alert-decagram</v-icon>
+            <v-icon>mdi-account-key</v-icon>
+          </v-badge>
+        </v-tab>
+        <v-tab ripple :to="{ name: 'printingauth', params: {electionId: electionId }}">
+          {{ $t('main.printing_authority') }}
+          <v-badge color="">
+            <v-icon slot="badge" v-if="status == 1">mdi-alert-decagram</v-icon>
+            <v-icon>mdi-printer</v-icon>
+          </v-badge>
+        </v-tab>
+        <v-tab ripple :to="{ name: 'voter', params: { electionId: electionId, voterId: voterId }}" :disabled="this.$store.getters.status < 1">
+          {{ $t('main.voter') }}
+          <v-badge color="">
+            <v-icon slot="badge" v-if="status == 3">mdi-alert-decagram</v-icon>
+            <v-icon>mdi-account</v-icon>
+          </v-badge>
+        </v-tab>
+        <v-tab ripple :to="{ name: 'electionauthority', params: { electionId: electionId, authid: authorityId }}">
+          {{ $t('main.election_authorities') }}
+          <v-badge color="">
+            <v-icon slot="badge" v-if="getNumberOfTasksForAllAuthorities > 0">mdi-alert-decagram</v-icon>
+            <v-icon>mdi-settings-box</v-icon>
+          </v-badge>
+        </v-tab>
+        <v-tab ripple :to="{ name: 'bulletinboard', params: { electionId: electionId }}">
+          {{ $t('main.bulletin_board') }}
+          <v-icon>mdi-bulletin-board</v-icon>
+        </v-tab>
+        <v-tab ripple :to="{ name: 'verifier', params: { electionId: electionId }}" v-if="status >= 7">
+          {{ $t('main.verifier') }}
+          <v-badge color="">
+            <v-icon slot="badge" v-if="status == 7">mdi-alert-decagram</v-icon>
+            <v-icon>mdi-checkbox-marked-outline</v-icon>
+          </v-badge>
+        </v-tab>
       </v-tabs>
     </header>
 
@@ -151,119 +149,119 @@
 </template>
 
 <script type="text/babel">
-  import { mapGetters, mapState } from 'vuex'
+import { mapGetters, mapState } from 'vuex'
 
-  export default {
-    data () {
-      return {
-        drawer: false,
-        items: [{
-          href: 'home',
-          router: true,
-          title: 'home',
-          icon: 'home'
-        }, {
-          href: 'elections',
-          router: true,
-          title: 'Elections events',
-          icon: 'extension'
-        }, {
-          href: 'about',
-          router: true,
-          title: 'main.about',
-          icon: 'domain'
-        }],
-        menu: false
+export default {
+  data () {
+    return {
+      drawer: false,
+      items: [{
+        href: 'home',
+        router: true,
+        title: 'home',
+        icon: 'home'
+      }, {
+        href: 'elections',
+        router: true,
+        title: 'Elections events',
+        icon: 'extension'
+      }, {
+        href: 'about',
+        router: true,
+        title: 'main.about',
+        icon: 'domain'
+      }],
+      menu: false
+    }
+  },
+  computed: {
+    languages () {
+      return this.$root.$i18n._languages
+    },
+    ...mapState({
+      status: 'status'
+    }),
+    ...mapGetters({
+      getNumberOfTasksForAllAuthorities: 'getNumberOfTasksForAllAuthorities'
+    }),
+    electionId: {
+      get () {
+        return this.$route.params['electionId']
       }
     },
-    computed: {
-      languages () {
-        return this.$root.$i18n._languages
-      },
-      ...mapState({
-        status: 'status'
-      }),
-      ...mapGetters({
-        getNumberOfTasksForAllAuthorities: 'getNumberOfTasksForAllAuthorities'
-      }),
-      electionId: {
-        get () {
-          return this.$route.params['electionId']
-        }
-      },
-      authorityId: {
-        get () {
-          return this.$store.state.selectedAuthority
-        }
-      },
-      voterId: {
-        get () {
-          return this.$store.state.selectedVoter
-        }
-      },
-      onlineNotification: {
-        get () {
-          return this.$store.state.connected
-        },
-        set (value) {
-        }
-      },
-      offlineNotification: {
-        get () {
-          return !this.$store.state.connected
-        },
-        set (value) {
-        }
-      },
-      status: {
-        get () {
-          return this.$store.state.Election.status
-        },
-        set (value) {
-        }
-      },
-
-      showConfidentiality: {
-        get: function () {
-          return this.$store.state.showConfidentiality
-        },
-        set (value) {
-          this.$store.commit('showConfidentiality', value)
-        }
-      },
-      expertMode: {
-        get () {
-          return this.$store.state.expertMode
-        },
-        set (value) {
-          this.$store.commit('expertMode', value)
-        }
+    authorityId: {
+      get () {
+        return this.$store.state.selectedAuthority
       }
     },
-    methods: {
-      changeLanguage (lang) {
-        this.$root.$i18n.locale = lang
-        this.$store.commit('language', lang)
+    voterId: {
+      get () {
+        return this.$store.state.selectedVoter
+      }
+    },
+    onlineNotification: {
+      get () {
+        return this.$store.state.connected
       },
-      openRepo () {
-        window.open('https://gitlab.ti.bfh.ch/chvote/demonstrator')
+      set (value) {
+      }
+    },
+    offlineNotification: {
+      get () {
+        return !this.$store.state.connected
+      },
+      set (value) {
+      }
+    },
+    status: {
+      get () {
+        return this.$store.state.Election.status
+      },
+      set (value) {
+      }
+    },
+
+    showConfidentiality: {
+      get: function () {
+        return this.$store.state.showConfidentiality
+      },
+      set (value) {
+        this.$store.commit('showConfidentiality', value)
+      }
+    },
+    expertMode: {
+      get () {
+        return this.$store.state.expertMode
+      },
+      set (value) {
+        this.$store.commit('expertMode', value)
       }
     }
+  },
+  methods: {
+    changeLanguage (lang) {
+      this.$root.$i18n.locale = lang
+      this.$store.commit('language', lang)
+    },
+    openRepo () {
+      window.open('https://gitlab.ti.bfh.ch/chvote/demonstrator')
+    }
+  }
 }
 </script>
 
 <style type="text/css">
-    @import '../node_modules/nprogress/nprogress.css';
-    @import '../node_modules/mdi/css/materialdesignicons.css';
-    @import '../node_modules/nprogress/nprogress.css';
+@import '../node_modules/nprogress/nprogress.css';
+@import '../node_modules/mdi/css/materialdesignicons.css';
+@import '../node_modules/nprogress/nprogress.css';
 </style>
 
 <style lang="stylus">
-    @import 'css/main.css';
+@import 'css/main.css';
 </style>
 
 <style>
-  .tabs__wrapper{
-    overflow: hidden !important;
-  }
+.tabs__wrapper {
+  overflow: hidden !important;
+}
 </style>
