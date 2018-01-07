@@ -233,8 +233,8 @@ main:
     en: Change language
     de: Sprache ändern
   about:
-    en: About CHVote
-    de: Über CHVote
+    en: About NextGenVote
+    de: Über NextGenVote
   settings:
     confidentiality:
       en: Show confidentiality
@@ -466,9 +466,15 @@ ElectionAuthority:
   public_voter_credential:
     en: 'Public voter credential:'
     de: 'Öffentliches Wählercredential:'
+  public_confirmation_credential:
+    en: 'Public confirmation credential:'
+    de: 'Öffentliches Bestätitigungscredential:'
   ballot_proof:
     en: 'Ballot proof:'
     de: 'Stimmzettel-Beweis:'
+  confirmation_proof:
+    en: 'Confirmation proof:'
+    de: 'Bestätigungs-Beweis:'
   election_data:
     en: 'Election data'
     de: 'Wählerdaten'

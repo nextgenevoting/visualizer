@@ -44,8 +44,38 @@
                     </v-card-actions>
                     <v-slide-y-transition>
                         <v-card-text v-show="show">
-                            <!--a_bold: {{ checkBallotTask.ballot.a_bold }}<br>
-                            x_hat: {{ checkBallotTask.ballot.x_hat }}-->
+                            <div v-for="ballot in getBallotById(checkBallotTask.ballotId)">
+                                <v-card>
+                                    <v-card-text class="grey lighten-3">
+                                        <v-layout row wrap>
+                                            <v-flex xy2 md2 v-t="'ElectionAuthority.encrypted_selections'"></v-flex>
+                                            <v-flex x10 md10>
+                                <span v-for="(elgamalEncryption, i) in ballot.ballot.a_bold">
+                                  (<BigIntLabel :mpzValue="elgamalEncryption[0]"></BigIntLabel>,
+                                  <BigIntLabel :mpzValue="elgamalEncryption[1]"></BigIntLabel>)<span v-if="i < ballot.ballot.a_bold.length - 1">, </span>
+                                </span>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xy2 md2 v-t="'ElectionAuthority.public_voter_credential'"></v-flex>
+                                            <v-flex xy10 md10>
+                                                <BigIntLabel :mpzValue="ballot.ballot.x_hat"></BigIntLabel>
+                                            </v-flex>
+                                        </v-layout>
+                                        <v-layout row wrap>
+                                            <v-flex xy2 md2 v-t="'ElectionAuthority.ballot_proof'"></v-flex>
+                                            <v-flex x10 md10>
+                                                (<BigIntLabel :mpzValue="ballot.ballot.pi[0][0]"></BigIntLabel>,
+                                                <BigIntLabel :mpzValue="ballot.ballot.pi[0][1]"></BigIntLabel>,
+                                                <BigIntLabel :mpzValue="ballot.ballot.pi[0][2]"></BigIntLabel>),
+                                                (<BigIntLabel :mpzValue="ballot.ballot.pi[1][0]"></BigIntLabel>,
+                                                <BigIntLabel :mpzValue="ballot.ballot.pi[1][1]"></BigIntLabel>,
+                                                <BigIntLabel :mpzValue="ballot.ballot.pi[1][2]"></BigIntLabel>)
+                                            </v-flex>
+                                        </v-layout>
+                                    </v-card-text>
+                                </v-card>
+                            </div>
                         </v-card-text>
                     </v-slide-y-transition>
                 </v-card>
@@ -85,6 +115,9 @@
         }
       },
       methods: {
+        getBallotById: function (id) {
+          return this.$store.getters.getBallotById(id)
+        },
         checkBallot: function (ballotId) {
           this.$http.post('checkVote', {
             'election': this.$route.params['electionId'],

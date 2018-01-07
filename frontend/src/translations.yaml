@@ -605,8 +605,8 @@ main:
     sv: Ändra språk
     zh-TW: 改變語言
   about:
-    en: About CHVote
-    de: Über CHVote
+    en: About NextGenVote
+    de: Über NextGenVote
     es: Acerca de CHVote
     fi: Tietoja CHVosta
     fr: A propos de CHVote
@@ -1322,6 +1322,12 @@ ElectionAuthority:
     de: >-
       Jede Authorität führt eine Liste aller gültigen Stimmen, die sie geprüft
       hat
+  public_confirmation_credential:
+    en: 'Public confirmation credential:'
+    de: 'Öffentliches Bestätitigungscredential:'
+  confirmation_proof:
+    en: 'Confirmation proof:'
+    de: 'Bestätigungs-Beweis:'
 PrintingAuth:
   title:
     en: Printing Authority

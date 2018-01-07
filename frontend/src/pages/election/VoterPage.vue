@@ -162,8 +162,8 @@
         <v-layout row wrap justify-center>
             <v-dialog v-model="attackCredentialDialog" persistent max-width="400">
                 <v-card>
-                    <v-card-title class="headline" v-t="'manipulate_credential'"></v-card-title>
-                    <v-card-text v-t="'manipulate_credential_text'"></v-card-text>
+                    <v-card-title class="headline" v-t="'Voter.manipulate_credential'"></v-card-title>
+                    <v-card-text v-t="'Voter.manipulate_credential_text'"></v-card-text>
                     <v-card-text>
                         <v-form>
                         <v-select
@@ -174,7 +174,7 @@
                                 bottom
                         ></v-select>
                         <v-text-field
-                                 label="Manipulate public credential"
+                                 label="Public credential"
                                  v-model="manipulatedCredentialInput"
                                  required
                          ></v-text-field>

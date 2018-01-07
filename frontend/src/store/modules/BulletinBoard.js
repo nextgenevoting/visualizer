@@ -50,6 +50,20 @@ const getters = {
     // returns the ballotlist of the bulletin board
     return state.ballots
   },
+  getBallotById: (state, getters) => (ballotId) => {
+    for (let ballot of getters.getBallotsOfBulletinBoard) {
+      if (ballot.id === ballotId) {
+        return {ballot: ballot}
+      }
+    }
+  },
+  getConfirmationById: (state, getters) => (confirmationId) => {
+    for (let confirmation of getters.getConfirmationsOfBulletinBoard) {
+      if (confirmation.id === confirmationId) {
+        return {confirmation: confirmation}
+      }
+    }
+  },
   getConfirmationsOfBulletinBoard: (state, getters) => {
     // returns the confirmation list of the bulletin board
     return state.confirmations
