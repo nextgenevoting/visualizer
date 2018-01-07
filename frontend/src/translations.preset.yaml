@@ -80,6 +80,9 @@ public_key_share:
 secret_key_share:
   en: Secret key share
   de: Anteil des geheimen Schlüssels
+candidate:
+  en: Candidate
+  de: Kandidat
 candidates:
   en: Candidates
   de: Kandidaten
@@ -110,6 +113,9 @@ number_of_selections:
 number_of_selections_tooltip:
   en: Number of candidates that can be selected in the respective election
   de: Anzahl der Kandidaten, die in der jeweiligen Wahl selektiert werden können
+counting_circle:
+  en: Counting circle
+  de: Wahlkreis
 counting_circles:
   en: Counting circles
   de: Wahlkreise
@@ -167,9 +173,6 @@ vote_casting:
 confirmation:
   en: Confirmation
   de: Bestätigung
-finalization:
-  en: Finalization
-  de: Abschluss
 cast_vote:
   en: Cast vote
   de: Stimme abgeben
@@ -206,6 +209,24 @@ decryption_proofs_tooltip:
 voting_card_text:
   en: 'The Voting Card is secret and only the intended voter must be able to see the codes.'
   de: 'Die Voting Card enthält sensitive Codes die zur Authentisierung genutzt werden. Nur der Besitzer darf die Codes zu Gesicht bekommen.'
+num_of_votes:
+  en: Number of votes
+  de: Anzahl Stimmen
+response:
+  en: Response
+  de: Antwort
+responses:
+  en: Responses
+  de: Antworten
+finalization:
+  en: Finalization
+  de: Finalisierung
+finalizations:
+  en: Finalizations
+  de: Finalisierungen
+confirmation_history:
+  en: Confirmation history
+  de: Bestätitgungs-Verlauf
 
 main:
   change_language:
@@ -215,9 +236,6 @@ main:
     en: About CHVote
     de: Über CHVote
   settings:
-    expert:
-      en: Expert mode
-      de: Experten-Modus
     confidentiality:
       en: Show confidentiality
       de: Vertraulichkeit anzeigen
@@ -245,15 +263,18 @@ main:
   view_source_code:
     en: View application source code at the BFH Gitlab
     de: Quellcode der Applikation im BFH-Gitlab ansehen
+  election_events:
+    en: Election Events
+    de: Wahlereignisse
 
 homePage:
   welcome:
     title:
-      en: Welcome to the Next Generation E-Voting Visualizer
-      de: Willkommen beim Next Generation E-Voting Visualizer
+      en: Welcome to NextGenVote
+      de: Willkommen bei NextGenVote
     text:
-      en: Welcome to the CHVote demonstrator
-      de: Willkommen beim CHVote-Demonstrator
+      en: 'With the ongoing digital transformation, it seems only a matter of time until submitting paper ballots is replaced with electronic voting. However, secure cryptographic e-voting protocols are known to be notoriously challenging to design and not easy to be understood. For our bachelor thesis, we implemented the protocol on which Geneva’s next e-voting system will be based, and we built an application that makes it possible to interactively experience the next-generation e-voting protocol.'
+      de: 'With the ongoing digital transformation, it seems only a matter of time until submitting paper ballots is replaced with electronic voting. However, secure cryptographic e-voting protocols are known to be notoriously challenging to design and not easy to be understood. For our bachelor thesis, we implemented the protocol on which Geneva’s next e-voting system will be based, and we built an application that makes it possible to interactively experience the next-generation e-voting protocol.'
 
 electionsPage:
   title:
@@ -359,6 +380,9 @@ Verifier:
   other_checks:
     en: Other checks
     de: Andere Tests
+  not_yet_implemented:
+    en: Not yet implemented
+    de: Noch nicht implementiert
 
 ElectionAdmin:
   title:
@@ -681,3 +705,7 @@ ElectionResult:
   final_results_chart_tooltip:
     en: Final results in graphical representation
     de: Wahlresultat in grafischer Repräsentation
+SelectVoterDialog:
+  title:
+    en: Choose voter for vote casting
+    de: Wählen Sie einen Voter für die Stimmabgabe

@@ -38,6 +38,8 @@ def createElection():
         # create new electionAuthority states
         for j in range(3):
             newAuthState = ElectionAuthorityState(j)
+            if(j != 0):
+                newAuthState.autoCheck = True
             db.electionAuthorityStates.insert({'election': str(id), 'authorityID': j, 'state': serializeState(newAuthState)})
 
         # create new printing authority state

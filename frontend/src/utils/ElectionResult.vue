@@ -73,17 +73,17 @@
               sortable: true,
               value: 'name'
             },
-            { text: 'Candidate', value: 'candidate' },
-            { text: 'Counting Circle', value: 'countingCircle' }
+            { text: this.$i18n.t('candidate'), value: 'candidate' },
+            { text: this.$i18n.t('counting_circle'), value: 'countingCircle' }
           ],
           resultHeaders: [
             {
-              text: 'Candidate',
+              text: this.$i18n.t('candidate'),
               align: 'left',
               sortable: true,
               value: 'label'
             },
-            { text: '# of votes', value: 'value' }
+            { text: this.$i18n.t('num_of_votes'), value: 'value' }
           ]
         }
       },

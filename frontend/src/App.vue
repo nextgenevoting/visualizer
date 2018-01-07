@@ -61,12 +61,6 @@
             <v-list>
               <v-list-tile>
                 <v-list-tile-action>
-                  <v-switch color="green" v-model="expertMode" />
-                </v-list-tile-action>
-                <v-list-tile-title v-t="'main.settings.expert'" />
-              </v-list-tile>
-              <v-list-tile>
-                <v-list-tile-action>
                   <v-switch color="green" v-model="showConfidentiality" />
                 </v-list-tile-action>
                 <v-list-tile-title v-t="'main.settings.confidentiality'" />
@@ -163,7 +157,7 @@ export default {
       }, {
         href: 'elections',
         router: true,
-        title: 'Elections events',
+        title: 'main.election_events',
         icon: 'extension'
       }, {
         href: 'about',
@@ -227,14 +221,6 @@ export default {
       },
       set (value) {
         this.$store.commit('showConfidentiality', value)
-      }
-    },
-    expertMode: {
-      get () {
-        return this.$store.state.expertMode
-      },
-      set (value) {
-        this.$store.commit('expertMode', value)
       }
     }
   },

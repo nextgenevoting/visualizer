@@ -139,8 +139,7 @@
       },
       computed: {
         ...mapState({
-          electionAuthorities: state => state.ElectionAuthority.electionAuthorities,
-          expertMode: state => state.expertMode
+          electionAuthorities: state => state.ElectionAuthority.electionAuthorities
         }),
         ...mapGetters({
           electionId: 'electionId',

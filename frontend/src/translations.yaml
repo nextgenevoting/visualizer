@@ -509,7 +509,7 @@ confirmation:
   zh-TW: 確認
 finalization:
   en: Finalization
-  de: Abschluss
+  de: Finalisierung
   es: Finalización
   fi: viimeistely
   fr: Finalisation
@@ -728,11 +728,14 @@ main:
   verifier:
     en: Verifier
     de: Verifier
+  election_events:
+    en: Election Events
+    de: Wahlereignisse
 homePage:
   welcome:
     title:
-      en: Welcome to the Next Generation E-Voting Visualizter
-      de: Willkommen beim Next Generation E-Voting Visualizer
+      en: Welcome to NextGenVote
+      de: Willkommen bei NextGenVote
       es: Bienvenido
       fi: Tervetuloa
       fr: Bienvenue
@@ -743,8 +746,24 @@ homePage:
       sv: Välkommen
       zh-TW: 歡迎
     text:
-      en: Welcome to the CHVote demonstrator
-      de: Willkommen beim CHVote-Demonstrator
+      en: >-
+        With the ongoing digital transformation, it seems only a matter of time
+        until submitting paper ballots is replaced with electronic voting.
+        However, secure cryptographic e-voting protocols are known to be
+        notoriously challenging to design and not easy to be understood. For our
+        bachelor thesis, we implemented the protocol on which Geneva’s next
+        e-voting system will be based, and we built an application that makes it
+        possible to interactively experience the next-generation e-voting
+        protocol.
+      de: >-
+        With the ongoing digital transformation, it seems only a matter of time
+        until submitting paper ballots is replaced with electronic voting.
+        However, secure cryptographic e-voting protocols are known to be
+        notoriously challenging to design and not easy to be understood. For our
+        bachelor thesis, we implemented the protocol on which Geneva’s next
+        e-voting system will be based, and we built an application that makes it
+        possible to interactively experience the next-generation e-voting
+        protocol.
       es: Bienvenido al demostrador CHVote
       fi: Tervetuloa CHVote-esittelijään
       fr: Bienvenue sur le démonstrateur CHVote
@@ -1306,7 +1325,7 @@ ElectionAuthority:
 PrintingAuth:
   title:
     en: Printing Authority
-    de: Druckauthorität
+    de: Druckerei
     es: Autoridad de impresión
     fi: Tulostusviranomainen
     fr: Autorité d'impression
@@ -2136,6 +2155,9 @@ Verifier:
   other_checks:
     en: Other checks
     de: Andere Tests
+  not_yet_implemented:
+    en: Not yet implemented
+    de: Noch nicht implementiert
 abort:
   en: Abort
   de: Abbrechen
@@ -2242,3 +2264,28 @@ voting_card_text:
   de: >-
     Die Voting Card enthält sensitive Codes die zur Authentisierung genutzt
     werden. Nur der Besitzer darf die Codes zu Gesicht bekommen.
+candidate:
+  en: Candidate
+  de: Kandidat
+counting_circle:
+  en: Counting circle
+  de: Wahlkreis
+num_of_votes:
+  en: Number of votes
+  de: Anzahl Stimmen
+response:
+  en: Response
+  de: Antwort
+responses:
+  en: Responses
+  de: Antworten
+finalizations:
+  en: Finalizations
+  de: Finalisierungen
+confirmation_history:
+  en: Confirmation history
+  de: Bestätitgungs-Verlauf
+SelectVoterDialog:
+  title:
+    en: Choose voter for vote casting
+    de: Wählen Sie einen Voter für die Stimmabgabe

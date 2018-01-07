@@ -17,7 +17,6 @@ export const store = new Vuex.Store({
     connected: false,
     joinedElectionId: null,
     showConfidentiality: false,
-    expertMode: false,
     selectedVoter: 0,
     selectedAuthority: 0,
     voterDialog: false,
@@ -99,10 +98,6 @@ export const store = new Vuex.Store({
     showConfidentiality: (state, value) => {
       // sets the visibility of the confidentiality chip
       state.showConfidentiality = value
-    },
-    expertMode: (state, value) => {
-      // sets the expert mode setting (not used currently)
-      state.expertMode = value
     }
   },
   getters: {

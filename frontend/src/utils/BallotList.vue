@@ -23,13 +23,13 @@
                         </v-flex>
                         <v-flex xs6 sm6 md3 style="padding-top: 9px;">
                             <span v-if="hasResponses(ballot) && authorityFilter === undefined">
-                                Responses:
+                                {{$t('responses')}}:
                                 <transition-group name="highlight">
-                                    <v-btn icon v-for="(r, index) in ballot.responses" v-if="r !== null" @click.stop="showResponse(r)" :key="index"><v-icon>{{tupleLabelIconString(index+1)}}</v-icon></v-btn>
+                                    <v-btn small icon v-for="(r, index) in ballot.responses" v-if="r !== null" @click.stop="showResponse(r)" :key="index"><v-icon>{{tupleLabelIconString(index+1)}}</v-icon></v-btn>
                                 </transition-group>
                             </span>
                             <span v-if="hasResponses(ballot) && authorityFilter !== undefined">
-                                Response:
+                                {{$t('response')}}:
                                 <transition name="highlight">
                                     <v-btn icon @click.stop="showResponse(ballot.responses[authorityFilter])" v-if="ballot.responses[authorityFilter] !== null"><v-icon>{{tupleLabelIconString(authorityFilter+1)}}</v-icon></v-btn>
                                 </transition>
@@ -44,7 +44,7 @@
                         </v-flex>
                         <v-flex xs6 sm6 md3 style="padding-top: 9px;">
                             <span v-if="getValidConfirmation(ballot) !== null && authorityFilter === undefined">
-                                Finalizations:
+                                {{$t('finalizations')}}:
                                 <transition-group name="highlight">
                                     <FinalizationsTupleDialog
                                       v-for="(f, index) in getValidConfirmation(ballot).finalizations" v-if="f !== null"
@@ -53,7 +53,7 @@
                                 </transition-group>
                             </span>
                             <span v-if="getValidConfirmation(ballot) !== null && authorityFilter !== undefined">
-                                Finalization:
+                                {{$t('finalization')}}:
                                 <transition name="highlight">
                                     <FinalizationsTupleDialog
                                       v-if="getValidConfirmation(ballot).finalizations[authorityFilter] !== null"
@@ -98,7 +98,7 @@
                                 {{ ballot.timestamp }}
                             </v-flex>
                         </v-layout>
-                        <b>Confirmation history:</b>
+                        <b>{{$t('confirmation_history')}}</b>
                         <v-layout row wrap v-for="(c,index) in ballot.confirmations" v-bind:key="c.confirmationId">
                             <v-flex xy1 md1></v-flex>
                             <v-flex xy2 md2 class="ballotTitle">Confirmation {{ index + 1 }}</v-flex>
@@ -117,7 +117,7 @@
                             </v-flex>
                             <v-flex xy3 md3 style="padding-top: 9px;">
                                 <span v-if="c.finalizations.length > 0 && authorityFilter === undefined">
-                                    Finalizations:
+                                {{$t('finalizations')}}:
                                     <transition-group name="highlight">
                                         <FinalizationsTupleDialog
                                           v-for="(f, index) in c.finalizations" v-if="f !== null"
@@ -126,7 +126,7 @@
                                     </transition-group>
                                 </span>
                                 <span v-if="c.finalizations.length > 0 && authorityFilter !== undefined">
-                                  Finalization:
+                                {{$t('finalization')}}:
                                   <transition name="highlight">
                                     <FinalizationsTupleDialog
                                       v-if="c.finalizations[authorityFilter] !== null"

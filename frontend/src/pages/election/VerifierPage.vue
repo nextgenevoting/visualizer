@@ -60,7 +60,7 @@
                                         <v-list-tile-sub-title v-t="'Verifier.other_checks'"></v-list-tile-sub-title>
                                     </v-list-tile-content>
                                     <v-list-tile-action>
-                                        Not yet implemented
+                                        {{$t('Verifier.not_yet_implemented')}}
                                     </v-list-tile-action>
                                 </v-list-tile>
                             </v-list>

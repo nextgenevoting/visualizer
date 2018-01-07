@@ -2,7 +2,7 @@
 <v-dialog v-model="showDialog" max-width="400px">
     <v-card>
         <v-card-title>
-            Choose voter for vote casting
+            {{$t('SelectVoterDialog.title')}}
         </v-card-title>
         <v-card-text>
             <v-list>
