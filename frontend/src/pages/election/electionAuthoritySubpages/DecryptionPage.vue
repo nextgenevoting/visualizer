@@ -9,7 +9,7 @@
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        <p></p>
+                        <p>{{$t('ElectionAuthority.decryption_text')}}</p>
                         <li v-for="(decryption, index) in decryptions">
                             <BigIntLabel :mpzValue="decryption"></BigIntLabel>
                         </li>

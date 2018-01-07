@@ -76,8 +76,7 @@
           <v-icon>code</v-icon>
         </v-btn>
       </v-toolbar>
-      <v-tabs icons-and-text grow dark color="blue" v-show="$route.path.includes('/election/')">
-        <v-tabs-slider color="white"></v-tabs-slider>
+      <v-tabs show-arrows slider-color="white" icons-and-text grow dark color="blue" v-show="$route.path.includes('/election/')">
         <v-tab ripple :to="{ name: 'electionoverview', params: { electionId: electionId }}">
           {{ $t('main.overview') }}
           <v-icon>mdi-view-dashboard</v-icon>

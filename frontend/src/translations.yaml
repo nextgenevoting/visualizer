@@ -1328,6 +1328,13 @@ ElectionAuthority:
   confirmation_proof:
     en: 'Confirmation proof:'
     de: 'Bestätigungs-Beweis:'
+  decryption_text:
+    en: >-
+      The election authorities must now decrypt the encryptions using their
+      share of the secret key
+    de: >-
+      Die Wahlauthoritäten entschlüsseln nun die Verschlüsselungen mit ihrem
+      Anteil am geheimen Schlüssel
 PrintingAuth:
   title:
     en: Printing Authority

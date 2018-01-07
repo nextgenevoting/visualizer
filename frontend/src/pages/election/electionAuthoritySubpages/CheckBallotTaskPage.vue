@@ -39,7 +39,7 @@
                         </v-btn>
                         <v-spacer></v-spacer>
                         <v-btn icon @click.native="show = !show">
-                            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+                            <v-icon>{{ !show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
                         </v-btn>
                     </v-card-actions>
                     <v-slide-y-transition>

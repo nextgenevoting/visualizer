@@ -481,6 +481,9 @@ ElectionAuthority:
   election_data_content:
     en: 'Election data of all voters'
     de: 'Wählerdaten aller Voter'
+  decryption_text:
+    en: The election authorities must now decrypt the encryptions using their share of the secret key
+    de: Die Wahlauthoritäten entschlüsseln nun die Verschlüsselungen mit ihrem Anteil am geheimen Schlüssel
 
 PrintingAuth:
   title:
