@@ -4,7 +4,9 @@ body{
   font-weight: 300;
 }
 .application--wrap{
-  background: url(/public/bg2.png)
+  /*background: url(/public/bg2.png)*/
+  background: #ECE9E9 -webkit-gradient(linear, 0% 0%, 0% 100%, from(#fff), to(#ECE9E9));
+  background: #ECE9E9 -moz-linear-gradient(top, #fff, #ECE9E9);
 }
 
 .application .theme--light.stepper, .theme--light .stepper {

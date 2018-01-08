@@ -106,7 +106,7 @@
       <v-btn :disabled="!(haveAllAuthoritiesDecrypted && finalResults.length === 0 && status === 6)" @click="tally()">{{ $t('tally') }}</v-btn>
       <v-btn :disabled="!(status === 6 && finalResults.length > 0)" @click="publishResult()">{{ $t('ElectionAdmin.publishResult') }}</v-btn>
 
-      <div v-if="status >= 6">
+      <div v-if="status >= 6" style="margin-top:15px;">
         <h5 v-t="'post_election_data'"></h5>
         <ElectionResult></ElectionResult>
       </div>

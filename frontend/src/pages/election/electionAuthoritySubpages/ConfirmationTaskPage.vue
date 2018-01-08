@@ -87,84 +87,84 @@
 
 <script>
     export default {
-        data: () => ({
-            show: false,
-            checkTransition: false
-        }),
-        mounted() {
-            this.checkTransition = false
+      data: () => ({
+        show: false,
+        checkTransition: false
+      }),
+      mounted () {
+        this.checkTransition = false
+      },
+      computed: {
+        selectedAuthorityIndex: {
+          get: function () {
+            return parseInt(this.$route.params.authid)
+          },
+          set: function (newAuthId) {
+            this.$store.commit('selectedAuthority', newAuthId)
+            this.$router.push({
+              name: 'electionauthority',
+              params: {electionId: this.$route.params['electionId'], authid: newAuthId}
+            })
+          }
         },
-        computed: {
-            selectedAuthorityIndex: {
-                get: function () {
-                    return parseInt(this.$route.params.authid)
-                },
-                set: function (newAuthId) {
-                    this.$store.commit('selectedAuthority', newAuthId)
-                    this.$router.push({
-                        name: 'electionauthority',
-                        params: {electionId: this.$route.params['electionId'], authid: newAuthId}
-                    })
-                }
-            },
-            electionAuthority: {
-                get: function () {
-                    return this.$store.getters.getElectionAuthority(this.selectedAuthorityIndex)
-                }
-            },
-            checkConfirmationTasks: {
-                get: function () {
-                    return this.$store.getters.getCheckConfirmationTasks(this.selectedAuthorityIndex)
-                }
-            }
+        electionAuthority: {
+          get: function () {
+            return this.$store.getters.getElectionAuthority(this.selectedAuthorityIndex)
+          }
         },
-        methods: {
-            getConfirmationById: function (id) {
-                return this.$store.getters.getConfirmationById(id)
-            },
-            checkConfirmation: function (confirmationId) {
-                this.$http.post('checkConfirmation', {
-                    'election': this.$route.params['electionId'],
-                    'authorityId': this.selectedAuthorityIndex,
-                    'confirmationId': confirmationId
-                }).then(response => {
-                    response.json().then((data) => {
-                        // success callback
-                        this.$toasted.success(this.$i18n.t('ConfirmationTask.successfully_checked_confirmation'))
-                    })
-                }).catch(e => {
-                    this.$toasted.error(e.body.message)
-                })
-            },
-            finalize: function (confirmationId) {
-                this.$http.post('finalize', {
-                    'election': this.$route.params['electionId'],
-                    'authorityId': this.selectedAuthorityIndex,
-                    'confirmationId': confirmationId
-                }).then(response => {
-                    response.json().then((data) => {
-                        // success callback
-                        this.$toasted.success(this.$i18n.t('ConfirmationTask.successfully_finalized_ballot'))
-                    })
-                }).catch(e => {
-                    this.$toasted.error(e.body.message)
-                })
-            },
-            discardConfirmation: function (confirmationId) {
-                this.$http.post('discardConfirmation', {
-                    'election': this.$route.params['electionId'],
-                    'authorityId': this.selectedAuthorityIndex,
-                    'confirmationId': confirmationId
-                }).then(response => {
-                    response.json().then((data) => {
-                        // success callback
-                        this.$toasted.success(this.$i18n.t('ConfirmationTask.successfully_discarded_confirmation'))
-                    })
-                }).catch(e => {
-                    this.$toasted.error(e.body.message)
-                })
-            }
+        checkConfirmationTasks: {
+          get: function () {
+            return this.$store.getters.getCheckConfirmationTasks(this.selectedAuthorityIndex)
+          }
         }
+      },
+      methods: {
+        getConfirmationById: function (id) {
+          return this.$store.getters.getConfirmationById(id)
+        },
+        checkConfirmation: function (confirmationId) {
+          this.$http.post('checkConfirmation', {
+            'election': this.$route.params['electionId'],
+            'authorityId': this.selectedAuthorityIndex,
+            'confirmationId': confirmationId
+          }).then(response => {
+            response.json().then((data) => {
+              // success callback
+              this.$toasted.success(this.$i18n.t('ConfirmationTask.successfully_checked_confirmation'))
+            })
+          }).catch(e => {
+            this.$toasted.error(e.body.message)
+          })
+        },
+        finalize: function (confirmationId) {
+          this.$http.post('finalize', {
+            'election': this.$route.params['electionId'],
+            'authorityId': this.selectedAuthorityIndex,
+            'confirmationId': confirmationId
+          }).then(response => {
+            response.json().then((data) => {
+              // success callback
+              this.$toasted.success(this.$i18n.t('ConfirmationTask.successfully_finalized_ballot'))
+            })
+          }).catch(e => {
+            this.$toasted.error(e.body.message)
+          })
+        },
+        discardConfirmation: function (confirmationId) {
+          this.$http.post('discardConfirmation', {
+            'election': this.$route.params['electionId'],
+            'authorityId': this.selectedAuthorityIndex,
+            'confirmationId': confirmationId
+          }).then(response => {
+            response.json().then((data) => {
+              // success callback
+              this.$toasted.success(this.$i18n.t('ConfirmationTask.successfully_discarded_confirmation'))
+            })
+          }).catch(e => {
+            this.$toasted.error(e.body.message)
+          })
+        }
+      }
     }
 </script>
 
