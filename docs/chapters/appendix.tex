@@ -69,7 +69,7 @@
 	}
 	\addrow{Postcondition}{The first election authority receives a "`Check-confirmation task"'}
 	\addmulrow{Main path (M)}{
-		\item The voter visits the "`Voter"'-view and select the corresponding voter from a list
+		\item The voter visits the "`Voter"'-view and selects the corresponding voter from a list
 		\item The system displays the verification codes of the selected candidates
 		\item The voter must manually verify that the displayed codes match the verification codes of the selected candidates on his voting card
 		\item The system demands the confirmation code
@@ -93,9 +93,9 @@
 		\end{itemize}
 	}
 	\addmulrow{Main path (M)}{
-		\item The user visits the "`Election Authority"'-view and select one of the available election authorities that has new "`Check ballot task"'
+		\item The user visits the "`Election Authority"'-view and selects one of the available election authorities that has new "`Check ballot task"'
 		\item The system displays the query, the ballot proof and the voting credential of the voter
-		\item The user click on "`Check validity"'
+		\item The user clicks on "`Check validity"'
 		\item The system displays the result of the validity check
 		\item The user clicks on "`Respond"'
 	}
@@ -117,7 +117,7 @@
 		\end{itemize}
 	}
 	\addmulrow{Main path (M)}{
-		\item The user visits the "`Election Authority"'-view and select one of the available election authorities that has new "`Check confirmation task"'
+		\item The user visits the "`Election Authority"'-view and selects one of the available election authorities that has new "`Check confirmation task"'
 		\item The system displays information about the confirmation
 		\item The user click on "`Check validity"'
 		\item The system displays the result of the validity check
@@ -140,7 +140,7 @@
 		\end{itemize}
 	}
 	\addmulrow{Main path (M)}{
-		\item The user visits the "`Election Authority"'-view and select one of the available election authorities that hasn't mixed before
+		\item The user visits the "`Election Authority"'-view and selects one of the available election authorities that has not mixed before
 		\item The system displays the list of encryptions of the previous election authority (or the first one in case the first election authority is selected)
 		\item The user clicks on "`Mix"'
 		\item The new, mixed list of encryptions is added to the known data of this election authority
@@ -163,7 +163,7 @@
 		\end{itemize}
 	}
 	\addmulrow{Main path (M)}{
-		\item The user visits the "`Election Authority"'-view and select one of the available election authorities that hasn't decrypted before
+		\item The user visits the "`Election Authority"'-view and selects one of the available election authorities that has not decrypted before
 		\item The system displays the list of encryptions
 		\item The user clicks on "`Decrypt"'
 		\item The list of partial decryptions is added to the known data of this election authority
@@ -175,7 +175,7 @@
 	\addrow{Primary Actor}{Election Administrator}
 	\addrow{Description}{The election administrator can perform the tallying and view the final result}
 	\addrow{Precondition}{The election has the status "`Tallying"'}
-	\addrow{Postcondition}{The has the status "`Finished"'}
+	\addrow{Postcondition}{The election has the status "`Finished"'}
 	\addmulrow{Main path (M)}{
 		\item The user visits the "`Election Administrator"'-view
 		\item The user clicks on "`Tally"'
@@ -255,7 +255,7 @@
 	\addrow{Postcondition}{
 		\begin{itemize}
 			\item The election event is in the status "`Finished"'
-			\item The verification has succeed and the correct election result is published on the bulletin board
+			\item The verification has succeeded and the correct election result is published on the bulletin board
 		\end{itemize}
 	}
 	\addstepsrow{Steps}{

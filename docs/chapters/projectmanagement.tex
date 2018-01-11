@@ -22,10 +22,10 @@
 }
 
 \chapter{Project Management}
-In this chapter we are going to describe several aspects regarding the planing of our project, such as our project methods, the requirements and use cases as well as a short concept of our application.
+In this chapter we are going to describe several aspects regarding the planing of our project, such as our project method, the requirements and use-cases as well as the time schedule.
 
 %\section{Project Method}%
-Since this wasn't a project where the project scope and goals were strictly defined and clear from the beginning, it was very important to elaborate the requirements in close collaboration with our supervisors early on. This is why we decided our project would be very suitable for an agile kind of project method. Because of the small team, consisting of only two members, we didn't chose a particular project method like SCRUM, as this would have probably caused more overhead than actual benefits.
+Since this was not a project where the scope and goals were strictly defined and clear from the very beginning, it was important to elaborate the requirements in close collaboration with our supervisors early on. This is why we decided our project would be very suitable for an agile kind of project method. Because of the small team, consisting of only two members, we did not choose a particular project method like SCRUM, as this would have probably caused more overhead than actual benefits.
 
 We have therefore set up regular meetings (usually once every 2 weeks) with our supervisors to discuss our ideas and get feedback about the current progress.
 
@@ -41,10 +41,10 @@ Some requirements affect multiple or all actors and are therefore listed as "`Ge
 R1 & The CHVote protocol is implemented as specified in the latest specification document. The only exclusion are the algorithms for channel security. & Must & High & 1 & Done\\
 R2 & The application is web-based shows updates within the same demo-election in real-time. & Must & High & 1 & Done\\
 R3 & The system supports 1-out-of-3 type of elections (e.g. elect 1 of 3 possible candidates) & Must & High & 1 & Done\\
-R4 & The system supports multiple parallel elections & Must & High & 1 & \\
+R4 & The system supports multiple parallel elections & Must & High & 1 &  Done\\
 R5 & Users can create new elections & Must & High & 1 & Done \\
-R6 & The system supports internationalization. Providing more than one language is not required. & Must & Med. & 1 & \\
-R7 & The system can handle k-out-of-n type of elections & Can & Med. & 1 & \\
+R6 & The system supports internationalization. Providing more than one language is not required. & Must & Med. & 1 & Done\\
+R7 & The system can handle k-out-of-n type of elections & Can & Med. & 1 & Done\\
 \end{longtable}
 
 
@@ -53,8 +53,8 @@ R7 & The system can handle k-out-of-n type of elections & Can & Med. & 1 & \\
 \hline
  & Description & Type & Prio. & Phase & Status\\
 \hline
-R8 & The overview shows which phase the election is currently in & Must & High & 2 & \\
-R9 & A graphical scheme of the chVote protocol gives an overview of all participating parties & Must & Med. & 2 & \\
+R8 & The overview shows which phase the election is currently in & Must & High & 2 & Done\\
+R9 & A graphical scheme of the chVote protocol gives an overview of all participating parties & Must & Med. & 2 & Done\\
 \end{longtable}
 
 \subsection{Election Administrator}
@@ -63,9 +63,9 @@ R9 & A graphical scheme of the chVote protocol gives an overview of all particip
  & Description & Type & Prio. & Phase & Status\\
 \hline
 R10 & An election can be set up by providing all required information such as the candidates, number of parallel voters, the number of voters and the number of selections (simplified JSON input) & Must & High & 1 & Done\\
-R11 & The election can be set up without entering the parameters in JSON format and allows easier set up of elections with multiple parallel election events & Must & Low & 2 & \\
-R12 & The election administrator view allows to perform the tallying and displays the final result of an election in numbers and a pie chart & Must & High & 1 & \\
-R13 &  During election setup, the security parameters can be chosen from a set of predefined parameters & Can & Low & 2 & \\
+R11 & The election can be set up without entering the parameters in JSON format and allows easier set up of elections with multiple parallel election events & Must & Low & 2 & Done\\
+R12 & The election administrator view allows to perform the tallying and displays the final result of an election in numbers and a pie chart & Must & High & 1 & Done\\
+R13 &  During election setup, the security parameters can be chosen from a set of predefined parameters & Can & Low & 2 & Done\\
 \end{longtable}
 
 \subsection{Printing Authority}
@@ -74,7 +74,7 @@ R13 &  During election setup, the security parameters can be chosen from a set o
  & Description & Type & Prio. & Phase & Status\\
 \hline
 R14 & Users can generate and display voting cards for an election. & Must & High & 1 & Done\\
-R15 & Voting cards hide sensitive information behind a scratch card & Can & Med. & 2 & \\
+R15 & Voting cards hide sensitive information behind a scratch card & Can & Med. & 2 & Done\\
 \end{longtable}
 
 \subsection{Election Authority}
@@ -84,8 +84,8 @@ R15 & Voting cards hide sensitive information behind a scratch card & Can & Med.
 \hline
 R16 & The election authority view shows all information known to an election authority & Must & High & 1 & Done\\
 R17 & After a voter has submitted a ballot, all election authorities can check and respond to the voters submission & Must & High & 1 & Done\\
-R18 & In the post-election phase, all election authorities can perform the mixing and decryption tasks & Must & High & 2 & \\
-R19 & Each authority can optionally processes all tasks automatically & Can & High & 2 & Partially done\\
+R18 & In the post-election phase, all election authorities can perform the mixing and decryption tasks & Must & High & 2 & Done\\
+R19 & Each authority can optionally processes all tasks automatically & Can & High & 2 & Done\\
 \end{longtable}
 
 
@@ -95,7 +95,7 @@ R19 & Each authority can optionally processes all tasks automatically & Can & Hi
  & Description & Type & Prio. & Phase & Status\\
 \hline
 R20 & Users are able to go through the whole vote-casting process for every voter & Must & High & 1 & Done\\
-R21 & The voting card of a voter is displayed on screen. The voting and confirmation codes can be copied into the input textfields by double clicking & Must & Med. & 1 & \\
+R21 & The voting card of a voter is displayed on screen. The voting and confirmation codes can be copied into the input textfields by double clicking & Must & Med. & 1 & Done\\
 \end{longtable}
 
 
@@ -105,26 +105,26 @@ R21 & The voting card of a voter is displayed on screen. The voting and confirma
  & Description & Type & Prio. & Phase & Status\\
 \hline
 R22 & The bulletin board view shows what information is publicly available & Must & High & 1 & Done\\
-R23 & The bulletin board view is extended with verification-functionality & Can & Low & 2 & \\
+R23 & The bulletin board view is extended with verification-functionality & Can & Low & 2 & Done\\
 \end{longtable}
 
 \subsection{Out-of-Scope}
 The following topics are considered out-of-scope for the duration of our project:
 \begin{itemize}
-	\item The goal of our project isn't to build a realistic prototype. Therefore, the whole back-end will run on a single server while in reality, there would be components running on distributed servers. Another difference between our implementation and a real implementation is that we generate the ballots on the server. In reality, the ballots would have to be generated on the client for security reasons. This however would require us to rewrite many of the already implemented algorithms in JavaScript.
+	\item The goal of our project is not to build a realistic prototype. Therefore, the whole back-end will run on a single server while in reality, there would be components running on distributed servers. Another difference between our implementation and a real implementation is that we generate the ballots on the server. In reality, the ballots would have to be generated on the client for security reasons. This however would require us to rewrite many of the already implemented algorithms in JavaScript.
 	\item The protocol takes into account that not all voters might be eligible to vote in all elections of a given election event (eligibility matrix). For simplicity, we assume that all voters are eligible to vote in every election for our application.
-	\item Message level encryption and signature based integrity protection are very important in a real implementation of a evoting-system and are also described in the CHVote specification. However, as our system is only used for demonstration purposes and as we do not have a distributed infrastructure, there is no real need for channel security in our project.
-	\item Providing more one language is also out-of-scope. If there is enough time, a second language might be provided optionally.
+	\item Message level encryption and signature based integrity protection are very important in a real implementation of am e-voting system and are also described in the CHVote specifications. However, as our system is only used for demonstration purposes and as we do not have a distributed infrastructure, there is no real need for channel security in our project.
+	\item Providing more than one language is also out-of-scope. If there is enough time, a second language might be provided optionally.
 \end{itemize}
 
 \section{Time Schedule \& Implementation Phases}
-As the next step we created a time schedule and structured our project into smaller units.
+As the next step we created a time schedule and structured our project into smaller units of work.
 
 The actual implementation phase has been broken down into two phases:
 
 \begin{itemize}
-	\item Phase 1 involves the implementation of all high priority must-requirements, so, basically bringing the application into a state that allows to visualize the whole CHVote election process. We have agreed that after phase 1, some areas of the user interface would still be in a rather primitive state (eg. user inputs are not validated and require a more technical type of input).
-	\item For phase 2 we planned on implementing the can-requirements and the must-requirements with lower priority.
+	\item Phase 1 involves the implementation of all high priority must-requirements, so, basically developing an application that allows to visualize the whole CHVote election process. We have agreed that after phase 1, some parts of the user interface would still be in a rather primitive state (eg. user inputs and components used for data display will not yet be very user friendly and of more technical nature, for example in the JSON format.
+	\item For phase 2 we planned on implementing the can-requirements and all must-requirements with lower priority as well as improving the whole user experience by .
 \end{itemize}
 
 This approach reduced the risk of technical limitations of our architecture to remain hidden until later that would have resulted in time consuming architectural changes.
@@ -226,7 +226,7 @@ From our requirements we have defined the following mile-stones:
 \end{itemize}
 
 \section{Use Cases}
-The next step was to create use cases. As an example we show one of the use cases, for the complete list of use cases we refer to the appendix.
+As the next step, we have converted the requirements into use cases, by grouping them according to the actors. One use case is shown as an example. For the complete list of use cases we refer to the appendix.
 \begin{usecase}{Casting of a vote}
 	\addrow{Primary Actor}{Voter}
 	\addrow{Description}{The voter can cast a vote by selecting his favored candidate(s) and his voting code}
@@ -239,7 +239,7 @@ The next step was to create use cases. As an example we show one of the use case
 	}
 	\addrow{Postcondition}{The first election authority receives a "`Ballot-check task"'}
 	\addmulrow{Main path (M)}{
-		\item The voter visits the "`Voter"'-view and select his voter object
+		\item The voter visits the "`Voter"'-view and selects his voter object
 		\item The system demands a selection of the candidates and the voter's voting code
 		\item The voter clicks on "`Cast ballot"'\\
 	}
