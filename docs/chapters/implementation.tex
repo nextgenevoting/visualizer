@@ -509,17 +509,13 @@ The data-store can be accessed from any component by defining a computed propert
 
 \subsection{Internationalization (i18n)}
 
-All text visible to the user on the front-end of the application is internationalized, i.e. the display language can be changed at any time by the user. The default language provided is English and translations for German have been added. The main language, English, and the manual translations for German are stored in the translations preset YAML file \texttt{frontend/src/translations.preset.yaml}. By using the translation script \texttt{frontend/src/translate.js}, those languages stored in the preset file can be translated automatically to predefined target languages. Those automatic translations (provided via Google Translate) are stored together in the YAML file \texttt{frontend/src/translations.yaml} together with the main language and manual translations. This file is used to provide translations for the front-end application. 
-
-% TODO
+All text visible to the user on the front-end of the application is internationalized, i.e. the display language can be changed at any time by the user. The default language provided is English and translations for German have been added. The main language, English, and the manual translations for German are stored in the translations preset YAML file \file{frontend/src/translations.preset.yaml}. By using the translation script \file{frontend/src/translate.js}, those languages stored in the preset file can be translated automatically to predefined target languages. Those automatic translations (provided via Google Translate) are stored together in the YAML file \file{frontend/src/translations.yaml} together with the main language and manual translations. This file is used to provide translations for the front-end application. 
 
 \subsection{Development Environment}
 During development Webpack is used. Webpack is a module bundler, i.e. a piece of software which generates static assets from JavaScript libraries including all dependencies, CSS files, images etc. Additionally, webpack features a development web server, which aids in fast development. While the development server is running, any changes in the application's source code are detected and assets are re-generated on the fly. This way, any changes in the application are directly visible in the browser.
 
-% TODO
-
 \subsection{Staging Environment}
-In order to deploy the application to an environment for staging purposes, we have decided to use Docker together with Docker Compose. The Docker Compose file \texttt{docker-compose.yaml} stores the configuration for three distinct Docker containers: a MongoDB service, the back-end and the front-end. By running \texttt{docker-compose build} in the project's root directory, those three containers can be built. After building the containers, the services can be started by running \texttt{docker-compose up}. The application will then be available via \texttt{localhost:8080} (TCP).
+In order to deploy the application to an environment for staging purposes, we have decided to use Docker together with Docker Compose. The Docker Compose file \file{docker-compose.yaml} stores the configuration for three distinct Docker containers: a MongoDB service, the back-end and the front-end. By running \command{docker-compose build} in the project's root directory, those three containers can be built. After building the containers, the services can be started by running \command{docker-compose up}. The application will then be available via \texttt{localhost:8080} (TCP).
 
 \section{Challenges}
 In this section we describe some of the challenges that we encountered while developing our application.
