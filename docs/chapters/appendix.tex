@@ -1,24 +1,27 @@
 \chapter{Appendix}
+\section{Sourcecode}
+The source code of this project can be found on github: \url{https://github.com/nextgenevoting}
 
 \section{Use Cases}
-\begin{usecase}{Create new election}
+\begin{usecase}{Create new election events}
 	\addrow{Primary Actor}{User}
-	\addrow{Description}{The system allows to create new elections}
-	\addrow{Precondition}{The system shows the available elections in a list}
+	\addrow{Description}{The system allows to create new election events}
+	\addrow{Precondition}{The system shows the available election events in a list}
 	\addmulrow{Main path (M)}{
-		\item User clicks on "`create election"'
-		\item System demands a name for the election
+		\item User clicks on "`create election event"'
+		\item System demands a name for the election event
 		\item User is redirected to the election overview page
+		\\		
 	}
 \end{usecase}
 
 \begin{usecase}{Set-up an election event}
 	\addrow{Primary Actor}{Election Administrator}
-	\addrow{Description}{The election administrator can set up the election. This involves the generation of the cryptographic electorate data in the back-end}
-	\addrow{Precondition}{An new election has been created}
-	\addrow{Postcondition}{The election has the status "`Printing"'}
+	\addrow{Description}{The election administrator can set up an election. This involves generation of the cryptographic electorate data in the back-end}
+	\addrow{Precondition}{A new election has been created}
+	\addrow{Postcondition}{The election has the status "{}Printing"{}}
 	\addmulrow{Main path (M)}{
-		\item Election Administrator visits the "`Election Administrator"'-view of a new election.
+		\item Election Administrator visits the "{}Election Administrator"{}-view of a new election.
 		\item The system demands the following information:
 		\begin{itemize}
 			\item Number of parallel elections
@@ -27,20 +30,22 @@
 			\item Number of voters
 			\item Counting circles of the voters
 		\end{itemize}
-		\item User clicks on "`Generate"' \\
+		\item User clicks on "{}Generate"{}
+		\\
 	}
 \end{usecase}
 
 \begin{usecase}{Printing of voting cards}
 	\addrow{Primary Actor}{Printing Authority}
 	\addrow{Description}{The printing authority generates voting cards}
-	\addrow{Precondition}{The election has the status "`Printing"'}
-	\addrow{Postcondition}{The election has the status "`Delivery"'}
+	\addrow{Precondition}{The election has the status "{}Printing"{}}
+	\addrow{Postcondition}{The election has the status "{}Delivery"{}}
 	\addmulrow{Main path (M)}{
-		\item The election administrator visits the "`Printing Authority"'-view of an election.
-		\item The election administrator clicks on "`Print Voting Cards"'
+		\item The election administrator visits the "{}Printing Authority"{}-view of an election.
+		\item The election administrator clicks on "{}Print Voting Cards"{}
 		\item A list of all voters is displayed
 		\item The election administrator can select a voter to see his voting card
+		\\		
 	}
 \end{usecase}
 
@@ -48,12 +53,32 @@
 \begin{usecase}{Delivery of voting cards}
 	\addrow{Primary Actor}{Printing Authority}
 	\addrow{Description}{The printing authority can send the voting cards to the voters}
-	\addrow{Precondition}{The election has the status "`Delivery"'}
-	\addrow{Postcondition}{The election has the status "`Election Phase"'}
+	\addrow{Precondition}{The election has the status "{}Delivery"{}}
+	\addrow{Postcondition}{The election has the status "{}Election Phase"{}}
 	\addmulrow{Main path (M)}{
-		\item The election administrator visits the "`Printing Authority"'-view of an election.
-		\item The election administrator clicks on "`Deliver Voting Cards"'
-		\item Within the voters-view, the voting card shows up for every voter
+		\item The election administrator visits the "{}Printing Authority"{}-view of an election.
+		\item The election administrator clicks on "{}Deliver Voting Cards"{}
+		\item The voting card shows up for every voter within the Voters view.
+	\\
+	}
+\end{usecase}
+
+\begin{usecase}{Casting of a vote}
+	\addrow{Primary Actor}{Voter}
+	\addrow{Description}{The voter can cast a vote by selecting his favored candidate(s) and his voting code}
+	\addrow{Precondition}{
+		\begin{itemize}
+			\item The election has the status "{}Election Phase"{}
+			\item A voter is selected in the voter view
+			\item The voter has the status "{}Vote Casting Phase"{}
+		\end{itemize}
+	}
+	\addrow{Postcondition}{The first election authority receives a ballot-check task}
+	\addmulrow{Main path (M)}{
+		\item The voter visits the voter view and selects his voter object
+		\item The system demands a selection of the candidates and the voter's voting code
+		\item The voter clicks on "{}Cast ballot"{}
+		\\		
 	}
 \end{usecase}
 
@@ -62,18 +87,19 @@
 	\addrow{Description}{The voter can confirm his vote by verifying the verification codes and entering his confirmation code}
 	\addrow{Precondition}{
 		\begin{itemize}
-			\item The election has the status "`Election Phase"'
-			\item A voter is selected in the "`Voter"'-view
-			\item The voter has the status "`Confirmation Phase"'
+			\item The election has the status "{}Election Phase"{}
+			\item A voter is selected in the "{}Voter"{}-view
+			\item The voter has the status "{}Confirmation Phase"{}
 		\end{itemize}
 	}
-	\addrow{Postcondition}{The first election authority receives a "`Check-confirmation task"'}
+	\addrow{Postcondition}{The first election authority receives a "{}Check-confirmation task"{}}
 	\addmulrow{Main path (M)}{
-		\item The voter visits the "`Voter"'-view and selects the corresponding voter from a list
+		\item The voter visits the "{}Voter"{}-view and selects the corresponding voter from a list
 		\item The system displays the verification codes of the selected candidates
 		\item The voter must manually verify that the displayed codes match the verification codes of the selected candidates on his voting card
 		\item The system demands the confirmation code
-		\item The voter clicks on "`Confirm vote"'
+		\item The voter clicks on "{}Confirm vote"{}
+		\\		
 	}
 \end{usecase}
 
@@ -82,22 +108,23 @@
 	\addrow{Description}{The election authority can verify the validity of a ballot and respond to the voters query}
 	\addrow{Precondition}{
 		\begin{itemize}
-		\item The election has the status "`Election Phase"'
-		\item The currently selected election authority has a new "`Check ballot task"'
+		\item The election has the status "{}Election Phase"{}
+		\item The currently selected election authority has a new "{}Check ballot task"{}
 		\end{itemize}
 	}
 	\addrow{Postcondition}{
 		\begin{itemize}
-			\item The next election authority receives a "`Check ballot task"'
-			\item If this election authority was the last one, and the ballot was valid, the voter now has the status "`Confirmation Phase"'
+			\item The next election authority receives a "{}Check ballot task"{}
+			\item If this election authority was the last one, and the ballot was valid, the voter now has the status "{}Confirmation Phase"{}
 		\end{itemize}
 	}
 	\addmulrow{Main path (M)}{
-		\item The user visits the "`Election Authority"'-view and selects one of the available election authorities that has new "`Check ballot task"'
+		\item The user visits the "{}Election Authority"{}-view and selects one of the available election authorities that has new "{}Check ballot task"{}
 		\item The system displays the query, the ballot proof and the voting credential of the voter
-		\item The user clicks on "`Check validity"'
+		\item The user clicks on "{}Check validity"{}
 		\item The system displays the result of the validity check
-		\item The user clicks on "`Respond"'
+		\item The user clicks on "{}Respond"{}
+		\\		
 	}
 \end{usecase}
 
@@ -106,22 +133,23 @@
 	\addrow{Description}{The election authority can verify the validity of a confirmation and respond to the voters query}
 	\addrow{Precondition}{
 		\begin{itemize}
-			\item The election has the status "`Election Phase"'
-			\item The currently selected election authority has a new "`Check ballot task"'
+			\item The election has the status "{}Election Phase"{}
+			\item The currently selected election authority has a new "{}Check ballot task"{}
 		\end{itemize}
 	}
 	\addrow{Postcondition}{
 		\begin{itemize}
-			\item The next election authority receives a "`Check confirmation task"'
-			\item If this election authority was the last one, and the confirmation was valid, the voter now has the status "`Finalization Phase"'
+			\item The next election authority receives a "{}Check confirmation task"{}
+			\item If this election authority was the last one, and the confirmation was valid, the voter now has the status "{}Finalization Phase"{}
 		\end{itemize}
 	}
 	\addmulrow{Main path (M)}{
-		\item The user visits the "`Election Authority"'-view and selects one of the available election authorities that has new "`Check confirmation task"'
+		\item The user visits the "{}Election Authority"{}-view and selects one of the available election authorities that has new "{}Check confirmation task"{}
 		\item The system displays information about the confirmation
-		\item The user click on "`Check validity"'
+		\item The user click on "{}Check validity"{}
 		\item The system displays the result of the validity check
-		\item The user clicks on "`Finalize"'
+		\item The user clicks on "{}Finalize"{}
+		\\		
 	}
 \end{usecase}
 
@@ -130,7 +158,7 @@
 	\addrow{Description}{Every election authority can perform the mixing on the extracted list of encryptions}
 	\addrow{Precondition}{
 		\begin{itemize}
-			\item The election has the status "`Mixing"'
+			\item The election has the status "{}Mixing"{}
 			\item The previous election authority has already performed the mixing
 		\end{itemize}
 	}
@@ -140,10 +168,11 @@
 		\end{itemize}
 	}
 	\addmulrow{Main path (M)}{
-		\item The user visits the "`Election Authority"'-view and selects one of the available election authorities that has not mixed before
+		\item The user visits the "{}Election Authority"{}-view and selects one of the available election authorities that has not mixed before
 		\item The system displays the list of encryptions of the previous election authority (or the first one in case the first election authority is selected)
-		\item The user clicks on "`Mix"'
+		\item The user clicks on "{}Mix"{}
 		\item The new, mixed list of encryptions is added to the known data of this election authority
+		\\		
 	}
 \end{usecase}
 
@@ -153,7 +182,7 @@
 	\addrow{Description}{Every election authority can perform the (partial) decryption}
 	\addrow{Precondition}{
 		\begin{itemize}
-			\item The election has the status "`Decryption"'
+			\item The election has the status "{}Decryption"{}
 			\item The previous election authority has already performed the decryption
 		\end{itemize}
 	}
@@ -163,10 +192,11 @@
 		\end{itemize}
 	}
 	\addmulrow{Main path (M)}{
-		\item The user visits the "`Election Authority"'-view and selects one of the available election authorities that has not decrypted before
+		\item The user visits the "{}Election Authority"{}-view and selects one of the available election authorities that has not decrypted before
 		\item The system displays the list of encryptions
-		\item The user clicks on "`Decrypt"'
+		\item The user clicks on "{}Decrypt"{}
 		\item The list of partial decryptions is added to the known data of this election authority
+		\\		
 	}
 \end{usecase}
 
@@ -174,12 +204,13 @@
 \begin{usecase}{Tallying}
 	\addrow{Primary Actor}{Election Administrator}
 	\addrow{Description}{The election administrator can perform the tallying and view the final result}
-	\addrow{Precondition}{The election has the status "`Tallying"'}
-	\addrow{Postcondition}{The election has the status "`Finished"'}
+	\addrow{Precondition}{The election has the status "{}Tallying"{}}
+	\addrow{Postcondition}{The election has the status "{}Finished"{}}
 	\addmulrow{Main path (M)}{
-		\item The user visits the "`Election Administrator"'-view
-		\item The user clicks on "`Tally"'
+		\item The user visits the "{}Election Administrator"{}-view
+		\item The user clicks on "{}Tally"{}
 		\item The final result is added to the known data of the election administrator
+		\\		
 	}
 \end{usecase}
 
@@ -189,25 +220,26 @@
 	\addrow{Precondition}{ }
 	\addrow{Postcondition}{
 		\begin{itemize}
-			\item The election event is in the status "`Election"'
+			\item The election event is in the status "{}Election"{}
 			\item The voters have received a voting card
 		\end{itemize}
 	}
 	\addstepsrow{Steps}{
 		\item Start our application
-		\item Choose \textbf{Election Events} from the main menu
-		\item Click on \textbf{\textit{Create new election event}}
-		\item Enter a name for the election event and choose a security level and click on \textbf{\textit{create}}
-		\item The \textbf{Election Admin} tab should now have an interaction notification
-		\item Visit the \textbf{Election Admin} view
-		\item Enter at least 3 for the number of voters, at least 3 different candidates and 1 for the number of selection and click on \textbf{\textit{Setup Election Event}}
-		\item The \textbf{Printing Authority} tab should now have an interaction notification
-		\item Visit the \textbf{Printing Authority} view
-		\item Click on \textbf{Print Voting Cards}
+		\item Choose \"{}Election Events"{} from the main menu
+		\item Click on "{}Create new election event"{}
+		\item Enter a name for the election event and choose a security level and click on "{}create"{}
+		\item The "{}Election Admin"{} tab should now have an interaction notification
+		\item Visit the "{}Election Admin"{} view
+		\item Enter at least 3 for the number of voters, at least 3 different candidates and 1 for the number of selection and click on "{}Setup Election Event"{}
+		\item The "{}Printing Authority"{} tab should now have an interaction notification
+		\item Visit the "{}Printing Authority"{} view
+		\item Click on "{}Print Voting Cards"{}
 		\item The voting cards for all voters should now be displayed
-		\item Click on \textbf{Deliver Voting Cards To Voters}
-		\item The voting cards should now disappear and the \textbf{Voters} tab should now have an interaction notification
+		\item Click on "{}Deliver Voting Cards To Voters"{}
+		\item The voting cards should now disappear and the "{}Voters"{} tab should now have an interaction notification
 		\item Visit the Voters view, select a voter and check that the voting card is displayed correctly
+		\\		
 	}
 \end{testcase}
 
@@ -222,24 +254,25 @@
 	}
 	\addrow{Postcondition}{
 		\begin{itemize}
-			\item The election event is in the status "`Election"'
+			\item The election event is in the status "{}Election"{}
 			\item There are at least 3 confirmed ballots
 		\end{itemize}
 	}
 	\addstepsrow{Steps}{
-		\item Visit the \textbf{Voters} view and select voter 1
+		\item Visit the "{}Voters"{} view and select voter 1
 		\item Check the box for candidate 1 in the vote casting form
-		\item Scratch open the voting code on your voting card and click on the revealed code. The code should be copied into the \textbf{voting code} input field
-		\item Click on \textbf{Cast vote}
-		\item Visit the \textbf{Election Authority} view and click on the first election authority
-		\item There should be a check-ballot task for voter 1. Click on \textbf{Check Validity} to check the ballot. The ballot should be valid. Click on \textbf{Respond}.
+		\item Scratch open the voting code on your voting card and click on the revealed code. The code should be copied into the "{}voting code"{} input field
+		\item Click on "{}Cast vote"{}
+		\item Visit the "{}Election Authority"{} view and click on the first election authority
+		\item There should be a check-ballot task for voter 1. Click on "{}Check Validity"{} to check the ballot. The ballot should be valid. Click on "{}Respond"{}.
 		\item The ballot should be added to the ballot list of this election authority. Verify that the ballot is also contained in the bulletin boards ballot list!
-		\item Return to the voters view. The voter should be prompted to verify that the returned verification codes match. If so, reveal your confirmation code and click it to copy it to the input field. Click on "`Confirm Vote"'
-		\item Visit the \textbf{Election Authority} view and click on the first election authority
-		\item There should be a check-confirmation task for voter 1. Click on \textbf{Check Validity} to check the confirmation. The confirmation should be valid. Click on \textbf{Finalize}.
+		\item Return to the voters view. The voter should be prompted to verify that the returned verification codes match. If so, reveal your confirmation code and click it to copy it to the input field. Click on "{}Confirm Vote"{}
+		\item Visit the "{}Election Authority"{} view and click on the first election authority
+		\item There should be a check-confirmation task for voter 1. Click on "{}Check Validity"{} to check the confirmation. The confirmation should be valid. Click on \textbf{Finalize}.
 		\item The ballot list should now display the ballot as "`confirmed"'. The confirmation should also show up in the confirmation list if you expand the ballot.
 		\item Return to the voters view. The voter should now see the returned finalization code that should match the code on the voting card
 		\item Repeat this test-case for voter 2 and voter 3, choosing the second candidate for voter 2 and the third candidate for voter 3
+		\\		
 	}
 \end{testcase}
 
@@ -254,7 +287,7 @@
 	}
 	\addrow{Postcondition}{
 		\begin{itemize}
-			\item The election event is in the status "`Finished"'
+			\item The election event is in the status "{}Finished"{}
 			\item The verification has succeeded and the correct election result is published on the bulletin board
 		\end{itemize}
 	}
@@ -269,10 +302,11 @@
 		\item Click on \textbf{Decrypt}
 		\item The partially decrypted data should appear in the election authority data. The same should have happened for the other election authorities.
 		\item Visit the \textbf{Election Administrator} view and click on \textbf{Tally}
-		\item Under data, you should see the decrypted votes and the final result in a text- and chart representation.
+		\item Under "{}Data"{}, you should see the decrypted votes and the final result in a text- and chart representation.
 		\item Click on \textbf{Publish Result} and visit the \textbf{Bulletin Board} view
-		\item The bulletin board should now also contain show the result of the election event.
+		\item The bulletin board should now also contain the result of the election event.
 		\item Visit the \textbf{Verifier} view and click on \textbf{Verify Election}
-		\item All checks should show a green icon and succeed.
+		\item All checks should show a green icon and a success message.
+	  \\
 	}
 \end{testcase}

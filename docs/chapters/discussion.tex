@@ -1,26 +1,10 @@
 \chapter{Conclusion}
+The new CHVote specifications seem like a real breakthrough in e-voting. Many of the technical limitations which prevented the current systems like the one of Geneva from being used as a large scale e-voting platform, can now be solved. However, e-voting must ultimately be approved both in politics as well as by the Swiss citizens. The complexity and cryptographic nature of e-voting makes it difficult for ordinary citizens to fully understand why and how this protocol works. The missing of knowledge might even result in mistrust towards e-voting. Even though the protocol is very complicated, our application allows users to gain a better understanding of e-voting by visualizing the internals of Geneva's next generation e-voting protocol. An application like ours might not be enough to reach vast majority of the population and change their opinion about e-voting. However, the authors of the CHVote specifications intend to use our application for future presentations of their protocol, which might positively influence the attitude of their audience. 
 
-The future of e-voting in Switzerland is still unclear. With the efforts made
-to publish the CHvote specification, finally a lot of issues involved with
-e-voting have been solved. Unfortunately, an ordinary citizen does not have any
-in-depth knowledge in cryptography in order to understand a protocol like
-CHvote. So the introduction of a modern e-voting system in Switzerland or in
-any other country in general depends on how strongly people believe and trust
-such a protocol. This is were we hope that our application will help people to
-understand how a modern e-voting system works. Although the protocol itself is
-quite complicated, our application allows to explain and visualize the basic
-ideas of modern e-voting.
+Finally, we would like to reflect on some aspects of our bachelor thesis: especially in the beginning of the project, we have underestimated the amount of work required for working out goals and a concept for the architecture and user interface. Regular meetings with our supervisors and the agile project methodology using prototyping and mockups helped a lot to create a common understanding and a concept for our application.
 
-\section{Reflection}
+With all the envisaged technologies and frameworks being relatively new and without prior knowledge and experience using them, we were unsure whether we chose the right tools and if we would succeed with our concept. However, especially Vue.js turned out to be the perfect framework for developing the front-end of the application. It allowed us to rapidly develop an intuitive user-interface. Even though the framework is relatively new and lightweight, we haven't been missing any functionalities or libraries. As for the back-end, we still believe that Python isn't the best language for implementing cryptographic protocols for the reasons we mentioned in section \ref{ssec:PythonIssues}. However, these problems did not hinder us from meeting all the requirements, including the optional can-criteria. 
 
-Vue.js turned out to be the perfect framework for coding the front-end of the
-application. It allowed us to develop in small bits, always being able to
-directly preview each step rendered in the browser. As for the back-end, we
-still strongly believe that the choice of Python wasn't the correct one for
-this kind of project. Python seems to be the number one choice for prototyping,
-but for larger applications a lot of issues appear while developing.
-Unfortunately, as we already implemented the CHvote protocol as part of
-"Projekt 2" in Python, it did not make much sense to rewrite everything in a
-different language, since it would have been too time consuming.
+Especially during the first implementation phase, we were able to follow the time schedule as planned. In the second phase, we have changed the order of some of the planned features because some features required less, and some more time than we expected.
 
-
+Implementing the e-voting protocol turned out to be a very enriching experience through discovering new programming languages, building up know-how in cryptography as well as deep-diving into the technology behind the e-voting protocol. This project enabled us to get a better insight into how electronic voting could look like in a few years and even contribute a small part to its future development.

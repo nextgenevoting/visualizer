@@ -21,8 +21,8 @@
 		.st7 {fill:#feffff;font-family:Calibri;font-size:1.16666em}
 		.st8 {marker-start:url(#mrkr4-110);stroke:#7f7f7f;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5}
 		.st9 {fill:#7f7f7f;fill-opacity:1;stroke:#7f7f7f;stroke-opacity:1;stroke-width:0.27472527472527}
-		.st10 {fill:#ffffff;stroke:none;stroke-linecap:butt}
-		.st11 {fill:#000000;font-family:Calibri;font-size:1.00001em}
+		.st10 {fill:#000000;font-family:Calibri;font-size:1.00001em}
+		.st11 {fill:#ffffff;stroke:none;stroke-linecap:butt}
 		.st12 {marker-end:url(#mrkr4-139);stroke:#7f7f7f;stroke-linecap:round;stroke-linejoin:round;stroke-width:1.5}
 		.st13 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
 	]]>
@@ -289,7 +289,7 @@
 			<text x="68.55" y="824.83" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>VoterStore</text>		</g>
 		<g id="shape16-41" v:mID="16" v:groupContext="shape" v:layerMember="0" transform="translate(431.717,-439.37)">
 			<title>Prozess.16</title>
-			<desc>Backend (VoteSimulator)</desc>
+			<desc>Back-end (VoteService)</desc>
 			<v:custProps>
 				<v:cp v:nameU="Cost" v:lbl="Kosten" v:prompt="" v:type="7" v:format="@" v:sortKey="" v:invis="false" v:ask="false"
 						v:langID="1031" v:cal="0"/>
@@ -316,8 +316,8 @@
 			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197" v:verticalAlign="0"/>
 			<v:textRect cx="146.516" cy="657.638" width="293.04" height="368.504"/>
 			<rect x="0" y="473.386" width="293.032" height="368.504" rx="22.6772" ry="22.6772" class="st1"/>
-			<rect v:rectContext="textBkgnd" x="75.5283" y="477.386" width="141.975" height="16.8" class="st2"/>
-			<text x="75.53" y="489.99" class="st3" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Backend (VoteSimulator)</text>		</g>
+			<rect v:rectContext="textBkgnd" x="80.5627" y="477.386" width="131.906" height="16.8" class="st2"/>
+			<text x="80.56" y="489.99" class="st3" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Back-end (VoteService)</text>		</g>
 		<g id="shape17-45" v:mID="17" v:groupContext="shape" v:layerMember="0" transform="translate(478.134,-722.835)">
 			<title>Prozess.17</title>
 			<desc>BulletinBoardState</desc>
@@ -664,24 +664,24 @@
 			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
 			<v:textRect cx="98.7697" cy="848.976" width="60.01" height="22.4037"/>
 			<path d="M10.56 848.98 L10.92 848.98 L197.54 848.98" class="st8"/>
-			<rect v:rectContext="textBkgnd" x="72.7698" y="841.777" width="25.0315" height="14.4001" class="st10"/>
-			<text x="72.77" y="852.58" class="st11" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
+			<rect v:rectContext="textBkgnd" x="72.7698" y="841.777" width="25.0315" height="14.4001" class="st2"/>
+			<text x="72.77" y="852.58" class="st10" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
 		<g id="shape37-113" v:mID="37" v:groupContext="shape" v:layerMember="1" transform="translate(280.594,-701.575)">
 			<title>Dynamischer Verbinder.37</title>
 			<desc>JSON</desc>
 			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
 			<v:textRect cx="98.7697" cy="848.976" width="60.01" height="22.4037"/>
 			<path d="M10.56 848.98 L10.92 848.98 L197.54 848.98" class="st8"/>
-			<rect v:rectContext="textBkgnd" x="72.7698" y="841.777" width="25.0315" height="14.4001" class="st10"/>
-			<text x="72.77" y="852.58" class="st11" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
+			<rect v:rectContext="textBkgnd" x="72.7698" y="841.777" width="25.0315" height="14.4001" class="st11"/>
+			<text x="72.77" y="852.58" class="st10" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
 		<g id="shape38-120" v:mID="38" v:groupContext="shape" v:layerMember="1" transform="translate(281.48,-651.968)">
 			<title>Dynamischer Verbinder.38</title>
 			<desc>JSON</desc>
 			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
 			<v:textRect cx="98.7697" cy="848.976" width="60.01" height="22.4037"/>
 			<path d="M10.56 848.98 L10.92 848.98 L197.54 848.98" class="st8"/>
-			<rect v:rectContext="textBkgnd" x="72.7698" y="841.777" width="25.0315" height="14.4001" class="st2"/>
-			<text x="72.77" y="852.58" class="st11" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
+			<rect v:rectContext="textBkgnd" x="72.7698" y="841.777" width="25.0315" height="14.4001" class="st11"/>
+			<text x="72.77" y="852.58" class="st10" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
 		<g id="shape39-127" v:mID="39" v:groupContext="shape" v:layerMember="1" transform="translate(281.037,-602.362)">
 			<title>Dynamischer Verbinder.39</title>
 			<desc>JSON</desc>
@@ -689,22 +689,22 @@
 			<v:textRect cx="98.7697" cy="848.976" width="60.01" height="22.4037"/>
 			<path d="M10.56 848.98 L10.92 848.98 L197.54 848.98" class="st8"/>
 			<rect v:rectContext="textBkgnd" x="72.7698" y="841.777" width="25.0315" height="14.4001" class="st2"/>
-			<text x="72.77" y="852.58" class="st11" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
+			<text x="72.77" y="852.58" class="st10" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
 		<g id="shape44-134" v:mID="44" v:groupContext="shape" v:layerMember="1" transform="translate(480.348,-538.583)">
 			<title>Dynamischer Verbinder.44</title>
 			<desc>JSON</desc>
 			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
 			<v:textRect cx="-99.6555" cy="834.803" width="60.01" height="22.4037"/>
 			<path d="M0 834.8 L-188.39 834.8" class="st12"/>
-			<rect v:rectContext="textBkgnd" x="-125.655" y="827.603" width="25.0315" height="14.4001" class="st2"/>
-			<text x="-125.66" y="838.4" class="st11" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
+			<rect v:rectContext="textBkgnd" x="-125.655" y="827.603" width="25.0315" height="14.4001" class="st11"/>
+			<text x="-125.66" y="838.4" class="st10" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
 		<g id="shape45-142" v:mID="45" v:groupContext="shape" v:layerMember="1" transform="translate(480.877,-488.976)">
 			<title>Dynamischer Verbinder.45</title>
 			<desc>JSON</desc>
 			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
 			<v:textRect cx="-99.6555" cy="834.803" width="60.01" height="22.4037"/>
 			<path d="M0 834.8 L-188.39 834.8" class="st12"/>
-			<rect v:rectContext="textBkgnd" x="-125.655" y="827.603" width="25.0315" height="14.4001" class="st10"/>
-			<text x="-125.66" y="838.4" class="st11" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
+			<rect v:rectContext="textBkgnd" x="-125.655" y="827.603" width="25.0315" height="14.4001" class="st2"/>
+			<text x="-125.66" y="838.4" class="st10" v:langID="2055"><v:paragraph/><v:tabList/>JSON</text>		</g>
 	</g>
 </svg>

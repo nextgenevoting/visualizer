@@ -14,6 +14,7 @@
         </v-card-text>
       </v-card>
     </v-menu>
+  </span>
 </template>
 
 <script>

@@ -22,39 +22,39 @@
 }
 
 \chapter{Project Management}
-In this chapter we are going to describe several aspects regarding the planing of our project, such as our project method, the requirements and use-cases as well as the time schedule.
+This chapter describes the several aspects of the project planning such as the project method, the requirements and use-cases as well as the time schedule.
 
 %\section{Project Method}%
-Since this was not a project where the scope and goals were strictly defined and clear from the very beginning, it was important to elaborate the requirements in close collaboration with our supervisors early on. This is why we decided our project would be very suitable for an agile kind of project method. Because of the small team, consisting of only two members, we did not choose a particular project method like SCRUM, as this would have probably caused more overhead than actual benefits.
+Since this was not a project where the scope and goals were strictly defined and clear from the very beginning, it was important to elaborate the requirements in close collaboration with our supervisors early on. This is why we decided our project would be very suitable for an agile kind of project method. Because of the small team consisting of only two members, we did not choose a particular project method like SCRUM, as this would have probably caused more overhead than actual benefits.
 
 We have therefore set up regular meetings (usually once every 2 weeks) with our supervisors to discuss our ideas and get feedback about the current progress.
 
 \section{Goals}
-As the first step, we have elaborated the goals and requirements for our application. We have structured the requirements into groups that correspond to the actors of the CHVote protocol and therefore the views our application is going to consist of.
+As the first step, we have elaborated the goals and requirements for our application. We have structured the requirements into groups which correspond to the actors of the CHVote protocol and therefore the views our application is going to consist of.
 
-Some requirements affect multiple or all actors and are therefore listed as "`General Requirements"'. We have also added a priority and requirement type to simplify the planing and time management.
+Some requirements affect multiple or all actors and are therefore listed as "{}General Requirements"{}. We have also added a priority and requirement type to simplify the planning and time management.
 \subsection{General Requirements}
 \begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
  & Description & Type & Prio. & Phase & Status\\
 \hline
-R1 & The CHVote protocol is implemented as specified in the latest specification document. The only exclusion are the algorithms for channel security. & Must & High & 1 & Done\\
-R2 & The application is web-based shows updates within the same demo-election in real-time. & Must & High & 1 & Done\\
-R3 & The system supports 1-out-of-3 type of elections (e.g. elect 1 of 3 possible candidates) & Must & High & 1 & Done\\
-R4 & The system supports multiple parallel elections & Must & High & 1 &  Done\\
-R5 & Users can create new elections & Must & High & 1 & Done \\
+R1 & The CHVote protocol is implemented as specified in the latest specification document. The only exceptions are the algorithms for channel security. & Must & High & 1 & Done\\
+R2 & The application is web-based and shows updates within the same demo-election event in real-time. & Must & High & 1 & Done\\
+R3 & The system supports 1-out-of-3 type of elections (e.g. elect 1 of 3 possible candidates). & Must & High & 1 & Done\\
+R4 & The system supports multiple parallel election events. & Must & High & 1 &  Done\\
+R5 & Users can create new elections. & Must & High & 1 & Done \\
 R6 & The system supports internationalization. Providing more than one language is not required. & Must & Med. & 1 & Done\\
-R7 & The system can handle k-out-of-n type of elections & Can & Med. & 1 & Done\\
+R7 & The system can handle k-out-of-n type of elections. & Can & Med. & 1 & Done\\
 \end{longtable}
 
 
-\subsection{Election-Overview}
+\subsection{Election Overview}
 \begin{longtable}{p{0.5cm}p{9cm}p{1cm}p{1cm}p{1cm}p{1cm}}
 \hline
  & Description & Type & Prio. & Phase & Status\\
 \hline
-R8 & The overview shows which phase the election is currently in & Must & High & 2 & Done\\
-R9 & A graphical scheme of the chVote protocol gives an overview of all participating parties & Must & Med. & 2 & Done\\
+R8 & The overview shows which phase the election is currently in. & Must & High & 2 & Done\\
+R9 & A graphical scheme of the CHVote protocol gives an overview of all participating parties. & Must & Med. & 2 & Done\\
 \end{longtable}
 
 \subsection{Election Administrator}
@@ -62,10 +62,10 @@ R9 & A graphical scheme of the chVote protocol gives an overview of all particip
 \hline
  & Description & Type & Prio. & Phase & Status\\
 \hline
-R10 & An election can be set up by providing all required information such as the candidates, number of parallel voters, the number of voters and the number of selections (simplified JSON input) & Must & High & 1 & Done\\
-R11 & The election can be set up without entering the parameters in JSON format and allows easier set up of elections with multiple parallel election events & Must & Low & 2 & Done\\
-R12 & The election administrator view allows to perform the tallying and displays the final result of an election in numbers and a pie chart & Must & High & 1 & Done\\
-R13 &  During election setup, the security parameters can be chosen from a set of predefined parameters & Can & Low & 2 & Done\\
+R10 & An election can be set up by providing all required information such as the candidates, the number of parallel voters, the number of voters and the number of selections (simplified JSON input). & Must & High & 1 & Done\\
+R11 & The election can be set up without entering the parameters in JSON format and allows an easier set up of elections with multiple parallel election events. & Must & Low & 2 & Done\\
+R12 & The election administrator view allows to perform the tallying and displays the final result of an election in numbers and a pie chart. & Must & High & 1 & Done\\
+R13 &  During election setup, the security parameters can be chosen from a set of predefined parameters. & Can & Low & 2 & Done\\
 \end{longtable}
 
 \subsection{Printing Authority}
@@ -74,7 +74,7 @@ R13 &  During election setup, the security parameters can be chosen from a set o
  & Description & Type & Prio. & Phase & Status\\
 \hline
 R14 & Users can generate and display voting cards for an election. & Must & High & 1 & Done\\
-R15 & Voting cards hide sensitive information behind a scratch card & Can & Med. & 2 & Done\\
+R15 & Voting cards hide sensitive information behind a scratch card. & Can & Med. & 2 & Done\\
 \end{longtable}
 
 \subsection{Election Authority}
@@ -82,10 +82,10 @@ R15 & Voting cards hide sensitive information behind a scratch card & Can & Med.
 \hline
  & Description & Type & Prio. & Phase & Status\\
 \hline
-R16 & The election authority view shows all information known to an election authority & Must & High & 1 & Done\\
-R17 & After a voter has submitted a ballot, all election authorities can check and respond to the voters submission & Must & High & 1 & Done\\
-R18 & In the post-election phase, all election authorities can perform the mixing and decryption tasks & Must & High & 2 & Done\\
-R19 & Each authority can optionally processes all tasks automatically & Can & High & 2 & Done\\
+R16 & The election authority view shows all information known to the election authority. & Must & High & 1 & Done\\
+R17 & After a voter has submitted a ballot, all election authorities can check and respond to the voter's submission. & Must & High & 1 & Done\\
+R18 & In the post-election phase, all election authorities can perform the mixing and decryption tasks. & Must & High & 2 & Done\\
+R19 & Each authority can optionally process all tasks automatically. & Can & High & 2 & Done\\
 \end{longtable}
 
 
@@ -94,8 +94,8 @@ R19 & Each authority can optionally processes all tasks automatically & Can & Hi
 \hline
  & Description & Type & Prio. & Phase & Status\\
 \hline
-R20 & Users are able to go through the whole vote-casting process for every voter & Must & High & 1 & Done\\
-R21 & The voting card of a voter is displayed on screen. The voting and confirmation codes can be copied into the input textfields by double clicking & Must & Med. & 1 & Done\\
+R20 & Users are able to go through the whole vote-casting process for every voter. & Must & High & 1 & Done\\
+R21 & The voting card of a voter is displayed on the screen. The voting and confirmation codes can be copied into the input textfields by double clicking. & Must & Med. & 1 & Done\\
 \end{longtable}
 
 
@@ -104,30 +104,30 @@ R21 & The voting card of a voter is displayed on screen. The voting and confirma
 \hline
  & Description & Type & Prio. & Phase & Status\\
 \hline
-R22 & The bulletin board view shows what information is publicly available & Must & High & 1 & Done\\
-R23 & The bulletin board view is extended with verification-functionality & Can & Low & 2 & Done\\
+R22 & The bulletin board view shows which information is publicly available. & Must & High & 1 & Done\\
+R23 & The bulletin board view is extended with verification functionality. & Can & Low & 2 & Done\\
 \end{longtable}
 
 \subsection{Out-of-Scope}
-The following topics are considered out-of-scope for the duration of our project:
+The following topics are considered out-of-scope for the duration of the project:
 \begin{itemize}
-	\item The goal of our project is not to build a realistic prototype. Therefore, the whole back-end will run on a single server while in reality, there would be components running on distributed servers. Another difference between our implementation and a real implementation is that we generate the ballots on the server. In reality, the ballots would have to be generated on the client for security reasons. This however would require us to rewrite many of the already implemented algorithms in JavaScript.
-	\item The protocol takes into account that not all voters might be eligible to vote in all elections of a given election event (eligibility matrix). For simplicity, we assume that all voters are eligible to vote in every election for our application.
-	\item Message level encryption and signature based integrity protection are very important in a real implementation of am e-voting system and are also described in the CHVote specifications. However, as our system is only used for demonstration purposes and as we do not have a distributed infrastructure, there is no real need for channel security in our project.
+	\item The goal of the project is not to build a realistic prototype. Therefore, the whole back-end will run on a single server while in a reality there would be components running on distributed servers. Another difference between our implementation and a productive implementation is that our application generates the ballots on the server. In a productive environment, the ballots would have to be generated on the client for security reasons. This, however, would require us to rewrite many of the already implemented algorithms in JavaScript.
+	\item The protocol takes into account that not all voters might be eligible to vote in all elections of a given election event (eligibility matrix). For simplicity, we assume that all voters are eligible to vote in every election of our application.
+	\item Message level encryption and signature based integrity protection are very important in a productive implementation of an e-voting system and are also described in the CHVote specifications. However, since our system is only used for demonstration purposes and we do not have a distributed infrastructure, there is no real need for channel security in the project.
 	\item Providing more than one language is also out-of-scope. If there is enough time, a second language might be provided optionally.
 \end{itemize}
 
 \section{Time Schedule \& Implementation Phases}
-As the next step we created a time schedule and structured our project into smaller units of work.
+As the next step, we created a time schedule and structured our project into smaller units of work.
 
 The actual implementation phase has been broken down into two phases:
 
 \begin{itemize}
-	\item Phase 1 involves the implementation of all high priority must-requirements, so, basically developing an application that allows to visualize the whole CHVote election process. We have agreed that after phase 1, some parts of the user interface would still be in a rather primitive state (eg. user inputs and components used for data display will not yet be very user friendly and of more technical nature, for example in the JSON format.
-	\item For phase 2 we planned on implementing the can-requirements and all must-requirements with lower priority as well as improving the whole user experience by .
+	\item Phase 1 includes the implementation of all high priority must-requirements, which means basically developing an application that allows to visualize the whole CHVote election process. We have agreed that after phase 1 some parts of the user interface would still be in a rather primitive state (eg. user inputs and components used for data display will not yet be very user friendly and of more technical nature, for example in the JSON format).
+	\item For phase 2 we planned implementing the can-requirements and all must-requirements with lower priority as well as improving the whole user experience.
 \end{itemize}
 
-This approach reduced the risk of technical limitations of our architecture to remain hidden until later that would have resulted in time consuming architectural changes.
+This approach reduced the risk of hidden technical limitations of our architecture which could result in time-consuming architectural changes.
 
 \begin{landscape}
 
@@ -150,7 +150,7 @@ This approach reduced the risk of technical limitations of our architecture to r
 \phase{Documentation}
 \multirow{2}{*}{Update documentation and journal}
 & soll & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs & \zs \ms{5} \\ \hhline{~*{21}{-}}
-& ist  & \zi & \zi & \zi & & & \zi & & \zi & \zi & \zi & \zi & \zi & \zi & \zi & & & \\ \hline
+& ist  & \zi & \zi & \zi & & & \zi & & \zi & \zi & \zi & \zi & \zi & \zi & \zi & \zi &\zi & \zi \ms{5}\\ \hline
 
 \phase{Concept}
 \multirow{2}{*}{Working out goals / requirements}
@@ -191,7 +191,7 @@ This approach reduced the risk of technical limitations of our architecture to r
 & ist  & & & & & & & & & & & \zi & \zi & & & & & \\ \hline
 \multirow{2}{*}{Election Overview (R8, R9)}
 & soll & & & & & & & & & & & & \zs & \zs & & & & \\ \hhline{~*{21}{-}}
-& ist  & & & & & & & & & & & & & & & & & \\ \hline
+& ist  & & & & & & & & & & & & & & & \zi & \zi & \zi \ms{4} \\ \hline
 \multirow{2}{*}{k-out-of-n election types (R7)}
 & soll & & & & & & & & & & & & & \zs & & & & \\ \hhline{~*{21}{-}}
 & ist  & & & & & & & & & & & & & \zi & \zi & & & \\ \hline
@@ -203,11 +203,11 @@ This approach reduced the risk of technical limitations of our architecture to r
 & ist  & & & & & & & & & & & & & & \zi & & & \\ \hline
 \multirow{2}{*}{Verifier functionality (R23) and reserve}
 & soll & & & & & & & & & & & & & & & \zs & \zs\ms{4} &\\ \hhline{~*{21}{-}}
-& ist  & & & & & & & & & & & & & & \zi  & & & \\ \hline
+& ist  & & & & & & & & & & & & & & \zi & \zi & & \\ \hline
 \phase{Project completion}
 \multirow{2}{*}{Poster, Final Day, Presentation}
 & soll & & & & & & & & & & & & & & & & \zs & \zs \\ \hhline{~*{21}{-}}
-& ist  & & & & & & & & & & & & & & & & & \\ \hline
+& ist  & & & & & & & & & & & & & & & & \zi &  \zi\\ \hline
 
 \end{tabular}
 \caption{Project schedule}
@@ -215,32 +215,32 @@ This approach reduced the risk of technical limitations of our architecture to r
 
 \end{landscape}
 
-From our requirements we have defined the following mile-stones:
+The following milestones have been defined based on the requirements:
 
 \begin{itemize}
-	\item M1: Finishing the implementation of the CHVote cryptolibrary
-	\item M2: Upon successful creation of a proof-of-concept / prototype for our application
-	\item M3: After finishing implementation phase 1
-	\item M4: Finishing implementation phase 2 including the can-requirements
-	\item M5: After finishing our documentation
+	\item M1: Implementation of the CHVote crypto-library is finished
+	\item M2: A proof-of-concept / prototype for our application has been drawn up.
+	\item M3: Implementation phase 1 is finished (all must-criteria with a high priority are met).
+	\item M4: Implementation phase 2 is finished (all requirements including the can-criteria are met).
+	\item M5: The documentation is finished.
 \end{itemize}
 
 \section{Use Cases}
-As the next step, we have converted the requirements into use cases, by grouping them according to the actors. One use case is shown as an example. For the complete list of use cases we refer to the appendix.
+As the next step, we have converted the requirements into use cases, by grouping them according to the actors. One use case is shown as an example. Please refer to the appendix for a complete list of use cases.
 \begin{usecase}{Casting of a vote}
 	\addrow{Primary Actor}{Voter}
 	\addrow{Description}{The voter can cast a vote by selecting his favored candidate(s) and his voting code}
 	\addrow{Precondition}{
 		\begin{itemize}
-			\item The election has the status "`Election Phase"'
-			\item A voter is selected in the "`Voter"'-view
-			\item The voter has the status "`Vote Casting Phase"'
+			\item The election has the status "{}Election Phase"{}
+			\item A voter is selected in the voter view
+			\item The voter has the status "{}Vote Casting Phase"{}
 		\end{itemize}
 	}
-	\addrow{Postcondition}{The first election authority receives a "`Ballot-check task"'}
+	\addrow{Postcondition}{The first election authority receives a ballot-check task}
 	\addmulrow{Main path (M)}{
-		\item The voter visits the "`Voter"'-view and selects his voter object
+		\item The voter visits the voter view and selects his voter object
 		\item The system demands a selection of the candidates and the voter's voting code
-		\item The voter clicks on "`Cast ballot"'\\
+		\item The voter clicks on "{}Cast ballot"{}\\
 	}
 \end{usecase}

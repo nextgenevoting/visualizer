@@ -15,7 +15,7 @@
    viewBox="0 0 595.276 841.89"
    xml:space="preserve"
    color-interpolation-filters="sRGB"
-   class="st8"
+   class="st9"
    version="1.1"
    id="svg222"
    sodipodi:docname="componentdiagram.svg"
@@ -56,7 +56,8 @@
 		.st5 {fill:#5b9bd5;fill-opacity:0.22;filter:url(#filter_2);stroke:#5b9bd5;stroke-opacity:0.22}
 		.st6 {fill:#595959;stroke:#c8c8c8;stroke-width:0.25}
 		.st7 {fill:#feffff;font-family:Calibri;font-size:1.16666em}
-		.st8 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
+		.st8 {fill:#ffffff;stroke:none;stroke-linecap:butt}
+		.st9 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
 	]]></style><defs
      id="Filters"><filter
        id="filter_2"><feGaussianBlur
@@ -66,7 +67,7 @@
      v:index="1"
      v:groupContext="foregroundPage"
      id="g220"
-     transform="translate(-29.783846,-14.891923)"><title
+     transform="translate(-14.891923,-20.848692)"><title
        id="title125">Oberster Prozess</title><v:pageProperties
        v:drawingScale="0.0393701"
        v:pageScale="0.0393701"
@@ -84,7 +85,7 @@
        v:layerMember="1"
        transform="translate(36.1506,-664.874)"><title
          id="title127">Prozess.24</title><desc
-         id="desc129">Frontend</desc><v:custProps><v:cp
+         id="desc129">Front-end</desc><v:custProps><v:cp
            v:nameU="Cost"
            v:lbl="Kosten"
            v:prompt=""
@@ -186,20 +187,20 @@
          id="rect131"
          style="fill:#ffffff;stroke:#55b882;stroke-width:1.25;stroke-dasharray:0.01, 6.25" /><rect
          v:rectContext="textBkgnd"
-         x="50.5923"
+         x="48.449402"
          y="705.87299"
-         width="52.417702"
+         width="56.703701"
          height="16.799999"
          class="st2"
          id="rect133"
          style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
-         x="50.59"
+         x="48.450001"
          y="718.46997"
          class="st3"
          v:langID="2055"
          id="text135"
          style="font-size:13.99991989px;font-family:Calibri;fill:#55b882"><v:paragraph
-   v:horizAlign="1" /><v:tabList />Frontend</text>
+   v:horizAlign="1" /><v:tabList />Front-end</text>
 </g><g
        id="shape84-5"
        v:mID="84"
@@ -338,7 +339,7 @@
        v:layerMember="1"
        transform="translate(222.794,-616.386)"><title
          id="title150">Prozess.85</title><desc
-         id="desc152">Backend</desc><v:custProps><v:cp
+         id="desc152">Back-end</desc><v:custProps><v:cp
            v:nameU="Cost"
            v:lbl="Kosten"
            v:prompt=""
@@ -440,20 +441,20 @@
          id="rect154"
          style="fill:#ffffff;stroke:#55b882;stroke-width:1.25;stroke-dasharray:0.01, 6.25" /><rect
          v:rectContext="textBkgnd"
-         x="52.660198"
+         x="50.5173"
          y="654.40198"
-         width="48.281898"
+         width="52.567902"
          height="16.799999"
          class="st2"
          id="rect156"
          style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
-         x="52.66"
+         x="50.52"
          y="667"
          class="st3"
          v:langID="2055"
          id="text158"
          style="font-size:13.99991989px;font-family:Calibri;fill:#55b882"><v:paragraph
-   v:horizAlign="1" /><v:tabList />Backend</text>
+   v:horizAlign="1" /><v:tabList />Back-end</text>
 </g><g
        id="shape86-15"
        v:mID="86"
@@ -960,9 +961,9 @@
          y="705.87299"
          width="81.655098"
          height="16.799999"
-         class="st2"
+         class="st8"
          id="rect203"
-         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         style="fill:#ffffff;stroke:none;stroke-linecap:butt" /><text
          x="35.970001"
          y="718.46997"
          class="st3"

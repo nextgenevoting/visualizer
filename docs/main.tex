@@ -6,6 +6,7 @@
 	, notitlepage	% use no standard title page
 	, parskip=half	% set paragraph skip to half of a line
 	]{scrreprt}
+\usepackage{placeins}
 
 \usepackage[english]{babel}
 \usepackage{amsmath}
@@ -86,7 +87,8 @@
 
 
 \newcommand\tabularhead[1]{
-\begin{table}[!hp]
+\FloatBarrier
+\begin{table}[h!]
   \caption{Use Case <<#1>>}
   \begin{tabular}{|p{0.3\linewidth}|p{0.7\linewidth}|}
     \hline
@@ -96,7 +98,7 @@
   \newcommand\addrow[2]{#1 &#2\\ \hline}
 
   \newcommand\addmulrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}
-     &\begin{minipage}[t][][t]{8cm}
+     &\begin{minipage}[t][][t]{11.4cm}
       \begin{enumerate} #2   \end{enumerate}
       \end{minipage}\\ }
 
@@ -104,14 +106,15 @@
 {\hline\end{tabular}\end{table}}
 
 \newcommand\tabularheadtestcase[1]{
-\begin{table}[!hp]
+\FloatBarrier
+\begin{table}[h!]
   \caption{Test Case <<#1>>}
   \begin{tabular}{|p{0.2\linewidth}|p{0.8\linewidth}|}
 
     \hline}
 
   \newcommand\addstepsrow[2]{ \begin{minipage}[t][][t]{2.5cm}#1\end{minipage}
-     &\begin{minipage}[t][][t]{11cm}
+     &\begin{minipage}[t][][t]{13cm}
       \begin{enumerate} #2   \end{enumerate}
       \end{minipage}\\ }
 
@@ -170,6 +173,7 @@
 \include{chapters/productdescription}
 \include{chapters/implementation}
 \include{chapters/discussion}
+\include{chapters/selbstaendigkeitserklaerung}
 \include{chapters/bibliography}
 \include{chapters/appendix}
 
