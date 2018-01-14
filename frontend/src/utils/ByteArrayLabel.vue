@@ -6,7 +6,7 @@
         <v-icon>mdi-dots-horizontal</v-icon>
       </v-btn>
       <v-card>
-        <v-card-title v-if="isString(value)" class="subheading">
+        <v-card-title v-if="isString(value)" class="subheading" style="padding-bottom: 0px;">
           Array of {{ data.byteLength() }} bytes
         </v-card-title>
         <v-card-text>
