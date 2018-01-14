@@ -15,8 +15,8 @@
                 </v-alert>
             </div>
             <div v-else>
-                <v-flex xy12 md6 v-if="selectedVoter == null" v-t="'Voter.choose_voter_first'"></v-flex>
-                <v-flex xy12 md12 v-else>
+                <v-flex sm12 xy12 md6 v-if="selectedVoter == null" v-t="'Voter.choose_voter_first'"></v-flex>
+                <v-flex sm12 xy12 md12 v-else>
                     <v-stepper color="blue" alt-labels :value="voter.status + 1">
                         <v-stepper-header>
                             <v-stepper-step step="1" :complete="voter.status >= 1">{{$t('vote_casting')}}</v-stepper-step>
@@ -27,7 +27,7 @@
                         </v-stepper-header>
                     </v-stepper>
                     <div class="layout row wrap">
-                        <v-flex v-if="voter.status == -1" x12 md6>
+                        <v-flex v-if="voter.status == -1" sm6 md6>
                             <v-card>
                                 <v-card-title primary-title>
                                     <div class="headline" v-t="'Voter.aborted'"></div>
@@ -38,12 +38,12 @@
                             </v-card>
                         </v-flex>
                         <!-- 1. Vote Cast -->
-                        <v-flex xs12 md12>
+                        <v-flex v-else xs12 md12>
                         <v-alert v-if="voter.invalidBallot === true" color="grey lighten-3" icon="mdi-alert-outline" value="true" dismissible>Your vote casting attempt has failed</v-alert>
                         <v-alert v-if="voter.invalidConfirmation === true" color="grey lighten-3" icon="mdi-alert-outline" value="true" dismissible>Your vote confirmation attempt has failed</v-alert>
                         </v-flex>
 
-                        <v-flex v-if="voter.status == 0" x12 md6>
+                        <v-flex v-if="voter.status == 0" sm6 md6>
                             <v-card v-if="ballotCheckAuthorityIndex > -1">
                                 <v-card-title primary-title>
                                     <div class="headline" v-t="'Voter.waiting_for_election_authority'"></div>
@@ -93,7 +93,7 @@
 
                         </v-flex>
                         <!-- 2. Vote Confirmation -->
-                        <v-flex v-if="voter.status == 1" x12 md6>
+                        <v-flex v-if="voter.status == 1" sm6 md6>
                             <v-card v-if="confirmationCheckAuthorityIndex > -1">
                                 <v-card-title primary-title>
                                     <div class="headline" v-t="'Voter.waiting_for_election_authority'"></div>
@@ -135,7 +135,7 @@
 
                         </v-flex>
                         <!-- 3. Vote Finalization -->
-                        <v-flex v-if="voter.status == 2" x12 md6>
+                        <v-flex v-if="voter.status == 2" sm6 md6>
                             <v-card>
                                 <v-card-title primary-title>
                                     <div class="headline" v-t="'Voter.vote_finalization'"></div>
@@ -148,7 +148,7 @@
                                 </v-card-text>
                             </v-card>
                         </v-flex>
-                        <v-flex x12 md6>
+                        <v-flex sm6 md6>
                             <VotingCard :card="votingCard" :interactive="true" :scratchable="true" :state="voter.status" :candidates="candidatesForElection" :codes="codes"></VotingCard>
                         </v-flex>
                     </div>

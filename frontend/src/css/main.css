@@ -262,3 +262,7 @@ font-size: 14px;
 .toasted-container.bottom-right .toasted, .toasted-container.top-right .toasted {
   font-family: Roboto, sans-serif;
 }
+
+.tabs__container--centered .tabs__div, .tabs__container--fixed-tabs .tabs__div, .tabs__container--icons-and-text .tabs__div {
+  min-width: 120px !important;
+}

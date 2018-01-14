@@ -5,7 +5,7 @@
                 <v-icon>mdi-dots-horizontal</v-icon>
             </v-btn>
                   <v-card>
-             <v-card-title v-if="isString(mpzValue)" class="subheading" style="padding-bottom: 0px;">
+             <v-card-title  class="subheading" style="padding-bottom: 0px;">
                 <b v-if="popupTitle === undefined">{{tupleValue.length}}-Tuple</b>
         </v-card-title>
                           <v-card-text>
@@ -30,52 +30,52 @@
 
 <script>
     export default {
-        data: () => ({
-            menu: false
-        }),
-        computed: {
-            data() {
-                var self = this
-                console.log(this.tupleValue)
-                return {
-                    truncatedValue: function () {
-                        if (self.tupleValue !== undefined && self.tupleValue !== null) {
-                            return self.tupleValue.toString().substring(0, 10)
-                        } else {
-                            return ''
-                        }
-                    },
-                    name: (function () {
-                        return String(Math.random())
-                    }())
-                }
-            }
-        },
-        props: {
-            tupleValue: {
-                type: Array,
-                required: true
+      data: () => ({
+        menu: false
+      }),
+      computed: {
+        data () {
+          var self = this
+          console.log(this.tupleValue)
+          return {
+            truncatedValue: function () {
+              if (self.tupleValue !== undefined && self.tupleValue !== null) {
+                return self.tupleValue.toString().substring(0, 10)
+              } else {
+                return ''
+              }
             },
-
-            title: {
-                type: String,
-                requried: false
-            },
-            popupTitle: {
-                type: String,
-                requried: false
-            },
-            icon: {
-                type: String,
-                requried: false
-            }
-
-        },
-        methods: {
-            isString: function (s) {
-                return typeof (s) === 'string' || s instanceof String
-            }
+            name: (function () {
+              return String(Math.random())
+            }())
+          }
         }
+      },
+      props: {
+        tupleValue: {
+          type: Array,
+          required: true
+        },
+
+        title: {
+          type: String,
+          requried: false
+        },
+        popupTitle: {
+          type: String,
+          requried: false
+        },
+        icon: {
+          type: String,
+          requried: false
+        }
+
+      },
+      methods: {
+        isString: function (s) {
+          return typeof (s) === 'string' || s instanceof String
+        }
+      }
     }
 </script>
 
