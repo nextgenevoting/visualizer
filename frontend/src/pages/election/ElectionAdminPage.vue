@@ -251,7 +251,7 @@ export default {
         }
       ).then(response => {
         response.json().then((data) => {
-          this.$toasted.success(this.$i18n.t('ElectionAdmin.successfully_set_mixing_phase'))
+          this.$toasted.success(this.$i18n.t('ElectionAdmin.successfully_set_decryption_phase'))
         })
       }).catch(e => {
         this.$toasted.error(e.body.message)

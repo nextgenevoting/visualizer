@@ -1,18 +1,16 @@
 <template>
-  <v-dialog v-model="dialog" width="800px">
-    <v-btn @click.stop="clickButton($event)" slot="activator" small flat icon style="color: rgba(0,0,0,.54)">
-      <v-icon v-if="icon === undefined">mdi-dots-horizontal</v-icon>
-      <v-icon v-else>{{ icon }}</v-icon>
-    </v-btn>
+  <v-dialog v-model="visible" width="800px" @close="this.$emit('close')">
     <v-card>
       <v-card-title>
         <span class="headline" v-if="popupTitle !== undefined">{{ popupTitle }}</span>
         <span class="headline" v-else>Tuple with {{ tuple.length }} elements</span>
       </v-card-title>
       <v-card-text>
+        Value of <b>F</b>:
         <ByteArrayLabel :value="tuple[0]" />
       </v-card-text>
       <v-card-text>
+        Randomizations: <b>z</b>:
         (<span v-for="(value, index) in tuple[1]" :key="index">
           <BigIntLabel :mpzValue="value" /><span v-if="index < tuple[1].length - 1">, </span>
         </span>)
@@ -31,6 +29,11 @@
 <script>
 export default {
   props: {
+    visible: {
+      type: Boolean,
+      required: true,
+      default: false
+    },
     tuple: {
       type: Array,
       required: true
@@ -69,6 +72,13 @@ export default {
     },
     clickButton: function (event) {
       this.dialog = !this.dialog
+    }
+  },
+  watch: {
+    visible: function (value) {
+      if (value === false) {
+        this.$emit('close')
+      }
     }
   }
 }

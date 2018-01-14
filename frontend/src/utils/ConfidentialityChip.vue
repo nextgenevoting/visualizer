@@ -1,5 +1,5 @@
 <template>
-  <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4" :class="colorClass">{{ type }}</span>
+  <span v-if="data.showConfidentiality" tabindex="0" class="ml-0 chip chip--label chip--small lighten-4" style="padding: 0px 5px 0px 5px" :class="colorClass">{{ type }}</span>
 </template>
 
 <script>

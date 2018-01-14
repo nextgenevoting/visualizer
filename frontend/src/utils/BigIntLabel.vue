@@ -6,7 +6,7 @@
         <v-icon>mdi-dots-horizontal</v-icon>
       </v-btn>
       <v-card>
-        <v-card-title v-if="isString(mpzValue)" class="subheading">
+        <v-card-title v-if="isString(mpzValue)" class="subheading" style="padding-bottom: 0px;">
           {{ data.bitLength() }}-Bit number
         </v-card-title>
         <v-card-text>

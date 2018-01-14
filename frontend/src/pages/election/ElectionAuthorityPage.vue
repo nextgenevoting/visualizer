@@ -50,25 +50,25 @@
                 </v-flex>
 
                 <v-flex xy12 md12 key="ballots">
-                    <DataCard :title="$t('ballots')"  :isMpz=true :expandable=false confidentiality="encrypted">
+                    <DataCard :title="$t('ballotlist')" :tooltip="$t('ballotlist_tooltip')" :isMpz=true :expandable=false confidentiality="encrypted">
                         <BallotList :ballots="ballots" :authorityFilter="selectedAuthorityIndex"></BallotList>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4 key="pk">
-                    <DataCard :title="$t('public_key')" :isMpz=true :expandable=false confidentiality="public">
+                    <DataCard :title="$t('public_key')" :tooltip="$t('public_key_tooltip')" :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKey"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4 key="pkshares">
-                    <DataCard :title="$t('public_key_share')" :isMpz=true :expandable=false confidentiality="public">
+                    <DataCard :title="$t('public_key_share')" :tooltip="$t('public_key_share_tooltip')"  :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xy12 md4 key="skshares">
-                    <DataCard :title="$t('secret_key_share')" :isMpz=true :expandable=false confidentiality="secret">
+                    <DataCard :title="$t('secret_key_share')" :tooltip="$t('secret_key_share_tooltip')" :isMpz=true :expandable=false confidentiality="secret">
                         <BigIntLabel :mpzValue="electionAuthority.secretKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
