@@ -641,6 +641,9 @@ main:
       ru: Показать конфиденциальность
       sv: Visa sekretess
       zh-TW: 顯示保密性
+    fluidLayout:
+      en: Fluid layout
+      de: Fluid layout
   overview:
     en: Overview
     de: Überblick

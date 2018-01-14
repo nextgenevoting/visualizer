@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-md>
+  <v-container grid-list-md :fluid="fluidLayout">
     <div v-if="this.$store.state.loaded">
       <ContentTitle icon="mdi-account-key" :title="$t('ElectionAdmin.title')">
         <v-menu offset-y v-if="status == 0">
@@ -179,7 +179,8 @@ export default {
       electionId: 'electionId',
       status: 'status',
       allAuthoritiesHaveMixed: 'haveAllAuthoritiesMixed',
-      haveAllAuthoritiesDecrypted: 'haveAllAuthoritiesDecrypted'
+      haveAllAuthoritiesDecrypted: 'haveAllAuthoritiesDecrypted',
+      fluidLayout: 'fluidLayout'
     }),
     ...mapState({
       finalResults: state => state.ElectionAdministrator.finalResults

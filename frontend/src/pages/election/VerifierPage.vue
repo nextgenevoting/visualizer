@@ -1,5 +1,5 @@
 <template>
-    <v-container grid-list-md>
+    <v-container grid-list-md :fluid="fluidLayout">
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-checkbox-marked-outline" :title="$t('Verifier.title')"></ContentTitle>
 
@@ -91,7 +91,8 @@ export default {
       verificationResult: state => state.BulletinBoard.verificationResult
     }),
     ...mapGetters({
-      electionId: 'electionId'
+      electionId: 'electionId',
+      fluidLayout: 'fluidLayout'
     })
   },
   methods: {

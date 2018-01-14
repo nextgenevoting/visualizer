@@ -16,13 +16,7 @@
             <v-list-tile-title>{{ election.title }}</v-list-tile-title>
             <v-list-tile-sub-title>{{ election.subtitle }}</v-list-tile-sub-title>
           </v-list-tile-content>
-
-          <v-list-tile-action>
-            <v-btn icon @click.prevent="info(election, index)">
-              <v-icon class="grey--text text--lighten-1" :title="$t('electionsPage.info')">info</v-icon>
-            </v-btn>
-          </v-list-tile-action>
-
+          
           <v-list-tile-action>
             <v-btn icon @click.prevent="dialog.election = election; dialog.visible = true">
               <v-icon class="grey--text text--lighten-1" :title="$t('electionsPage.remove.title')">delete</v-icon>

@@ -1,5 +1,5 @@
 <template>
-    <v-container grid-list-md>
+    <v-container grid-list-md :fluid="fluidLayout">
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-settings-box" :title="$t('ElectionAuthority.title')"></ContentTitle>
             <v-alert outline dismissible color="info" icon="info" :value="false">
@@ -143,7 +143,8 @@
         }),
         ...mapGetters({
           electionId: 'electionId',
-          status: 'status'
+          status: 'status',
+          fluidLayout: 'fluidLayout'
         }),
         selectedAuthorityIndex: {
           get: function () {

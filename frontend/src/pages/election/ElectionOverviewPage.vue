@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container :fluid="fluidLayout">
     <div v-if="this.$store.state.loaded">
       <ContentTitle icon="mdi-view-dashboard" :title="$t('overview')"></ContentTitle>
       <v-flex xy12 md12>
@@ -71,7 +71,8 @@ export default {
     ...mapGetters({
       electionId: 'electionId',
       statusText: 'statusText',
-      status: 'status'
+      status: 'status',
+      fluidLayout: 'fluidLayout'
     })
   },
   methods: {

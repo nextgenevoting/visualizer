@@ -1,5 +1,5 @@
 <template>
-    <v-container grid-list-md>
+    <v-container grid-list-md :fluid="fluidLayout">
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-bulletin-board" :title="$t('BulletinBoard.title')"></ContentTitle>
 
@@ -187,7 +187,8 @@ export default {
     ...mapGetters({
       electionId: 'electionId',
       status: 'status',
-      statusText: 'statusText'
+      statusText: 'statusText',
+      fluidLayout: 'fluidLayout'
     }),
     ballots: {
       get: function () {

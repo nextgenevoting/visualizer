@@ -1,5 +1,5 @@
 <template>
-  <v-container grid-list-md>
+  <v-container grid-list-md :fluid="fluidLayout">
     <div v-if="this.$store.state.loaded">
       <ContentTitle icon="mdi-printer" :title="$t('PrintingAuth.title')"></ContentTitle>
       <v-layout>
@@ -74,7 +74,8 @@
         }),
         ...mapGetters({
           electionId: 'electionId',
-          status: 'status'
+          status: 'status',
+          fluidLayout: 'fluidLayout'
         }),
         votingCard: {
           get: function () {

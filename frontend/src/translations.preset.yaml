@@ -251,6 +251,9 @@ main:
     confidentiality:
       en: Show confidentiality
       de: Vertraulichkeit anzeigen
+    fluidLayout:
+      en: Fluid layout
+      de: Fluid layout
   overview:
     en: Overview
     de: Überblick

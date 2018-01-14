@@ -1,5 +1,5 @@
 <template>
-    <v-container grid-list-md>
+    <v-container grid-list-md :fluid="fluidLayout">
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-account" :title="selectedVoterName || $t('Voter.title')">
                 <v-btn flat color="blue" @click="changeVoter" class="changeVoterBtn">
@@ -245,7 +245,8 @@
         }),
         ...mapGetters({
           electionId: 'electionId',
-          status: 'status'
+          status: 'status',
+          fluidLayout: 'fluidLayout'
         }),
         voter: {
           get: function () {

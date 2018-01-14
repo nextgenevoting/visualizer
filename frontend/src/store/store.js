@@ -17,6 +17,7 @@ export const store = new Vuex.Store({
     connected: false,
     joinedElectionId: null,
     showConfidentiality: false,
+    fluidLayout: true,
     selectedVoter: 0,
     selectedAuthority: 0,
     voterDialog: false,
@@ -98,12 +99,18 @@ export const store = new Vuex.Store({
     showConfidentiality: (state, value) => {
       // sets the visibility of the confidentiality chip
       state.showConfidentiality = value
+    },
+    fluidLayout: (state, value) => {
+      state.fluidLayout = value
     }
   },
   getters: {
     joinedElectionId: (state, getters) => {
       // returns the ID of the joined election.
       return state.joinedElectionId
+    },
+    fluidLayout: (state, getters) => {
+      return state.fluidLayout
     }
   },
   modules: {
