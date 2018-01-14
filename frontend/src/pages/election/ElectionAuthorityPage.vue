@@ -78,18 +78,10 @@
                         {{ $t('ElectionAuthority.election_data_content') }}
                         <ul id="list" slot="expandContent">
                             <v-layout row wrap>
-                                <v-flex xy1 md1>
-                                    Voter
-                                </v-flex>
-                                <v-flex xy3 md3>
-                                    Points
-                                </v-flex>
-                                <v-flex xy4 md4>
-                                    Partial Public Voting Credentials
-                                </v-flex>
-                                <v-flex xy4 md4>
-                                    Partial Secret Voting Credentials
-                                </v-flex>
+                                <v-flex xy1 md1>Voter</v-flex>
+                                <v-flex xy3 md3>Points</v-flex>
+                                <v-flex xy4 md4>Partial Public Voting Credentials</v-flex>
+                                <v-flex xy4 md4>Partial Secret Voting Credentials</v-flex>
                             </v-layout>
                             <li v-for="(voter, index) in electionAuthority.points" :key="voter.id">
                                 <v-layout row wrap>
@@ -105,10 +97,17 @@
                                         </ul>
                                     </v-flex>
                                     <v-flex xy4 md4>
-                                        {{ electionAuthority.partialPublicVotingCredentials[index] }}
+                                        (<template v-for="(value, i) in electionAuthority.partialPublicVotingCredentials[index]">
+                                          <BigIntLabel :mpzValue="value" /><span v-if="i < electionAuthority.partialPublicVotingCredentials[index].length - 1">, </span>
+                                        </template>)
                                     </v-flex>
                                     <v-flex xy4 md4>
-                                        {{ electionAuthority.partialSecretVotingCredentials[index] }}
+                                        (<BigIntLabel :mpzValue="electionAuthority.partialSecretVotingCredentials[index][0]" />,
+                                        <BigIntLabel :mpzValue="electionAuthority.partialSecretVotingCredentials[index][1]" />,
+                                        <ByteArrayLabel :value="electionAuthority.partialSecretVotingCredentials[index][2]" />,
+                                        (<template v-for="(value, i) in electionAuthority.partialSecretVotingCredentials[index][3]">
+                                          <ByteArrayLabel :value="value" /><span v-if="i < electionAuthority.partialSecretVotingCredentials[index][3].length - 1">, </span>
+                                        </template>))
                                     </v-flex>
                                 </v-layout>
                             </li>
