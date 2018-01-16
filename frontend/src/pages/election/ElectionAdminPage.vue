@@ -135,6 +135,17 @@ export default {
     countingCircles: [ 3 ],
     elections: [new Election()],
     electionPresets: [
+      { title: 'Demo',
+        generate: () => {
+          let election = new Election()
+          election.title = 'Who would you like to vote for executive board member?'
+          election.candidates = [ 'Dallas Weaver', 'Garry Turner', 'Sonja Kelly', 'Bradford Evans' ]
+          election.numberOfSelections = 1
+          this.countingCircles = [ 3 ]
+          this.elections = [ election ]
+          return this
+        }
+      },
       { title: '3 counting circles',
         generate: () => {
           let election = new Election()
