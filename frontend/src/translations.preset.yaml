@@ -53,6 +53,9 @@ login:
 elections:
   en: Elections
   de: Wahlen
+election:
+  en: Election
+  de: Wahl
 home:
   en: Home
   de: Homepage
@@ -100,6 +103,9 @@ electionTitle:
   de: Name des Wahlereignisses
 voters:
   en: Voters
+  de: Wähler
+voter:
+  en: Voter
   de: Wähler
 voters_tooltip:
   en: All voters of this election event
@@ -502,6 +508,15 @@ ElectionAuthority:
   decryption_text:
     en: The election authorities must now decrypt the encryptions using their share of the secret key
     de: Die Wahlauthoritäten entschlüsseln nun die Verschlüsselungen mit ihrem Anteil am geheimen Schlüssel
+  points:
+    en: Points
+    de: Punkte
+  partial_public_voting_credentials:
+    en: Partial Public Voting Credentials
+    de: Öffentliche Voting Credentials (Anteil)
+  partial_secret_voting_credentials:
+    en: Partial Secret Voting Credentials
+    de: Geheime Voting Credentials (Anteil)
 
 PrintingAuth:
   title:
@@ -627,6 +642,12 @@ CheckBallotTask:
   successfully_checked_vote:
     en: Successfully checked vote.
     de: Die Wahl wurde erfolgreich überprüft.
+  manipulate_public_key:
+    en: Manipulate public key
+    de: Manipuliere öffentlichen Schlüssel
+  enter_public_key:
+    en: Please enter a public key:
+    de: Bitte geben Sie einen öffentlichen Schlüssel ein:
 
 ConfirmationTask:
   confirmation_for_voter_n:

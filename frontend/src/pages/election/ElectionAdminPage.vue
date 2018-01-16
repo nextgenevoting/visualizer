@@ -55,7 +55,7 @@
 
               <div v-for="(election, index) in this.elections">
                 <h5>
-                  Election {{ index + 1 }}
+                  {{$t('election')}} {{ index + 1 }}
                   <v-btn icon small flat color="error" title="Remove this election" v-if="index > 0" @click="elections.splice(index, 1)">
                     <v-icon>mdi-close-circle</v-icon>
                   </v-btn>

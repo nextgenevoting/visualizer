@@ -189,12 +189,12 @@
             </v-dialog>
             <v-dialog v-model="attackPublicKeyDialog" persistent max-width="400">
                 <v-card>
-                    <v-card-title class="headline">Manipulate public key</v-card-title>
-                    <v-card-text>Please enter a public key:</v-card-text>
+                    <v-card-title class="headline">{{$t('manipulate_public_key')}}</v-card-title>
+                    <v-card-text>{{$t('enter_public_key')}}</v-card-text>
                     <v-card-text>
                         <v-form>
                             <v-text-field
-                                    label="Manipulate public key"
+                                    label="Public key"
                                     v-model="manipulatedPublicKeyInput"
                                     required
                             ></v-text-field>

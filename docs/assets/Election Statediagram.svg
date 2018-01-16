@@ -1,17 +1,56 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Generiert durch Microsoft Visio, SVG Export Election Statediagram.svg Page-1 -->
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events"
-		xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/" width="11.6929in" height="8.26772in"
-		viewBox="0 0 841.89 595.276" xml:space="preserve" color-interpolation-filters="sRGB" class="st17">
-	<v:documentProperties v:langID="1031" v:metric="true" v:viewMarkup="false">
-		<v:userDefs>
-			<v:ud v:nameU="msvNoAutoConnect" v:prompt="" v:val="VT0(0):26"/>
-		</v:userDefs>
-	</v:documentProperties>
 
-	<style type="text/css">
-	<![CDATA[
+<svg
+   xmlns:v="http://schemas.microsoft.com/visio/2003/SVGExtensions/"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="11.6929in"
+   height="8.26772in"
+   viewBox="0 0 841.89 595.276"
+   xml:space="preserve"
+   color-interpolation-filters="sRGB"
+   class="st17"
+   version="1.1"
+   id="svg4415"
+   sodipodi:docname="Election Statediagram.svg"
+   inkscape:version="0.92.2 (5c3e80d, 2017-08-06)"><metadata
+     id="metadata4419"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1017"
+     id="namedview4417"
+     showgrid="false"
+     inkscape:zoom="1.0684122"
+     inkscape:cx="561.25919"
+     inkscape:cy="396.85057"
+     inkscape:window-x="-8"
+     inkscape:window-y="-8"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg4415" /><v:documentProperties
+     v:langID="1031"
+     v:metric="true"
+     v:viewMarkup="false"><v:userDefs><v:ud
+         v:nameU="msvNoAutoConnect"
+         v:prompt=""
+         v:val="VT0(0):26" /></v:userDefs></v:documentProperties><style
+     type="text/css"
+     id="style4060"><![CDATA[
 		.st1 {fill:#73ae42;stroke:#73ae42;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
 		.st2 {marker-end:url(#mrkr4-8);stroke:#5592c9;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
 		.st3 {fill:#5592c9;fill-opacity:1;stroke:#5592c9;stroke-opacity:1;stroke-width:0.16556291390728}
@@ -29,434 +68,1060 @@
 		.st15 {fill:#ffffff;stroke:#5b9bd5;stroke-linecap:round;stroke-linejoin:round;stroke-width:0.5}
 		.st16 {font-size:1em}
 		.st17 {fill:none;fill-rule:evenodd;font-size:12px;overflow:visible;stroke-linecap:square;stroke-miterlimit:3}
-	]]>
-	</style>
-
-	<defs id="Markers">
-		<g id="lend4">
-			<path d="M 2 1 L 0 0 L 2 -1 L 2 1 " style="stroke:none"/>
-		</g>
-		<marker id="mrkr4-8" class="st3" v:arrowType="4" v:arrowSize="2" v:setback="12.08" refX="-12.08" orient="auto"
-				markerUnits="strokeWidth" overflow="visible">
-			<use xlink:href="#lend4" transform="scale(-6.04,-6.04) "/>
-		</marker>
-	</defs>
-	<g v:mID="4" v:index="1" v:groupContext="foregroundPage">
-		<v:userDefs>
-			<v:ud v:nameU="msvThemeOrder" v:val="VT0(0):26"/>
-		</v:userDefs>
-		<title>Zeichenblatt-1</title>
-		<v:pageProperties v:drawingScale="0.0393701" v:pageScale="0.0393701" v:drawingUnits="24" v:shadowOffsetX="8.50394"
-				v:shadowOffsetY="-8.50394"/>
-		<v:layer v:name="Verbinder" v:index="0"/>
-		<g id="shape1-1" v:mID="1" v:groupContext="shape" transform="translate(118.322,-532.913)">
-			<title>Anfangszustand</title>
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<ellipse cx="17.0079" cy="578.268" rx="17.0079" ry="17.0079" class="st1"/>
-		</g>
-		<g id="shape2-3" v:mID="2" v:groupContext="shape" v:layerMember="0" transform="translate(128.243,-532.913)">
-			<title>Dynamischer Verbinder</title>
-			<desc>New election created</desc>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="7.08661" cy="605.335" width="114.89" height="22.4037"/>
-			<path d="M7.09 595.28 L7.09 609.35" class="st2"/>
-			<rect v:rectContext="textBkgnd" x="-44.9978" y="598.135" width="104.169" height="14.4001" class="st4"/>
-			<text x="-45" y="608.93" class="st5" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>New election created</text>		</g>
-		<g id="group3-11" transform="translate(86.4077,-478.78)" v:mID="3" v:groupContext="group">
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<title>Zustand.8</title>
-			<g id="shape3-12" v:mID="3" v:groupContext="groupContent">
-				<rect x="0" y="561.26" width="97.8443" height="34.0157" rx="8.50394" ry="8.50394" class="st6"/>
-			</g>
-			<g id="shape4-14" v:mID="4" v:groupContext="shape" transform="translate(0,-11.612)">
-				<title>Tabelle.4</title>
-				<desc>New</desc>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Title)"/>
-				</v:userDefs>
-				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-				<v:textRect cx="48.9221" cy="584.074" width="97.85" height="22.4037"/>
-				<path d="M8.5 595.28 L89.34 595.28 A8.50394 8.50394 -180 0 0 97.84 586.77 L97.84 581.38 A8.50394 8.50394 -180 0 0
-							 89.34 572.87 L8.5 572.87 A8.50394 8.50394 -180 0 0 0 581.38 L0 586.77 A8.50394 8.50394 -180 0 0 8.5
-							 595.28 Z" class="st1"/>
-				<text x="37.48" y="587.67" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>New</text>			</g>
-			<g id="shape5-17" v:mID="5" v:groupContext="shape">
-				<title>Tabelle.5</title>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Body)"/>
-				</v:userDefs>
-				<path d="M5.81 595.28 L92.04 595.28 A5.80602 5.80602 -180 0 0 97.84 589.47 L97.84 589.47 A5.80602 5.80602 -180 0
-							 0 92.04 583.66 L5.81 583.66 A5.80602 5.80602 -180 0 0 0 589.47 L0 589.47 A5.80602 5.80602 -180 0 0 5.81
-							 595.28 Z" class="st8"/>
-			</g>
-		</g>
-		<g id="shape6-19" v:mID="6" v:groupContext="shape" v:layerMember="0" transform="translate(128.243,-478.78)">
-			<title>Dynamischer Verbinder.15</title>
-			<desc>Election is set up and electorate data generated</desc>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="7.08661" cy="608.602" width="243.86" height="22.4037"/>
-			<path d="M7.09 595.28 L7.09 615.89" class="st2"/>
-			<rect v:rectContext="textBkgnd" x="-109.481" y="601.403" width="233.135" height="14.4001" class="st4"/>
-			<text x="-109.48" y="612.2" class="st9" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Election is set up and electorate data generated</text>		</g>
-		<g id="group7-26" transform="translate(86.4077,-418.11)" v:mID="7" v:groupContext="group">
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<title>Zustand</title>
-			<g id="shape7-27" v:mID="7" v:groupContext="groupContent">
-				<rect x="0" y="561.26" width="97.8443" height="34.0157" rx="8.50394" ry="8.50394" class="st6"/>
-			</g>
-			<g id="shape8-29" v:mID="8" v:groupContext="shape" transform="translate(0,-11.612)">
-				<title>Tabelle.8</title>
-				<desc>Printing</desc>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Title)"/>
-				</v:userDefs>
-				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-				<v:textRect cx="48.9221" cy="584.074" width="97.85" height="22.4037"/>
-				<path d="M8.5 595.28 L89.34 595.28 A8.50394 8.50394 -180 0 0 97.84 586.77 L97.84 581.38 A8.50394 8.50394 -180 0 0
-							 89.34 572.87 L8.5 572.87 A8.50394 8.50394 -180 0 0 0 581.38 L0 586.77 A8.50394 8.50394 -180 0 0 8.5
-							 595.28 Z" class="st1"/>
-				<text x="29.28" y="587.67" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Printing</text>			</g>
-			<g id="shape9-32" v:mID="9" v:groupContext="shape">
-				<title>Tabelle.9</title>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Body)"/>
-				</v:userDefs>
-				<path d="M5.81 595.28 L92.04 595.28 A5.80602 5.80602 -180 0 0 97.84 589.47 L97.84 589.47 A5.80602 5.80602 -180 0
-							 0 92.04 583.66 L5.81 583.66 A5.80602 5.80602 -180 0 0 0 589.47 L0 589.47 A5.80602 5.80602 -180 0 0 5.81
-							 595.28 Z" class="st8"/>
-			</g>
-		</g>
-		<g id="shape10-34" v:mID="10" v:groupContext="shape" v:layerMember="0" transform="translate(128.243,-418.11)">
-			<title>Dynamischer Verbinder.27</title>
-			<desc>Votecards have been printed</desc>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="7.08661" cy="611.575" width="151.83" height="22.4037"/>
-			<path d="M7.09 595.28 L7.09 621.83" class="st2"/>
-			<rect v:rectContext="textBkgnd" x="-63.4667" y="604.375" width="141.107" height="14.4001" class="st4"/>
-			<text x="-63.47" y="615.18" class="st9" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Votecards have been printed</text>		</g>
-		<g id="group11-41" transform="translate(86.4077,-351.496)" v:mID="11" v:groupContext="group">
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<title>Zustand.24</title>
-			<g id="shape11-42" v:mID="11" v:groupContext="groupContent">
-				<rect x="0" y="561.26" width="97.8443" height="34.0157" rx="8.50394" ry="8.50394" class="st6"/>
-			</g>
-			<g id="shape12-44" v:mID="12" v:groupContext="shape" transform="translate(0,-11.612)">
-				<title>Tabelle.12</title>
-				<desc>Delivery</desc>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Title)"/>
-				</v:userDefs>
-				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-				<v:textRect cx="48.9221" cy="584.074" width="97.85" height="22.4037"/>
-				<path d="M8.5 595.28 L89.34 595.28 A8.50394 8.50394 -180 0 0 97.84 586.77 L97.84 581.38 A8.50394 8.50394 -180 0 0
-							 89.34 572.87 L8.5 572.87 A8.50394 8.50394 -180 0 0 0 581.38 L0 586.77 A8.50394 8.50394 -180 0 0 8.5
-							 595.28 Z" class="st1"/>
-				<text x="28.34" y="587.67" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Delivery</text>			</g>
-			<g id="shape13-47" v:mID="13" v:groupContext="shape">
-				<title>Tabelle.13</title>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Body)"/>
-				</v:userDefs>
-				<path d="M5.81 595.28 L92.04 595.28 A5.80602 5.80602 -180 0 0 97.84 589.47 L97.84 589.47 A5.80602 5.80602 -180 0
-							 0 92.04 583.66 L5.81 583.66 A5.80602 5.80602 -180 0 0 0 589.47 L0 589.47 A5.80602 5.80602 -180 0 0 5.81
-							 595.28 Z" class="st8"/>
-			</g>
-		</g>
-		<g id="group15-49" transform="translate(86.4077,-290.551)" v:mID="15" v:groupContext="group">
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<title>Zustand.35</title>
-			<g id="shape15-50" v:mID="15" v:groupContext="groupContent">
-				<rect x="0" y="561.26" width="97.8443" height="34.0157" rx="8.50394" ry="8.50394" class="st6"/>
-			</g>
-			<g id="shape16-52" v:mID="16" v:groupContext="shape" transform="translate(0,-11.612)">
-				<title>Tabelle.16</title>
-				<desc>Election Phase</desc>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Title)"/>
-				</v:userDefs>
-				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-				<v:textRect cx="48.9221" cy="584.074" width="97.85" height="22.4037"/>
-				<path d="M8.5 595.28 L89.34 595.28 A8.50394 8.50394 -180 0 0 97.84 586.77 L97.84 581.38 A8.50394 8.50394 -180 0 0
-							 89.34 572.87 L8.5 572.87 A8.50394 8.50394 -180 0 0 0 581.38 L0 586.77 A8.50394 8.50394 -180 0 0 8.5
-							 595.28 Z" class="st1"/>
-				<text x="12.85" y="587.67" class="st7" v:langID="1031"><v:paragraph v:horizAlign="1"/><v:tabList/>Election Phase</text>			</g>
-			<g id="shape17-55" v:mID="17" v:groupContext="shape">
-				<title>Tabelle.17</title>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Body)"/>
-				</v:userDefs>
-				<path d="M5.81 595.28 L92.04 595.28 A5.80602 5.80602 -180 0 0 97.84 589.47 L97.84 589.47 A5.80602 5.80602 -180 0
-							 0 92.04 583.66 L5.81 583.66 A5.80602 5.80602 -180 0 0 0 589.47 L0 589.47 A5.80602 5.80602 -180 0 0 5.81
-							 595.28 Z" class="st8"/>
-			</g>
-		</g>
-		<g id="group19-57" transform="translate(86.4077,-235.276)" v:mID="19" v:groupContext="group">
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<title>Zustand.39</title>
-			<g id="shape19-58" v:mID="19" v:groupContext="groupContent">
-				<rect x="0" y="561.26" width="97.8443" height="34.0157" rx="8.50394" ry="8.50394" class="st6"/>
-			</g>
-			<g id="shape20-60" v:mID="20" v:groupContext="shape" transform="translate(0,-11.612)">
-				<title>Tabelle.20</title>
-				<desc>Mixing</desc>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Title)"/>
-				</v:userDefs>
-				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-				<v:textRect cx="48.9221" cy="584.074" width="97.85" height="22.4037"/>
-				<path d="M8.5 595.28 L89.34 595.28 A8.50394 8.50394 -180 0 0 97.84 586.77 L97.84 581.38 A8.50394 8.50394 -180 0 0
-							 89.34 572.87 L8.5 572.87 A8.50394 8.50394 -180 0 0 0 581.38 L0 586.77 A8.50394 8.50394 -180 0 0 8.5
-							 595.28 Z" class="st1"/>
-				<text x="31.91" y="587.67" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Mixing</text>			</g>
-			<g id="shape21-63" v:mID="21" v:groupContext="shape">
-				<title>Tabelle.21</title>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Body)"/>
-				</v:userDefs>
-				<path d="M5.81 595.28 L92.04 595.28 A5.80602 5.80602 -180 0 0 97.84 589.47 L97.84 589.47 A5.80602 5.80602 -180 0
-							 0 92.04 583.66 L5.81 583.66 A5.80602 5.80602 -180 0 0 0 589.47 L0 589.47 A5.80602 5.80602 -180 0 0 5.81
-							 595.28 Z" class="st8"/>
-			</g>
-		</g>
-		<g id="shape22-65" v:mID="22" v:groupContext="shape" v:layerMember="0" transform="translate(128.243,-235.276)">
-			<title>Dynamischer Verbinder.46</title>
-			<desc>All authorities are done mixing the encryptions</desc>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="7.08661" cy="608.74" width="239.25" height="22.4037"/>
-			<path d="M7.09 595.28 L7.09 616.16" class="st2"/>
-			<rect v:rectContext="textBkgnd" x="-107.178" y="601.54" width="228.529" height="14.4001" class="st4"/>
-			<text x="-107.18" y="612.34" class="st9" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>All authorities are done mixing the encryptions</text>		</g>
-		<g id="group23-72" transform="translate(86.4077,-174.331)" v:mID="23" v:groupContext="group">
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<title>Zustand.43</title>
-			<g id="shape23-73" v:mID="23" v:groupContext="groupContent">
-				<rect x="0" y="561.26" width="97.8443" height="34.0157" rx="8.50394" ry="8.50394" class="st6"/>
-			</g>
-			<g id="shape24-75" v:mID="24" v:groupContext="shape" transform="translate(0,-11.612)">
-				<title>Tabelle.24</title>
-				<desc>Decryption</desc>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Title)"/>
-				</v:userDefs>
-				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-				<v:textRect cx="48.9221" cy="584.074" width="97.85" height="22.4037"/>
-				<path d="M8.5 595.28 L89.34 595.28 A8.50394 8.50394 -180 0 0 97.84 586.77 L97.84 581.38 A8.50394 8.50394 -180 0 0
-							 89.34 572.87 L8.5 572.87 A8.50394 8.50394 -180 0 0 0 581.38 L0 586.77 A8.50394 8.50394 -180 0 0 8.5
-							 595.28 Z" class="st1"/>
-				<text x="21.41" y="587.67" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Decryption</text>			</g>
-			<g id="shape25-78" v:mID="25" v:groupContext="shape">
-				<title>Tabelle.25</title>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Body)"/>
-				</v:userDefs>
-				<path d="M5.81 595.28 L92.04 595.28 A5.80602 5.80602 -180 0 0 97.84 589.47 L97.84 589.47 A5.80602 5.80602 -180 0
-							 0 92.04 583.66 L5.81 583.66 A5.80602 5.80602 -180 0 0 0 589.47 L0 589.47 A5.80602 5.80602 -180 0 0 5.81
-							 595.28 Z" class="st8"/>
-			</g>
-		</g>
-		<g id="shape26-80" v:mID="26" v:groupContext="shape" v:layerMember="0" transform="translate(128.243,-174.331)">
-			<title>Dynamischer Verbinder.56</title>
-			<desc>All authorities have decrypted the encryptions</desc>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="7.08661" cy="608.74" width="236.49" height="22.4037"/>
-			<path d="M7.09 595.28 L7.09 616.16" class="st2"/>
-			<rect v:rectContext="textBkgnd" x="-105.798" y="601.54" width="225.77" height="14.4001" class="st4"/>
-			<text x="-105.8" y="612.34" class="st9" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>All authorities have decrypted the encryptions</text>		</g>
-		<g id="group27-87" transform="translate(86.4077,-113.386)" v:mID="27" v:groupContext="group">
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<title>Zustand.53</title>
-			<g id="shape27-88" v:mID="27" v:groupContext="groupContent">
-				<rect x="0" y="561.26" width="97.8443" height="34.0157" rx="8.50394" ry="8.50394" class="st6"/>
-			</g>
-			<g id="shape28-90" v:mID="28" v:groupContext="shape" transform="translate(0,-11.612)">
-				<title>Tabelle.28</title>
-				<desc>Tallying</desc>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Title)"/>
-				</v:userDefs>
-				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-				<v:textRect cx="48.9221" cy="584.074" width="97.85" height="22.4037"/>
-				<path d="M8.5 595.28 L89.34 595.28 A8.50394 8.50394 -180 0 0 97.84 586.77 L97.84 581.38 A8.50394 8.50394 -180 0 0
-							 89.34 572.87 L8.5 572.87 A8.50394 8.50394 -180 0 0 0 581.38 L0 586.77 A8.50394 8.50394 -180 0 0 8.5
-							 595.28 Z" class="st1"/>
-				<text x="29.66" y="587.67" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Tallying</text>			</g>
-			<g id="shape29-93" v:mID="29" v:groupContext="shape">
-				<title>Tabelle.29</title>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Body)"/>
-				</v:userDefs>
-				<path d="M5.81 595.28 L92.04 595.28 A5.80602 5.80602 -180 0 0 97.84 589.47 L97.84 589.47 A5.80602 5.80602 -180 0
-							 0 92.04 583.66 L5.81 583.66 A5.80602 5.80602 -180 0 0 0 589.47 L0 589.47 A5.80602 5.80602 -180 0 0 5.81
-							 595.28 Z" class="st8"/>
-			</g>
-		</g>
-		<g id="shape45-95" v:mID="45" v:groupContext="shape" v:layerMember="0" transform="translate(128.243,-351.496)">
-			<title>Dynamischer Verbinder.45</title>
-			<desc>Votecards have been delivered to all voters</desc>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="7.08661" cy="608.74" width="221.98" height="22.4037"/>
-			<path d="M7.09 595.28 L7.09 616.16" class="st2"/>
-			<rect v:rectContext="textBkgnd" x="-98.5409" y="601.54" width="211.255" height="14.4001" class="st4"/>
-			<text x="-98.54" y="612.34" class="st9" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Votecards have been delivered to all voters</text>		</g>
-		<g id="shape46-102" v:mID="46" v:groupContext="shape" transform="translate(118.322,-51.0236)">
-			<title>Endzustand</title>
-			<desc>Finished</desc>
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="17.0079" cy="606.477" width="51.32" height="22.4037"/>
-			<path d="M30.61 578.27 A13.6063 13.6063 -180 1 0 3.4 578.27 A13.6063 13.6063 -180 1 0 30.61 578.27 Z" class="st10"/>
-			<path d="M34.02 578.27 A17.0079 17.0079 -180 1 0 0 578.27 A17.0079 17.0079 -180 1 0 34.02 578.27" class="st11"/>
-			<path d="M30.61 578.27 A13.6063 13.6063 -180 1 0 3.4 578.27 A13.6063 13.6063 -180 1 0 30.61 578.27" class="st11"/>
-			<text x="-3.29" y="610.08" class="st12" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Finished</text>		</g>
-		<g id="shape52-107" v:mID="52" v:groupContext="shape" v:layerMember="0" transform="translate(184.252,-300.472)">
-			<title>Dynamischer Verbinder.52</title>
-			<path d="M0 588.19 L93.86 588.19" class="st2"/>
-		</g>
-		<g id="group49-112" transform="translate(284.149,-290.551)" v:mID="49" v:groupContext="group">
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<title>Zustand.49</title>
-			<g id="shape49-113" v:mID="49" v:groupContext="groupContent">
-				<rect x="0" y="561.26" width="97.8443" height="34.0157" rx="8.50394" ry="8.50394" class="st13"/>
-			</g>
-			<g id="shape50-115" v:mID="50" v:groupContext="shape" transform="translate(0,-11.612)">
-				<title>Tabelle.50</title>
-				<desc>Vote Casting</desc>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Title)"/>
-				</v:userDefs>
-				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-				<v:textRect cx="48.9221" cy="584.074" width="97.85" height="22.4037"/>
-				<path d="M8.5 595.28 L89.34 595.28 A8.50394 8.50394 -180 0 0 97.84 586.77 L97.84 581.38 A8.50394 8.50394 -180 0 0
-							 89.34 572.87 L8.5 572.87 A8.50394 8.50394 -180 0 0 0 581.38 L0 586.77 A8.50394 8.50394 -180 0 0 8.5
-							 595.28 Z" class="st14"/>
-				<text x="17.54" y="587.67" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Vote Casting</text>			</g>
-			<g id="shape51-118" v:mID="51" v:groupContext="shape">
-				<title>Tabelle.51</title>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Body)"/>
-				</v:userDefs>
-				<path d="M5.81 595.28 L92.04 595.28 A5.80602 5.80602 -180 0 0 97.84 589.47 L97.84 589.47 A5.80602 5.80602 -180 0
-							 0 92.04 583.66 L5.81 583.66 A5.80602 5.80602 -180 0 0 -0 589.47 L0 589.47 A5.80602 5.80602 -180 0 0
-							 5.81 595.28 Z" class="st15"/>
-			</g>
-		</g>
-		<g id="shape59-120" v:mID="59" v:groupContext="shape" v:layerMember="0" transform="translate(325.984,-290.551)">
-			<title>Dynamischer Verbinder.59</title>
-			<desc>Voter casted a vote</desc>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="7.08661" cy="618.459" width="75.27" height="36.8038"/>
-			<path d="M7.09 595.28 L7.09 635.6" class="st2"/>
-			<rect v:rectContext="textBkgnd" x="-23.8307" y="604.059" width="61.8346" height="28.8001" class="st4"/>
-			<text x="-23.83" y="614.86" class="st5" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Voter casted <v:newlineChar/><tspan
-						x="-8.01" dy="1.2em" class="st16">a vote</tspan></text>		</g>
-		<g id="group56-128" transform="translate(284.149,-210.169)" v:mID="56" v:groupContext="group">
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<title>Zustand.56</title>
-			<g id="shape56-129" v:mID="56" v:groupContext="groupContent">
-				<rect x="0" y="561.26" width="97.8443" height="34.0157" rx="8.50394" ry="8.50394" class="st13"/>
-			</g>
-			<g id="shape57-131" v:mID="57" v:groupContext="shape" transform="translate(0,-11.612)">
-				<title>Tabelle.57</title>
-				<desc>Confirmation</desc>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Title)"/>
-				</v:userDefs>
-				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-				<v:textRect cx="48.9221" cy="584.074" width="97.85" height="22.4037"/>
-				<path d="M8.5 595.28 L89.34 595.28 A8.50394 8.50394 -180 0 0 97.84 586.77 L97.84 581.38 A8.50394 8.50394 -180 0 0
-							 89.34 572.87 L8.5 572.87 A8.50394 8.50394 -180 0 0 0 581.38 L0 586.77 A8.50394 8.50394 -180 0 0 8.5
-							 595.28 Z" class="st14"/>
-				<text x="15.95" y="587.67" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Confirmation</text>			</g>
-			<g id="shape58-134" v:mID="58" v:groupContext="shape">
-				<title>Tabelle.58</title>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Body)"/>
-				</v:userDefs>
-				<path d="M5.81 595.28 L92.04 595.28 A5.80602 5.80602 -180 0 0 97.84 589.47 L97.84 589.47 A5.80602 5.80602 -180 0
-							 0 92.04 583.66 L5.81 583.66 A5.80602 5.80602 -180 0 0 0 589.47 L0 589.47 A5.80602 5.80602 -180 0 0 5.81
-							 595.28 Z" class="st15"/>
-			</g>
-		</g>
-		<g id="shape63-136" v:mID="63" v:groupContext="shape" v:layerMember="0" transform="translate(325.984,-210.169)">
-			<title>Dynamischer Verbinder.63</title>
-			<desc>Voter confirmed his vote</desc>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="7.08661" cy="619.573" width="93.63" height="36.8038"/>
-			<path d="M7.09 595.28 L7.09 637.83" class="st2"/>
-			<rect v:rectContext="textBkgnd" x="-33.0095" y="605.173" width="80.1922" height="28.8001" class="st4"/>
-			<text x="-33.01" y="615.97" class="st5" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Voter confirmed <v:newlineChar/><tspan
-						x="-12.01" dy="1.2em" class="st16">his vote</tspan></text>		</g>
-		<g id="group60-144" transform="translate(284.149,-127.559)" v:mID="60" v:groupContext="group">
-			<v:userDefs>
-				<v:ud v:nameU="visVersion" v:prompt="" v:val="VT0(15):26"/>
-			</v:userDefs>
-			<title>Zustand.60</title>
-			<g id="shape60-145" v:mID="60" v:groupContext="groupContent">
-				<rect x="0" y="561.26" width="97.8443" height="34.0157" rx="8.50394" ry="8.50394" class="st13"/>
-			</g>
-			<g id="shape61-147" v:mID="61" v:groupContext="shape" transform="translate(0,-11.612)">
-				<title>Tabelle.61</title>
-				<desc>Finalization</desc>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Title)"/>
-				</v:userDefs>
-				<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-				<v:textRect cx="48.9221" cy="584.074" width="97.85" height="22.4037"/>
-				<path d="M8.5 595.28 L89.34 595.28 A8.50394 8.50394 -180 0 0 97.84 586.77 L97.84 581.38 A8.50394 8.50394 -180 0 0
-							 89.34 572.87 L8.5 572.87 A8.50394 8.50394 -180 0 0 0 581.38 L0 586.77 A8.50394 8.50394 -180 0 0 8.5
-							 595.28 Z" class="st14"/>
-				<text x="20.22" y="587.67" class="st7" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Finalization</text>			</g>
-			<g id="shape62-150" v:mID="62" v:groupContext="shape">
-				<title>Tabelle.62</title>
-				<v:userDefs>
-					<v:ud v:nameU="UmlRole" v:prompt="" v:val="VT4(Body)"/>
-				</v:userDefs>
-				<path d="M5.81 595.28 L92.04 595.28 A5.80602 5.80602 -180 0 0 97.84 589.47 L97.84 589.47 A5.80602 5.80602 -180 0
-							 0 92.04 583.66 L5.81 583.66 A5.80602 5.80602 -180 0 0 0 589.47 L0 589.47 A5.80602 5.80602 -180 0 0 5.81
-							 595.28 Z" class="st15"/>
-			</g>
-		</g>
-		<g id="shape65-152" v:mID="65" v:groupContext="shape" v:layerMember="0" transform="translate(284.149,-144.567)">
-			<title>Dynamischer Verbinder.65</title>
-			<path d="M0 595.28 L-24.46 595.28 L-24.46 456.38 L-92.27 456.38" class="st2"/>
-		</g>
-		<g id="shape71-157" v:mID="71" v:groupContext="shape" v:layerMember="0" transform="translate(142.416,-290.551)">
-			<title>Dynamischer Verbinder.71</title>
-			<desc>Administrator started postelection phase</desc>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="-7.08661" cy="605.906" width="211.17" height="22.4037"/>
-			<path d="M-7.09 595.28 L-7.09 598.26 L-7.09 610.5" class="st2"/>
-			<rect v:rectContext="textBkgnd" x="-107.309" y="598.706" width="200.445" height="14.4001" class="st4"/>
-			<text x="-107.31" y="609.51" class="st9" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Administrator started postelection phase</text>		</g>
-		<g id="shape75-164" v:mID="75" v:groupContext="shape" v:layerMember="0" transform="translate(128.243,-113.386)">
-			<title>Dynamischer Verbinder.75</title>
-			<desc>Administrator has tallied and published the result</desc>
-			<v:textBlock v:margins="rect(4,4,4,4)" v:tabSpace="42.5197"/>
-			<v:textRect cx="7.08661" cy="609.449" width="252.15" height="22.4037"/>
-			<path d="M7.09 595.28 L7.09 617.58" class="st2"/>
-			<rect v:rectContext="textBkgnd" x="-113.626" y="602.249" width="241.426" height="14.4001" class="st4"/>
-			<text x="-113.63" y="613.05" class="st5" v:langID="2055"><v:paragraph v:horizAlign="1"/><v:tabList/>Administrator has tallied and published the result</text>		</g>
-	</g>
-</svg>
+	]]></style><defs
+     id="Markers"><g
+       id="lend4"><path
+         d="M 2 1 L 0 0 L 2 -1 L 2 1 "
+         style="stroke:none"
+         id="path4062" /></g><marker
+       id="mrkr4-8"
+       class="st3"
+       v:arrowType="4"
+       v:arrowSize="2"
+       v:setback="12.08"
+       refX="-12.08"
+       orient="auto"
+       markerUnits="strokeWidth"
+       overflow="visible"><use
+         xlink:href="#lend4"
+         transform="scale(-6.04,-6.04) "
+         id="use4065" /></marker></defs><g
+     v:mID="4"
+     v:index="1"
+     v:groupContext="foregroundPage"
+     id="g4413"
+     transform="translate(-8.4237276,-21.059319)"><v:userDefs><v:ud
+         v:nameU="msvThemeOrder"
+         v:val="VT0(0):26" /></v:userDefs><title
+       id="title4069">Zeichenblatt-1</title><v:pageProperties
+       v:drawingScale="0.0393701"
+       v:pageScale="0.0393701"
+       v:drawingUnits="24"
+       v:shadowOffsetX="8.50394"
+       v:shadowOffsetY="-8.50394" /><v:layer
+       v:name="Verbinder"
+       v:index="0" /><g
+       id="shape1-1"
+       v:mID="1"
+       v:groupContext="shape"
+       transform="translate(118.322,-532.913)"><title
+         id="title4071">Anfangszustand</title><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><circle
+         cx="17.0079"
+         cy="578.26801"
+         class="st1"
+         id="ellipse4073"
+         r="17.0079"
+         style="fill:#73ae42;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+       id="shape2-3"
+       v:mID="2"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(128.243,-532.913)"><title
+         id="title4076">Dynamischer Verbinder</title><desc
+         id="desc4078">New election created</desc><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="7.08661"
+         cy="605.335"
+         width="114.89"
+         height="22.4037" /><path
+         d="m 7.09,595.28 v 14.07"
+         class="st2"
+         id="path4080"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /><rect
+         v:rectContext="textBkgnd"
+         x="-44.997799"
+         y="598.13501"
+         width="104.169"
+         height="14.4001"
+         class="st4"
+         id="rect4082"
+         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         x="-45"
+         y="608.92999"
+         class="st5"
+         v:langID="2055"
+         id="text4084"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#41719d"><v:paragraph
+   v:horizAlign="1" /><v:tabList />New election created</text>
+</g><g
+       id="group3-11"
+       transform="translate(86.4077,-478.78)"
+       v:mID="3"
+       v:groupContext="group"><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><title
+         id="title4087">Zustand.8</title><g
+         id="shape3-12"
+         v:mID="3"
+         v:groupContext="groupContent"><rect
+           x="0"
+           y="561.26001"
+           width="97.844299"
+           height="34.015701"
+           rx="8.5039396"
+           ry="8.5039396"
+           class="st6"
+           id="rect4089"
+           style="fill:#73ae42;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+         id="shape4-14"
+         v:mID="4"
+         v:groupContext="shape"
+         transform="translate(0,-11.612)"><title
+           id="title4092">Tabelle.4</title><desc
+           id="desc4094">New</desc><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Title)" /></v:userDefs><v:textBlock
+           v:margins="rect(4,4,4,4)"
+           v:tabSpace="42.5197" /><v:textRect
+           cx="48.9221"
+           cy="584.074"
+           width="97.85"
+           height="22.4037" /><path
+           d="m 8.5,595.28 h 80.84 a 8.50394,8.50394 -180 0 0 8.5,-8.51 v -5.39 a 8.50394,8.50394 -180 0 0 -8.5,-8.51 H 8.5 A 8.50394,8.50394 -180 0 0 0,581.38 v 5.39 a 8.50394,8.50394 -180 0 0 8.5,8.51 z"
+           class="st1"
+           id="path4096"
+           inkscape:connector-curvature="0"
+           style="fill:#73ae42;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+           x="37.48"
+           y="587.66998"
+           class="st7"
+           v:langID="2055"
+           id="text4098"
+           style="font-weight:bold;font-size:12.00012016px;font-family:Calibri;fill:#ffffff"><v:paragraph
+   v:horizAlign="1" /><v:tabList />New</text>
+</g><g
+         id="shape5-17"
+         v:mID="5"
+         v:groupContext="shape"><title
+           id="title4101">Tabelle.5</title><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Body)" /></v:userDefs><path
+           d="m 5.81,595.28 h 86.23 a 5.80602,5.80602 -180 0 0 5.8,-5.81 v 0 a 5.80602,5.80602 -180 0 0 -5.8,-5.81 H 5.81 A 5.80602,5.80602 -180 0 0 0,589.47 v 0 a 5.80602,5.80602 -180 0 0 5.81,5.81 z"
+           class="st8"
+           id="path4103"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g></g><g
+       id="shape6-19"
+       v:mID="6"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(128.243,-478.78)"><title
+         id="title4107">Dynamischer Verbinder.15</title><desc
+         id="desc4109">Election is set up and electorate data generated</desc><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="7.08661"
+         cy="608.602"
+         width="243.86"
+         height="22.4037" /><path
+         d="m 7.09,595.28 v 20.61"
+         class="st2"
+         id="path4111"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /><rect
+         v:rectContext="textBkgnd"
+         x="-109.481"
+         y="601.40302"
+         width="233.13499"
+         height="14.4001"
+         class="st4"
+         id="rect4113"
+         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         x="-109.48"
+         y="612.20001"
+         class="st9"
+         v:langID="2055"
+         id="text4115"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#41729d"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Election is set up and electorate data generated</text>
+</g><g
+       id="group7-26"
+       transform="translate(86.4077,-418.11)"
+       v:mID="7"
+       v:groupContext="group"><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><title
+         id="title4118">Zustand</title><g
+         id="shape7-27"
+         v:mID="7"
+         v:groupContext="groupContent"><rect
+           x="0"
+           y="561.26001"
+           width="97.844299"
+           height="34.015701"
+           rx="8.5039396"
+           ry="8.5039396"
+           class="st6"
+           id="rect4120"
+           style="fill:#73ae42;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+         id="shape8-29"
+         v:mID="8"
+         v:groupContext="shape"
+         transform="translate(0,-11.612)"><title
+           id="title4123">Tabelle.8</title><desc
+           id="desc4125">Printing</desc><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Title)" /></v:userDefs><v:textBlock
+           v:margins="rect(4,4,4,4)"
+           v:tabSpace="42.5197" /><v:textRect
+           cx="48.9221"
+           cy="584.074"
+           width="97.85"
+           height="22.4037" /><path
+           d="m 8.5,595.28 h 80.84 a 8.50394,8.50394 -180 0 0 8.5,-8.51 v -5.39 a 8.50394,8.50394 -180 0 0 -8.5,-8.51 H 8.5 A 8.50394,8.50394 -180 0 0 0,581.38 v 5.39 a 8.50394,8.50394 -180 0 0 8.5,8.51 z"
+           class="st1"
+           id="path4127"
+           inkscape:connector-curvature="0"
+           style="fill:#73ae42;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+           x="29.280001"
+           y="587.66998"
+           class="st7"
+           v:langID="2055"
+           id="text4129"
+           style="font-weight:bold;font-size:12.00012016px;font-family:Calibri;fill:#ffffff"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Printing</text>
+</g><g
+         id="shape9-32"
+         v:mID="9"
+         v:groupContext="shape"><title
+           id="title4132">Tabelle.9</title><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Body)" /></v:userDefs><path
+           d="m 5.81,595.28 h 86.23 a 5.80602,5.80602 -180 0 0 5.8,-5.81 v 0 a 5.80602,5.80602 -180 0 0 -5.8,-5.81 H 5.81 A 5.80602,5.80602 -180 0 0 0,589.47 v 0 a 5.80602,5.80602 -180 0 0 5.81,5.81 z"
+           class="st8"
+           id="path4134"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g></g><g
+       id="shape10-34"
+       v:mID="10"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(128.243,-418.11)"><title
+         id="title4138">Dynamischer Verbinder.27</title><desc
+         id="desc4140">Votecards have been printed</desc><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="7.08661"
+         cy="611.575"
+         width="151.83"
+         height="22.4037" /><path
+         d="m 7.09,595.28 v 26.55"
+         class="st2"
+         id="path4142"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /><rect
+         v:rectContext="textBkgnd"
+         x="-63.466702"
+         y="604.375"
+         width="141.10699"
+         height="14.4001"
+         class="st4"
+         id="rect4144"
+         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         x="-63.470001"
+         y="615.17999"
+         class="st9"
+         v:langID="2055"
+         id="text4146"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#41729d"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Votecards have been printed</text>
+</g><g
+       id="group11-41"
+       transform="translate(86.4077,-351.496)"
+       v:mID="11"
+       v:groupContext="group"><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><title
+         id="title4149">Zustand.24</title><g
+         id="shape11-42"
+         v:mID="11"
+         v:groupContext="groupContent"><rect
+           x="0"
+           y="561.26001"
+           width="97.844299"
+           height="34.015701"
+           rx="8.5039396"
+           ry="8.5039396"
+           class="st6"
+           id="rect4151"
+           style="fill:#73ae42;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+         id="shape12-44"
+         v:mID="12"
+         v:groupContext="shape"
+         transform="translate(0,-11.612)"><title
+           id="title4154">Tabelle.12</title><desc
+           id="desc4156">Delivery</desc><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Title)" /></v:userDefs><v:textBlock
+           v:margins="rect(4,4,4,4)"
+           v:tabSpace="42.5197" /><v:textRect
+           cx="48.9221"
+           cy="584.074"
+           width="97.85"
+           height="22.4037" /><path
+           d="m 8.5,595.28 h 80.84 a 8.50394,8.50394 -180 0 0 8.5,-8.51 v -5.39 a 8.50394,8.50394 -180 0 0 -8.5,-8.51 H 8.5 A 8.50394,8.50394 -180 0 0 0,581.38 v 5.39 a 8.50394,8.50394 -180 0 0 8.5,8.51 z"
+           class="st1"
+           id="path4158"
+           inkscape:connector-curvature="0"
+           style="fill:#73ae42;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+           x="28.34"
+           y="587.66998"
+           class="st7"
+           v:langID="2055"
+           id="text4160"
+           style="font-weight:bold;font-size:12.00012016px;font-family:Calibri;fill:#ffffff"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Delivery</text>
+</g><g
+         id="shape13-47"
+         v:mID="13"
+         v:groupContext="shape"><title
+           id="title4163">Tabelle.13</title><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Body)" /></v:userDefs><path
+           d="m 5.81,595.28 h 86.23 a 5.80602,5.80602 -180 0 0 5.8,-5.81 v 0 a 5.80602,5.80602 -180 0 0 -5.8,-5.81 H 5.81 A 5.80602,5.80602 -180 0 0 0,589.47 v 0 a 5.80602,5.80602 -180 0 0 5.81,5.81 z"
+           class="st8"
+           id="path4165"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g></g><g
+       id="group15-49"
+       transform="translate(86.4077,-290.551)"
+       v:mID="15"
+       v:groupContext="group"><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><title
+         id="title4169">Zustand.35</title><g
+         id="shape15-50"
+         v:mID="15"
+         v:groupContext="groupContent"><rect
+           x="0"
+           y="561.26001"
+           width="97.844299"
+           height="34.015701"
+           rx="8.5039396"
+           ry="8.5039396"
+           class="st6"
+           id="rect4171"
+           style="fill:#73ae42;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+         id="shape16-52"
+         v:mID="16"
+         v:groupContext="shape"
+         transform="translate(0,-11.612)"><title
+           id="title4174">Tabelle.16</title><desc
+           id="desc4176">Election</desc><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Title)" /></v:userDefs><v:textBlock
+           v:margins="rect(4,4,4,4)"
+           v:tabSpace="42.5197" /><v:textRect
+           cx="48.9221"
+           cy="584.074"
+           width="97.85"
+           height="22.4037" /><path
+           d="m 8.5,595.28 h 80.84 a 8.50394,8.50394 -180 0 0 8.5,-8.51 v -5.39 a 8.50394,8.50394 -180 0 0 -8.5,-8.51 H 8.5 A 8.50394,8.50394 -180 0 0 0,581.38 v 5.39 a 8.50394,8.50394 -180 0 0 8.5,8.51 z"
+           class="st1"
+           id="path4178"
+           inkscape:connector-curvature="0"
+           style="fill:#73ae42;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+           x="28.99"
+           y="587.66998"
+           class="st7"
+           v:langID="1031"
+           id="text4180"
+           style="font-weight:bold;font-size:12.00012016px;font-family:Calibri;fill:#ffffff"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Election</text>
+</g><g
+         id="shape17-55"
+         v:mID="17"
+         v:groupContext="shape"><title
+           id="title4183">Tabelle.17</title><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Body)" /></v:userDefs><path
+           d="m 5.81,595.28 h 86.23 a 5.80602,5.80602 -180 0 0 5.8,-5.81 v 0 a 5.80602,5.80602 -180 0 0 -5.8,-5.81 H 5.81 A 5.80602,5.80602 -180 0 0 0,589.47 v 0 a 5.80602,5.80602 -180 0 0 5.81,5.81 z"
+           class="st8"
+           id="path4185"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g></g><g
+       id="group19-57"
+       transform="translate(86.4077,-235.276)"
+       v:mID="19"
+       v:groupContext="group"><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><title
+         id="title4189">Zustand.39</title><g
+         id="shape19-58"
+         v:mID="19"
+         v:groupContext="groupContent"><rect
+           x="0"
+           y="561.26001"
+           width="97.844299"
+           height="34.015701"
+           rx="8.5039396"
+           ry="8.5039396"
+           class="st6"
+           id="rect4191"
+           style="fill:#73ae42;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+         id="shape20-60"
+         v:mID="20"
+         v:groupContext="shape"
+         transform="translate(0,-11.612)"><title
+           id="title4194">Tabelle.20</title><desc
+           id="desc4196">Mixing</desc><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Title)" /></v:userDefs><v:textBlock
+           v:margins="rect(4,4,4,4)"
+           v:tabSpace="42.5197" /><v:textRect
+           cx="48.9221"
+           cy="584.074"
+           width="97.85"
+           height="22.4037" /><path
+           d="m 8.5,595.28 h 80.84 a 8.50394,8.50394 -180 0 0 8.5,-8.51 v -5.39 a 8.50394,8.50394 -180 0 0 -8.5,-8.51 H 8.5 A 8.50394,8.50394 -180 0 0 0,581.38 v 5.39 a 8.50394,8.50394 -180 0 0 8.5,8.51 z"
+           class="st1"
+           id="path4198"
+           inkscape:connector-curvature="0"
+           style="fill:#73ae42;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+           x="31.91"
+           y="587.66998"
+           class="st7"
+           v:langID="2055"
+           id="text4200"
+           style="font-weight:bold;font-size:12.00012016px;font-family:Calibri;fill:#ffffff"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Mixing</text>
+</g><g
+         id="shape21-63"
+         v:mID="21"
+         v:groupContext="shape"><title
+           id="title4203">Tabelle.21</title><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Body)" /></v:userDefs><path
+           d="m 5.81,595.28 h 86.23 a 5.80602,5.80602 -180 0 0 5.8,-5.81 v 0 a 5.80602,5.80602 -180 0 0 -5.8,-5.81 H 5.81 A 5.80602,5.80602 -180 0 0 0,589.47 v 0 a 5.80602,5.80602 -180 0 0 5.81,5.81 z"
+           class="st8"
+           id="path4205"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g></g><g
+       id="shape22-65"
+       v:mID="22"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(128.243,-235.276)"><title
+         id="title4209">Dynamischer Verbinder.46</title><desc
+         id="desc4211">All authorities are done mixing the encryptions</desc><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="7.08661"
+         cy="608.74"
+         width="239.25"
+         height="22.4037" /><path
+         d="m 7.09,595.28 v 20.88"
+         class="st2"
+         id="path4213"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /><rect
+         v:rectContext="textBkgnd"
+         x="-107.178"
+         y="601.53998"
+         width="228.52901"
+         height="14.4001"
+         class="st4"
+         id="rect4215"
+         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         x="-107.18"
+         y="612.34003"
+         class="st9"
+         v:langID="2055"
+         id="text4217"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#41729d"><v:paragraph
+   v:horizAlign="1" /><v:tabList />All authorities are done mixing the encryptions</text>
+</g><g
+       id="group23-72"
+       transform="translate(86.4077,-174.331)"
+       v:mID="23"
+       v:groupContext="group"><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><title
+         id="title4220">Zustand.43</title><g
+         id="shape23-73"
+         v:mID="23"
+         v:groupContext="groupContent"><rect
+           x="0"
+           y="561.26001"
+           width="97.844299"
+           height="34.015701"
+           rx="8.5039396"
+           ry="8.5039396"
+           class="st6"
+           id="rect4222"
+           style="fill:#73ae42;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+         id="shape24-75"
+         v:mID="24"
+         v:groupContext="shape"
+         transform="translate(0,-11.612)"><title
+           id="title4225">Tabelle.24</title><desc
+           id="desc4227">Decryption</desc><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Title)" /></v:userDefs><v:textBlock
+           v:margins="rect(4,4,4,4)"
+           v:tabSpace="42.5197" /><v:textRect
+           cx="48.9221"
+           cy="584.074"
+           width="97.85"
+           height="22.4037" /><path
+           d="m 8.5,595.28 h 80.84 a 8.50394,8.50394 -180 0 0 8.5,-8.51 v -5.39 a 8.50394,8.50394 -180 0 0 -8.5,-8.51 H 8.5 A 8.50394,8.50394 -180 0 0 0,581.38 v 5.39 a 8.50394,8.50394 -180 0 0 8.5,8.51 z"
+           class="st1"
+           id="path4229"
+           inkscape:connector-curvature="0"
+           style="fill:#73ae42;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+           x="21.41"
+           y="587.66998"
+           class="st7"
+           v:langID="2055"
+           id="text4231"
+           style="font-weight:bold;font-size:12.00012016px;font-family:Calibri;fill:#ffffff"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Decryption</text>
+</g><g
+         id="shape25-78"
+         v:mID="25"
+         v:groupContext="shape"><title
+           id="title4234">Tabelle.25</title><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Body)" /></v:userDefs><path
+           d="m 5.81,595.28 h 86.23 a 5.80602,5.80602 -180 0 0 5.8,-5.81 v 0 a 5.80602,5.80602 -180 0 0 -5.8,-5.81 H 5.81 A 5.80602,5.80602 -180 0 0 0,589.47 v 0 a 5.80602,5.80602 -180 0 0 5.81,5.81 z"
+           class="st8"
+           id="path4236"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g></g><g
+       id="shape26-80"
+       v:mID="26"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(128.243,-174.331)"><title
+         id="title4240">Dynamischer Verbinder.56</title><desc
+         id="desc4242">All authorities have decrypted the encryptions</desc><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="7.08661"
+         cy="608.74"
+         width="236.49"
+         height="22.4037" /><path
+         d="m 7.09,595.28 v 20.88"
+         class="st2"
+         id="path4244"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /><rect
+         v:rectContext="textBkgnd"
+         x="-105.798"
+         y="601.53998"
+         width="225.77"
+         height="14.4001"
+         class="st4"
+         id="rect4246"
+         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         x="-105.8"
+         y="612.34003"
+         class="st9"
+         v:langID="2055"
+         id="text4248"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#41729d"><v:paragraph
+   v:horizAlign="1" /><v:tabList />All authorities have decrypted the encryptions</text>
+</g><g
+       id="group27-87"
+       transform="translate(86.4077,-113.386)"
+       v:mID="27"
+       v:groupContext="group"><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><title
+         id="title4251">Zustand.53</title><g
+         id="shape27-88"
+         v:mID="27"
+         v:groupContext="groupContent"><rect
+           x="0"
+           y="561.26001"
+           width="97.844299"
+           height="34.015701"
+           rx="8.5039396"
+           ry="8.5039396"
+           class="st6"
+           id="rect4253"
+           style="fill:#73ae42;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+         id="shape28-90"
+         v:mID="28"
+         v:groupContext="shape"
+         transform="translate(0,-11.612)"><title
+           id="title4256">Tabelle.28</title><desc
+           id="desc4258">Tallying</desc><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Title)" /></v:userDefs><v:textBlock
+           v:margins="rect(4,4,4,4)"
+           v:tabSpace="42.5197" /><v:textRect
+           cx="48.9221"
+           cy="584.074"
+           width="97.85"
+           height="22.4037" /><path
+           d="m 8.5,595.28 h 80.84 a 8.50394,8.50394 -180 0 0 8.5,-8.51 v -5.39 a 8.50394,8.50394 -180 0 0 -8.5,-8.51 H 8.5 A 8.50394,8.50394 -180 0 0 0,581.38 v 5.39 a 8.50394,8.50394 -180 0 0 8.5,8.51 z"
+           class="st1"
+           id="path4260"
+           inkscape:connector-curvature="0"
+           style="fill:#73ae42;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+           x="29.66"
+           y="587.66998"
+           class="st7"
+           v:langID="2055"
+           id="text4262"
+           style="font-weight:bold;font-size:12.00012016px;font-family:Calibri;fill:#ffffff"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Tallying</text>
+</g><g
+         id="shape29-93"
+         v:mID="29"
+         v:groupContext="shape"><title
+           id="title4265">Tabelle.29</title><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Body)" /></v:userDefs><path
+           d="m 5.81,595.28 h 86.23 a 5.80602,5.80602 -180 0 0 5.8,-5.81 v 0 a 5.80602,5.80602 -180 0 0 -5.8,-5.81 H 5.81 A 5.80602,5.80602 -180 0 0 0,589.47 v 0 a 5.80602,5.80602 -180 0 0 5.81,5.81 z"
+           class="st8"
+           id="path4267"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g></g><g
+       id="shape45-95"
+       v:mID="45"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(128.243,-351.496)"><title
+         id="title4271">Dynamischer Verbinder.45</title><desc
+         id="desc4273">Votecards have been delivered to all voters</desc><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="7.08661"
+         cy="608.74"
+         width="221.98"
+         height="22.4037" /><path
+         d="m 7.09,595.28 v 20.88"
+         class="st2"
+         id="path4275"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /><rect
+         v:rectContext="textBkgnd"
+         x="-98.540901"
+         y="601.53998"
+         width="211.255"
+         height="14.4001"
+         class="st4"
+         id="rect4277"
+         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         x="-98.540001"
+         y="612.34003"
+         class="st9"
+         v:langID="2055"
+         id="text4279"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#41729d"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Votecards have been delivered to all voters</text>
+</g><g
+       id="shape46-102"
+       v:mID="46"
+       v:groupContext="shape"
+       transform="translate(118.322,-51.0236)"><title
+         id="title4282">Endzustand</title><desc
+         id="desc4284">Finished</desc><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="17.0079"
+         cy="606.477"
+         width="51.32"
+         height="22.4037" /><path
+         d="m 30.61,578.27 a 13.6063,13.6063 -180 1 0 -27.21,0 13.6063,13.6063 -180 1 0 27.21,0 z"
+         class="st10"
+         id="path4286"
+         inkscape:connector-curvature="0"
+         style="fill:#73ae42" /><path
+         d="m 34.02,578.27 a 17.01,17.01 -180 1 0 -34.02,0 17.01,17.01 -180 1 0 34.02,0"
+         class="st11"
+         id="path4288"
+         inkscape:connector-curvature="0"
+         style="stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><path
+         d="m 30.61,578.27 a 13.6063,13.6063 -180 1 0 -27.21,0 13.6063,13.6063 -180 1 0 27.21,0"
+         class="st11"
+         id="path4290"
+         inkscape:connector-curvature="0"
+         style="stroke:#73ae42;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+         x="-3.29"
+         y="610.08002"
+         class="st12"
+         v:langID="2055"
+         id="text4292"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#73ae42"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Finished</text>
+</g><g
+       id="shape52-107"
+       v:mID="52"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(184.252,-300.472)"><title
+         id="title4295">Dynamischer Verbinder.52</title><path
+         d="M 0,588.19 H 93.86"
+         class="st2"
+         id="path4297"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /></g><g
+       id="group49-112"
+       transform="translate(284.149,-290.551)"
+       v:mID="49"
+       v:groupContext="group"><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><title
+         id="title4300">Zustand.49</title><g
+         id="shape49-113"
+         v:mID="49"
+         v:groupContext="groupContent"><rect
+           x="0"
+           y="561.26001"
+           width="97.844299"
+           height="34.015701"
+           rx="8.5039396"
+           ry="8.5039396"
+           class="st13"
+           id="rect4302"
+           style="fill:#5b9bd5;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+         id="shape50-115"
+         v:mID="50"
+         v:groupContext="shape"
+         transform="translate(0,-11.612)"><title
+           id="title4305">Tabelle.50</title><desc
+           id="desc4307">Vote Casting</desc><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Title)" /></v:userDefs><v:textBlock
+           v:margins="rect(4,4,4,4)"
+           v:tabSpace="42.5197" /><v:textRect
+           cx="48.9221"
+           cy="584.074"
+           width="97.85"
+           height="22.4037" /><path
+           d="m 8.5,595.28 h 80.84 a 8.50394,8.50394 -180 0 0 8.5,-8.51 v -5.39 a 8.50394,8.50394 -180 0 0 -8.5,-8.51 H 8.5 A 8.50394,8.50394 -180 0 0 0,581.38 v 5.39 a 8.50394,8.50394 -180 0 0 8.5,8.51 z"
+           class="st14"
+           id="path4309"
+           inkscape:connector-curvature="0"
+           style="fill:#5b9bd5;stroke:#5b9bd5;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+           x="17.540001"
+           y="587.66998"
+           class="st7"
+           v:langID="2055"
+           id="text4311"
+           style="font-weight:bold;font-size:12.00012016px;font-family:Calibri;fill:#ffffff"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Vote Casting</text>
+</g><g
+         id="shape51-118"
+         v:mID="51"
+         v:groupContext="shape"><title
+           id="title4314">Tabelle.51</title><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Body)" /></v:userDefs><path
+           d="m 5.81,595.28 h 86.23 a 5.80602,5.80602 -180 0 0 5.8,-5.81 v 0 a 5.80602,5.80602 -180 0 0 -5.8,-5.81 H 5.81 A 5.80602,5.80602 -180 0 0 0,589.47 v 0 a 5.80602,5.80602 -180 0 0 5.81,5.81 z"
+           class="st15"
+           id="path4316"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;stroke:#5b9bd5;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g></g><g
+       id="shape59-120"
+       v:mID="59"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(325.984,-290.551)"><title
+         id="title4320">Dynamischer Verbinder.59</title><desc
+         id="desc4322">Voter casted a vote</desc><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="7.08661"
+         cy="618.459"
+         width="75.27"
+         height="36.8038" /><path
+         d="M 7.09,595.28 V 635.6"
+         class="st2"
+         id="path4324"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /><rect
+         v:rectContext="textBkgnd"
+         x="-23.8307"
+         y="604.05902"
+         width="61.834599"
+         height="28.8001"
+         class="st4"
+         id="rect4326"
+         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         x="-23.83"
+         y="614.85999"
+         class="st5"
+         v:langID="2055"
+         id="text4330"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#41719d"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Voter casted <v:newlineChar /><tspan
+   x="-8.0100002"
+   dy="1.2em"
+   class="st16"
+   id="tspan4328"
+   style="font-size:12.00012016px">a vote</tspan></text>
+</g><g
+       id="group56-128"
+       transform="translate(284.149,-210.169)"
+       v:mID="56"
+       v:groupContext="group"><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><title
+         id="title4333">Zustand.56</title><g
+         id="shape56-129"
+         v:mID="56"
+         v:groupContext="groupContent"><rect
+           x="0"
+           y="561.26001"
+           width="97.844299"
+           height="34.015701"
+           rx="8.5039396"
+           ry="8.5039396"
+           class="st13"
+           id="rect4335"
+           style="fill:#5b9bd5;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+         id="shape57-131"
+         v:mID="57"
+         v:groupContext="shape"
+         transform="translate(0,-11.612)"><title
+           id="title4338">Tabelle.57</title><desc
+           id="desc4340">Confirmation</desc><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Title)" /></v:userDefs><v:textBlock
+           v:margins="rect(4,4,4,4)"
+           v:tabSpace="42.5197" /><v:textRect
+           cx="48.9221"
+           cy="584.074"
+           width="97.85"
+           height="22.4037" /><path
+           d="m 8.5,595.28 h 80.84 a 8.50394,8.50394 -180 0 0 8.5,-8.51 v -5.39 a 8.50394,8.50394 -180 0 0 -8.5,-8.51 H 8.5 A 8.50394,8.50394 -180 0 0 0,581.38 v 5.39 a 8.50394,8.50394 -180 0 0 8.5,8.51 z"
+           class="st14"
+           id="path4342"
+           inkscape:connector-curvature="0"
+           style="fill:#5b9bd5;stroke:#5b9bd5;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+           x="15.95"
+           y="587.66998"
+           class="st7"
+           v:langID="2055"
+           id="text4344"
+           style="font-weight:bold;font-size:12.00012016px;font-family:Calibri;fill:#ffffff"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Confirmation</text>
+</g><g
+         id="shape58-134"
+         v:mID="58"
+         v:groupContext="shape"><title
+           id="title4347">Tabelle.58</title><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Body)" /></v:userDefs><path
+           d="m 5.81,595.28 h 86.23 a 5.80602,5.80602 -180 0 0 5.8,-5.81 v 0 a 5.80602,5.80602 -180 0 0 -5.8,-5.81 H 5.81 A 5.80602,5.80602 -180 0 0 0,589.47 v 0 a 5.80602,5.80602 -180 0 0 5.81,5.81 z"
+           class="st15"
+           id="path4349"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;stroke:#5b9bd5;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g></g><g
+       id="shape63-136"
+       v:mID="63"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(325.984,-210.169)"><title
+         id="title4353">Dynamischer Verbinder.63</title><desc
+         id="desc4355">Voter confirmed his vote</desc><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="7.08661"
+         cy="619.573"
+         width="93.63"
+         height="36.8038" /><path
+         d="m 7.09,595.28 v 42.55"
+         class="st2"
+         id="path4357"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /><rect
+         v:rectContext="textBkgnd"
+         x="-33.009499"
+         y="605.17297"
+         width="80.1922"
+         height="28.8001"
+         class="st4"
+         id="rect4359"
+         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         x="-33.009998"
+         y="615.96997"
+         class="st5"
+         v:langID="2055"
+         id="text4363"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#41719d"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Voter confirmed <v:newlineChar /><tspan
+   x="-12.01"
+   dy="1.2em"
+   class="st16"
+   id="tspan4361"
+   style="font-size:12.00012016px">his vote</tspan></text>
+</g><g
+       id="group60-144"
+       transform="translate(284.149,-127.559)"
+       v:mID="60"
+       v:groupContext="group"><v:userDefs><v:ud
+           v:nameU="visVersion"
+           v:prompt=""
+           v:val="VT0(15):26" /></v:userDefs><title
+         id="title4366">Zustand.60</title><g
+         id="shape60-145"
+         v:mID="60"
+         v:groupContext="groupContent"><rect
+           x="0"
+           y="561.26001"
+           width="97.844299"
+           height="34.015701"
+           rx="8.5039396"
+           ry="8.5039396"
+           class="st13"
+           id="rect4368"
+           style="fill:#5b9bd5;stroke:#ffffff;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g><g
+         id="shape61-147"
+         v:mID="61"
+         v:groupContext="shape"
+         transform="translate(0,-11.612)"><title
+           id="title4371">Tabelle.61</title><desc
+           id="desc4373">Finalization</desc><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Title)" /></v:userDefs><v:textBlock
+           v:margins="rect(4,4,4,4)"
+           v:tabSpace="42.5197" /><v:textRect
+           cx="48.9221"
+           cy="584.074"
+           width="97.85"
+           height="22.4037" /><path
+           d="m 8.5,595.28 h 80.84 a 8.50394,8.50394 -180 0 0 8.5,-8.51 v -5.39 a 8.50394,8.50394 -180 0 0 -8.5,-8.51 H 8.5 A 8.50394,8.50394 -180 0 0 0,581.38 v 5.39 a 8.50394,8.50394 -180 0 0 8.5,8.51 z"
+           class="st14"
+           id="path4375"
+           inkscape:connector-curvature="0"
+           style="fill:#5b9bd5;stroke:#5b9bd5;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /><text
+           x="20.219999"
+           y="587.66998"
+           class="st7"
+           v:langID="2055"
+           id="text4377"
+           style="font-weight:bold;font-size:12.00012016px;font-family:Calibri;fill:#ffffff"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Finalization</text>
+</g><g
+         id="shape62-150"
+         v:mID="62"
+         v:groupContext="shape"><title
+           id="title4380">Tabelle.62</title><v:userDefs><v:ud
+             v:nameU="UmlRole"
+             v:prompt=""
+             v:val="VT4(Body)" /></v:userDefs><path
+           d="m 5.81,595.28 h 86.23 a 5.80602,5.80602 -180 0 0 5.8,-5.81 v 0 a 5.80602,5.80602 -180 0 0 -5.8,-5.81 H 5.81 A 5.80602,5.80602 -180 0 0 0,589.47 v 0 a 5.80602,5.80602 -180 0 0 5.81,5.81 z"
+           class="st15"
+           id="path4382"
+           inkscape:connector-curvature="0"
+           style="fill:#ffffff;stroke:#5b9bd5;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round" /></g></g><g
+       id="shape65-152"
+       v:mID="65"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(284.149,-144.567)"><title
+         id="title4386">Dynamischer Verbinder.65</title><path
+         d="M 0,595.28 H -24.46 V 456.38 H -92.27"
+         class="st2"
+         id="path4388"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /></g><g
+       id="shape71-157"
+       v:mID="71"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(142.416,-290.551)"><title
+         id="title4391">Dynamischer Verbinder.71</title><desc
+         id="desc4393">Administrator started postelection phase</desc><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="-7.08661"
+         cy="605.906"
+         width="211.17"
+         height="22.4037" /><path
+         d="m -7.09,595.28 v 2.98 12.24"
+         class="st2"
+         id="path4395"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /><rect
+         v:rectContext="textBkgnd"
+         x="-107.309"
+         y="598.70599"
+         width="200.44501"
+         height="14.4001"
+         class="st4"
+         id="rect4397"
+         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         x="-107.31"
+         y="609.51001"
+         class="st9"
+         v:langID="2055"
+         id="text4399"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#41729d"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Administrator started postelection phase</text>
+</g><g
+       id="shape75-164"
+       v:mID="75"
+       v:groupContext="shape"
+       v:layerMember="0"
+       transform="translate(128.243,-113.386)"><title
+         id="title4402">Dynamischer Verbinder.75</title><desc
+         id="desc4404">Administrator has tallied and published the result</desc><v:textBlock
+         v:margins="rect(4,4,4,4)"
+         v:tabSpace="42.5197" /><v:textRect
+         cx="7.08661"
+         cy="609.449"
+         width="252.15"
+         height="22.4037" /><path
+         d="m 7.09,595.28 v 22.3"
+         class="st2"
+         id="path4406"
+         inkscape:connector-curvature="0"
+         style="stroke:#5592c9;stroke-width:0.5;stroke-linecap:round;stroke-linejoin:round;marker-end:url(#mrkr4-8)" /><rect
+         v:rectContext="textBkgnd"
+         x="-113.626"
+         y="602.24902"
+         width="241.42599"
+         height="14.4001"
+         class="st4"
+         id="rect4408"
+         style="fill:#ffffff;stroke:none;stroke-width:7.19999981;stroke-linecap:butt" /><text
+         x="-113.63"
+         y="613.04999"
+         class="st5"
+         v:langID="2055"
+         id="text4410"
+         style="font-size:12.00012016px;font-family:Calibri;fill:#41719d"><v:paragraph
+   v:horizAlign="1" /><v:tabList />Administrator has tallied and published the result</text>
+</g></g></svg>

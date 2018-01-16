@@ -2,9 +2,6 @@
     <v-container grid-list-md :fluid="fluidLayout">
         <div v-if="this.$store.state.loaded">
             <ContentTitle icon="mdi-settings-box" :title="$t('ElectionAuthority.title')"></ContentTitle>
-            <v-alert outline dismissible color="info" icon="info" :value="false">
-                Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.
-            </v-alert>
             <v-layout row wrap>
                 <v-flex xs12 sm12>
                     <v-btn-toggle v-model="selectedAuthorityIndex">
@@ -78,10 +75,10 @@
                         {{ $t('ElectionAuthority.election_data_content') }}
                         <ul id="list" slot="expandContent">
                             <v-layout row wrap>
-                                <v-flex xy1 md1>Voter</v-flex>
-                                <v-flex xy3 md3>Points</v-flex>
-                                <v-flex xy4 md4>Partial Public Voting Credentials</v-flex>
-                                <v-flex xy4 md4>Partial Secret Voting Credentials</v-flex>
+                                <v-flex xy1 md1>{{t$('voter')}}</v-flex>
+                                <v-flex xy3 md3>{{t$('ElectionAuthority.points')}}</v-flex>
+                                <v-flex xy4 md4>{{$t('ElectionAuthority.partial_public_voting_credentials')}}</v-flex>
+                                <v-flex xy4 md4>{{$t('ElectionAuthority.partial_secret_voting_credentials')}}</v-flex>
                             </v-layout>
                             <li v-for="(voter, index) in electionAuthority.points" :key="voter.id">
                                 <v-layout row wrap>
