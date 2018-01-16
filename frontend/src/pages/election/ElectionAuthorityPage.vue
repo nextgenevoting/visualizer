@@ -75,8 +75,8 @@
                         {{ $t('ElectionAuthority.election_data_content') }}
                         <ul id="list" slot="expandContent">
                             <v-layout row wrap>
-                                <v-flex xy1 md1>{{t$('voter')}}</v-flex>
-                                <v-flex xy3 md3>{{t$('ElectionAuthority.points')}}</v-flex>
+                                <v-flex xy1 md1>{{$t('voter')}}</v-flex>
+                                <v-flex xy3 md3>{{$t('ElectionAuthority.points')}}</v-flex>
                                 <v-flex xy4 md4>{{$t('ElectionAuthority.partial_public_voting_credentials')}}</v-flex>
                                 <v-flex xy4 md4>{{$t('ElectionAuthority.partial_secret_voting_credentials')}}</v-flex>
                             </v-layout>
