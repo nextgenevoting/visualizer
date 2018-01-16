@@ -1,9 +1,7 @@
 <template>
   <v-container>
     <h2 class="my-3" v-t="'electionsPage.title'"></h2>
-    <p>
-      <v-btn to="newElection">{{ $t('electionsPage.create') }}</v-btn>
-    </p>
+    <v-btn to="newElection" style="margin-bottom: 20px">{{ $t('electionsPage.create') }}</v-btn>
 
     <v-list two-line v-if="elections.length > 0">
       <div v-for="(election, index) in elections" :key="election.id">
@@ -16,18 +14,12 @@
             <v-list-tile-title>{{ election.title }}</v-list-tile-title>
             <v-list-tile-sub-title>{{ election.subtitle }}</v-list-tile-sub-title>
           </v-list-tile-content>
-          
+
           <v-list-tile-action>
             <v-btn icon @click.prevent="dialog.election = election; dialog.visible = true">
               <v-icon class="grey--text text--lighten-1" :title="$t('electionsPage.remove.title')">delete</v-icon>
             </v-btn>
           </v-list-tile-action>
-        </v-list-tile>
-
-        <v-list-tile class="grey lighten-3" v-if="showInfo[index]">
-          <v-list-tile-content>
-            <!-- TODO for some reason, this tile is never shown -->
-          </v-list-tile-content>
         </v-list-tile>
       </div>
     </v-list>
@@ -43,9 +35,7 @@
       </v-card>
     </v-dialog>
 
-    <p v-if="elections.length > 0">
-      <v-btn to="newElection">{{ $t('electionsPage.create') }}</v-btn>
-    </p>
+    <v-btn to="newElection" v-if="elections.length > 0" style="margin-top: 20px">{{ $t('electionsPage.create') }}</v-btn>
   </v-container>
 </template>
 
@@ -66,20 +56,13 @@ export default {
       this.$store.state.Election.elections.forEach((election) => {
         election.id = election._id.$oid
         election.subtitle = 'Jan 20, 2018'
-        election.showInfo = false
         elections.push(election)
       })
 
       return elections
-    },
-    showInfo () {
-      return [...new Array(this.elections.length)].map(() => false)
     }
   },
   methods: {
-    info (election, index) {
-      this.showInfo[index] = true // !this.showInfo[index]
-    },
     remove () {
       this.dialog.visible = false
       this.$http.delete('deleteElection/' + this.dialog.election.id).then(response => {
