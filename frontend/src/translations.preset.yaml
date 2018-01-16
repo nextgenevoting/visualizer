@@ -646,8 +646,8 @@ CheckBallotTask:
     en: Manipulate public key
     de: Manipuliere öffentlichen Schlüssel
   enter_public_key:
-    en: Please enter a public key:
-    de: Bitte geben Sie einen öffentlichen Schlüssel ein:
+    en: 'Please enter a public key:'
+    de: 'Bitte geben Sie einen öffentlichen Schlüssel ein:'
 
 ConfirmationTask:
   confirmation_for_voter_n:

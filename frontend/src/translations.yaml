@@ -1344,6 +1344,15 @@ ElectionAuthority:
   ballotlist:
     en: Ballot list
     de: Liste der Stimmen
+  points:
+    en: Points
+    de: Punkte
+  partial_public_voting_credentials:
+    en: Partial Public Voting Credentials
+    de: Öffentliche Voting Credentials (Anteil)
+  partial_secret_voting_credentials:
+    en: Partial Secret Voting Credentials
+    de: Geheime Voting Credentials (Anteil)
 PrintingAuth:
   title:
     en: Printing Authority
@@ -1849,6 +1858,12 @@ CheckBallotTask:
     ru: Успешно проверено голосование.
     sv: Framgångsrikt kontrollerad omröstning.
     zh-TW: 成功檢查了投票。
+  manipulate_public_key:
+    en: Manipulate public key
+    de: Manipuliere öffentlichen Schlüssel
+  enter_public_key:
+    en: 'Please enter a public key:'
+    de: 'Bitte geben Sie einen öffentlichen Schlüssel ein:'
 ConfirmationTask:
   confirmation_for_voter_n:
     en: 'Confirmation for voter {n}'
@@ -2335,3 +2350,9 @@ secret_key_share_tooltip:
     Anteil des geheimen Schlüssels dieser Wahlauthorität. Er wird verwendet, um
     die Stimmen teilweise zu entschlüsseln, welche mit dem gemeinsame Public Key
     der Authoritäten verschlüssel wurden
+election:
+  en: Election
+  de: Wahl
+voter:
+  en: Voter
+  de: Wähler
