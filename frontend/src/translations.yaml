@@ -734,6 +734,9 @@ main:
   election_events:
     en: Election Events
     de: Wahlereignisse
+  number:
+    en: number
+    de: Zahl
 homePage:
   welcome:
     title:
@@ -2356,3 +2359,24 @@ election:
 voter:
   en: Voter
   de: Wähler
+oblivious_transfer_response_n:
+  en: 'Oblivious transfer response of authority {n}'
+  de: 'Oblivious Transfer Antwort von Wahlauthorität {n}'
+finalization_n:
+  en: 'Finalization of authority {n}'
+  de: 'Finalisierung von Wahlauthorität {n}'
+value_of:
+  en: Value of variable
+  de: Wert der Variable
+randomizations:
+  en: Randomizations
+  de: Randomisierungen
+array_of:
+  en: Array of
+  de: Array von
+array_of_n:
+  en: 'Array of {n} bytes'
+  de: 'Array mit {n} bytes'
+tuple_with_n_elements:
+  en: 'Tuple with {n} elements'
+  de: 'Tuple mit {n} Elementen'

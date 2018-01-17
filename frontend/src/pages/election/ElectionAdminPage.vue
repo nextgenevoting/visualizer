@@ -62,10 +62,12 @@
                 </h5>
 
                 <v-layout row wrap>
-                  <v-flex xs3>
+                  <v-flex xs12 md12>
                     <v-text-field :label="$t('electionTitle')" v-model="election.title" autofocus required></v-text-field>
                   </v-flex>
-                  <v-flex xs3>
+                </v-layout>
+                <v-layout row wrap>
+                  <v-flex xs6 md6>
                     <v-text-field type="number" :label="$t('number_of_selections')" v-model="election.numberOfSelections" required></v-text-field>
                   </v-flex>
                 </v-layout>

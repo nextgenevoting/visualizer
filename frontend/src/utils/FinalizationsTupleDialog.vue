@@ -6,11 +6,11 @@
         <span class="headline" v-else>Tuple with {{ tuple.length }} elements</span>
       </v-card-title>
       <v-card-text>
-        Value of <b>F</b>:
+        {{$t('value_of')}} <b>F</b>:
         <ByteArrayLabel :value="tuple[0]" />
       </v-card-text>
       <v-card-text>
-        Randomizations: <b>z</b>:
+        {{$t('randomizations')}}: <b>z</b>:
         (<span v-for="(value, index) in tuple[1]" :key="index">
           <BigIntLabel :mpzValue="value" /><span v-if="index < tuple[1].length - 1">, </span>
         </span>)

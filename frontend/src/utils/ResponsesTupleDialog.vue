@@ -3,22 +3,22 @@
     <v-card>
       <v-card-title>
         <span class="headline" v-if="popupTitle !== undefined">{{ popupTitle }}</span>
-        <span class="headline" v-else>Tuple with {{ tuple.length }} elements</span>
+        <span class="headline" v-else>{{$t('tuple_with_n_elements', {n: tuple.length }) }}</span>
       </v-card-title>
       <v-card-text>
-        Value of <b>b</b>: (<span v-for="(tpl, index) in tuple[0]" :key="index">
+        {{$t('value_of')}} <b>b</b>: (<span v-for="(tpl, index) in tuple[0]" :key="index">
           <BigIntLabel :mpzValue="tpl" /><span v-if="index < tuple[0].length - 1">, </span>
         </span>)
       </v-card-text>
       <v-card-text>
-        Value of <b>C</b>:  <div v-for="(list, index) in tuple[1]" :key="index">
+        {{$t('value_of')}} <b>C</b>:  <div v-for="(list, index) in tuple[1]" :key="index">
           (<span v-for="(tpl, i) in list">
             <span v-if="tpl === null">NULL</span><ByteArrayLabel v-else :value="tpl" /><span v-if="i < list.length - 1">, </span>
           </span>)
         </div>
       </v-card-text>
       <v-card-text>
-        Value of <b>d</b>:
+        {{$t('value_of')}} <b>d</b>:
         <BigIntLabel :mpzValue="tuple[2]" />
       </v-card-text>
 <!--

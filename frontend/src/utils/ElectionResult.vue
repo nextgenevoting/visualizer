@@ -1,6 +1,6 @@
 <template>
     <v-layout row wrap>
-        <v-flex xy12 md6>
+        <v-flex xs12 md6>
             <DataCard :title="$t('ElectionResult.votes')" :tooltip="$t('ElectionResult.votes_tooltip')" :expandable=false confidentiality="public" v-if="votes.length > 0">
                 <v-data-table
                         v-bind:headers="headers"
@@ -18,10 +18,10 @@
 
             </DataCard>
         </v-flex>
-        <v-flex xy12 md6  v-for="(results, index) in finalResults" :key="index">
+        <v-flex xs12 md6  v-for="(results, index) in finalResults" :key="index">
             <DataCard :title="$t('ElectionResult.final_results', {n: index + 1})" :tooltip="$t('ElectionResult.final_results_tooltip')" :expandable=false confidentiality="public" v-if="finalResults.length > 0">
             <v-layout row wrap>
-                <v-flex xy12 md12>
+                <v-flex xs12 md12>
                     <v-data-table
                             v-bind:headers="resultHeaders"
                             :items="electionResults[index]"
@@ -35,7 +35,7 @@
                         </template>
                     </v-data-table>
                 </v-flex>
-                <v-flex xy12 md12>
+                <v-flex xs12 md12>
                     <donut-chart :id="`donut${index}`" :data="electionResults[index]" colors='[ "#FF6384", "#36A2EB", "#FFCE56" ]' resize="true"></donut-chart>
                 </v-flex>
                 </v-layout>

@@ -245,6 +245,24 @@ ballotlist:
 ballotlist_tooltip:
   en: This list contains all the ballots
   de: Diese Liste enthält alle abgegebenen Stimmen
+oblivious_transfer_response_n:
+  en: Oblivious transfer response of authority {n}
+  de: Oblivious Transfer Antwort von Wahlauthorität {n}
+finalization_n:
+  en: Finalization of authority {n}
+  de: Finalisierung von Wahlauthorität {n}
+value_of:
+  en: Value of variable
+  de: Wert der Variable
+randomizations:
+  en: Randomizations
+  de: Randomisierungen
+array_of_n:
+  en: Array of {n} bytes
+  de: Array mit {n} Bytes
+tuple_with_n_elements:
+  en: Tuple with {n} elements
+  de: Tuple mit {n} Elementen
 
 main:
   change_language:
@@ -287,6 +305,10 @@ main:
   election_events:
     en: Election Events
     de: Wahlereignisse
+  number:
+    en: number
+    de: Zahl
+
 
 homePage:
   welcome:

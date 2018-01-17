@@ -200,10 +200,10 @@ export default {
       return `mdi-numeric-${number}-box`
     },
     responseTitleString: function (number) {
-      return `Oblivious transfer response of authority ${number}`
+      return this.$i18n.t('oblivious_transfer_response_n', { n: number })
     },
     finalizationTitleString: function (number) {
-      return `Finalization of authority ${number}`
+      return this.$i18n.t('finalization_n', { n: number })
     }
   }
 }

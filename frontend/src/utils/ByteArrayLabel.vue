@@ -7,7 +7,7 @@
       </v-btn>
       <v-card>
         <v-card-title v-if="isString(value)" class="subheading" style="padding-bottom: 0px;">
-          Array of {{ data.byteLength() }} bytes
+          {{ $t('array_of_n', {n : data.byteLength()})}}
         </v-card-title>
         <v-card-text>
           <div class="wrap">{{ value }}</div>

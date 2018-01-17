@@ -24,14 +24,10 @@
                             {{ $t('Mixing.shuffle_encryptions') }}
                         </v-btn>
                         <v-spacer></v-spacer>
-                        <v-btn icon @click.native="show = !show">
-                            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
-                        </v-btn>
+
                     </v-card-actions>
                     <v-slide-y-transition>
-                        <v-card-text v-show="show">
-                            todo: infos about the mixing process
-                        </v-card-text>
+
                     </v-slide-y-transition>
                 </v-card>
             </v-flex>

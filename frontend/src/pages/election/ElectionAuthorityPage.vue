@@ -28,64 +28,64 @@
             <DecryptionPage></DecryptionPage>
             <h5 v-t="'data'" style="margin-top: 14px;"></h5>
             <transition-group tag="v-layout" name="highlight" :appear="dataTransition" class="row wrap">
-                <v-flex xy12 md6 v-if="status >= 4 && hasAuthorityMixed" key="enc">
+                <v-flex xs12 md6 v-if="status >= 4 && hasAuthorityMixed" key="enc">
                     <DataCard :title="$t('encryptions')" :tooltip="$t('encryptions_tooltip')" :isMpz=true :expandable=false confidentiality="encrypted">
                         <v-layout row wrap v-for="(encryption, index) in encryptions" :key="index"  style="font-size:16px;">
-                            <v-flex xy4 md4>{{ $t('ElectionAuthority.encryption_n', { n: index + 1 }) }}</v-flex>
-                            <v-flex xy4 md8>(<BigIntLabel :mpzValue="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>)</v-flex>
+                            <v-flex xs4 md4>{{ $t('ElectionAuthority.encryption_n', { n: index + 1 }) }}</v-flex>
+                            <v-flex xs4 md8>(<BigIntLabel :mpzValue="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>)</v-flex>
                         </v-layout>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md6 v-if="status >= 5 && decryptions !== null" key="dec">
+                <v-flex xs12 md6 v-if="status >= 5 && decryptions !== null" key="dec">
                     <DataCard :title="$t('ElectionAuthority.partial_decryptions')" :tooltip="$t('ElectionAuthority.partial_decryptions_tooltip')" :isMpz=true :expandable=false confidentiality="encrypted">
                         <v-layout row wrap v-for="(decryption, index) in decryptions" :key="index" style="font-size:16px;">
-                            <v-flex xy6 md6>{{ $t('ElectionAuthority.partial_decryption_n', { n: index + 1 }) }}</v-flex>
-                            <v-flex xy6 md6><BigIntLabel :mpzValue="decryption"></BigIntLabel></v-flex>
+                            <v-flex xs6 md6>{{ $t('ElectionAuthority.partial_decryption_n', { n: index + 1 }) }}</v-flex>
+                            <v-flex xs6 md6><BigIntLabel :mpzValue="decryption"></BigIntLabel></v-flex>
                         </v-layout>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md12 key="ballots">
+                <v-flex xs12 md12 key="ballots">
                     <DataCard :title="$t('ballotlist')" :tooltip="$t('ballotlist_tooltip')" :isMpz=true :expandable=false confidentiality="encrypted">
                         <BallotList :ballots="ballots" :authorityFilter="selectedAuthorityIndex"></BallotList>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md4 key="pk">
+                <v-flex xs12 md4 key="pk">
                     <DataCard :title="$t('public_key')" :tooltip="$t('public_key_tooltip')" :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKey"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md4 key="pkshares">
+                <v-flex xs12 md4 key="pkshares">
                     <DataCard :title="$t('public_key_share')" :tooltip="$t('public_key_share_tooltip')"  :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md4 key="skshares">
+                <v-flex xs12 md4 key="skshares">
                     <DataCard :title="$t('secret_key_share')" :tooltip="$t('secret_key_share_tooltip')" :isMpz=true :expandable=false confidentiality="secret">
                         <BigIntLabel :mpzValue="electionAuthority.secretKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xy12 md12 key="voterData">
+                <v-flex xs12 md12 key="voterData">
                     <DataCard :title="$t('ElectionAuthority.election_data')" :expandable=true confidentiality="secret">
                         {{ $t('ElectionAuthority.election_data_content') }}
                         <ul id="list" slot="expandContent">
                             <v-layout row wrap>
-                                <v-flex xy1 md1>{{$t('voter')}}</v-flex>
-                                <v-flex xy3 md3>{{$t('ElectionAuthority.points')}}</v-flex>
-                                <v-flex xy4 md4>{{$t('ElectionAuthority.partial_public_voting_credentials')}}</v-flex>
-                                <v-flex xy4 md4>{{$t('ElectionAuthority.partial_secret_voting_credentials')}}</v-flex>
+                                <v-flex xs1 md1>{{$t('voter')}}</v-flex>
+                                <v-flex xs3 md3>{{$t('ElectionAuthority.points')}}</v-flex>
+                                <v-flex xs4 md4>{{$t('ElectionAuthority.partial_public_voting_credentials')}}</v-flex>
+                                <v-flex xs4 md4>{{$t('ElectionAuthority.partial_secret_voting_credentials')}}</v-flex>
                             </v-layout>
                             <li v-for="(voter, index) in electionAuthority.points" :key="voter.id">
                                 <v-layout row wrap>
-                                    <v-flex xy1 md1>
+                                    <v-flex xs1 md1>
                                 {{ $t('voter_n', { n: index+1 }) }}
                                     </v-flex>
-                                    <v-flex xy3 md3>
+                                    <v-flex xs3 md3>
                                         <ul id="subList">
                                             <li v-for="(point, index) in voter" :key="index">
                                                 <BigIntLabel :mpzValue="point[0]"></BigIntLabel>,
@@ -93,12 +93,12 @@
                                             </li>
                                         </ul>
                                     </v-flex>
-                                    <v-flex xy4 md4>
+                                    <v-flex xs4 md4>
                                         (<template v-for="(value, i) in electionAuthority.partialPublicVotingCredentials[index]">
                                           <BigIntLabel :mpzValue="value" /><span v-if="i < electionAuthority.partialPublicVotingCredentials[index].length - 1">, </span>
                                         </template>)
                                     </v-flex>
-                                    <v-flex xy4 md4>
+                                    <v-flex xs4 md4>
                                         (<BigIntLabel :mpzValue="electionAuthority.partialSecretVotingCredentials[index][0]" />,
                                         <BigIntLabel :mpzValue="electionAuthority.partialSecretVotingCredentials[index][1]" />,
                                         <ByteArrayLabel :value="electionAuthority.partialSecretVotingCredentials[index][2]" />,

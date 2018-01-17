@@ -7,7 +7,7 @@
       </v-btn>
       <v-card>
         <v-card-title v-if="isString(mpzValue)" class="subheading" style="padding-bottom: 0px;">
-          {{ data.bitLength() }}-Bit number
+          {{ data.bitLength() }}-Bit {{$t('main.number')}}
         </v-card-title>
         <v-card-text>
           <div class="wrap">{{ mpzValue }}</div>
