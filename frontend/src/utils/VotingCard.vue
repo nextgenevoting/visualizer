@@ -58,7 +58,7 @@
       <v-flex title="Make sure the verification on the left matches the corresponding code">
         <v-list dense>
           <v-list-tile v-for="candidate in candidates" :key="candidate.index">
-            <v-list-tile-title>{{ candidate.name }}</v-list-tile-title>
+            <v-list-tile-title class="code_title">{{ candidate.name }}</v-list-tile-title>
             <div class="code">{{ candidate.verificationCode }}</div>
           </v-list-tile>
         </v-list>
@@ -171,7 +171,11 @@ export default {
   margin: 5px 10px 5px 10px;
   font-family: monospace;
   white-space: nowrap;
+  font-size: 16px;
   user-select: none;
+}
+.code_title {
+  font-size: 16px;
 }
 .pointer {
   cursor: pointer;
