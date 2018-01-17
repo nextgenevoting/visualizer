@@ -52,26 +52,26 @@
                     </DataCard>
                 </v-flex>
 
-                <v-flex xs12 md4 key="pk">
+                <v-flex xs12 sm4 md4 key="pk">
                     <DataCard :title="$t('public_key')" :tooltip="$t('public_key_tooltip')" :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKey"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xs12 md4 key="pkshares">
+                <v-flex xs12 sm4 md4 key="pkshares">
                     <DataCard :title="$t('public_key_share')" :tooltip="$t('public_key_share_tooltip')"  :isMpz=true :expandable=false confidentiality="public">
                         <BigIntLabel :mpzValue="electionAuthority.publicKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
-                <v-flex xs12 md4 key="skshares">
+                <v-flex xs12 sm4 md4 key="skshares">
                     <DataCard :title="$t('secret_key_share')" :tooltip="$t('secret_key_share_tooltip')" :isMpz=true :expandable=false confidentiality="secret">
                         <BigIntLabel :mpzValue="electionAuthority.secretKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xs12 md12 key="voterData">
-                    <DataCard :title="$t('ElectionAuthority.election_data')" :expandable=true confidentiality="secret">
+                    <DataCard :title="$t('electorate_data')" :tooltip="$t('electorate_data_tooltip')" :expandable=true confidentiality="secret">
                         {{ $t('ElectionAuthority.election_data_content') }}
                         <ul id="list" slot="expandContent">
                             <v-layout row wrap>

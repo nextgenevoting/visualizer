@@ -11,10 +11,10 @@
             <v-expansion-panel-content v-for="ballot in ballots" :key="ballot.id">
                 <div slot="header">
                     <v-layout row wrap>
-                        <v-flex xs12 sm12 md1 class="ballotTitle">
+                        <v-flex xs12 sm2 md2 class="ballotTitle">
                             {{ $t('ElectionAuthority.ballot_of_voter_n', { n: ballot.voterId + 1 }) }}
                         </v-flex>
-                        <v-flex xs6 sm6 md2>
+                        <v-flex xs6 sm2 md2>
                             <transition name="highlight">
                                 <v-chip left label outline v-if="ballot.validity === 0" v-t="'BallotList.unchecked'"></v-chip>
                                 <v-chip left label outline color="green" v-if="ballot.validity === 1" v-t="'BallotList.validBallot'"></v-chip>
@@ -24,7 +24,7 @@
                                 <v-chip left label outline color="red" v-if="ballot.validity === 5" v-t="'BallotList.queryInvalid'"></v-chip>
                             </transition>
                         </v-flex>
-                        <v-flex xs6 sm6 md3 style="padding-top: 9px;">
+                        <v-flex xs6 sm3 md3 style="padding-top: 9px;">
                             <span v-if="hasResponses(ballot) && authorityFilter === undefined">
                                 {{$t('responses')}}:
                                 <transition-group name="highlight">
@@ -38,14 +38,14 @@
                                 </transition>
                             </span>
                         </v-flex>
-                        <v-flex xs6 sm6 md3>
+                        <v-flex xs6 sm2 md2>
                             <transition name="highlight">
                                 <v-chip left label outline color="green" v-if="hasValidConfirmation(ballot)" v-t="'BallotList.confirmed'"></v-chip>
                                 <v-chip left label outline color="red" v-else-if="hasInvalidConfirmations(ballot.confirmations)" v-t="'BallotList.hasInvalidConfirmations'"></v-chip>
                                 <v-chip left label outline v-else v-t="'BallotList.unconfirmed'"></v-chip>
                             </transition>
                         </v-flex>
-                        <v-flex xs6 sm6 md3 style="padding-top: 9px;">
+                        <v-flex xs6 sm3 md3 style="padding-top: 9px;">
                             <span v-if="getValidConfirmation(ballot) !== null && authorityFilter === undefined">
                                 {{$t('finalizations')}}:
                                 <transition-group name="highlight">
@@ -64,8 +64,8 @@
                 <v-card>
                     <v-card-text class="grey lighten-3">
                         <v-layout row wrap>
-                            <v-flex xy2 md2 v-t="'ElectionAuthority.encrypted_selections'"></v-flex>
-                            <v-flex x10 md10>
+                            <v-flex xs2 md2 v-t="'ElectionAuthority.encrypted_selections'"></v-flex>
+                            <v-flex xs10 md10>
                                 <span v-for="(elgamalEncryption, i) in ballot.ballot.a_bold">
                                   (<BigIntLabel :mpzValue="elgamalEncryption[0]"></BigIntLabel>,
                                   <BigIntLabel :mpzValue="elgamalEncryption[1]"></BigIntLabel>)<span v-if="i < ballot.ballot.a_bold.length - 1">, </span>
@@ -73,14 +73,14 @@
                             </v-flex>
                         </v-layout>
                         <v-layout row wrap>
-                            <v-flex xy2 md2 v-t="'ElectionAuthority.public_voter_credential'"></v-flex>
-                            <v-flex xy10 md10>
+                            <v-flex xs2 md2 v-t="'ElectionAuthority.public_voter_credential'"></v-flex>
+                            <v-flex xs10 md10>
                                 <BigIntLabel :mpzValue="ballot.ballot.x_hat"></BigIntLabel>
                             </v-flex>
                         </v-layout>
                         <v-layout row wrap>
-                            <v-flex xy2 md2 v-t="'ElectionAuthority.ballot_proof'"></v-flex>
-                            <v-flex x10 md10>
+                            <v-flex xs2 md2 v-t="'ElectionAuthority.ballot_proof'"></v-flex>
+                            <v-flex xs10 md10>
                                 (<BigIntLabel :mpzValue="ballot.ballot.pi[0][0]"></BigIntLabel>,
                                 <BigIntLabel :mpzValue="ballot.ballot.pi[0][1]"></BigIntLabel>,
                                 <BigIntLabel :mpzValue="ballot.ballot.pi[0][2]"></BigIntLabel>),
@@ -90,19 +90,19 @@
                             </v-flex>
                         </v-layout>
                         <v-layout row wrap>
-                            <v-flex xy2 md2 v-t="'timestamp'"></v-flex>
-                            <v-flex x10 md10>
+                            <v-flex xs2 md2 v-t="'timestamp'"></v-flex>
+                            <v-flex xs10 md10>
                                 {{ ballot.timestamp }}
                             </v-flex>
                         </v-layout>
                         <b>{{$t('confirmation_history')}}</b>
                         <v-layout row wrap v-for="(c,index) in ballot.confirmations" v-bind:key="c.confirmationId">
-                            <v-flex xy1 md1></v-flex>
-                            <v-flex xy2 md2 class="ballotTitle">{{$t('confirmation')}} {{ index + 1 }}</v-flex>
-                            <v-flex xy4 md4 style="padding-top: 9px;">
+                            <v-flex xs1 md1></v-flex>
+                            <v-flex xs2 md2 class="ballotTitle">{{$t('confirmation')}} {{ index + 1 }}</v-flex>
+                            <v-flex xs4 md4 style="padding-top: 9px;">
                                 {{ c.timestamp }}
                             </v-flex>
-                            <v-flex xy2 md2>
+                            <v-flex xs2 md2>
                                 <transition name="highlight">
                                     <v-chip left label outline v-if="c.validity === 0" v-t="'BallotList.unchecked'"></v-chip>
                                     <v-chip left label outline color="green" v-if="c.validity === 1" v-t="'BallotList.valid'"></v-chip>
@@ -112,7 +112,7 @@
                                     <v-chip left label outline color="red" v-if="c.validity === 5" v-t="'BallotList.credentialInvalid'"></v-chip>
                                 </transition>
                             </v-flex>
-                            <v-flex xy3 md3 style="padding-top: 9px;">
+                            <v-flex xs3 md3 style="padding-top: 9px;">
                                 <span v-if="getValidConfirmation(ballot) !== null && authorityFilter === undefined">
                                 {{$t('finalizations')}}:
                                 <transition-group name="highlight">

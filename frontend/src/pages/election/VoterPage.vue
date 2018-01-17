@@ -61,7 +61,7 @@
                                     <v-form ref="form" class="votingForm" lazy-validation>
 
                                     <ul v-for="(i, index) in numberOfParallelElections" class="electionForm">
-                                        <h6><b>Election {{index+1}}</b>: {{titles[index]}}</h6>
+                                        <h5><b>Election {{index+1}}</b>: {{titles[index]}}</h5>
                                         <p>{{ $t('Voter.your_selection_for_election_n', { n: numberOfSelections[index] }) }}</p>
                                         <li v-for="candidate in candidatesForElection[index]">
                                             <v-checkbox :label="candidate.name" v-model="selection" :value="candidate.index" color="blue" hide-details></v-checkbox>
