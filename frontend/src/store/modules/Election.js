@@ -31,19 +31,19 @@ const getters = {
     const statusId = state.status
     switch (statusId) {
       case 0:
-        return 'New'
+        return 'Preparation'
       case 1:
-        return 'Electorate data generated'
+        return 'Printing'
       case 2:
-        return 'Voting Cards Printed'
+        return 'Delivery'
       case 3:
         return 'Election Phase'
       case 4:
-        return 'Mixing Phase'
+        return 'Mixing'
       case 5:
-        return 'Decryption Phase'
+        return 'Decryption'
       case 6:
-        return 'Tallying Phase'
+        return 'Tallying'
       case 7:
         return 'Finished'
       default:

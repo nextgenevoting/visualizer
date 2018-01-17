@@ -355,13 +355,13 @@ ElectionStatus:
     de: Versand
   status_4:
     en: Election Phase
-    de: Stimmphase
+    de: Wahlphase
   status_5:
     en: Mixing Phase
-    de: Mischphase
+    de: Mixing
   status_6:
     en: Decryption Phase
-    de: Entschlüsselungsphase
+    de: Entschlüsselung
   status_7:
     en: Tallying Phase
     de: Auszählung
