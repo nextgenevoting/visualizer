@@ -23,7 +23,7 @@
       </v-flex>
 
       <div style="text-align: center; margin-top: 50px;">
-        <object type="image/svg+xml" data="/public/parties-overview.svg" ref="svg" style="width: 60%;">
+        <object type="image/svg+xml" data="/public/parties-overview.svg" ref="svg" style="width: 70%; max-height: 600px">
           Your browser does not support SVGs
         </object>
       </div>
