@@ -8,7 +8,8 @@
     "build": "cross-env NODE_ENV=production webpack --progress --hide-modules",
     "eslint": "eslint --ext .js,.vue src",
     "eslint fix": "eslint --fix --ext .js,.vue src",
-    "translate": "node src/translate.js --copy-only"
+    "translate": "node src/translate.js --copy-only",
+    "translate-auto": "node src/translate.js"
   },
   "dependencies": {
     "@kazupon/vue-i18n-loader": "^0.2.1",
