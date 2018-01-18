@@ -23,7 +23,7 @@
       </v-flex>
 
       <div style="text-align: center; margin-top: 50px;">
-        <object type="image/svg+xml" data="/public/parties-overview.svg" ref="svg" style="width: 70%;">
+        <object type="image/svg+xml" data="/public/parties-overview.svg" ref="svg" style="width: 60%;">
           Your browser does not support SVGs
         </object>
       </div>
@@ -42,19 +42,19 @@ export default {
   data: () => ({
     svg: null,
     svgElements: {
-      electionAdministrator: { fill: [ 'g3410', 'path4246' ] },
-      bulletinBoard: { fill: [ 'g3546' ] },
-      votingClient: { fill: [ 'g3726' ] },
-      electionAuthorities: { fill: [ 'g3612', 'path4326' ] },
-      printingAuthority: { fill: [ 'g3478' ] },
-      voter: { fill: [ 'path3724', 'path3722' ] },
-      electionAdministrator_bulletinBoard: { fill: [ 'path3802', 'path3796' ], stroke: [ 'path3806', 'path3794', 'path3800' ] },
-      bulletinBoard_votingClient: { fill: [ 'path3850', 'path3844' ], stroke: [ 'path3854', 'path3842', 'path3848' ] },
-      bulletinBoard_electionAuthorities: { fill: [ 'path3812', 'path3818' ], stroke: [ 'path3816', 'path3810', 'path3822' ] },
-      bulletinBoard_printingAuthority: { fill: [ 'path3870' ], stroke: [ 'path3868', 'path3874' ] },
-      votingClient_voter: { fill: [ 'path4392', 'path3834', 'path3828' ], stroke: [ 'path3838', 'path3826', 'path3832' ] },
-      electionAuthorities_printingAuthority: { fill: [ 'path4140', 'path3860' ], stroke: [ 'path3858', 'path3864' ] },
-      printingAuthority_voter: { fill: [ 'path4074', 'path3880' ], stroke: [ 'path3878', 'path3884' ] }
+      electionAdministrator: { fill: [ 'path4246' ] },
+      bulletinBoard: { fill: [ 'path7835' ] },
+      votingClient: { fill: [ 'g6318' ] },
+      electionAuthorities: { fill: [ 'path4326' ] },
+      printingAuthority: { fill: [ 'path7769' ] },
+      voter: { fill: [ 'path7781' ] },
+      electionAdministrator_bulletinBoard: { fill: [ 'path3822-6' ], stroke: [ 'path3822-6' ] },
+      bulletinBoard_votingClient: { fill: [ 'path3806-5' ], stroke: [ 'path3806-5' ] },
+      bulletinBoard_electionAuthorities: { fill: [ 'path3806' ], stroke: [ 'path3806' ] },
+      bulletinBoard_printingAuthority: { fill: [ 'path3822' ], stroke: [ 'path3822' ] },
+      votingClient_voter: { fill: [ 'path3838', 'path4392' ], stroke: [ 'path3838' ] },
+      electionAuthorities_printingAuthority: { fill: [ 'path3884-7', 'path4140' ], stroke: [ 'path3884-7' ] },
+      printingAuthority_voter: { fill: [ 'path3884', 'path4140-6' ], stroke: [ 'path3884' ] }
     },
     svgStates: {
       0: [ 'electionAdministrator', 'electionAdministrator_bulletinBoard', 'bulletinBoard', 'bulletinBoard_printingAuthority' ], // Preparation
@@ -106,19 +106,16 @@ export default {
       }
     }
   },
-  updated () {
-    this.checkSVG()
-  },
   mounted () {
     this.checkSVG()
   },
+  updated () {
+    this.checkSVG()
+  },
   watch: {
-    // status: () => {
-    //   this.updateSVG()
-    // }
+    status () {
+      this.updateSVG()
+    }
   }
 }
 </script>
-
-<style scoped>
-</style>
