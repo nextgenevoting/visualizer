@@ -93,45 +93,48 @@
                 <v-tab ripple :to="{ name: 'electionadmin', params: { electionId: electionId }}"
                        :title="$t('main.election_admin')">
                     <span class="hidden-sm-and-down">{{ $t('main.election_admin') }}</span>
-                    <v-badge color="">
+                    <v-badge color="" style="margin-left:-20px">
                         <v-icon slot="badge" v-if="status == 0 || status == 6">mdi-alert-decagram</v-icon>
-                        <v-icon>mdi-account-key</v-icon>
+                        <i class="customicon icon-election-administrator" style="font-size:7px"></i>
                     </v-badge>
                 </v-tab>
                 <v-tab ripple :to="{ name: 'printingauth', params: {electionId: electionId }}"
                        :title="$t('main.printing_authority')">
                     <span class="hidden-sm-and-down">{{ $t('main.printing_authority') }}</span>
-                    <v-badge color="">
-                        <v-icon slot="badge" v-if="status == 1">mdi-alert-decagram</v-icon>
-                        <v-icon>mdi-printer</v-icon>
+                    <v-badge color="" style="margin-left:-20px">
+                        <v-icon slot="badge" v-if="status == 1 || status == 2">mdi-alert-decagram</v-icon>
+                        <i class="customicon icon-printing-authority" style="font-size:7px"></i>
                     </v-badge>
                 </v-tab>
                 <v-tab ripple :to="{ name: 'voter', params: { electionId: electionId, voterId: voterId }}"
-                       :disabled="this.$store.getters.status < 1" :title="$t('main.voter')">
-                    <span class="hidden-sm-and-down">{{ $t('main.voter') }}</span>
-                    <v-badge color="">
+                       :disabled="this.$store.getters.status < 1" :title="$t('main.voters')">
+                    <span class="hidden-sm-and-down">{{ $t('main.voters') }}</span>
+                    <v-badge color="" style="margin-left:-20px">
                         <v-icon slot="badge" v-if="status == 3">mdi-alert-decagram</v-icon>
-                        <v-icon>mdi-account</v-icon>
+                        <i class="customicon icon-voter" style="font-size:7px"></i>
                     </v-badge>
                 </v-tab>
                 <v-tab ripple
                        :to="{ name: 'electionauthority', params: { electionId: electionId, authid: authorityId }}"
                        :title="$t('main.election_authorities')">
                     <span class="hidden-sm-and-down">{{ $t('main.election_authorities') }}</span>
-                    <v-badge color="">
+                    <v-badge color="" style="margin-left:-20px">
                         <v-icon slot="badge" v-if="getNumberOfTasksForAllAuthorities > 0">mdi-alert-decagram</v-icon>
-                        <v-icon>mdi-settings-box</v-icon>
+                        <i class="customicon icon-election-authorities" style="font-size:7px"></i>
                     </v-badge>
                 </v-tab>
                 <v-tab ripple :to="{ name: 'bulletinboard', params: { electionId: electionId }}"
                        :title="$t('main.bulletinboard')">
                     <span class="hidden-sm-and-down">{{ $t('main.bulletin_board') }}</span>
-                    <v-icon>mdi-bulletin-board</v-icon>
+                    <v-badge color="" style="margin-left:-20px">
+
+                        <i class="customicon icon-bulletin-board" style="font-size:7px"></i>
+                    </v-badge>
                 </v-tab>
                 <v-tab ripple :to="{ name: 'verifier', params: { electionId: electionId }}" v-if="status >= 7"
                        :title="$t('main.verifier')">
                     <span class="hidden-sm-and-down">{{ $t('main.verifier') }}</span>
-                    <v-badge color="">
+                    <v-badge color="" style="margin-left:-20px">
                         <v-icon slot="badge" v-if="status == 7">mdi-alert-decagram</v-icon>
                         <v-icon>mdi-checkbox-marked-outline</v-icon>
                     </v-badge>
@@ -264,6 +267,7 @@
     @import '../node_modules/nprogress/nprogress.css';
     @import '../node_modules/mdi/css/materialdesignicons.css';
     @import '../node_modules/nprogress/nprogress.css';
+    @import 'css/fontello.css';
 </style>
 
 <style lang="stylus">
@@ -273,5 +277,13 @@
 <style>
     .tabs__wrapper {
         overflow: hidden !important;
+    }
+
+    .tabs__container--icons-and-text .tabs__item .icon {
+        margin-top: 6px;
+    }
+
+    .tabs .badge__badge{
+        left: 15px;
     }
 </style>

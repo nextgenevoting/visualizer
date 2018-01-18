@@ -290,8 +290,8 @@ main:
   printing_authority:
     en: Printing Authority
     de: Druckerei
-  voter:
-    en: Voter
+  voters:
+    en: Voters
     de: Wähler
   election_authorities:
     en: Election Authorities

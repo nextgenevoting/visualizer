@@ -737,6 +737,9 @@ main:
   number:
     en: number
     de: Zahl
+  voters:
+    en: Voters
+    de: Wähler
 homePage:
   welcome:
     title:
@@ -1374,7 +1377,7 @@ PrintingAuth:
     zh-TW: 印刷局
   voting_cards_delivered:
     en: Voting cards have been delivered to the voters!
-    de: Die Stimmkarten wurden den Wählern zugesendet!
+    de: Die Voting Cards wurden den Wählern zugesendet!
     es: ¡Las tarjetas de votación han sido entregadas a los votantes!
     fi: Äänestyskortit on toimitettu äänestäjille!
     fr: Les cartes de vote ont été livrées aux électeurs!
@@ -1389,7 +1392,7 @@ PrintingAuth:
       Before voting cards can be printed, the election administrator must set up
       the election.
     de: >-
-      Befor die Stimmkarten gedruckt werden können, muss der Wahladministration
+      Befor die Voting Cards gedruckt werden können, muss der Wahladministration
       die Wahl aufsetzten.
     es: >-
       Antes de que se puedan imprimir las tarjetas de votación, el administrador
@@ -1414,7 +1417,7 @@ PrintingAuth:
     zh-TW: 投票卡可以打印之前，選舉管理員必須設置選舉。
   print_voting_cards:
     en: Print voting cards
-    de: Stimmkarten ausdrucken
+    de: Voting Cards ausdrucken
     es: Imprimir tarjetas de votación
     fi: Tulosta äänestyskortit
     fr: Imprimer les cartes de vote
@@ -1426,7 +1429,7 @@ PrintingAuth:
     zh-TW: 打印投票卡
   send_voting_cards:
     en: Send voting cards to voters
-    de: Stimmkarten den Wählern zusenden
+    de: Voting Cards den Wählern zusenden
     es: Enviar tarjetas de votación a los votantes
     fi: Lähetä äänestyskortit äänestäjille
     fr: Envoyer des cartes de vote aux électeurs
@@ -1450,7 +1453,7 @@ PrintingAuth:
     zh-TW: 私人選民資料
   successfully_sent_voting_cards:
     en: Successfully sent the voting cards to the voters.
-    de: Die Stimmkarten wurden erfolgreich an die Wähler übermittelt.
+    de: Die Voting Cards wurden erfolgreich an die Wähler übermittelt.
     es: Envió con éxito las tarjetas de votación a los votantes.
     fi: Lähettivät äänestyskortit onnistuneesti äänestäjille.
     fr: Envoyé avec succès les cartes de vote aux électeurs.

@@ -1,7 +1,7 @@
 <template>
     <v-container grid-list-md :fluid="fluidLayout">
         <div v-if="this.$store.state.loaded">
-            <ContentTitle icon="mdi-account" :title="selectedVoterName || $t('Voter.title')">
+            <ContentTitle customicon="customicon icon-voter" :title="selectedVoterName || $t('Voter.title')">
                 <v-btn flat color="blue" @click="changeVoter" class="changeVoterBtn">
                   <v-icon left>mdi-account-multiple</v-icon>
                   {{ $t('Voter.select_voter') }}

@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md :fluid="fluidLayout">
     <div v-if="this.$store.state.loaded">
-      <ContentTitle icon="mdi-account-key" :title="$t('ElectionAdmin.title')">
+      <ContentTitle customicon="customicon icon-election-administrator" :title="$t('ElectionAdmin.title')">
         <v-menu offset-y v-if="status == 0">
           <v-btn slot="activator">{{ $t('ElectionAdmin.election_presets') }}</v-btn>
           <v-list>

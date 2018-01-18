@@ -1,7 +1,7 @@
 <template>
     <v-container grid-list-md :fluid="fluidLayout">
         <div v-if="this.$store.state.loaded">
-            <ContentTitle icon="mdi-bulletin-board" :title="$t('BulletinBoard.title')"></ContentTitle>
+            <ContentTitle customicon="customicon icon-bulletin-board" :title="$t('BulletinBoard.title')"></ContentTitle>
 
             <h5 v-t="'BulletinBoard.pre_election_data'"></h5>
             <v-layout row wrap>

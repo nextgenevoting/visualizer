@@ -1,7 +1,7 @@
 <template>
   <v-container grid-list-md :fluid="fluidLayout">
     <div v-if="this.$store.state.loaded">
-      <ContentTitle icon="mdi-printer" :title="$t('PrintingAuth.title')"></ContentTitle>
+      <ContentTitle customicon="customicon icon-printing-authority" :title="$t('PrintingAuth.title')"></ContentTitle>
       <v-layout>
         <v-flex>
           <!-- h5 class="">Tasks</h5 -->

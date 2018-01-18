@@ -1,7 +1,7 @@
 <template>
     <v-container grid-list-md :fluid="fluidLayout">
         <div v-if="this.$store.state.loaded">
-            <ContentTitle icon="mdi-settings-box" :title="$t('ElectionAuthority.title')"></ContentTitle>
+            <ContentTitle customicon="customicon icon-election-authorities" :title="$t('ElectionAuthority.title')"></ContentTitle>
             <v-layout row wrap>
                 <v-flex xs12 sm12>
                     <v-btn-toggle v-model="selectedAuthorityIndex">
