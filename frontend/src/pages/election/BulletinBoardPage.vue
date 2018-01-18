@@ -6,7 +6,8 @@
             <h5 v-t="'BulletinBoard.pre_election_data'"></h5>
             <v-layout row wrap>
                 <v-flex xs12 sm4 md4>
-                    <DataCard :title="$t('BulletinBoard.unique_election_identifier')" :tooltip="$t('BulletinBoard.unique_election_identifier_tooltip')" :expandable=false confidentiality="public">{{ electionId }}</DataCard>
+                    <DataCard :title="$t('BulletinBoard.unique_election_identifier')" :tooltip="$t('BulletinBoard.unique_election_identifier_tooltip')" :expandable=false confidentiality="public">
+                        <ByteArrayLabel :value="electionId" :title="$t('BulletinBoard.unique_election_identifier')"></ByteArrayLabel></DataCard>
                 </v-flex>
 
                 <!--<v-flex xs12 sm4 md4>

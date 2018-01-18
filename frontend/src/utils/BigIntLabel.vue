@@ -2,7 +2,7 @@
   <span>
     {{ data.truncatedValue() }}
     <v-menu offset-y :max-width="600">
-      <v-btn small flat icon slot="activator" style="margin-left: 0px; color: rgba(0,0,0,.54)">
+      <v-btn small flat icon slot="activator" style="margin-left: 0px; color: rgba(0,0,0,.54)" v-if="this.hasValue()">
         <v-icon>mdi-dots-horizontal</v-icon>
       </v-btn>
       <v-card>
@@ -30,10 +30,10 @@ export default {
       return {
         truncatedValue: () => {
           // truncate the bigInt string
-          if (this.mpzValue !== undefined && this.mpzValue !== null) {
+          if (this.hasValue()) {
             return this.mpzValue.toString().substring(0, 6)
           } else {
-            return 'Invalid BigInt'
+            return ''
           }
         },
         bitLength: () => {
@@ -58,6 +58,9 @@ export default {
   methods: {
     isString (s) {
       return typeof (s) === 'string' || s instanceof String
+    },
+    hasValue () {
+      return this.mpzValue !== undefined && this.mpzValue !== null
     }
   }
 }

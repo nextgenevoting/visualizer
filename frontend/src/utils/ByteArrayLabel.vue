@@ -6,9 +6,15 @@
         <v-icon>mdi-dots-horizontal</v-icon>
       </v-btn>
       <v-card>
-        <v-card-title v-if="isString(value)" class="subheading" style="padding-bottom: 0px;">
+        <v-card-title v-if="isString(value) && title != null" class="subheading" style="padding-bottom: 0px;">
+          {{ this.title}}
+        </v-card-title>
+        <v-card-title v-else class="subheading" style="padding-bottom: 0px;">
           {{ $t('array_of_n', {n : data.byteLength()})}}
         </v-card-title>
+
+
+
         <v-card-text>
           <div class="wrap">{{ value }}</div>
         </v-card-text>
@@ -23,6 +29,10 @@ export default {
     value: {
       type: String,
       required: true
+    },
+    title: {
+      type: String,
+      required: false
     }
   },
   computed: {
