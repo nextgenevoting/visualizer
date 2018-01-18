@@ -181,7 +181,7 @@ id:
   de: ID
 voting_cards:
   en: Voting cards
-  de: Stimmkarten
+  de: Voting Cards
 vote_casting:
   en: Vote casting
   de: Stimmabgabe
@@ -283,7 +283,7 @@ main:
       de: Fluid layout
   overview:
     en: Overview
-    de: Überblick
+    de: Übersicht
   election_admin:
     en: Election Admin
     de: Wahladministrator
@@ -552,22 +552,22 @@ PrintingAuth:
     de: Druckerei
   voting_cards_delivered:
     en: Voting cards have been delivered to the voters!
-    de: Die Stimmkarten wurden den Wählern zugesendet!
+    de: Die Voting Cards wurden den Wählern zugesendet!
   before_voting_cards_print:
     en: Before voting cards can be printed, the election administrator must set up the election.
-    de: Befor die Stimmkarten gedruckt werden können, muss der Wahladministration die Wahl aufsetzten.
+    de: Befor die Voting Cards gedruckt werden können, muss der Wahladministration die Wahl aufsetzten.
   print_voting_cards:
     en: Print voting cards
-    de: Stimmkarten ausdrucken
+    de: Voting Cards ausdrucken
   send_voting_cards:
     en: Send voting cards to voters
-    de: Stimmkarten den Wählern zusenden
+    de: Voting Cards den Wählern zusenden
   private_voter_data:
     en: Private voter data
     de: Private Wähler-Daten
   successfully_sent_voting_cards:
     en: Successfully sent the voting cards to the voters.
-    de: Die Stimmkarten wurden erfolgreich an die Wähler übermittelt.
+    de: Die Voting Cards wurden erfolgreich an die Wähler übermittelt.
   successfully_printed_voting_sheets:
     en: Successfully printed voting sheets
     de: Die Wählerzettel wurden erfolgreich ausgedruckt.

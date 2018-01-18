@@ -14,21 +14,7 @@
                 </v-flex>-->
 
                 <v-flex xs12 sm4 md4>
-                    <DataCard :title="$t('public_key')" :tooltip="$t('public_key_tooltip')" :isMpz=true :expandable=false confidentiality="public">
-                        <BigIntLabel :mpzValue="publicKey"></BigIntLabel>
-                    </DataCard>
-                </v-flex>
-
-                <v-flex xs12 sm4 md4>
                     <DataCard :title="$t('BulletinBoard.parallel_elections')" :tooltip="$t('BulletinBoard.parallel_elections_tooltip')" :expandable=false confidentiality="public">{{ numberOfParallelElections }}</DataCard>
-                </v-flex>
-
-                <v-flex xs12 sm8 md8>
-                    <DataCard :title="$t('candidates')" :tooltip="$t('candidates_tooltip')" :expandable=false confidentiality="public">
-                        <template v-for="(candidate, index) in candidates">
-                            {{candidate}}<span v-if="index < candidates.length-1">, </span>
-                        </template>
-                    </DataCard>
                 </v-flex>
 
                 <v-flex xs12 sm4 md4>
@@ -39,18 +25,35 @@
                     </DataCard>
                 </v-flex>
 
-                <v-flex xs12 sm4 md4>
-                    <DataCard :title="$t('number_of_selections')" :tooltip="$t('number_of_selections_tooltip')" :expandable=false confidentiality="public">
-                        <template v-for="(k, index) in numberOfSelections">
-                            {{k}}<span v-if="index < numberOfSelections.length-1">, </span>
+
+                <v-flex xs12 sm8 md8>
+                    <DataCard :title="$t('candidates')" :tooltip="$t('candidates_tooltip')" :expandable=false confidentiality="public">
+                        <template v-for="(candidate, index) in candidates">
+                            {{candidate}}<span v-if="index < candidates.length-1">, </span>
                         </template>
                     </DataCard>
                 </v-flex>
+
 
                 <v-flex xs12 sm4 md4>
                     <DataCard :title="$t('voters')" :tooltip="$t('voters_tooltip')" :expandable=false confidentiality="public">
                         <template v-for="(v, index) in voters">
                             {{v}}<span v-if="index < voters.length-1">, </span>
+                        </template>
+                    </DataCard>
+                </v-flex>
+
+
+                <v-flex xs12 sm4 md4>
+                    <DataCard :title="$t('public_key')" :tooltip="$t('public_key_tooltip')" :isMpz=true :expandable=false confidentiality="public">
+                        <BigIntLabel :mpzValue="publicKey"></BigIntLabel>
+                    </DataCard>
+                </v-flex>
+
+                <v-flex xs12 sm4 md4>
+                    <DataCard :title="$t('number_of_selections')" :tooltip="$t('number_of_selections_tooltip')" :expandable=false confidentiality="public">
+                        <template v-for="(k, index) in numberOfSelections">
+                            {{k}}<span v-if="index < numberOfSelections.length-1">, </span>
                         </template>
                     </DataCard>
                 </v-flex>

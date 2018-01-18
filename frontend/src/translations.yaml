@@ -473,7 +473,7 @@ id:
   zh-TW: ID
 voting_cards:
   en: Voting cards
-  de: Stimmkarten
+  de: Voting Cards
   es: Tarjetas de votación
   fi: Äänestyskortit
   fr: Cartes de vote
@@ -646,7 +646,7 @@ main:
       de: Fluid layout
   overview:
     en: Overview
-    de: Überblick
+    de: Übersicht
     es: Visión de conjunto
     fi: Yleiskatsaus
     fr: Aperçu
