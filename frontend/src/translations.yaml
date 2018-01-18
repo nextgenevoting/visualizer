@@ -738,7 +738,7 @@ main:
     en: number
     de: Zahl
   voters:
-    en: Voters
+    en: Voter
     de: Wähler
 homePage:
   welcome:

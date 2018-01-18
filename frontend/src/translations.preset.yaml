@@ -291,7 +291,7 @@ main:
     en: Printing Authority
     de: Druckerei
   voters:
-    en: Voters
+    en: Voter
     de: Wähler
   election_authorities:
     en: Election Authorities
