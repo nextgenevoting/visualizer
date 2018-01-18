@@ -140,8 +140,8 @@ export default {
       { title: 'Demo',
         generate: () => {
           let election = new Election()
-          election.title = 'Who would you like to vote for executive board member?'
-          election.candidates = [ 'Dallas Weaver', 'Garry Turner', 'Sonja Kelly', 'Bradford Evans' ]
+          election.title = 'Welchem Abgeordneten geben Sie Ihre Stimme?'
+          election.candidates = [ 'Dominik Vogel', 'Johanna Frei', 'Markus Kohl' ]
           election.numberOfSelections = 1
           this.countingCircles = [ 3 ]
           this.elections = [ election ]
