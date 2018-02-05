@@ -9,7 +9,7 @@ class ElectionAuthorityState(State):
         self.partialSecretVotingCredentials = []
         self.partialPublicVotingCredentials = []
         self.points = []
-
+        self.hasGeneratedData = False
         self.publicVotingCredentials = []
 
         # 6.3

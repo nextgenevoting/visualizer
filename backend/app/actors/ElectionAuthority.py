@@ -68,6 +68,14 @@ class ElectionAuthority(Actor):
         AssertTuple(value)
         self.state.publicVotingCredentials = value
 
+    @property
+    def hasGeneratedData(self):
+        return self.state.hasGeneratedData
+
+    @hasGeneratedData.setter
+    def hasGeneratedData(self, value):
+        self.state.hasGeneratedData = value
+
 
     @property
     def points(self):

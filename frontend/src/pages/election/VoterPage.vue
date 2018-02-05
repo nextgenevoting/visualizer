@@ -189,8 +189,8 @@
             </v-dialog>
             <v-dialog v-model="attackPublicKeyDialog" persistent max-width="400">
                 <v-card>
-                    <v-card-title class="headline">{{$t('manipulate_public_key')}}</v-card-title>
-                    <v-card-text>{{$t('enter_public_key')}}</v-card-text>
+                    <v-card-title class="headline">{{$t('Voter.manipulate_public_key')}}</v-card-title>
+                    <v-card-text>{{$t('Voter.enter_public_key')}}</v-card-text>
                     <v-card-text>
                         <v-form>
                             <v-text-field

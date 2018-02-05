@@ -29,6 +29,14 @@ class PrintingAuthority(Actor):
         AssertList(value)
         self.state.votingCards = value
 
+    @property
+    def receivedData(self):
+        return self.state.receivedData
+
+    @receivedData.setter
+    def receivedData(self, value):
+        self.state.receivedData = value
+
 
     def PrintVotingCards(self, bulletinBoard, secparams):
         """

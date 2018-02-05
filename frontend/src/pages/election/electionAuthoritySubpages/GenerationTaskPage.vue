@@ -1,33 +1,31 @@
 <template>
-    <transition-group tag="div" name="bounce" :appear="mixingTransition">
-        <v-layout row wrap v-if="status == 4 && encryptions.length > 0" :key="selectedAuthorityIndex">
+    <transition-group tag="div" name="bounce" :appear="generationTransition">
+        <v-layout row wrap :key="selectedAuthorityIndex" v-if="status == 1 && hasGenerationTask">
             <v-flex xs12 sm12>
                 <v-card>
                     <v-card-title primary-title>
                         <div>
-                            <div class="headline" v-t="'Mixing.title'"></div>
+                            <div class="headline" v-t="'Generation.title'"></div>
                         </div>
                     </v-card-title>
                     <v-card-text>
-                        <p v-if="!hasAuthorityMixed" v-t="'Mixing.every_election_authority'"></p>
-                        <p v-else>{{ $t('Mixing.permutation')}} {{electionAuthority.permutation}}</p>
-
-                        <transition-group name="flip-list" tag="ul" style="margin-top: 10px;">
-                            <li v-for="(encryption, index) in encryptions" v-bind:key="encryption.key">
-                                <BigIntLabel :mpzValue="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>
-                            </li>
-                        </transition-group>
+                        <p>{{$t('Generation.text')}}</p>
                     </v-card-text>
+
                     <v-card-actions>
-                        <v-btn flat color="blue" @click="mix()" :disabled="hasAuthorityMixed">
-                            <v-icon left>mdi-shuffle-variant</v-icon>
-                            {{ $t('Mixing.shuffle_encryptions') }}
+                        <v-btn flat color="blue" @click="generate()" >
+                            <v-icon left>mdi-key-variant</v-icon>
+                            {{ $t('Generation.generate') }}
                         </v-btn>
                         <v-spacer></v-spacer>
-
+                        <v-btn icon @click.native="show = !show">
+                            <v-icon>{{ show ? 'keyboard_arrow_down' : 'keyboard_arrow_up' }}</v-icon>
+                        </v-btn>
                     </v-card-actions>
                     <v-slide-y-transition>
-
+                        <v-card-text v-show="show">
+                            todo: explain the electorate data generation phase
+                        </v-card-text>
                     </v-slide-y-transition>
                 </v-card>
             </v-flex>
@@ -41,10 +39,10 @@
     export default {
       data: () => ({
         show: false,
-        mixingTransition: false
+        generationTransition: false
       }),
       mounted () {
-        this.mixingTransition = false
+        this.generationTransition = false
       },
       computed: {
         ...mapGetters({
@@ -60,20 +58,15 @@
             return this.$store.getters.getElectionAuthority(this.selectedAuthorityIndex)
           }
         },
-        encryptions: {
+        hasGenerationTask: {
           get: function () {
-            return this.$store.getters.getEncryptionsForAuthority(this.selectedAuthorityIndex)
-          }
-        },
-        hasAuthorityMixed: {
-          get: function () {
-            return this.$store.getters.hasAuthorityMixed(this.selectedAuthorityIndex)
+            return this.$store.getters.hasGenerationTask(this.selectedAuthorityIndex)
           }
         }
       },
       methods: {
-        mix: function () {
-          this.$http.post('mix', {
+        generate: function () {
+          this.$http.post('generateElectorateData', {
             'election': this.$route.params['electionId'],
             'authorityId': this.selectedAuthorityIndex
           }).then(response => {
@@ -92,9 +85,6 @@
 
 <style>
 
-    .flip-list-move {
-        transition: transform 1.3s;
-    }
 
 
 </style>

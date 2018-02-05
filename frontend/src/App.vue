@@ -102,7 +102,7 @@
                        :title="$t('main.printing_authority')">
                     <span class="hidden-sm-and-down">{{ $t('main.printing_authority') }}</span>
                     <v-badge color="" style="margin-left:-15px">
-                        <v-icon slot="badge" v-if="status == 1 || status == 2">mdi-alert-decagram</v-icon>
+                        <v-icon slot="badge" v-if="(status == 1 && receivedData )|| status == 2">mdi-alert-decagram</v-icon>
                         <i class="customicon icon-printing-authority" style="font-size:7px"></i>
                     </v-badge>
                 </v-tab>
@@ -191,7 +191,8 @@
           return this.$root.$i18n._languages
         },
         ...mapState({
-          status: 'status'
+          status: 'status',
+          receivedData: state => state.PrintingAuthority.receivedData
         }),
         ...mapGetters({
           getNumberOfTasksForAllAuthorities: 'getNumberOfTasksForAllAuthorities'

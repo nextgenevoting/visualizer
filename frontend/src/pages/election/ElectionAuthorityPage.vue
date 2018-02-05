@@ -22,6 +22,7 @@
                     <v-switch :label="$t('ElectionAuthority.auto_process_tasks')" v-model="autoMode"></v-switch>
                 </v-flex>
             </v-layout>
+            <GenerationTaskPage></GenerationTaskPage>
             <CheckBallotTaskPage></CheckBallotTaskPage>
             <ConfirmationTaskPage></ConfirmationTaskPage>
             <MixingPage></MixingPage>
@@ -32,7 +33,7 @@
                     <DataCard :title="$t('encryptions')" :tooltip="$t('encryptions_tooltip')" :isMpz=true :expandable=false confidentiality="encrypted">
                         <v-layout row wrap v-for="(encryption, index) in encryptions" :key="index"  style="font-size:16px;">
                             <v-flex xs4 md4>{{ $t('ElectionAuthority.encryption_n', { n: index + 1 }) }}</v-flex>
-                            <v-flex xs4 md8>(<BigIntLabel :mpzValue="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>)</v-flex>
+                            <v-flex xs4 md8>(<BigIntLabel :mpzValue="encryption.a" v-if="encryption.a"></BigIntLabel>, <BigIntLabel :mpzValue="encryption.b"></BigIntLabel>)</v-flex>
                         </v-layout>
                     </DataCard>
                 </v-flex>
@@ -41,7 +42,7 @@
                     <DataCard :title="$t('ElectionAuthority.partial_decryptions')" :tooltip="$t('ElectionAuthority.partial_decryptions_tooltip')" :isMpz=true :expandable=false confidentiality="encrypted">
                         <v-layout row wrap v-for="(decryption, index) in decryptions" :key="index" style="font-size:16px;">
                             <v-flex xs6 md6>{{ $t('ElectionAuthority.partial_decryption_n', { n: index + 1 }) }}</v-flex>
-                            <v-flex xs6 md6><BigIntLabel :mpzValue="decryption"></BigIntLabel></v-flex>
+                            <v-flex xs6 md6><BigIntLabel :mpzValue="decryption" v-if="decryption"></BigIntLabel></v-flex>
                         </v-layout>
                     </DataCard>
                 </v-flex>
@@ -54,19 +55,19 @@
 
                 <v-flex xs12 sm4 md4 key="pk">
                     <DataCard :title="$t('public_key')" :tooltip="$t('public_key_tooltip')" :isMpz=true :expandable=false confidentiality="public">
-                        <BigIntLabel :mpzValue="electionAuthority.publicKey"></BigIntLabel>
+                        <BigIntLabel :mpzValue="electionAuthority.publicKey" v-if="electionAuthority.publicKey"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xs12 sm4 md4 key="pkshares">
                     <DataCard :title="$t('public_key_share')" :tooltip="$t('public_key_share_tooltip')"  :isMpz=true :expandable=false confidentiality="public">
-                        <BigIntLabel :mpzValue="electionAuthority.publicKeyShare"></BigIntLabel>
+                        <BigIntLabel :mpzValue="electionAuthority.publicKeyShare" v-if="electionAuthority.publicKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 
                 <v-flex xs12 sm4 md4 key="skshares">
                     <DataCard :title="$t('secret_key_share')" :tooltip="$t('secret_key_share_tooltip')" :isMpz=true :expandable=false confidentiality="secret">
-                        <BigIntLabel :mpzValue="electionAuthority.secretKeyShare"></BigIntLabel>
+                        <BigIntLabel :mpzValue="electionAuthority.secretKeyShare" v-if="electionAuthority.secretKeyShare"></BigIntLabel>
                     </DataCard>
                 </v-flex>
 

@@ -353,7 +353,7 @@ final_results:
   zh-TW: 最終結果
 authority:
   en: Authority
-  de: Authorität
+  de: Autorität
   es: Autoridad
   fi: auktoriteetti
   fr: Autorité
@@ -694,7 +694,7 @@ main:
     zh-TW: 選民
   election_authorities:
     en: Election Authorities
-    de: Wahlauthoritäten
+    de: Wahlautoritäten
     es: Autoridades electorales
     fi: Vaaliviranomaiset
     fr: Autorités électorales
@@ -959,7 +959,7 @@ BulletinBoard:
     zh-TW: 佈告欄
   shuffle_proofs_of_election_authority:
     en: 'Shuffle proof of Election Authority {a}'
-    de: 'Misch-Beweis der Wahlen-Authorität {a}'
+    de: 'Misch-Beweis der Wahlen-Autorität {a}'
     es: 'Prueba aleatoria de la autoridad electoral {a}'
     fi: 'Valiokunnan sekaväestysasiakirja {a}'
     fr: 'Mélangez la preuve de l''autorité électorale {a}'
@@ -1030,8 +1030,8 @@ BulletinBoard:
     sv: Parallellt val
     zh-TW: 平行選舉
   decryption_proofs_of_election_authority:
-    en: 'Decryption proof of Election Authority {a}'
-    de: 'Entschlüsselungs-Beweis der Wahlen-Authorität {a}'
+    en: 'Decryption proof of Election Autority {a}'
+    de: 'Entschlüsselungs-Beweis der Wahlen-Autorität {a}'
   unique_election_identifier_tooltip:
     en: The unique identifier of this election event
     de: Die eindeutige Identifikationsnummer dieses Wahlereignisses
@@ -1074,7 +1074,7 @@ ElectionAdmin:
     sv: Ställa in val
     zh-TW: 設立選舉
   submitted_to_printing_authority:
-    en: The electorate data has been submitted to the printing authority.
+    en: The electorate data has been submitted to the printing autority.
     de: Die Wähler-Daten wurden an die Druckerei gesendet.
     es: Los datos del electorado se han enviado a la autoridad de impresión.
     fi: Äänestäjätiedot on toimitettu painoviranomaiselle.
@@ -1146,7 +1146,7 @@ ElectionAdmin:
     zh-TW: 選舉成功。
   waitForMixing:
     en: All authorities must mix before you can proceed
-    de: Alle Authoritäten müssen den Mischungsprozess abschliessen
+    de: Alle Autoritäten müssen den Mischungsprozess abschliessen
     es: Todas las autoridades deben mezclarse antes de poder proceder
     fi: Kaikkien viranomaisten on sekoitettava ennen kuin voit jatkaa
     fr: Toutes les autorités doivent mélanger avant de pouvoir procéder
@@ -1158,7 +1158,7 @@ ElectionAdmin:
     zh-TW: 所有的權力機構必須先混合才能繼續
   waitForDecryption:
     en: All authorities must decrypt before you can proceed
-    de: Alle Authoritäten müssen den Entschlüsselungsprozess abschliessen
+    de: Alle Autoritäten müssen den Entschlüsselungsprozess abschliessen
     es: Todas las autoridades deben descifrar antes de poder proceder
     fi: Kaikkien viranomaisten on purettava salaus ennen kuin voit jatkaa
     fr: Toutes les autorités doivent déchiffrer avant de pouvoir procéder
@@ -1199,7 +1199,7 @@ ElectionAdmin:
 ElectionAuthority:
   title:
     en: Election Authorities
-    de: Wahlauthoritäten
+    de: Wahlautoritäten
     es: Autoridades electorales
     fi: Vaaliviranomaiset
     fr: Autorités électorales
@@ -1329,13 +1329,13 @@ ElectionAuthority:
       using its share of the private key
     de: >-
       Die Verschlüsselungen wurden teilweise entschlüsselt durch diese
-      Authorität, mit Hilfe ihres geheimen Teil-Schlüssels
+      Autorität, mit Hilfe ihres geheimen Teil-Schlüssels
   ballots_tooltip:
     en: >-
       Every election authority keeps a list all valid ballots that it has
       verified
     de: >-
-      Jede Authorität führt eine Liste aller gültigen Stimmen, die sie geprüft
+      Jede Autorität führt eine Liste aller gültigen Stimmen, die sie geprüft
       hat
   public_confirmation_credential:
     en: 'Public confirmation credential:'
@@ -1348,7 +1348,7 @@ ElectionAuthority:
       The election authorities must now decrypt the encryptions using their
       share of the secret key
     de: >-
-      Die Wahlauthoritäten entschlüsseln nun die Verschlüsselungen mit ihrem
+      Die Wahlautoritäten entschlüsseln nun die Verschlüsselungen mit ihrem
       Anteil am geheimen Schlüssel
   ballotlist:
     en: Ballot list
@@ -1526,7 +1526,7 @@ Voter:
     zh-TW: 請先選擇一個選民。
   waiting_for_election_authority:
     en: Waiting for election authority.
-    de: Es wird auf die Wahlauthorität gewartet.
+    de: Es wird auf die Wahlautorität gewartet.
     es: Esperando la autoridad electoral.
     fi: Odotetaan vaaliviranomaista.
     fr: En attente de l'autorité électorale.
@@ -1538,7 +1538,7 @@ Voter:
     zh-TW: 等待選舉權。
   authority_n_processing_vote:
     en: 'Authority {n} is processing your vote.'
-    de: 'Authorität {n} verarbeitet Ihre Stimme.'
+    de: 'Autorität {n} verarbeitet Ihre Stimme.'
     es: 'Authority {n} está procesando tu voto.'
     fi: 'Viranomainen {n} käsittelee äänesi.'
     fr: 'L''autorité {n} traite votre vote.'
@@ -1789,11 +1789,14 @@ Voter:
     en: You have aborted the vote-casting process
     de: Sie haben den Voting-Vorgang abgebrochen
   manipulate_public_key:
-    en: Encrypt using different public key
-    de: Verschlüsseln mit anderem public key
+    en: Manipulate public key
+    de: Manipuliere öffentlichen Schlüssel
   manipulate_credential_text:
     en: 'Please enter a public voting credential:'
     de: 'Bitte geben Sie ein öffentliches Wahl-Credential ein:'
+  enter_public_key:
+    en: 'Please enter a public key:'
+    de: 'Bitte geben Sie einen öffentlichen Schlüssel ein:'
 CheckBallotTask:
   ballot_check_for_voter_n:
     en: 'Ballot check for Voter {n}'
@@ -1810,8 +1813,8 @@ CheckBallotTask:
   check_ballot_and_respond:
     en: Please check the ballot and respond to the oblivious transfer query.
     de: >-
-      Die Authorität muss die Stimme überprüfen und bei valider Prüfung mit
-      einer Oblivious-Transfer Response antworten.
+      Die Autorität muss die Stimme überprüfen und bei valider Prüfung mit einer
+      Oblivious-Transfer Response antworten.
     es: Por favor revise la boleta y responda a la consulta.
     fi: Tarkista äänestys ja vastaa kyselyyn.
     fr: Veuillez vérifier le bulletin de vote et répondre à la requête.
@@ -1988,7 +1991,7 @@ Mixing:
     zh-TW: 混合任務
   every_election_authority:
     en: This authority must shuffle the following list of encryptions
-    de: Diese Authorität muss die folgende Liste von Verschlüsselungen mischen
+    de: Diese Autorität muss die folgende Liste von Verschlüsselungen mischen
     es: Esta autoridad debe mezclar la siguiente lista de encriptaciones
     fi: Tämän viranomaisen on sekoitettava seuraava salausryhmi
     fr: Cette autorité doit mélanger la liste de cryptage suivante
@@ -2013,7 +2016,7 @@ Mixing:
   permutation:
     en: You have shuffled the list of encryptions using the following permutation
     de: >-
-      Die Authorität hat die Liste der Verschlüsselungen nach folgender
+      Die Autorität hat die Liste der Verschlüsselungen nach folgender
       Permutation gemischt
     es: Ha barajado la lista de encriptaciones usando la siguiente permutación
     fi: Olet sekoittanut salausluettelon seuraavalla permutaatiolla
@@ -2187,7 +2190,7 @@ Verifier:
     de: Verifiziere Wahl
   shuffle_proofs_description:
     en: Check if the shuffle-proofs of all election authorities are valid.
-    de: 'Überprüfen, ob alle Mix-Beweise der Wahl-Authoritäten gültig sind.'
+    de: 'Überprüfen, ob alle Mix-Beweise der Wahl-Autoritäten gültig sind.'
   shuffle_list_dimensions_description:
     en: >-
       Check if the length of the list of unshuffled and shuffled encryptions are
@@ -2198,7 +2201,7 @@ Verifier:
   decryption_proofs_description:
     en: Check if the decryption-proofs of all election authorities are valid.
     de: >-
-      Überprüfen, ob die Entschlüsselungsbeweise von allen Wahl-Authoritäten
+      Überprüfen, ob die Entschlüsselungsbeweise von allen Wahl-Autoritäten
       gültig sind.
   other_checks:
     en: Other checks
@@ -2286,7 +2289,7 @@ shuffle_proofs_tooltip:
     A cryptographic proof calculated by every authority to prove that they have
     performed the mixing-proces correctly according to the protocol
   de: >-
-    Ein kryptographischer Beweis der jede Authorität erstellt um zu beweisen,
+    Ein kryptographischer Beweis der jede Autorität erstellt um zu beweisen,
     dass sie den Mixing-Prozess korrekt und gemäss Protokoll ausgeführt hat
 decryption_proofs:
   en: Decryption Proofs
@@ -2296,7 +2299,7 @@ decryption_proofs_tooltip:
     A cryptographic proof calculated by every authority to prove that they have
     performed the decryption-proces correctly according to the protocol
   de: >-
-    Ein kryptographischer Beweis der jede Authorität erstellt um zu beweisen,
+    Ein kryptographischer Beweis der jede Autorität erstellt um zu beweisen,
     dass sie den Entschlüsselungs-Prozess korrekt und gemäss Protokoll
     ausgeführt hat
 encryptions_tooltip:
@@ -2305,7 +2308,7 @@ encryptions_tooltip:
     and re-encrypted by the current election authorities
   de: >-
     Verschlüsselte Kandidaten-Selektion, extrahiert von den gültigen Stimmen,
-    gemischt und wieder-verschlüsselt durch die aktuelle Wahlauthorität
+    gemischt und wieder-verschlüsselt durch die aktuelle Wahlautorität
 shuffle_list_dimensions:
   en: Shuffle List Dimensions
   de: Dimensionen der Mix-Liste
@@ -2351,16 +2354,16 @@ public_key_share_tooltip:
   en: >-
     Public key share generated by this election authority. It is used to create
     a joint public key used
-  de: Anteil am öffentlichen Schlüssels dieser Authorität
+  de: Anteil am öffentlichen Schlüssels dieser Autorität
 secret_key_share_tooltip:
   en: >-
     Secret key share generated by this election authority. It is used to
     partially decrypt the ballots that have been encrypted with the joint public
     key
   de: >-
-    Anteil am geheimen Schlüssels dieser Wahlauthorität. Er wird verwendet, um
+    Anteil am geheimen Schlüssels dieser Wahlautorität. Er wird verwendet, um
     die Stimmen teilweise zu entschlüsseln, welche mit dem gemeinsame Public Key
-    der Authoritäten verschlüssel wurden
+    der Autoritäten verschlüssel wurden
 election:
   en: Election
   de: Wahl
@@ -2369,10 +2372,10 @@ voter:
   de: Wähler
 oblivious_transfer_response_n:
   en: 'Oblivious transfer response of authority {n}'
-  de: 'Oblivious Transfer Antwort von Wahlauthorität {n}'
+  de: 'Oblivious Transfer Antwort von Wahlautorität {n}'
 finalization_n:
   en: 'Finalization of authority {n}'
-  de: 'Finalisierung von Wahlauthorität {n}'
+  de: 'Finalisierung von Wahlautorität {n}'
 value_of:
   en: Value of variable
   de: Wert der Variable
@@ -2397,3 +2400,20 @@ electorate_data:
 electorate_data_tooltip:
   en: Data used to generate the voting cards
   de: 'Diese Daten werden verwendet, um die Voting Cards zu generieren'
+Generation:
+  title:
+    en: Electorate Data Generation Task
+    de: Wählerdaten Generierung
+  decrypt:
+    en: Generate
+    de: Generiere Daten
+  generate:
+    en: Generate
+    de: Generiere Daten
+  text:
+    en: >-
+      Every election authority must generate a key pair and the partial
+      electorate data
+    de: >-
+      Jede Wahlautorität muss ein Schlüsselpaar und ihren Anteil an den
+      Wählerdaten generieren

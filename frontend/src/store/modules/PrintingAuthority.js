@@ -10,6 +10,7 @@ const mutations = {
     const printingAuthorityState = JSON.parse(data)
     state.privateCredentials = printingAuthorityState.privateCredentials
     state.votingCards = printingAuthorityState.votingCards
+    state.receivedData = printingAuthorityState.receivedData
   }
 }
 

@@ -135,27 +135,60 @@ class VoteService(object):
         self.bulletinBoard.generateEligibilityMatrix()
 
         # 6.1 Generation of electorate data
-        for authority in self.authorities:
-            self.bulletinBoard.partialPublicVotingCredentials.append(authority.GenElectionData(self.bulletinBoard, self.secparams))
-        for authority in self.authorities:
-            authority.GetPublicCredentials(self.bulletinBoard, self.secparams)
+        #for authority in self.authorities:
+         #   self.bulletinBoard.partialPublicVotingCredentials.append(authority.GenElectionData(self.bulletinBoard, self.secparams))
+        #for authority in self.authorities:
+        #    authority.GetPublicCredentials(self.bulletinBoard, self.secparams)
 
         # 6.3 Key generation
         self.bulletinBoard.publicKeyShares = []
 
-        for authority in self.authorities:
-            publicKeyShare = authority.genKey(self.bulletinBoard, self.secparams)
-            self.bulletinBoard.publicKeyShares.append(publicKeyShare)
-        for authority in self.authorities:
-            pk = authority.getPublicKey(self.bulletinBoard, self.secparams)
-        self.bulletinBoard.publicKey = pk
+        # for authority in self.authorities:
+            # publicKeyShare = authority.genKey(self.bulletinBoard, self.secparams)
+            # self.bulletinBoard.publicKeyShares.append(publicKeyShare)
+        # for authority in self.authorities:
+            # pk = authority.getPublicKey(self.bulletinBoard, self.secparams)
+        # self.bulletinBoard.publicKey = pk
         # 6.2 Send secret voter data to the printing authority (this is typically done in the printVotingCards(), but since we want to show the secret voter data before printing the cards, we do it here)
 
-        if not IsMember(pk, self.secparams):
-            raise RuntimeError("Generated PublicKey is not in group G_q!")
+        # if not IsMember(pk, self.secparams):
+            #raise RuntimeError("Generated PublicKey is not in group G_q!")
 
-        secretCredentials = [auth.partialSecretVotingCredentials for auth in self.authorities]
-        self.printingAuthority.privateCredentials = secretCredentials
+        # secretCredentials = [auth.partialSecretVotingCredentials for auth in self.authorities]
+        # self.printingAuthority.privateCredentials = secretCredentials
+
+        if (self.authorities[0].autoCheck):
+            self.generateElectorateData(0)
+
+    def generateElectorateData(self, authorityId):
+        authority = self.authorities[authorityId]
+
+        self.bulletinBoard.partialPublicVotingCredentials.append(
+            authority.GenElectionData(self.bulletinBoard, self.secparams))
+
+        publicKeyShare = authority.genKey(self.bulletinBoard, self.secparams)
+        self.bulletinBoard.publicKeyShares.append(publicKeyShare)
+
+        authority.hasGeneratedData = True
+
+        # TODO: Do for the last authority!
+        if authorityId < self.secparams.s - 1:
+            if (self.authorities[authorityId + 1].autoCheck):
+                self.generateElectorateData(authorityId + 1)
+        else:
+            for authority in self.authorities:
+                authority.GetPublicCredentials(self.bulletinBoard, self.secparams)
+            secretCredentials = [auth.partialSecretVotingCredentials for auth in self.authorities]
+            self.printingAuthority.privateCredentials = secretCredentials
+
+            for authority in self.authorities:
+                pk = authority.getPublicKey(self.bulletinBoard, self.secparams)
+            self.bulletinBoard.publicKey = pk
+
+            if not IsMember(pk, self.secparams): raise RuntimeError("Generated PublicKey is not in group G_q!")
+
+            self.printingAuthority.receivedData = True
+
 
 
     def printVotingCards(self):

@@ -54,10 +54,6 @@
         selectedAuthorityIndex: {
           get: function () {
             return parseInt(this.$route.params.authid)
-          },
-          set: function (newAuthId) {
-            this.$store.commit('selectedAuthority', newAuthId)
-            this.$router.push({name: 'electionauthority', params: {electionId: this.$route.params['electionId'], authid: newAuthId}})
           }
         },
         electionAuthority: {

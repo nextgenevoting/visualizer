@@ -9,7 +9,7 @@
           <!-- <v-alert v-if="status == 3" color="info" icon="info" value="true" v-model="sentAlert" v-t="'PrintingAuth.voting_cards_delivered'"></v-alert> -->
           <p v-if="status == 0">{{ $t('PrintingAuth.before_voting_cards_print') }}</p>
           <div v-if="status < 3">
-            <v-btn v-on:click="printVotingCards" :disabled="status != 1">
+            <v-btn v-on:click="printVotingCards" :disabled="status != 1 || !receivedData">
               <v-icon>mdi-printer</v-icon>
               {{ $t('PrintingAuth.print_voting_cards') }}
             </v-btn>
@@ -70,7 +70,8 @@
           privateCredentials: state => state.PrintingAuthority.privateCredentials,
           numberOfCandidates: state => state.BulletinBoard.numberOfCandidates,
           numberOfSelections: state => state.BulletinBoard.numberOfSelections,
-          numberOfParallelElections: state => state.BulletinBoard.numberOfParallelElections
+          numberOfParallelElections: state => state.BulletinBoard.numberOfParallelElections,
+          receivedData: state => state.PrintingAuthority.receivedData
         }),
         ...mapGetters({
           electionId: 'electionId',

@@ -31,6 +31,7 @@ import ElectionAdminPage from './pages/election/ElectionAdminPage.vue'
 import BulletinBoardPage from './pages/election/BulletinBoardPage.vue'
 import VerifierPage from './pages/election/VerifierPage.vue'
 import ElectionAuthorityPage from './pages/election/ElectionAuthorityPage.vue'
+import GenerationTaskPage from './pages/election/electionAuthoritySubpages/GenerationTaskPage.vue'
 import ConfirmationTaskPage from './pages/election/electionAuthoritySubpages/ConfirmationTaskPage.vue'
 import CheckBallotTaskPage from './pages/election/electionAuthoritySubpages/CheckBallotTaskPage.vue'
 import MixingPage from './pages/election/electionAuthoritySubpages/MixingPage.vue'
@@ -102,6 +103,7 @@ Vue.component('DataCard', DataCard)
 Vue.component('LoadingOverlay', LoadingOverlay)
 Vue.component('ContentTitle', ContentTitle)
 Vue.component('SelectVoterDialog', SelectVoterDialog)
+Vue.component('GenerationTaskPage', GenerationTaskPage)
 Vue.component('ConfirmationTaskPage', ConfirmationTaskPage)
 Vue.component('CheckBallotTaskPage', CheckBallotTaskPage)
 Vue.component('MixingPage', MixingPage)

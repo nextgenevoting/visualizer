@@ -57,7 +57,7 @@ export default {
       printingAuthority_voter: { fill: [ 'path3884', 'path4140-6' ], stroke: [ 'path3884' ] }
     },
     svgStates: {
-      0: [ 'electionAdministrator', 'electionAdministrator_bulletinBoard', 'bulletinBoard', 'bulletinBoard_printingAuthority' ], // Preparation
+      0: [ 'electionAuthorities', 'bulletinBoard_electionAuthorities', 'electionAdministrator', 'electionAdministrator_bulletinBoard', 'bulletinBoard' ], // Preparation
       1: [ 'printingAuthority' ], // Printing
       2: [ 'printingAuthority', 'printingAuthority_voter', 'voter' ], // Delivery
       3: [ 'voter', 'votingClient_voter', 'votingClient', 'bulletinBoard_votingClient', 'bulletinBoard' ], // Election Phase

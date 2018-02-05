@@ -120,6 +120,39 @@ def setUpElection():
     return json.dumps({'result': 'success'})
 
 
+
+@main.route('/generateElectorateData', methods=['POST'])
+@cross_origin(origin='*')
+def generateElectorateData():
+    data = request.json
+    electionId = data["election"]
+    authorityId = data["authorityId"]
+
+    try:
+        # prepare voteService
+        voteSvc = VoteService(electionId)
+
+        # perform action
+        voteSvc.generateElectorateData(authorityId)
+
+        #patches = voteSvc.getJSONPatches()
+        # retrieve and persist modified state
+        patches = voteSvc.persist()
+        syncPatches(electionId, SyncType.ROOM, patches)
+
+        # update election status
+        # voteSvc.updateStatus(1)
+    except Exception as e:
+        exc_type, exc_obj, exc_tb = sys.exc_info()
+        fname = os.path.split(exc_tb.tb_frame.f_code.co_filename)[1]
+        return make_error(500, '%s:%s: %s' % (fname, exc_tb.tb_lineno, e))
+
+    return json.dumps({'result': 'success'})
+
+
+
+
+
 @main.route('/printVotingCards', methods=['POST'])
 @cross_origin(origin='*')
 def printVotingCards():

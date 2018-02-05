@@ -121,14 +121,14 @@ const getters = {
   getNumberOfTasks: (state, getters) => (id) => {
     // returns the number of tasks for an authority
     // this getter is used to display the red badge in the election authorities tab that displays the number of pending tasks
-    return getters.getCheckBallotTasks(id).length + getters.getCheckConfirmationTasks(id).length + getters.hasMixingTask(id) + getters.hasDecryptionTask(id)
+    return getters.getCheckBallotTasks(id).length + getters.getCheckConfirmationTasks(id).length + getters.hasMixingTask(id) + getters.hasDecryptionTask(id) + getters.hasGenerationTask(id)
   },
   getNumberOfTasksForAllAuthorities: (state, getters) => {
     // Sums all pending tasks by calling getNumberOfTasks for all authorities
     // used to control the visibility of the red exclamation mark in the election authority tab
     let count = 0
     for (let i = 0; i < 3; i++) {
-      count += (getters.getCheckBallotTasks(i).length + getters.getCheckConfirmationTasks(i).length + getters.hasMixingTask(i) + getters.hasDecryptionTask(i))
+      count += (getters.getCheckBallotTasks(i).length + getters.getCheckConfirmationTasks(i).length + getters.hasMixingTask(i) + getters.hasDecryptionTask(i) + getters.hasGenerationTask(i))
     }
     return count
   },
@@ -184,6 +184,26 @@ const getters = {
     // Returns the publicVotingCredentials
     let electionAuthority = getters.getElectionAuthority(0)
     if (electionAuthority !== null) { return electionAuthority.publicVotingCredentials[0] } else { return [] }
+  },
+  hasGenerationTask: (state, getters) => (id) => {
+    // Returns true or false depending on whether the election authority with authorityId == id has a pending generation task
+    let electionAuthority = getters.getElectionAuthority(id)
+    // For the first authority: Check if it already has generated the data
+    if (id === 0) {
+      if (getters.status === 1 && electionAuthority.hasGeneratedData === false) {
+        return 1
+      } else {
+        return 0
+      }
+    } else {
+      // for the 2nd to n'th authority: True if the authority has not and that the previous authority has already generated the data
+      let previousAuthority = getters.getElectionAuthority(id - 1)
+      if (getters.status === 1 && electionAuthority.hasGeneratedData === false && previousAuthority.hasGeneratedData === true) {
+        return 1
+      } else {
+        return 0
+      }
+    }
   }
 }
 
