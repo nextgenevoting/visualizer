@@ -36,6 +36,14 @@ achieve real-time updates, we have used web sockets (socket.io) to synchronize
 a client-side copy of the database whenever the data has been altered on the
 back-end.
 
+## License
+
+Copyright 2018 by Yannick Denzer & Kevin Haeni. All rights reserved.
+
+This project and all its files are licensed under GNU AGPLv3 or later version.
+
+If this license is not suitable for your business or project please contact us for a full commercial license.
+
 # Components
 
 - Backend
